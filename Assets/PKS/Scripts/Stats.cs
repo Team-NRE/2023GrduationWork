@@ -77,6 +77,7 @@ public class Stats : MonoBehaviour
         if (variableName == "rangeToken" || variableName == "범위골드")                     return rangeToken;
         if (variableName == "resource" || variableName == "자원")                           return resource;
         if (variableName == "resourceRange" || variableName == "획득범위")                  return resourceRange;
+        if (variableName == "recognitionRange" || variableName == "인식범위")               return recognitionRange;
 
         return 0;
     }
