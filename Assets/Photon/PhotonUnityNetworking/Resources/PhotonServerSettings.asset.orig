@@ -39,8 +39,11 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+<<<<<<< HEAD
+=======
   - LocalDestroy
   - RemoteDestroy
+>>>>>>> origin/shkim
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0
