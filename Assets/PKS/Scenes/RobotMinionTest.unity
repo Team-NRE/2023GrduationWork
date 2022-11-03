@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.15
     agentHeight: 1
     agentSlope: 30
     agentClimb: 0.4
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.05
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -172,6 +172,7 @@ MonoBehaviour:
   attackPower: 12
   absoluteAttackPower: NaN
   attackSpeed: 1.25
+  attackCoolingTime: 0
   attackRange: 110
   criticalChance: NaN
   criticalPower: NaN
@@ -206,9 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e23095dfc5d3804aa6bbee8845cb82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nav: {fileID: 0}
   stats: {fileID: 0}
-  moveTarget: {fileID: 0}
+  nav: {fileID: 0}
+  animator: {fileID: 0}
   milestone: {fileID: 0}
   enemyCamp: {fileID: 0}
 --- !u!1 &51423366
@@ -312,7 +313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -374,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -449,6 +450,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &142272315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4296604309014103981, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
+  m_PrefabInstance: {fileID: 1062672256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &176644427
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,6 +1018,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bf1495e01b184bb44be6d1a1ea668f46, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
 --- !u!1 &707319116
@@ -1116,6 +1126,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4858179860476120, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
   m_PrefabInstance: {fileID: 2134094246}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &763516815 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+  m_PrefabInstance: {fileID: 2134094246}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &791891823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1183,6 +1198,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 7a1b01cb795e7944c94348dbccd15f75, type: 3}
+    - target: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bf1495e01b184bb44be6d1a1ea668f46, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
 --- !u!1 &813419232
@@ -1396,6 +1419,7 @@ MonoBehaviour:
   attackPower: 0
   absoluteAttackPower: 0
   attackSpeed: 0
+  attackCoolingTime: 0
   attackRange: 0
   criticalChance: 0
   criticalPower: 0
@@ -1550,9 +1574,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e23095dfc5d3804aa6bbee8845cb82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nav: {fileID: 0}
   stats: {fileID: 0}
-  moveTarget: {fileID: 0}
+  nav: {fileID: 0}
+  animator: {fileID: 1517436598}
   milestone: {fileID: 0}
   enemyCamp: {fileID: 0}
 --- !u!114 &1053552059
@@ -1570,7 +1594,8 @@ MonoBehaviour:
   attackPower: 12
   absoluteAttackPower: NaN
   attackSpeed: 1.25
-  attackRange: 110
+  attackCoolingTime: 0.8
+  attackRange: 1.1
   criticalChance: NaN
   criticalPower: NaN
   maxHealth: 455
@@ -1590,8 +1615,8 @@ MonoBehaviour:
   globalToken: NaN
   rangeToken: 21
   resource: 65
-  resourceRange: 1600
-  recognitionRange: 550
+  resourceRange: 16
+  recognitionRange: 5.5
 --- !u!4 &1053552061
 Transform:
   m_ObjectHideFlags: 0
@@ -1645,6 +1670,7 @@ MonoBehaviour:
   summonScript: {fileID: 0}
   deathScript: {fileID: 0}
   enemyListInRecognitionRange: []
+  animator: {fileID: 1517436598}
 --- !u!114 &1053552067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1671,7 +1697,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   target: {fileID: 0}
-  nav: {fileID: 0}
+  nav: {fileID: 1053552069}
+  animator: {fileID: 1517436598}
+  isAttack: 0
 --- !u!195 &1053552069
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1681,7 +1709,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1053552056}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.15
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1715,11 +1743,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -24.1
+      value: -25.51
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1756,6 +1784,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
   m_PrefabInstance: {fileID: 1062672256}
   m_PrefabAsset: {fileID: 0}
+--- !u!208 &1062672263
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142272315}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &1123901293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1823,6 +1867,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bf1495e01b184bb44be6d1a1ea668f46, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
 --- !u!1 &1149352763
@@ -83377,7 +83425,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   target: {fileID: 0}
-  nav: {fileID: 0}
+  nav: {fileID: 1327447324}
+  animator: {fileID: 1608842800}
+  isAttack: 0
 --- !u!114 &1327447321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83390,9 +83440,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e23095dfc5d3804aa6bbee8845cb82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nav: {fileID: 0}
   stats: {fileID: 0}
-  moveTarget: {fileID: 0}
+  nav: {fileID: 1327447324}
+  animator: {fileID: 1608842800}
   milestone: {fileID: 0}
   enemyCamp: {fileID: 0}
 --- !u!114 &1327447322
@@ -83416,6 +83466,7 @@ MonoBehaviour:
   summonScript: {fileID: 0}
   deathScript: {fileID: 0}
   enemyListInRecognitionRange: []
+  animator: {fileID: 1608842800}
 --- !u!114 &1327447323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83431,7 +83482,8 @@ MonoBehaviour:
   attackPower: 12
   absoluteAttackPower: NaN
   attackSpeed: 1.25
-  attackRange: 110
+  attackCoolingTime: 0.8
+  attackRange: 1.1
   criticalChance: NaN
   criticalPower: NaN
   maxHealth: 455
@@ -83451,8 +83503,8 @@ MonoBehaviour:
   globalToken: NaN
   rangeToken: 21
   resource: 65
-  resourceRange: 1600
-  recognitionRange: 550
+  resourceRange: 16
+  recognitionRange: 5.5
 --- !u!195 &1327447324
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -83462,7 +83514,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1327447318}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.15
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -83528,7 +83580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5960954616256646890, guid: ca2a1e1e0d100a84e94c6aaf059e41e5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83618,7 +83670,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   target: {fileID: 0}
-  nav: {fileID: 0}
+  nav: {fileID: 1393222601}
+  animator: {fileID: 1811471928}
+  isAttack: 0
 --- !u!114 &1393222598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83631,9 +83685,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e23095dfc5d3804aa6bbee8845cb82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nav: {fileID: 0}
   stats: {fileID: 0}
-  moveTarget: {fileID: 0}
+  nav: {fileID: 0}
+  animator: {fileID: 1811471928}
   milestone: {fileID: 0}
   enemyCamp: {fileID: 0}
 --- !u!114 &1393222599
@@ -83657,6 +83711,7 @@ MonoBehaviour:
   summonScript: {fileID: 0}
   deathScript: {fileID: 0}
   enemyListInRecognitionRange: []
+  animator: {fileID: 1811471928}
 --- !u!114 &1393222600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83672,7 +83727,8 @@ MonoBehaviour:
   attackPower: 12
   absoluteAttackPower: NaN
   attackSpeed: 1.25
-  attackRange: 110
+  attackCoolingTime: 0.8
+  attackRange: 1.1
   criticalChance: NaN
   criticalPower: NaN
   maxHealth: 455
@@ -83692,8 +83748,8 @@ MonoBehaviour:
   globalToken: NaN
   rangeToken: 21
   resource: 65
-  resourceRange: 1600
-  recognitionRange: 550
+  resourceRange: 16
+  recognitionRange: 5.5
 --- !u!195 &1393222601
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -83703,7 +83759,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1393222595}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.15
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -83753,9 +83809,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4858179860476120, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
   m_PrefabInstance: {fileID: 1123901293}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1517436598 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+  m_PrefabInstance: {fileID: 1123901293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1608842799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4858179860476120, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+  m_PrefabInstance: {fileID: 791891823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1608842800 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
   m_PrefabInstance: {fileID: 791891823}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1652941661
@@ -83872,6 +83938,7 @@ MonoBehaviour:
   attackPower: 0
   absoluteAttackPower: 0
   attackSpeed: 0
+  attackCoolingTime: 0
   attackRange: 0
   criticalChance: 0
   criticalPower: 0
@@ -83943,7 +84010,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   target: {fileID: 0}
-  nav: {fileID: 0}
+  nav: {fileID: 1678173604}
+  animator: {fileID: 763516815}
+  isAttack: 0
 --- !u!114 &1678173601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83956,9 +84025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e23095dfc5d3804aa6bbee8845cb82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nav: {fileID: 0}
   stats: {fileID: 0}
-  moveTarget: {fileID: 0}
+  nav: {fileID: 0}
+  animator: {fileID: 763516815}
   milestone: {fileID: 0}
   enemyCamp: {fileID: 0}
 --- !u!114 &1678173602
@@ -83982,6 +84051,7 @@ MonoBehaviour:
   summonScript: {fileID: 0}
   deathScript: {fileID: 0}
   enemyListInRecognitionRange: []
+  animator: {fileID: 763516815}
 --- !u!114 &1678173603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83997,7 +84067,8 @@ MonoBehaviour:
   attackPower: 12
   absoluteAttackPower: NaN
   attackSpeed: 1.25
-  attackRange: 110
+  attackCoolingTime: 0.8
+  attackRange: 1.1
   criticalChance: NaN
   criticalPower: NaN
   maxHealth: 455
@@ -84017,8 +84088,8 @@ MonoBehaviour:
   globalToken: NaN
   rangeToken: 21
   resource: 65
-  resourceRange: 1600
-  recognitionRange: 550
+  resourceRange: 16
+  recognitionRange: 5.5
 --- !u!195 &1678173604
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -84028,7 +84099,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1678173598}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.15
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -84270,6 +84341,11 @@ MeshFilter:
 --- !u!4 &1811471927 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4858179860476120, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+  m_PrefabInstance: {fileID: 655527279}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1811471928 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
   m_PrefabInstance: {fileID: 655527279}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1958937124
@@ -84655,5 +84731,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95981744656226738, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bf1495e01b184bb44be6d1a1ea668f46, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5722ead8dbe3ba743ae0fc25b616411c, type: 3}
+--- !u!1 &2144131670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2144131671}
+  m_Layer: 0
+  m_Name: Turret
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2144131671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144131670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.39751625, y: 2.39719, z: -5.637228}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -5,9 +5,12 @@ using UnityEngine.AI;
 
 public class objectMove : MonoBehaviour
 {
-    public NavMeshAgent nav;
-    public Stats stats;
-    public Transform moveTarget;
+    [Header ("- Stats Script")]
+    [SerializeField] Stats stats;
+
+    [Header ("- Components")]
+    [SerializeField] NavMeshAgent nav;
+    [SerializeField] Animator animator;
 
     public GameObject milestone, enemyCamp;
 
@@ -21,6 +24,8 @@ public class objectMove : MonoBehaviour
 
     public void Move(string nowArea)
     {
+        animator.SetBool("Move", true);
+
         switch (nowArea)
         {
             case "tilePalette_4":   // 몹이 길에 있음
@@ -37,8 +42,6 @@ public class objectMove : MonoBehaviour
                 nav.destination = (isReachMilestone()) ? enemyCamp.transform.position : milestone.transform.position;
                 break;
         }
-
-
     }
 
     private bool isReachMilestone()
