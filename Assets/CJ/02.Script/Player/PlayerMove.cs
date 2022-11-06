@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class PlayerMove : MonoBehaviour
 
     //camera (z,y,속도)
     Camera viewCamera;
-    [Range(2.0f, 20.0f)]
+    [Range(2.0f, 100.0f)]
     public float Cam_Z = 10.0f;
 
     [Range(0.0f, 100.0f)]
@@ -26,41 +25,14 @@ public class PlayerMove : MonoBehaviour
 
     //업데이트 될 플레이어 각도
     float rotDegree;
-
-    //public List<Transform> visibleTargets;// Target mask에 ray hit된 transform을 보관하는 리스트
-    //public LayerMask targetMask, obstacleMask; //타겟 레이어, 장애물 레이어
     
     void Start()
     {
         rigidbody = transform.GetComponent<Rigidbody>();
         viewCamera = Camera.main;
-        //FindTarget();
     }
 
-    /*void FindTarget()
-    {
-
-        // viewRadius를 반지름으로 한 원 영역 내 targetMask 레이어인 콜라이더를 모두 가져옴
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, 20 , targetMask);
-
-        for (int i = 0; i < targetsInViewRadius.Length; i++) //search된 target의 수 만큼 돌리기
-        {
-            Transform target = targetsInViewRadius[i].transform;
-            Vector3 dirToTarget = (target.position - transform.position).normalized; //타겟까지의 이동 방향
-
-            // 플레이어와 forward와 target이 이루는 각이 설정한 각도 내라면
-            if (Vector3.Angle(transform.forward, dirToTarget) < 360 / 2)
-            {
-                float dstToTarget = Vector3.Distance(transform.position, target.transform.position); //타겟과 거리
-
-                // 타겟으로 가는 레이캐스트에 obstacleMask가 걸리지 않으면 visibleTargets에 Add
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
-                {
-                    visibleTargets.Add(target);
-                }
-            }
-        }
-    }*/
+    
     void Update()
     {
         //오른쪽 버튼 누를 시
@@ -83,7 +55,7 @@ public class PlayerMove : MonoBehaviour
                 float dz = movePoint.z - rigidbody.position.z;
                 rotDegree = -(Mathf.Rad2Deg * Mathf.Atan2(dz, dx) - 90); //tan-1(dz/dx) = 각도
 
-                Debug.Log("movepoint : " + movePoint.ToString());
+                //Debug.Log("movepoint : " + movePoint.ToString());
             }
         }
     }
@@ -100,7 +72,7 @@ public class PlayerMove : MonoBehaviour
             rigidbody.MovePosition(rigidbody.position + thisUpdatePoint * Time.fixedDeltaTime);
             rigidbody.MoveRotation(Quaternion.Euler(0f, rotDegree, 0f));
 
-            Debug.Log(rotDegree.ToString());
+            //Debug.Log(rotDegree.ToString());
         }
     }
 
