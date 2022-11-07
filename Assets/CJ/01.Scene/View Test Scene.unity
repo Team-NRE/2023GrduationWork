@@ -1963,6 +1963,18 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 114766852382384176, guid: 4ea39b0917ed4c045be9d3bbb2219573, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 779600908992367395, guid: 4ea39b0917ed4c045be9d3bbb2219573, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3924015971622262119, guid: 4ea39b0917ed4c045be9d3bbb2219573, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4592880614623819694, guid: 4ea39b0917ed4c045be9d3bbb2219573, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1970,6 +1982,10 @@ PrefabInstance:
     - target: {fileID: 4827498721249157771, guid: 4ea39b0917ed4c045be9d3bbb2219573, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901737376915186244, guid: 4ea39b0917ed4c045be9d3bbb2219573, type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5363422659147048180, guid: 4ea39b0917ed4c045be9d3bbb2219573, type: 3}
       propertyPath: m_RenderMode
@@ -2052,3 +2068,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCardList: []
+  SkillPosition: []
