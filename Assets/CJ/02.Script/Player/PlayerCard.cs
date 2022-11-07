@@ -1,0 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlayerCard : MonoBehaviour
+{
+    public List<Transform> PlayerCardList = new List<Transform>();
+
+    
+}
