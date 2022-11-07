@@ -19,22 +19,22 @@ public class PlayerMapping : MonoBehaviour
 
         if(Input.GetButtonDown("Q"))
         {
-            this.GetComponent<PlayerCard>().UseCard();
+            this.GetComponent<PlayerCard>().UseCard(0);
         }
 
         if(Input.GetButtonDown("W"))
         {
-            Debug.Log("W");
+            this.GetComponent<PlayerCard>().UseCard(1);
         }
 
         if(Input.GetButtonDown("E"))
         {
-            Debug.Log("E");
+            this.GetComponent<PlayerCard>().UseCard(2);
         }
 
         if(Input.GetButtonDown("R"))
         {
-            Debug.Log("R");
+            this.GetComponent<PlayerCard>().UseCard(3);
         }
 
         if(Input.GetButtonDown("Info"))
