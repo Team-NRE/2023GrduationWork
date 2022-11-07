@@ -10,7 +10,6 @@ public class PlayerMapping : MonoBehaviour
 
 
 
-
     void Update()
     {
         if(Input.GetButtonDown("Option"))
@@ -20,7 +19,7 @@ public class PlayerMapping : MonoBehaviour
 
         if(Input.GetButtonDown("Q"))
         {
-            Debug.Log("Q");
+            this.GetComponent<PlayerCard>().UseCard();
         }
 
         if(Input.GetButtonDown("W"))
