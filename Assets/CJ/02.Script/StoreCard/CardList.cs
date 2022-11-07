@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CardList : MonoBehaviour
 {
     //상점 카드들의 리스트
-    public List<Transform> StoreCardList = new List<Transform>();
+    public List<GameObject> StoreCardList = new List<GameObject>();
     Button PurchaseButton;
 
     public void Awake() 
@@ -21,7 +21,7 @@ public class CardList : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             //Plane - Store - StoreImg- Cards의 하위 객체
-            Transform child = transform.GetChild(i);
+            GameObject child = transform.GetChild(i).gameObject;
             StoreCardList.Add(child);
         }
 
@@ -30,16 +30,16 @@ public class CardList : MonoBehaviour
     //구입 함수
     public void PurChase()
     {
-        //상점 카드 리스트 중 Toggle.isOn이 True인 경우만 PlayerCardList에 추가
+        //상점 카드 리스트 중 Toggle.isOn이 True인 경우만 PlayerCardDeck에 추가
         for (int i = 0; i < StoreCardList.Count; i++)
         {
             Toggle toggle = StoreCardList[i].GetComponent<Toggle>();
             
             if(toggle.isOn == true)
             {
-                Debug.Log(StoreCardList[i] + "구입");
+                //Debug.Log(StoreCardList[i] + "구입");
                 
-                GameObject.Find("Player").GetComponent<PlayerCard>().PlayerCardList.Add(StoreCardList[i]);
+                GameObject.Find("Player").GetComponent<PlayerCard>().PlayerCardDeck.Add(StoreCardList[i].gameObject);
             }
 
         }
