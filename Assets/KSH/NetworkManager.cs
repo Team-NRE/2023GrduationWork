@@ -91,7 +91,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("ExitButton Click");
         PhotonNetwork.LeaveRoom();
         #warning 나가기 로딩 씬이 개발되지 않았습니다
-        SceneManager.LoadScene("ExitLoading");
+        SceneManager.LoadScene("Exit");
     }
 
     //RPC를 사용한 인스턴스 삭제 -> 현재 사용하지 않음

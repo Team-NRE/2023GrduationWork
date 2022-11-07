@@ -64,3 +64,14 @@ crashlytics-build.properties
 ProjectSettings/
 Assets/PKS/Robot_Pack_2/
 Assets/PKS/Robot_Pack_2.meta
+
+# Asset in Root
+[Aa]ssets/Robot_Pack_2/
+[Aa]ssets/Robot_Pack_2.meta
+[Aa]ssets/PolygonSciFiCity/
+[Aa]ssets/PolygonSciFiCity.meta
+[Aa]ssets/PolygonCity/
+[Aa]ssets/PolygonCity.meta
+[Aa]ssets/PolygonParticleFX/
+[Aa]ssets/PolygonParticleFX.meta
+
