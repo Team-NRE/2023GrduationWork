@@ -56,6 +56,7 @@ public class CardList : MonoBehaviour
         //들고있는 카드가 상점 카드 리스트판별
         for(int i = 0; i < StoreCardList.Count; i++)
         {
+            //들고있는 카드가 상점 카드 리스트와 같은 것을 찾으면 Swtich문으로 가면서 반복문 탈출
             if(StoreCardList[i] == HoldCard)
             {
                 CardNumber = i;

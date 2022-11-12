@@ -5,35 +5,36 @@ using UnityEngine.UI;
 
 public class PlayerCard : MonoBehaviour
 {
-    
-    [Header ("---Card List---")]   
+
+    [Header("---Card List---")]
     //플레이어 덱
     public List<GameObject> PlayerCardDeck = new List<GameObject>();
-    //사용하기 위한 카드 대기
+    //들고있는 카드 (List[0~3] = Q,W,E,R 카드 / List[4] = Next Card) 
     public List<GameObject> HoldCard = new List<GameObject>();
     //사용하고 난 버려진 카드 모음
     public List<GameObject> Discard = new List<GameObject>();
+
     //Q,W,E,R 카드 UI 위치 리스트
     List<GameObject> SkillPosition = new List<GameObject>();
 
     private void Awake()
     {
-        // (카드 UI 위치 리스트 & 대기 카드 리스트) 의 값 초기화
+        // (카드 UI 위치 리스트 & 들고있는 카드 리스트) 의 값 초기화
         Transform CardPos = GameObject.Find("PlayerCard").transform;
         for (int i = 0; i < CardPos.childCount; i++)
         {
-            //Plane - PlayerCard의 하위 객체 (Q,W,E,R의 gameobject 리스트에 저장)
+            //Plane - PlayerCard의 하위 객체 (Q,W,E,R,Next Card의 gameobject 리스트에 저장)
             GameObject CardChild = CardPos.GetChild(i).gameObject;
             SkillPosition.Add(CardChild);
-            
-            //대기 카드 리스트 초기값 = null로 설정.
+
+            //들고있는 카드 리스트 초기값 = null로 설정.
             HoldCard.Add(null);
         }
     }
 
     private void Start()
     {
-        CreateHoldCard(0,4);
+        CreateHoldCard(0);
     }
 
     private void Update()
@@ -43,7 +44,7 @@ public class PlayerCard : MonoBehaviour
     }
 
     //덱 안 카드가 없는 지 체크하는 코루틴
-    IEnumerator CardCheck() 
+    IEnumerator CardCheck()
     {
         //덱 안 카드가 없으면
         if (PlayerCardDeck.Count == 0)
@@ -61,15 +62,15 @@ public class PlayerCard : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
     }
 
-    //대기 카드 만드는 함수
-    void CreateHoldCard(int j, int Routine) //i가 몇부터 몇까지 반복할건지 
-    {        
-        for (int i = j; i < Routine; i++)
+    //들고있는 카드 만드는 함수
+    void CreateHoldCard(int j) //j = (Q,W,E,R,Next Card) 중 무엇을 받을지 
+    {
+        for (int i = j; i < 5; i++)
         {
             //덱 안 카드 중 랜덤으로 불러오기
-            int RandomCardNum = Random.Range(0, PlayerCardDeck.Count); 
+            int RandomCardNum = Random.Range(0, PlayerCardDeck.Count);
 
-            //덱 안 랜덤 카드를 (해당 키) 대기 카드로 옮기기 
+            //덱 안 랜덤 카드를 (해당 키) 들고있는 카드로 옮기기 
             HoldCard[i] = PlayerCardDeck[RandomCardNum];
             //카드 UI도 함께.......
             SkillPosition[i].GetComponent<Image>().sprite = HoldCard[i].GetComponentInChildren<Image>().sprite;
@@ -86,9 +87,13 @@ public class PlayerCard : MonoBehaviour
         GameObject.Find("Store").GetComponent<CardList>().CardEffect(HoldCard[Key]); //해당 카드의 효과 받아야됨.
 
         Discard.Add(HoldCard[Key]); //해당 키의 카드 버리기 
-        HoldCard[Key] = null; //해당 키의 대기 카드 잠시 비우기
-    
-        //해당 키에 카드 받아오기 
-        CreateHoldCard(Key,Key+1);
+        HoldCard[Key] = null; //해당 키의 들고있는 카드 잠시 비우기
+
+        HoldCard[Key] = HoldCard[4]; //해당 키의 들고있는 카드 = Next Card
+        SkillPosition[Key].GetComponent<Image>().sprite = HoldCard[Key].GetComponentInChildren<Image>().sprite; //UI도..
+        gameObject.GetComponent<PlayerStats>().AddStats("현재 마나", 2); //마나 코스트 사용
+
+        HoldCard[4] = null; //Next Card 잠시 비우기
+        CreateHoldCard(4); //Next Card에 랜덤카드 받기
     }
 }
