@@ -10,6 +10,7 @@ public class PlayerMapping : MonoBehaviour
 
 
     private void Awake() {
+        StoreImg = GameObject.Find("Store");
         StoreImg.SetActive(false);
     }
 

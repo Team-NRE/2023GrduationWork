@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/KSH/01.Scenes/FromCj/View Test Scene.unity
+    guid: a483e040d0543c9468c8fe0b48adbaea
   m_configObjects: {}
