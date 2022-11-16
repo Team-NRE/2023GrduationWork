@@ -29,7 +29,7 @@ public class FogOfWarScript : MonoBehaviour
 
     void Start()
     {
-        m_player = GameObject.Find("Player_net").transform;
+        m_player = GameObject.Find("Player").transform;
         for (int i = 0; i < vertices.Length; i++)
         {
             m_vertices[i] = m_fogOfWarPlane.transform.TransformPoint(vertices[i]);
