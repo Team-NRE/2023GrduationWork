@@ -97,10 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d4ab7346970904b9babf8ee7a4f4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_radius: 20
+  m_angle: 360
   m_fogOfWarPlane: {fileID: 0}
   m_player: {fileID: 0}
   m_fogLayer:
     serializedVersion: 2
-    m_Bits: 2048
-  m_radius: 20
+    m_Bits: 3072
   vertices: []
+  m_vertices: []
+  m_colors: []
