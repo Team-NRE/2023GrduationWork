@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.Tilemaps;
 
 public class objectController : MonoBehaviour
@@ -24,23 +25,34 @@ public class objectController : MonoBehaviour
     [Header ("- Enemy Object in Recognition Range")]
     [SerializeField] Collider[] enemyListInRecognitionRange;
 
+    [Header ("- Components")]
+    [SerializeField] Animator animator;
+
     void Start()
     {
         // Component 불러오기
-        stats = this.GetComponent<Stats>();
+        stats = GetComponent<Stats>();
 
-        moveScript   = this.GetComponent<objectMove>();
-        attackScript = this.GetComponent<objectAttack>();
-        summonScript = this.GetComponent<objectSummon>();
-        deathScript  = this.GetComponent<objectDeath>();
+        moveScript   = GetComponent<objectMove>();
+        attackScript = GetComponent<objectAttack>();
+        summonScript = GetComponent<objectSummon>();
+        deathScript  = GetComponent<objectDeath>();
 
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        GetNearbyEnemyObject();
-        SetArea();
+        if (attackScript != null) 
+        {
+            GetNearbyEnemyObject();
+        }
+        
+        if (moveScript != null)
+        {
+            SetArea();
+        }
+        
         SetStatus();
         PlayStatus();
     }
@@ -66,12 +78,16 @@ public class objectController : MonoBehaviour
             status = "Summon";
         }
         else if (moveScript != null && (nowArea == "tilePalette_0" || enemyListInRecognitionRange.Length == 0)) 
-        {   // 이동
+        {   // 이동 (범위 내 적 확인)
             status = "Move";
         }
-        else if (deathScript != null)
-        {   // 공격 (범위 내 적 확인)
+        else if (deathScript != null && enemyListInRecognitionRange.Length > 0)
+        {   // 공격 
             status = "Attack";
+        }
+        else
+        {   // 정지
+            status = "None";
         }
     }
 
@@ -87,13 +103,13 @@ public class objectController : MonoBehaviour
                 deathScript.Death();
                 break;
             case "Summon":
-                summonScript.Summon();
+                summonScript.Summon(camp);
                 break;
             case "Attack":
                 attackScript.Attack(nowArea, enemyListInRecognitionRange);
                 break;
             case "Move":
-                moveScript.Move(nowArea);
+                moveScript.Move(nowArea, camp);
                 break;
         }
     }
@@ -106,7 +122,7 @@ public class objectController : MonoBehaviour
 
         enemyListInRecognitionRange = Physics.OverlapSphere(
             transform.position, // 현재 위치
-            stats.GetStats("recognitionRange") * 0.01f, // 인식 범위
+            stats.GetStats("recognitionRange"), // 인식 범위
             1 << (LayerMask.NameToLayer(camp == "Human" ? "Cyborg" : "Human")) // 적 진영
         );
     }
