@@ -46,7 +46,6 @@ public class Stats : MonoBehaviour
     {
         // 기본 값 세팅
         nowHealth = maxHealth;
-        recognitionRange = attackRange * 5.0f;
         attackCoolingTime = 1 / attackSpeed;
     }
 

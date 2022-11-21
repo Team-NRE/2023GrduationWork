@@ -18,18 +18,16 @@ public class objectMove : MonoBehaviour
     {
         stats = GetComponent<Stats>();
         nav = GetComponent<NavMeshAgent>();
-        milestone = GameObject.Find("LowWayMilestone");
-        enemyCamp = GameObject.Find("Cyborg Camp");
     }
 
-    public void Move(string nowArea)
+    public void Move(string nowArea, string camp)
     {
-        animator.SetBool("Move", true);
+        animator?.SetBool("Move", true);
 
         switch (nowArea)
         {
             case "tilePalette_4":   // 몹이 길에 있음
-                nav.destination = (isReachMilestone()) ? enemyCamp.transform.position : milestone.transform.position;
+                nav.destination = (isReachMilestone(camp)) ? enemyCamp.transform.position : milestone.transform.position;
                 break;
             case "tilePalette_7":   // 몹이 길보다 높은 곳에 있음
                 nav.destination = transform.position + Vector3.back;
@@ -39,13 +37,13 @@ public class objectMove : MonoBehaviour
                 break;
             case "tilePalette_0":   // 몹이 길을 이탈함
             default:
-                nav.destination = (isReachMilestone()) ? enemyCamp.transform.position : milestone.transform.position;
+                nav.destination = (isReachMilestone(camp)) ? enemyCamp.transform.position : milestone.transform.position;
                 break;
         }
     }
 
-    private bool isReachMilestone()
+    private bool isReachMilestone(string camp)
     {
-        return (transform.position.x >= 0);
+        return ((camp == "Human") ? transform.position.x >= 0 : transform.position.x <= 0);
     }
 }

@@ -43,11 +43,16 @@ public class objectController : MonoBehaviour
 
     void Update()
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && stats.GetStats("attackCoolingTime") > 0)
-            stats.AddStats("attackCoolingTime", -Time.deltaTime);
-
-        GetNearbyEnemyObject();
-        SetArea();
+        if (attackScript != null) 
+        {
+            GetNearbyEnemyObject();
+        }
+        
+        if (moveScript != null)
+        {
+            SetArea();
+        }
+        
         SetStatus();
         PlayStatus();
     }
@@ -76,9 +81,13 @@ public class objectController : MonoBehaviour
         {   // 이동 (범위 내 적 확인)
             status = "Move";
         }
-        else if (deathScript != null)
+        else if (deathScript != null && enemyListInRecognitionRange.Length > 0)
         {   // 공격 
             status = "Attack";
+        }
+        else
+        {   // 정지
+            status = "None";
         }
     }
 
@@ -94,13 +103,13 @@ public class objectController : MonoBehaviour
                 deathScript.Death();
                 break;
             case "Summon":
-                summonScript.Summon();
+                summonScript.Summon(camp);
                 break;
             case "Attack":
                 attackScript.Attack(nowArea, enemyListInRecognitionRange);
                 break;
             case "Move":
-                moveScript.Move(nowArea);
+                moveScript.Move(nowArea, camp);
                 break;
         }
     }

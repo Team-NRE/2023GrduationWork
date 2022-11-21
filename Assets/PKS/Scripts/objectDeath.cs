@@ -33,11 +33,11 @@ public class objectDeath : MonoBehaviour
 
     public void Death()
     {
-        controller.enabled = false;
-        nav.enabled = false;
+        if (controller != null) controller.enabled = false;
+        if (nav != null) nav.enabled = false;
 
-        animator.SetTrigger("Death");
-        animator.SetBool("Move", false);
+        animator?.SetTrigger("Death");
+        animator?.SetBool("Move", false);
         isDeath = true;
     }
 }
