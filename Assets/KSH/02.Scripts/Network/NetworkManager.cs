@@ -89,21 +89,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void OnRoomExitClick()
     {
         Debug.Log("ExitButton Click");
-        PhotonNetwork.LeaveRoom();
         #warning 나가기 로딩 씬이 개발되지 않았습니다
         SceneManager.LoadScene("Exit");
     }
 
-    //RPC를 사용한 인스턴스 삭제 -> 현재 사용하지 않음
-    [PunRPC]
-    private void LocalDestroy()
+    //고의 지연 발생을 위한 IEnumerator를 사용, Exit Scene의 Start에 바로 사용하는 것이 좋다.
+    public IEnumerator ExitBackGround()
     {
-        GameObject.Destroy(photonView);
+        yield return new WaitForSeconds(1.0f);
+        Debug.Log("Exit Background has Executed");
+        PhotonNetwork.LeaveRoom();
     }
-    [PunRPC]
-    private void RemoteDestroy(int viewID)
+
+    //방에 다시 바로 들어가는 경우가 아니므로 주의, 아마 사용하지 않을 가능성 높음
+    public IEnumerator RejoinBackGround()
     {
-        GameObject.Destroy(PhotonView.Find(viewID).gameObject);
+        yield return new WaitForSeconds(1.0f);
+        Debug.Log("");
+        PhotonNetwork.JoinLobby();
     }
     #endregion
 }
