@@ -25,7 +25,7 @@ public class bulletAttack : MonoBehaviour
             
             if (Vector3.Distance(transform.position, target.transform.position) < 0.5f)
             {
-                target.GetComponent<Stats>().AddStats("nowHealth", -damage);
+                target.GetComponent<Stats>().NowHealth -= damage;
                 Destroy(this.gameObject);
             }
         }

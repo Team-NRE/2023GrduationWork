@@ -33,15 +33,15 @@ public class objectAttack : MonoBehaviour
 
     void Update()
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && stats.GetStats("attackCoolingTime") > 0)
-            stats.AddStats("attackCoolingTime", -Time.deltaTime);
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && stats.AttackCoolingTime > 0)
+            stats.AttackCoolingTime -= Time.deltaTime;
     }
 
     public void Attack(string nowArea, Collider[] enemyList)
     {
         target = GetTarget(enemyList);
 
-        if (Vector3.Distance(transform.position, target.transform.position) > stats.GetStats("attackRange"))
+        if (Vector3.Distance(transform.position, target.transform.position) > stats.AttackRange)
         {
             FollowTarget();
         }
@@ -86,14 +86,14 @@ public class objectAttack : MonoBehaviour
             isAttack = true;
         }
 
-        if (stats.GetStats("attackCoolingTime") <= 0)
+        if (stats.AttackCoolingTime <= 0)
         {
             // Animation 설정
             animator?.SetBool("Move", false);
             animator?.SetTrigger("Attack");
 
             // 공격 쿨링 타임 초기화
-            stats.SetStats("attackCoolingTime", 1 / stats.GetStats("attackSpeed"));
+            stats.AttackCoolingTime = 1 / stats.AttackSpeed;
             isAttack = false;
         }
     }
@@ -102,13 +102,13 @@ public class objectAttack : MonoBehaviour
     {
         if (bullet == null) 
         {
-            target.GetComponent<Stats>().AddStats("nowHealth", -stats.GetStats("attackPower"));
+            target.GetComponent<Stats>().NowHealth -= stats.AttackPower;
             Debug.Log("Hit!");
         }
         else 
         {
             GameObject _bullet = Instantiate(bullet, bulletPos.transform.position, transform.rotation);
-            _bullet.GetComponent<bulletAttack>().setBulletInfo(target, stats.GetStats("attackPower"));
+            _bullet.GetComponent<bulletAttack>().setBulletInfo(target, stats.AttackPower);
         }
     }
 }

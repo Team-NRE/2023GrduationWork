@@ -24,14 +24,14 @@ public class objectSummon : MonoBehaviour
 
     public void Summon(string camp)
     {
-        if (stats.GetStats("attackCoolingTime") > 0)
+        if (stats.AttackCoolingTime > 0)
         {
-            stats.AddStats("attackCoolingTime", -Time.deltaTime);
+            stats.AttackCoolingTime -= Time.deltaTime;
         }
         else
         {
             StartCoroutine(SummonObject(camp));
-            stats.SetStats("attackCoolingTime", stats.GetStats("attackSpeed"));
+            stats.AttackCoolingTime = stats.AttackSpeed;
         }
     }
 

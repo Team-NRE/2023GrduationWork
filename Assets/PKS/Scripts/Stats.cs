@@ -42,126 +42,378 @@ public class Stats : MonoBehaviour
     [SerializeField] float recognitionRange;        // 인식 범위
     #endregion
 
-    void Start()
+    #region 공격 분야 get, set
+    // 공격력
+    public float AttackPower
     {
-        // 기본 값 세팅
-        nowHealth = maxHealth;
-        attackCoolingTime = 1 / attackSpeed;
-    }
-
-    public float GetStats(string variableName)
-    {
-        /*
-            스텟 값 리턴
-        */
-
-        if (variableName == "attackPower")                  return attackPower;
-        if (variableName == "absoluteAttackPower")          return absoluteAttackPower;
-        if (variableName == "attackSpeed")                  return attackSpeed;
-        if (variableName == "attackCoolingTime")            return attackCoolingTime;
-        if (variableName == "attackRange")                  return attackRange;
-        if (variableName == "criticalChance")               return criticalChance;
-        if (variableName == "criticalPower")                return criticalPower;
-
-        if (variableName == "maxHealth")                    return maxHealth;
-        if (variableName == "nowHealth")                    return nowHealth;
-        if (variableName == "healthRegeneration")           return healthRegeneration;
-        if (variableName == "defensePower")                 return defensePower;
-
-        if (variableName == "protectiveShield")             return protectiveShield;
-        if (variableName == "protectiveShieldTime")         return protectiveShieldTime;
-
-        if (variableName == "moveSpeedReduction")           return moveSpeedReduction;
-        if (variableName == "moveSpeedReductionTime")       return moveSpeedReductionTime;
-        if (variableName == "skillSilenceTime")             return skillSilenceTime;
-        if (variableName == "poisonDamage")                 return poisonDamage;
-        if (variableName == "poisonDamageTime")             return poisonDamageTime;
-
-        if (variableName == "level")                        return level;
-        if (variableName == "experience")                   return experience;
-        if (variableName == "moveSpeed")                    return moveSpeed;
-        if (variableName == "globalToken")                  return globalToken;
-        if (variableName == "rangeToken")                   return rangeToken;
-        if (variableName == "resource")                     return resource;
-        if (variableName == "resourceRange")                return resourceRange;
-        if (variableName == "recognitionRange")             return recognitionRange;
+        get 
+        {
+            
+            return attackPower; 
+        }
         
-        return float.NaN;
+        set 
+        { 
+            attackPower = value; 
+        }
     }
 
-    public void SetStats(string variableName, float value)
+    // 절대 공격력
+    public float AbsoluteAttackPower
     {
-        /*
-            스텟 값 변경
-        */
+        get 
+        { 
+            return absoluteAttackPower; 
+        }
         
-        if (variableName == "attackPower"               && !float.IsNaN(attackPower))               attackPower             = value;
-        if (variableName == "absoluteAttackPower"       && !float.IsNaN(absoluteAttackPower))       absoluteAttackPower     = value;
-        if (variableName == "attackSpeed"               && !float.IsNaN(attackSpeed))               attackSpeed             = value;
-        if (variableName == "attackCoolingTime"         && !float.IsNaN(attackCoolingTime))         attackCoolingTime       = value;
-        if (variableName == "attackRange"               && !float.IsNaN(attackRange))               attackRange             = value;
-        if (variableName == "criticalChance"            && !float.IsNaN(criticalChance))            criticalChance          = value;
-        if (variableName == "criticalPower"             && !float.IsNaN(criticalPower))             criticalPower           = value;
-
-        if (variableName == "maxHealth"                 && !float.IsNaN(maxHealth))                 maxHealth               = value;
-        if (variableName == "nowHealth"                 && !float.IsNaN(nowHealth))                 nowHealth               = value;
-        if (variableName == "healthRegeneration"        && !float.IsNaN(healthRegeneration))        healthRegeneration      = value;
-        if (variableName == "defensePower"              && !float.IsNaN(defensePower))              defensePower            = value;
-
-        if (variableName == "protectiveShield"          && !float.IsNaN(protectiveShield))          protectiveShield        = value;
-        if (variableName == "protectiveShieldTime"      && !float.IsNaN(protectiveShieldTime))      protectiveShieldTime    = value;
-
-        if (variableName == "moveSpeedReduction"        && !float.IsNaN(moveSpeedReduction))        moveSpeedReduction      = value;
-        if (variableName == "moveSpeedReductionTime"    && !float.IsNaN(moveSpeedReductionTime))    moveSpeedReductionTime  = value;
-        if (variableName == "skillSilenceTime"          && !float.IsNaN(skillSilenceTime))          skillSilenceTime        = value;
-        if (variableName == "poisonDamage"              && !float.IsNaN(poisonDamage))              poisonDamage            = value;
-        if (variableName == "poisonDamageTime"          && !float.IsNaN(poisonDamageTime))          poisonDamageTime        = value;
-
-        if (variableName == "level"                     && !float.IsNaN(level))                     level                   = value;
-        if (variableName == "experience"                && !float.IsNaN(experience))                experience              = value;
-        if (variableName == "moveSpeed"                 && !float.IsNaN(moveSpeed))                 moveSpeed               = value;
-        if (variableName == "globalToken"               && !float.IsNaN(globalToken))               globalToken             = value;
-        if (variableName == "rangeToken"                && !float.IsNaN(rangeToken))                rangeToken              = value;
-        if (variableName == "resource"                  && !float.IsNaN(resource))                  resource                = value;
-        if (variableName == "resourceRange"             && !float.IsNaN(resourceRange))             resourceRange           = value;
-        if (variableName == "recognitionRange"          && !float.IsNaN(recognitionRange))          recognitionRange        = value;
+        set 
+        { 
+            absoluteAttackPower = value; 
+        }
     }
 
-    public void AddStats(string variableName, float value)
+    // 공격 속도
+    public float AttackSpeed
+    {   
+        get 
+        { 
+            return attackSpeed; 
+        }
+        
+        set 
+        { 
+            attackSpeed = value; 
+        }
+    }
+
+    // 공격 쿨타임
+    public float AttackCoolingTime
     {
-        /*
-            스텟 값 증감
-        */
-
-        if (variableName == "attackPower"               && !float.IsNaN(attackPower))               attackPower             += value;
-        if (variableName == "absoluteAttackPower"       && !float.IsNaN(absoluteAttackPower))       absoluteAttackPower     += value;
-        if (variableName == "attackSpeed"               && !float.IsNaN(attackSpeed))               attackSpeed             += value;
-        if (variableName == "attackCoolingTime"         && !float.IsNaN(attackCoolingTime))         attackCoolingTime       += value;
-        if (variableName == "attackRange"               && !float.IsNaN(attackRange))               attackRange             += value;
-        if (variableName == "criticalChance"            && !float.IsNaN(criticalChance))            criticalChance          += value;
-        if (variableName == "criticalPower"             && !float.IsNaN(criticalPower))             criticalPower           += value;
-
-        if (variableName == "maxHealth"                 && !float.IsNaN(maxHealth))                 maxHealth               += value;
-        if (variableName == "nowHealth"                 && !float.IsNaN(nowHealth))                 nowHealth               += value;
-        if (variableName == "healthRegeneration"        && !float.IsNaN(healthRegeneration))        healthRegeneration      += value;
-        if (variableName == "defensePower"              && !float.IsNaN(defensePower))              defensePower            += value;
-
-        if (variableName == "protectiveShield"          && !float.IsNaN(protectiveShield))          protectiveShield        += value;
-        if (variableName == "protectiveShieldTime"      && !float.IsNaN(protectiveShieldTime))      protectiveShieldTime    += value;
-
-        if (variableName == "moveSpeedReduction"        && !float.IsNaN(moveSpeedReduction))        moveSpeedReduction      += value;
-        if (variableName == "moveSpeedReductionTime"    && !float.IsNaN(moveSpeedReductionTime))    moveSpeedReductionTime  += value;
-        if (variableName == "skillSilenceTime"          && !float.IsNaN(skillSilenceTime))          skillSilenceTime        += value;
-        if (variableName == "poisonDamage"              && !float.IsNaN(poisonDamage))              poisonDamage            += value;
-        if (variableName == "poisonDamageTime"          && !float.IsNaN(poisonDamageTime))          poisonDamageTime        += value;
-
-        if (variableName == "level"                     && !float.IsNaN(level))                     level                   += value;
-        if (variableName == "experience"                && !float.IsNaN(experience))                experience              += value;
-        if (variableName == "moveSpeed"                 && !float.IsNaN(moveSpeed))                 moveSpeed               += value;
-        if (variableName == "globalToken"               && !float.IsNaN(globalToken))               globalToken             += value;
-        if (variableName == "rangeToken"                && !float.IsNaN(rangeToken))                rangeToken              += value;
-        if (variableName == "resource"                  && !float.IsNaN(resource))                  resource                += value;
-        if (variableName == "resourceRange"             && !float.IsNaN(resourceRange))             resourceRange           += value;
-        if (variableName == "recognitionRange"          && !float.IsNaN(recognitionRange))          recognitionRange        += value;
+        get 
+        { 
+            return attackCoolingTime; 
+        }
+        
+        set 
+        { 
+            attackCoolingTime = value; 
+        }
     }
+
+    // 공격 범위
+    public float AttackRange
+    {
+        get 
+        { 
+            return attackRange; 
+        }
+        
+        set 
+        { 
+            attackRange = value; 
+        }
+    }
+
+    // 크리티컬 확률
+    public float CriticalChance
+    {
+        get 
+        { 
+            return criticalChance; 
+        }
+        
+        set 
+        { 
+            criticalChance = value; 
+        }
+    }
+
+    // 크리티컬 공격력
+    public float CriticalPower
+    {
+        get 
+        { 
+            return criticalPower; 
+        }
+        
+        set 
+        { 
+            criticalPower = value; 
+        }
+    }
+    #endregion
+
+    #region 방어 분야 get, set
+    // 최대 체력
+    public float MaxHealth
+    {
+        get 
+        { 
+            return maxHealth; 
+        }
+        
+        set 
+        { 
+            maxHealth = value; 
+        }
+    }
+
+    // 현재 체력
+    public float NowHealth
+    {
+        get 
+        { 
+            return nowHealth; 
+        }
+        
+        set 
+        { 
+            nowHealth = value; 
+        }
+    }
+
+    // 체력 재생
+    public float HealthRegeneration
+    {
+        get 
+        { 
+            return healthRegeneration; 
+        }
+        
+        set 
+        { 
+            healthRegeneration = value;
+        }
+    }
+
+    // 방어력
+    public float DefensePower
+    {
+        get 
+        { 
+            return defensePower; 
+        }
+        
+        set 
+        { 
+            defensePower = value; 
+        }
+    }
+    #endregion
+
+    #region 버프 분야 get, set
+    // 방어막
+    public float ProtectiveShield
+    {
+        get 
+        { 
+            return protectiveShield; 
+        }
+        
+        set 
+        { 
+            protectiveShield = value; 
+        }
+    }
+
+    // 방어막 시간
+    public float ProtectiveShieldTime
+    {
+        get 
+        { 
+            return protectiveShieldTime; 
+        }
+        
+        set 
+        { 
+            protectiveShieldTime = value; 
+        }
+    }
+    #endregion
+
+    #region 디버프 분야 get, set
+    // 이동속도 감소 퍼센트
+    public float MoveSpeedReduction
+    {
+        get 
+        { 
+            return moveSpeedReduction; 
+        }
+        
+        set 
+        { 
+            moveSpeedReduction = value; 
+        }
+    }
+
+    // 이동속도 감소 시간
+    public float MoveSpeedReductionTime
+    {
+        get 
+        { 
+            return moveSpeedReductionTime; 
+        }
+        
+        set 
+        { 
+            moveSpeedReductionTime = value; 
+        }
+    }
+
+    // 스킬 침묵 시간
+    public float SkillSilenceTime
+    {
+        get 
+        { 
+            return skillSilenceTime; 
+        }
+        
+        set 
+        { 
+            skillSilenceTime = value; 
+        }
+    }
+
+    // 독 데미지
+    public float PoisonDamage
+    {
+        get 
+        { 
+            return poisonDamage; 
+        }
+        
+        set 
+        { 
+            poisonDamage = value; 
+        }
+    }
+
+    // 독 시간
+    public float PoisonDamageTime
+    {
+        get 
+        { 
+            return poisonDamageTime; 
+        }
+        
+        set 
+        { 
+            poisonDamageTime = value; 
+        }
+    }
+    #endregion
+
+    #region 기타 get, set
+    // 레벨
+    public float Level
+    {
+        get 
+        { 
+            return level; 
+        }
+        
+        set 
+        { 
+            level = value; 
+        }
+    }
+
+    // 경험치
+    public float Experience
+    {
+        get 
+        { 
+            return experience; 
+        }
+        
+        set 
+        { 
+            experience = value; 
+        }
+    }
+
+    // 이동 속도
+    public float MoveSpeed
+    {
+        get 
+        { 
+            return moveSpeed; 
+        }
+        
+        set 
+        { 
+            moveSpeed = value; 
+        }
+    }
+
+    // 전역 골드
+    public float GlobalToken
+    {
+        get 
+        { 
+            return globalToken; 
+        }
+        
+        set 
+        { 
+            globalToken = value; 
+        }
+    }
+
+    // 범위 골드
+    public float RangeToken
+    {
+        get 
+        { 
+            return rangeToken; 
+        }
+        
+        set 
+        { 
+            rangeToken = value; 
+        }
+    }
+
+    // 자원
+    public float Resource
+    {
+        get 
+        { 
+            return resource; 
+        }
+        
+        set 
+        { 
+            resource = value; 
+        }
+    }
+
+    // 자원 획득 범위
+    public float ResourceRange
+    {
+        get 
+        { 
+            return resourceRange; 
+        }
+        
+        set 
+        { 
+            resourceRange = value; 
+        }
+    }
+
+    // 인식 범위
+    public float RecognitionRange
+    {
+        get 
+        { 
+            return recognitionRange; 
+        }
+        
+        set 
+        { 
+            recognitionRange = value; 
+        }
+    }
+    #endregion
 }

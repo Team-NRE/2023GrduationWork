@@ -25,9 +25,6 @@ public class objectController : MonoBehaviour
     [Header ("- Enemy Object in Recognition Range")]
     [SerializeField] Collider[] enemyListInRecognitionRange;
 
-    [Header ("- Components")]
-    [SerializeField] Animator animator;
-
     void Start()
     {
         // Component 불러오기
@@ -69,7 +66,7 @@ public class objectController : MonoBehaviour
         */
 
         // 상태 변경
-        if (deathScript != null && stats.GetStats("nowHealth") <= 0) 
+        if (deathScript != null && stats.NowHealth <= 0) 
         {   // 죽음 (현재 체력 체크)
             status = "Death";
         }
@@ -122,7 +119,7 @@ public class objectController : MonoBehaviour
 
         enemyListInRecognitionRange = Physics.OverlapSphere(
             transform.position, // 현재 위치
-            stats.GetStats("recognitionRange"), // 인식 범위
+            stats.RecognitionRange, // 인식 범위
             1 << (LayerMask.NameToLayer(camp == "Human" ? "Cyborg" : "Human")) // 적 진영
         );
     }

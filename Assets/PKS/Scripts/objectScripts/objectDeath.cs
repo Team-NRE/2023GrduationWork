@@ -5,9 +5,6 @@ using UnityEngine.AI;
 
 public class objectDeath : MonoBehaviour
 {
-    [Header ("- Stats Script")]
-    [SerializeField] Stats stats;
-
     [Header ("- Components")]
     [SerializeField] objectController controller;
     [SerializeField] NavMeshAgent nav;

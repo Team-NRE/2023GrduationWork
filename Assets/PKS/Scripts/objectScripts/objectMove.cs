@@ -5,9 +5,6 @@ using UnityEngine.AI;
 
 public class objectMove : MonoBehaviour
 {
-    [Header ("- Stats Script")]
-    [SerializeField] Stats stats;
-
     [Header ("- Components")]
     [SerializeField] NavMeshAgent nav;
     [SerializeField] Animator animator;
@@ -16,7 +13,6 @@ public class objectMove : MonoBehaviour
 
     void Start()
     {
-        stats = GetComponent<Stats>();
         nav = GetComponent<NavMeshAgent>();
     }
 
