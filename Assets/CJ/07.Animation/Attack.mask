@@ -7,28 +7,28 @@ AvatarMask:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Attack
-  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000001000000010000000100000001000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
   - m_Path: Character_BusinessMan_Shirt
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_BusinessMan_Suit
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_BusinessWoman
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_Female_Coat
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_Female_Jacket
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_Female_Police
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_Male_Hoodie
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_Male_Jacket
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Character_Male_Police
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Root
     m_Weight: 1
   - m_Path: Root/Hips
@@ -111,13 +111,13 @@ AvatarMask:
       1/Thumb_02 1/Thumb_03 1
     m_Weight: 1
   - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/Eyebrows
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/Eyes
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Root/Hips/UpperLeg_L
     m_Weight: 0
   - m_Path: Root/Hips/UpperLeg_L/LowerLeg_L

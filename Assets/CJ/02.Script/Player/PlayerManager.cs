@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-//Manager -> Get / Set
 public partial class PlayerManager : MonoBehaviour
 {
-    public enum State
+    public string KeyName;
+    public string KeyCode
     {
-        IDLE, Walk, Attack, DIE
+        get { return KeyName; }
+        set { value = KeyName; }
+
     }
 
+    public enum State
+    {
+        IDLE, Walk, Attack, Throw1, Throw2, DIE
+    }
 
-    [Header("---Player Move---")]
-    //NavMeshAgent
-    public NavMeshAgent agent;
-    //Transform
-    public new Transform transform;
-    //이동할 점
-    public Vector3 Point;
-    //속도
-    public Vector3 velocity = Vector3.zero;
-
+    [Header("---Animation---")]
     Animator animator;
+    bool isDie = false;
     public State state = State.IDLE;
-    public bool isDie = false;
 
 
     [Header("---Camera---")]
@@ -40,18 +37,15 @@ public partial class PlayerManager : MonoBehaviour
     [Header("---Move Ignore Layer---")]
     public LayerMask Ignorelayer;
 
+
     [Header("---PlaneScale---")]
     public float planescale;
+
 
     [Header("---etc---")]
     public float ButtonPushTime;
 
-
-
-
-
-
-    private void Start()
+    private void Awake()
     {
         //Move.cs
         transform = GetComponent<Transform>();
@@ -60,8 +54,24 @@ public partial class PlayerManager : MonoBehaviour
 
         agent.updateRotation = false;
 
+        KeyName = "Q";
+    }
+
+    private void OnEnable()
+    {
+        state = State.IDLE;
+    }
+
+    void Update()
+    {
         StartCoroutine(CheckPlayerState());
-        StartCoroutine(PlayerAction());
+        StartCoroutine(PlayerAnim());
+
+        remainDistance = agent.remainingDistance;
+        if (nowHealth <= 0) { state = State.DIE; }
+
+        //Setting.cs
+        KeyMapping(); //키 맵핑
     }
 
     IEnumerator CheckPlayerState()
@@ -70,53 +80,67 @@ public partial class PlayerManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
 
-            state = agent.remainingDistance < 0.1f ? State.IDLE : State.Walk;
+            state = agent.remainingDistance < 0.2f ? State.IDLE : State.Walk;
 
+            if (Input.GetButtonDown("Attack")) { state = State.Attack; }
 
-
-
+            if (Input.GetButtonDown(KeyCode)) { state = State.Throw1; }
         }
     }
 
-    IEnumerator PlayerAction()
+    IEnumerator PlayerAnim()
     {
         while (!isDie)
         {
             switch (state)
             {
                 case State.IDLE:
+                    animator.SetBool("IsIdle", true);
                     animator.SetBool("IsWalk", false);
 
                     break;
 
                 case State.Walk:
                     animator.SetBool("IsWalk", true);
-                    animator.SetBool("IsFire", false);
-
+                    animator.SetBool("IsIdle", false);
+                    
                     break;
 
                 case State.Attack:
-                    animator.SetBool("IsFire", true);
+                    animator.SetTrigger("Fire");
+                    animator.SetBool("IsIdle", false);
+
+                    break;
+
+                case State.Throw1:
+                    animator.SetTrigger("Throw1");
+                    animator.SetBool("IsIdle", false);
+
+                    break;
+
+                case State.Throw2:
+                    animator.SetTrigger("Throw2");
+                    animator.SetBool("IsIdle", false);
+
+                    break;
+
+                case State.DIE:
+                    animator.SetBool("IsIdle", false);
+                    animator.SetTrigger("Die");
+                    this.enabled = false;
+
+                    StopAllCoroutines();
 
                     break;
             }
-
             yield return new WaitForSeconds(0.3f);
         }
-
     }
 
-    void Update()
-    {
-        //Setting.cs
-        KeyMapping(); //키 맵핑
-
-    }
 
     void LateUpdate()
     {
         //Move.cs
         CameraMove(); //카메라 움직임
     }
-
 }

@@ -1,7 +1,20 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public partial class PlayerManager 
 {
+    [Header("---Player Move---")]
+    //NavMeshAgent
+    public NavMeshAgent agent;
+    //Transform
+    public new Transform transform;
+    //이동할 점
+    public Vector3 Point;
+    //속도
+    public Vector3 velocity = Vector3.zero;
+    //남은거리
+    public float remainDistance;
+
     //카메라 이동
     public void CameraMove()
     {
@@ -69,6 +82,7 @@ public partial class PlayerManager
 
             //animation.CrossFade("RunF");
             agent.SetDestination(Point);
+            
         }
     }
 

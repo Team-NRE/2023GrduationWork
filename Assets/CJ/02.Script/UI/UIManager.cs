@@ -189,7 +189,7 @@ public class UIManager : MonoBehaviour
 
             HoldCard = Instantiate(PlayerCardDeck[RandomCardNum]); //무작위 카드 인스턴스 화
             HoldCard.transform.GetChild(0).gameObject.SetActive(false); //toggle 끄기
-            HoldCard.transform.parent = SkillPosition[i].transform; //해당 카드 -> 해당 키
+            HoldCard.transform.SetParent(SkillPosition[i].transform); //해당 카드 -> 해당 키
             HoldCard.GetComponent<RectTransform>().anchoredPosition = Vector2.one; //RectTransform -> Vector.one으로 선언
 
             //덱 안 카드 제거
@@ -234,12 +234,12 @@ public class UIManager : MonoBehaviour
             Destroy(HoldCard, 0.1f); //해당 키의 카드 파괴
 
             GameObject ChangeCard = SkillPosition[4].transform.GetChild(0).gameObject; //Next Card 변수 선언
-            ChangeCard.transform.parent = SkillPosition[Key].transform; // Next Card의 부모 -> 해당 키로 변환
+            ChangeCard.transform.SetParent(SkillPosition[Key].transform); // Next Card의 부모 -> 해당 키로 변환
             ChangeCard.GetComponent<RectTransform>().anchoredPosition = Vector2.one; //RectTransform -> Vector.one으로 선언
 
             CreateHoldCard(4); //Next Card에 랜덤카드 받기
 
-        }
+        } 
 
         else { Debug.Log("마나가 부족합니다."); }
     }
