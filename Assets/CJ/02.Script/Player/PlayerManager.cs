@@ -64,14 +64,15 @@ public partial class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        //Setting.cs
+        KeyMapping(); //키 맵핑
+
         StartCoroutine(CheckPlayerState());
         StartCoroutine(PlayerAnim());
 
         remainDistance = agent.remainingDistance;
         if (nowHealth <= 0) { state = State.DIE; }
 
-        //Setting.cs
-        KeyMapping(); //키 맵핑
     }
 
     IEnumerator CheckPlayerState()
@@ -84,7 +85,7 @@ public partial class PlayerManager : MonoBehaviour
 
             if (Input.GetButtonDown("Attack")) { state = State.Attack; }
 
-            if (Input.GetButtonDown(KeyCode)) { state = State.Throw1; }
+            if (Input.GetButton(KeyCode)) { state = State.Throw1; }
         }
     }
 
@@ -97,12 +98,14 @@ public partial class PlayerManager : MonoBehaviour
                 case State.IDLE:
                     animator.SetBool("IsIdle", true);
                     animator.SetBool("IsWalk", false);
+                    animator.SetBool("IsThrow1",false);
 
                     break;
 
                 case State.Walk:
                     animator.SetBool("IsWalk", true);
                     animator.SetBool("IsIdle", false);
+                    animator.SetBool("IsThrow1",false);
                     
                     break;
 
@@ -113,7 +116,7 @@ public partial class PlayerManager : MonoBehaviour
                     break;
 
                 case State.Throw1:
-                    animator.SetTrigger("Throw1");
+                    animator.SetBool("IsThrow1",true);
                     animator.SetBool("IsIdle", false);
 
                     break;

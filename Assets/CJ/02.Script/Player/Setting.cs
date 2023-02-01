@@ -54,6 +54,7 @@ public partial class PlayerManager
             if (ButtonPushTime < 0.3)
             {
                 gameManager.instance.UI.UseCard(1);
+                KeyCode = "W";
                 KeyName = "W";
             } //탭하면 SKill 사용
 
