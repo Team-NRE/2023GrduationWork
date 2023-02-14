@@ -44,9 +44,15 @@ public partial class PlayerManager : MonoBehaviour
 
     [Header("---etc---")]
     public float ButtonPushTime;
+    bool checkAttack = true;
 
     private void Awake()
     {
+        //공격사거리 세팅
+        Projector projector = AttackRangeimg.GetComponent<Projector>();
+        projector.fieldOfView = attackRange;
+        GetAttackRange("AttackRange");
+        
         //Move.cs
         transform = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();

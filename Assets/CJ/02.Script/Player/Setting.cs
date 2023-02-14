@@ -142,9 +142,9 @@ public partial class PlayerManager
 
         
         #region Keycode A
-        if (Input.GetButton("Attack"))
+        if (Input.GetButtonDown("Attack"))
         {
-           //Attack();
+           Attack();
         }
         #endregion
     }
