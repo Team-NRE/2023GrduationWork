@@ -14,6 +14,7 @@ public class objectMove : MonoBehaviour
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     public void Move(string nowArea, string camp)

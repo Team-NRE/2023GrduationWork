@@ -18,14 +18,9 @@ public class objectDeath : MonoBehaviour
         // Component 불러오기
         controller = GetComponent<objectController>();
         nav = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
         isDeath = false;
-    }
-
-    void FixedUpdate()
-    {
-        if (isDeath && animator.GetCurrentAnimatorStateInfo(0).IsName("Death") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.99f)
-            Destroy(gameObject);
     }
 
     public void Death()
@@ -35,6 +30,10 @@ public class objectDeath : MonoBehaviour
 
         animator?.SetTrigger("Death");
         animator?.SetBool("Move", false);
-        isDeath = true;
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

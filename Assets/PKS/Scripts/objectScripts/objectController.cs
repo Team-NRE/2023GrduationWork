@@ -1,27 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.Tilemaps;
 
 public class objectController : MonoBehaviour
 {
+    /// <summary>타일 맵 오브젝트</summary>
     private Tilemap tilemap;
 
+    /// <summary>오브젝트 상태</summary>
     public string status;
+    /// <summary>진영 정보</summary>
     public string camp;
     
+    /// <summary>타일 지역 상태</summary>
     public string nowArea;
 
+    /// <summary>스텟 스크립트</summary>
     [Header ("- Stats Script")]
     [SerializeField] Stats stats;
 
+    /// <summary>오브젝트 이동 스크립트</summary>
     [Header ("- Children Script")]
     [SerializeField] objectMove moveScript;
+    /// <summary>오브젝트 공격 스크립트</summary>
     [SerializeField] objectAttack attackScript;
+    /// <summary>오브젝트 소환 스크립트</summary>
     [SerializeField] objectSummon summonScript;
+    /// <summary>오브젝트 사망 스크립트</summary>
     [SerializeField] objectDeath deathScript;
 
+    /// <summary>인식 범위 내 적 목록</summary>
     [Header ("- Enemy Object in Recognition Range")]
     [SerializeField] Collider[] enemyListInRecognitionRange;
 
@@ -35,17 +42,17 @@ public class objectController : MonoBehaviour
         summonScript = GetComponent<objectSummon>();
         deathScript  = GetComponent<objectDeath>();
 
-        tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        tilemap = GameObject.Find("Tilemap")?.GetComponent<Tilemap>();
     }
 
     void Update()
     {
-        if (attackScript != null) 
+        if (!Object.ReferenceEquals(attackScript, null))
         {
             GetNearbyEnemyObject();
         }
-        
-        if (moveScript != null)
+
+        if (!Object.ReferenceEquals(moveScript, null))
         {
             SetArea();
         }
@@ -54,31 +61,33 @@ public class objectController : MonoBehaviour
         PlayStatus();
     }
 
+    /// <summary>
+    /// 현재 서 있는 타일 지역을 가져오는 함수
+    /// </summary>
     private void SetArea()
     {
         nowArea = tilemap.GetTile(tilemap.WorldToCell(transform.position))?.name;
     }
 
+    /// <summary>
+    /// 현재 상태를 변경해주는 함수
+    /// </summary>
     void SetStatus()
     {
-        /*
-            현재 상태를 변경해주는 함수
-        */
-
         // 상태 변경
-        if (deathScript != null && stats.NowHealth <= 0) 
+        if (!Object.ReferenceEquals(deathScript, null) && stats.NowHealth <= 0) 
         {   // 죽음 (현재 체력 체크)
             status = "Death";
         }
-        else if (summonScript != null)
+        else if (!Object.ReferenceEquals(summonScript, null))
         {   // 소환
             status = "Summon";
         }
-        else if (moveScript != null && (nowArea == "tilePalette_0" || enemyListInRecognitionRange.Length == 0)) 
+        else if (!Object.ReferenceEquals(moveScript, null) && (nowArea == "tilePalette_0" || enemyListInRecognitionRange.Length == 0)) 
         {   // 이동 (범위 내 적 확인)
             status = "Move";
         }
-        else if (deathScript != null && enemyListInRecognitionRange.Length > 0)
+        else if (!Object.ReferenceEquals(attackScript, null) && enemyListInRecognitionRange.Length > 0)
         {   // 공격 
             status = "Attack";
         }
@@ -88,12 +97,11 @@ public class objectController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 현재 상태에 따른 A 실행
+    /// </summary>
     void PlayStatus()
     {
-        /*
-            현재 상태에 따른 Ai 실행
-        */
-
         switch (status)
         {
             case "Death":
@@ -111,12 +119,11 @@ public class objectController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 공격 범위 내 적들을 구하는 함수
+    /// </summary>
     void GetNearbyEnemyObject()
     {
-        /*
-            공격 범위 내 적들을 구하는 함수
-        */
-
         enemyListInRecognitionRange = Physics.OverlapSphere(
             transform.position, // 현재 위치
             stats.RecognitionRange, // 인식 범위
