@@ -55,7 +55,12 @@ public class PlayerMove : MonoBehaviour
     }
     
     public void Update() {
-        playerMove();
+        #region Mouse(1) (Move.cs)
+        if (Input.GetMouseButtonDown(1))
+        {
+            playerMove();
+        }
+        #endregion
 
         remainDistance = agent.remainingDistance;
     }

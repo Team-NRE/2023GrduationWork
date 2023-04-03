@@ -10,14 +10,14 @@ public partial class PlayerManager
         #region Spacebar (Move.cs)
         if (Input.GetKey(KeyCode.Space))
         {
-            FixedCameraMove();
+            //FixedCameraMove();
         }
         #endregion
 
         #region Mouse(1) (Move.cs)
         if (Input.GetMouseButtonDown(1))
         {
-            PlayerMove();
+            //PlayerMove();
         }
         #endregion
 
