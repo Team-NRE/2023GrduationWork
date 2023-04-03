@@ -26,12 +26,12 @@ public class RespawnManager : MonoBehaviour
     {
         if (RespawnTime <= 0)
         {
-            gameManager.instance.player.enabled = true;
-            gameManager.instance.player.nowHealth = gameManager.instance.player.maxHealth;
+            gameManager.instance.player.player_ani.enabled = true;
+            gameManager.instance.player.player_stats.nowHealth = gameManager.instance.player.player_stats.maxHealth;
             RespawnTime = Respawn;
         }
 
-        if (gameManager.instance.player.enabled == false)
+        if (gameManager.instance.player.player_ani.enabled == false)
         {
             RespawnTime -= Time.deltaTime;
         }

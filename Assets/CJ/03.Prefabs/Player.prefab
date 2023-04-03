@@ -877,10 +877,11 @@ GameObject:
   - component: {fileID: 2915906078687225896}
   - component: {fileID: 2915906078679592132}
   - component: {fileID: 2915906079229989752}
-  - component: {fileID: 2915906079229989753}
   - component: {fileID: 1831791104}
   - component: {fileID: 2915906079229989761}
   - component: {fileID: 2915906079229989767}
+  - component: {fileID: 2915906079229989769}
+  - component: {fileID: 2915906079229989768}
   m_Layer: 6
   m_Name: Player
   m_TagString: PLAYER
@@ -948,49 +949,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2915906079229989753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2915906078686951872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6ab1fffe2e35ed4085f5e6eada96eaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPower: 0
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackRange: 5
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 120
-  nowHealth: 120
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  NowMana: 0
-  ManaRegenerationTime: 4
-  MaxMana: 3
-  level: 0
-  speed: 0
-  angularSpeed: 0
-  acceleration: 0
-  experience: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
-  ButtonPushTime: 0
 --- !u!114 &1831791104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1047,6 +1005,61 @@ MonoBehaviour:
   state: 0
   ButtonPushTime: 0
   agent: {fileID: 0}
+--- !u!114 &2915906079229989769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915906078686951872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 0
+  absoluteAttackPower: 0
+  attackSpeed: 0
+  attackRange: 2
+  criticalChance: 0
+  criticalPower: 0
+  maxHealth: 120
+  nowHealth: 120
+  healthRegeneration: 0
+  defensePower: 0
+  protectiveShield: 0
+  protectiveShieldTime: 0
+  moveSpeedReduction: 0
+  moveSpeedReductionTime: 0
+  skillSilenceTime: 0
+  poisonDamage: 0
+  poisonDamageTime: 0
+  NowMana: 0
+  ManaRegenerationTime: 4
+  MaxMana: 3
+  level: 0
+  speed: 0
+  angularSpeed: 0
+  acceleration: 0
+  experience: 0
+  globalToken: 0
+  rangeToken: 0
+  resource: 0
+  resourceRange: 0
+  recognitionRange: 0
+--- !u!114 &2915906079229989768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915906078686951872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0aeaf16e4106f4cb7403ae316564f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonPushTime: 0
 --- !u!1 &2915906078686957018
 GameObject:
   m_ObjectHideFlags: 0

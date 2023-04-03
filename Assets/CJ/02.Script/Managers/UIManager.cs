@@ -40,9 +40,12 @@ public class UIManager : MonoBehaviour
     public List<GameObject> ManaList = new List<GameObject>();
 	#endregion
 
+
     public void Awake()
     {		
-		//Setting.cs
+		
+        
+        //Setting.cs
         ObjectSetting("StoreImage"); //구입 버튼 
         ObjectSetting("PlayerCardUI"); //핸드 카드 List 초기 세팅
         ObjectSetting("Cards"); //상점 카드 List 세팅
@@ -157,24 +160,27 @@ public class UIManager : MonoBehaviour
     public void ManaPlay()
     {
         //gameManager.instance.player.NowMana = 마나회복시간 * 최대 마나
-        gameManager.instance.player.NowMana += Time.deltaTime;
+        PlayerManager.Player_Instance.player_stats.NowMana += Time.deltaTime;
 
         //마나 회복 (한칸 차면 다음 칸 참)
-        for (int i = 0; i < gameManager.instance.player.MaxMana; i++)
+        for (int i = 0; i < gameManager.instance.player.player_stats.MaxMana; i++)
         {
-            ManaList[i].GetComponent<Slider>().value = Mathf.Lerp(gameManager.instance.player.NowMana, gameManager.instance.player.GetStats("마나회복시간") * (i + 1), Time.deltaTime);
+            ManaList[i].GetComponent<Slider>().value = Mathf.Lerp(PlayerManager.Player_Instance.player_stats.NowMana, 
+                PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간") * (i + 1), Time.deltaTime);
         }
 
         //gameManager.instance.player.NowMana의 최대값
-        if (gameManager.instance.player.NowMana >= gameManager.instance.player.GetStats("마나회복시간") * gameManager.instance.player.GetStats("최대 마나"))
+        if (PlayerManager.Player_Instance.player_stats.NowMana >= PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간")
+             * PlayerManager.Player_Instance.player_stats.GetStats("최대 마나"))
         {
-            gameManager.instance.player.NowMana = gameManager.instance.player.GetStats("마나회복시간") * gameManager.instance.player.GetStats("최대 마나");
+            PlayerManager.Player_Instance.player_stats.NowMana = PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간") * 
+                PlayerManager.Player_Instance.player_stats.GetStats("최대 마나");
         }
 
         //gameManager.instance.player.NowMana의 최소값
-        if (gameManager.instance.player.NowMana <= 0)
+        if (PlayerManager.Player_Instance.player_stats.NowMana <= 0)
         {
-            gameManager.instance.player.NowMana = 0;
+            PlayerManager.Player_Instance.player_stats.NowMana = 0;
         }
     }
 
@@ -223,10 +229,10 @@ public class UIManager : MonoBehaviour
         FindCard(HoldCard); //해당 키의 카드 찾기
 
         //현재 마나 >= 카드 코스트
-        if (gameManager.instance.player.NowMana >= CardCost * gameManager.instance.player.ManaRegenerationTime)
+        if (PlayerManager.Player_Instance.player_stats.NowMana >= CardCost * PlayerManager.Player_Instance.player_stats.ManaRegenerationTime)
         {
             //마나 코스트 사용
-            gameManager.instance.player.AddStats("현재 마나", CardCost);
+            PlayerManager.Player_Instance.player_stats.AddStats("현재 마나", CardCost);
             CardEffect(CardNumber); //해당 키의 카드 효과 발행
 
             Discard.Add(StoreCardList[CardNumber]); //해당 키의 카드 버리기 

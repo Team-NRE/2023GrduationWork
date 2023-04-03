@@ -25,15 +25,11 @@ public class PlayerAttack : MonoBehaviour
     //총알 속도
     [Tooltip("Bullet Speed")][SerializeField] private float shotPower = 500f;
 
-    //PlayerStat
-    PlayerManager pm;
     private void Awake()
     {
-        pm = GetComponent<PlayerManager>();
-        
         //공격사거리 세팅
         Projector projector = AttackRangeimg.GetComponent<Projector>();
-        projector.orthographicSize = pm.attackRange;
+        projector.orthographicSize = PlayerManager.Player_Instance.player_stats.attackRange;
         GetAttackRange();
     }
 
@@ -75,7 +71,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (checkAttack == true)
         {
-            Attack_Detection(transform.position, pm.attackRange);
+            Attack_Detection(transform.position, PlayerManager.Player_Instance.player_stats.attackRange);
         }
     }
 

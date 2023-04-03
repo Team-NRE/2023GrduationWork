@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMoving : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     [Header("---PlaneScale---")]
     public float planescale;
@@ -27,17 +27,9 @@ public class CameraMoving : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("PLAYER");
     }
 
-    public void Update(){
-        
-        #region Spacebar (Move.cs)
-        if (Input.GetKey(KeyCode.Space))
-        {
-            FixedCameraMove();
-        }
-        #endregion
-    }
 
-    public void FixedUpdate(){
+    public void FixedUpdate()
+    {
         CameraMove(); //카메라 움직임
     } 
 

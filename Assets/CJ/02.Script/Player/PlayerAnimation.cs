@@ -28,13 +28,12 @@ public class PlayerAnimation : MonoBehaviour
     public float ButtonPushTime;
 
     public NavMeshAgent agent;
-    PlayerManager pm;
+
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        pm = GetComponent<PlayerManager>();
 
         //keyname
         //KeyName = "Q";
@@ -71,7 +70,7 @@ public class PlayerAnimation : MonoBehaviour
             //if (Input.GetButton(KeyCode)) { state = State.Throw1; }
 
             //HP < 0 이면 죽음 상태
-            if (pm.nowHealth <= 0) { state = State.DIE; }
+            if (PlayerManager.Player_Instance.player_stats.nowHealth <= 0) { state = State.DIE; }
         }
     }
 
@@ -124,6 +123,6 @@ public class PlayerAnimation : MonoBehaviour
             }
             yield return new WaitForSeconds(0.3f);
         }
-    }
+    } 
 
 }
