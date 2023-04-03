@@ -878,9 +878,10 @@ GameObject:
   - component: {fileID: 2915906078679592132}
   - component: {fileID: 2915906079229989752}
   - component: {fileID: 2915906079229989753}
+  - component: {fileID: 1831791104}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -957,11 +958,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ab1fffe2e35ed4085f5e6eada96eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  transform: {fileID: 0}
-  Point: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
-  remainDistance: 0
   AttackRangeimg: {fileID: 2915906078356457463}
   bulletPrefab: {fileID: 1122964723992546, guid: 674adf642abf5614aae2995443c8250f, type: 3}
   muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf, type: 3}
@@ -970,9 +966,6 @@ MonoBehaviour:
   shotPower: 500
   KeyName: 
   state: 0
-  Cam_Z: 6
-  Cam_Y: 9
-  MousePos: {x: 0, y: 0, z: 0}
   Ignorelayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -981,6 +974,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  agent: {fileID: 0}
   attackPower: 0
   absoluteAttackPower: 0
   attackSpeed: 0
@@ -1011,6 +1005,26 @@ MonoBehaviour:
   resource: 0
   resourceRange: 0
   recognitionRange: 0
+--- !u!114 &1831791104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915906078686951872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef896d8994b9394a93a9964b816ba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  transform: {fileID: 0}
+  Point: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  remainDistance: 0
+  Ignorelayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2915906078686957018
 GameObject:
   m_ObjectHideFlags: 0
