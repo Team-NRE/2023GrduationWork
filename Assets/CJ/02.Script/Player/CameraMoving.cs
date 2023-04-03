@@ -20,6 +20,28 @@ public class CameraMoving : MonoBehaviour
     //속도
     public Vector3 velocity = Vector3.zero;
     
+    public GameObject player;
+    
+    public void Awake() 
+    {
+        player = GameObject.FindGameObjectWithTag("PLAYER");
+    }
+
+    public void Update(){
+        
+        #region Spacebar (Move.cs)
+        if (Input.GetKey(KeyCode.Space))
+        {
+            FixedCameraMove();
+        }
+        #endregion
+    }
+
+    public void FixedUpdate(){
+        CameraMove(); //카메라 움직임
+    } 
+
+
     //카메라 이동
     public void CameraMove()
     {
@@ -29,12 +51,12 @@ public class CameraMoving : MonoBehaviour
         MousePos = Camera.main.ScreenToViewportPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
 
         //x 값
-        Vector3 position_x_0 = new Vector3(-Scale, transform.position.y + Cam_Y, Camera.main.transform.position.z);
-        Vector3 position_x_1 = new Vector3(Scale, transform.position.y + Cam_Y, Camera.main.transform.position.z);
+        Vector3 position_x_0 = new Vector3(-Scale, player.transform.position.y + Cam_Y, Camera.main.transform.position.z);
+        Vector3 position_x_1 = new Vector3(Scale, player.transform.position.y + Cam_Y, Camera.main.transform.position.z);
 
         //y 값
-        Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, transform.position.y + Cam_Y, -Scale);
-        Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, transform.position.y + Cam_Y, Scale);
+        Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, player.transform.position.y + Cam_Y, -Scale);
+        Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, player.transform.position.y + Cam_Y, Scale);
 
         if (MousePos.x <= 0)
         {
@@ -61,20 +83,9 @@ public class CameraMoving : MonoBehaviour
     public void FixedCameraMove()
     {
         //카메라 이동
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y + Cam_Y, transform.position.z - Cam_Z);
+        Vector3 pos = new Vector3(player.transform.position.x, player.transform.position.y + Cam_Y, player.transform.position.z - Cam_Z);
         Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, pos, ref velocity, 0.25f);    
     }
 
-    public void Update(){
-        
-        #region Spacebar (Move.cs)
-        if (Input.GetKey(KeyCode.Space))
-        {
-            FixedCameraMove();
-        }
-        #endregion
-    }
-    public void FixedUpdate(){
-        CameraMove(); //카메라 움직임
-    } 
+
 }

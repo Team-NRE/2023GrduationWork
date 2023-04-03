@@ -23,7 +23,7 @@ public partial class PlayerManager : MonoBehaviour
     bool isDie = false;
     public State state = State.IDLE;
 
-
+    /*
     [Header("---Camera---")]
     //카메라 z축
     [Range(2.0f, 100.0f)]
@@ -32,7 +32,7 @@ public partial class PlayerManager : MonoBehaviour
     [Range(0.0f, 100.0f)]
     public float Cam_Y;
     public Vector3 MousePos;
-
+    */
 
     [Header("---Move Ignore Layer---")]
     public LayerMask Ignorelayer;
