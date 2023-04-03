@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public partial class PlayerManager 
 {
+    /*
     [Header("---Player Move---")]
     //NavMeshAgent
     public NavMeshAgent agent;
@@ -61,6 +62,7 @@ public partial class PlayerManager
     }
 
     //플레이어 이동
+    
     public void PlayerMove()
     {
         // ray로 마우스 위치 world 좌표로 받기.
@@ -83,5 +85,5 @@ public partial class PlayerManager
             
         }
     }
-
+    */
 }

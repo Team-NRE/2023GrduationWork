@@ -47,6 +47,8 @@ public partial class PlayerManager : MonoBehaviour
     bool checkAttack = true;
     public LayerMask layerMask;
 
+    public NavMeshAgent agent;
+
     private void Awake()
     {
         //공격사거리 세팅
@@ -54,12 +56,13 @@ public partial class PlayerManager : MonoBehaviour
         projector.orthographicSize = attackRange;
         GetAttackRange();
         
+        animator = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+        /*
         //Move.cs
         transform = GetComponent<Transform>();
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-
         agent.updateRotation = false;
+        */
 
         KeyName = "Q";
     }
@@ -78,7 +81,7 @@ public partial class PlayerManager : MonoBehaviour
         StartCoroutine(CheckPlayerState());
         StartCoroutine(PlayerAnim());
 
-        remainDistance = agent.remainingDistance;
+        //remainDistance = agent.remainingDistance;
         if (nowHealth <= 0) { state = State.DIE; }
 
     }
@@ -162,6 +165,6 @@ public partial class PlayerManager : MonoBehaviour
     void LateUpdate()
     {
         //Move.cs
-        CameraMove(); //카메라 움직임
+        //CameraMove(); //카메라 움직임
     }
 }
