@@ -11,7 +11,8 @@ public class PlayerManager : MonoBehaviour
     public PlayerAttack player_att;
     public PlayerKey player_key;
     public PlayerStats player_stats;
-    
+
+
     private void Awake()
     {
         Player_Instance = this;

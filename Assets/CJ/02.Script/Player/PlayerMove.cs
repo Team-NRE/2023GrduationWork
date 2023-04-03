@@ -25,7 +25,6 @@ public class PlayerMove : MonoBehaviour
         transform = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
     
-
         agent.updateRotation = false;    
     }
     

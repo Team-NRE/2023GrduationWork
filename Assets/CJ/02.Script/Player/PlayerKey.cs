@@ -23,6 +23,13 @@ public class PlayerKey : MonoBehaviour
     //키 맵핑
     public void KeyMapping()
     {
+        #region A 
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+           PlayerManager.Player_Instance.player_att.Attack();
+        }
+        #endregion
+        
         #region Spacebar (Move.cs)
         if (Input.GetKey(KeyCode.Space))
         {
@@ -115,7 +122,7 @@ public class PlayerKey : MonoBehaviour
         }
         #endregion
 
-
+        
 
         #region Keycode P (Setting.cs)
         if (Input.GetKeyDown(KeyCode.P))

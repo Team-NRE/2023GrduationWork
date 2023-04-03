@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static Enums;
 public class PlayerAttack : MonoBehaviour
 {
+    
     //bool  
     bool checkAttack = true;
     
@@ -25,8 +26,11 @@ public class PlayerAttack : MonoBehaviour
     //총알 속도
     [Tooltip("Bullet Speed")][SerializeField] private float shotPower = 500f;
 
+
     private void Awake()
     {
+        
+        
         //공격사거리 세팅
         Projector projector = AttackRangeimg.GetComponent<Projector>();
         projector.orthographicSize = PlayerManager.Player_Instance.player_stats.attackRange;
@@ -35,17 +39,12 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-           Attack();
-        }
-
         //어택 체크
         StartCoroutine(CheckAttackRoutine());
     }
 
     //Attack
-    void Attack()
+    public void Attack()
     {
         //a키 누르기 -> 사거리 켜기 -> 원 둘레 안 적 식별 -> 적이면 애니메이션 및 공격 작용.
         GetAttackRange();
@@ -91,8 +90,8 @@ public class PlayerAttack : MonoBehaviour
     //총알 발사 -> 개선 필요
     public void Shoot()
     {
-        //state = State.Attack;
-        
+        PlayerManager.Player_Instance.player_ani.status = Status.Attack;
+
         if (muzzleFlashPrefab)
         {
             //Create the muzzle flash

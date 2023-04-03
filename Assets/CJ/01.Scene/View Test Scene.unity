@@ -284,6 +284,7 @@ MonoBehaviour:
   player_att: {fileID: 2915906079229989768}
   player_key: {fileID: 2915906079229989767}
   player_stats: {fileID: 2915906079229989758}
+  status: 0
 --- !u!1 &159944938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,6 +3122,10 @@ PrefabInstance:
     - target: {fileID: 2915906078687225896, guid: 012643e4ab4991047bcaab84fa79110f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915906079229989769, guid: 012643e4ab4991047bcaab84fa79110f, type: 3}
+      propertyPath: attackRange
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 012643e4ab4991047bcaab84fa79110f, type: 3}

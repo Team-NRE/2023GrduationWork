@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static Enums;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -13,17 +14,13 @@ public class PlayerAnimation : MonoBehaviour
 
     }*/
 
-    public enum State
-    {
-        IDLE, Walk, Attack, Throw1, Throw2, DIE
-    }
+    //스탯 참조
+    public Status status;
 
     [Header("---Animation---")]
     Animator animator;
     bool isDie = false;
-    public State state = State.IDLE;
     
-
     [Header("---etc---")]
     public float ButtonPushTime;
 
@@ -34,7 +31,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-
+        
         //keyname
         //KeyName = "Q";
     }
@@ -42,7 +39,7 @@ public class PlayerAnimation : MonoBehaviour
     //시작 시
     private void OnEnable()
     {
-        state = State.IDLE;
+        status = Status.IDLE;
     }
 
     void Update()
@@ -63,14 +60,14 @@ public class PlayerAnimation : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
 
             //남은 거리로 Walk/IDLE 판별
-            state = agent.remainingDistance < 0.2f ? State.IDLE : State.Walk;
+            status = agent.remainingDistance < 0.2f ? Status.IDLE : Status.Walk;
 
-            //if (Input.GetButtonDown("Attack")) { state = State.Attack; }
+            //if (Input.GetButtonDown("Attack")) { status = Status.Attack; }
 
             //if (Input.GetButton(KeyCode)) { state = State.Throw1; }
 
             //HP < 0 이면 죽음 상태
-            if (PlayerManager.Player_Instance.player_stats.nowHealth <= 0) { state = State.DIE; }
+            if (PlayerManager.Player_Instance.player_stats.nowHealth <= 0) { status = Status.DIE; }
         }
     }
 
@@ -78,41 +75,41 @@ public class PlayerAnimation : MonoBehaviour
     {
         while (!isDie)
         {
-            switch (state)
+            switch (status)
             {
-                case State.IDLE:
+                case Status.IDLE:
                     animator.SetBool("IsIdle", true);
                     animator.SetBool("IsWalk", false);
                     animator.SetBool("IsThrow1", false);
 
                     break;
 
-                case State.Walk:
+                case Status.Walk:
                     animator.SetBool("IsWalk", true);
                     animator.SetBool("IsIdle", false);
                     animator.SetBool("IsThrow1", false);
 
                     break;
 
-                case State.Attack:
+                case Status.Attack:
                     animator.SetTrigger("Fire");
                     animator.SetBool("IsIdle", false);
 
                     break;
 
-                case State.Throw1:
+                case Status.Throw1:
                     animator.SetBool("IsThrow1", true);
                     animator.SetBool("IsIdle", false);
 
                     break;
 
-                case State.Throw2:
+                case Status.Throw2:
                     animator.SetTrigger("Throw2");
                     animator.SetBool("IsIdle", false);
 
                     break;
 
-                case State.DIE:
+                case Status.DIE:
                     animator.SetBool("IsIdle", false);
                     animator.SetTrigger("Die");
                     this.enabled = false;
@@ -124,5 +121,4 @@ public class PlayerAnimation : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
     } 
-
 }
