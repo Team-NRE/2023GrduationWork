@@ -8,7 +8,7 @@ public partial class PlayerManager
     public void KeyMapping()
     {
         #region Spacebar (Move.cs)
-        if (Input.GetButton("CameraFixed"))
+        if (Input.GetKey(KeyCode.Space))
         {
             FixedCameraMove();
         }
@@ -22,15 +22,14 @@ public partial class PlayerManager
         #endregion
 
 
-
         #region Keycode Q (Card.cs)
-        if (Input.GetButton("Q"))
+        if (Input.GetKey(KeyCode.Q))
         {
             ButtonPushTime += Time.deltaTime;
             if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON
         }
 
-        if (Input.GetButtonUp("Q"))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             if (ButtonPushTime < 0.3)
             {
@@ -43,18 +42,17 @@ public partial class PlayerManager
         #endregion
 
         #region Keycode W (Card.cs)
-        if (Input.GetButton("W"))
+        if (Input.GetKey(KeyCode.W))
         {
             ButtonPushTime += Time.deltaTime;
             if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON
         }
 
-        if (Input.GetButtonUp("W"))
+        if (Input.GetKeyUp(KeyCode.W))
         {
             if (ButtonPushTime < 0.3)
             {
                 gameManager.instance.UI.UseCard(1);
-                KeyCode = "W";
                 KeyName = "W";
             } //탭하면 SKill 사용
 
@@ -63,14 +61,14 @@ public partial class PlayerManager
         #endregion
 
         #region KeyCode E (Card.cs)
-        if (Input.GetButton("E"))
+        if (Input.GetKey(KeyCode.E))
         {
             ButtonPushTime += Time.deltaTime;
 
             if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON (탭 시간 기준 0.3초)
         }
 
-        if (Input.GetButtonUp("E"))
+        if (Input.GetKeyUp(KeyCode.E))
         {
             if (ButtonPushTime < 0.3)
             {
@@ -83,13 +81,13 @@ public partial class PlayerManager
         #endregion
 
         #region Keycode R (Card.cs)
-        if (Input.GetButton("R"))
+        if (Input.GetKey(KeyCode.R))
         {
             ButtonPushTime += Time.deltaTime;
             if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON
         }
 
-        if (Input.GetButtonUp("R"))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             if (ButtonPushTime < 0.3)
             {
@@ -105,7 +103,7 @@ public partial class PlayerManager
 
 
         #region Keycode P (Setting.cs)
-        if (Input.GetButtonDown("Store"))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             gameManager.instance.UI.GetStore("Store");
         }
@@ -114,7 +112,7 @@ public partial class PlayerManager
 
 
         #region Keycode ESC
-        if (Input.GetButtonDown("Option"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("옵션");
         }
@@ -123,7 +121,7 @@ public partial class PlayerManager
 
 
         #region Keycode Tab
-        if (Input.GetButtonDown("Info"))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             Debug.Log("캐릭터 정보");
         }
@@ -133,7 +131,7 @@ public partial class PlayerManager
 
 
         #region Keycode B
-        if (Input.GetButtonDown("Home"))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("귀한");
         }
@@ -142,7 +140,7 @@ public partial class PlayerManager
 
         
         #region Keycode A
-        if (Input.GetButtonDown("Attack"))
+        if (Input.GetKeyDown(KeyCode.A))
         {
            Attack();
         }

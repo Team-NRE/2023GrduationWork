@@ -6,12 +6,12 @@ using UnityEngine.AI;
 public partial class PlayerManager : MonoBehaviour
 {
     public string KeyName;
-    public string KeyCode
+    /*public string KeyCode
     {
         get { return KeyName; }
         set { value = KeyName; }
 
-    }
+    }*/
 
     public enum State
     {
@@ -45,13 +45,14 @@ public partial class PlayerManager : MonoBehaviour
     [Header("---etc---")]
     public float ButtonPushTime;
     bool checkAttack = true;
+    public LayerMask layerMask;
 
     private void Awake()
     {
         //공격사거리 세팅
         Projector projector = AttackRangeimg.GetComponent<Projector>();
-        projector.fieldOfView = attackRange;
-        GetAttackRange("AttackRange");
+        projector.orthographicSize = attackRange;
+        GetAttackRange();
         
         //Move.cs
         transform = GetComponent<Transform>();
@@ -73,6 +74,7 @@ public partial class PlayerManager : MonoBehaviour
         //Setting.cs
         KeyMapping(); //키 맵핑
 
+        StartCoroutine(CheckAttackRoutine());
         StartCoroutine(CheckPlayerState());
         StartCoroutine(PlayerAnim());
 
@@ -81,17 +83,27 @@ public partial class PlayerManager : MonoBehaviour
 
     }
 
+    IEnumerator CheckAttackRoutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        if (checkAttack == true)
+        {
+            Attack_Detection(transform.position, attackRange);
+        }
+    }
+
     IEnumerator CheckPlayerState()
     {
         while (!isDie)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
 
             state = agent.remainingDistance < 0.2f ? State.IDLE : State.Walk;
 
-            if (Input.GetButtonDown("Attack")) { state = State.Attack; }
+            //if (Input.GetButtonDown("Attack")) { state = State.Attack; }
 
-            if (Input.GetButton(KeyCode)) { state = State.Throw1; }
+            //if (Input.GetButton(KeyCode)) { state = State.Throw1; }
         }
     }
 

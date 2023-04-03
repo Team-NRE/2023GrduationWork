@@ -1,20 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public partial class PlayerManager 
+public class CameraMoving : MonoBehaviour
 {
-    [Header("---Player Move---")]
-    //NavMeshAgent
-    public NavMeshAgent agent;
-    //Transform
-    public new Transform transform;
-    //이동할 점
-    public Vector3 Point;
+    [Header("---PlaneScale---")]
+    public float planescale;
+
+    [Header("---Camera---")]
+    //카메라 z축
+    [Range(2.0f, 100.0f)]
+    public float Cam_Z;
+    
+    //카메라 y축
+    [Range(0.0f, 100.0f)]
+    public float Cam_Y;
+    public Vector3 MousePos;
+
     //속도
     public Vector3 velocity = Vector3.zero;
-    //남은거리
-    public float remainDistance;
-
+    
     //카메라 이동
     public void CameraMove()
     {
@@ -60,28 +65,16 @@ public partial class PlayerManager
         Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, pos, ref velocity, 0.25f);    
     }
 
-    //플레이어 이동
-    public void PlayerMove()
-    {
-        // ray로 마우스 위치 world 좌표로 받기.
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //광선 그려주기
-        //Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.green, 1f);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, ~(Ignorelayer)))
+    public void Update(){
+        
+        #region Spacebar (Move.cs)
+        if (Input.GetKey(KeyCode.Space))
         {
-            Point = raycastHit.point;
-
-            //각도
-            Point.y = 0f;
-            float dx = Point.x - transform.position.x;
-            float dz = Point.z - transform.position.z;
-            float rotDegree = -(Mathf.Rad2Deg * Mathf.Atan2(dz, dx) - 90); //tan-1(dz/dx) = 각도
-            //레어와 닿은 곳으로 회전
-            transform.eulerAngles = new Vector3(0f, rotDegree, 0f);
-
-            agent.SetDestination(Point);
-            
+            FixedCameraMove();
         }
+        #endregion
     }
-
+    public void FixedUpdate(){
+        CameraMove(); //카메라 움직임
+    } 
 }
