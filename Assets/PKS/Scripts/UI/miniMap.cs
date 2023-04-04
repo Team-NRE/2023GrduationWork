@@ -11,7 +11,7 @@ public class miniMap : MonoBehaviour
     private Vector3 m_position = new Vector3(0, 65, 9);
     [SerializeField]
     private Quaternion m_rotation = Quaternion.Euler(90, 0, 0);    
-    [Space(10.0f)]
+    [Space(30.0f)]
     [SerializeField]
     private bool m_haveBackground = true;
     [SerializeField]
