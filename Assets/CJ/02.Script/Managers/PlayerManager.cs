@@ -52,8 +52,7 @@ public class PlayerManager : MonoBehaviour
     {
         while (!isDie)
         {
-            yield return new WaitForSeconds(0.2f);
-
+            yield return new WaitForSeconds(0.1f);
             //남은 거리로 Walk/IDLE 판별
             status = agent.remainingDistance < 0.2f ? Status.IDLE : Status.Walk;
 
@@ -61,16 +60,16 @@ public class PlayerManager : MonoBehaviour
             if (player_att.attack == true)
             {
                 status = Status.Attack;
-                
-                yield return new WaitForSeconds(0.8f);
+
+                yield return new WaitForSeconds(0.22f);
                 player_att.attack = false;
             }
 
-            if (player_key.key == "skill") 
-            { 
-                status = Status.Throw1; 
+            if (player_key.key == "skill")
+            {
+                status = Status.Throw1;
 
-                yield return new WaitForSeconds(0.7f);
+                yield return new WaitForSeconds(0.6f);
                 player_key._key = " ";
             }
 
@@ -87,7 +86,7 @@ public class PlayerManager : MonoBehaviour
             {
                 case Status.IDLE:
                     agent.isStopped = false;
-                    
+
                     animator.SetBool("IsIdle", true);
                     animator.SetBool("IsWalk", false);
                     animator.SetBool("IsThrow1", false);
@@ -95,7 +94,7 @@ public class PlayerManager : MonoBehaviour
                     break;
 
                 case Status.Walk:
-                    agent.isStopped = false;    
+                    agent.isStopped = false;
 
                     animator.SetBool("IsWalk", true);
                     animator.SetBool("IsIdle", false);
@@ -104,7 +103,8 @@ public class PlayerManager : MonoBehaviour
                     break;
 
                 case Status.Attack:
-                    agent.ResetPath(); //애매
+                    agent.ResetPath();
+                    //agent.isStopped = true;
 
                     animator.SetTrigger("Fire");
                     animator.SetBool("IsIdle", false);
@@ -113,7 +113,8 @@ public class PlayerManager : MonoBehaviour
 
                 case Status.Throw1:
                     agent.ResetPath();
-                    
+                    //agent.isStopped = true;
+
                     animator.SetBool("IsThrow1", true);
                     animator.SetBool("IsIdle", false);
 
@@ -134,7 +135,7 @@ public class PlayerManager : MonoBehaviour
 
                     break;
             }
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
         // ray로 마우스 위치 world 좌표로 받기.
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //광선 그려주기
-        //Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.green, 1f);
+        //Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.green, 100f);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, ~(Ignorelayer)))
         {
             Point = raycastHit.point;
