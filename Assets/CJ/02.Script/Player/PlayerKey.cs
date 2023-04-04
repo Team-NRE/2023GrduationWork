@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class PlayerKey : MonoBehaviour
 {
-    /*
-    public string KeyName;
-    public string Keycode
-    {
-        get { return KeyName; }
-        set { value = KeyName; }
-    }*/
+    
+    public string _key;
 
+    public string key
+    {
+        get { return _key; }
+        set { value = _key; }
+    }
+
+    //버튼 푸쉬 시간
     public float ButtonPushTime;
 
     void Update()
@@ -20,6 +22,7 @@ public class PlayerKey : MonoBehaviour
         KeyMapping(); //키 맵핑
     }
     
+
     //키 맵핑
     public void KeyMapping()
     {
@@ -57,7 +60,7 @@ public class PlayerKey : MonoBehaviour
             if (ButtonPushTime < 0.3)
             {
                 gameManager.instance.UI.UseCard(0);
-                //KeyName = "Q";
+                _key = "skill";
             } //탭하면 SKill 사용
 
             ButtonPushTime = 0; //초기화
@@ -76,7 +79,7 @@ public class PlayerKey : MonoBehaviour
             if (ButtonPushTime < 0.3)
             {
                 gameManager.instance.UI.UseCard(1);
-                //KeyName = "W";
+                _key = "skill";
             } //탭하면 SKill 사용
 
             ButtonPushTime = 0; //초기화
@@ -96,7 +99,7 @@ public class PlayerKey : MonoBehaviour
             if (ButtonPushTime < 0.3)
             {
                 gameManager.instance.UI.UseCard(2);
-                //KeyName = "E";
+                _key = "skill";
             } //탭하면 SKill 사용
 
             ButtonPushTime = 0; //초기화
@@ -115,7 +118,7 @@ public class PlayerKey : MonoBehaviour
             if (ButtonPushTime < 0.3)
             {
                 gameManager.instance.UI.UseCard(3);
-                //KeyName = "R";
+                _key = "skill";
             } //탭하면 SKill 사용
 
             ButtonPushTime = 0; //초기화
@@ -131,16 +134,12 @@ public class PlayerKey : MonoBehaviour
         }
         #endregion
 
-
-
         #region Keycode ESC
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("옵션");
         }
         #endregion
-
-
 
         #region Keycode Tab
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -153,7 +152,7 @@ public class PlayerKey : MonoBehaviour
         #region Keycode B
         if (Input.GetKeyDown(KeyCode.B))
         {
-            Debug.Log("귀한");
+            Debug.Log("귀환");
         }
         #endregion
     }

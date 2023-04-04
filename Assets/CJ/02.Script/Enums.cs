@@ -8,4 +8,6 @@ public class Enums : MonoBehaviour
     {
         IDLE, Walk, Attack, Throw1, Throw2, DIE
     }
+
+    
 }
