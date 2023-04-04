@@ -39,6 +39,8 @@ public class miniMap : MonoBehaviour
         /* 
         *   Initial Settings
         */
+
+        m_camera = GetComponentInChildren<Camera>();
         
         backgroundSetting();
         transformSetting();

@@ -94,7 +94,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1173871769819477507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8076c514a07ee2643987e9b345d29990, type: 3}
+  m_Script: {fileID: 11500000, guid: e843f1890722ef14ca09de72e500c28d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iconImage: {fileID: 1054945522, guid: 3b9c6c4d4064d2b419e66da46b2f4b63, type: 3}
+  m_iconImage: {fileID: 0}
+  m_iconColor: {r: 1, g: 1, b: 1, a: 1}
+  camp: 
