@@ -5,12 +5,13 @@ public class PlayerAttack : MonoBehaviour
 {
 
     //bool  
-    bool checkAttack = true;
+    bool checkAttack = true; //사거리 표시 On/Off 유무
+    public bool attack = false; //어택시 on/off 유무
 
     //레이어
     public LayerMask layerMask;
 
-    //사거리 표시
+    //사거리 표시 object
     public GameObject AttackRangeimg;
 
     //총알
@@ -34,23 +35,26 @@ public class PlayerAttack : MonoBehaviour
         GetAttackRange();
     }
 
+
     void Update()
     {
         //어택 체크
         StartCoroutine(CheckAttackRoutine());
     }
 
-    //Attack
+
+    //A 온 오프 코드
     public void Attack()
     {
         //a키 누르기 -> 사거리 켜기 -> 원 둘레 안 적 식별 -> 적이면 애니메이션 및 공격 작용.
         GetAttackRange();
-
     }
+
 
     //사거리 표시 껏다 켜기
     public GameObject GetAttackRange()
     {
+        //이미지 체크
         if (checkAttack == false || checkAttack == true)
         {
             checkAttack = !checkAttack;
@@ -60,11 +64,13 @@ public class PlayerAttack : MonoBehaviour
         return AttackRangeimg;
     }
 
+
     //어택 범위 설정
     IEnumerator CheckAttackRoutine()
     {
         yield return new WaitForSeconds(0.2f);
 
+        //사거리 이미지가 on 이면
         if (checkAttack == true)
         {
             Attack_Detection(transform.position, PlayerManager.Player_Instance.player_stats.attackRange);
@@ -72,7 +78,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
 
-    //상대방한테 Check.cs 달아줘야 공격 인식 -> 개선필요.
+    //overlap으로 적 감지 및 ray로 적을 마우스 클릭시 shoot 
     void Attack_Detection(Vector3 pos, float radius)
     {
         Collider[] colls = Physics.OverlapSphere(pos, radius, layerMask);
@@ -82,6 +88,7 @@ public class PlayerAttack : MonoBehaviour
             //colls[i].SendMessage("Check", SendMessageOptions.DontRequireReceiver);
             Debug.Log("check");
 
+            //마우스 왼쪽 클릭시
             if (Input.GetMouseButtonDown(0))
             {
                 // ray로 마우스 위치 world 좌표로 받기.
@@ -105,10 +112,14 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
-    //총알 발사 -> 개선 필요
+
+    //총알 발사
     public void Shoot()
     {
-
+        //어택 애니메이션 작동을 위해 bool 값
+        attack = true;
+        
+        //총알 발사 이미지
         if (muzzleFlashPrefab)
         {
             //Create the muzzle flash
@@ -127,7 +138,7 @@ public class PlayerAttack : MonoBehaviour
         Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation);
         bulletPrefab.GetComponent<Rigidbody>().AddForce(barrelLocation.forward * shotPower);
 
-        GetAttackRange();
+        GetAttackRange(); //사거리 이미지 off
     }
 
 }
