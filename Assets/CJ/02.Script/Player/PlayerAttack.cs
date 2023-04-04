@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
 public class PlayerAttack : MonoBehaviour
 {
-    
+
     //bool  
     bool checkAttack = true;
-    
+
     //레이어
     public LayerMask layerMask;
 
@@ -29,8 +28,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Awake()
     {
-        
-        
         //공격사거리 세팅
         Projector projector = AttackRangeimg.GetComponent<Projector>();
         projector.orthographicSize = PlayerManager.Player_Instance.player_stats.attackRange;
@@ -48,7 +45,7 @@ public class PlayerAttack : MonoBehaviour
     {
         //a키 누르기 -> 사거리 켜기 -> 원 둘레 안 적 식별 -> 적이면 애니메이션 및 공격 작용.
         GetAttackRange();
-        
+
     }
 
     //사거리 표시 껏다 켜기
@@ -62,7 +59,7 @@ public class PlayerAttack : MonoBehaviour
 
         return AttackRangeimg;
     }
-    
+
     //어택 범위 설정
     IEnumerator CheckAttackRoutine()
     {
@@ -82,7 +79,28 @@ public class PlayerAttack : MonoBehaviour
 
         for (int i = 0; i < colls.Length; ++i)
         {
-            colls[i].SendMessage("Check", SendMessageOptions.DontRequireReceiver);
+            //colls[i].SendMessage("Check", SendMessageOptions.DontRequireReceiver);
+            Debug.Log("check");
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                // ray로 마우스 위치 world 좌표로 받기.
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity))
+                {
+                    //마우스 포인터 위치
+                    Vector3 Point = raycastHit.point;
+
+                    //Target 위치 x,z 와 마우스 포인터의 위치 오차가 1 안이면 shoot
+                    if (colls[i].transform.position.x - 1 <= Point.x && colls[i].transform.position.x + 1 >= Point.x &&
+                            colls[i].transform.position.z - 1 <= Point.z && colls[i].transform.position.z + 1 >= Point.z)
+                    {
+                        Shoot();
+                    }
+
+                }
+            }
         }
 
     }
@@ -90,7 +108,6 @@ public class PlayerAttack : MonoBehaviour
     //총알 발사 -> 개선 필요
     public void Shoot()
     {
-        PlayerManager.Player_Instance.player_ani.status = Status.Attack;
 
         if (muzzleFlashPrefab)
         {

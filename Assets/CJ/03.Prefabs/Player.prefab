@@ -879,7 +879,6 @@ GameObject:
   - component: {fileID: 2915906079229989752}
   - component: {fileID: 1831791104}
   - component: {fileID: 2915906079229989761}
-  - component: {fileID: 2915906079229989767}
   - component: {fileID: 2915906079229989769}
   - component: {fileID: 2915906079229989768}
   m_Layer: 6
@@ -990,21 +989,6 @@ MonoBehaviour:
   barrelLocation: {fileID: 1302587939674669056}
   destroyTimer: 2
   shotPower: 500
---- !u!114 &2915906079229989767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2915906078686951872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 497def3b3938c1b49b2cc2224cb87a1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
-  ButtonPushTime: 0
-  agent: {fileID: 0}
 --- !u!114 &2915906079229989769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,7 +1004,7 @@ MonoBehaviour:
   attackPower: 0
   absoluteAttackPower: 0
   attackSpeed: 0
-  attackRange: 2
+  attackRange: 4
   criticalChance: 0
   criticalPower: 0
   maxHealth: 120

@@ -2753,7 +2753,6 @@ GameObject:
   - component: {fileID: 95981744656226738}
   - component: {fileID: 1337889715}
   - component: {fileID: 1337889712}
-  - component: {fileID: 1337889716}
   m_Layer: 8
   m_Name: Capsule_Robot_1
   m_TagString: Untagged
@@ -2834,19 +2833,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1337889716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837852278251038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d27323cab2401b94c91fe67d5decdb20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Point: {x: 0, y: 0, z: 0}
 --- !u!1 &1911545887147524
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,9 +62,9 @@ public class PlayerAnimation : MonoBehaviour
             //남은 거리로 Walk/IDLE 판별
             status = agent.remainingDistance < 0.2f ? Status.IDLE : Status.Walk;
 
-            //if (Input.GetButtonDown("Attack")) { status = Status.Attack; }
+            //if (Input.GetKeyDown(KeyCode.A)) { status = Status.Attack; }
 
-            //if (Input.GetButton(KeyCode)) { state = State.Throw1; }
+            //if (Input.GetKeyDown(KeyCode.Q)) { status = Status.Throw1; }
 
             //HP < 0 이면 죽음 상태
             if (PlayerManager.Player_Instance.player_stats.nowHealth <= 0) { status = Status.DIE; }
@@ -121,4 +121,5 @@ public class PlayerAnimation : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
     } 
+
 }
