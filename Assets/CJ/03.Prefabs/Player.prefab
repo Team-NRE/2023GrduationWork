@@ -877,10 +877,13 @@ GameObject:
   - component: {fileID: 2915906078687225896}
   - component: {fileID: 2915906078679592132}
   - component: {fileID: 2915906079229989752}
-  - component: {fileID: 2915906079229989753}
+  - component: {fileID: 1831791104}
+  - component: {fileID: 2915906079229989761}
+  - component: {fileID: 2915906079229989769}
+  - component: {fileID: 2915906079229989768}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -945,7 +948,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2915906079229989753
+--- !u!114 &1831791104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -954,7 +957,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2915906078686951872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6ab1fffe2e35ed4085f5e6eada96eaf, type: 3}
+  m_Script: {fileID: 11500000, guid: cef896d8994b9394a93a9964b816ba7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
@@ -962,29 +965,46 @@ MonoBehaviour:
   Point: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   remainDistance: 0
-  AttackRangeimg: {fileID: 2915906078356457463}
-  bulletPrefab: {fileID: 1122964723992546, guid: 674adf642abf5614aae2995443c8250f, type: 3}
-  muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf, type: 3}
-  barrelLocation: {fileID: 1302587939674669056}
-  destroyTimer: 2
-  shotPower: 500
-  KeyName: 
-  state: 0
-  Cam_Z: 6
-  Cam_Y: 9
-  MousePos: {x: 0, y: 0, z: 0}
   Ignorelayer:
     serializedVersion: 2
-    m_Bits: 1024
-  planescale: 10
-  ButtonPushTime: 0
+    m_Bits: 0
+--- !u!114 &2915906079229989761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915906078686951872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af9daf27ddcb8143a5520b25646f9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  AttackRangeimg: {fileID: 2915906078356457463}
+  bulletPrefab: {fileID: 1122964723992546, guid: b790f64c5fb46e842b55d5deb46ab19e, type: 3}
+  muzzleFlashPrefab: {fileID: 1782395880954752, guid: 51995e7fc522e1040aad5668c8cea4a7, type: 3}
+  barrelLocation: {fileID: 1302587939674669056}
+  destroyTimer: 2
+  shotPower: 500
+--- !u!114 &2915906079229989769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915906078686951872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   attackPower: 0
   absoluteAttackPower: 0
   attackSpeed: 0
-  attackRange: 5
+  attackRange: 4
   criticalChance: 0
   criticalPower: 0
   maxHealth: 120
@@ -1011,6 +1031,19 @@ MonoBehaviour:
   resource: 0
   resourceRange: 0
   recognitionRange: 0
+--- !u!114 &2915906079229989768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915906078686951872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0aeaf16e4106f4cb7403ae316564f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonPushTime: 0
 --- !u!1 &2915906078686957018
 GameObject:
   m_ObjectHideFlags: 0

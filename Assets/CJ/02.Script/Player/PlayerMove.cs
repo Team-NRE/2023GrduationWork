@@ -20,7 +20,19 @@ public class PlayerMove : MonoBehaviour
     [Header("---Move Ignore Layer---")]
     public LayerMask Ignorelayer;
 
-
+    private void Awake() {
+        //Move.cs
+        transform = GetComponent<Transform>();
+        agent = GetComponent<NavMeshAgent>();
+    
+        agent.updateRotation = false;    
+    }
+    
+    public void Update() 
+    {
+        remainDistance = agent.remainingDistance;
+    }
+      
     //플레이어 이동 
     public void playerMove()
     {
@@ -44,25 +56,5 @@ public class PlayerMove : MonoBehaviour
             
         }
     }
-
-    private void Awake() {
-        //Move.cs
-        transform = GetComponent<Transform>();
-        agent = GetComponent<NavMeshAgent>();
-    
-
-        agent.updateRotation = false;    
-    }
-    
-    public void Update() {
-        #region Mouse(1) (Move.cs)
-        if (Input.GetMouseButtonDown(1))
-        {
-            playerMove();
-        }
-        #endregion
-
-        remainDistance = agent.remainingDistance;
-    }
-    
+   
 }

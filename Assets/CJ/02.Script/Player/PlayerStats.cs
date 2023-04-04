@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public partial class PlayerManager
+public class PlayerStats : MonoBehaviour
 {
     #region PlayerStats
     [Header("---Stats---")]
@@ -46,7 +48,7 @@ public partial class PlayerManager
     public float resourceRange;
     public float recognitionRange;
     #endregion
-    
+
     //스텟 읽기
     public float GetStats(string variableName)
     {
@@ -161,5 +163,5 @@ public partial class PlayerManager
         if (variableName == "resource" || variableName == "자원") resource += value;
         if (variableName == "resourceRange" || variableName == "획득범위") resourceRange += value;
     }
-
+    
 }
