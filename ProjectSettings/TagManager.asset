@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - PLAYER
+  - RED
+  - WALL
+  - BLUE
   layers:
   - Default
   - TransparentFX
@@ -14,14 +17,14 @@ TagManager:
   - UI
   - Human
   - Cyborg
-  - TARGET
-  - OBSTACLE
-  - FOW
-  - Store
-  - Cost_0
-  - Cost_1
-  - Cost_2
-  - Cost_3
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

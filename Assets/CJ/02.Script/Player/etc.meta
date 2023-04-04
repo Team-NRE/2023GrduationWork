@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/CJ/02.Script/Player/etc.meta
 guid: b258600753e552a4eaea71254f93b7d2
 folderAsset: yes
+========
+guid: 423eb59f82900704182aa3851fc2b12c
+>>>>>>>> checking:Assets/PKS/Scenes/MapUI.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

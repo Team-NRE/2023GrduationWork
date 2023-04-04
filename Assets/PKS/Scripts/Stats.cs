@@ -6,143 +6,414 @@ public class Stats : MonoBehaviour
 {
     #region 변수 목록
     [Header ("- 공격 분야")]
-    [SerializeField] float attackPower;
-    [SerializeField] float absoluteAttackPower;
-    [SerializeField] float attackSpeed;
-    [SerializeField] float attackRange;
-    [SerializeField] float criticalChance;
-    [SerializeField] float criticalPower;
+    [SerializeField] float attackPower;             // 공격력
+    [SerializeField] float absoluteAttackPower;     // 절대 공격력
+    [SerializeField] float attackSpeed;             // 공격 속도
+    [SerializeField] float attackCoolingTime;       // 공격 쿨타임
+    [SerializeField] float attackRange;             // 공격 범위
+    [SerializeField] float criticalChance;          // 크리 확률
+    [SerializeField] float criticalPower;           // 크리 공격력
 
     [Header ("- 방어 분야")]
-    [SerializeField] float maxHealth;
-    [SerializeField] float nowHealth;
-    [SerializeField] float healthRegeneration;
-    [SerializeField] float defensePower;
+    [SerializeField] float maxHealth;               // 최대 체력
+    [SerializeField] float nowHealth;               // 현재 체력
+    [SerializeField] float healthRegeneration;      // 체력 재생
+    [SerializeField] float defensePower;            // 방어력
 
     [Header ("- 버프 분야")]
-    [SerializeField] float protectiveShield;
-    [SerializeField] float protectiveShieldTime;
+    [SerializeField] float protectiveShield;        // 방어막
+    [SerializeField] float protectiveShieldTime;    // 방어막 시간
     
     [Header ("- 디버프 분야")]
-    [SerializeField] float moveSpeedReduction;
-    [SerializeField] float moveSpeedReductionTime;
-    [SerializeField] float skillSilenceTime;
-    [SerializeField] float poisonDamage;
-    [SerializeField] float poisonDamageTime;
+    [SerializeField] float moveSpeedReduction;      // 이동속도 감소 퍼센트
+    [SerializeField] float moveSpeedReductionTime;  // 이동속도 감소 시간
+    [SerializeField] float skillSilenceTime;        // 스킬 침묵 시간
+    [SerializeField] float poisonDamage;            // 독 데미지
+    [SerializeField] float poisonDamageTime;        // 독 시간
 
     [Header ("- 기타")]
-    [SerializeField] float level;
-    [SerializeField] float experience;
-    [SerializeField] float moveSpeed;
-    [SerializeField] float globalToken;
-    [SerializeField] float rangeToken;
-    [SerializeField] float resource;
-    [SerializeField] float resourceRange;
-    [SerializeField] float recognitionRange;
+    [SerializeField] float level;                   // 레벨
+    [SerializeField] float experience;              // 경험치
+    [SerializeField] float moveSpeed;               // 이동 속도
+    [SerializeField] float globalToken;             // 전역 골드
+    [SerializeField] float rangeToken;              // 범위 골드
+    [SerializeField] float resource;                // 자원
+    [SerializeField] float resourceRange;           // 자원 획득 범위
+    [SerializeField] float recognitionRange;        // 인식 범위
     #endregion
 
-    void Start()
+    #region 공격 분야 get, set
+    // 공격력
+    public float AttackPower
     {
-        nowHealth = maxHealth;
-        recognitionRange = attackRange * 5.0f;
+        get 
+        {
+            
+            return attackPower; 
+        }
+        
+        set 
+        { 
+            attackPower = value; 
+        }
     }
 
-    public float GetStats(string variableName)
+    // 절대 공격력
+    public float AbsoluteAttackPower
     {
-        if (variableName == "attackPower" || variableName == "공격력")                      return attackPower;
-        if (variableName == "absoluteAttackPower" || variableName == "절대공격력")          return absoluteAttackPower;
-        if (variableName == "attackSpeed" || variableName == "공격속도")                    return attackSpeed;
-        if (variableName == "attackRange" || variableName == "공격범위")                    return attackRange;
-        if (variableName == "criticalChance" || variableName == "크리확률")                 return criticalChance;
-        if (variableName == "criticalPower" || variableName == "크리공격력")                return criticalPower;
-
-        if (variableName == "maxHealth" || variableName == "최대 체력")                     return maxHealth;
-        if (variableName == "nowHealth" || variableName == "현재 체력")                     return nowHealth;
-        if (variableName == "healthRegeneration" || variableName == "체력재생")             return healthRegeneration;
-        if (variableName == "defensePower" || variableName == "방어력")                     return defensePower;
-
-        if (variableName == "protectiveShield" || variableName == "방어막")                 return protectiveShield;
-        if (variableName == "protectiveShieldTime" || variableName == "방어막시간")         return protectiveShieldTime;
-
-        if (variableName == "moveSpeedReduction" || variableName == "이동속도감소퍼센트")   return moveSpeedReduction;
-        if (variableName == "moveSpeedReductionTime" || variableName == "이동속도감소시간") return moveSpeedReductionTime;
-        if (variableName == "skillSilenceTime" || variableName == "스킬침묵시간")           return skillSilenceTime;
-        if (variableName == "poisonDamage" || variableName == "독데미지")                   return poisonDamage;
-        if (variableName == "poisonDamageTime" || variableName == "독시간")                 return poisonDamageTime;
-
-        if (variableName == "level" || variableName == "레벨")                              return level;
-        if (variableName == "experience" || variableName == "경험치")                       return experience;
-        if (variableName == "moveSpeed" || variableName == "이동속도")                      return moveSpeed;
-        if (variableName == "globalToken" || variableName == "전역골드")                    return globalToken;
-        if (variableName == "rangeToken" || variableName == "범위골드")                     return rangeToken;
-        if (variableName == "resource" || variableName == "자원")                           return resource;
-        if (variableName == "resourceRange" || variableName == "획득범위")                  return resourceRange;
-        if (variableName == "recognitionRange" || variableName == "인식범위")               return recognitionRange;
-
-        return 0;
+        get 
+        { 
+            return absoluteAttackPower; 
+        }
+        
+        set 
+        { 
+            absoluteAttackPower = value; 
+        }
     }
 
-    public void SetStats(string variableName, float value)
-    {
-        if (variableName == "attackPower" || variableName == "공격력")                      attackPower             = value;
-        if (variableName == "absoluteAttackPower" || variableName == "절대공격력")          absoluteAttackPower     = value;
-        if (variableName == "attackSpeed" || variableName == "공격속도")                    attackSpeed             = value;
-        if (variableName == "attackRange" || variableName == "공격범위")                    attackRange             = value;
-        if (variableName == "criticalChance" || variableName == "크리확률")                 criticalChance          = value;
-        if (variableName == "criticalPower" || variableName == "크리공격력")                criticalPower           = value;
-
-        if (variableName == "maxHealth" || variableName == "최대 체력")                     maxHealth               = value;
-        if (variableName == "nowHealth" || variableName == "현재 체력")                     nowHealth               = value;
-        if (variableName == "healthRegeneration" || variableName == "체력재생")             healthRegeneration      = value;
-        if (variableName == "defensePower" || variableName == "방어력")                     defensePower            = value;
-
-        if (variableName == "protectiveShield" || variableName == "방어막")                 protectiveShield        = value;
-        if (variableName == "protectiveShieldTime" || variableName == "방어막시간")         protectiveShieldTime    = value;
-
-        if (variableName == "moveSpeedReduction" || variableName == "이동속도감소퍼센트")   moveSpeedReduction      = value;
-        if (variableName == "moveSpeedReductionTime" || variableName == "이동속도감소시간") moveSpeedReductionTime  = value;
-        if (variableName == "skillSilenceTime" || variableName == "스킬침묵시간")           skillSilenceTime        = value;
-        if (variableName == "poisonDamage" || variableName == "독데미지")                   poisonDamage            = value;
-        if (variableName == "poisonDamageTime" || variableName == "독시간")                 poisonDamageTime        = value;
-
-        if (variableName == "level" || variableName == "레벨")                              level                   = value;
-        if (variableName == "experience" || variableName == "경험치")                       experience              = value;
-        if (variableName == "moveSpeed" || variableName == "이동속도")                      moveSpeed               = value;
-        if (variableName == "globalToken" || variableName == "전역골드")                    globalToken             = value;
-        if (variableName == "rangeToken" || variableName == "범위골드")                     rangeToken              = value;
-        if (variableName == "resource" || variableName == "자원")                           resource                = value;
-        if (variableName == "resourceRange" || variableName == "획득범위")                  resourceRange           = value;
+    // 공격 속도
+    public float AttackSpeed
+    {   
+        get 
+        { 
+            return attackSpeed; 
+        }
+        
+        set 
+        { 
+            attackSpeed = value; 
+        }
     }
 
-    public void AddStats(string variableName, float value)
+    // 공격 쿨타임
+    public float AttackCoolingTime
     {
-        if (variableName == "attackPower" || variableName == "공격력")                      attackPower             += value;
-        if (variableName == "absoluteAttackPower" || variableName == "절대공격력")          absoluteAttackPower     += value;
-        if (variableName == "attackSpeed" || variableName == "공격속도")                    attackSpeed             += value;
-        if (variableName == "attackRange" || variableName == "공격범위")                    attackRange             += value;
-        if (variableName == "criticalChance" || variableName == "크리확률")                 criticalChance          += value;
-        if (variableName == "criticalPower" || variableName == "크리공격력")                criticalPower           += value;
-
-        if (variableName == "maxHealth" || variableName == "최대 체력")                     maxHealth               += value;
-        if (variableName == "nowHealth" || variableName == "현재 체력")                     nowHealth               += value;
-        if (variableName == "healthRegeneration" || variableName == "체력재생")             healthRegeneration      += value;
-        if (variableName == "defensePower" || variableName == "방어력")                     defensePower            += value;
-
-        if (variableName == "protectiveShield" || variableName == "방어막")                 protectiveShield        += value;
-        if (variableName == "protectiveShieldTime" || variableName == "방어막시간")         protectiveShieldTime    += value;
-
-        if (variableName == "moveSpeedReduction" || variableName == "이동속도감소퍼센트")   moveSpeedReduction      += value;
-        if (variableName == "moveSpeedReductionTime" || variableName == "이동속도감소시간") moveSpeedReductionTime  += value;
-        if (variableName == "skillSilenceTime" || variableName == "스킬침묵시간")           skillSilenceTime        += value;
-        if (variableName == "poisonDamage" || variableName == "독데미지")                   poisonDamage            += value;
-        if (variableName == "poisonDamageTime" || variableName == "독시간")                 poisonDamageTime        += value;
-
-        if (variableName == "level" || variableName == "레벨")                              level                   += value;
-        if (variableName == "experience" || variableName == "경험치")                       experience              += value;
-        if (variableName == "moveSpeed" || variableName == "이동속도")                      moveSpeed               += value;
-        if (variableName == "globalToken" || variableName == "전역골드")                    globalToken             += value;
-        if (variableName == "rangeToken" || variableName == "범위골드")                     rangeToken              += value;
-        if (variableName == "resource" || variableName == "자원")                           resource                += value;
-        if (variableName == "resourceRange" || variableName == "획득범위")                  resourceRange           += value;
+        get 
+        { 
+            return attackCoolingTime; 
+        }
+        
+        set 
+        { 
+            attackCoolingTime = value; 
+        }
     }
+
+    // 공격 범위
+    public float AttackRange
+    {
+        get 
+        { 
+            return attackRange; 
+        }
+        
+        set 
+        { 
+            attackRange = value; 
+        }
+    }
+
+    // 크리티컬 확률
+    public float CriticalChance
+    {
+        get 
+        { 
+            return criticalChance; 
+        }
+        
+        set 
+        { 
+            criticalChance = value; 
+        }
+    }
+
+    // 크리티컬 공격력
+    public float CriticalPower
+    {
+        get 
+        { 
+            return criticalPower; 
+        }
+        
+        set 
+        { 
+            criticalPower = value; 
+        }
+    }
+    #endregion
+
+    #region 방어 분야 get, set
+    // 최대 체력
+    public float MaxHealth
+    {
+        get 
+        { 
+            return maxHealth; 
+        }
+        
+        set 
+        { 
+            maxHealth = value; 
+        }
+    }
+
+    // 현재 체력
+    public float NowHealth
+    {
+        get 
+        { 
+            return nowHealth; 
+        }
+        
+        set 
+        { 
+            nowHealth = value; 
+        }
+    }
+
+    // 체력 재생
+    public float HealthRegeneration
+    {
+        get 
+        { 
+            return healthRegeneration; 
+        }
+        
+        set 
+        { 
+            healthRegeneration = value;
+        }
+    }
+
+    // 방어력
+    public float DefensePower
+    {
+        get 
+        { 
+            return defensePower; 
+        }
+        
+        set 
+        { 
+            defensePower = value; 
+        }
+    }
+    #endregion
+
+    #region 버프 분야 get, set
+    // 방어막
+    public float ProtectiveShield
+    {
+        get 
+        { 
+            return protectiveShield; 
+        }
+        
+        set 
+        { 
+            protectiveShield = value; 
+        }
+    }
+
+    // 방어막 시간
+    public float ProtectiveShieldTime
+    {
+        get 
+        { 
+            return protectiveShieldTime; 
+        }
+        
+        set 
+        { 
+            protectiveShieldTime = value; 
+        }
+    }
+    #endregion
+
+    #region 디버프 분야 get, set
+    // 이동속도 감소 퍼센트
+    public float MoveSpeedReduction
+    {
+        get 
+        { 
+            return moveSpeedReduction; 
+        }
+        
+        set 
+        { 
+            moveSpeedReduction = value; 
+        }
+    }
+
+    // 이동속도 감소 시간
+    public float MoveSpeedReductionTime
+    {
+        get 
+        { 
+            return moveSpeedReductionTime; 
+        }
+        
+        set 
+        { 
+            moveSpeedReductionTime = value; 
+        }
+    }
+
+    // 스킬 침묵 시간
+    public float SkillSilenceTime
+    {
+        get 
+        { 
+            return skillSilenceTime; 
+        }
+        
+        set 
+        { 
+            skillSilenceTime = value; 
+        }
+    }
+
+    // 독 데미지
+    public float PoisonDamage
+    {
+        get 
+        { 
+            return poisonDamage; 
+        }
+        
+        set 
+        { 
+            poisonDamage = value; 
+        }
+    }
+
+    // 독 시간
+    public float PoisonDamageTime
+    {
+        get 
+        { 
+            return poisonDamageTime; 
+        }
+        
+        set 
+        { 
+            poisonDamageTime = value; 
+        }
+    }
+    #endregion
+
+    #region 기타 get, set
+    // 레벨
+    public float Level
+    {
+        get 
+        { 
+            return level; 
+        }
+        
+        set 
+        { 
+            level = value; 
+        }
+    }
+
+    // 경험치
+    public float Experience
+    {
+        get 
+        { 
+            return experience; 
+        }
+        
+        set 
+        { 
+            experience = value; 
+        }
+    }
+
+    // 이동 속도
+    public float MoveSpeed
+    {
+        get 
+        { 
+            return moveSpeed; 
+        }
+        
+        set 
+        { 
+            moveSpeed = value; 
+        }
+    }
+
+    // 전역 골드
+    public float GlobalToken
+    {
+        get 
+        { 
+            return globalToken; 
+        }
+        
+        set 
+        { 
+            globalToken = value; 
+        }
+    }
+
+    // 범위 골드
+    public float RangeToken
+    {
+        get 
+        { 
+            return rangeToken; 
+        }
+        
+        set 
+        { 
+            rangeToken = value; 
+        }
+    }
+
+    // 자원
+    public float Resource
+    {
+        get 
+        { 
+            return resource; 
+        }
+        
+        set 
+        { 
+            resource = value; 
+        }
+    }
+
+    // 자원 획득 범위
+    public float ResourceRange
+    {
+        get 
+        { 
+            return resourceRange; 
+        }
+        
+        set 
+        { 
+            resourceRange = value; 
+        }
+    }
+
+    // 인식 범위
+    public float RecognitionRange
+    {
+        get 
+        { 
+            return recognitionRange; 
+        }
+        
+        set 
+        { 
+            recognitionRange = value; 
+        }
+    }
+    #endregion
 }
