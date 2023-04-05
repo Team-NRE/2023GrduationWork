@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerAttack player_att;
     public PlayerKey player_key;
     public PlayerStats player_stats;
+    public PlayerBullet player_bullet;
 
     [Header("---.etc---")]
     //스탯 참조

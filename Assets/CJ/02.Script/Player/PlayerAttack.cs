@@ -5,7 +5,8 @@ public class PlayerAttack : MonoBehaviour
 {
     //타겟
     public GameObject target;
-    
+    float Best_T = 999;
+
     //vector
     public Vector3 Point; // 마우스 클릭시 포인터 위치
 
@@ -30,7 +31,6 @@ public class PlayerAttack : MonoBehaviour
     [Tooltip("Specify time to destory the casing object")][SerializeField] private float destroyTimer = 2f;
     //총알 속도
     [Tooltip("Bullet Speed")][SerializeField] private float shotPower = 100f;
-
 
 
     private void Start()
@@ -60,6 +60,8 @@ public class PlayerAttack : MonoBehaviour
     //사거리 표시 껏다 켜기
     public GameObject GetAttackRange()
     {
+        target = null;
+
         //이미지 체크
         if (checkAttack == false || checkAttack == true)
         {
@@ -79,19 +81,17 @@ public class PlayerAttack : MonoBehaviour
         //사거리 이미지가 on 이면
         if (checkAttack == true)
         {
-            //타겟 초기화
-            target = null;
-
             //플레이어 근처 적 식별
             Collider[] colls = Physics.OverlapSphere(transform.position, PlayerManager.Player_Instance.player_stats.attackRange, layerMask);
 
-            //식별된 적 모두 중 하나만 선별
-            for (int i = 0; i < colls.Length; ++i)
-            {
-                Debug.Log("check");
 
-                //마우스 왼쪽 클릭시
-                if (Input.GetMouseButtonDown(0))
+            Debug.Log("check");
+
+            //마우스 왼쪽 클릭시
+            if (Input.GetMouseButtonDown(0))
+            {
+                //식별된 적 모두 중 하나만 선별
+                for (int i = 0; i < colls.Length; ++i)
                 {
                     // ray로 마우스 위치 world 좌표로 받기.
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -102,29 +102,48 @@ public class PlayerAttack : MonoBehaviour
                         //마우스 포인터 위치
                         Point = raycastHit.point;
 
-                        //Target 위치 x,z 와 마우스 포인터의 위치 오차가 1 안이면 shoot
-                        if (colls[i].transform.position.x - 1 <= Point.x && colls[i].transform.position.x + 1 >= Point.x &&
-                                colls[i].transform.position.z - 1 <= Point.z && colls[i].transform.position.z + 1 >= Point.z)
-                        {
-                            //타겟 설정
-                            target = colls[i].gameObject;
+                        Debug.Log(Point);
 
-                            //공격시 적을 바라봐야하는 코드(플레이어의 Rotation)
-                            Vector3 target_pos = target.transform.position;
-                            target_pos.y = 0f;
-                            float dx = target_pos.x - transform.position.x;
-                            float dz = target_pos.z - transform.position.z;
-                            float rotDegree = -(Mathf.Rad2Deg * Mathf.Atan2(dz, dx) - 90); //tan-1(dz/dx) = 각도
-                            transform.rotation = Quaternion.Euler(0f, rotDegree, 0f);
-
-                            Shoot(target);
-                        }
+                        Best_Target_Search(colls[i], Point);
                     }
                 }
+
+                Best_Target_Rotate(target);
+                Shoot(target);
             }
         }
     }
 
+
+    public GameObject Best_Target_Search(Collider colls, Vector3 point)
+    {
+
+        float Now_X = (point.x >= colls.transform.position.x) ? (Now_X = point.x - colls.transform.position.x)
+                        : (Now_X = colls.transform.position.x - point.x);
+
+        float Now_Z = (point.z >= colls.transform.position.z) ? (Now_Z = point.z - colls.transform.position.z)
+                        : (Now_Z = colls.transform.position.x - Point.z);
+
+        if (Best_T >= Now_X + Now_Z)
+        {
+            Best_T = Now_X + Now_Z;
+            target = colls.gameObject;
+        }
+        
+
+        return target;
+    }
+
+    public void Best_Target_Rotate(GameObject target)
+    {
+        //공격시 적을 바라봐야하는 코드(플레이어의 Rotation)
+        Vector3 target_pos = target.transform.position;
+        target_pos.y = 0f;
+        float dx = target_pos.x - transform.position.x;
+        float dz = target_pos.z - transform.position.z;
+        float rotDegree = -(Mathf.Rad2Deg * Mathf.Atan2(dz, dx) - 90); //tan-1(dz/dx) = 각도
+        transform.rotation = Quaternion.Euler(0f, rotDegree, 0f);
+    }
 
     //총알 발사
     public void Shoot(GameObject target)
@@ -154,7 +173,6 @@ public class PlayerAttack : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation);
             bullet.GetComponent<PlayerBullet>().target_set(target, shotPower);
         }
-
 
         GetAttackRange(); //사거리 이미지 off
     }
