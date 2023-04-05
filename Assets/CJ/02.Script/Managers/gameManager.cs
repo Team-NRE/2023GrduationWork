@@ -13,6 +13,11 @@ public class gameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+
+        player = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        UI = GameObject.Find("UIManager").GetComponent<UIManager>();
+        respawn = GameObject.Find("RespawnManager").GetComponent<RespawnManager>();
+        Camera_Manager = GameObject.Find("Main Camera").GetComponent<CameraManager>();
     }
 
 }
