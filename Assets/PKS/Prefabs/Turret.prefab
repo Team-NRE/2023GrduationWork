@@ -1152,6 +1152,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mini Map Icon
       objectReference: {fileID: 0}
+    - target: {fileID: 3484279989433801942, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
+      propertyPath: m_Size.x
+      value: 1.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484279989433801942, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
+      propertyPath: m_Size.y
+      value: 2.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484279989433801942, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 129a3f169350c264cbcdb260433489e3, type: 3}
+    - target: {fileID: 3484279989433801942, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4245928945859620964, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
       propertyPath: m_iconImage
       value: 
@@ -1159,6 +1175,14 @@ PrefabInstance:
     - target: {fileID: 7041634005818725669, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041634005818725669, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041634005818725669, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7041634005818725669, guid: 0d2880f0da40b1343b2b46b16398e0a4, type: 3}
       propertyPath: m_LocalPosition.x

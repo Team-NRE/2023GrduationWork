@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.43952435, g: 0.48789185, b: 0.5681232, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -170,7 +170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &51423367
 Grid:
   m_ObjectHideFlags: 0
@@ -1254,6 +1254,22 @@ PrefabInstance:
       propertyPath: far clip plane
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 125279913756404688, guid: f47c08e587a62cc4a955cc60dad443f6, type: 3}
+      propertyPath: m_size.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 125279913756404688, guid: f47c08e587a62cc4a955cc60dad443f6, type: 3}
+      propertyPath: m_size.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 125279913756404688, guid: f47c08e587a62cc4a955cc60dad443f6, type: 3}
+      propertyPath: m_position.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 125279913756404688, guid: f47c08e587a62cc4a955cc60dad443f6, type: 3}
+      propertyPath: m_haveBackground
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 125279913756404689, guid: f47c08e587a62cc4a955cc60dad443f6, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1304,7 +1320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 125279913756404695, guid: f47c08e587a62cc4a955cc60dad443f6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f47c08e587a62cc4a955cc60dad443f6, type: 3}
@@ -84638,6 +84654,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2012496438, guid: e65637e175609bd4bb4864917772813e, type: 3}
+      propertyPath: Cam_Z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012496438, guid: e65637e175609bd4bb4864917772813e, type: 3}
+      propertyPath: planescale
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7128579211048948260, guid: e65637e175609bd4bb4864917772813e, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 471
+      objectReference: {fileID: 0}
     - target: {fileID: 7128579211048948261, guid: e65637e175609bd4bb4864917772813e, type: 3}
       propertyPath: m_RootOrder
       value: 22
