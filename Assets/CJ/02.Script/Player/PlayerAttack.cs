@@ -152,7 +152,7 @@ public class PlayerAttack : MonoBehaviour
         {
             // 총알 생성
             GameObject bullet = Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation);
-            bullet.GetComponent<Bullet>().target_set(target, shotPower);
+            bullet.GetComponent<PlayerBullet>().target_set(target, shotPower);
         }
 
 
