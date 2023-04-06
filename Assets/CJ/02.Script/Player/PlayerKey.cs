@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerKey : MonoBehaviour
 {
-    
+
     public string _key;
 
     public string key
@@ -21,15 +21,15 @@ public class PlayerKey : MonoBehaviour
         //Setting.cs
         KeyMapping(); //키 맵핑
     }
-    
+
 
     //키 맵핑
     public void KeyMapping()
     {
         #region U
-        if(Input.GetKey(KeyCode.U))
+        if (Input.GetKey(KeyCode.U))
         {
-            
+
         }
         #endregion
 
@@ -37,14 +37,23 @@ public class PlayerKey : MonoBehaviour
         #region A 
         if (Input.GetKeyDown(KeyCode.A))
         {
-           PlayerManager.Player_Instance.player_att.GetAttackRange();
+            PlayerManager.Player_Instance.player_att.GetAttackRange();
         }
         #endregion
+
+        #region Spacebar (카메라 고정 계속)
+        if (Input.GetKeyDown(KeyCode.Space) && gameManager.instance.Camera_Manager.CameraSet == true)
+        {
+            gameManager.instance.Camera_Manager.CameraSet = false;
+        }
+        else if (Input.GetKeyUp(KeyCode.Space)) { gameManager.instance.Camera_Manager.CameraSet = true; }
+        #endregion
+
 
         #region U (카메라 고정/풀기)
         if (Input.GetKeyDown(KeyCode.U))
         {
-           gameManager.instance.Camera_Manager.CameraSet = (gameManager.instance.Camera_Manager.CameraSet == false ? true : false); 
+            gameManager.instance.Camera_Manager.CameraSet = (gameManager.instance.Camera_Manager.CameraSet == false ? true : false);
         }
         #endregion
 
@@ -133,7 +142,7 @@ public class PlayerKey : MonoBehaviour
         }
         #endregion
 
-        
+
 
         #region Keycode P (Setting.cs)
         if (Input.GetKeyDown(KeyCode.P))
