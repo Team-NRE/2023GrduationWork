@@ -5,7 +5,8 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     [Header("---PlaneScale---")]
-    public float planescale;
+    public float planescale_X = 17;
+    public float planescale_Z = 6;
 
     [Header("---Camera---")]
     //카메라 z축
@@ -19,6 +20,9 @@ public class CameraManager : MonoBehaviour
 
     //속도
     public Vector3 velocity = Vector3.zero;
+
+    //카메라 고정 or 풀기
+    public bool CameraSet = true;
     
     public GameObject player;
     
@@ -30,7 +34,8 @@ public class CameraManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        CameraMove(); //카메라 움직임
+        if(CameraSet == true) { CameraMove(); }
+        if(CameraSet == false) { FixedCameraMove(); }
     } 
 
 
@@ -38,17 +43,18 @@ public class CameraManager : MonoBehaviour
     public void CameraMove()
     {
         //Plane 스케일 
-        float Scale = 5 * planescale + 5;
+        float Scale_X = 5 * planescale_X + 5;
+        float Scale_Z = 5 * planescale_Z + 5;
         //viewportPoint로 마우스 좌표 받기(x = 0~1/ y = 0~1)
         MousePos = Camera.main.ScreenToViewportPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
 
         //x 값
-        Vector3 position_x_0 = new Vector3(-Scale, player.transform.position.y + Cam_Y, Camera.main.transform.position.z);
-        Vector3 position_x_1 = new Vector3(Scale, player.transform.position.y + Cam_Y, Camera.main.transform.position.z);
+        Vector3 position_x_0 = new Vector3(-Scale_X, player.transform.position.y + Cam_Y, Camera.main.transform.position.z);
+        Vector3 position_x_1 = new Vector3(Scale_X, player.transform.position.y + Cam_Y, Camera.main.transform.position.z);
 
         //y 값
-        Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, player.transform.position.y + Cam_Y, -Scale);
-        Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, player.transform.position.y + Cam_Y, Scale);
+        Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, player.transform.position.y + Cam_Y, -Scale_Z);
+        Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, player.transform.position.y + Cam_Y, Scale_Z);
 
         if (MousePos.x <= 0)
         {

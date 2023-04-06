@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
+    [SerializeField]
     GameObject _target;
+    [SerializeField]
+    Vector3 targetPos;
+
+    float Bullet_y;
     float _shotPower;
 
     public void target_set(GameObject target, float shotPower)
@@ -16,11 +21,18 @@ public class PlayerBullet : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, _target.transform.position, Time.deltaTime * _shotPower);
+        if (_target == null) { Destroy(this.gameObject); }
 
-        if (Vector3.Distance(transform.position, _target.transform.position) <= 0.6f)
+        if (_target != null)
         {
-            Destroy(this.gameObject);
+            transform.position = Vector3.Lerp(transform.position, _target.transform.position, Time.deltaTime * _shotPower);
+            targetPos = _target.transform.position;
+
+            if (Vector3.Distance(transform.position, _target.transform.position) <= 0.5f)
+            {
+                _target.GetComponent<Stats>().NowHealth -= PlayerManager.Player_Instance.player_stats.attackPower;
+                Destroy(this.gameObject);
+            }
         }
     }
 }

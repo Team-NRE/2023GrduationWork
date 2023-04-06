@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerAttack player_att;
     public PlayerKey player_key;
     public PlayerStats player_stats;
+    public PlayerBullet player_bullet;
 
     [Header("---.etc---")]
     //스탯 참조
@@ -57,12 +58,12 @@ public class PlayerManager : MonoBehaviour
             status = agent.remainingDistance < 0.2f ? Status.IDLE : Status.Walk;
 
             //어택 판별
-            if (player_att.attack == true)
+            if (player_key.key == "Attack")
             {
                 status = Status.Attack;
 
                 yield return new WaitForSeconds(0.22f);
-                player_att.attack = false;
+                player_key._key = " ";
             }
 
             if (player_key.key == "skill")
