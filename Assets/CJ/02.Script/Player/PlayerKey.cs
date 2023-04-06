@@ -26,17 +26,25 @@ public class PlayerKey : MonoBehaviour
     //키 맵핑
     public void KeyMapping()
     {
+        #region U
+        if(Input.GetKey(KeyCode.U))
+        {
+            
+        }
+        #endregion
+
+
         #region A 
         if (Input.GetKeyDown(KeyCode.A))
         {
-           PlayerManager.Player_Instance.player_att.Attack();
+           PlayerManager.Player_Instance.player_att.GetAttackRange();
         }
         #endregion
-        
-        #region Spacebar (Move.cs)
-        if (Input.GetKey(KeyCode.Space))
+
+        #region U (카메라 고정/풀기)
+        if (Input.GetKeyDown(KeyCode.U))
         {
-            gameManager.instance.Camera_Manager.FixedCameraMove();
+           gameManager.instance.Camera_Manager.CameraSet = (gameManager.instance.Camera_Manager.CameraSet == false ? true : false); 
         }
         #endregion
 
