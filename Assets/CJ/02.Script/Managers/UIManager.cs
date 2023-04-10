@@ -2,28 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+
 
 public class UIManager : MonoBehaviour
 {
     [Header("---Purchase---")]
     //구입 버튼
     public Button PurchaseButton;
-	[Header("---Store---")]
+    [Header("---Store---")]
     public bool CheckStoreImg = false;
 
-	#region card 
+    #region card 
     [Header("---Use Card Info---")]
-    //카드 이펙트 판별 숫자
-    public int CardNumber;
-    //카드 마나 코스트
-    public int CardCost;
     //카드 정보
     public GameObject card;
     //들고있는 카드
-    public GameObject HoldCard;
-	#endregion
+    #endregion
 
-	#region List
+    #region List
     [Header("---PlayerCard List---")]
     //플레이어 덱
     public List<GameObject> PlayerCardDeck = new List<GameObject>();
@@ -38,47 +35,47 @@ public class UIManager : MonoBehaviour
 
     [Header("---Mana List---")]
     public List<GameObject> ManaList = new List<GameObject>();
-	#endregion
+    #endregion
 
 
     public void Awake()
-    {		
-		
-        
+    {
+
         //Setting.cs
         ObjectSetting("StoreImage"); //구입 버튼 
         ObjectSetting("PlayerCardUI"); //핸드 카드 List 초기 세팅
         ObjectSetting("Cards"); //상점 카드 List 세팅
         ObjectSetting("Mana"); //마나 List 시스템 세팅
-		
-		GameObject.Find("StoreImage").SetActive(false);
-		
-		//Card.cs
+
+        GameObject.Find("StoreImage").SetActive(false);
+
+        //Card.cs
         CreateHoldCard(0); //들고있는 카드 초기 세팅
     }
 
-	public void Update()
-	{
-		//Card.cs
+    public void Update()
+    {
+        //Card.cs
         card.SetActive(false); //카드 정보 (수정해야함.)
-		ManaPlay();
-		CardCheck(); //버려진 카드 리셋
-	}
+        ManaPlay();
+        CardCheck(); //버려진 카드 리셋
+    }
 
-	public GameObject GetStore(string StoreImg)
-	{
-		GameObject check = null;
-		check = GameObject.Find(StoreImg);
-        
+    //상점 이미지 On/off
+    public GameObject GetStore(string StoreImg)
+    {
+        GameObject check = null;
+        check = GameObject.Find(StoreImg);
+
         Debug.Log(check);
-		if(CheckStoreImg == false || CheckStoreImg == true)
-		{
-			CheckStoreImg = !CheckStoreImg;
-			check.transform.GetChild(0).gameObject.SetActive(CheckStoreImg);
-		}
+        if (CheckStoreImg == false || CheckStoreImg == true)
+        {
+            CheckStoreImg = !CheckStoreImg;
+            check.transform.GetChild(0).gameObject.SetActive(CheckStoreImg);
+        }
 
-		return check;
-	}
+        return check;
+    }
 
     //오브젝트 세팅
     public void ObjectSetting(string ObjectName)
@@ -138,7 +135,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-	//카드 구입
+    //카드 구입
     public void PurChase()
     {
         //상점 카드 리스트 중 Toggle.isOn이 True인 경우만 PlayerCardDeck에 추가
@@ -156,7 +153,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-	//마나 플레이
+    //마나 플레이
     public void ManaPlay()
     {
         //gameManager.instance.player.NowMana = 마나회복시간 * 최대 마나
@@ -165,7 +162,7 @@ public class UIManager : MonoBehaviour
         //마나 회복 (한칸 차면 다음 칸 참)
         for (int i = 0; i < gameManager.instance.player.player_stats.MaxMana; i++)
         {
-            ManaList[i].GetComponent<Slider>().value = Mathf.Lerp(PlayerManager.Player_Instance.player_stats.NowMana, 
+            ManaList[i].GetComponent<Slider>().value = Mathf.Lerp(PlayerManager.Player_Instance.player_stats.NowMana,
                 PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간") * (i + 1), Time.deltaTime);
         }
 
@@ -173,7 +170,7 @@ public class UIManager : MonoBehaviour
         if (PlayerManager.Player_Instance.player_stats.NowMana >= PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간")
              * PlayerManager.Player_Instance.player_stats.GetStats("최대 마나"))
         {
-            PlayerManager.Player_Instance.player_stats.NowMana = PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간") * 
+            PlayerManager.Player_Instance.player_stats.NowMana = PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간") *
                 PlayerManager.Player_Instance.player_stats.GetStats("최대 마나");
         }
 
@@ -185,13 +182,14 @@ public class UIManager : MonoBehaviour
     }
 
 
-	   //들고있는 카드 만드는 함수
+    //들고있는 카드 만드는 함수
     public void CreateHoldCard(int j) //j = 0 (HoldCard[0] = Q) / j = 1 (HoldCard[1] = W) .... / j = 4 (HoldCard[4] = Next Card) 
     {
         for (int i = j; i < 5; i++)
         {
+            GameObject HoldCard = null;
             //덱 안 카드 중 랜덤으로 불러오기
-            int RandomCardNum = Random.Range(0, PlayerCardDeck.Count);
+            int RandomCardNum = UnityEngine.Random.Range(0, PlayerCardDeck.Count);
 
             HoldCard = Instantiate(PlayerCardDeck[RandomCardNum]); //무작위 카드 인스턴스 화
             HoldCard.transform.GetChild(0).gameObject.SetActive(false); //toggle 끄기
@@ -224,64 +222,43 @@ public class UIManager : MonoBehaviour
     //카드 사용하기
     public void UseCard(int Key)
     {
-        HoldCard = SkillPosition[Key].transform.GetChild(0).gameObject;
+        //해당 키의 카드 object 가져오기
+        GameObject use_card = SkillPosition[Key].transform.GetChild(0).gameObject;
         
-        FindCard(HoldCard); //해당 키의 카드 찾기
+        //카드 object의 이름 저장 
+        string FindCard_name = use_card.name;
+        
+        //카드 object의 Prefab가져오기 위해 StoreList의 원소 정보 가져오기.
+        GameObject FindCard = StoreCardList.Find(x => x.name + "(Clone)" == FindCard_name);
+        
+        // FindCard_name에 저장된 문자열로 타입 정보를 가져옴 -> 사용하는 카드의 이름과 이펙트.cs 이름이 같아야 함.
+        Type type = Type.GetType(FindCard.name);
+
 
         //현재 마나 >= 카드 코스트
-        if (PlayerManager.Player_Instance.player_stats.NowMana >= CardCost * PlayerManager.Player_Instance.player_stats.ManaRegenerationTime)
+        if (PlayerManager.Player_Instance.player_stats.NowMana >= 1 * PlayerManager.Player_Instance.player_stats.ManaRegenerationTime)
         {
             //마나 코스트 사용
-            PlayerManager.Player_Instance.player_stats.AddStats("현재 마나", CardCost);
-            CardEffect(CardNumber); //해당 키의 카드 효과 발행
+            PlayerManager.Player_Instance.player_stats.AddStats("현재 마나", 1); //1 = cardcost
+            
+            //사용하는 Card의 effect.cs의 함수 실행.
+            use_card.GetComponent(type).SendMessage("cardEffect",SendMessageOptions.RequireReceiver);
 
-            Discard.Add(StoreCardList[CardNumber]); //해당 키의 카드 버리기 
+            //해당 키의 카드 버리기 
+            Discard.Add(FindCard);
 
-            Destroy(HoldCard, 0.1f); //해당 키의 카드 파괴
+            //해당 키의 카드 파괴
+            Destroy(use_card, 0.1f);
 
+            //next card 정보 받기
             GameObject ChangeCard = SkillPosition[4].transform.GetChild(0).gameObject; //Next Card 변수 선언
             ChangeCard.transform.SetParent(SkillPosition[Key].transform); // Next Card의 부모 -> 해당 키로 변환
             ChangeCard.GetComponent<RectTransform>().anchoredPosition = Vector2.one; //RectTransform -> Vector.one으로 선언
 
             CreateHoldCard(4); //Next Card에 랜덤카드 받기
 
-        } 
+        }
 
         else { Debug.Log("마나가 부족합니다."); }
     }
-
-    //해당하는 카드 찾기
-    public void FindCard(GameObject HoldCard)
-    {
-        //들고있는 카드가 상점 카드 리스트판별
-        for (int i = 0; i < StoreCardList.Count; i++)
-        {
-            //들고있는 카드가 상점 카드 리스트와 같은 것을 찾으면 Swtich문으로 가면서 반복문 탈출
-            if (StoreCardList[i].name + "(Clone)" == HoldCard.name)
-            {
-                CardNumber = i;
-                CardCost = StoreCardList[i].layer - 12;
-
-                break;
-            }
-        }
-    }
-
-
-    //카드 효과 -> 리스트 번호로 찾는 방법
-    public void CardEffect(int CardNumber)
-    {
-        //각 카드의 효과
-       switch (CardNumber)
-        {
-            case 0:
-                {
-                    Debug.Log("쉴드");
-                    return;
-                }
-
-            
-        }
-    }
-
 }

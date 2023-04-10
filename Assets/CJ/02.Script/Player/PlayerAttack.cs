@@ -31,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
+        
         //공격사거리 세팅
         Projector projector = AttackRangeimg.GetComponent<Projector>();
         projector.orthographicSize = PlayerManager.Player_Instance.player_stats.attackRange;
@@ -134,7 +135,7 @@ public class PlayerAttack : MonoBehaviour
 
 
         //총알 프리팹
-        if (bulletPrefab != null)
+        if (bulletPrefab != null && target != null)
         {
             // 총알 생성
             GameObject bullet = Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation);

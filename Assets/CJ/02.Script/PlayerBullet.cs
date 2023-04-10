@@ -28,8 +28,9 @@ public class PlayerBullet : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, _target.transform.position, Time.deltaTime * _shotPower);
             targetPos = _target.transform.position;
 
-            if (Vector3.Distance(transform.position, _target.transform.position) <= 0.5f)
+            if (Vector3.Distance(transform.position, _target.transform.position) <= 0.7f)
             {
+                Debug.Log(_target);
                 _target.GetComponent<Stats>().NowHealth -= PlayerManager.Player_Instance.player_stats.attackPower;
                 Destroy(this.gameObject);
             }

@@ -62,14 +62,13 @@ public class PlayerManager : MonoBehaviour
             {
                 status = Status.Attack;
 
-                yield return new WaitForSeconds(0.22f);
+                yield return new WaitForSeconds(0.2f);
                 player_key._key = " ";
             }
 
             if (player_key.key == "skill")
             {
                 status = Status.Throw1;
-
                 yield return new WaitForSeconds(0.6f);
                 player_key._key = " ";
             }
@@ -91,6 +90,7 @@ public class PlayerManager : MonoBehaviour
                     animator.SetBool("IsIdle", true);
                     animator.SetBool("IsWalk", false);
                     animator.SetBool("IsThrow1", false);
+                    animator.SetBool("IsFire", false);
 
                     break;
 
@@ -100,6 +100,7 @@ public class PlayerManager : MonoBehaviour
                     animator.SetBool("IsWalk", true);
                     animator.SetBool("IsIdle", false);
                     animator.SetBool("IsThrow1", false);
+                    animator.SetBool("IsFire", false);
 
                     break;
 
@@ -107,8 +108,9 @@ public class PlayerManager : MonoBehaviour
                     agent.ResetPath();
                     //agent.isStopped = true;
 
-                    animator.SetTrigger("Fire");
+                    animator.SetBool("IsFire", true);
                     animator.SetBool("IsIdle", false);
+                    animator.SetBool("IsThrow1", false);
 
                     break;
 
@@ -118,6 +120,7 @@ public class PlayerManager : MonoBehaviour
 
                     animator.SetBool("IsThrow1", true);
                     animator.SetBool("IsIdle", false);
+                    animator.SetBool("IsFire", false);
 
                     break;
 

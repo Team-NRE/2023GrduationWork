@@ -26,14 +26,6 @@ public class PlayerKey : MonoBehaviour
     //키 맵핑
     public void KeyMapping()
     {
-        #region U
-        if (Input.GetKey(KeyCode.U))
-        {
-
-        }
-        #endregion
-
-
         #region A 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -48,7 +40,6 @@ public class PlayerKey : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.Space)) { gameManager.instance.Camera_Manager.CameraSet = true; }
         #endregion
-
 
         #region U (카메라 고정/풀기)
         if (Input.GetKeyDown(KeyCode.U))
