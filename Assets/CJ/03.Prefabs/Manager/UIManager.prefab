@@ -1817,7 +1817,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PurchaseButton: {fileID: 1656840334908043105}
   CheckStoreImg: 0
-  card: {fileID: 0}
   PlayerCardDeck:
   - {fileID: 1676644376035907038}
   - {fileID: 1676644376035907038}
@@ -1978,7 +1977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1511361259924390496, guid: 33a07b4a1b7629547b84448fc4950fba, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -210
+      value: -21
       objectReference: {fileID: 0}
     - target: {fileID: 1511361259924390496, guid: 33a07b4a1b7629547b84448fc4950fba, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2000,6 +1999,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 1511361260030750651, guid: 33a07b4a1b7629547b84448fc4950fba, type: 3}
+      propertyPath: m_Name
+      value: toggle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33a07b4a1b7629547b84448fc4950fba, type: 3}
 --- !u!1 &5404606864265466187 stripped
@@ -2019,6 +2022,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1656840336482029025}
     m_Modifications:
+    - target: {fileID: 8098229846424060488, guid: 2f2e52e382fbbb7468770f2bf9042e62, type: 3}
+      propertyPath: m_Name
+      value: toggle
+      objectReference: {fileID: 0}
     - target: {fileID: 8098229846530682771, guid: 2f2e52e382fbbb7468770f2bf9042e62, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

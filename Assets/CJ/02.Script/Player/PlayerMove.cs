@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerMove : PlayerManager
+public class PlayerMove : MonoBehaviour
 {
     [Header("---Player Move---")]
     //이동할 점
@@ -14,6 +14,11 @@ public class PlayerMove : PlayerManager
     [Header("---Move Ignore Layer---")]
     public LayerMask Ignorelayer;
 
+    NavMeshAgent agent;
+    
+    private void Awake() {
+        agent = GetComponent<NavMeshAgent>();
+    }
       
     //플레이어 이동 
     public void playerMove()

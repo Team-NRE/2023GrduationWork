@@ -90,17 +90,20 @@ public class PlayerStats : MonoBehaviour
     //이동
     public float speed
     {
-        get { return PlayerManager.Player_Instance.agent.speed; }
+        get { return agent.speed; }
         set
         {
             _speed = value;
-            PlayerManager.Player_Instance.agent.speed = _speed;
+            agent.speed = _speed;
         }
     }
 
+    NavMeshAgent agent;
 
     private void Awake()
     {
+        agent = GetComponent<NavMeshAgent>();
+        
         //공격
         basicAttackPower = 30.0f;
         attackRange = 6.0f;
