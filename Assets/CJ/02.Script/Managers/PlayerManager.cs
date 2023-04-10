@@ -11,16 +11,17 @@ public class PlayerManager : MonoBehaviour
     public PlayerMove player_move;
     public PlayerAttack player_att;
     public PlayerKey player_key;
-    public PlayerStats player_stats;
     public PlayerBullet player_bullet;
+    public PlayerStats player_stats;
 
     [Header("---.etc---")]
-    //스탯 참조
+    //상태 참조
     public Status status;
 
     //초기화
     public NavMeshAgent agent;
     public Animator animator;
+    public new Transform transform;
 
     //bool
     bool isDie = false; //플레이어 사망 여부
@@ -32,6 +33,10 @@ public class PlayerManager : MonoBehaviour
         //자식객체 player의 컴포넌트 초기화
         animator = GetComponentInChildren<Animator>();
         agent = GetComponentInChildren<NavMeshAgent>();
+        transform = GetComponent<Transform>();
+
+        agent.acceleration = 80.0f;
+        agent.updateRotation = false; 
     }
 
     //시작 시

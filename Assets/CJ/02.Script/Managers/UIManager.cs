@@ -13,13 +13,6 @@ public class UIManager : MonoBehaviour
     [Header("---Store---")]
     public bool CheckStoreImg = false;
 
-    #region card 
-    [Header("---Use Card Info---")]
-    //카드 정보
-    public GameObject card;
-    //들고있는 카드
-    #endregion
-
     #region List
     [Header("---PlayerCard List---")]
     //플레이어 덱
@@ -38,16 +31,13 @@ public class UIManager : MonoBehaviour
     #endregion
 
 
-    public void Awake()
+    public void Start()
     {
-
         //Setting.cs
-        ObjectSetting("StoreImage"); //구입 버튼 
         ObjectSetting("PlayerCardUI"); //핸드 카드 List 초기 세팅
         ObjectSetting("Cards"); //상점 카드 List 세팅
         ObjectSetting("Mana"); //마나 List 시스템 세팅
-
-        GameObject.Find("StoreImage").SetActive(false);
+        ObjectSetting("StoreImage"); //구입 버튼 
 
         //Card.cs
         CreateHoldCard(0); //들고있는 카드 초기 세팅
@@ -56,8 +46,7 @@ public class UIManager : MonoBehaviour
     public void Update()
     {
         //Card.cs
-        card.SetActive(false); //카드 정보 (수정해야함.)
-        ManaPlay();
+        ManaUI();
         CardCheck(); //버려진 카드 리셋
     }
 
@@ -89,6 +78,7 @@ public class UIManager : MonoBehaviour
                     PurchaseButton = ObjectChild.GetChild(0).GetComponent<Button>();
                     PurchaseButton.onClick.AddListener(PurChase);
 
+                    ObjectChild.gameObject.SetActive(false);
                     return;
                 }
 
@@ -97,7 +87,7 @@ public class UIManager : MonoBehaviour
                 {
                     for (int i = 0; i < ObjectChild.childCount; i++)
                     {
-                        //Plane - PlayerCard의 하위 객체 (Q,W,E,R,Next Card의 gameobject 리스트에 저장)
+                        //PlayerCardUI의 하위 객체 (Q,W,E,R,Next Card의 gameobject 리스트에 저장)
                         GameObject CardChild = ObjectChild.GetChild(i).gameObject;
                         SkillPosition.Add(CardChild);
                     }
@@ -126,8 +116,8 @@ public class UIManager : MonoBehaviour
                         GameObject ManaChild = ObjectChild.GetChild(i).gameObject;
                         ManaList.Add(ManaChild);
 
-                        ManaList[i].GetComponent<Slider>().minValue = 4 * i;
-                        ManaList[i].GetComponent<Slider>().maxValue = 4 * (i + 1);
+                        ManaList[i].GetComponent<Slider>().minValue = PlayerManager.Player_Instance.player_stats._manaRegenerationTime * i;
+                        ManaList[i].GetComponent<Slider>().maxValue = PlayerManager.Player_Instance.player_stats._manaRegenerationTime * (i + 1);
                     }
 
                     return;
@@ -154,30 +144,13 @@ public class UIManager : MonoBehaviour
     }
 
     //마나 플레이
-    public void ManaPlay()
+    public void ManaUI()
     {
-        //gameManager.instance.player.NowMana = 마나회복시간 * 최대 마나
-        PlayerManager.Player_Instance.player_stats.NowMana += Time.deltaTime;
-
         //마나 회복 (한칸 차면 다음 칸 참)
-        for (int i = 0; i < gameManager.instance.player.player_stats.MaxMana; i++)
+        for (int i = 0; i < gameManager.instance.player.player_stats.maxMana; i++)
         {
-            ManaList[i].GetComponent<Slider>().value = Mathf.Lerp(PlayerManager.Player_Instance.player_stats.NowMana,
-                PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간") * (i + 1), Time.deltaTime);
-        }
-
-        //gameManager.instance.player.NowMana의 최대값
-        if (PlayerManager.Player_Instance.player_stats.NowMana >= PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간")
-             * PlayerManager.Player_Instance.player_stats.GetStats("최대 마나"))
-        {
-            PlayerManager.Player_Instance.player_stats.NowMana = PlayerManager.Player_Instance.player_stats.GetStats("마나회복시간") *
-                PlayerManager.Player_Instance.player_stats.GetStats("최대 마나");
-        }
-
-        //gameManager.instance.player.NowMana의 최소값
-        if (PlayerManager.Player_Instance.player_stats.NowMana <= 0)
-        {
-            PlayerManager.Player_Instance.player_stats.NowMana = 0;
+            ManaList[i].GetComponent<Slider>().value = Mathf.Lerp(PlayerManager.Player_Instance.player_stats.nowMana,
+                PlayerManager.Player_Instance.player_stats.manaRegenerationTime * (i + 1), Time.deltaTime);
         }
     }
 
@@ -233,14 +206,11 @@ public class UIManager : MonoBehaviour
         
         // FindCard_name에 저장된 문자열로 타입 정보를 가져옴 -> 사용하는 카드의 이름과 이펙트.cs 이름이 같아야 함.
         Type type = Type.GetType(FindCard.name);
-
+        
 
         //현재 마나 >= 카드 코스트
-        if (PlayerManager.Player_Instance.player_stats.NowMana >= 1 * PlayerManager.Player_Instance.player_stats.ManaRegenerationTime)
+        if (PlayerManager.Player_Instance.player_stats.nowMana >= 1 * PlayerManager.Player_Instance.player_stats.manaRegenerationTime)
         {
-            //마나 코스트 사용
-            PlayerManager.Player_Instance.player_stats.AddStats("현재 마나", 1); //1 = cardcost
-            
             //사용하는 Card의 effect.cs의 함수 실행.
             use_card.GetComponent(type).SendMessage("cardEffect",SendMessageOptions.RequireReceiver);
 

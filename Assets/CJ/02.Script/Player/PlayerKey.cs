@@ -60,7 +60,7 @@ public class PlayerKey : MonoBehaviour
         if (Input.GetKey(KeyCode.Q))
         {
             ButtonPushTime += Time.deltaTime;
-            if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON
+            if (ButtonPushTime >= 0.3) { Debug.Log("카드 정보"); } //꾹 누르면 카드 정보 ON
         }
 
         if (Input.GetKeyUp(KeyCode.Q))
@@ -79,7 +79,7 @@ public class PlayerKey : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             ButtonPushTime += Time.deltaTime;
-            if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON
+            if (ButtonPushTime >= 0.3) { Debug.Log("카드 정보"); } //꾹 누르면 카드 정보 ON
         }
 
         if (Input.GetKeyUp(KeyCode.W))
@@ -99,7 +99,7 @@ public class PlayerKey : MonoBehaviour
         {
             ButtonPushTime += Time.deltaTime;
 
-            if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON (탭 시간 기준 0.3초)
+            if (ButtonPushTime >= 0.3) { Debug.Log("카드 정보"); } //꾹 누르면 카드 정보 ON (탭 시간 기준 0.3초)
         }
 
         if (Input.GetKeyUp(KeyCode.E))
@@ -118,7 +118,7 @@ public class PlayerKey : MonoBehaviour
         if (Input.GetKey(KeyCode.R))
         {
             ButtonPushTime += Time.deltaTime;
-            if (ButtonPushTime >= 0.3) { gameManager.instance.UI.card.SetActive(true); } //꾹 누르면 카드 정보 ON
+            if (ButtonPushTime >= 0.3) { Debug.Log("카드 정보"); } //꾹 누르면 카드 정보 ON
         }
 
         if (Input.GetKeyUp(KeyCode.R))

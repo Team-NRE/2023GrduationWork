@@ -56,6 +56,7 @@ namespace Werewolf.StatusIndicators.Components {
 		/// </summary>
 		public RangeIndicator CurrentRangeIndicator { get; private set; }
 
+
 		void OnEnable() {
 			// Create a list of all the splats available to the manager
 			SpellIndicators = GetComponentsInChildren<SpellIndicator>();
@@ -77,6 +78,7 @@ namespace Werewolf.StatusIndicators.Components {
 			StatusIndicators.ToList().ForEach(x => x.gameObject.SetActive(false));
 			RangeIndicators.ToList().ForEach(x => x.gameObject.SetActive(false));
 		}
+		
 
 		// This Update method and the "HideCursor" variable can be deleted if you do not need this functionality
 		void Update() {

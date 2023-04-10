@@ -3,35 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : PlayerManager
 {
     [Header("---Player Move---")]
-    //NavMeshAgent
-    public NavMeshAgent agent;
-    //Transform
-    public new Transform transform;
     //이동할 점
     public Vector3 Point;
     //속도
     public Vector3 velocity = Vector3.zero;
-    //남은거리
-    public float remainDistance;
 
     [Header("---Move Ignore Layer---")]
     public LayerMask Ignorelayer;
 
-    private void Awake() {
-        //Move.cs
-        transform = GetComponent<Transform>();
-        agent = GetComponent<NavMeshAgent>();
-    
-        agent.updateRotation = false;    
-    }
-    
-    public void Update() 
-    {
-        remainDistance = agent.remainingDistance;
-    }
       
     //플레이어 이동 
     public void playerMove()

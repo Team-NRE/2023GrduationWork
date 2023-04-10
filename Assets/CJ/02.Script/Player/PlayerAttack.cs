@@ -34,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
         
         //공격사거리 세팅
         Projector projector = AttackRangeimg.GetComponent<Projector>();
-        projector.orthographicSize = PlayerManager.Player_Instance.player_stats.attackRange;
+        projector.orthographicSize = PlayerManager.Player_Instance.player_stats._attackRange;
         GetAttackRange();
     }
 
@@ -79,7 +79,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         //플레이어 근처 적 식별
-        Collider[] colls = Physics.OverlapSphere(transform.position, PlayerManager.Player_Instance.player_stats.attackRange, layerMask);
+        Collider[] colls = Physics.OverlapSphere(transform.position, PlayerManager.Player_Instance.player_stats._attackRange, layerMask);
         //식별된 적 모두 중 하나만 선별
         foreach(Collider coll in colls)
         {

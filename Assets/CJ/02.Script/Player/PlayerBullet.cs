@@ -31,7 +31,7 @@ public class PlayerBullet : MonoBehaviour
             if (Vector3.Distance(transform.position, _target.transform.position) <= 0.7f)
             {
                 Debug.Log(_target);
-                _target.GetComponent<Stats>().NowHealth -= PlayerManager.Player_Instance.player_stats.attackPower;
+                _target.GetComponent<Stats>().NowHealth -= PlayerManager.Player_Instance.player_stats._basicAttackPower;
                 Destroy(this.gameObject);
             }
         }

@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class CardStats : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int _cost;
+    public float _damage;
+    public float _defence;
+    public float _debuff;
+    public float _buff;
+    public GameObject _range;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int cost { get { return _cost; } set { value = _cost; } }
+    public float damage { get { return _damage; } set { value = _damage; } }
+    public float defence { get { return _defence; } set { value = _defence; } }
+    public float debuff { get { return _debuff; } set { value = _debuff; } }
+    public float buff { get { return _buff; } set { value = _buff; } }
+    public GameObject range { get { return _range; } set { value = _range; } }
+
 }

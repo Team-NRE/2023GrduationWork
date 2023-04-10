@@ -1,167 +1,128 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerStats : MonoBehaviour
 {
     #region PlayerStats
-    [Header("---Stats---")]
-    [Header("- 공격 분야")]
-    public float attackPower;
-    public float absoluteAttackPower;
-    public float attackSpeed;
-    public float attackRange;
-    public float criticalChance;
-    public float criticalPower;
 
-    [Header("- 방어 분야")]
-    public float maxHealth;
-    public float nowHealth;
-    public float healthRegeneration;
-    public float defensePower;
+    [Header("-- 공격 --")]
+    public float _basicAttackPower; //평타 공격력
+    public float _attackSpeed; //평타 공속
+    public float _attackRange; //평타 범위 
+    //public GameObject _range; //평타 사거리 오브젝트
 
-    [Header("- 버프 분야")]
-    public float protectiveShield;
-    public float protectiveShieldTime;
 
-    [Header("- 디버프 분야")]
-    public float moveSpeedReduction;
-    public float moveSpeedReductionTime;
-    public float skillSilenceTime;
-    public float poisonDamage;
-    public float poisonDamageTime;
+    [Header("-- 방어 --")]
+    public float _maxHealth; //최대 체력
+    public float _nowHealth; //현재 체력
+    public float _healthRegeneration; //체력 재생량
+    public float _defensePower; //방어력
 
-    [Header("- 기타")]
-    public float NowMana;
-    public float ManaRegenerationTime;
-    public float MaxMana = 3;
-    public float level;
 
-    public float speed;
-    public float angularSpeed;
-    public float acceleration;
+    [Header("-- 마나 --")]
+    public float _nowMana; //현재 마나
+    public float _manaRegenerationTime; //마나 회복 속도
+    public float _maxMana; //최대 마나
 
-    public float experience;
-    public float globalToken;
-    public float rangeToken;
-    public float resource;
-    public float resourceRange;
-    public float recognitionRange;
+
+    [Header("-- 레벨 --")]
+    public int _level; //레벨
+    public float _experience; //경험치
+
+
+    [Header("-- 이동 --")]
+    public float _speed; //이동 속도
+
     #endregion
 
-    //스텟 읽기
-    public float GetStats(string variableName)
+
+    //공격
+    public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
+    public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
+    public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
+    //public GameObject range { get { return _range; } set { _range = value; } }
+
+
+    //방어
+    public float maxHealth { get { return _maxHealth; } set { _maxHealth = value; } }
+    public float nowHealth
     {
-        if (variableName == "attackPower" || variableName == "공격력") return attackPower;
-        if (variableName == "absoluteAttackPower" || variableName == "절대공격력") return absoluteAttackPower;
-        if (variableName == "attackSpeed" || variableName == "공격속도") return attackSpeed;
-        if (variableName == "attackRange" || variableName == "공격범위") return attackRange;
-        if (variableName == "criticalChance" || variableName == "크리확률") return criticalChance;
-        if (variableName == "criticalPower" || variableName == "크리공격력") return criticalPower;
+        get { return _nowHealth; }
+        set
+        {
+            _nowHealth = value;
+            if (_nowHealth >= _maxHealth) { _nowHealth = _maxHealth; }
+        }
+    }
+    public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
+    public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
 
-        if (variableName == "maxHealth" || variableName == "최대 체력") return maxHealth;
-        if (variableName == "nowHealth" || variableName == "현재 체력") return nowHealth;
-        if (variableName == "healthRegeneration" || variableName == "체력재생") return healthRegeneration;
-        if (variableName == "defensePower" || variableName == "방어력") return defensePower;
 
-        if (variableName == "protectiveShield" || variableName == "방어막") return protectiveShield;
-        if (variableName == "protectiveShieldTime" || variableName == "방어막시간") return protectiveShieldTime;
-
-        if (variableName == "moveSpeedReduction" || variableName == "이동속도감소퍼센트") return moveSpeedReduction;
-        if (variableName == "moveSpeedReductionTime" || variableName == "이동속도감소시간") return moveSpeedReductionTime;
-        if (variableName == "skillSilenceTime" || variableName == "스킬침묵시간") return skillSilenceTime;
-        if (variableName == "poisonDamage" || variableName == "독데미지") return poisonDamage;
-        if (variableName == "poisonDamageTime" || variableName == "독시간") return poisonDamageTime;
-
-        if (variableName == "mana" || variableName == "현재 마나") return NowMana;
-        if (variableName == "ManaRegenerationTime" || variableName == "마나회복시간") return ManaRegenerationTime;
-        if (variableName == "maxmana" || variableName == "최대 마나") return MaxMana;
-        if (variableName == "level" || variableName == "레벨") return level;
-        if (variableName == "experience" || variableName == "경험치") return experience;
-        if (variableName == "Speed" || variableName == "이동속도") return speed;
-        if (variableName == "Angular Speed" || variableName == "회전속도") return angularSpeed;
-        if (variableName == "globalToken" || variableName == "전역골드") return globalToken;
-        if (variableName == "rangeToken" || variableName == "범위골드") return rangeToken;
-        if (variableName == "resource" || variableName == "자원") return resource;
-        if (variableName == "resourceRange" || variableName == "획득범위") return resourceRange;
-        if (variableName == "recognitionRange" || variableName == "인식범위") return recognitionRange;
-
-        return 0;
+    //마나
+    public float maxMana { get { return _maxMana; } set { _maxMana = value; } }
+    public float nowMana
+    {
+        get { return _nowMana; }
+        set
+        {
+            _nowMana += value;
+            if (_nowMana >= _maxMana * _manaRegenerationTime) { _nowMana = _maxMana * _manaRegenerationTime; }
+            if (_nowMana <= 0 ) {_nowMana = 0;}
+        }
+    }
+    public float manaRegenerationTime
+    {
+        get { return _manaRegenerationTime; }
+        set
+        {
+            _manaRegenerationTime = value;
+        }
     }
 
-    //스텟 쓰기
-    public void SetStats(string variableName, float value)
+
+    //레벨
+    public int level { get { return _level; } set { _level = value; } }
+    public float experience { get { return _experience; } set { _experience = value; } }
+
+
+    //이동
+    public float speed
     {
-        if (variableName == "attackPower" || variableName == "공격력") attackPower = value;
-        if (variableName == "absoluteAttackPower" || variableName == "절대공격력") absoluteAttackPower = value;
-        if (variableName == "attackSpeed" || variableName == "공격속도") attackSpeed = value;
-        if (variableName == "attackRange" || variableName == "공격범위") attackRange = value;
-        if (variableName == "criticalChance" || variableName == "크리확률") criticalChance = value;
-        if (variableName == "criticalPower" || variableName == "크리공격력") criticalPower = value;
-
-        if (variableName == "maxHealth" || variableName == "최대 체력") maxHealth = value;
-        if (variableName == "nowHealth" || variableName == "현재 체력") nowHealth = value;
-        if (variableName == "healthRegeneration" || variableName == "체력재생") healthRegeneration = value;
-        if (variableName == "defensePower" || variableName == "방어력") defensePower = value;
-
-        if (variableName == "protectiveShield" || variableName == "방어막") protectiveShield = value;
-        if (variableName == "protectiveShieldTime" || variableName == "방어막시간") protectiveShieldTime = value;
-
-        if (variableName == "moveSpeedReduction" || variableName == "이동속도감소퍼센트") moveSpeedReduction = value;
-        if (variableName == "moveSpeedReductionTime" || variableName == "이동속도감소시간") moveSpeedReductionTime = value;
-        if (variableName == "skillSilenceTime" || variableName == "스킬침묵시간") skillSilenceTime = value;
-        if (variableName == "poisonDamage" || variableName == "독데미지") poisonDamage = value;
-        if (variableName == "poisonDamageTime" || variableName == "독시간") poisonDamageTime = value;
-
-        if (variableName == "mana" || variableName == "현재 마나") NowMana = value;
-        if (variableName == "ManaRegenerationTime" || variableName == "마나회복시간") ManaRegenerationTime = value;
-        if (variableName == "maxmana" || variableName == "최대 마나") MaxMana = value;
-        if (variableName == "level" || variableName == "레벨") level = value;
-        if (variableName == "experience" || variableName == "경험치") experience = value;
-        if (variableName == "Speed" || variableName == "이동속도") speed = value;
-        if (variableName == "Acceleration" || variableName == "가속도") acceleration = value;
-        if (variableName == "Angular Speed" || variableName == "회전속도") angularSpeed = value;
-        if (variableName == "globalToken" || variableName == "전역골드") globalToken = value;
-        if (variableName == "rangeToken" || variableName == "범위골드") rangeToken = value;
-        if (variableName == "resource" || variableName == "자원") resource = value;
-        if (variableName == "resourceRange" || variableName == "획득범위") resourceRange = value;
+        get { return PlayerManager.Player_Instance.agent.speed; }
+        set
+        {
+            _speed = value;
+            PlayerManager.Player_Instance.agent.speed = _speed;
+        }
     }
 
-    //스텟 추가 / 감소
-    public void AddStats(string variableName, float value)
+
+    private void Awake()
     {
-        if (variableName == "attackPower" || variableName == "공격력") attackPower += value;
-        if (variableName == "absoluteAttackPower" || variableName == "절대공격력") absoluteAttackPower += value;
-        if (variableName == "attackSpeed" || variableName == "공격속도") attackSpeed += value;
-        if (variableName == "attackRange" || variableName == "공격범위") attackRange += value;
-        if (variableName == "criticalChance" || variableName == "크리확률") criticalChance += value;
-        if (variableName == "criticalPower" || variableName == "크리공격력") criticalPower += value;
+        //공격
+        basicAttackPower = 30.0f;
+        attackRange = 6.0f;
 
-        if (variableName == "maxHealth" || variableName == "최대 체력") maxHealth += value;
-        if (variableName == "nowHealth" || variableName == "현재 체력") nowHealth += value;
-        if (variableName == "healthRegeneration" || variableName == "체력재생") healthRegeneration += value;
-        if (variableName == "defensePower" || variableName == "방어력") defensePower += value;
+        //방어
+        maxHealth = 150.0f;
+        nowHealth = maxHealth;
 
-        if (variableName == "protectiveShield" || variableName == "방어막") protectiveShield += value;
-        if (variableName == "protectiveShieldTime" || variableName == "방어막시간") protectiveShieldTime += value;
+        //마나
+        maxMana = 3.0f;
+        manaRegenerationTime = 4.0f;
 
-        if (variableName == "moveSpeedReduction" || variableName == "이동속도감소퍼센트") moveSpeedReduction += value;
-        if (variableName == "moveSpeedReductionTime" || variableName == "이동속도감소시간") moveSpeedReductionTime += value;
-        if (variableName == "skillSilenceTime" || variableName == "스킬침묵시간") skillSilenceTime += value;
-        if (variableName == "poisonDamage" || variableName == "독데미지") poisonDamage += value;
-        if (variableName == "poisonDamageTime" || variableName == "독시간") poisonDamageTime += value;
+        //레벨
+        level = 7;
 
-        if (variableName == "mana" || variableName == "현재 마나") NowMana -= 4 * value;
-        if (variableName == "ManaRegenerationTime" || variableName == "마나회복시간") ManaRegenerationTime += value;
-        if (variableName == "maxmana" || variableName == "최대 마나") MaxMana += value;
-        if (variableName == "level" || variableName == "레벨") level += value;
-        if (variableName == "experience" || variableName == "경험치") experience += value;
-        if (variableName == "Speed" || variableName == "이동속도") speed += value;
-        if (variableName == "Angular Speed" || variableName == "회전속도") angularSpeed += value;
-        if (variableName == "globalToken" || variableName == "전역골드") globalToken += value;
-        if (variableName == "rangeToken" || variableName == "범위골드") rangeToken += value;
-        if (variableName == "resource" || variableName == "자원") resource += value;
-        if (variableName == "resourceRange" || variableName == "획득범위") resourceRange += value;
+        //이동
+        speed = 4.0f;
     }
-    
+
+    private void Update()
+    {
+        nowMana = Time.deltaTime;
+    }
+
 }

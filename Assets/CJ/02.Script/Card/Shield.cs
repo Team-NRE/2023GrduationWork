@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-    public int CardCost = 2;
-    
+    CardStats cardStats;
+    private void Awake()
+    {
+        cardStats = GetComponent<CardStats>();
+        
+    }
+
     public void cardEffect()
     {
-        Debug.Log(CardCost);
+        
     }
 }
