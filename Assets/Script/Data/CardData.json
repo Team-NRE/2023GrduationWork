@@ -1,0 +1,22 @@
+{
+    "cards": [
+      {
+        "name" : "Example1",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
+      },
+      {
+        "name" : "Example2",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
+      },
+      {
+        "name" : "Example3",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
+      }
+    ]
+  } 
