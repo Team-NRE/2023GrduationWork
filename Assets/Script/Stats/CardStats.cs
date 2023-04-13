@@ -12,7 +12,8 @@ public class CardStats : MonoBehaviour
     public float _defence;
     public float _debuff;
     public float _buff;
-    public GameObject _range;
+    public float _range;
+	public float _time;
 
 
     public int cost { get { return _cost; } set { value = _cost; } }
@@ -20,7 +21,8 @@ public class CardStats : MonoBehaviour
     public float defence { get { return _defence; } set { value = _defence; } }
     public float debuff { get { return _debuff; } set { value = _debuff; } }
     public float buff { get { return _buff; } set { value = _buff; } }
-    public GameObject range { get { return _range; } set { value = _range; } }
+    public float range { get { return _range; } set { value = _range; } }
+    public float time { get { return _time; } set { value = _time; } }
 	
 
 

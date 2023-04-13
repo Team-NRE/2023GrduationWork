@@ -6,7 +6,7 @@ public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
     public PlayerController player;
-    public UIManager UI; 
+    public BaseController UI;
     public RespawnManager respawn;
     public CameraController Camera_Manager;
     
@@ -15,7 +15,7 @@ public class gameManager : MonoBehaviour
         instance = this;
 
         player = GameObject.Find("PlayerManager").GetComponent<PlayerController>();
-        UI = GameObject.Find("UIManager").GetComponent<UIManager>();
+        UI = GameObject.Find("BaseCard").GetComponent<BaseController>();
         respawn = GameObject.Find("RespawnManager").GetComponent<RespawnManager>();
         Camera_Manager = GameObject.Find("Main Camera").GetComponent<CameraController>();
     }

@@ -80,7 +80,14 @@ public class Define
     public enum CardType
     {
         Undefine,
-        Melee,
+        NonProjective,
         Projective,
+    }
+
+    public enum Projectile
+    {
+        Undefine,
+        Target,
+        NonTarget,
     }
 }
