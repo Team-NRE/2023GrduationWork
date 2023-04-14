@@ -8,12 +8,12 @@ using JetBrains.Annotations;
 
 public abstract class BaseController : MonoBehaviour
 {
+    public Action<Define.KeyboardEvent> cardEvent = null;
     Define.CardType _cardType = Define.CardType.Undefine;
 
-    private void Start()
+	private void Start()
     {
-        Debug.Log("Start");
-        //CardDictionary();
+
     }
 
     public virtual void Init()
@@ -21,6 +21,7 @@ public abstract class BaseController : MonoBehaviour
         //this Functions details are writed in Child Scripts
     }
 
+    //Effects for normal attack
     public virtual void LoadEffect()
     {
 
@@ -29,6 +30,11 @@ public abstract class BaseController : MonoBehaviour
     public virtual void LoadProjectile()
     {
         //Projectile Component must has Effect LoadEffect Function Defaultly
+    }
+
+    public virtual void SetStat()
+    {
+
     }
 
     public virtual void TypeVerify(BaseController card)
@@ -47,5 +53,23 @@ public abstract class BaseController : MonoBehaviour
         }
     }
 
-    
+    public void CardEventRecv(Define.KeyboardEvent evt)
+    {
+        //Get Event of Q,W,E,R -> return Component of Card
+        switch (evt)
+        {
+            case Define.KeyboardEvent.Q:
+                Debug.Log("Recv Q");
+                break;
+            case Define.KeyboardEvent.W:
+				Debug.Log("Recv W");
+				break;
+            case Define.KeyboardEvent.E:
+				Debug.Log("Recv E");
+				break;
+            case Define.KeyboardEvent.R:
+				Debug.Log("Recv R");
+				break;
+        }
+    }
 }

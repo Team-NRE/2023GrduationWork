@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Example3 : BaseCard
+public class Example4 : BaseController
 {
     public int CardCost = 1;
     PlayerStats _pStats;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,11 +14,16 @@ public static class ExtensionsEx
 
     public static void BindEvent(this GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
-        //UI_Base.BindEvent(go, action, type);
+        UI_Base.BindEvent(go, action, type);
     }
 
     public static bool IsValid(this GameObject go)
     {
         return go != null && go.activeSelf;
+    }
+
+    public static void InitCard(this BaseController bc)
+    {
+        bc.Init();
     }
 }

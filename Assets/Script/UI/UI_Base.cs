@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public abstract class UI_Base : MonoBehaviour
 {
-	Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>(); //Å¸ÀÔº°·Î µû·Î ÀúÀåµÇ´Â µñ¼Å³Ê¸® ¼±¾ğ
+	Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>(); //íƒ€ì…ë³„ë¡œ ë”°ë¡œ ì €ì¥ë˜ëŠ” ë”•ì…”ë„ˆë¦¬ ì„ ì–¸
 
 	public abstract void Init();
 
@@ -16,8 +16,8 @@ public abstract class UI_Base : MonoBehaviour
 		Init();
 	}
 
-	//ReflectionÀ» ÀÌ¿ëÇÑ´Ù. ÇÏÀ§ ÄÄÆ÷³ÍÆ®µéÀ» ¸ğµÎ Ã£¾ÆÁÖ´Â ´Ü°è
-	protected void Bind<T>(Type type) where T : UnityEngine.Object    //ÇÏÀ§ ÇÔ¼ö¿¡¼­¿Í Á¶°ÇÀ» ¸ÂÃçÁØ´Ù.
+	//Reflectionì„ ì´ìš©í•œë‹¤. í•˜ìœ„ ì»´í¬ë„ŒíŠ¸ë“¤ì„ ëª¨ë‘ ì°¾ì•„ì£¼ëŠ” ë‹¨ê³„
+	protected void Bind<T>(Type type) where T : UnityEngine.Object    //í•˜ìœ„ í•¨ìˆ˜ì—ì„œì™€ ì¡°ê±´ì„ ë§ì¶°ì¤€ë‹¤.
 	{
 		string[] names = Enum.GetNames(type);
 
@@ -44,7 +44,7 @@ public abstract class UI_Base : MonoBehaviour
 		return objects[idx] as T;
 	}
 
-	//ÆíÀÇ¸¦ À§ÇØ¼­ ÀÔ·ÂÀ» ÁÙÀÌ±â À§ÇÑ ÇÔ¼öµé
+	//í¸ì˜ë¥¼ ìœ„í•´ì„œ ì…ë ¥ì„ ì¤„ì´ê¸° ìœ„í•œ í•¨ìˆ˜ë“¤
 	protected GameObject GetObject(int idx) { return Get<GameObject>(idx); }
 	protected Text GetText(int idx) { return Get<Text>(idx); }
 	protected Button GetButton(int idx) { return Get<Button>(idx); }

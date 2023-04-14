@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-//µÎ ÀÎÅÍÆäÀÌ½º´Â ÇÏÀ§ Ç×¸ñ¿¡µµ ¸ğµÎ Àû¿ëµÈ´Ù.
+//ë‘ ì¸í„°í˜ì´ìŠ¤ëŠ” í•˜ìœ„ í•­ëª©ì—ë„ ëª¨ë‘ ì ìš©ëœë‹¤.
 public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 {
 	public Action<PointerEventData> OnClickHandler = null;

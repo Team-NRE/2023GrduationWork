@@ -17,7 +17,7 @@ public class Shield : BaseController
 
     public override void Init()
     {
-        //Managers.Resource.Instantiate("")
+        Debug.Log($"{this.gameObject.name} is called");
     }
 
 	public void cardEffect()
@@ -25,7 +25,7 @@ public class Shield : BaseController
         SetStat();
     }
 
-    public void SetStat()
+    public override void SetStat()
     {
         
     }

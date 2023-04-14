@@ -46,7 +46,7 @@ public class PlayerController : BaseController
         agent.acceleration = 80.0f;
         agent.updateRotation = false;
 
-        GetDeckBase(CardDictionary());
+        //GetDeckBase(CardDictionary());
     }
 
     //시작 시
@@ -158,66 +158,5 @@ public class PlayerController : BaseController
         }
     }
 
-    //Deck Initializer, return List<string> names, called only Deck is refreshed or starting game, 완성
-    public List<string> GetDeckBase(List<BaseController> originals)
-    {
-        Dictionary<int, Data.Deck> dict = Managers.Data.DeckDict;
-        //Return to InhandDeck
-        List<string> cardNames = new List<string>();
-
-        //Init deck all -> make List, that have all of deck
-        for(int i = 0; i < originals.Count; i++)
-        {
-            cardNames.Add(originals[i].name);    //딕셔너리에서 가져와 string list로 만듬
-            Debug.Log(cardNames[i]);        //출력을 통한 확인
-        }
-
-        //Pick random 4
-        for(int i = 0; i < originals.Count; i++)
-        {
-            //int rand = Random.Range(1, 30); //랜덤값을 받아서 제거
-            //여기서 _inHand에 먼저 넣어주기
-            //cardNames.RemoveAt(rand);
-
-            cardNames[i] = originals[i].name;
-            Debug.Log(cardNames[i].ToString());
-		}
-
-        return cardNames;   //Start 에서 이 리턴을 _baseDeck에 저장
-    }
-
-    //parameter
-    public List<string> UseCard(string cardName)
-    {
-        List<string> updatedList = new List<string>();
-        //if use -> call Card init -> delete from deck
-
-        //Add to empty with Random 1 from deck
-        
-        return updatedList;
-	}
-
-	//Base return Components List for basement of search
-	public List<BaseController> CardDictionary()
-	{
-		Dictionary<string, Card> cards = Managers.Data.CardDict;
-		List<BaseController> bcs = new List<BaseController>();
-		List<string> cardNames = new List<string>();
-
-		foreach (Card card in cards.Values)
-		{
-			//Debug.Log(card.name);
-			BaseController go = Managers.Resource.Load<BaseController>($"Prefabs/Cards/{card.name}").GetComponent<BaseController>();
-
-			cardNames.Add(card.name);
-			if (go.name == card.name)
-			{
-				bcs.Add(Managers.Resource.Load<BaseController>($"Prefabs/Cards/{card.name}"));
-
-				Debug.Log(Managers.Resource.Load<GameObject>($"Prefabs/Cards/{card.name}"));
-			}
-		}
-
-		return bcs;
-	}
+    
 }
