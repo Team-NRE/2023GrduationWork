@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static Enums;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseController
 {
     [Header("---Instance---")]
     public static PlayerController Player_Instance;
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         transform = GetComponent<Transform>();
 
         agent.acceleration = 80.0f;
-        agent.updateRotation = false; 
+        agent.updateRotation = false;
     }
 
     //시작 시
@@ -56,31 +56,31 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator CheckPlayerState()
     {
-        while (!isDie)
+
+        yield return new WaitForSeconds(0.1f);
+
+        //남은 거리로 Walk/IDLE 판별
+        status = agent.remainingDistance < 0.2f ? Status.IDLE : Status.Walk;
+
+        //어택 판별
+        if (player_key.key == "Attack")
         {
-            yield return new WaitForSeconds(0.1f);
-            //남은 거리로 Walk/IDLE 판별
-            status = agent.remainingDistance < 0.2f ? Status.IDLE : Status.Walk;
+            status = Status.Attack;
 
-            //어택 판별
-            if (player_key.key == "Attack")
-            {
-                status = Status.Attack;
-
-                yield return new WaitForSeconds(0.2f);
-                player_key._key = " ";
-            }
-
-            if (player_key.key == "skill")
-            {
-                status = Status.Throw1;
-                yield return new WaitForSeconds(0.6f);
-                player_key._key = " ";
-            }
-
-            //HP < 0 이면 죽음 상태
-            if (player_stats.nowHealth <= 0) { status = Status.DIE; }
+            yield return new WaitForSeconds(0.2f);
+            player_key._key = " ";
         }
+
+        if (player_key.key == "skill")
+        {
+            status = Status.Throw1;
+            yield return new WaitForSeconds(0.6f);
+            player_key._key = " ";
+        }
+
+        //HP < 0 이면 죽음 상태
+        if (player_stats.nowHealth <= 0) { status = Status.DIE; }
+
     }
 
     public IEnumerator PlayerAnim()
@@ -147,4 +147,6 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+
 }

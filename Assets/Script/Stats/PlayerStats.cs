@@ -11,7 +11,6 @@ public class PlayerStats : MonoBehaviour
     public float _basicAttackPower; //평타 공격력
     public float _attackSpeed; //평타 공속
     public float _attackRange; //평타 범위 
-    //public GameObject _range; //평타 사거리 오브젝트
 
 
     [Header("-- 방어 --")]
@@ -42,8 +41,6 @@ public class PlayerStats : MonoBehaviour
     public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
     public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
     public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
-    //public GameObject range { get { return _range; } set { _range = value; } }
-
 
     //방어
     public float maxHealth { get { return _maxHealth; } set { _maxHealth = value; } }

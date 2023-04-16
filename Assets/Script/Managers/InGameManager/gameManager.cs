@@ -8,7 +8,7 @@ public class gameManager : MonoBehaviour
     public PlayerController player;
     public UIManager UI; 
     public RespawnManager respawn;
-    public CameraController Camera_Manager;
+    //public CameraController Camera_Manager;
     
     void Awake()
     {
@@ -17,7 +17,7 @@ public class gameManager : MonoBehaviour
         player = GameObject.Find("PlayerManager").GetComponent<PlayerController>();
         UI = GameObject.Find("UIManager").GetComponent<UIManager>();
         respawn = GameObject.Find("RespawnManager").GetComponent<RespawnManager>();
-        Camera_Manager = GameObject.Find("Main Camera").GetComponent<CameraController>();
+        //Camera_Manager = GameObject.Find("Main Camera").GetComponent<CameraController>();
     }
 
 }

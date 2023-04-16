@@ -9,6 +9,7 @@ public class Shield : MonoBehaviour
     {
         cardStats = GetComponent<CardStats>();
         
+
     }
 
     public void cardEffect()

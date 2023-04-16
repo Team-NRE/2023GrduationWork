@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerKey : MonoBehaviour
 {
+    CameraController cc;
 
     public string _key;
 
@@ -15,7 +16,11 @@ public class PlayerKey : MonoBehaviour
 
     //버튼 푸쉬 시간
     public float ButtonPushTime;
-
+    
+    void Start()
+    {
+        cc = GetComponent<CameraController>();
+    }
     void Update()
     {
         //Setting.cs
@@ -34,17 +39,17 @@ public class PlayerKey : MonoBehaviour
         #endregion
 
         #region Spacebar (카메라 고정 계속)
-        if (Input.GetKeyDown(KeyCode.Space) && gameManager.instance.Camera_Manager.CameraSet == true)
+        if (Input.GetKeyDown(KeyCode.Space) && cc.CameraSet == true)
         {
-            gameManager.instance.Camera_Manager.CameraSet = false;
+            cc.CameraSet = false;
         }
-        else if (Input.GetKeyUp(KeyCode.Space)) { gameManager.instance.Camera_Manager.CameraSet = true; }
+        else if (Input.GetKeyUp(KeyCode.Space)) { cc.CameraSet = true; }
         #endregion
 
         #region U (카메라 고정/풀기)
         if (Input.GetKeyDown(KeyCode.U))
         {
-            gameManager.instance.Camera_Manager.CameraSet = (gameManager.instance.Camera_Manager.CameraSet == false ? true : false);
+            cc.CameraSet = (cc.CameraSet == false ? true : false);
         }
         #endregion
 
@@ -67,7 +72,7 @@ public class PlayerKey : MonoBehaviour
         {
             if (ButtonPushTime < 0.3)
             {
-                gameManager.instance.UI.UseCard(0);
+                gameManager.instance.UI.UseCard(0); //카드 사용
                 _key = "skill";
             } //탭하면 SKill 사용
 

@@ -22,19 +22,19 @@ public class CameraController : MonoBehaviour
     public Vector3 velocity = Vector3.zero;
 
     //카메라 고정 or 풀기
-    public bool CameraSet = true;
+    public bool CameraSet = false;
     
     public GameObject player;
     
     public void Awake() 
     {
-        player = GameObject.Find("Player");
+        player = GameObject.FindWithTag("PLAYER");
     }
 
 
     public void FixedUpdate()
     {
-        if(CameraSet == true) { CameraMove(); }
+        //if(CameraSet == true) { CameraMove(); }
         if(CameraSet == false) { FixedCameraMove(); }
     } 
 
