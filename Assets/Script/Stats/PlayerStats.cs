@@ -33,7 +33,6 @@ public class PlayerStats : MonoBehaviour
 
     [Header("-- 이동 --")]
     public float _speed; //이동 속도
-
     #endregion
 
 

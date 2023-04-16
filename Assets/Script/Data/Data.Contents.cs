@@ -54,8 +54,8 @@ namespace Data
             foreach (Stat stat in stats)
             {
                 dict.Add(stat.name, stat);
-                Debug.Log(stat.name);
-                Debug.Log(stat.attackPower);
+                //Debug.Log(stat.name);
+                //Debug.Log(stat.attackPower);
             }
             return dict;
         }
@@ -72,8 +72,8 @@ namespace Data
             foreach (Card card in cards)
             {
                 dict.Add(card.name, card);
-                Debug.Log(card.name);
-                Debug.Log(card.damage);
+                //Debug.Log(card.name);
+                //Debug.Log(card.damage);
             }
             return dict;
         }
@@ -90,8 +90,6 @@ namespace Data
             foreach (Deck deck in decks)
             {
                 dict.Add(deck.id, deck);
-                //Debug.Log(deck.id);
-                //Debug.Log(deck.name);
             }
 			return dict;
 		}

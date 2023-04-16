@@ -1,5 +1,7 @@
+using Data;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static Enums;
@@ -25,6 +27,12 @@ public class PlayerController : BaseController
 
     //bool
     bool isDie = false; //플레이어 사망 여부
+	bool _used = false;  //Announce GetDeck is first or not
+
+	//PlayerInHandCard
+	List<BaseController> _inHand = new List<BaseController>();
+    //PlayerDeckBase
+    List<string> _baseDeck = new List<string>();
 
     private void Awake()
     {
@@ -37,6 +45,11 @@ public class PlayerController : BaseController
 
         agent.acceleration = 80.0f;
         agent.updateRotation = false;
+<<<<<<< HEAD
+=======
+
+        //GetDeckBase(CardDictionary());
+>>>>>>> 4d0180b10e1765bec4529412d115ddf35e17ac63
     }
 
     //시작 시
@@ -148,5 +161,9 @@ public class PlayerController : BaseController
         }
     }
 
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 4d0180b10e1765bec4529412d115ddf35e17ac63
 }

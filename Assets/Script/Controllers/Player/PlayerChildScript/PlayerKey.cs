@@ -72,7 +72,11 @@ public class PlayerKey : MonoBehaviour
         {
             if (ButtonPushTime < 0.3)
             {
+<<<<<<< HEAD
                 gameManager.instance.UI.UseCard(0); //카드 사용
+=======
+                //gameManager.instance.UI.UseCard(0);
+>>>>>>> 4d0180b10e1765bec4529412d115ddf35e17ac63
                 _key = "skill";
             } //탭하면 SKill 사용
 
@@ -91,7 +95,7 @@ public class PlayerKey : MonoBehaviour
         {
             if (ButtonPushTime < 0.3)
             {
-                gameManager.instance.UI.UseCard(1);
+                //gameManager.instance.UI.UseCard(1);
                 _key = "skill";
             } //탭하면 SKill 사용
 
@@ -111,7 +115,7 @@ public class PlayerKey : MonoBehaviour
         {
             if (ButtonPushTime < 0.3)
             {
-                gameManager.instance.UI.UseCard(2);
+                //gameManager.instance.UI.UseCard(2);
                 _key = "skill";
             } //탭하면 SKill 사용
 
@@ -130,7 +134,7 @@ public class PlayerKey : MonoBehaviour
         {
             if (ButtonPushTime < 0.3)
             {
-                gameManager.instance.UI.UseCard(3);
+                //gameManager.instance.UI.UseCard(3);
                 _key = "skill";
             } //탭하면 SKill 사용
 
@@ -143,7 +147,7 @@ public class PlayerKey : MonoBehaviour
         #region Keycode P (Setting.cs)
         if (Input.GetKeyDown(KeyCode.P))
         {
-            gameManager.instance.UI.GetStore("Store");
+            //gameManager.instance.UI.GetStore("Store");
         }
         #endregion
 

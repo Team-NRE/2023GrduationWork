@@ -1,19 +1,26 @@
 {
     "cards": [
       {
-        "name" : "Example1",
+        "deck" : "0",
+        "name" : "Shield",
         "damage" : "10",
         "defence" : "10",
         "EffectTime" : "5"
       },
       {
-        "name" : "Example2",
+        "name" : "Sword",
         "damage" : "10",
         "defence" : "10",
         "EffectTime" : "5"
       },
       {
         "name" : "Example3",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
+      },
+      {
+        "name" : "Example4",
         "damage" : "10",
         "defence" : "10",
         "EffectTime" : "5"
