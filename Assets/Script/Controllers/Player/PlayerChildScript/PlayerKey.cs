@@ -16,7 +16,7 @@ public class PlayerKey : MonoBehaviour
 
     //버튼 푸쉬 시간
     public float ButtonPushTime;
-    
+
     void Start()
     {
         cc = GetComponent<CameraController>();
@@ -72,11 +72,8 @@ public class PlayerKey : MonoBehaviour
         {
             if (ButtonPushTime < 0.3)
             {
-<<<<<<< HEAD
-                gameManager.instance.UI.UseCard(0); //카드 사용
-=======
                 //gameManager.instance.UI.UseCard(0);
->>>>>>> 4d0180b10e1765bec4529412d115ddf35e17ac63
+
                 _key = "skill";
             } //탭하면 SKill 사용
 

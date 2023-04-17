@@ -52,7 +52,7 @@ public abstract class BaseController : MonoBehaviour
                 break;
         }
     }
-
+    
     public void CardEventRecv(Define.KeyboardEvent evt)
     {
         //Get Event of Q,W,E,R -> return Component of Card

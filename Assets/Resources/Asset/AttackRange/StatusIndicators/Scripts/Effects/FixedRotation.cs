@@ -15,12 +15,15 @@ U should buy the asset from home store if u use it in your project!
 using UnityEngine;
 using System.Collections;
 
-namespace Werewolf.StatusIndicators.Effects {
-  public class FixedRotation : MonoBehaviour {
-    public Vector3 Rotation;
+namespace Werewolf.StatusIndicators.Effects
+{
+    public class FixedRotation : MonoBehaviour
+    {
+        public Vector3 Rotation;
 
-    void LateUpdate() {
-      transform.eulerAngles = Rotation;
+        void LateUpdate()
+        {
+            this.transform.eulerAngles = Rotation; //rotation = 90,0,0
+        }
     }
-  }
 }

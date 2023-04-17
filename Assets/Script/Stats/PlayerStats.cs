@@ -65,7 +65,7 @@ public class PlayerStats : MonoBehaviour
         {
             _nowMana += value;
             if (_nowMana >= _maxMana * _manaRegenerationTime) { _nowMana = _maxMana * _manaRegenerationTime; }
-            if (_nowMana <= 0 ) {_nowMana = 0;}
+            if (_nowMana <= 0) { _nowMana = 0; }
         }
     }
     public float manaRegenerationTime
@@ -99,7 +99,11 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        
+
+        //agent setting
+        agent.acceleration = 80.0f;
+        agent.updateRotation = false;
+
         //공격
         basicAttackPower = 30.0f;
         attackRange = 6.0f;

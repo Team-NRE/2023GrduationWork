@@ -93,6 +93,7 @@ namespace Werewolf.StatusIndicators.Components {
 			}
 		}
 
+
 		/// <summary>
 		/// We don't use Start() to avoid race conditions. Call this method from the Splat Manager.
 		/// </summary>
@@ -131,7 +132,8 @@ namespace Werewolf.StatusIndicators.Components {
 		/// <summary>
 		/// Finds the mouse position from the screen point to the 3D world.
 		/// </summary>
-		public static Vector3 Get3DMousePosition() {
+		public static Vector3 Get3DMousePosition() 
+		{
 			RaycastHit hit;
 			if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 300.0f))
 				return hit.point;

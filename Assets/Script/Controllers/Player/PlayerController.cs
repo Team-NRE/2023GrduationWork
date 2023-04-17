@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static Enums;
+using static Define;
+
+
 
 public class PlayerController : BaseController
 {
@@ -18,7 +20,7 @@ public class PlayerController : BaseController
 
     [Header("---.etc---")]
     //상태 참조
-    public Status status;
+    public Define.State status;
 
     //초기화
     public NavMeshAgent agent;
@@ -45,28 +47,25 @@ public class PlayerController : BaseController
 
         agent.acceleration = 80.0f;
         agent.updateRotation = false;
-<<<<<<< HEAD
-=======
 
         //GetDeckBase(CardDictionary());
->>>>>>> 4d0180b10e1765bec4529412d115ddf35e17ac63
     }
 
     //시작 시
     private void OnEnable()
     {
-        status = Status.IDLE;
+        //status = Status.IDLE;
     }
 
     public void Update()
     {
         //플레이어 상태 체크
-        StartCoroutine(CheckPlayerState());
+        //StartCoroutine(CheckPlayerState());
 
         //플레이어 애니메이션 체크
-        StartCoroutine(PlayerAnim());
+        //StartCoroutine(PlayerAnim());
     }
-
+    /*
     public IEnumerator CheckPlayerState()
     {
 
@@ -95,7 +94,7 @@ public class PlayerController : BaseController
         if (player_stats.nowHealth <= 0) { status = Status.DIE; }
 
     }
-
+    
     public IEnumerator PlayerAnim()
     {
         while (!isDie)
@@ -160,10 +159,5 @@ public class PlayerController : BaseController
             yield return new WaitForSeconds(0.1f);
         }
     }
-
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 4d0180b10e1765bec4529412d115ddf35e17ac63
+    */
 }
