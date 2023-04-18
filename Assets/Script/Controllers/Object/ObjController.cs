@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Stat;
 
 public class ObjController : MonoBehaviour
 {

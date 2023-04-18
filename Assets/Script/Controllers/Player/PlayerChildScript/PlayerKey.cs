@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class PlayerKey : MonoBehaviour
 {
     CameraController cc;
@@ -172,3 +173,4 @@ public class PlayerKey : MonoBehaviour
     }
 
 }
+*/

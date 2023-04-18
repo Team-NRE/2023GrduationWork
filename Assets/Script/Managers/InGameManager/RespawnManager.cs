@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Stat;
 
 public class RespawnManager : MonoBehaviour
 {
+    PlayerStats _pStat;
+
     public float SetRespawn;
     public float RespawnTime;
     public float Respawn
@@ -27,7 +30,7 @@ public class RespawnManager : MonoBehaviour
         if (RespawnTime <= 0)
         {
             gameManager.instance.player.enabled = true;
-            gameManager.instance.player.player_stats.nowHealth = gameManager.instance.player.player_stats.maxHealth;
+            _pStat.nowHealth = _pStat.maxHealth;
             RespawnTime = Respawn;
         }
 
@@ -36,8 +39,6 @@ public class RespawnManager : MonoBehaviour
             RespawnTime -= Time.deltaTime;
         }
     }
-
-
 }
 
 

@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : BaseController
+public class Shield : BaseCard
 {
-    //CardStats _cardStats;
-    //PlayerStats _playerStat;
 
 	public int _cost;
 	public float _damage;

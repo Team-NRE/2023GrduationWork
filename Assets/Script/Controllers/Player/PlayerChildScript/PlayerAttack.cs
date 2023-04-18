@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class PlayerAttack : MonoBehaviour
+
+
+/*public class PlayerAttack : MonoBehaviour
 {
     //vector
     public Vector3 Point; // 마우스 클릭시 포인터 위치
@@ -144,5 +146,5 @@ public class PlayerAttack : MonoBehaviour
 
         GetAttackRange(); //사거리 이미지 off
     }
-
 }
+*/

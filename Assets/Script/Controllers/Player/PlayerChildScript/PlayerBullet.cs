@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBullet : MonoBehaviour
+
+/*public class PlayerBullet : MonoBehaviour
 {
     [SerializeField]
     GameObject _target;
@@ -38,3 +39,4 @@ public class PlayerBullet : MonoBehaviour
         }
     }
 }
+*/

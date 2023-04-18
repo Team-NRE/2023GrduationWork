@@ -479,6 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f286a1d8cf71694e922908ac43e5d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
   maxEnegy: 0
   enegy: 0
   enegyImages:
@@ -1029,31 +1030,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3435050004984595951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3435050005518479270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _basicAttackPower: 0
-  _attackSpeed: 0
-  _attackRange: 0
-  _maxHealth: 0
-  _nowHealth: 0
-  _healthRegeneration: 0
-  _defensePower: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
-  _level: 0
-  _experience: 0
-  _speed: 0
 --- !u!95 &3435050005511092898
 Animator:
   serializedVersion: 4
@@ -1668,8 +1644,8 @@ GameObject:
   - component: {fileID: 3435050005518728782}
   - component: {fileID: 3435050005511092898}
   - component: {fileID: 3435050004984595742}
-  - component: {fileID: 3435050004984595951}
   - component: {fileID: 3435050005518728783}
+  - component: {fileID: 3435050005518728784}
   m_Layer: 6
   m_Name: Player
   m_TagString: PLAYER
@@ -2748,16 +2724,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 3435050005518479270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63484e146dace3546a83859061bfa60d, type: 3}
+  m_Script: {fileID: 11500000, guid: 727d4c4405524f54780222c54ed34f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  status: 0
-  Point: {x: 0, y: 0, z: 0}
-  Ignorelayer:
-    serializedVersion: 2
-    m_Bits: 0
-  IsKey: 0
+  _inHand: []
+  _baseDeck: []
   _attackRange: []
+--- !u!114 &3435050005518728784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435050005518479270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
 --- !u!4 &3435050005518734668
 Transform:
   m_ObjectHideFlags: 0
@@ -3571,6 +3568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72058541711a10428306a30b95b5bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
   text: {fileID: 4358921115254518927}
   level: 0
 --- !u!1 &7137116748067005846

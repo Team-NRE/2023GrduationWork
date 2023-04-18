@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Stat;
 
 public class ObjAttack : MonoBehaviour
 {

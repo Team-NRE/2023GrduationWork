@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/*
 public class PlayerLevelBar : MonoBehaviour
 {
     Component stats;
@@ -35,3 +36,4 @@ public class PlayerLevelBar : MonoBehaviour
         }
     }
 }
+*/

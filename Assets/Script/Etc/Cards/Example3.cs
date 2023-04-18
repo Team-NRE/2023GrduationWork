@@ -5,8 +5,6 @@ using UnityEngine;
 public class Example3 : BaseCard
 {
     public int CardCost = 1;
-    PlayerStats _pStats;
-    CardStats _cStats;
 
     private void Awake() {
             

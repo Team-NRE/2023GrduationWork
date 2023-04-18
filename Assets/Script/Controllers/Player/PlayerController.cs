@@ -1,163 +1,214 @@
-using Data;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using Werewolf.StatusIndicators.Components;
 using UnityEngine.AI;
-using static Define;
-
-
 
 public class PlayerController : BaseController
 {
-    [Header("---Instance---")]
-    public static PlayerController Player_Instance;
-    public PlayerMove player_move;
-    public PlayerAttack player_att;
-    public PlayerKey player_key;
-    //public PlayerBullet player_bullet;
-    public PlayerStats player_stats;
+    //키 입력
+    private bool IsKey = false;
+    private bool IsRange = false;
+    private bool _used = false;  //Announce GetDeck is first or not
 
-    [Header("---.etc---")]
-    //상태 참조
-    public Define.State status;
+
+    //PlayerInHandCard
+    public List<BaseCard> _inHand = new List<BaseCard>();
+    //PlayerDeckBase
+    public List<string> _baseDeck = new List<string>();
+    //PlayerAttackRange
+    public List<GameObject> _attackRange = new List<GameObject>();
+
 
     //초기화
-    public NavMeshAgent agent;
-    public Animator animator;
-    public new Transform transform;
+    private Animator animator { get; set; }
+    private NavMeshAgent agent { get; set; }
 
-    //bool
-    bool isDie = false; //플레이어 사망 여부
-	bool _used = false;  //Announce GetDeck is first or not
-
-	//PlayerInHandCard
-	List<BaseController> _inHand = new List<BaseController>();
-    //PlayerDeckBase
-    List<string> _baseDeck = new List<string>();
-
-    private void Awake()
+    private void Update()
     {
-        Player_Instance = this;
-
-        //자식객체 player의 컴포넌트 초기화
-        animator = GetComponentInChildren<Animator>();
-        agent = GetComponentInChildren<NavMeshAgent>();
-        transform = GetComponent<Transform>();
-
-        agent.acceleration = 80.0f;
-        agent.updateRotation = false;
-
-        //GetDeckBase(CardDictionary());
-    }
-
-    //시작 시
-    private void OnEnable()
-    {
-        //status = Status.IDLE;
-    }
-
-    public void Update()
-    {
-        //플레이어 상태 체크
-        //StartCoroutine(CheckPlayerState());
-
-        //플레이어 애니메이션 체크
-        //StartCoroutine(PlayerAnim());
-    }
-    /*
-    public IEnumerator CheckPlayerState()
-    {
-
-        yield return new WaitForSeconds(0.1f);
-
-        //남은 거리로 Walk/IDLE 판별
-        status = agent.remainingDistance < 0.2f ? Status.IDLE : Status.Walk;
-
-        //어택 판별
-        if (player_key.key == "Attack")
-        {
-            status = Status.Attack;
-
-            yield return new WaitForSeconds(0.2f);
-            player_key._key = " ";
-        }
-
-        if (player_key.key == "skill")
-        {
-            status = Status.Throw1;
-            yield return new WaitForSeconds(0.6f);
-            player_key._key = " ";
-        }
-
         //HP < 0 이면 죽음 상태
-        if (player_stats.nowHealth <= 0) { status = Status.DIE; }
+        if (_pStats.nowHealth <= 0) 
+        { 
+            _state = Define.State.Die;
+            Debug.Log(_state);
+        }
 
+        if (IsKey == false) { idle(); } //키 입력없으면 Idle 상태
+
+        StartCoroutine(PlayerAnim());
     }
-    
-    public IEnumerator PlayerAnim()
+
+    //start에서 Player 세팅 초기화
+    public override void Player_Setting()
     {
-        while (!isDie)
+        //초기화
+        animator = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+
+
+        //Range List Setting 
+        GetComponentInChildren<SplatManager>().enabled = false;
+        GameObject[] loadAttackRange = Resources.LoadAll<GameObject>("Prefabs/AttackRange");
+        foreach (GameObject attackRange in loadAttackRange)
         {
-            switch (status)
-            {
-                case Status.IDLE:
-                    agent.isStopped = false;
+            GameObject Prefab = Instantiate(attackRange);
+            Prefab.transform.parent = transform.GetChild(0);
+            Prefab.transform.localPosition = Vector3.zero;
+            Prefab.SetActive(true);
 
-                    animator.SetBool("IsIdle", true);
-                    animator.SetBool("IsWalk", false);
-                    animator.SetBool("IsThrow1", false);
-                    animator.SetBool("IsFire", false);
+            _attackRange.Add(Prefab);
+        }
+        GetComponentInChildren<SplatManager>().enabled = true;
+    }
 
-                    break;
 
-                case Status.Walk:
-                    agent.isStopped = false;
+    //플레이어 키 event에 해당하는 Action 
+    public override void KeyDownAction(string name)
+    {
+        switch (name)
+        {
+            case "rightButton":
+                playerMove(Get3DMousePosition());
+                Invoke("idle", 0.2f);
+                IsKey = true;
+                _state = Define.State.Moving;
+                Debug.Log(_state);
 
-                    animator.SetBool("IsWalk", true);
-                    animator.SetBool("IsIdle", false);
-                    animator.SetBool("IsThrow1", false);
-                    animator.SetBool("IsFire", false);
+                break;
 
-                    break;
+            case "a":
+                AttRange_Active();
+                break;
 
-                case Status.Attack:
-                    agent.ResetPath();
-                    //agent.isStopped = true;
+            case "leftButton":
+                if (IsRange == true)
+                {
+                    Invoke("idle", 0.4f);
+                    IsKey = true;
+                    _state = Define.State.Attack;
+                    Debug.Log(_state);
+                    AttRange_Active();
+                }
 
-                    animator.SetBool("IsFire", true);
-                    animator.SetBool("IsIdle", false);
-                    animator.SetBool("IsThrow1", false);
+                break;
 
-                    break;
+            case "q":
+            case "w":
+            case "e":
+            case "r":
+                Invoke("idle", 0.4f);
+                IsKey = true;
+                _state = Define.State.Skill;
+                Debug.Log(_state);
 
-                case Status.Throw1:
-                    agent.ResetPath();
-                    //agent.isStopped = true;
-
-                    animator.SetBool("IsThrow1", true);
-                    animator.SetBool("IsIdle", false);
-                    animator.SetBool("IsFire", false);
-
-                    break;
-
-                case Status.Throw2:
-                    animator.SetTrigger("Throw2");
-                    animator.SetBool("IsIdle", false);
-
-                    break;
-
-                case Status.DIE:
-                    animator.SetBool("IsIdle", false);
-                    animator.SetTrigger("Die");
-                    this.enabled = false;
-
-                    StopAllCoroutines();
-
-                    break;
-            }
-            yield return new WaitForSeconds(0.1f);
+                break;
         }
     }
-    */
+
+
+    //Idle 애니메이션
+    private void idle()
+    {
+        IsKey = false;
+
+        if (agent.remainingDistance < 0.2f)
+        {
+            _state = Define.State.Idle;
+        }
+    }
+
+
+    //Animator 파라미터 설정
+    private IEnumerator PlayerAnim()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        switch (_state)
+        {
+            case Define.State.Idle:
+                agent.isStopped = false;
+
+                animator.SetBool("IsIdle", true);
+                animator.SetBool("IsWalk", false);
+                animator.SetBool("IsThrow1", false);
+                animator.SetBool("IsFire", false);
+
+                break;
+
+            case Define.State.Moving:
+                agent.isStopped = false;
+
+                animator.SetBool("IsWalk", true);
+                animator.SetBool("IsIdle", false);
+                animator.SetBool("IsThrow1", false);
+                animator.SetBool("IsFire", false);
+
+                break;
+
+            case Define.State.Attack:
+                agent.ResetPath();
+
+                animator.SetBool("IsFire", true);
+                animator.SetBool("IsIdle", false);
+                animator.SetBool("IsThrow1", false);
+
+                break;
+
+            case Define.State.Skill:
+                agent.ResetPath();
+
+                animator.SetBool("IsThrow1", true);
+                animator.SetBool("IsIdle", false);
+                animator.SetBool("IsFire", false);
+
+                break;
+
+            case Define.State.Card:
+                animator.SetTrigger("Throw2");
+                animator.SetBool("IsIdle", false);
+
+                break;
+
+            case Define.State.Die:
+                Debug.Log("check");
+                animator.SetBool("IsIdle", false);
+                animator.SetTrigger("Die");
+                this.enabled = false;
+
+                StopAllCoroutines();
+
+                break;
+        }
+
+    }
+
+
+    //마우스 좌표에 따른 PlayerRotate
+    protected Vector3 FlattenVector(Vector3 mousepositon)
+    {
+        return new Vector3(mousepositon.x, transform.position.y, mousepositon.z);
+    }
+
+
+    //플레이어 이동 
+    private void playerMove(Vector3 mouseposition)
+    {
+        //LookRotation = forward 방향이 vector3(x,0,z)가 가리키는 방향을 바라보도록 회전
+        transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
+        agent.SetDestination(mouseposition);
+    }
+
+
+
+    //플레이어 평타 On/off
+    private void AttRange_Active()
+    {
+        if (IsRange == true || IsRange == false)
+        {
+            IsRange = !IsRange;
+            _attackRange[0].SetActive(IsRange);
+        }
+    }
+
+
 }

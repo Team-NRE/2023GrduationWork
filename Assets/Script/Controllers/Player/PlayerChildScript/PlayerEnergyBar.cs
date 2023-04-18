@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerEnergyBar : MonoBehaviour
+
+/*public class PlayerEnergyBar : MonoBehaviour
 {
     Component stats;
 
@@ -50,3 +51,4 @@ public class PlayerEnergyBar : MonoBehaviour
         }
     }
 }
+*/

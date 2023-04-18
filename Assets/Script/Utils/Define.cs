@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Define
+namespace Define
 {
-    //���� ���� enum�� �� Ŭ������ �ֻ��� ��ũ��Ʈ�� ����
+    public enum State
+    {
+        Idle,
+        Moving,
+        Attack,
+        Card,
+        Skill,
+        Die,
+    }
+    
     public enum Scene
     {
         Unknown,
@@ -41,16 +50,6 @@ public class Define
         FloatCamera,//������ ī�޶�
     }
 
-    public enum State
-    {
-        Idle,
-        Moving,
-        Attack,
-        Card,
-        Skill,
-        Die,
-    }
-
     public enum WorldObject
     {
         Unknown,
@@ -75,6 +74,7 @@ public class Define
         E,
         R,
         Space,
+        A
     }
 
     public enum CardType
