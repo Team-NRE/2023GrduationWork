@@ -48,10 +48,12 @@ public class UI_CardPanel : UI_Card
 		//Debug.Log(_initDeck[0]);
 	}
 
+
+
 	// Update is called once per frame
 	void Update()
     {
-        
+
     }
 
 	//if click the card btn
@@ -65,7 +67,9 @@ public class UI_CardPanel : UI_Card
 
 		return updatedList;
 	}*/
-
+	
+	
+	
 	public void UI_UseQ(PointerEventData data)
 	{
 		Debug.Log("Q");

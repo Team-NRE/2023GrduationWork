@@ -102,6 +102,7 @@ public class Player : BaseTest
             case "w":
             case "e":
             case "r":
+                
                 Invoke("idle", 0.4f);
                 IsKey = true;
                 status = Define.State.Skill;
@@ -109,6 +110,7 @@ public class Player : BaseTest
                 break;
         }
     }
+
 
 
     void idle()
@@ -120,6 +122,7 @@ public class Player : BaseTest
             status = Define.State.Idle;
         }
     }
+
 
 
     public IEnumerator PlayerAnim()
@@ -187,10 +190,12 @@ public class Player : BaseTest
     }
 
 
+
     protected Vector3 FlattenVector(Vector3 mousepositon)
     {
         return new Vector3(mousepositon.x, transform.position.y, mousepositon.z);
     }
+
 
 
     //플레이어 이동 
@@ -200,6 +205,7 @@ public class Player : BaseTest
         transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
         agent.SetDestination(mouseposition);
     }
+
 
 
     //플레이어 평타
