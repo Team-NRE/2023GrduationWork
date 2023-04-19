@@ -92,6 +92,17 @@
                     "action": "Keyfunction",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0221030f-5741-4bc5-a8b8-d48c6dcf70cf",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Keyfunction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

@@ -14,14 +14,17 @@ public abstract class BaseController : MonoBehaviour
 {
     public Action<Define.KeyboardEvent> cardEvent = null;
     Define.CardType _cardType = Define.CardType.Undefine;
+    
+    //InputSystem
+    public InputAction inputAction;
 
 
-    //namespace Stat
+    //외부 namespace Stat 참조
     public PlayerStats _pStats { get; set; }
     public CardStats _cStats { get; set; }
     public ObjStats _oStats { get; set; }
 
-    //namespace Define
+    //외부 namespace Define의 Player State 참조
     public State _state { get; set; }
 
     private void Start()
@@ -29,16 +32,17 @@ public abstract class BaseController : MonoBehaviour
         _pStats = GetComponent<PlayerStats>();
         _cStats = GetComponent<CardStats>();
         _oStats = GetComponent<ObjStats>();
-        
-        Player_Setting();
+
+        Setting();
     }
 
+
     //키 입력
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         // Input System의 "action"을 정의
         var inputActionAsset = Resources.Load<InputActionAsset>("Input");
-        InputAction inputAction = inputActionAsset.FindAction("Keyfunction");
+        inputAction = inputActionAsset.FindAction("Keyfunction");
         inputAction.performed += OnKeyDown;
         inputAction.Enable();
     }
@@ -77,8 +81,8 @@ public abstract class BaseController : MonoBehaviour
 
     }
 
-    //Player 초기 세팅 -> start
-    public virtual void Player_Setting()
+    //Player/Camera 초기 세팅 -> start
+    public virtual void Setting()
     {
 
     }

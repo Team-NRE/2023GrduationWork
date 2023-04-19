@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class PlayerController : BaseController
 {
     //키 입력
-    private bool IsKey = false;
+    public bool IsKey = false;
     private bool IsRange = false;
     private bool _used = false;  //Announce GetDeck is first or not
 
@@ -24,13 +24,22 @@ public class PlayerController : BaseController
     private Animator animator { get; set; }
     private NavMeshAgent agent { get; set; }
 
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        _state = Define.State.Idle;
+    }
+
+
     private void Update()
     {
         //HP < 0 이면 죽음 상태
-        if (_pStats.nowHealth <= 0) 
-        { 
+        if (_pStats.nowHealth <= 0)
+        {
             _state = Define.State.Die;
-            Debug.Log(_state);
+            IsKey = true;
         }
 
         if (IsKey == false) { idle(); } //키 입력없으면 Idle 상태
@@ -38,8 +47,9 @@ public class PlayerController : BaseController
         StartCoroutine(PlayerAnim());
     }
 
+
     //start에서 Player 세팅 초기화
-    public override void Player_Setting()
+    public override void Setting()
     {
         //초기화
         animator = GetComponent<Animator>();
@@ -62,6 +72,7 @@ public class PlayerController : BaseController
     }
 
 
+
     //플레이어 키 event에 해당하는 Action 
     public override void KeyDownAction(string name)
     {
@@ -72,7 +83,7 @@ public class PlayerController : BaseController
                 Invoke("idle", 0.2f);
                 IsKey = true;
                 _state = Define.State.Moving;
-                Debug.Log(_state);
+                //Debug.Log(_state);
 
                 break;
 
@@ -86,7 +97,7 @@ public class PlayerController : BaseController
                     Invoke("idle", 0.4f);
                     IsKey = true;
                     _state = Define.State.Attack;
-                    Debug.Log(_state);
+                    //Debug.Log(_state);
                     AttRange_Active();
                 }
 
@@ -99,7 +110,6 @@ public class PlayerController : BaseController
                 Invoke("idle", 0.4f);
                 IsKey = true;
                 _state = Define.State.Skill;
-                Debug.Log(_state);
 
                 break;
         }
@@ -121,8 +131,6 @@ public class PlayerController : BaseController
     //Animator 파라미터 설정
     private IEnumerator PlayerAnim()
     {
-        yield return new WaitForSeconds(0.3f);
-
         switch (_state)
         {
             case Define.State.Idle:
@@ -170,15 +178,16 @@ public class PlayerController : BaseController
                 break;
 
             case Define.State.Die:
-                Debug.Log("check");
-                animator.SetBool("IsIdle", false);
                 animator.SetTrigger("Die");
+                animator.SetBool("IsIdle", false);
+                inputAction.Disable();
                 this.enabled = false;
 
                 StopAllCoroutines();
 
                 break;
         }
+        yield return new WaitForSeconds(0.3f);
 
     }
 

@@ -44,7 +44,16 @@ namespace Stat
         public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
 
         //방어
-        public float maxHealth { get { return _maxHealth; } set { _maxHealth = value; } }
+        public float maxHealth
+        {
+            get { return _maxHealth; }
+            set
+            {
+                _maxHealth = value;
+                _nowHealth = _maxHealth;
+            }
+        }
+        
         public float nowHealth
         {
             get { return _nowHealth; }
@@ -96,24 +105,24 @@ namespace Stat
             }
         }
 
-        NavMeshAgent agent;
+        private NavMeshAgent agent;
 
         private void Start()
         {
-            
+            //공격
+            basicAttackPower = 30.0f;
+            _basicAttackPower = 30.0f;
+
             agent = GetComponent<NavMeshAgent>();
 
             //agent setting
             agent.acceleration = 80.0f;
             agent.updateRotation = false;
 
-            //공격
-            basicAttackPower = 30.0f;
             attackRange = 6.0f;
 
             //방어
             maxHealth = 150.0f;
-            nowHealth = maxHealth;
 
             //마나
             maxMana = 3.0f;
