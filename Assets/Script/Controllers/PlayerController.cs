@@ -39,7 +39,10 @@ public class PlayerController : BaseController
 
     private void Update()
     {
-        dis = agent.remainingDistance;
+        if (agent.remainingDistance <= _pStats.attackRange)
+        {
+
+        }
 
         //HP < 0 이면 죽음 상태
         if (_pStats.nowHealth <= 0)
@@ -49,6 +52,7 @@ public class PlayerController : BaseController
         }
 
         if (IsKey == false) { idle(); } //키 입력없으면 Idle 상태
+
 
         StartCoroutine(PlayerAnim());
     }
@@ -92,7 +96,7 @@ public class PlayerController : BaseController
         switch (name)
         {
             case "rightButton":
-                playerMove(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
+                player_Move(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
                 Invoke("idle", 0.2f);
                 IsKey = true;
                 _state = Define.State.Moving;
@@ -212,21 +216,26 @@ public class PlayerController : BaseController
 
 
     //플레이어 이동 
-    private void playerMove(Vector3 mouseposition)
+    public void player_Move(Vector3 mouseposition)
     {
         //mouseposition은 Road, Cyborg만 탐지.
-        
-        //LookRotation = forward 방향이 vector3(x,0,z)가 가리키는 방향을 바라보도록 회전
-        transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
-        agent.SetDestination(mouseposition);
-        
+        if (_layer == Define.Layer.Road)
+        {
+            //LookRotation = forward 방향이 vector3(x,0,z)가 가리키는 방향을 바라보도록 회전
+            transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
+            agent.SetDestination(mouseposition);
+        }
+
+        if(_layer == Define.Layer.Cyborg)
+        {
+            Debug.Log(_layer);
+            Debug.Log("Attack");
+        }
 
 
         //마우스 위치에 적이 있으면 판별해줘야함 -> 적에 대한 정보 필요함 -> 어캐 구별하지? layer? 
         //(1) 마우스 좌표 - 적 position 이 거의 차이 안나면 목표 설정
         //(2) 목표를 향해 setdestination 중 (남은 거리 <= 사거리) -> _state = Define.state.Attack
-
-
     }
 
 
@@ -272,7 +281,7 @@ public class PlayerController : BaseController
 
 
     //타겟을 향해 Rotate / muzzle / 총알 나가야 됨.
-    private void Shoot(GameObject target)
+    public void Shoot(GameObject target)
     {
         //Player 회전
         transform.rotation = Quaternion.LookRotation(FlattenVector(target.transform.position) - transform.position);

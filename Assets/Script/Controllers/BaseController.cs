@@ -51,18 +51,17 @@ public abstract class BaseController : MonoBehaviour
         inputAction.Enable();
     }
 
-
+    //키 이벤트를 name으로 받기
     public void OnKeyDown(InputAction.CallbackContext context)
     {
 
         string name = context.control.name;
-        _keyboard = Define.KeyboardEvent.A;
         KeyDownAction(name);
     }
 
 
     //Ray로 마우스 좌표 받기
-    public static Vector3 Get3DMousePosition(params Layer[] _layers)
+    public Vector3 Get3DMousePosition(params Layer[] _layers)
     {
         int layerMask = 0;
         foreach (var layer in _layers)
@@ -72,16 +71,30 @@ public abstract class BaseController : MonoBehaviour
         }
 
         RaycastHit hit;
+
         //해당 레이어만 탐지하도록 설정.
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask))
         {
+            switch (hit.collider.gameObject.layer)
+            {
+                case (int)Define.Layer.Cyborg:
+                    _layer = Define.Layer.Cyborg;
+
+                    break;
+
+                case (int)Define.Layer.Road:
+                    _layer = Define.Layer.Road;
+
+                    break;
+            
+            }
+
             return hit.point;
         }
+
         else
             return Vector3.zero;
     }
-
-
 
     //키 입력
     public virtual void KeyDownAction(string name)
