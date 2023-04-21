@@ -107,17 +107,17 @@ namespace Stat
 
         private NavMeshAgent agent;
 
-        private void Start()
+        private void Awake()
         {
-            //공격
-            basicAttackPower = 30.0f;
-            _basicAttackPower = 30.0f;
-
             agent = GetComponent<NavMeshAgent>();
 
             //agent setting
             agent.acceleration = 80.0f;
             agent.updateRotation = false;
+
+            //공격
+            basicAttackPower = 30.0f;
+            basicAttackPower = 30.0f;
 
             attackRange = 6.0f;
 

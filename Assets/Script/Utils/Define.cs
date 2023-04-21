@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.ComponentModel; // Enum을 string으로 받기.
 
 namespace Define
 {
@@ -38,16 +39,20 @@ namespace Define
 
     public enum Layer
     {
-        Minion = 8,
-        Ground = 9,
-        Player = 10,
-        Block = 11
+        Default = 0,
+        UI = 5,
+        Human = 6,
+        Cyborg = 7,
+        Neutral = 8,
+        Road = 9,
+        Block = 10,
+        Minimap = 11,
     }
 
     public enum CameraMode
     {
         QuaterView, //������ ī�޶�
-        FloatCamera,//������ ī�޶�
+        FloatCamera, //������ ī�޶�
     }
 
     public enum WorldObject
@@ -68,13 +73,22 @@ namespace Define
 
     public enum KeyboardEvent
     {
+        [Description("tab")]
         Tab,
+        [Description("q")]
         Q,
+        [Description("w")]
         W,
+        [Description("e")]
         E,
+        [Description("r")]
         R,
+        [Description("space")]
         Space,
-        A
+        [Description("a")]
+        A,
+        [Description("u")]
+        U,
     }
 
     public enum CardType
@@ -90,4 +104,5 @@ namespace Define
         Target,
         NonTarget,
     }
+
 }

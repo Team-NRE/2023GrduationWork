@@ -9,7 +9,9 @@ public class GameScene : BaseScene
 		SceneType = Define.Scene.Game;
 		Managers.Resource.Instantiate("UI_Card");
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
-		Managers.UI.ShowSceneUI<UI_NextCard>();
+		//Managers.UI.ShowSceneUI<UI_NextCard>();
+		
+		
 	}
 	
 

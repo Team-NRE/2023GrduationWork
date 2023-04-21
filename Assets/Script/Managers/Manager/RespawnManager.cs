@@ -41,7 +41,7 @@ public class RespawnManager : MonoBehaviour
     public void Init()
     {
         GameObject _root = GameObject.Find("@Respawn");
-        GameObject _player = GameObject.Find("Player");
+        GameObject _player = GameObject.Find("PlayerController");
         if (_root == null)
         {
             _root = new GameObject { name = "@Respawn" };
