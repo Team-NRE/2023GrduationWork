@@ -4,10 +4,10 @@ using System.ComponentModel.Design.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
 
-//CanvasÀÇ sortorder°ü¸®°¡ ÁÖ ¸ñÀû
+//Canvasï¿½ï¿½ sortorderï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 public class UIManager
 {
-	int _order = 10;    //sortingÇÏÁö ¾Ê´Â UI¿Í °ãÄ¡´Â °ÍÀ» ¹æÁö, Á¦ÀÏ µÚ·Î º¸³»¹ö¸®±â
+	int _order = 10;    //sortingï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ UIï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
 	UI_Scene _sceneUI = null;
@@ -29,7 +29,7 @@ public class UIManager
 		canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 		canvas.overrideSorting = true;
 
-		if (sort)   //sortingÀ» ¿äÃ»ÇÑ°æ¿ì
+		if (sort)   //sortingï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ°ï¿½ï¿½
 		{
 			canvas.sortingOrder = _order;
 			_order++;
@@ -77,7 +77,7 @@ public class UIManager
 			name = typeof(T).Name;
 
 		GameObject go = Managers.Resource.Instantiate($"UI/Scene/{name}");
-		T sceneUI = Util.GetOrAddComponent<T>(go);    //½Ç¼ö·Î ½ºÅ©¸³Æ® Ãß°¡ ¾ÈÇØµµ ³Ö¾îµå¸³´Ï´Ù
+		T sceneUI = Util.GetOrAddComponent<T>(go);    //ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ß°ï¿½ ï¿½ï¿½ï¿½Øµï¿½ ï¿½Ö¾ï¿½å¸³ï¿½Ï´ï¿½
 		_sceneUI = sceneUI;
 		//_popupStack.Push(popup);
 
@@ -86,14 +86,14 @@ public class UIManager
 		return sceneUI;
 	}
 
-	//TÅ¸ÀÔÀ» »ç¿ëÇÏ°í ÀÌ¸§Àº ¿É¼ÇÀ¸·Î¸¸ ³Ö¾îÁØ´Ù.
+	//TÅ¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½.
 	public T ShowPopupUI<T>(string name = null) where T : UI_Popup
 	{
 		if (string.IsNullOrEmpty(name))
 			name = typeof(T).Name;
 
 		GameObject go = Managers.Resource.Instantiate($"UI/Popup/{name}");
-		T popup = Util.GetOrAddComponent<T>(go);    //½Ç¼ö·Î ½ºÅ©¸³Æ® Ãß°¡ ¾ÈÇØµµ ³Ö¾îµå¸³´Ï´Ù
+		T popup = Util.GetOrAddComponent<T>(go);    //ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ß°ï¿½ ï¿½ï¿½ï¿½Øµï¿½ ï¿½Ö¾ï¿½å¸³ï¿½Ï´ï¿½
 		_popupStack.Push(popup);
 
 		go.transform.SetParent(Root.transform);
@@ -116,7 +116,7 @@ public class UIManager
 
 	public void ClosePopupUI()
 	{
-		if (_popupStack.Count == 0) //½ºÅÃÀº Ä«¿îÆ® ¿ì¼± Ç×»ó Ã¼Å©ÇØ¾ßÇÑ´Ù.
+		if (_popupStack.Count == 0) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ® ï¿½ì¼± ï¿½×»ï¿½ Ã¼Å©ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 			return;
 
 		UI_Popup popup = _popupStack.Pop();

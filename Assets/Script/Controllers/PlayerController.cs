@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class PlayerController : BaseController
 {
     //키 입력
-    public bool IsKey = false;
+    private bool IsKey = false;
     private bool IsRange = false;
     private bool _used = false;  //Announce GetDeck is first or not
 
@@ -27,34 +27,13 @@ public class PlayerController : BaseController
     public GameObject muzzle;
     public Transform barrelLocation;
 
-    public float dis;
 
+    //플레이어 Respawn 시 
     public override void OnEnable()
     {
-        base.OnEnable();
+        base.OnEnable(); // 키 입력 받기 다시 초기화
 
-        _state = Define.State.Idle;
-    }
-
-
-    private void Update()
-    {
-        if (agent.remainingDistance <= _pStats.attackRange)
-        {
-
-        }
-
-        //HP < 0 이면 죽음 상태
-        if (_pStats.nowHealth <= 0)
-        {
-            _state = Define.State.Die;
-            IsKey = true;
-        }
-
-        if (IsKey == false) { idle(); } //키 입력없으면 Idle 상태
-
-
-        StartCoroutine(PlayerAnim());
+        _state = Define.State.Idle; //Player State -> Idle
     }
 
 
@@ -79,7 +58,6 @@ public class PlayerController : BaseController
             _attackRange.Add(Prefab);
         }
 
-
         //공격사거리 세팅
         Projector projector = _attackRange[0].GetComponent<Projector>();
         projector.orthographicSize = _pStats._attackRange;
@@ -89,16 +67,13 @@ public class PlayerController : BaseController
     }
 
 
-
     //플레이어 키 event에 해당하는 Action 
     public override void KeyDownAction(string name)
     {
         switch (name)
         {
             case "rightButton":
-                player_Move(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
-                Invoke("idle", 0.2f);
-                IsKey = true;
+                playerMove(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
                 _state = Define.State.Moving;
 
                 break;
@@ -111,9 +86,7 @@ public class PlayerController : BaseController
             case "leftButton":
                 if (IsRange == true && AttTarget_Set() != null)
                 {
-                    Shoot(AttTarget_Set());
-                    Invoke("idle", 0.4f);
-                    IsKey = true;
+                    Shoot();
                     _state = Define.State.Attack;
                 }
 
@@ -123,8 +96,6 @@ public class PlayerController : BaseController
             case "w":
             case "e":
             case "r":
-                Invoke("idle", 0.4f);
-                IsKey = true;
                 _state = Define.State.Skill;
 
                 break;
@@ -132,7 +103,14 @@ public class PlayerController : BaseController
     }
 
 
-    //Idle 애니메이션
+    private void Update()
+    {
+        StartCoroutine(Player_Update_State());
+        StartCoroutine(PlayerAnim());
+    }
+
+
+    //Idle 애니메이션 -> Invoke -> 잠시 다른 키 애니메이션 시간 벌어주기
     private void idle()
     {
         IsKey = false;
@@ -144,14 +122,32 @@ public class PlayerController : BaseController
     }
 
 
+    //플레이어가 Update에서 일어나는 State 변화들
+    private IEnumerator Player_Update_State()
+    {
+        //키 입력없으면 Idle 상태
+        if (IsKey == false) { idle(); }
+
+        //적을 판별해 적에게 움직이다 적이 사정거리 안에 들어오면 Shoot 
+        if (agent.remainingDistance <= _pStats._attackRange && _layer == Define.Layer.Cyborg)
+        {
+            Shoot();
+            _state = Define.State.Attack;
+        }
+
+        //HP < 0 이면 죽음 상태
+        if (_pStats.nowHealth <= 0) { _state = Define.State.Die; }
+
+        yield return new WaitForSeconds(0.3f);
+    }
+
+
     //Animator 파라미터 설정
     private IEnumerator PlayerAnim()
     {
         switch (_state)
         {
             case Define.State.Idle:
-                agent.isStopped = false;
-
                 animator.SetBool("IsIdle", true);
                 animator.SetBool("IsWalk", false);
                 animator.SetBool("IsThrow1", false);
@@ -160,7 +156,8 @@ public class PlayerController : BaseController
                 break;
 
             case Define.State.Moving:
-                agent.isStopped = false;
+                Invoke("idle", 0.2f);
+                IsKey = true;
 
                 animator.SetBool("IsWalk", true);
                 animator.SetBool("IsIdle", false);
@@ -170,6 +167,9 @@ public class PlayerController : BaseController
                 break;
 
             case Define.State.Attack:
+                Invoke("idle", 0.4f);
+                IsKey = true;
+
                 agent.ResetPath();
 
                 animator.SetBool("IsFire", true);
@@ -179,6 +179,9 @@ public class PlayerController : BaseController
                 break;
 
             case Define.State.Skill:
+                Invoke("idle", 0.4f);
+                IsKey = true;
+
                 agent.ResetPath();
 
                 animator.SetBool("IsThrow1", true);
@@ -187,13 +190,9 @@ public class PlayerController : BaseController
 
                 break;
 
-            case Define.State.Card:
-                animator.SetTrigger("Throw2");
-                animator.SetBool("IsIdle", false);
-
-                break;
-
             case Define.State.Die:
+                IsKey = true;
+
                 animator.SetTrigger("Die");
                 animator.SetBool("IsIdle", false);
                 inputAction.Disable();
@@ -203,8 +202,8 @@ public class PlayerController : BaseController
 
                 break;
         }
-        yield return new WaitForSeconds(0.3f);
 
+        yield return new WaitForSeconds(0.3f);
     }
 
 
@@ -216,28 +215,13 @@ public class PlayerController : BaseController
 
 
     //플레이어 이동 
-    public void player_Move(Vector3 mouseposition)
+    private void playerMove(Vector3 mouseposition)
     {
         //mouseposition은 Road, Cyborg만 탐지.
-        if (_layer == Define.Layer.Road)
-        {
-            //LookRotation = forward 방향이 vector3(x,0,z)가 가리키는 방향을 바라보도록 회전
-            transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
-            agent.SetDestination(mouseposition);
-        }
-
-        if(_layer == Define.Layer.Cyborg)
-        {
-            Debug.Log(_layer);
-            Debug.Log("Attack");
-        }
-
-
-        //마우스 위치에 적이 있으면 판별해줘야함 -> 적에 대한 정보 필요함 -> 어캐 구별하지? layer? 
-        //(1) 마우스 좌표 - 적 position 이 거의 차이 안나면 목표 설정
-        //(2) 목표를 향해 setdestination 중 (남은 거리 <= 사거리) -> _state = Define.state.Attack
+        //LookRotation = forward 방향이 vector3(x,0,z)가 가리키는 방향을 바라보도록 회전
+        transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
+        agent.SetDestination(mouseposition);
     }
-
 
 
     //플레이어 평타 On/off
@@ -251,7 +235,7 @@ public class PlayerController : BaseController
     }
 
 
-    //어택 타겟 설정
+    //AttackRange를 활용한 어택 타겟 설정
     private GameObject AttTarget_Set()
     {
         //타겟 초기화
@@ -266,7 +250,7 @@ public class PlayerController : BaseController
         foreach (Collider coll in colls)
         {
             //마우스 포인터, 식별된 적 사이의 거리 구하기
-            float distance = Vector3.Distance(Get3DMousePosition(Define.Layer.Road), coll.transform.position);
+            float distance = Vector3.Distance(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg), coll.transform.position);
 
             //가장 가까운 거리 설정 및 타겟 설정
             if (CloseDistance > distance)
@@ -276,16 +260,19 @@ public class PlayerController : BaseController
             }
         }
 
+        if (target != null)
+        { 
+            //Player 회전
+            transform.rotation = Quaternion.LookRotation(FlattenVector(target.transform.position) - transform.position);
+        }
+
         return target;
     }
 
 
-    //타겟을 향해 Rotate / muzzle / 총알 나가야 됨.
-    public void Shoot(GameObject target)
+    //muzzle / 총알 나가야 됨.
+    private void Shoot()
     {
-        //Player 회전
-        transform.rotation = Quaternion.LookRotation(FlattenVector(target.transform.position) - transform.position);
-
         //총알 발사 이미지
         if (muzzle)
         {
@@ -298,9 +285,12 @@ public class PlayerController : BaseController
         }
 
         //총알 projectile
+        //총알 발사~~~
 
+        //마우스 오른쪽 클릭 시 공격
+        if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }
 
         //사거리 off
-        AttRange_Active();
+        if (IsRange == true) { AttRange_Active(); }
     }
 }

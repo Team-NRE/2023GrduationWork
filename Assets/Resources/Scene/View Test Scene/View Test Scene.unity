@@ -2091,6 +2091,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerController
       objectReference: {fileID: 0}
+    - target: {fileID: 6699652264501949093, guid: 8f50962862733634599a1b2ac4e615e1, type: 3}
+      propertyPath: muzzle
+      value: 
+      objectReference: {fileID: 1782395880954752, guid: 51995e7fc522e1040aad5668c8cea4a7, type: 3}
     - target: {fileID: 6699652264501949114, guid: 8f50962862733634599a1b2ac4e615e1, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -7735,6 +7739,10 @@ PrefabInstance:
     - target: {fileID: 1316405158597802569, guid: c8ac0cc78b822d8449a225fb084cf178, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163135084070761231, guid: c8ac0cc78b822d8449a225fb084cf178, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8ac0cc78b822d8449a225fb084cf178, type: 3}

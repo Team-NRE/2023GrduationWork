@@ -73,21 +73,13 @@ namespace Define
 
     public enum KeyboardEvent
     {
-        [Description("tab")]
-        Tab,
-        [Description("q")]
+        leftButton,
+        rightButton,
         Q,
-        [Description("w")]
         W,
-        [Description("e")]
         E,
-        [Description("r")]
         R,
-        [Description("space")]
-        Space,
-        [Description("a")]
         A,
-        [Description("u")]
         U,
     }
 
