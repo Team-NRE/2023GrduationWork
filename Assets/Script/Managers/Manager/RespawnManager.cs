@@ -29,9 +29,9 @@ public class RespawnManager : MonoBehaviour
             _SetRespawn -= value;
             if (_SetRespawn <= 0)
             {
-                _pController.enabled = true;
                 _pStats.nowHealth = _pStats.maxHealth;
                 _SetRespawn = RespawnTime;
+                _pController.enabled = true;
             }
         }
     }

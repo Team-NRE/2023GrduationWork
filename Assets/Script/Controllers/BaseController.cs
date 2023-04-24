@@ -28,6 +28,7 @@ public abstract class BaseController : MonoBehaviour
     public Layer _layer { get; set; }
     public KeyboardEvent _keyboard { get; set; }
     public CardType _cardType { get; set; }
+    public CameraMode _cameraMode { get; set; }
 
     private void Start()
     {

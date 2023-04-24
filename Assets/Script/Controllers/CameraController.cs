@@ -4,23 +4,17 @@ using UnityEngine;
 
 public class CameraController : BaseController
 {
-    public float _planescale_X;
-    public float _planescale_Z;
-    public float _Cam_Y;
-    public float _Cam_Z;
-
-    public float planescale_X { get { return _planescale_X; } set { _planescale_X = value; } }
-    public float planescale_Z { get { return _planescale_Z; } set { _planescale_Z = value; } }
-    public float Cam_Y { get { return _Cam_Y; } set { _Cam_Y = value; } }
-    public float Cam_Z { get { return _Cam_Z; } set { _Cam_Z = value; } }
+    public float planescale_X { get; set; }
+    public float planescale_Z { get; set; }
+    public float Cam_Y { get; set; }
+    public float Cam_Z { get; set; }
 
     //속도
     private Vector3 velocity = Vector3.zero;
 
-    //카메라 고정 or 풀기
-    private bool CameraFixed = false;
+    //
     private Transform p_Position;
-    
+
     public override void Setting()
     {
         //초기 값 세팅
@@ -34,19 +28,31 @@ public class CameraController : BaseController
 
     private void LateUpdate()
     {
-        
-        if (CameraFixed == true) { FixedCameraMove(); }
-        else { CameraMove(); }
+        switch (_cameraMode)
+        {
+            case Define.CameraMode.QuaterView:
+                QuaterviewCam();
+
+                break;
+
+            case Define.CameraMode.FloatCamera:
+                FloatCam();
+
+                break;
+        }
     }
 
     public override void KeyDownAction(string name)
     {
-        if (name == "u") { CameraFixed = (CameraFixed == false ? true : false); }
+        if (name == "u")
+        {
+            _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
+        }
     }
 
 
     //카메라 이동
-    public void CameraMove()
+    public void FloatCam()
     {
         //p_Position -> 플레이어의 이동해야할 위치
 
@@ -83,7 +89,7 @@ public class CameraController : BaseController
     }
 
     //고정 카메라 이동
-    public void FixedCameraMove()
+    public void QuaterviewCam()
     {
         //카메라 이동
         Vector3 pos = new Vector3(p_Position.position.x, p_Position.position.y + Cam_Y, p_Position.position.z - Cam_Z);

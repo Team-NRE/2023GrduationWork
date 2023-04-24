@@ -8,9 +8,8 @@ using UnityEngine.AI;
 public class PlayerController : BaseController
 {
     //키 입력
-    private bool IsKey = false;
     private bool IsRange = false;
-    private bool _used = false;  //Announce GetDeck is first or not
+    //private bool _used = false;  //Announce GetDeck is first or not
 
     //PlayerInHandCard
     public List<BaseCard> _inHand = new List<BaseCard>();
@@ -27,15 +26,12 @@ public class PlayerController : BaseController
     public GameObject muzzle;
     public Transform barrelLocation;
 
-
-    //플레이어 Respawn 시 
     public override void OnEnable()
     {
-        base.OnEnable(); // 키 입력 받기 다시 초기화
+        base.OnEnable();
 
-        _state = Define.State.Idle; //Player State -> Idle
+        Debug.Log(_state);
     }
-
 
     //start에서 Player 세팅 초기화
     public override void Setting()
@@ -73,12 +69,14 @@ public class PlayerController : BaseController
         switch (name)
         {
             case "rightButton":
+                _keyboard = Define.KeyboardEvent.RightButton;
                 playerMove(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
                 _state = Define.State.Moving;
 
                 break;
 
             case "a":
+                _keyboard = Define.KeyboardEvent.A;
                 AttRange_Active();
 
                 break;
@@ -86,6 +84,7 @@ public class PlayerController : BaseController
             case "leftButton":
                 if (IsRange == true && AttTarget_Set() != null)
                 {
+                    _keyboard = Define.KeyboardEvent.LeftButton;
                     Shoot();
                     _state = Define.State.Attack;
                 }
@@ -93,9 +92,25 @@ public class PlayerController : BaseController
                 break;
 
             case "q":
+                _keyboard = Define.KeyboardEvent.Q;
+                _state = Define.State.Skill;
+
+                break;
+
             case "w":
+                _keyboard = Define.KeyboardEvent.W;
+                _state = Define.State.Skill;
+
+                break;
+
             case "e":
+                _keyboard = Define.KeyboardEvent.E;
+                _state = Define.State.Skill;
+
+                break;
+
             case "r":
+                _keyboard = Define.KeyboardEvent.R;
                 _state = Define.State.Skill;
 
                 break;
@@ -113,7 +128,7 @@ public class PlayerController : BaseController
     //Idle 애니메이션 -> Invoke -> 잠시 다른 키 애니메이션 시간 벌어주기
     private void idle()
     {
-        IsKey = false;
+        _keyboard = Define.KeyboardEvent.NoInput;
 
         if (agent.remainingDistance < 0.2f)
         {
@@ -125,9 +140,6 @@ public class PlayerController : BaseController
     //플레이어가 Update에서 일어나는 State 변화들
     private IEnumerator Player_Update_State()
     {
-        //키 입력없으면 Idle 상태
-        if (IsKey == false) { idle(); }
-
         //적을 판별해 적에게 움직이다 적이 사정거리 안에 들어오면 Shoot 
         if (agent.remainingDistance <= _pStats._attackRange && _layer == Define.Layer.Cyborg)
         {
@@ -135,10 +147,12 @@ public class PlayerController : BaseController
             _state = Define.State.Attack;
         }
 
+        if (_pStats.nowHealth > 0 && _state == Define.State.Die) { _state = Define.State.Idle; }
+        
         //HP < 0 이면 죽음 상태
         if (_pStats.nowHealth <= 0) { _state = Define.State.Die; }
-
         yield return new WaitForSeconds(0.3f);
+        
     }
 
 
@@ -157,7 +171,6 @@ public class PlayerController : BaseController
 
             case Define.State.Moving:
                 Invoke("idle", 0.2f);
-                IsKey = true;
 
                 animator.SetBool("IsWalk", true);
                 animator.SetBool("IsIdle", false);
@@ -168,7 +181,6 @@ public class PlayerController : BaseController
 
             case Define.State.Attack:
                 Invoke("idle", 0.4f);
-                IsKey = true;
 
                 agent.ResetPath();
 
@@ -180,7 +192,6 @@ public class PlayerController : BaseController
 
             case Define.State.Skill:
                 Invoke("idle", 0.4f);
-                IsKey = true;
 
                 agent.ResetPath();
 
@@ -191,8 +202,6 @@ public class PlayerController : BaseController
                 break;
 
             case Define.State.Die:
-                IsKey = true;
-
                 animator.SetTrigger("Die");
                 animator.SetBool("IsIdle", false);
                 inputAction.Disable();
@@ -261,7 +270,7 @@ public class PlayerController : BaseController
         }
 
         if (target != null)
-        { 
+        {
             //Player 회전
             transform.rotation = Quaternion.LookRotation(FlattenVector(target.transform.position) - transform.position);
         }

@@ -14,7 +14,7 @@ namespace Define
         Skill,
         Die,
     }
-    
+
     public enum Scene
     {
         Unknown,
@@ -51,8 +51,8 @@ namespace Define
 
     public enum CameraMode
     {
-        QuaterView, //������ ī�޶�
-        FloatCamera, //������ ī�޶�
+        QuaterView,
+        FloatCamera,
     }
 
     public enum WorldObject
@@ -73,8 +73,9 @@ namespace Define
 
     public enum KeyboardEvent
     {
-        leftButton,
-        rightButton,
+        NoInput, 
+        LeftButton,
+        RightButton,
         Q,
         W,
         E,
