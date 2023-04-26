@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sword : BaseCard
+public class Sword : UI_Card
 {
     public int CardCost = 1;
 
-    private void Awake() {
-          
-    }
+	public override void InitCard()
+	{
+		Debug.Log($"{this.gameObject.name} is called");
+	}
     
     public void cardEffect()
     {

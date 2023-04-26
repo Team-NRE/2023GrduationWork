@@ -44,7 +44,10 @@ public class UI_CardPanel : UI_Card
 		GameObject E_Card = Managers.Resource.Instantiate($"Cards/{_initDeck[2]}", E_Btn.transform);
 		GameObject R_Card = Managers.Resource.Instantiate($"Cards/{_initDeck[3]}", R_Btn.transform);
 
-		BindEvent(Q_Card, (PointerEventData data) => { Q_Btn.GetComponentInChildren<BaseController>().Init(); });
+		BindEvent(Q_Card, (PointerEventData data) => { Q_Btn.GetComponentInChildren<UI_Card>().InitCard(); });
+		BindEvent(W_Card, (PointerEventData data) => { W_Btn.GetComponentInChildren<UI_Card>().InitCard(); });
+		BindEvent(E_Card, (PointerEventData data) => { E_Btn.GetComponentInChildren<UI_Card>().InitCard(); });
+		BindEvent(R_Card, (PointerEventData data) => { R_Btn.GetComponentInChildren<UI_Card>().InitCard(); });
 		//Debug.Log(_initDeck[0]);
 	}
 
@@ -55,42 +58,28 @@ public class UI_CardPanel : UI_Card
     {
 
     }
-
-	//if click the card btn
-	//parameter
-	/*public List<string> UseCard(string cardName)
-	{
-		List<string> updatedList = new List<string>();
-		//if use -> call Card init -> delete from deck
-
-		//Add to empty with Random 1 from deck
-
-		return updatedList;
-	}*/
-	
-	
 	
 	public void UI_UseQ(PointerEventData data)
 	{
 		Debug.Log("Q");
-		Q_Btn.GetComponentInChildren<BaseController>().Init();
+		Q_Btn.GetComponentInChildren<UI_Card>().Init();
 	}
 
 	public void UI_UseW(PointerEventData data)
 	{
 		Debug.Log("W");
-		W_Btn.GetComponentInChildren<BaseController>().Init();
+		W_Btn.GetComponentInChildren<UI_Card>().Init();
 	}
 
 	public void UI_UseE(PointerEventData data)
 	{
 		Debug.Log("E");
-		E_Btn.GetComponentInChildren<BaseController>().Init();
+		E_Btn.GetComponentInChildren<UI_Card>().Init();
 	}
 
 	public void UI_UseR(PointerEventData data)
 	{
 		Debug.Log("R");
-		R_Btn.GetComponentInChildren<BaseController>().Init();
+		R_Btn.GetComponentInChildren<UI_Card>().Init();
 	}
 }

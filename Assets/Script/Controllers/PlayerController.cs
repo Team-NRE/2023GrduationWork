@@ -12,7 +12,7 @@ public class PlayerController : BaseController
     //private bool _used = false;  //Announce GetDeck is first or not
 
     //PlayerInHandCard
-    public List<BaseCard> _inHand = new List<BaseCard>();
+    public List<UI_Card> _inHand = new List<UI_Card>();
     //PlayerDeckBase
     public List<string> _baseDeck = new List<string>();
     //PlayerAttackRange

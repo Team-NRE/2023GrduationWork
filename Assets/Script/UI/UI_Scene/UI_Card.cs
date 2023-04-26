@@ -11,13 +11,13 @@ public class UI_Card : UI_Scene
 		_initDeck = GetDeckBase(CardDictionary());
 	}
 
-	public List<string> UISetter()
+	public virtual void InitCard()
 	{
-		return _initDeck;
+
 	}
 
 	//Deck Initializer, return List<string> names, called only Deck is refreshed or starting game, ?꾩꽦
-	public List<string> GetDeckBase(List<BaseController> originals)
+	public List<string> GetDeckBase(List<UI_Card> originals)
 	{
 		Dictionary<int, Data.Deck> dict = Managers.Data.DeckDict;
 		//Return to InhandDeck
@@ -34,7 +34,7 @@ public class UI_Card : UI_Scene
 		for (int i = 0; i < originals.Count; i++)
 		{
 			cardNames[i] = originals[i].name;
-			Debug.Log(cardNames[i].ToString());
+			//Debug.Log(cardNames[i].ToString());
 		}
 
 		return cardNames;
@@ -44,30 +44,28 @@ public class UI_Card : UI_Scene
 	public List<string> UseCard(string cardName)
 	{
 		List<string> updatedList = new List<string>();
-		//if use -> call Card init -> delete from deck
-
-		//Add to empty with Random 1 from deck
+		
 
 		return updatedList;
 	}
 
 	//Base return Components List for basement of search
 	//string 由ъ뒪??諛섑솚???꾪븳 ?댁슜
-	public List<BaseController> CardDictionary()
+	public List<UI_Card> CardDictionary()
 	{
 		Dictionary<string, Data.Card> cards = Managers.Data.CardDict;
-		List<BaseController> bcs = new List<BaseController>();
+		List<UI_Card> bcs = new List<UI_Card>();
 		List<string> cardNames = new List<string>();
 
 		foreach (Data.Card card in cards.Values)
 		{
 			//Debug.Log(card.name);
-			BaseController go = Managers.Resource.Load<BaseController>($"Prefabs/Cards/{card.name}").GetComponent<BaseController>();
+			UI_Card go = Managers.Resource.Load<UI_Card>($"Prefabs/Cards/{card.name}").GetComponent<UI_Card>();
 
 			cardNames.Add(card.name);
 			if (go.name == card.name)
 			{
-				bcs.Add(Managers.Resource.Load<BaseController>($"Prefabs/Cards/{card.name}"));
+				bcs.Add(Managers.Resource.Load<UI_Card>($"Prefabs/Cards/{card.name}"));
 
 				//Debug.Log(Managers.Resource.Load<GameObject>($"Prefabs/Cards/{card.name}"));
 			}
