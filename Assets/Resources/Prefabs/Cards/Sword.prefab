@@ -565,6 +565,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1355db83d841b2847b96dc0f8655b55c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputAction:
+    m_Name: Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a61ff2ea-49e3-4624-b49c-f63850d064ad
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   CardCost: 1
 --- !u!1 &1511361260008986087
 GameObject:

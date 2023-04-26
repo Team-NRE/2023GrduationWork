@@ -94,8 +94,10 @@ namespace Define
     public enum Projectile
     {
         Undefine,
-        Target,
-        NonTarget,
+        Proj_Target,
+        Proj_NonTarget,
+        NonProj_Target,
+        NonProj_NonTarget,
     }
 
 }

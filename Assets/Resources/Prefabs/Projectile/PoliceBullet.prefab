@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 9185894979385121958}
   - component: {fileID: 2761207895895286629}
   m_Layer: 0
-  m_Name: Player_Bullet
+  m_Name: PoliceBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

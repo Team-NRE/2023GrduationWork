@@ -29,6 +29,7 @@ public abstract class BaseController : MonoBehaviour
     public KeyboardEvent _keyboard { get; set; }
     public CardType _cardType { get; set; }
     public CameraMode _cameraMode { get; set; }
+    public Projectile _projectile { get; set; }
 
     private void Start()
     {
@@ -54,6 +55,13 @@ public abstract class BaseController : MonoBehaviour
     {
         string name = context.control.name;
         KeyDownAction(name);
+    }
+
+
+    //마우스 좌표에 따른 PlayerRotate
+    protected Vector3 FlattenVector(Vector3 mousepositon)
+    {
+        return new Vector3(mousepositon.x, transform.position.y, mousepositon.z);
     }
 
 
@@ -142,6 +150,31 @@ public abstract class BaseController : MonoBehaviour
                 break;
             case Define.CardType.Undefine:
                 Debug.LogError($"{card.name}'s CardType is not Defined!");
+                break;
+        }
+    }
+
+    public void ProjCheck(string ProjName, string Parent, float DestoryTime)
+    {
+        if (Parent != null)
+        {
+            GameObject parentObj = GameObject.Find(Parent);
+            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}", parentObj.transform);
+
+            Destroy(proj, DestoryTime);
+        }
+        
+        /*if(Parent == null)
+        {
+            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}");
+        }*/
+
+        
+
+        switch (_projectile)
+        {
+            case Define.Projectile.Proj_Target:
+                
                 break;
         }
     }
