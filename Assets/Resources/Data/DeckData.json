@@ -1,0 +1,16 @@
+{
+  "decks": [
+    {
+      "id": "0",
+      "name": "Example0"
+    },
+    {
+      "id": "1",
+      "name": "Example1"
+    },
+    {
+      "id": "2",
+      "name": "Example2"
+    }
+  ]
+}
