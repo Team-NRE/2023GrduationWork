@@ -42,9 +42,9 @@ public class CameraController : BaseController
         }
     }
 
-    public override void KeyDownAction(string name)
+    public override void KeyDownAction(Define.KeyboardEvent _key)
     {
-        if (name == "u")
+        if (_key == Define.KeyboardEvent.U)
         {
             _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
         }

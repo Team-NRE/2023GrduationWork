@@ -2,41 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
-/*public class PlayerBullet : MonoBehaviour
+using Stat;
+public class PlayerBullet : MonoBehaviour
 {
-    [SerializeField]
-    GameObject _target;
-    [SerializeField]
-    Vector3 targetPos;
+    GameObject _Target;
 
-    float Bullet_y;
-    float _shotPower;
+    //외부 namespace Stat 참조
+    public PlayerStats _pStats { get; set; }
 
-    public void target_set(GameObject target, float shotPower)
+    public void OnEnable()
     {
-        _target = target;
-        _shotPower = shotPower;
-
+        _pStats = GameObject.FindWithTag("PLAYER").GetComponent<PlayerStats>();
     }
 
-    void Update()
+    public void Update()
     {
-        if (_target == null) { Destroy(this.gameObject); }
+        Proj_Target_Init(_Target);
+    }
 
-        if (_target != null)
+    public void Proj_Target_Init(GameObject _target)
+    {
+        _Target = _target;
+
+        Vector3 target_Pos = new Vector3(_Target.transform.position.x, transform.position.y, _Target.transform.position.z);
+        transform.position = Vector3.Slerp(transform.position, target_Pos, Time.deltaTime * _pStats.attackSpeed);
+
+        if (Vector3.Distance(transform.position, target_Pos) <= 0.7f)
         {
-            transform.position = Vector3.Lerp(transform.position, _target.transform.position, Time.deltaTime * _shotPower);
-            targetPos = _target.transform.position;
-
-            if (Vector3.Distance(transform.position, _target.transform.position) <= 0.7f)
+            //타겟이 미니언, 타워일 시 
+            if (_Target.tag != "PLAYER")
             {
-                Debug.Log(_target);
-                _target.GetComponent<ObjStats>().NowHealth -= PlayerController.Player_Instance.player_stats._basicAttackPower;
-                Destroy(this.gameObject);
+                ObjStats _Stats = _Target.GetComponent<ObjStats>();
+                _Stats.NowHealth -= _pStats._basicAttackPower;
             }
+
+            //타겟이 적 Player일 시
+            if (_Target.tag == "PLAYER")
+            {
+                PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
+                _Stats.nowHealth -= _pStats._basicAttackPower;
+            }
+
+            Destroy(this.gameObject);
         }
+
     }
+
 }
-*/

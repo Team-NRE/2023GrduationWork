@@ -15,14 +15,15 @@ public class Shield : BaseCard
 
     public override void Init()
     {
-        Debug.Log($"{this.gameObject.name} is called");
+        //Debug.Log($"{this.gameObject.name} is called");
     }
 
 	public void cardEffect()
     {
-        SetStat();
+        //SetStat();
     }
 
+	/*
     public override void SetStat()
     {
         
@@ -32,5 +33,5 @@ public class Shield : BaseCard
     public override void LoadEffect()
     {
         
-    }
+    }*/
 }

@@ -23,14 +23,10 @@ public class PlayerController : BaseController
     private Animator animator { get; set; }
     private NavMeshAgent agent { get; set; }
 
-    //public GameObject muzzle;
-    //public Transform barrelLocation;
 
     public override void OnEnable()
     {
         base.OnEnable();
-
-        Debug.Log(_state);
     }
 
     //start에서 Player 세팅 초기화
@@ -64,73 +60,51 @@ public class PlayerController : BaseController
 
 
     //플레이어 키 event에 해당하는 Action 
-    public override void KeyDownAction(string name)
+    public override void KeyDownAction(Define.KeyboardEvent _key)
     {
-        switch (name)
+        switch (_key)
         {
-            case "rightButton":
-                _keyboard = Define.KeyboardEvent.RightButton;
-                Debug.Log($"keyboard : {_keyboard}");
+            /*case "rightButton":
+                //_keyboard = Define.KeyboardEvent.RightButton;
 
                 playerMove(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
                 _state = Define.State.Moving;
-                Debug.Log($"Player State : {_state}");
 
-                break;
+                break;*/
 
-            case "a":
-                _keyboard = Define.KeyboardEvent.A;
-                Debug.Log($"keyboard : {_keyboard}");
-
+            case Define.KeyboardEvent.A:
                 AttRange_Active();
 
                 break;
 
-            case "leftButton":
+            /*case "leftButton":
                 if (IsRange == true && AttTarget_Set() != null)
                 {
-                    _keyboard = Define.KeyboardEvent.LeftButton;
-                    Debug.Log($"keyboard : {_keyboard}");
+                    //_keyboard = Define.KeyboardEvent.LeftButton;
 
                     Shoot();
                     _state = Define.State.Attack;
-                    Debug.Log($"Player State : {_state}");
                 }
 
-                break;
+                break;*/
 
-            case "q":
-                _keyboard = Define.KeyboardEvent.Q;
-                Debug.Log($"keyboard : {_keyboard}");
-
+            case Define.KeyboardEvent.Q:
                 _state = Define.State.Skill;
-                Debug.Log($"Player State : {_state}");
-                break;
-
-            case "w":
-                _keyboard = Define.KeyboardEvent.W;
-                Debug.Log($"keyboard : {_keyboard}");
-
-                _state = Define.State.Skill;
-                Debug.Log($"Player State : {_state}");
 
                 break;
 
-            case "e":
-                _keyboard = Define.KeyboardEvent.E;
-                Debug.Log($"keyboard : {_keyboard}");
-
+            case Define.KeyboardEvent.W:
                 _state = Define.State.Skill;
-                Debug.Log($"Player State : {_state}");
 
                 break;
 
-            case "r":
-                _keyboard = Define.KeyboardEvent.R;
-                Debug.Log($"keyboard : {_keyboard}");
-
+            case Define.KeyboardEvent.E:
                 _state = Define.State.Skill;
-                Debug.Log($"Player State : {_state}");
+
+                break;
+
+            case Define.KeyboardEvent.R:
+                _state = Define.State.Skill;
 
                 break;
         }
@@ -147,13 +121,11 @@ public class PlayerController : BaseController
     //Idle 애니메이션 -> Invoke -> 잠시 다른 키 애니메이션 시간 벌어주기
     private void idle()
     {
-        _keyboard = Define.KeyboardEvent.NoInput;
-        Debug.Log($"Player State : {_keyboard}");
+        //_keyboard = Define.KeyboardEvent.NoInput;
 
         if (agent.remainingDistance < 0.2f)
         {
             _state = Define.State.Idle;
-            Debug.Log($"Player State : {_state}");
         }
     }
 
@@ -166,16 +138,15 @@ public class PlayerController : BaseController
         {
             Shoot();
             _state = Define.State.Attack;
-            Debug.Log($"Player State : {_state}");
         }
 
         //
-        if (_pStats.nowHealth > 0 && _state == Define.State.Die) { _state = Define.State.Idle; Debug.Log($"Player State : {_state}"); }
+        if (_pStats.nowHealth > 0 && _state == Define.State.Die) { _state = Define.State.Idle; }
 
         //HP < 0 이면 죽음 상태
-        if (_pStats.nowHealth <= 0) { _state = Define.State.Die; Debug.Log($"Player State : {_state}"); }
-        yield return new WaitForSeconds(0.3f);
+        if (_pStats.nowHealth <= 0) { _state = Define.State.Die; }
 
+        yield return new WaitForSeconds(0.3f);
     }
 
 
@@ -299,24 +270,10 @@ public class PlayerController : BaseController
     //muzzle / 총알 나가야 됨.
     private void Shoot()
     {
-        //총알 발사 이미지
+        ProjCheck("MuzzleFlash", "Barrel_Location", null, 0.7f);
+        ProjCheck("PoliceBullet", "Barrel_Location", AttTarget_Set());
 
-        //Create the muzzle flash
-        //GameObject tempFlash;
-
-        //tempFlash = Instantiate(muzzle, barrelLocation.position, barrelLocation.rotation);
-
-        ProjCheck("MuzzleFlash", "Barrel_Location", 0.7f);
-
-        //Destroy the muzzle flash effect
-        //Destroy(tempFlash, 0.7f);
-
-
-        //총알 projectile
-        _projectile = Define.Projectile.Proj_Target;
-
-
-        //마우스 오른쪽 클릭 시 공격
+        //마우스 오른쪽 클릭 시 공격 후 레이어 초기화
         if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }
 
         //사거리 off

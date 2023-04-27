@@ -14,7 +14,8 @@ using Define;
 public abstract class BaseController : MonoBehaviour
 {
     //InputSystem
-    public InputAction inputAction;
+    public InputAction inputKeyAction;
+    public InputActionMap inputAction;
 
 
     //외부 namespace Stat 참조
@@ -26,12 +27,12 @@ public abstract class BaseController : MonoBehaviour
     //외부 namespace Define의 Player State 참조
     public State _state { get; set; }
     public Layer _layer { get; set; }
-    public KeyboardEvent _keyboard { get; set; }
+    public KeyboardEvent _keyboardEvent { get; set; }
     public CardType _cardType { get; set; }
     public CameraMode _cameraMode { get; set; }
     public Projectile _projectile { get; set; }
 
-    private void Start()
+    public void Start()
     {
         _pStats = GetComponent<PlayerStats>();
         _cStats = GetComponent<CardStats>();
@@ -45,16 +46,26 @@ public abstract class BaseController : MonoBehaviour
     {
         // Input System의 "action"을 정의
         var inputActionAsset = Resources.Load<InputActionAsset>("Input");
-        inputAction = inputActionAsset.FindAction("Keyfunction");
-        inputAction.performed += OnKeyDown;
+        //inputKeyAction = inputActionAsset.FindAction("Keyfunction");
+        inputAction = inputActionAsset.FindActionMap("KeyMap");
+        inputAction.FindAction("Keyfunction").performed += OnKeyDown;
+        inputAction.FindAction("Mousefunction").performed += OnMouseDown;
         inputAction.Enable();
     }
 
     //키 이벤트를 name으로 받기
     public void OnKeyDown(InputAction.CallbackContext context)
     {
-        string name = context.control.name;
-        KeyDownAction(name);
+        string keyName = context.control.name;
+        int keyValue = (int)Enum.Parse(typeof(KeyCode), keyName, true);
+        _keyboardEvent = (KeyboardEvent)keyValue;
+        KeyDownAction(_keyboardEvent);
+    }
+
+    public void OnMouseDown(InputAction.CallbackContext context)
+    {
+        string controlName = context.control.name;
+        Debug.Log(controlName);
     }
 
 
@@ -102,7 +113,7 @@ public abstract class BaseController : MonoBehaviour
 
 
     //키 입력
-    public virtual void KeyDownAction(string name)
+    public virtual void KeyDownAction(KeyboardEvent _key)
     {
 
     }
@@ -137,45 +148,20 @@ public abstract class BaseController : MonoBehaviour
 
     }
 
-
-    public virtual void TypeVerify(BaseController card)
+    public void ProjCheck(string ProjName, string Parent_Transform, GameObject _target, float DestoryTime = 0f)
     {
-        //if card has Projectile
-        switch (_cardType)
+        if (!string.IsNullOrEmpty(Parent_Transform))
         {
-            case Define.CardType.Projective:
-                break;
-            case Define.CardType.NonProjective:
-                card.LoadEffect();
-                break;
-            case Define.CardType.Undefine:
-                Debug.LogError($"{card.name}'s CardType is not Defined!");
-                break;
-        }
-    }
+            GameObject Parent_Obj = GameObject.Find(Parent_Transform);
+            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}", Parent_Obj.transform);
 
-    public void ProjCheck(string ProjName, string Parent, float DestoryTime)
-    {
-        if (Parent != null)
-        {
-            GameObject parentObj = GameObject.Find(Parent);
-            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}", parentObj.transform);
-
-            Destroy(proj, DestoryTime);
-        }
-        
-        /*if(Parent == null)
-        {
-            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}");
-        }*/
-
-        
-
-        switch (_projectile)
-        {
-            case Define.Projectile.Proj_Target:
-                
-                break;
+            if (_target == null) { Destroy(proj, DestoryTime); }
+            if (_target != null)
+            {
+                Debug.Log(_target.name);
+                //bullet 소환 까지 가능 -> 힘을 어떻게 전달? -> 전달하려면 Update() 
+                proj.GetComponent<PlayerBullet>().Proj_Target_Init(_target);
+            }
         }
     }
 

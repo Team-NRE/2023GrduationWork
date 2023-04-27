@@ -117,8 +117,7 @@ namespace Stat
 
             //공격
             basicAttackPower = 30.0f;
-            basicAttackPower = 30.0f;
-
+            attackSpeed = 5.0f;
             attackRange = 6.0f;
 
             //방어
