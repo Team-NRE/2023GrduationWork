@@ -100,4 +100,12 @@ namespace Define
         NonProj_NonTarget,
     }
 
+    public enum ObjectAction
+    {
+        None,
+        Attack,
+        Death,
+        Move,
+        Summon,
+    }
 }

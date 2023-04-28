@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Stat;
 
-public class ObjController : MonoBehaviour
+public abstract class ObjController : MonoBehaviour
 {
     /// <summary>타일 맵 오브젝트</summary>
     private Tilemap tilemap;
