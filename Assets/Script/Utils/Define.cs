@@ -74,8 +74,6 @@ namespace Define
     public enum KeyboardEvent
     {
         NoInput = 0, 
-        LeftButton = 1,
-        RightButton = 2,
         Q = 113,
         W = 119,
         E = 101,

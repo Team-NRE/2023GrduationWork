@@ -14,7 +14,6 @@ using Define;
 public abstract class BaseController : MonoBehaviour
 {
     //InputSystem
-    public InputAction inputKeyAction;
     public InputActionMap inputAction;
 
 
@@ -32,6 +31,10 @@ public abstract class BaseController : MonoBehaviour
     public CameraMode _cameraMode { get; set; }
     public Projectile _projectile { get; set; }
 
+
+    //Transform 선언
+    private Transform Parent_trans { get; set; }
+
     public void Start()
     {
         _pStats = GetComponent<PlayerStats>();
@@ -46,14 +49,13 @@ public abstract class BaseController : MonoBehaviour
     {
         // Input System의 "action"을 정의
         var inputActionAsset = Resources.Load<InputActionAsset>("Input");
-        //inputKeyAction = inputActionAsset.FindAction("Keyfunction");
         inputAction = inputActionAsset.FindActionMap("KeyMap");
         inputAction.FindAction("Keyfunction").performed += OnKeyDown;
         inputAction.FindAction("Mousefunction").performed += OnMouseDown;
         inputAction.Enable();
     }
 
-    //키 이벤트를 name으로 받기
+    //키 이벤트
     public void OnKeyDown(InputAction.CallbackContext context)
     {
         string keyName = context.control.name;
@@ -62,10 +64,12 @@ public abstract class BaseController : MonoBehaviour
         KeyDownAction(_keyboardEvent);
     }
 
+    //마우스 이벤트
     public void OnMouseDown(InputAction.CallbackContext context)
     {
-        string controlName = context.control.name;
-        Debug.Log(controlName);
+        string _button = context.control.name;
+        
+        MouseDownAction(_button);
     }
 
 
@@ -112,6 +116,12 @@ public abstract class BaseController : MonoBehaviour
     }
 
 
+    //마우스 입력
+    public virtual void MouseDownAction(string _button)
+    {
+
+    }
+
     //키 입력
     public virtual void KeyDownAction(KeyboardEvent _key)
     {
@@ -148,21 +158,19 @@ public abstract class BaseController : MonoBehaviour
 
     }
 
-    public void ProjCheck(string ProjName, string Parent_Transform, GameObject _target, float DestoryTime = 0f)
-    {
-        if (!string.IsNullOrEmpty(Parent_Transform))
-        {
-            GameObject Parent_Obj = GameObject.Find(Parent_Transform);
-            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}", Parent_Obj.transform);
 
-            if (_target == null) { Destroy(proj, DestoryTime); }
-            if (_target != null)
-            {
-                Debug.Log(_target.name);
-                //bullet 소환 까지 가능 -> 힘을 어떻게 전달? -> 전달하려면 Update() 
-                proj.GetComponent<PlayerBullet>().Proj_Target_Init(_target);
-            }
-        }
+    //투사체 최초 풀링 및 오브젝트 생성될 부모 위치 지정 
+    public (GameObject, Transform) Projectile_Pool(string ProjName, string parent = null)
+    {
+        //Prefab 찾아주기
+        GameObject obj = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{ProjName}");
+        
+        //새로운 풀링 해주기
+        if (Managers.Pool.GetOriginal(obj.name) == null) { Managers.Pool.CreatePool(obj, 5); }
+        //transform = null일때
+        if (parent != null) { Parent_trans = GameObject.Find(parent).transform; }
+
+        return (obj, Parent_trans);
     }
 
 }

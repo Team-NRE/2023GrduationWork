@@ -22,7 +22,7 @@ public class PlayerController : BaseController
     //초기화
     private Animator animator { get; set; }
     private NavMeshAgent agent { get; set; }
-
+    private Transform Proj_Parent;
 
     public override void OnEnable()
     {
@@ -36,6 +36,8 @@ public class PlayerController : BaseController
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
+        //Object Pool
+        Projectile_Pool("PoliceBullet", "Barrel_Location");
 
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -64,29 +66,10 @@ public class PlayerController : BaseController
     {
         switch (_key)
         {
-            /*case "rightButton":
-                //_keyboard = Define.KeyboardEvent.RightButton;
-
-                playerMove(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
-                _state = Define.State.Moving;
-
-                break;*/
-
             case Define.KeyboardEvent.A:
                 AttRange_Active();
 
                 break;
-
-            /*case "leftButton":
-                if (IsRange == true && AttTarget_Set() != null)
-                {
-                    //_keyboard = Define.KeyboardEvent.LeftButton;
-
-                    Shoot();
-                    _state = Define.State.Attack;
-                }
-
-                break;*/
 
             case Define.KeyboardEvent.Q:
                 _state = Define.State.Skill;
@@ -110,6 +93,28 @@ public class PlayerController : BaseController
         }
     }
 
+
+    //플레이어 마우스 event에 해당하는 Action
+    public override void MouseDownAction(string _button)
+    {
+        switch (_button)
+        {
+            case "rightButton":
+                playerMove(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
+                _state = Define.State.Moving;
+
+                break;
+
+            case "leftButton":
+                if (IsRange == true && AttTarget_Set() != null)
+                {
+                    Shoot();
+                    _state = Define.State.Attack;
+                }
+
+                break;
+        }
+    }
 
     private void Update()
     {
@@ -270,8 +275,8 @@ public class PlayerController : BaseController
     //muzzle / 총알 나가야 됨.
     private void Shoot()
     {
-        ProjCheck("MuzzleFlash", "Barrel_Location", null, 0.7f);
-        ProjCheck("PoliceBullet", "Barrel_Location", AttTarget_Set());
+        Managers.Pool.Pop(Projectile_Pool("PoliceBullet").Item1, 
+            Projectile_Pool("PoliceBullet").Item2).GetComponent<Poolable>().Proj_Target_Init(AttTarget_Set());
 
         //마우스 오른쪽 클릭 시 공격 후 레이어 초기화
         if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }
