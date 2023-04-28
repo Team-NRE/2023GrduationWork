@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
-public class PlayerBullet : MonoBehaviour
+public class PlayerBullet : Poolable
 {
     GameObject _Target;
 
@@ -20,7 +20,7 @@ public class PlayerBullet : MonoBehaviour
         Proj_Target_Init(_Target);
     }
 
-    public void Proj_Target_Init(GameObject _target)
+    public override void Proj_Target_Init(GameObject _target)
     {
         _Target = _target;
 
@@ -42,8 +42,8 @@ public class PlayerBullet : MonoBehaviour
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= _pStats._basicAttackPower;
             }
-
-            Destroy(this.gameObject);
+            
+            Managers.Pool.Push(this);
         }
 
     }

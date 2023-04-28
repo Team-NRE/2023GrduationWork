@@ -58,9 +58,17 @@ public class PoolManager
 
             //DontDestroyOnLoad ������
             if (parent == null)
+            {
                 //poolable.transform.parent = Managers.Scene.CurrentScene.transform;
+            }
 
-            poolable.transform.parent = parent;
+            if (parent != null)
+            {
+                poolable.gameObject.transform.parent = parent;
+                poolable.gameObject.transform.localPosition = Vector3.zero;
+                poolable.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
+
             poolable.IsUsing = true;
 
             return poolable;
@@ -82,10 +90,12 @@ public class PoolManager
 
     public void CreatePool(GameObject original, int count = 5)
     {
+        //Poolable의 push,pop구조 짜기 
         Pool pool = new Pool();
         pool.Init(original, count);
         pool.Root.parent = _root;
 
+        //게임 오브젝트의 이름, 해당하는 pool
         _pool.Add(original.name, pool);
     }
 
@@ -108,6 +118,7 @@ public class PoolManager
 
         return _pool[original.name].Pop(parent);
     }
+
 
     public GameObject GetOriginal(string name)
     {
