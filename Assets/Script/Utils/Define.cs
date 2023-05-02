@@ -104,6 +104,19 @@ namespace Define
         Attack,
         Death,
         Move,
-        Summon,
+    }
+
+    public enum ObjectType
+    {
+        Undefine,
+        Melee,
+        Range,
+        Mixed,
+    }
+
+    public enum ObjectLine
+    {
+        UpperLine,
+        LowerLine,
     }
 }

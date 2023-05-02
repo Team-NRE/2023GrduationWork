@@ -26,7 +26,7 @@ public class MinionBulletAttack : MonoBehaviour
             
             if (Vector3.Distance(transform.position, target.transform.position) < 0.5f)
             {
-                target.GetComponent<ObjStats>().NowHealth -= damage;
+                target.GetComponent<ObjStats>().nowHealth -= damage;
                 Destroy(this.gameObject);
             }
         }
