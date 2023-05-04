@@ -8,11 +8,13 @@ using Define;
 public class Tower : ObjectController
 {
     GameObject bullet;
+    Transform muzzle;
 
     public override void init() 
     {
         base.init();
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
+        muzzle = transform.Find("Crystal/BulletPos");
 
         //새로운 풀링 해주기
         if (Managers.Pool.GetOriginal(bullet.name) == null) { Managers.Pool.CreatePool(bullet, 5); }
@@ -24,7 +26,7 @@ public class Tower : ObjectController
 
         if (_targetEnemyTransform == null) return;
 
-        Managers.Pool.Pop(bullet).Proj_Target_Init(transform.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        Managers.Pool.Pop(bullet).Proj_Target_Init(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 
     public override void Death()
