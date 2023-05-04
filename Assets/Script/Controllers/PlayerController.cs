@@ -37,7 +37,7 @@ public class PlayerController : BaseController
         agent = GetComponent<NavMeshAgent>();
 
         //Object Pool
-        Managers.Pool.Projectile_Pool("PoliceBullet");
+        Managers.Pool.CreatePool("PoliceBullet", 5);
         Proj_Parent = GameObject.Find("Barrel_Location").transform;
 
         //Range List Setting 
@@ -59,6 +59,9 @@ public class PlayerController : BaseController
 
         //Prefab off
         GetComponentInChildren<SplatManager>().enabled = true;
+
+        //Object Target 정하는 리스트
+        ObjectController._allObjectTransforms.Add(transform);
     }
 
 
