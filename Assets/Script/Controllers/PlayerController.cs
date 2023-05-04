@@ -37,7 +37,8 @@ public class PlayerController : BaseController
         agent = GetComponent<NavMeshAgent>();
 
         //Object Pool
-        Projectile_Pool("PoliceBullet", "Barrel_Location");
+        Managers.Pool.Projectile_Pool("PoliceBullet");
+        Proj_Parent = GameObject.Find("Barrel_Location").transform;
 
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -271,9 +272,9 @@ public class PlayerController : BaseController
 
     //bullet objectpooling pop
     private void Shoot()
-    {   
-        Managers.Pool.Pop(Projectile_Pool("PoliceBullet").Item1, 
-            Projectile_Pool("PoliceBullet").Item2).GetComponent<Poolable>().Proj_Target_Init(AttTarget_Set());
+    {
+        Managers.Pool.Projectile_Pool("PoliceBullet", transform.position, AttTarget_Set().transform, 
+            _pStats._attackSpeed, _pStats._basicAttackPower, Proj_Parent);
 
         //Layer 초기화 
         if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }

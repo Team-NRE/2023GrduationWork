@@ -56,18 +56,20 @@ public class PoolManager
 
             poolable.gameObject.SetActive(true);
 
+            
             //DontDestroyOnLoad ������
             if (parent == null)
             {
                 //poolable.transform.parent = Managers.Scene.CurrentScene.transform;
             }
 
-            if (parent != null)
+            if(parent != null)
             {
                 poolable.gameObject.transform.parent = parent;
                 poolable.gameObject.transform.localPosition = Vector3.zero;
                 poolable.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
             }
+
 
             poolable.IsUsing = true;
 
@@ -135,4 +137,26 @@ public class PoolManager
 
         _pool.Clear();
     }
+
+
+
+    private GameObject Findobj { get; set; }
+
+    //투사체 최초 풀링 & 풀링이 되어있다면 Pop해주기
+    public void Projectile_Pool(string ProjName, Vector3 _shooter = default,
+        Transform _target = null, float bulletSpeed = default, float damage = default, Transform parent = null)
+    {
+        //Prefab 찾아주기
+        Findobj = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{ProjName}");
+        GameObject GetObject = GetOriginal(Findobj.name);
+
+        //새로운 풀링 해주기
+        if (GetObject == null) { CreatePool(Findobj, 5); }
+        else
+        {
+            Pop(GetObject, parent).GetComponent<Poolable>().Proj_Target_Init(_shooter, _target, bulletSpeed, damage);
+        }
+    }
+
+
 }

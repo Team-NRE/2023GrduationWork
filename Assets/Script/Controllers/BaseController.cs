@@ -68,7 +68,7 @@ public abstract class BaseController : MonoBehaviour
     public void OnMouseDown(InputAction.CallbackContext context)
     {
         string _button = context.control.name;
-        
+
         MouseDownAction(_button);
     }
 
@@ -156,21 +156,6 @@ public abstract class BaseController : MonoBehaviour
     public virtual void SetStat()
     {
 
-    }
-
-
-    //투사체 최초 풀링 및 오브젝트 생성될 부모 위치 지정 
-    public (GameObject, Transform) Projectile_Pool(string ProjName, string parent = null)
-    {
-        //Prefab 찾아주기
-        GameObject obj = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{ProjName}");
-        
-        //새로운 풀링 해주기
-        if (Managers.Pool.GetOriginal(obj.name) == null) { Managers.Pool.CreatePool(obj, 5); }
-        //transform = null일때
-        if (parent != null) { Parent_trans = GameObject.Find(parent).transform; }
-
-        return (obj, Parent_trans);
     }
 
 }
