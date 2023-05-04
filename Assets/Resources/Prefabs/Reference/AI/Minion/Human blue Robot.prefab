@@ -1101,11 +1101,8 @@ GameObject:
   - component: {fileID: 9148914318986443897}
   - component: {fileID: 9148914318986443898}
   - component: {fileID: 9148914318986443899}
-  - component: {fileID: 9148914318986443901}
-  - component: {fileID: 9148914318986443903}
-  - component: {fileID: 9148914318986443845}
-  - component: {fileID: 9148914318986443846}
-  - component: {fileID: 9148914318986443847}
+  - component: {fileID: 3506335774208589965}
+  - component: {fileID: 4431501649691718591}
   m_Layer: 6
   m_Name: Human blue Robot
   m_TagString: Untagged
@@ -1197,23 +1194,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &9148914318986443901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9148914318986443889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05b9706486f28df4f807d6f9462308f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  milestone: {fileID: 2207823135559868339, guid: 86408abd1e0856243b17d95ce0e38753, type: 3}
-  enemyCamp: {fileID: 0}
---- !u!114 &9148914318986443903
+--- !u!114 &3506335774208589965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1225,33 +1206,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0.667
-  attackCoolingTime: 0.667
-  attackRange: 4
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 500
-  nowHealth: 500
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 325
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &9148914318986443845
+  _basicAttackPower: 10
+  _attackSpeed: 10
+  _attackRange: 10
+  _maxHealth: 10
+  _nowHealth: 10
+  _healthRegeneration: 10
+  _defensePower: 10
+  _nowMana: 10
+  _manaRegenerationTime: 10
+  _maxMana: 10
+  _level: 10
+  _experience: 10
+  _speed: 10
+--- !u!114 &4431501649691718591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1260,53 +1228,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9148914318986443889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: b59348c01369f2a4ca64fd72be531701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 9148914318557499781}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &9148914318986443846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9148914318986443889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &9148914318986443847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9148914318986443889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: 
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  milestoneUpper: []
+  milestoneLower: []
+  line: 0
+  lineIdx: 1
 --- !u!1 &9148914318989915565
 GameObject:
   m_ObjectHideFlags: 0

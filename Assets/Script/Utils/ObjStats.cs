@@ -1,422 +1,146 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Stat
 {
     public class ObjStats : MonoBehaviour
     {
-        #region 변수 목록
-        [Header("- 공격 분야")]
-        [SerializeField] float attackPower;             // 공격력
-        [SerializeField] float absoluteAttackPower;     // 절대 공격력
-        [SerializeField] float attackSpeed;             // 공격 속도
-        [SerializeField] float attackCoolingTime;       // 공격 쿨타임
-        [SerializeField] float attackRange;             // 공격 범위
-        [SerializeField] float criticalChance;          // 크리 확률
-        [SerializeField] float criticalPower;           // 크리 공격력
+        #region PlayerStats
 
-        [Header("- 방어 분야")]
-        [SerializeField] float maxHealth;               // 최대 체력
-        [SerializeField] float nowHealth;               // 현재 체력
-        [SerializeField] float healthRegeneration;      // 체력 재생
-        [SerializeField] float defensePower;            // 방어력
+        [Header("-- 공격 --")]
+        [SerializeField] private float _basicAttackPower; //평타 공격력
+        [SerializeField] private float _attackSpeed; //평타 공속
+        [SerializeField] private float _attackRange; //평타 범위 
 
-        [Header("- 버프 분야")]
-        [SerializeField] float protectiveShield;        // 방어막
-        [SerializeField] float protectiveShieldTime;    // 방어막 시간
 
-        [Header("- 디버프 분야")]
-        [SerializeField] float moveSpeedReduction;      // 이동속도 감소 퍼센트
-        [SerializeField] float moveSpeedReductionTime;  // 이동속도 감소 시간
-        [SerializeField] float skillSilenceTime;        // 스킬 침묵 시간
-        [SerializeField] float poisonDamage;            // 독 데미지
-        [SerializeField] float poisonDamageTime;        // 독 시간
+        [Header("-- 방어 --")]
+        [SerializeField] private float _maxHealth; //최대 체력
+        [SerializeField] private float _nowHealth; //현재 체력
+        [SerializeField] private float _healthRegeneration; //체력 재생량
+        [SerializeField] private float _defensePower; //방어력
 
-        [Header("- 기타")]
-        [SerializeField] float level;                   // 레벨
-        [SerializeField] float experience;              // 경험치
-        [SerializeField] float moveSpeed;               // 이동 속도
-        [SerializeField] float globalToken;             // 전역 골드
-        [SerializeField] float rangeToken;              // 범위 골드
-        [SerializeField] float resource;                // 자원
-        [SerializeField] float resourceRange;           // 자원 획득 범위
-        [SerializeField] float recognitionRange;        // 인식 범위
+
+        [Header("-- 마나 --")]
+        [SerializeField] private float _nowMana; //현재 마나
+        [SerializeField] private float _manaRegenerationTime; //마나 회복 속도
+        [SerializeField] private float _maxMana; //최대 마나
+
+
+        [Header("-- 레벨 --")]
+        [SerializeField] private int _level; //레벨
+        [SerializeField] private float _experience; //경험치
+
+
+        [Header("-- 이동 --")]
+        [SerializeField] private float _speed; //이동 속도
         #endregion
 
-        #region 공격 분야 get, set
-        // 공격력
-        public float AttackPower
+
+        //공격
+        public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
+        public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
+        public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
+
+        //방어
+        public float maxHealth
         {
-            get
-            {
-
-                return attackPower;
-            }
-
+            get { return _maxHealth; }
             set
             {
-                attackPower = value;
+                _maxHealth = value;
+                _nowHealth = _maxHealth;
+            }
+        }
+        
+        public float nowHealth
+        {
+            get { return _nowHealth; }
+            set
+            {
+                _nowHealth = value;
+                if (_nowHealth >= _maxHealth) { _nowHealth = _maxHealth; }
+            }
+        }
+        public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
+        public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
+
+
+        //마나
+        public float maxMana { get { return _maxMana; } set { _maxMana = value; } }
+        public float nowMana
+        {
+            get { return _nowMana; }
+            set
+            {
+                _nowMana += value;
+                if (_nowMana >= _maxMana * _manaRegenerationTime) { _nowMana = _maxMana * _manaRegenerationTime; }
+                if (_nowMana <= 0) { _nowMana = 0; }
+            }
+        }
+        public float manaRegenerationTime
+        {
+            get { return _manaRegenerationTime; }
+            set
+            {
+                _manaRegenerationTime = value;
             }
         }
 
-        // 절대 공격력
-        public float AbsoluteAttackPower
-        {
-            get
-            {
-                return absoluteAttackPower;
-            }
 
+        //레벨
+        public int level { get { return _level; } set { _level = value; } }
+        public float experience { get { return _experience; } set { _experience = value; } }
+
+
+        //이동
+        public float speed
+        {
+            get { return agent.speed; }
             set
             {
-                absoluteAttackPower = value;
+                _speed = value;
+                if (agent != null) {
+                    agent.speed = _speed;
+                }
             }
         }
 
-        // 공격 속도
-        public float AttackSpeed
+        private NavMeshAgent agent;
+
+        private void Awake()
         {
-            get
-            {
-                return attackSpeed;
+            agent = GetComponent<NavMeshAgent>();
+
+            if (agent != null) {
+                //agent setting
+                agent.acceleration = 80.0f;
+                agent.updateRotation = false;
             }
 
-            set
-            {
-                attackSpeed = value;
-            }
+            //공격
+            basicAttackPower = 30.0f;
+            attackSpeed = 5.0f;
+            attackRange = 6.0f;
+
+            //방어
+            maxHealth = 150.0f;
+
+            //마나
+            maxMana = 3.0f;
+            manaRegenerationTime = 4.0f;
+
+            //레벨
+            level = 7;
+
+            //이동
+            speed = 4.0f;
         }
 
-        // 공격 쿨타임
-        public float AttackCoolingTime
+        private void Update()
         {
-            get
-            {
-                return attackCoolingTime;
-            }
-
-            set
-            {
-                attackCoolingTime = value;
-            }
+            nowMana = Time.deltaTime;
         }
-
-        // 공격 범위
-        public float AttackRange
-        {
-            get
-            {
-                return attackRange;
-            }
-
-            set
-            {
-                attackRange = value;
-            }
-        }
-
-        // 크리티컬 확률
-        public float CriticalChance
-        {
-            get
-            {
-                return criticalChance;
-            }
-
-            set
-            {
-                criticalChance = value;
-            }
-        }
-
-        // 크리티컬 공격력
-        public float CriticalPower
-        {
-            get
-            {
-                return criticalPower;
-            }
-
-            set
-            {
-                criticalPower = value;
-            }
-        }
-        #endregion
-
-        #region 방어 분야 get, set
-        // 최대 체력
-        public float MaxHealth
-        {
-            get
-            {
-                return maxHealth;
-            }
-
-            set
-            {
-                maxHealth = value;
-            }
-        }
-
-        // 현재 체력
-        public float NowHealth
-        {
-            get
-            {
-                return nowHealth;
-            }
-
-            set
-            {
-                nowHealth = value;
-            }
-        }
-
-        // 체력 재생
-        public float HealthRegeneration
-        {
-            get
-            {
-                return healthRegeneration;
-            }
-
-            set
-            {
-                healthRegeneration = value;
-            }
-        }
-
-        // 방어력
-        public float DefensePower
-        {
-            get
-            {
-                return defensePower;
-            }
-
-            set
-            {
-                defensePower = value;
-            }
-        }
-        #endregion
-
-        #region 버프 분야 get, set
-        // 방어막
-        public float ProtectiveShield
-        {
-            get
-            {
-                return protectiveShield;
-            }
-
-            set
-            {
-                protectiveShield = value;
-            }
-        }
-
-        // 방어막 시간
-        public float ProtectiveShieldTime
-        {
-            get
-            {
-                return protectiveShieldTime;
-            }
-
-            set
-            {
-                protectiveShieldTime = value;
-            }
-        }
-        #endregion
-
-        #region 디버프 분야 get, set
-        // 이동속도 감소 퍼센트
-        public float MoveSpeedReduction
-        {
-            get
-            {
-                return moveSpeedReduction;
-            }
-
-            set
-            {
-                moveSpeedReduction = value;
-            }
-        }
-
-        // 이동속도 감소 시간
-        public float MoveSpeedReductionTime
-        {
-            get
-            {
-                return moveSpeedReductionTime;
-            }
-
-            set
-            {
-                moveSpeedReductionTime = value;
-            }
-        }
-
-        // 스킬 침묵 시간
-        public float SkillSilenceTime
-        {
-            get
-            {
-                return skillSilenceTime;
-            }
-
-            set
-            {
-                skillSilenceTime = value;
-            }
-        }
-
-        // 독 데미지
-        public float PoisonDamage
-        {
-            get
-            {
-                return poisonDamage;
-            }
-
-            set
-            {
-                poisonDamage = value;
-            }
-        }
-
-        // 독 시간
-        public float PoisonDamageTime
-        {
-            get
-            {
-                return poisonDamageTime;
-            }
-
-            set
-            {
-                poisonDamageTime = value;
-            }
-        }
-        #endregion
-
-        #region 기타 get, set
-        // 레벨
-        public float Level
-        {
-            get
-            {
-                return level;
-            }
-
-            set
-            {
-                level = value;
-            }
-        }
-
-        // 경험치
-        public float Experience
-        {
-            get
-            {
-                return experience;
-            }
-
-            set
-            {
-                experience = value;
-            }
-        }
-
-        // 이동 속도
-        public float MoveSpeed
-        {
-            get
-            {
-                return moveSpeed;
-            }
-
-            set
-            {
-                moveSpeed = value;
-            }
-        }
-
-        // 전역 골드
-        public float GlobalToken
-        {
-            get
-            {
-                return globalToken;
-            }
-
-            set
-            {
-                globalToken = value;
-            }
-        }
-
-        // 범위 골드
-        public float RangeToken
-        {
-            get
-            {
-                return rangeToken;
-            }
-
-            set
-            {
-                rangeToken = value;
-            }
-        }
-
-        // 자원
-        public float Resource
-        {
-            get
-            {
-                return resource;
-            }
-
-            set
-            {
-                resource = value;
-            }
-        }
-
-        // 자원 획득 범위
-        public float ResourceRange
-        {
-            get
-            {
-                return resourceRange;
-            }
-
-            set
-            {
-                resourceRange = value;
-            }
-        }
-
-        // 인식 범위
-        public float RecognitionRange
-        {
-            get
-            {
-                return recognitionRange;
-            }
-
-            set
-            {
-                recognitionRange = value;
-            }
-        }
-        #endregion
     }
 }

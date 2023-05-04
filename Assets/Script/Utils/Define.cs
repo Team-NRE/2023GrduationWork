@@ -98,4 +98,25 @@ namespace Define
         NonProj_NonTarget,
     }
 
+    public enum ObjectAction
+    {
+        None,
+        Attack,
+        Death,
+        Move,
+    }
+
+    public enum ObjectType
+    {
+        Undefine,
+        Melee,
+        Range,
+        Mixed,
+    }
+
+    public enum ObjectLine
+    {
+        UpperLine,
+        LowerLine,
+    }
 }

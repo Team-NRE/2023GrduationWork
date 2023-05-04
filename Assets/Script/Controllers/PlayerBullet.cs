@@ -33,7 +33,7 @@ public class PlayerBullet : Poolable
             if (_Target.tag != "PLAYER")
             {
                 ObjStats _Stats = _Target.GetComponent<ObjStats>();
-                _Stats.NowHealth -= _pStats._basicAttackPower;
+                _Stats.nowHealth -= _pStats._basicAttackPower;
             }
 
             //타겟이 적 Player일 시
