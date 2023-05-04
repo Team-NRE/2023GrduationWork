@@ -121,7 +121,7 @@ namespace Stat
             attackRange = 6.0f;
 
             //방어
-            maxHealth = 150.0f;
+            maxHealth = 300.0f;
 
             //마나
             maxMana = 3.0f;

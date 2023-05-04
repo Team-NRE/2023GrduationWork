@@ -27,6 +27,7 @@ public class PlayerController : BaseController
     public override void OnEnable()
     {
         base.OnEnable();
+        GetComponent<CapsuleCollider>().enabled = true;
     }
 
     //start 초기화
@@ -207,8 +208,9 @@ public class PlayerController : BaseController
                 animator.SetTrigger("Die");
                 animator.SetBool("IsIdle", false);
                 inputAction.Disable();
+                GetComponent<CapsuleCollider>().enabled = false;
                 this.enabled = false;
-
+                
                 StopAllCoroutines();
 
                 break;
