@@ -27,6 +27,7 @@ public class PlayerController : BaseController
     public override void OnEnable()
     {
         base.OnEnable();
+        GetComponent<CapsuleCollider>().enabled = true;
     }
 
     //start 초기화
@@ -207,8 +208,9 @@ public class PlayerController : BaseController
                 animator.SetTrigger("Die");
                 animator.SetBool("IsIdle", false);
                 inputAction.Disable();
+                GetComponent<CapsuleCollider>().enabled = false;
                 this.enabled = false;
-
+                
                 StopAllCoroutines();
 
                 break;
@@ -276,8 +278,8 @@ public class PlayerController : BaseController
     //bullet objectpooling pop
     private void Shoot()
     {
-        Managers.Pool.Projectile_Pool("PoliceBullet", transform.position, AttTarget_Set().transform, 
-            _pStats._attackSpeed, _pStats._basicAttackPower, Proj_Parent);
+        Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, AttTarget_Set().transform, 
+            _pStats._attackSpeed, _pStats._basicAttackPower);
 
         //Layer 초기화 
         if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }

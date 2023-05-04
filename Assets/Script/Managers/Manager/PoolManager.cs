@@ -56,21 +56,6 @@ public class PoolManager
 
             poolable.gameObject.SetActive(true);
 
-            
-            //DontDestroyOnLoad ������
-            if (parent == null)
-            {
-                // poolable.transform.parent = Managers.Scene.CurrentScene.transform;
-            }
-
-            if(parent != null)
-            {
-                poolable.gameObject.transform.parent = parent;
-                poolable.gameObject.transform.localPosition = Vector3.zero;
-                poolable.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
-            }
-
-
             poolable.IsUsing = true;
 
             return poolable;
