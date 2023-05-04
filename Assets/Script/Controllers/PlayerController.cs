@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class PlayerController : BaseController
 {
-    //키 입력
+    //Range On/off
     private bool IsRange = false;
     //private bool _used = false;  //Announce GetDeck is first or not
 
@@ -29,7 +29,7 @@ public class PlayerController : BaseController
         base.OnEnable();
     }
 
-    //start에서 Player 세팅 초기화
+    //start 초기화
     public override void Setting()
     {
         //초기화
@@ -52,16 +52,16 @@ public class PlayerController : BaseController
             _attackRange.Add(Prefab);
         }
 
-        //공격사거리 세팅
+        //AttackRange 초기화
         Projector projector = _attackRange[0].GetComponent<Projector>();
         projector.orthographicSize = _pStats._attackRange;
 
-        //Prefab 다시 off
+        //Prefab off
         GetComponentInChildren<SplatManager>().enabled = true;
     }
 
 
-    //플레이어 키 event에 해당하는 Action 
+    //Key event
     public override void KeyDownAction(Define.KeyboardEvent _key)
     {
         switch (_key)
@@ -94,7 +94,7 @@ public class PlayerController : BaseController
     }
 
 
-    //플레이어 마우스 event에 해당하는 Action
+    //Mouse event
     public override void MouseDownAction(string _button)
     {
         switch (_button)
@@ -116,6 +116,7 @@ public class PlayerController : BaseController
         }
     }
 
+
     private void Update()
     {
         StartCoroutine(Player_Update_State());
@@ -123,11 +124,9 @@ public class PlayerController : BaseController
     }
 
 
-    //Idle 애니메이션 -> Invoke -> 잠시 다른 키 애니메이션 시간 벌어주기
+    //Invoke 통한 Idle 외 다른 Animation 작동 시간 벌어주기
     private void idle()
     {
-        //_keyboard = Define.KeyboardEvent.NoInput;
-
         if (agent.remainingDistance < 0.2f)
         {
             _state = Define.State.Idle;
@@ -135,27 +134,27 @@ public class PlayerController : BaseController
     }
 
 
-    //플레이어가 Update에서 일어나는 State 변화들
+    //Update에서 발생하는 애니메이션 변환
     private IEnumerator Player_Update_State()
     {
-        //적을 판별해 적에게 움직이다 적이 사정거리 안에 들어오면 Shoot 
+        //오른쪽 클릭 공격
         if (agent.remainingDistance <= _pStats._attackRange && _layer == Define.Layer.Cyborg)
         {
             Shoot();
             _state = Define.State.Attack;
         }
 
-        //
+        //부활 시
         if (_pStats.nowHealth > 0 && _state == Define.State.Die) { _state = Define.State.Idle; }
 
-        //HP < 0 이면 죽음 상태
+        //사망 시
         if (_pStats.nowHealth <= 0) { _state = Define.State.Die; }
 
         yield return new WaitForSeconds(0.3f);
     }
 
 
-    //Animator 파라미터 설정
+    //Animator coroutine
     private IEnumerator PlayerAnim()
     {
         switch (_state)
@@ -216,17 +215,17 @@ public class PlayerController : BaseController
 
 
 
-    //플레이어 이동 
+    //Ray 통한 Move
     private void playerMove(Vector3 mouseposition)
     {
-        //mouseposition은 Road, Cyborg만 탐지.
-        //LookRotation = forward 방향이 vector3(x,0,z)가 가리키는 방향을 바라보도록 회전
+        //mouseposition??? Road, Cyborg�?? ?���??.
+        //LookRotation = forward 방향?�� vector3(x,0,z)�?? �??리키?�� 방향?�� 바라보도�?? ?��?��
         transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
         agent.SetDestination(mouseposition);
     }
 
 
-    //플레이어 평타 On/off
+    //AttackRange On/Off
     private void AttRange_Active()
     {
         if (IsRange == true || IsRange == false)
@@ -237,24 +236,22 @@ public class PlayerController : BaseController
     }
 
 
-    //AttackRange를 활용한 어택 타겟 설정
+    //AttackRange On -> Target 설정
     private GameObject AttTarget_Set()
     {
-        //타겟 초기화
+        //Target 초기화
         GameObject target = null;
-        //가장 가까운 거리 초기화
+        //가장 가까운 거리의 적 초기화
         float CloseDistance = Mathf.Infinity;
 
-        //플레이어 근처 적 식별
+        //적 탐지
         Collider[] colls = Physics.OverlapSphere(transform.position, _pStats._attackRange, 1 << ((int)Define.Layer.Cyborg));
 
-        //식별된 적 모두 중 하나만 선별
+        //타겟 설정
         foreach (Collider coll in colls)
         {
-            //마우스 포인터, 식별된 적 사이의 거리 구하기
             float distance = Vector3.Distance(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg), coll.transform.position);
 
-            //가장 가까운 거리 설정 및 타겟 설정
             if (CloseDistance > distance)
             {
                 CloseDistance = distance;
@@ -264,7 +261,7 @@ public class PlayerController : BaseController
 
         if (target != null)
         {
-            //Player 회전
+            //Player rotate
             transform.rotation = Quaternion.LookRotation(FlattenVector(target.transform.position) - transform.position);
         }
 
@@ -272,16 +269,16 @@ public class PlayerController : BaseController
     }
 
 
-    //muzzle / 총알 나가야 됨.
+    //bullet objectpooling pop
     private void Shoot()
-    {
+    {   
         Managers.Pool.Pop(Projectile_Pool("PoliceBullet").Item1, 
             Projectile_Pool("PoliceBullet").Item2).GetComponent<Poolable>().Proj_Target_Init(AttTarget_Set());
 
-        //마우스 오른쪽 클릭 시 공격 후 레이어 초기화
+        //Layer 초기화 
         if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }
 
-        //사거리 off
+        //Attack Range off
         if (IsRange == true) { AttRange_Active(); }
     }
 }
