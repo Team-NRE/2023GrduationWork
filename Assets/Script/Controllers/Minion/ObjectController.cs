@@ -104,6 +104,10 @@ public abstract class ObjectController : MonoBehaviour
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {
             if (_allObjectTransforms[i].gameObject.layer == gameObject.layer) continue;
+            if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
+            {
+                if (_allObjectTransforms[i].GetComponent<PlayerController>()._state == Define.State.Die) continue;
+            }
 
             float nowRange = Vector3.Distance(transform.position, _allObjectTransforms[i].position);
 
