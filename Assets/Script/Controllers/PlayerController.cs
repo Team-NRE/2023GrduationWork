@@ -273,8 +273,8 @@ public class PlayerController : BaseController
     //bullet objectpooling pop
     private void Shoot()
     {
-        Managers.Pool.Projectile_Pool("PoliceBullet", transform.position, AttTarget_Set().transform, 
-            _pStats._attackSpeed, _pStats._basicAttackPower, Proj_Parent);
+        Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, AttTarget_Set().transform, 
+            _pStats._attackSpeed, _pStats._basicAttackPower);
 
         //Layer 초기화 
         if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }
