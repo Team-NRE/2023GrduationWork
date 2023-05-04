@@ -82,9 +82,7 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 죽음 코드 함수
     /// </summary>
-    public virtual void Death() {
-        gameObject.SetActive(false);
-    }
+    public virtual void Death() { }
     /// <summary>
     /// 이동 코드 함수
     /// </summary>

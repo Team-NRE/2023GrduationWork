@@ -101,7 +101,9 @@ namespace Stat
             set
             {
                 _speed = value;
-                agent.speed = _speed;
+                if (agent != null) {
+                    agent.speed = _speed;
+                }
             }
         }
 
@@ -111,9 +113,11 @@ namespace Stat
         {
             agent = GetComponent<NavMeshAgent>();
 
-            //agent setting
-            agent.acceleration = 80.0f;
-            agent.updateRotation = false;
+            if (agent != null) {
+                //agent setting
+                agent.acceleration = 80.0f;
+                agent.updateRotation = false;
+            }
 
             //공격
             basicAttackPower = 30.0f;

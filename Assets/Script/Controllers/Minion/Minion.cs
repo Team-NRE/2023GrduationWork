@@ -22,10 +22,13 @@ public class Minion : ObjectController
 
     public override void init()
     {
+        base.init();
         nav = GetComponent<NavMeshAgent>();
 
         _type = ObjectType.Range;
         GetMilestoneTransform();
+
+        Debug.Log("isSpawn");
 
         if (gameObject.layer == LayerMask.NameToLayer("Human"))
             lineIdx = 1;
@@ -56,14 +59,12 @@ public class Minion : ObjectController
         nav.updateRotation = false;
         nav.velocity = Vector3.zero;
 
-        Managers.Resource.Destroy(gameObject);
+        // Managers.Pool.Push(poolable);
     }
 
     public override void Move()
     {
         base.Move();
-
-        nav.ResetPath();
         nav.isStopped = false;
         nav.updatePosition = true;
         nav.updateRotation = true;

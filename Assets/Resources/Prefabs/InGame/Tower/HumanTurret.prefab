@@ -3253,9 +3253,7 @@ GameObject:
   - component: {fileID: 1200171814257957941}
   - component: {fileID: 4896032350495675134}
   - component: {fileID: 4403939994351185866}
-  - component: {fileID: 1200171814257957942}
-  - component: {fileID: 1200171814257957943}
-  - component: {fileID: 1200171814257957940}
+  - component: {fileID: 8135577478134854646}
   m_Layer: 6
   m_Name: Turret_1
   m_TagString: Untagged
@@ -3349,33 +3347,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &1200171814257957942
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &8135577478134854646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3384,53 +3369,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5854172973956568980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &1200171814257957943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854172973956568980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &1200171814257957940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854172973956568980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Human
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &5854172974195954659
 GameObject:
   m_ObjectHideFlags: 0
@@ -3444,9 +3386,7 @@ GameObject:
   - component: {fileID: 1200171815036770370}
   - component: {fileID: 4896032351347693193}
   - component: {fileID: 4017504014026214038}
-  - component: {fileID: 1200171815036770399}
-  - component: {fileID: 1200171815036770396}
-  - component: {fileID: 1200171815036770397}
+  - component: {fileID: 1232326200713650480}
   m_Layer: 6
   m_Name: Turret_3
   m_TagString: Untagged
@@ -3540,33 +3480,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &1200171815036770399
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &1232326200713650480
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3575,53 +3502,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5854172974195954659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &1200171815036770396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854172974195954659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &1200171815036770397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854172974195954659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Human
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &5854172975041535782
 GameObject:
   m_ObjectHideFlags: 0
@@ -3635,9 +3519,7 @@ GameObject:
   - component: {fileID: 1200171815345673351}
   - component: {fileID: 4896032351589030476}
   - component: {fileID: 11931558313787029}
-  - component: {fileID: 1200171815345673344}
-  - component: {fileID: 1200171815345673345}
-  - component: {fileID: 1200171815345673350}
+  - component: {fileID: 7913232759822377596}
   m_Layer: 6
   m_Name: Turret_2
   m_TagString: Untagged
@@ -3731,33 +3613,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &1200171815345673344
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &7913232759822377596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3766,53 +3635,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5854172975041535782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &1200171815345673345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854172975041535782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &1200171815345673350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854172975041535782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Human
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &6075587937578239809
 GameObject:
   m_ObjectHideFlags: 0
@@ -3826,9 +3652,7 @@ GameObject:
   - component: {fileID: 1569853769106607328}
   - component: {fileID: 5088173933786415659}
   - component: {fileID: 8156491924781579402}
-  - component: {fileID: 1569853769106607357}
-  - component: {fileID: 1569853769106607330}
-  - component: {fileID: 1569853769106607331}
+  - component: {fileID: 7658270674973493338}
   m_Layer: 6
   m_Name: Turret
   m_TagString: Untagged
@@ -3922,33 +3746,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &1569853769106607357
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &7658270674973493338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3957,53 +3768,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6075587937578239809}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &1569853769106607330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6075587937578239809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &1569853769106607331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6075587937578239809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Human
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &7110765293324842697
 GameObject:
   m_ObjectHideFlags: 0

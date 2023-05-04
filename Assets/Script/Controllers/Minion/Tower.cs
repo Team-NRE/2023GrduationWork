@@ -1,13 +1,11 @@
 /// ksPark
 /// 
-/// 원거리 공격 미니언의 상세 코드 스크립트
+/// 타워의 상세 코드 스크립트
 
 using UnityEngine;
-using UnityEngine.AI;
 using Define;
-using Stat;
 
-public class RangeMinion : Minion
+public class Tower : ObjectController
 {
     GameObject bullet;
 
@@ -19,11 +17,26 @@ public class RangeMinion : Minion
         //새로운 풀링 해주기
         if (Managers.Pool.GetOriginal(bullet.name) == null) { Managers.Pool.CreatePool(bullet, 5); }
     }
-    
 
     public override void Attack()
     {
         base.Attack();
+
+        if (_targetEnemyTransform == null) return;
+
         Managers.Pool.Pop(bullet).Proj_Target_Init(transform.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+    }
+
+    public override void Death()
+    {
+        base.Death();
+
+        gameObject.SetActive(false);
+    }
+
+    protected override void UpdateObjectAction()
+    {
+        if (_oStats.nowHealth <= 0) _action = ObjectAction.Death;
+        else _action = ObjectAction.Attack;
     }
 }
