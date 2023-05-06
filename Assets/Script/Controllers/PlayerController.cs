@@ -37,8 +37,6 @@ public class PlayerController : BaseController
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
-        //Object Pool
-        Managers.Pool.CreatePool("PoliceBullet", 5);
         Proj_Parent = GameObject.Find("Barrel_Location").transform;
 
         //Range List Setting 
