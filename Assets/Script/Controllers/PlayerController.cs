@@ -24,6 +24,8 @@ public class PlayerController : BaseController
     private NavMeshAgent agent { get; set; }
     private Transform Proj_Parent;
 
+    private LayerMask PlayerLayer;
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -33,13 +35,17 @@ public class PlayerController : BaseController
     //start 초기화
     public override void Setting()
     {
+        _layer = (this.gameObject.layer == 6) ? Define.Layer.Cyborg : Define.Layer.Human; 
+
         //초기화
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
+
         //Object Pool
         Managers.Pool.CreatePool("PoliceBullet", 5);
         Proj_Parent = GameObject.Find("Barrel_Location").transform;
+
 
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -63,6 +69,7 @@ public class PlayerController : BaseController
 
         //Object Target 정하는 리스트
         ObjectController._allObjectTransforms.Add(transform);
+
     }
 
 

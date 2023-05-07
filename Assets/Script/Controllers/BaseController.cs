@@ -31,10 +31,6 @@ public abstract class BaseController : MonoBehaviour
     public CameraMode _cameraMode { get; set; }
     public Projectile _projectile { get; set; }
 
-
-    //Transform 선언
-    private Transform Parent_trans { get; set; }
-
     public void Start()
     {
         _pStats = GetComponent<PlayerStats>();
@@ -99,6 +95,11 @@ public abstract class BaseController : MonoBehaviour
             switch (hit.collider.gameObject.layer)
             {
                 case (int)Define.Layer.Cyborg:
+                    _layer = Define.Layer.Cyborg;
+
+                    break;
+
+                case (int)Define.Layer.Human:
                     _layer = Define.Layer.Cyborg;
 
                     break;
