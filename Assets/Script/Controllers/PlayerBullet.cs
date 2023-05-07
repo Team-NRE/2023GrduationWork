@@ -46,14 +46,14 @@ public class PlayerBullet : Poolable
         if (Vector3.Distance(transform.position, target_Pos) <= 0.7f)
         {
             //타겟이 미니언, 타워일 시 
-            if (_Target.tag != "Player")
+            if (_Target.tag != "PLAYER")
             {
                 ObjStats _Stats = _Target.GetComponent<ObjStats>();
                 _Stats.nowHealth -= _BulletDamage;
             }
 
             //타겟이 적 Player일 시
-            if (_Target.tag == "Player")
+            if (_Target.tag == "PLAYER")
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= _BulletDamage;
