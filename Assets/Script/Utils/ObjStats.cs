@@ -13,6 +13,7 @@ namespace Stat
         [SerializeField] private float _basicAttackPower; //평타 공격력
         [SerializeField] private float _attackSpeed; //평타 공속
         [SerializeField] private float _attackRange; //평타 범위 
+        [SerializeField] private float _recognitionRange; //인식 범위
 
 
         [Header("-- 방어 --")]
@@ -42,6 +43,7 @@ namespace Stat
         public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
         public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
         public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
+        public float recognitionRange { get { return _recognitionRange; } set { _recognitionRange = value; } }
 
         //방어
         public float maxHealth
@@ -123,6 +125,7 @@ namespace Stat
             basicAttackPower = 30.0f;
             attackSpeed = 5.0f;
             attackRange = 6.0f;
+            recognitionRange = 20.0f;
 
             //방어
             maxHealth = 150.0f;

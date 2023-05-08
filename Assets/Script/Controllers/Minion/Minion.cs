@@ -28,8 +28,6 @@ public class Minion : ObjectController
         _type = ObjectType.Range;
         GetMilestoneTransform();
 
-        Debug.Log("isSpawn");
-
         if (gameObject.layer == LayerMask.NameToLayer("Human"))
             lineIdx = 1;
         else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
@@ -58,8 +56,9 @@ public class Minion : ObjectController
         nav.updatePosition = false;
         nav.updateRotation = false;
         nav.velocity = Vector3.zero;
+        nav.enabled = false;
 
-        // Managers.Pool.Push(poolable);
+        Managers.Pool.Push(GetComponent<Poolable>());
     }
 
     public override void Move()
@@ -69,34 +68,69 @@ public class Minion : ObjectController
         nav.updatePosition = true;
         nav.updateRotation = true;
 
-        Vector3 nowMilestone = Vector3.zero;
+        Vector3 moveTarget = Vector3.zero;
 
-        if (line == ObjectLine.UpperLine)
+        if (_targetEnemyTransform == null)
         {
-            nowMilestone = milestoneUpper[lineIdx].position;
-        }
-        else if (line == ObjectLine.LowerLine)
-        {
-            nowMilestone = milestoneLower[lineIdx].position;
-        }
+            if (line == ObjectLine.UpperLine)
+            {
+                moveTarget = milestoneUpper[lineIdx].position;
+            }
+            else if (line == ObjectLine.LowerLine)
+            {
+                moveTarget = milestoneLower[lineIdx].position;
+            }
 
-        if (Vector3.Distance(transform.position, nowMilestone) <= 0.2f)
-        {
-            if (gameObject.layer == LayerMask.NameToLayer("Human"))
-                lineIdx++;
-            else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
-                lineIdx--;
+            if (Vector3.Distance(transform.position, moveTarget) <= 0.2f)
+            {
+                if (gameObject.layer == LayerMask.NameToLayer("Human"))
+                    lineIdx++;
+                else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
+                    lineIdx--;
+            }
         }
-
-        transform.LookAt(nowMilestone);
-        nav.SetDestination(nowMilestone);
+        else
+        {
+            moveTarget = _targetEnemyTransform.position;
+        }
+        
+        transform.LookAt(new Vector3 (
+            moveTarget.x,
+            transform.position.y,
+            moveTarget.z
+        ));
+        nav.SetDestination(moveTarget);
     }
 
     protected override void UpdateObjectAction()
     {
-        if (_oStats.nowHealth <= 0) _action = ObjectAction.Death;
-        else if (_targetEnemyTransform == null) _action = ObjectAction.Move;
-        else _action = ObjectAction.Attack;
+        if (_oStats.nowHealth <= 0)
+        {
+            _action = ObjectAction.Death;
+        }
+        else if (_targetEnemyTransform != null)
+        {
+            if (Vector3.Distance(transform.position, _targetEnemyTransform.position) <= _oStats.attackRange)
+            {
+                _action = ObjectAction.Attack;
+            }
+            else
+            {
+                _action = ObjectAction.Move;
+            }
+        }
+        else if (line == ObjectLine.UpperLine && 0 <= lineIdx && lineIdx < milestoneUpper.Length)
+        {
+            _action = ObjectAction.Move;
+        }
+        else if (line == ObjectLine.LowerLine && 0 <= lineIdx && lineIdx < milestoneLower.Length)
+        {
+            _action = ObjectAction.Move;
+        }
+        else
+        {
+            _action = ObjectAction.Idle;
+        }
     }
 
     /// <summary>

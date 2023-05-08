@@ -100,7 +100,7 @@ namespace Define
 
     public enum ObjectAction
     {
-        None,
+        Idle,
         Attack,
         Death,
         Move,
@@ -111,6 +111,7 @@ namespace Define
         Undefine,
         Melee,
         Range,
+        Super,
         Mixed,
     }
 

@@ -38,7 +38,17 @@ public class Tower : ObjectController
 
     protected override void UpdateObjectAction()
     {
-        if (_oStats.nowHealth <= 0) _action = ObjectAction.Death;
-        else _action = ObjectAction.Attack;
+        if (_oStats.nowHealth <= 0) 
+        {
+            _action = ObjectAction.Death;
+        }
+        else if (_targetEnemyTransform != null && Vector3.Distance(transform.position, _targetEnemyTransform.position) <= _oStats.attackRange) 
+        {
+            _action = ObjectAction.Attack;
+        }
+        else
+        {
+            _action = ObjectAction.Idle;
+        }
     }
 }

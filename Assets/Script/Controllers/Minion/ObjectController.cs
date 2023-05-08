@@ -70,7 +70,10 @@ public abstract class ObjectController : MonoBehaviour
                 animator.SetBool("Move", true);
                 Move();
                 break;
-            case ObjectAction.None:
+            case ObjectAction.Idle:
+                animator.SetBool("Attack", false);
+                animator.SetBool("Death", false);
+                animator.SetBool("Move", false);
                 break;
         }
     }
@@ -99,7 +102,7 @@ public abstract class ObjectController : MonoBehaviour
     protected void UpdateInRangeEnemyObjectTransform()
     {
         Transform newTarget = null;
-        float minRange = _oStats.attackRange;
+        float minRange = _oStats.recognitionRange;
 
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {
@@ -107,6 +110,10 @@ public abstract class ObjectController : MonoBehaviour
             if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
             {
                 if (_allObjectTransforms[i].GetComponent<PlayerController>()._state == State.Die) continue;
+            }
+            else
+            {
+                if (_allObjectTransforms[i].GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
             }
 
             float nowRange = Vector3.Distance(transform.position, _allObjectTransforms[i].position);
