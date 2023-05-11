@@ -35,10 +35,22 @@ public abstract class ObjectController : MonoBehaviour
         init();
     }
 
+    public void OnEnable()
+    {
+        _oStats.InitStatSetting(_type);
+
+        initOnEnable();
+    }
+
     /// <summary>
     /// 초기화 함수, 하위 객체에서 초기화용
     /// </summary>
     public virtual void init() { }
+
+    /// <summary>
+    /// 초기화 함수, OnEnable될 때 마다 실행될 코드 작성용
+    /// </summary>
+    public virtual void initOnEnable(){ }
 
     public void Update()
     {

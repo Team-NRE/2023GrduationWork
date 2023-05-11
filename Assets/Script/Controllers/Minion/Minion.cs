@@ -27,6 +27,11 @@ public class Minion : ObjectController
 
         _type = ObjectType.Range;
         GetMilestoneTransform();
+    }
+
+    public override void initOnEnable()
+    {
+        base.initOnEnable();
 
         if (gameObject.layer == LayerMask.NameToLayer("Human"))
             lineIdx = 1;
@@ -35,6 +40,10 @@ public class Minion : ObjectController
                 lineIdx = milestoneUpper.Length - 2;
             else if (line == ObjectLine.LowerLine)
                 lineIdx = milestoneLower.Length - 2;
+    }
+
+    private void FixedUpdate() {
+        if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
     }
 
     public override void Attack()
@@ -104,7 +113,7 @@ public class Minion : ObjectController
 
     protected override void UpdateObjectAction()
     {
-        if (_oStats.nowHealth <= 0)
+        if (_oStats.nowHealth <= 0 || _oStats.nowBattery <= 0)
         {
             _action = ObjectAction.Death;
         }

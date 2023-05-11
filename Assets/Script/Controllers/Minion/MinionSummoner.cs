@@ -14,27 +14,30 @@ public class MinionSummoner : MonoBehaviour
         _summonPos = transform.Find("SummonPos");
     }
 
-    void FixedUpdate()
+    void Update()
     {
         _nowSummonTime -= Time.deltaTime;
 
         if (_nowSummonTime <= 0)
         {
-            SummonLine();
+            StartCoroutine(SummonLine());
             _nowSummonTime = _summonCycle;
         }
     }
 
-    void SummonLine()
+    IEnumerator SummonLine()
     {
+        Debug.Log("Start Summon");
         for (int i=0; i<3; i++)
         {
             SummonMinion(ObjectType.Melee);
+            yield return new WaitForSeconds(0.5f);
         }
 
         for (int i=0; i<3; i++)
         {
             SummonMinion(ObjectType.Range);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 

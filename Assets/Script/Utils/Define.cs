@@ -112,7 +112,9 @@ namespace Define
         Melee,
         Range,
         Super,
-        Mixed,
+        Turret,
+        Nexus,
+        Neutral,
     }
 
     public enum ObjectLine

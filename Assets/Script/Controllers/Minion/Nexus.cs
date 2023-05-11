@@ -10,6 +10,8 @@ public class Nexus : ObjectController
     public override void init() 
     {
         base.init();
+
+        _type = ObjectType.Nexus;
     }
 
     public override void Death()

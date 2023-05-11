@@ -13,6 +13,8 @@ public class Tower : ObjectController
     public override void init() 
     {
         base.init();
+        _type = ObjectType.Turret;
+
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
         muzzle = transform.Find("Crystal/BulletPos");
 
