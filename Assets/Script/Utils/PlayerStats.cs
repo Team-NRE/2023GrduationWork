@@ -35,6 +35,11 @@ namespace Stat
 
         [Header("-- 이동 --")]
         public float _speed; //이동 속도
+
+        [Header("-- 진영 --")]
+        public LayerMask _layerArea; //진영 레이어
+        private int _playerArea; //내 진영
+        public int _enemyArea; //상대방 진영
         #endregion
 
 
@@ -53,7 +58,7 @@ namespace Stat
                 _nowHealth = _maxHealth;
             }
         }
-        
+
         public float nowHealth
         {
             get { return _nowHealth; }
@@ -105,6 +110,26 @@ namespace Stat
             }
         }
 
+        //진영
+        public int playerArea
+        {
+            get
+            {
+                _playerArea = ((int)Mathf.Log(_layerArea.value, 2));
+                return _playerArea;
+            }
+            set { _layerArea = value; }
+        }
+
+        public int enemyArea
+        {
+            get
+            {
+                _enemyArea = (_playerArea == (int)Define.Layer.Human) ? (int)Define.Layer.Cyborg : (int)Define.Layer.Human;
+                return _enemyArea;
+            }
+        }
+
         private NavMeshAgent agent;
 
         private void Awake()
@@ -132,6 +157,11 @@ namespace Stat
 
             //이동
             speed = 4.0f;
+
+            //진영
+            //진영 선택 창에서 진영 정보를 불러와 area에 저장
+            //area = 진영정보 불러오기 -> 일단 Inspector에서 선택.
+            this.gameObject.layer = playerArea;
         }
 
         private void Update()

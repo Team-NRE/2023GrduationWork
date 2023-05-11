@@ -9,6 +9,7 @@ public class PlayerController : BaseController
 {
     //Range On/off
     private bool IsRange = false;
+    private bool IsEnemy = false;
     //private bool _used = false;  //Announce GetDeck is first or not
 
     //PlayerInHandCard
@@ -24,6 +25,7 @@ public class PlayerController : BaseController
     private NavMeshAgent agent { get; set; }
     private Transform Proj_Parent;
 
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -37,7 +39,9 @@ public class PlayerController : BaseController
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
+        //총알 위치
         Proj_Parent = GameObject.Find("Barrel_Location").transform;
+
 
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -61,6 +65,7 @@ public class PlayerController : BaseController
 
         //Object Target 정하는 리스트
         ObjectController._allObjectTransforms.Add(transform);
+
     }
 
 
@@ -103,7 +108,7 @@ public class PlayerController : BaseController
         switch (_button)
         {
             case "rightButton":
-                playerMove(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg));
+                playerMove(Get3DMousePosition());
                 _state = Define.State.Moving;
 
                 break;
@@ -141,7 +146,7 @@ public class PlayerController : BaseController
     private IEnumerator Player_Update_State()
     {
         //오른쪽 클릭 공격
-        if (agent.remainingDistance <= _pStats._attackRange && _layer == Define.Layer.Cyborg)
+        if (agent.remainingDistance <= _pStats._attackRange && (int)_layer == _pStats.enemyArea)
         {
             Shoot();
             _state = Define.State.Attack;
@@ -208,7 +213,7 @@ public class PlayerController : BaseController
                 inputAction.Disable();
                 GetComponent<CapsuleCollider>().enabled = false;
                 this.enabled = false;
-                
+
                 StopAllCoroutines();
 
                 break;
@@ -218,12 +223,9 @@ public class PlayerController : BaseController
     }
 
 
-
     //Ray 통한 Move
     private void playerMove(Vector3 mouseposition)
     {
-        //mouseposition??? Road, Cyborg�?? ?���??.
-        //LookRotation = forward 방향?�� vector3(x,0,z)�?? �??리키?�� 방향?�� 바라보도�?? ?��?��
         transform.rotation = Quaternion.LookRotation(FlattenVector(mouseposition) - transform.position);
         agent.SetDestination(mouseposition);
     }
@@ -249,12 +251,12 @@ public class PlayerController : BaseController
         float CloseDistance = Mathf.Infinity;
 
         //적 탐지
-        Collider[] colls = Physics.OverlapSphere(transform.position, _pStats._attackRange, 1 << ((int)Define.Layer.Cyborg));
+        Collider[] colls = Physics.OverlapSphere(transform.position, _pStats._attackRange, 1 << _pStats.enemyArea);
 
         //타겟 설정
         foreach (Collider coll in colls)
         {
-            float distance = Vector3.Distance(Get3DMousePosition(Define.Layer.Road, Define.Layer.Cyborg), coll.transform.position);
+            float distance = Vector3.Distance(Get3DMousePosition(), coll.transform.position);
 
             if (CloseDistance > distance)
             {
@@ -276,11 +278,10 @@ public class PlayerController : BaseController
     //bullet objectpooling pop
     private void Shoot()
     {
-        Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, AttTarget_Set().transform, 
+        Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, AttTarget_Set().transform,
             _pStats._attackSpeed, _pStats._basicAttackPower);
 
-        //Layer 초기화 
-        if (_layer == Define.Layer.Cyborg) { _layer = Define.Layer.Default; }
+        if ((int)_layer == _pStats.enemyArea) { _layer = Define.Layer.Default; }
 
         //Attack Range off
         if (IsRange == true) { AttRange_Active(); }

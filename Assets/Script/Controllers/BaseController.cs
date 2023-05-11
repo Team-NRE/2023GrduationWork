@@ -31,10 +31,6 @@ public abstract class BaseController : MonoBehaviour
     public CameraMode _cameraMode { get; set; }
     public Projectile _projectile { get; set; }
 
-
-    //Transform 선언
-    private Transform Parent_trans { get; set; }
-
     public void Start()
     {
         _pStats = GetComponent<PlayerStats>();
@@ -81,25 +77,22 @@ public abstract class BaseController : MonoBehaviour
 
 
     //Ray로 마우스 좌표 받기
-    public Vector3 Get3DMousePosition(params Layer[] _layers)
+    public Vector3 Get3DMousePosition()
     {
-        int layerMask = 0;
-
-        foreach (var layer in _layers)
-        {
-            //만약 3과 5번의 레이어를 받았다면, OR 비트 연산자를 통해 000101000이 전달 됨.
-            layerMask |= 1 << (int)layer;
-        }
-
         RaycastHit hit;
 
-        //해당 레이어만 탐지하도록 설정.
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask))
+        //마우스 좌표에 위치하고 있는 오브젝트 레이어 구별.
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
         {
             switch (hit.collider.gameObject.layer)
             {
                 case (int)Define.Layer.Cyborg:
                     _layer = Define.Layer.Cyborg;
+
+                    break;
+
+                case (int)Define.Layer.Human:
+                    _layer = Define.Layer.Human;
 
                     break;
 

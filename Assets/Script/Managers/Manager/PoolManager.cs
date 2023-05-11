@@ -136,7 +136,7 @@ public class PoolManager
     }
 
 
-    //투사체 최초 풀링 & 풀링이 되어있다면 Pop해주기
+    //투사체 Pop
     public void Projectile_Pool(string ProjName, Vector3 _shooter = default,
         Transform _target = null, float bulletSpeed = default, float damage = default, Transform parent = null)
     {
