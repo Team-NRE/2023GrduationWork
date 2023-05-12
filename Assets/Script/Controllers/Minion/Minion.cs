@@ -9,29 +9,29 @@ using Define;
 public class Minion : ObjectController
 {
     /// <summary>상단 길 이정표</summary>
-    public Transform[] milestoneUpper;
+    private Transform[] milestoneUpper;
     /// <summary>하단 길 이정표</summary>
-    public Transform[] milestoneLower;
+    private Transform[] milestoneLower;
 
     /// <summary>NavMeshAgent</summart>
     private NavMeshAgent nav;
     /// <summary>이동할 오브젝트 라인</summary>
     public ObjectLine line;
     /// <summary>이동한 인덱스</summary>
-    public int lineIdx = 1;
+    private int lineIdx = 1;
 
     public override void init()
     {
         base.init();
         nav = GetComponent<NavMeshAgent>();
-
-        _type = ObjectType.Range;
         GetMilestoneTransform();
     }
 
     public override void initOnEnable()
     {
         base.initOnEnable();
+
+        transform.Find("UI").gameObject.SetActive(true);
 
         if (gameObject.layer == LayerMask.NameToLayer("Human"))
             lineIdx = 1;
@@ -49,10 +49,6 @@ public class Minion : ObjectController
     public override void Attack()
     {
         base.Attack();
-        nav.isStopped = true;
-        nav.updatePosition = false;
-        nav.updateRotation = false;
-        nav.velocity = Vector3.zero;
         transform.LookAt(_targetEnemyTransform);
 
         if (_targetEnemyTransform == null) return;
@@ -61,21 +57,12 @@ public class Minion : ObjectController
     public override void Death()
     {
         base.Death();
-        nav.isStopped = true;
-        nav.updatePosition = false;
-        nav.updateRotation = false;
-        nav.velocity = Vector3.zero;
-        nav.enabled = false;
-
         Managers.Pool.Push(GetComponent<Poolable>());
     }
 
     public override void Move()
     {
         base.Move();
-        nav.isStopped = false;
-        nav.updatePosition = true;
-        nav.updateRotation = true;
 
         Vector3 moveTarget = Vector3.zero;
 
@@ -90,11 +77,14 @@ public class Minion : ObjectController
                 moveTarget = milestoneLower[lineIdx].position;
             }
 
-            if (Vector3.Distance(transform.position, moveTarget) <= 0.2f)
+            if (gameObject.layer == LayerMask.NameToLayer("Human"))
             {
-                if (gameObject.layer == LayerMask.NameToLayer("Human"))
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
                     lineIdx++;
-                else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
+            }
+            else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
+            {
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
                     lineIdx--;
             }
         }
@@ -139,6 +129,23 @@ public class Minion : ObjectController
         else
         {
             _action = ObjectAction.Idle;
+        }
+
+        switch (_action)
+        {
+            case ObjectAction.Attack:
+                nav.enabled = false;
+                break;
+            case ObjectAction.Death:
+                nav.enabled = false;
+                transform.Find("UI").gameObject.SetActive(false);
+                break;
+            case ObjectAction.Move:
+                nav.enabled = true;
+                break;
+            case ObjectAction.Idle:
+                nav.enabled = false;
+                break;
         }
     }
 

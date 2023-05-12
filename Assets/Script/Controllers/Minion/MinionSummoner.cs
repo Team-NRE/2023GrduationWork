@@ -1,3 +1,7 @@
+/// ksPark
+/// 
+/// 
+
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
@@ -27,7 +31,6 @@ public class MinionSummoner : MonoBehaviour
 
     IEnumerator SummonLine()
     {
-        Debug.Log("Start Summon");
         for (int i=0; i<3; i++)
         {
             SummonMinion(ObjectType.Melee);
@@ -54,7 +57,5 @@ public class MinionSummoner : MonoBehaviour
         lowerMinion.transform.position = _summonPos.position + Vector3.back;
         lowerMinion.GetComponent<Minion>().line = ObjectLine.LowerLine;
         lowerMinion.GetComponent<NavMeshAgent>().enabled = true;
-
-        Debug.Log(_summonPos.position);
     }
 }

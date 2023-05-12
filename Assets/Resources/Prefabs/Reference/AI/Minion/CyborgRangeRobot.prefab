@@ -399,6 +399,39 @@ Transform:
   m_Father: {fileID: 1560481618027243498}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1233935967587942928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6967219935695783892}
+  m_Layer: 0
+  m_Name: UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6967219935695783892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233935967587942928}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2703213111158819158}
+  - {fileID: 7315127077526923176}
+  m_Father: {fileID: 2703213111487382633}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1470922870411396625
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,8 +894,8 @@ RectTransform:
   - {fileID: 2703213110717359225}
   - {fileID: 2703213112466315768}
   - {fileID: 2703213111192123519}
-  m_Father: {fileID: 2703213111487382633}
-  m_RootOrder: 11
+  m_Father: {fileID: 6967219935695783892}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1036,6 +1069,7 @@ GameObject:
   - component: {fileID: 2703213111487382676}
   - component: {fileID: 2703213111487382678}
   - component: {fileID: 2703213111487382679}
+  - component: {fileID: -2347520922275768093}
   - component: {fileID: 2703213111487382672}
   - component: {fileID: 4711898211703572305}
   m_Layer: 7
@@ -1068,8 +1102,7 @@ Transform:
   - {fileID: 2924005786510038941}
   - {fileID: 1622699863433428667}
   - {fileID: 4223596166096260236}
-  - {fileID: 2703213111158819158}
-  - {fileID: 7315127077526923176}
+  - {fileID: 6967219935695783892}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1116,9 +1149,9 @@ NavMeshAgent:
   m_GameObject: {fileID: 2703213111487382686}
   m_Enabled: 0
   m_AgentTypeID: 0
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Speed: 5
-  m_Acceleration: 8
+  m_Acceleration: 60
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -1129,6 +1162,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &-2347520922275768093
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2703213111487382686}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!114 &2703213111487382672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,16 +1193,14 @@ MonoBehaviour:
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackRange: 0
+  _recognitionRange: 0
   _maxHealth: 0
   _nowHealth: 0
-  _healthRegeneration: 0
   _defensePower: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
-  _level: 0
-  _experience: 0
+  _nowBattery: 0
   _speed: 0
+  _gold: 0
+  _experience: 0
 --- !u!114 &4711898211703572305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1167,10 +1214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetEnemyTransform: {fileID: 0}
-  milestoneUpper: []
-  milestoneLower: []
   line: 0
-  lineIdx: 1
 --- !u!1 &2703213112225798818
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,8 +1678,8 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2703213111487382633}
-  m_RootOrder: 12
+  m_Father: {fileID: 6967219935695783892}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &8039356154139432068
 SpriteRenderer:

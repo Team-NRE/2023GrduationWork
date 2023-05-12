@@ -1,13 +1,18 @@
+/// ksPark
+/// 
+/// Object Stats Script
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
+using UnityEditor.Animations;
 
 namespace Stat
 {
     public class ObjStats : MonoBehaviour
     {
-        #region PlayerStats
+        #region ObjStats
 
         [Header("-- 공격 --")]
         [SerializeField] private float _basicAttackPower; //평타 공격력
@@ -35,7 +40,15 @@ namespace Stat
 
         //공격
         public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
-        public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
+        public float attackSpeed { 
+            get { return _attackSpeed; } 
+            set 
+            { 
+                _attackSpeed = value; 
+                GetComponent<Animator>().SetFloat("attackSpeed", _attackSpeed/(1+_attackSpeed));
+            } 
+        }
+
         public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
         public float recognitionRange { get { return _recognitionRange; } set { _recognitionRange = value; } }
 
@@ -80,15 +93,15 @@ namespace Stat
         //이동
         public float speed
         {
-            get { return agent.speed; }
+            get { return _speed; }
             set
             {
                 _speed = value;
-                if (agent != null) agent.speed = _speed;
+                if (GetComponent<NavMeshAgent>())
+                    GetComponent<NavMeshAgent>().speed = _speed;
+                GetComponent<Animator>().SetFloat("moveSpeed", _speed/(1+_speed));
             }
         }
-
-        private NavMeshAgent agent;
 
         public void InitStatSetting(ObjectType type)
         {
