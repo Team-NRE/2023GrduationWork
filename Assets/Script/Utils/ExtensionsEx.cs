@@ -26,4 +26,9 @@ public static class ExtensionsEx
     {
         bc.InitCard();
     }
+    
+    public static void DestroyCard(this UI_Card bc)
+    {
+        bc.DestroyCard();
+    }
 }

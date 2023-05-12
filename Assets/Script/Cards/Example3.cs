@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Example3 : UI_Card
 {
-    public int CardCost = 1;
-
 	public override void InitCard()
 	{
 		Debug.Log($"{this.gameObject.name} is called");
+		DestroyCard();
 	}
 
 	public void cardEffect()
     {
-        Debug.Log(CardCost);
+
     }
+
+	public override void DestroyCard()
+	{
+		Managers.Resource.Destroy(this.gameObject);
+	}
 }

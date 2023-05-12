@@ -1,3 +1,4 @@
+using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,4 +24,9 @@ public class Shield : UI_Card
 
     }
 
+	public override void DestroyCard()
+	{
+		Debug.Log(this.gameObject.name + " Destroy Card");
+		Managers.Resource.Destroy(this.gameObject);
+	}
 }

@@ -39,7 +39,7 @@ namespace Data
     public class Deck
     {
         public int id;
-        public string name;
+        public List<string> cards;
     }
 
     [Serializable]
@@ -90,7 +90,9 @@ namespace Data
             foreach (Deck deck in decks)
             {
                 dict.Add(deck.id, deck);
-            }
+                //Debug.Log(deck.id);
+                //Debug.Log(deck.cards.Count);
+			}
 			return dict;
 		}
     }

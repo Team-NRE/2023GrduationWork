@@ -1,16 +1,16 @@
 {
-  "decks": [
-    {
-      "id": "0",
-      "name": "Example0"
-    },
-    {
-      "id": "1",
-      "name": "Example1"
-    },
-    {
-      "id": "2",
-      "name": "Example2"
-    }
-  ]
-}
+    "decks": [
+      {
+        "id" : "0",
+        "cards" : ["Shield", "Sword", "Example3", "Example4", "Example5", "Example6", "Example7", "Example8"]
+      },
+      {
+        "id" : "1",
+        "cards" : ["Shield", "Sword", "Example3", "Example4", "Example5", "Example6", "Example7", "Example8"]
+      },
+      {
+        "id" : "2",
+        "cards" : ["Shield", "Sword", "Example3", "Example4", "Example5", "Example6", "Example7", "Example8"]
+      }
+    ]
+  } 
