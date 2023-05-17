@@ -22,8 +22,13 @@ public static class ExtensionsEx
         return go != null && go.activeSelf;
     }
 
-    public static void InitCard(this BaseController bc)
+    public static void InitCard(this UI_Card bc)
     {
-        bc.Init();
+        bc.InitCard();
+    }
+    
+    public static void DestroyCard(this UI_Card bc)
+    {
+        bc.DestroyCard();
     }
 }

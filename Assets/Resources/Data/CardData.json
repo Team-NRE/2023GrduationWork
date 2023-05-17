@@ -24,6 +24,30 @@
         "damage" : "10",
         "defence" : "10",
         "EffectTime" : "5"
+      },
+      {
+        "name" : "Example5",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
+      },
+      {
+        "name" : "Example6",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
+      },
+      {
+        "name" : "Example7",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
+      },
+      {
+        "name" : "Example8",
+        "damage" : "10",
+        "defence" : "10",
+        "EffectTime" : "5"
       }
     ]
   } 

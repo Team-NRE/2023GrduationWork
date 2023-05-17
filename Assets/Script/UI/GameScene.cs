@@ -10,8 +10,6 @@ public class GameScene : BaseScene
 		Managers.Resource.Instantiate("UI_Card");
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 		//Managers.UI.ShowSceneUI<UI_NextCard>();
-		
-		
 	}
 	
 
