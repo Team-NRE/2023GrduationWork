@@ -5,6 +5,7 @@ using UnityEngine;
 
 public static class BaseCard
 {
+	public static Action<Define.KeyboardEvent> cardAction = null;
 	public static List<string> _initDeck = new List<string>();
 	public static List<string> _inHand = new List<string>();
 
@@ -42,6 +43,15 @@ public static class BaseCard
 			return 0;
 		}
 		//카드가 남아 있다면 랜덤으로 뽑아서 처리
+		int rand = UnityEngine.Random.Range(0, _initDeck.Count);
+		return rand;
+	}
+
+	//키보드 이벤트를 받아서 카드를 사용
+	public static int UseCard(Define.KeyboardEvent evt)
+	{
+		//이벤트를 받으면 -> 
+
 		int rand = UnityEngine.Random.Range(0, _initDeck.Count);
 		return rand;
 	}

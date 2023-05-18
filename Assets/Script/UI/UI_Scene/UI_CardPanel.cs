@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExitGames.Client.Photon;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
@@ -31,6 +32,23 @@ public class UI_CardPanel : UI_Card
 		R, 
 	}
 
+	private void Update()
+	{
+		KeyAction();
+	}
+
+	private void KeyAction()
+	{
+		if (Input.GetKeyDown(KeyCode.Q))
+			UI_UseQ();
+		if (Input.GetKeyDown(KeyCode.W))
+			UI_UseW();
+		if (Input.GetKeyDown(KeyCode.E))
+			UI_UseE();
+		if (Input.GetKeyDown(KeyCode.R))
+			UI_UseR();
+	}
+
 	public override void Init()
 	{
 		//나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
@@ -58,12 +76,10 @@ public class UI_CardPanel : UI_Card
 		W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", W_Btn.transform);
 		E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", E_Btn.transform);
 		R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", R_Btn.transform);
-
-		BaseCard._inHand = 
 	}
 
 	//0번 인덱스의 리스트를 반드시 사용한다.
-	public void UI_UseQ(PointerEventData data)
+	public void UI_UseQ(PointerEventData data = null)
 	{
 		Q_Btn.GetComponentInChildren<UI_Card>().InitCard();
 		int useId = BaseCard.UseCard(Q_Btn.transform.GetChild(0).name);
@@ -78,7 +94,7 @@ public class UI_CardPanel : UI_Card
 	}
 
 	//1번 인덱스의 리스트를 반드시 사용한다.
-	public void UI_UseW(PointerEventData data)
+	public void UI_UseW(PointerEventData data = null)
 	{
 		W_Btn.GetComponentInChildren<UI_Card>().InitCard();
 		int useId = BaseCard.UseCard(Q_Btn.transform.GetChild(0).name);
@@ -93,7 +109,7 @@ public class UI_CardPanel : UI_Card
 	}
 
 	//2번 인덱스의 리스트를 반드시 사용한다.
-	public void UI_UseE(PointerEventData data)
+	public void UI_UseE(PointerEventData data = null)
 	{
 		E_Btn.GetComponentInChildren<UI_Card>().InitCard();
 		int useId = BaseCard.UseCard(E_Btn.transform.GetChild(0).name);
@@ -108,7 +124,7 @@ public class UI_CardPanel : UI_Card
 		BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
 	}
 
-	public void UI_UseR(PointerEventData data)
+	public void UI_UseR(PointerEventData data = null)
 	{
 		R_Btn.GetComponentInChildren<UI_Card>().InitCard();
 		int useId = BaseCard.UseCard(R_Btn.transform.GetChild(0).name);
