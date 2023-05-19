@@ -122,4 +122,13 @@ namespace Define
         UpperLine,
         LowerLine,
     }
+
+    public enum ObjectPosArea
+    {
+        Undefine,
+        Road,
+        Building,
+        MidWay,
+        CenterArea,
+    }
 }

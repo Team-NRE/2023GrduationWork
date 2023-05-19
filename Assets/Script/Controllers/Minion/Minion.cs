@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Tilemaps;
 using Define;
 
 public class Minion : ObjectController
@@ -20,9 +21,18 @@ public class Minion : ObjectController
     /// <summary>이동한 인덱스</summary>
     private int lineIdx = 1;
 
+    /// <summary>타일 그리드</summary>
+    private GridLayout grid;
+    /// <summary>타일 맵</summary>
+    private Tilemap tilemap;
+    /// <summary>현재 서 있는 지역</summary>
+    public ObjectPosArea area;
+    
     public override void init()
     {
         base.init();
+        grid = FindObjectOfType<GridLayout>();
+        tilemap = FindObjectOfType<Tilemap>();
         nav = GetComponent<NavMeshAgent>();
         GetMilestoneTransform();
     }
@@ -44,6 +54,7 @@ public class Minion : ObjectController
 
     private void FixedUpdate() {
         if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
+        GetTransformArea();
     }
 
     public override void Attack()
@@ -66,7 +77,11 @@ public class Minion : ObjectController
 
         Vector3 moveTarget = Vector3.zero;
 
-        if (_targetEnemyTransform == null)
+        if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
+        {
+            moveTarget = _targetEnemyTransform.position;
+        }
+        else
         {
             if (line == ObjectLine.UpperLine)
             {
@@ -87,10 +102,6 @@ public class Minion : ObjectController
                 if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
                     lineIdx--;
             }
-        }
-        else
-        {
-            moveTarget = _targetEnemyTransform.position;
         }
         
         transform.LookAt(new Vector3 (
@@ -159,5 +170,18 @@ public class Minion : ObjectController
 
         milestoneUpper[0] = milestoneLower[0] = GameObject.Find("HumanNexus")?.transform;
         milestoneUpper[milestoneUpper.Length - 1] = milestoneLower[milestoneLower.Length - 1] = GameObject.Find("CyborgNexus")?.transform;
+    }
+
+    private void GetTransformArea()
+    {
+        Vector3Int pos = grid.WorldToCell(transform.position);
+        string posName = tilemap.GetTile(pos).name;
+
+        area = ObjectPosArea.Undefine;
+
+        if (posName.Equals("tilePalette_9"))  area = ObjectPosArea.Road;
+        if (posName.Equals("tilePalette_1"))  area = ObjectPosArea.Building;
+        if (posName.Equals("tilePalette_10")) area = ObjectPosArea.MidWay;
+        if (posName.Equals("tilePalette_2"))  area = ObjectPosArea.CenterArea;
     }
 }
