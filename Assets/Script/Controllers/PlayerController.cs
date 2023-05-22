@@ -42,7 +42,6 @@ public class PlayerController : BaseController
         //총알 위치
         Proj_Parent = GameObject.Find("Barrel_Location").transform;
 
-
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
         GameObject[] loadAttackRange = Resources.LoadAll<GameObject>("Prefabs/AttackRange");
@@ -108,8 +107,10 @@ public class PlayerController : BaseController
         switch (_button)
         {
             case "rightButton":
-                playerMove(Get3DMousePosition());
+                //이동 시 건물Layer 탐지 x
+                playerMove(Get3DMousePosition((1 << 0 | 1 << 2)).Item1);
                 _state = Define.State.Moving;
+
 
                 break;
 
@@ -256,7 +257,7 @@ public class PlayerController : BaseController
         //타겟 설정
         foreach (Collider coll in colls)
         {
-            float distance = Vector3.Distance(Get3DMousePosition(), coll.transform.position);
+            float distance = Vector3.Distance(Get3DMousePosition().Item1, coll.transform.position);
 
             if (CloseDistance > distance)
             {
