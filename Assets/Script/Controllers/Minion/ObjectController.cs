@@ -16,7 +16,7 @@ public abstract class ObjectController : MonoBehaviour
     public ObjStats _oStats { get; set; }
 
     //외부 namespace Define 참조
-    public ObjectAction _action { get; set; }
+    public ObjectAction _action; //{ get; set; }
     public ObjectType _type { get; set; }
 
     //모든 오브젝트의 Transform이 담긴 배열
@@ -118,7 +118,9 @@ public abstract class ObjectController : MonoBehaviour
 
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {
+            if (_allObjectTransforms[i].gameObject.activeSelf == false) continue; 
             if (_allObjectTransforms[i].gameObject.layer == gameObject.layer) continue;
+
             if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
             {
                 if (_allObjectTransforms[i].GetComponent<PlayerController>()._state == State.Die) continue;
