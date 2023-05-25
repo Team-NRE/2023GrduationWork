@@ -56,11 +56,6 @@ public class PoolManager
 
             poolable.gameObject.SetActive(true);
 
-            //DontDestroyOnLoad ������
-            if (parent == null)
-                //poolable.transform.parent = Managers.Scene.CurrentScene.transform;
-
-            poolable.transform.parent = parent;
             poolable.IsUsing = true;
 
             return poolable;
@@ -82,11 +77,19 @@ public class PoolManager
 
     public void CreatePool(GameObject original, int count = 5)
     {
+        //Poolable의 push,pop구조 짜기 
         Pool pool = new Pool();
         pool.Init(original, count);
         pool.Root.parent = _root;
 
+        //게임 오브젝트의 이름, 해당하는 pool
         _pool.Add(original.name, pool);
+    }
+
+    public void CreatePool(string original, int count = 5)
+    {
+        GameObject obj = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{original}");
+        CreatePool(obj, count);
     }
 
     public void Push(Poolable poolable)
@@ -109,6 +112,7 @@ public class PoolManager
         return _pool[original.name].Pop(parent);
     }
 
+
     public GameObject GetOriginal(string name)
     {
         if (_pool.ContainsKey(name) == false)
@@ -124,4 +128,20 @@ public class PoolManager
 
         _pool.Clear();
     }
+
+
+    //투사체 Pop
+    public void Projectile_Pool(string ProjName, Vector3 _shooter = default,
+        Transform _target = null, float bulletSpeed = default, float damage = default, Transform parent = null)
+    {
+        //Prefab 찾아주기
+        GameObject GetObject = GetOriginal(ProjName);
+
+        //못 찾았으면 함수 종료
+        if (GetObject == null) return;
+        
+        Pop(GetObject, parent).GetComponent<Poolable>().Proj_Target_Init(_shooter, _target, bulletSpeed, damage);
+    }
+
+
 }

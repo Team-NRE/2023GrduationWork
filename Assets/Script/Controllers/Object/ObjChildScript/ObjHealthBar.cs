@@ -34,18 +34,18 @@ public class ObjHealthBar : MonoBehaviour
         
         GetStatsScript();
 
-        maxHealth = stats.MaxHealth;
-        nowHealth = stats.NowHealth;
+        maxHealth = stats.maxHealth;
+        nowHealth = stats.nowHealth;
     }
 
     private void FixedUpdate() 
     {
         transform.LookAt(transform.position + cam.transform.rotation * Vector3.back, cam.transform.rotation * Vector3.up);
 
-        if (nowHealth < stats.NowHealth)
+        if (nowHealth < stats.nowHealth)
         {
-            nowHealth = stats.NowHealth;
-            maxHealth = stats.MaxHealth;
+            nowHealth = stats.nowHealth;
+            maxHealth = stats.maxHealth;
 
             if (isHealHitEffect)
             {
@@ -61,10 +61,10 @@ public class ObjHealthBar : MonoBehaviour
             }
         }
 
-        if (nowHealth > stats.NowHealth)
+        if (nowHealth > stats.nowHealth)
         {
-            nowHealth = stats.NowHealth;
-            maxHealth = stats.MaxHealth;
+            nowHealth = stats.nowHealth;
+            maxHealth = stats.maxHealth;
 
             if (isHealHitEffect)
             {

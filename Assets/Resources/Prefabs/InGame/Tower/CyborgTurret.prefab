@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909980863894948
 MeshFilter:
@@ -114,7 +114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909980863894950
 MeshFilter:
@@ -197,7 +197,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909980863894952
 MeshFilter:
@@ -278,9 +278,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.9986496, y: 5.9986496, z: 18.737053}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5297812894596796660}
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909980863894954
 MeshFilter:
@@ -363,7 +364,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909980863894956
 MeshFilter:
@@ -446,7 +447,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909980863894958
 MeshFilter:
@@ -529,7 +530,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909981054413186
 MeshFilter:
@@ -612,7 +613,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909981054413184
 MeshFilter:
@@ -695,7 +696,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909981054413192
 MeshFilter:
@@ -778,7 +779,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909981054413194
 MeshFilter:
@@ -861,7 +862,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909981054413196
 MeshFilter:
@@ -942,9 +943,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.9986496, y: 5.9986496, z: 18.737053}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5297812894250577104}
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909981054413198
 MeshFilter:
@@ -1027,7 +1029,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982516267665
 MeshFilter:
@@ -1110,7 +1112,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982516267667
 MeshFilter:
@@ -1191,9 +1193,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.9986496, y: 5.9986496, z: 18.737053}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5297812895208853451}
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982516267669
 MeshFilter:
@@ -1276,7 +1279,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982516267671
 MeshFilter:
@@ -1359,7 +1362,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982516267673
 MeshFilter:
@@ -1442,7 +1445,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982516267675
 MeshFilter:
@@ -1525,7 +1528,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982545315394
 MeshFilter:
@@ -1608,7 +1611,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982545315392
 MeshFilter:
@@ -1691,7 +1694,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982545315400
 MeshFilter:
@@ -1774,7 +1777,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982545315402
 MeshFilter:
@@ -1857,7 +1860,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982545315404
 MeshFilter:
@@ -1938,9 +1941,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.9986496, y: 5.9986496, z: 18.737053}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5297812895195038480}
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &394909982545315406
 MeshFilter:
@@ -2040,9 +2044,7 @@ GameObject:
   - component: {fileID: 6177959490389367830}
   - component: {fileID: 498047977218953949}
   - component: {fileID: 5201151064223912415}
-  - component: {fileID: 498047977218953944}
-  - component: {fileID: 498047977218953951}
-  - component: {fileID: 498047977218953950}
+  - component: {fileID: 2986514449094987708}
   m_Layer: 6
   m_Name: Turret_2
   m_TagString: Untagged
@@ -2062,7 +2064,6 @@ Transform:
   m_LocalScale: {x: 1.5, y: 2, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5297812894250577104}
   - {fileID: 394909981057837482}
   - {fileID: 394909981057837480}
   - {fileID: 394909981057837486}
@@ -2136,33 +2137,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &498047977218953944
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &2986514449094987708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2171,53 +2159,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451684966088759223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &498047977218953951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684966088759223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &498047977218953950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684966088759223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Cyborg
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &1451684966430272403
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,9 +2176,7 @@ GameObject:
   - component: {fileID: 6177959490060443698}
   - component: {fileID: 498047977023860473}
   - component: {fileID: 7174545395565192784}
-  - component: {fileID: 498047977023860420}
-  - component: {fileID: 498047977023860475}
-  - component: {fileID: 498047977023860474}
+  - component: {fileID: 5340660119014461862}
   m_Layer: 6
   m_Name: Turret_1
   m_TagString: Untagged
@@ -2253,7 +2196,6 @@ Transform:
   m_LocalScale: {x: 1.5, y: 2, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5297812894596796660}
   - {fileID: 394909980862600590}
   - {fileID: 394909980862600588}
   - {fileID: 394909980862600586}
@@ -2327,33 +2269,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &498047977023860420
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &5340660119014461862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2362,53 +2291,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451684966430272403}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &498047977023860475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684966430272403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &498047977023860474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684966430272403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Cyborg
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &1451684967814575276
 GameObject:
   m_ObjectHideFlags: 0
@@ -2422,9 +2308,7 @@ GameObject:
   - component: {fileID: 6177959491578576653}
   - component: {fileID: 498047978408161734}
   - component: {fileID: 1238505711045895878}
-  - component: {fileID: 498047978408161729}
-  - component: {fileID: 498047978408161728}
-  - component: {fileID: 498047978408161735}
+  - component: {fileID: 5974326220328965905}
   m_Layer: 6
   m_Name: Turret_3
   m_TagString: Untagged
@@ -2444,7 +2328,6 @@ Transform:
   m_LocalScale: {x: 1.5, y: 2, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5297812895208853451}
   - {fileID: 394909982515464881}
   - {fileID: 394909982515464883}
   - {fileID: 394909982515464885}
@@ -2518,33 +2401,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &498047978408161729
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &5974326220328965905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2553,53 +2423,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451684967814575276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &498047978408161728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684967814575276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &498047978408161735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684967814575276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Cyborg
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &1451684967835859063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2613,9 +2440,7 @@ GameObject:
   - component: {fileID: 6177959491602412502}
   - component: {fileID: 498047978437836061}
   - component: {fileID: 395703172069323034}
-  - component: {fileID: 395703172069322981}
-  - component: {fileID: 395703172069322980}
-  - component: {fileID: 395703172069323035}
+  - component: {fileID: 4333518380107355183}
   m_Layer: 6
   m_Name: Turret
   m_TagString: Untagged
@@ -2635,7 +2460,6 @@ Transform:
   m_LocalScale: {x: 1.5, y: 2, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5297812895195038480}
   - {fileID: 394909982546118250}
   - {fileID: 394909982546118248}
   - {fileID: 394909982546118254}
@@ -2709,33 +2533,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b377a389df3d25d45838c74e85d54455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 30
-  absoluteAttackPower: 0
-  attackSpeed: 0
-  attackCoolingTime: 5
-  attackRange: 0
-  criticalChance: 0
-  criticalPower: 0
-  maxHealth: 5000
-  nowHealth: 5000
-  healthRegeneration: 0
-  defensePower: 0
-  protectiveShield: 0
-  protectiveShieldTime: 0
-  moveSpeedReduction: 0
-  moveSpeedReductionTime: 0
-  skillSilenceTime: 0
-  poisonDamage: 0
-  poisonDamageTime: 0
-  level: 0
-  experience: 0
-  moveSpeed: 0
-  globalToken: 0
-  rangeToken: 0
-  resource: 0
-  resourceRange: 0
-  recognitionRange: 0
---- !u!114 &395703172069322981
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _maxHealth: 0
+  _nowHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _nowMana: 0
+  _manaRegenerationTime: 0
+  _maxMana: 0
+  _level: 0
+  _experience: 0
+  _speed: 0
+--- !u!114 &4333518380107355183
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2744,53 +2555,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451684967835859063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a07cf03ac1278e4ba4e2fe082ff0601, type: 3}
+  m_Script: {fileID: 11500000, guid: a896e955bfb0c504485087001e12c969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  target: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletPos: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isAttack: 0
---- !u!114 &395703172069322980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684967835859063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdca3a76d58e8b43abc1b2bf9c96a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  isDeath: 0
---- !u!114 &395703172069323035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451684967835859063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78e0bb4ec6042f46bd3a1ac92bd5c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 
-  camp: Cyborg
-  nowArea: 
-  stats: {fileID: 0}
-  moveScript: {fileID: 0}
-  attackScript: {fileID: 0}
-  summonScript: {fileID: 0}
-  deathScript: {fileID: 0}
-  enemyListInRecognitionRange: []
+  _targetEnemyTransform: {fileID: 0}
 --- !u!1 &2511666771280045631
 GameObject:
   m_ObjectHideFlags: 0
@@ -3118,12 +2886,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2963966813833072324}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.175, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.06270997}
+  m_LocalScale: {x: 0.0833521, y: 0.026685087, z: 0.083352074}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9024195194691370475}
+  m_Father: {fileID: 394909982515464885}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2963966813847470623
@@ -3149,12 +2917,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2963966813847470623}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.175, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.06270997}
+  m_LocalScale: {x: 0.0833521, y: 0.026685087, z: 0.083352074}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9024195194678964528}
+  m_Father: {fileID: 394909982546118254}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2963966815385178619
@@ -3180,12 +2948,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2963966815385178619}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.175, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.06270997}
+  m_LocalScale: {x: 0.0833521, y: 0.026685087, z: 0.083352074}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9024195195420861140}
+  m_Father: {fileID: 394909980862600586}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2963966815596932575
@@ -3211,12 +2979,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2963966815596932575}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.175, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.06270997}
+  m_LocalScale: {x: 0.0833521, y: 0.026685087, z: 0.083352074}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9024195195616354032}
+  m_Father: {fileID: 394909981057837486}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4133235865877102123
@@ -3256,7 +3024,7 @@ RectTransform:
   - {fileID: 567512294884333416}
   - {fileID: 5947116116792562026}
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3373,7 +3141,7 @@ RectTransform:
   - {fileID: 567512295091497804}
   - {fileID: 5947116116597599566}
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3490,7 +3258,7 @@ RectTransform:
   - {fileID: 567512293686966440}
   - {fileID: 5947116115857800874}
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3607,7 +3375,7 @@ RectTransform:
   - {fileID: 567512293690913907}
   - {fileID: 5947116115834024561}
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3717,7 +3485,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195420861140}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &8351612601445385943
 SpriteRenderer:
@@ -3801,7 +3569,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195195616354032}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &8351612601774586611
 SpriteRenderer:
@@ -3885,7 +3653,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194691370475}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &8351612602997103080
 SpriteRenderer:
@@ -3969,7 +3737,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9024195194678964528}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &8351612602986304819
 SpriteRenderer:

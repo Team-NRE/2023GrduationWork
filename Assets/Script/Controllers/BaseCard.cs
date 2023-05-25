@@ -63,7 +63,11 @@ public static class BaseCard
 	//2. 초기 4장을 인스턴스 한다. 한번 사용하고 그 뒤로는 사용되지 않는다.
 	public static int StartDeck()
 	{
+<<<<<<< HEAD
 		int rand = UnityEngine.Random.Range(0, _initDeck.Count - 1);
+=======
+		int rand = UnityEngine.Random.Range(0, _initDeck.Count-1);
+>>>>>>> changjo
 		//Managers.Resource.Instantiate()
 		_initDeck.RemoveAt(rand);
 

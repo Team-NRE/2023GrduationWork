@@ -73,6 +73,7 @@ namespace Define
 
     public enum KeyboardEvent
     {
+<<<<<<< HEAD
         NoInput, 
         LeftButton,
         RightButton,
@@ -82,6 +83,15 @@ namespace Define
         R = 3,
         A,
         U,
+=======
+        NoInput = 0, 
+        Q = 113,
+        W = 119,
+        E = 101,
+        R = 114,
+        A = 97,
+        U = 117,
+>>>>>>> changjo
     }
 
     public enum CardType
@@ -100,4 +110,25 @@ namespace Define
         NonProj_NonTarget,
     }
 
+    public enum ObjectAction
+    {
+        None,
+        Attack,
+        Death,
+        Move,
+    }
+
+    public enum ObjectType
+    {
+        Undefine,
+        Melee,
+        Range,
+        Mixed,
+    }
+
+    public enum ObjectLine
+    {
+        UpperLine,
+        LowerLine,
+    }
 }

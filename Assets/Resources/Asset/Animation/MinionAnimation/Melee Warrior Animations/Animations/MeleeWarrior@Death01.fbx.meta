@@ -518,8 +518,8 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 1
-        functionName: DestroySelf
+      - time: 0.828
+        functionName: Death
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

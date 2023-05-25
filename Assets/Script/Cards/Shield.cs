@@ -16,7 +16,7 @@ public class Shield : UI_Card
 
     public override void InitCard()
     {
-        Debug.Log($"{this.gameObject.name} is called");
+        //Debug.Log($"{this.gameObject.name} is called");
     }
 
 	public void cardEffect()

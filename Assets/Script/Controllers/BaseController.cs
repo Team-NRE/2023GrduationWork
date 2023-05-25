@@ -14,7 +14,7 @@ using Define;
 public abstract class BaseController : MonoBehaviour
 {
     //InputSystem
-    public InputAction inputAction;
+    public InputActionMap inputAction;
 
 
     //외부 namespace Stat 참조
@@ -26,12 +26,12 @@ public abstract class BaseController : MonoBehaviour
     //외부 namespace Define의 Player State 참조
     public State _state { get; set; }
     public Layer _layer { get; set; }
-    public KeyboardEvent _keyboard { get; set; }
+    public KeyboardEvent _keyboardEvent { get; set; }
     public CardType _cardType { get; set; }
     public CameraMode _cameraMode { get; set; }
     public Projectile _projectile { get; set; }
 
-    private void Start()
+    public void Start()
     {
         _pStats = GetComponent<PlayerStats>();
         _cStats = GetComponent<CardStats>();
@@ -45,16 +45,27 @@ public abstract class BaseController : MonoBehaviour
     {
         // Input System의 "action"을 정의
         var inputActionAsset = Resources.Load<InputActionAsset>("Input");
-        inputAction = inputActionAsset.FindAction("Keyfunction");
-        inputAction.performed += OnKeyDown;
+        inputAction = inputActionAsset.FindActionMap("KeyMap");
+        inputAction.FindAction("Keyfunction").performed += OnKeyDown;
+        inputAction.FindAction("Mousefunction").performed += OnMouseDown;
         inputAction.Enable();
     }
 
-    //키 이벤트를 name으로 받기
+    //키 이벤트
     public void OnKeyDown(InputAction.CallbackContext context)
     {
-        string name = context.control.name;
-        KeyDownAction(name);
+        string keyName = context.control.name;
+        int keyValue = (int)Enum.Parse(typeof(KeyCode), keyName, true);
+        _keyboardEvent = (KeyboardEvent)keyValue;
+        KeyDownAction(_keyboardEvent);
+    }
+
+    //마우스 이벤트
+    public void OnMouseDown(InputAction.CallbackContext context)
+    {
+        string _button = context.control.name;
+
+        MouseDownAction(_button);
     }
 
 
@@ -66,43 +77,28 @@ public abstract class BaseController : MonoBehaviour
 
 
     //Ray로 마우스 좌표 받기
-    public Vector3 Get3DMousePosition(params Layer[] _layers)
+    public (Vector3, GameObject) Get3DMousePosition(int layerMask = default)
     {
-        int layerMask = 0;
-
-        foreach (var layer in _layers)
-        {
-            //만약 3과 5번의 레이어를 받았다면, OR 비트 연산자를 통해 000101000이 전달 됨.
-            layerMask |= 1 << (int)layer;
-        }
-
         RaycastHit hit;
 
-        //해당 레이어만 탐지하도록 설정.
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask))
+        //마우스 좌표에 위치하고 있는 오브젝트 레이어 구별.
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ~layerMask))
         {
-            switch (hit.collider.gameObject.layer)
-            {
-                case (int)Define.Layer.Cyborg:
-                    _layer = Define.Layer.Cyborg;
-
-                    break;
-
-                case (int)Define.Layer.Road:
-                    _layer = Define.Layer.Road;
-
-                    break;
-            }
-
-            return hit.point;
+            return (hit.point, hit.collider.gameObject);
         }
 
-        else { return Vector3.zero; }
+        else { return (Vector3.zero, null); }
     }
 
 
+    //마우스 입력
+    public virtual void MouseDownAction(string _button)
+    {
+
+    }
+
     //키 입력
-    public virtual void KeyDownAction(string name)
+    public virtual void KeyDownAction(KeyboardEvent _key)
     {
 
     }
@@ -135,48 +131,6 @@ public abstract class BaseController : MonoBehaviour
     public virtual void SetStat()
     {
 
-    }
-
-
-    public virtual void TypeVerify(BaseController card)
-    {
-        //if card has Projectile
-        switch (_cardType)
-        {
-            case Define.CardType.Projective:
-                break;
-            case Define.CardType.NonProjective:
-                card.LoadEffect();
-                break;
-            case Define.CardType.Undefine:
-                Debug.LogError($"{card.name}'s CardType is not Defined!");
-                break;
-        }
-    }
-
-    public void ProjCheck(string ProjName, string Parent, float DestoryTime)
-    {
-        if (Parent != null)
-        {
-            GameObject parentObj = GameObject.Find(Parent);
-            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}", parentObj.transform);
-
-            Destroy(proj, DestoryTime);
-        }
-        
-        /*if(Parent == null)
-        {
-            GameObject proj = Managers.Resource.Instantiate($"Projectile/{ProjName}");
-        }*/
-
-        
-
-        switch (_projectile)
-        {
-            case Define.Projectile.Proj_Target:
-                
-                break;
-        }
     }
 
 }

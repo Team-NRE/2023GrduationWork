@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 
-public class RespawnManager : MonoBehaviour
+public class RespawnManager
 {
     private PlayerStats _pStats;
     private PlayerController _pController;
