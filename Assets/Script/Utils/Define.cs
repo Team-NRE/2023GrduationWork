@@ -73,17 +73,6 @@ namespace Define
 
     public enum KeyboardEvent
     {
-<<<<<<< HEAD
-        NoInput, 
-        LeftButton,
-        RightButton,
-        Q = 0,
-        W = 1,
-        E = 2,
-        R = 3,
-        A,
-        U,
-=======
         NoInput = 0, 
         Q = 113,
         W = 119,
@@ -91,7 +80,6 @@ namespace Define
         R = 114,
         A = 97,
         U = 117,
->>>>>>> changjo
     }
 
     public enum CardType

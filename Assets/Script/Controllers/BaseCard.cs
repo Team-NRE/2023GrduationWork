@@ -63,11 +63,9 @@ public static class BaseCard
 	//2. 초기 4장을 인스턴스 한다. 한번 사용하고 그 뒤로는 사용되지 않는다.
 	public static int StartDeck()
 	{
-<<<<<<< HEAD
+
 		int rand = UnityEngine.Random.Range(0, _initDeck.Count - 1);
-=======
-		int rand = UnityEngine.Random.Range(0, _initDeck.Count-1);
->>>>>>> changjo
+
 		//Managers.Resource.Instantiate()
 		_initDeck.RemoveAt(rand);
 
@@ -81,10 +79,6 @@ public static class BaseCard
 		Debug.Log("Reload call");
 		//비었으니 기본 덱으로 채운다
 		ExportDeck();
-		foreach(string name in _initDeck)
-		{
-			Debug.Log("reload : " + name);
-		}
 
 		//만약 AddCard로 추가된 카드가 있다면
 		if (_AddOns == null)
