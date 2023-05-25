@@ -85,11 +85,17 @@ public class UI_CardPanel : UI_Card
 		int useId = BaseCard.UseCard(Q_Btn.transform.GetChild(0).name);
 		Q_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
 		Debug.Log(Q_Btn.transform.GetChild(0).name);
-		if (useId != 0)
+		if (BaseCard._initDeck.Count <= 0)
 		{
-			Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", Q_Btn.transform);
-			Debug.Log(useId);
+			Debug.Log("reload");
+			BaseCard.ReloadDeck();
 		}
+
+		//if (useId != 0)
+		//{
+		Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", Q_Btn.transform);
+			Debug.Log(useId);
+		//}
 		BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
 	}
 
@@ -97,14 +103,21 @@ public class UI_CardPanel : UI_Card
 	public void UI_UseW(PointerEventData data = null)
 	{
 		W_Btn.GetComponentInChildren<UI_Card>().InitCard();
-		int useId = BaseCard.UseCard(Q_Btn.transform.GetChild(0).name);
+		int useId = BaseCard.UseCard(W_Btn.transform.GetChild(0).name);
 		W_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
 		Debug.Log(W_Btn.transform.GetChild(0).name);
-		if (useId != 0)
+
+		if (BaseCard._initDeck.Count <= 0)
 		{
-			Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", W_Btn.transform);
-			Debug.Log(useId);
+			Debug.Log("reload");
+			BaseCard.ReloadDeck();
 		}
+
+		//if (useId != 0)
+		//{
+		Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", W_Btn.transform);
+			Debug.Log(useId);
+		//}
 		BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
 	}
 
@@ -115,10 +128,16 @@ public class UI_CardPanel : UI_Card
 		int useId = BaseCard.UseCard(E_Btn.transform.GetChild(0).name);
 		E_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
 		Debug.Log(E_Btn.transform.GetChild(0).name);
-		if (useId != 0)
-		{
+		//if (useId != 0)
+		//{
 			Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", E_Btn.transform);
 			Debug.Log(useId);
+		//}
+
+		if (BaseCard._initDeck.Count <= 0)
+		{
+			//Debug.Log("reload");
+			BaseCard.ReloadDeck();
 		}
 
 		BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
@@ -130,11 +149,19 @@ public class UI_CardPanel : UI_Card
 		int useId = BaseCard.UseCard(R_Btn.transform.GetChild(0).name);
 		R_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
 		Debug.Log(R_Btn.transform.GetChild(0).name);
-		if (useId != 0)
+
+		if (BaseCard._initDeck.Count <= 0)
 		{
-			Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", R_Btn.transform);
-			Debug.Log(useId);
+			Debug.Log("reload");
+			BaseCard.ReloadDeck();
 		}
+
+		//if (useId != 0)
+		//{
+		Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", R_Btn.transform);
+			Debug.Log(useId);
+		//}
+
 		BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
 	}
 }

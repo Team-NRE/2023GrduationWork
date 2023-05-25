@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public static class BaseCard
@@ -8,6 +9,7 @@ public static class BaseCard
 	public static Action<Define.KeyboardEvent> cardAction = null;
 	public static List<string> _initDeck = new List<string>();
 	public static List<string> _inHand = new List<string>();
+	public static List<string> _AddOns = new List<string>();
 
 	//Json으로 덱을 가져온다. 나중에 덱 숫자가 늘어나면 파라미터로 입력
 	public static List<string> LoadDeck(int deckNum = 0)
@@ -61,14 +63,47 @@ public static class BaseCard
 	//2. 초기 4장을 인스턴스 한다. 한번 사용하고 그 뒤로는 사용되지 않는다.
 	public static int StartDeck()
 	{
-		int rand = UnityEngine.Random.Range(0, _initDeck.Count);
+		int rand = UnityEngine.Random.Range(0, _initDeck.Count - 1);
 		//Managers.Resource.Instantiate()
 		_initDeck.RemoveAt(rand);
-		//for(int i = 0; i < _initDeck.Count-1; i++)
-		//{
-		//	Debug.Log(_initDeck[i]);
-		//}
+
 		Debug.Log("남은 카드 덱 : " + _initDeck.Count + ", 초기호출 인덱스 : " + rand);
 		return rand;
+	}
+
+	//다쓰면 다시 채운다, 비었는지 여부는 UI 이벤트 단에서 바꾼다.
+	public static List<string> ReloadDeck()
+	{
+		Debug.Log("Reload call");
+		//비었으니 기본 덱으로 채운다
+		ExportDeck();
+		foreach(string name in _initDeck)
+		{
+			Debug.Log("reload : " + name);
+		}
+
+		//만약 AddCard로 추가된 카드가 있다면
+		if (_AddOns == null)
+			Debug.Log("추가카드 없음");
+		else
+		{
+			foreach (string name in _AddOns)
+			{
+				_initDeck.Add(name);
+				Debug.Log($"Adds are : {name}");
+			}
+		}
+
+		return _initDeck;
+	}
+
+	//새로운 카드를 추가해서 덱을 새로 만드는 카드
+	public static List<string> AddCard(string name)
+	{
+		List<string> newDeck = new List<string>();
+
+		_initDeck.Add(name);
+
+		return newDeck;
 	}
 }
