@@ -3,6 +3,7 @@
 /// 중립 몹의 상세 코드 스크립트
 
 using UnityEngine;
+using Stat;
 using Define;
 
 public class NeutralMob : ObjectController
@@ -14,6 +15,8 @@ public class NeutralMob : ObjectController
     public float _specialAttackCoolingTime = 10;
     private float _specialAttackCoolingTimeNow;
 
+    private bool isMachineGun;
+
     public override void init() 
     {
         base.init();
@@ -21,6 +24,7 @@ public class NeutralMob : ObjectController
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
+        isMachineGun = false;
 
         _type = ObjectType.Neutral;
     }
@@ -49,12 +53,27 @@ public class NeutralMob : ObjectController
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - transform.position), Time.deltaTime * 2.0f);
             _action = ObjectAction.Attack;
+
+            isMachineGun = (Vector3.Distance(transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange);
+
+            if (isMachineGun) lineRenderer.positionCount = 0;
+            else 
+            {
+                lineRenderer.positionCount = 2;
+
+                lineRenderer.startWidth = .125f;
+                lineRenderer.endWidth = .25f;
+
+                lineRenderer.SetPosition(0, muzzles[2].position);
+                lineRenderer.SetPosition(1, _targetEnemyTransform.position);
+            }
         }
         else 
         {
+            lineRenderer.positionCount = 0;
+
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), Time.deltaTime);
             _action = ObjectAction.Idle;
-            
         }
     }
 
@@ -62,7 +81,7 @@ public class NeutralMob : ObjectController
     {
         if (_targetEnemyTransform == null) return;
 
-        if (Vector3.Distance(transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange) MachineGun();
+        if (isMachineGun) MachineGun();
         else Laser();
     }
 
@@ -100,11 +119,19 @@ public class NeutralMob : ObjectController
 
     private void Laser()
     {
-        lineRenderer.startWidth = .125f;
-        lineRenderer.endWidth = .25f;
+        if (_targetEnemyTransform == null) return;
 
-        lineRenderer.SetPosition(0, muzzles[2].position);
-        lineRenderer.SetPosition(1, _targetEnemyTransform.position);
+        //타겟이 적 Player일 시
+        if (_targetEnemyTransform.tag == "PLAYER")
+        {
+            PlayerStats _Stats = _targetEnemyTransform.GetComponent<PlayerStats>();
+            _Stats.nowHealth -= _oStats.basicAttackPower;
+        }
+        else
+        {
+            ObjStats _Stats = _targetEnemyTransform.GetComponent<ObjStats>();
+            _Stats.nowHealth -= _oStats.basicAttackPower;
+        }
     }
 
     private void Missile()

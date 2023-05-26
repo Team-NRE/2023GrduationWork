@@ -23,7 +23,7 @@ public class ObjectBullet : Poolable
     {
         transform.position = muzzle;
         _Target = _target;
-        _bulletSpeed = bulletSpeed;
+        _bulletSpeed = bulletSpeed * 2; // 공속 대비 3배 속도
         _damage = damage;
     }
 
