@@ -64,7 +64,7 @@ public class PoolManager
     #endregion
 
     Dictionary<string, Pool> _pool = new Dictionary<string, Pool>();
-    Transform _root;    //���� ������Ʈ�� ��Ʈ
+    Transform _root;    
 
     public void Init()
     {

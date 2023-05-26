@@ -20,20 +20,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.ConnectUsingSettings();
 		Debug.Log("Trying to connect to the server...");
 	}
-	/*
-	public override void OnConnectedToMaster()
-	{
-		Debug.Log("Connected to the server!");
-		base.OnConnectedToMaster();
-		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.MaxPlayers = 10;
-		roomOptions.IsVisible = true;
-		roomOptions.IsOpen = true;
-		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
-		PhotonNetwork.JoinOrCreateRoom(roomCodeIF.text, roomOptions, TypedLobby.Default);
-		Debug.Log(roomCodeIF.text);
-	}
-	*/
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("Connected to the server!");
