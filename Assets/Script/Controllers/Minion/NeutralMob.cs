@@ -60,6 +60,8 @@ public class NeutralMob : ObjectController
 
     private void BasicAttack()
     {
+        if (_targetEnemyTransform == null) return;
+
         if (Vector3.Distance(transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange) MachineGun();
         else Laser();
     }

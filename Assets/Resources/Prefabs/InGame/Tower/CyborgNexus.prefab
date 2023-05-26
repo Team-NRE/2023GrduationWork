@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 4446322994108381078}
   - component: {fileID: 558655730079049351}
   - component: {fileID: 8501376806196031989}
+  - component: {fileID: 6566784834773782942}
   m_Layer: 7
   m_Name: CyborgNexus
   m_TagString: Untagged
@@ -253,16 +254,14 @@ MonoBehaviour:
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackRange: 0
+  _recognitionRange: 0
   _maxHealth: 0
   _nowHealth: 0
-  _healthRegeneration: 0
   _defensePower: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
-  _level: 0
-  _experience: 0
+  _nowBattery: 0
   _speed: 0
+  _gold: 0
+  _experience: 0
 --- !u!114 &8501376806196031989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,4 +274,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70206e3d1b534348a89ef465fdd325a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _action: 0
   _targetEnemyTransform: {fileID: 0}
+--- !u!114 &6566784834773782942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9090674263234045534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8d5a45290b3274d89b8de5358450a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _summonCycle: 30
+  _nowSummonTime: 5
