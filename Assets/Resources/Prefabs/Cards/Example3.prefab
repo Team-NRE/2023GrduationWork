@@ -344,14 +344,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
+    m_Name: Input Action
     m_Id: c3047192-320c-4e5d-87ad-6838f7331f3d
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
   CardCost: 1
 --- !u!1 &7117535201217100098
 GameObject:

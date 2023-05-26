@@ -8,12 +8,16 @@ using Define;
 
 public class NeutralMob : ObjectController
 {
+    [Header ("- Basic Attack")]
     GameObject bullet;
     public Transform[] muzzles;
     private LineRenderer lineRenderer;
 
+    [Header ("- Special Attack")]
+    public Missile missile;
+
     public float _specialAttackCoolingTime = 10;
-    private float _specialAttackCoolingTimeNow;
+    public float _specialAttackCoolingTimeNow;
 
     private bool isMachineGun;
 
@@ -87,18 +91,20 @@ public class NeutralMob : ObjectController
 
     private void SpecialAttack()
     {
-        int type = Random.Range(0, 2);
+        if (_targetEnemyTransform == null) return;
+
+        int type = Random.Range(0, 0);
 
         switch (type)
         {
             case 0:
-                Missile();
+                animator.SetTrigger("Missile");
                 break;
             case 1:
-                EnergyRelease();
+                animator.SetTrigger("Energy");
                 break;
             case 2:
-                ProtectiveShield();
+                animator.SetTrigger("Shield");
                 break;
         }
 
@@ -119,8 +125,6 @@ public class NeutralMob : ObjectController
 
     private void Laser()
     {
-        if (_targetEnemyTransform == null) return;
-
         //타겟이 적 Player일 시
         if (_targetEnemyTransform.tag == "PLAYER")
         {
@@ -136,7 +140,7 @@ public class NeutralMob : ObjectController
 
     private void Missile()
     {
-
+        missile.SummonMissile(_allObjectTransforms, _targetEnemyTransform.position, _oStats.basicAttackPower, 3.0f);
     }
 
     private void EnergyRelease()
