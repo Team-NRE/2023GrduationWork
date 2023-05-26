@@ -5,11 +5,13 @@
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class Minion : ObjectController
+public class Minion : ObjectController, IPunObservable
 {
-    /// <summary>상단 길 이정표</summary>
-    public Transform[] milestoneUpper;
+	/// <summary>상단 길 이정표</summary>
+	public Transform[] milestoneUpper;
     /// <summary>하단 길 이정표</summary>
     public Transform[] milestoneLower;
 
@@ -39,7 +41,7 @@ public class Minion : ObjectController
                 lineIdx = milestoneLower.Length - 2;
     }
 
-    public override void Attack()
+	public override void Attack()
     {
         base.Attack();
         nav.isStopped = true;

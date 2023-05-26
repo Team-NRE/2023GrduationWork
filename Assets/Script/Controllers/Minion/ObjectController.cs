@@ -7,13 +7,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
+using Photon.Pun;
+using TMPro;
 
 [RequireComponent(typeof(ObjStats))]
 
 public abstract class ObjectController : MonoBehaviour
 {
-    //외부 namespace Stat 참조
-    public ObjStats _oStats { get; set; }
+	//동기화 기점
+	private PhotonView _pv;
+
+	//위치 동기화 코드
+	private Vector3 receivePos;
+	private Quaternion receiveRot;
+
+	//외부 namespace Stat 참조
+	public ObjStats _oStats { get; set; }
 
     //외부 namespace Define 참조
     public ObjectAction _action { get; set; }
@@ -38,7 +47,10 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 초기화 함수, 하위 객체에서 초기화용
     /// </summary>
-    public virtual void init() { }
+    public virtual void init() 
+    {
+        _pv = GetComponent<PhotonView>();
+	}
 
     public void Update()
     {
@@ -121,4 +133,19 @@ public abstract class ObjectController : MonoBehaviour
 
         _targetEnemyTransform = newTarget;
     }
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		// 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
+		if (stream.IsWriting)
+		{
+			stream.SendNext(transform.position);
+			stream.SendNext(transform.rotation);
+		}
+		else
+		{
+			receivePos = (Vector3)stream.ReceiveNext();
+			receiveRot = (Quaternion)stream.ReceiveNext();
+		}
+	}
 }
