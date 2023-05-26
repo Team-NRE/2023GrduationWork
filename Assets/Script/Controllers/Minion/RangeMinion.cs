@@ -15,11 +15,8 @@ public class RangeMinion : Minion
     {
         base.init();
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
-
-        //새로운 풀링 해주기
-        if (Managers.Pool.GetOriginal(bullet.name) == null) { Managers.Pool.CreatePool(bullet, 5); }
+        _type = ObjectType.Range;
     }
-    
 
     public override void Attack()
     {

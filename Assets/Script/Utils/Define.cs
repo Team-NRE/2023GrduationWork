@@ -100,7 +100,7 @@ namespace Define
 
     public enum ObjectAction
     {
-        None,
+        Idle,
         Attack,
         Death,
         Move,
@@ -111,12 +111,24 @@ namespace Define
         Undefine,
         Melee,
         Range,
-        Mixed,
+        Super,
+        Turret,
+        Nexus,
+        Neutral,
     }
 
     public enum ObjectLine
     {
         UpperLine,
         LowerLine,
+    }
+
+    public enum ObjectPosArea
+    {
+        Undefine,
+        Road,
+        Building,
+        MidWay,
+        CenterArea,
     }
 }

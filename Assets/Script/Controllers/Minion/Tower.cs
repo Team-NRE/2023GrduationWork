@@ -13,6 +13,8 @@ public class Tower : ObjectController
     public override void init() 
     {
         base.init();
+        _type = ObjectType.Turret;
+
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
         muzzle = transform.Find("Crystal/BulletPos");
 
@@ -38,7 +40,17 @@ public class Tower : ObjectController
 
     protected override void UpdateObjectAction()
     {
-        if (_oStats.nowHealth <= 0) _action = ObjectAction.Death;
-        else _action = ObjectAction.Attack;
+        if (_oStats.nowHealth <= 0) 
+        {
+            _action = ObjectAction.Death;
+        }
+        else if (_targetEnemyTransform != null && Vector3.Distance(transform.position, _targetEnemyTransform.position) <= _oStats.attackRange) 
+        {
+            _action = ObjectAction.Attack;
+        }
+        else
+        {
+            _action = ObjectAction.Idle;
+        }
     }
 }

@@ -1,47 +1,56 @@
-using System.Collections;
+/// ksPark
+/// 
+/// Object Stats Script
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Define;
+using UnityEditor.Animations;
 
 namespace Stat
 {
     public class ObjStats : MonoBehaviour
     {
-        #region PlayerStats
+        #region ObjStats
 
         [Header("-- 공격 --")]
         [SerializeField] private float _basicAttackPower; //평타 공격력
         [SerializeField] private float _attackSpeed; //평타 공속
         [SerializeField] private float _attackRange; //평타 범위 
+        [SerializeField] private float _recognitionRange; //인식 범위
 
 
         [Header("-- 방어 --")]
         [SerializeField] private float _maxHealth; //최대 체력
         [SerializeField] private float _nowHealth; //현재 체력
-        [SerializeField] private float _healthRegeneration; //체력 재생량
         [SerializeField] private float _defensePower; //방어력
+        [SerializeField] private float _nowBattery; // 현재 배터리
+        
+        [Header("-- 이동 --")]
+        [SerializeField] private float _speed; //이동 속도
 
-
-        [Header("-- 마나 --")]
-        [SerializeField] private float _nowMana; //현재 마나
-        [SerializeField] private float _manaRegenerationTime; //마나 회복 속도
-        [SerializeField] private float _maxMana; //최대 마나
-
-
-        [Header("-- 레벨 --")]
-        [SerializeField] private int _level; //레벨
+        [Header("-- 자원 --")]
+        [SerializeField] private float _gold; //레벨
         [SerializeField] private float _experience; //경험치
 
 
-        [Header("-- 이동 --")]
-        [SerializeField] private float _speed; //이동 속도
         #endregion
 
 
         //공격
         public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
-        public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
+        public float attackSpeed { 
+            get { return _attackSpeed; } 
+            set 
+            { 
+                _attackSpeed = value; 
+                GetComponent<Animator>().SetFloat("attackSpeed", _attackSpeed/(1+_attackSpeed));
+            } 
+        }
+
         public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
+        public float recognitionRange { get { return _recognitionRange; } set { _recognitionRange = value; } }
 
         //방어
         public float maxHealth
@@ -49,8 +58,8 @@ namespace Stat
             get { return _maxHealth; }
             set
             {
+                _nowHealth += value - _maxHealth;
                 _maxHealth = value;
-                _nowHealth = _maxHealth;
             }
         }
         
@@ -59,88 +68,60 @@ namespace Stat
             get { return _nowHealth; }
             set
             {
-                _nowHealth = value;
-                if (_nowHealth >= _maxHealth) { _nowHealth = _maxHealth; }
+                if (value > 0)
+                {
+                    _nowHealth = value;
+                }
+                else if (value < 0) 
+                {
+                    value *= 100 / (100 + defensePower);
+                    _nowHealth = value;
+                }
+
+                if (_nowHealth >= _maxHealth) _nowHealth = _maxHealth;
+                if (_nowHealth < 0) _nowHealth = 0;
             }
         }
-        public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
-
-
-        //마나
-        public float maxMana { get { return _maxMana; } set { _maxMana = value; } }
-        public float nowMana
-        {
-            get { return _nowMana; }
-            set
-            {
-                _nowMana += value;
-                if (_nowMana >= _maxMana * _manaRegenerationTime) { _nowMana = _maxMana * _manaRegenerationTime; }
-                if (_nowMana <= 0) { _nowMana = 0; }
-            }
-        }
-        public float manaRegenerationTime
-        {
-            get { return _manaRegenerationTime; }
-            set
-            {
-                _manaRegenerationTime = value;
-            }
-        }
-
+        public float nowBattery { get { return _nowBattery; } set { _nowBattery = value; } }
 
         //레벨
-        public int level { get { return _level; } set { _level = value; } }
+        public float gold { get { return _gold; } set { _gold = value; } }
         public float experience { get { return _experience; } set { _experience = value; } }
 
 
         //이동
         public float speed
         {
-            get { return agent.speed; }
+            get { return _speed; }
             set
             {
                 _speed = value;
-                if (agent != null) {
-                    agent.speed = _speed;
-                }
+                if (GetComponent<NavMeshAgent>())
+                    GetComponent<NavMeshAgent>().speed = _speed;
+                GetComponent<Animator>().SetFloat("moveSpeed", _speed/(1+_speed));
             }
         }
 
-        private NavMeshAgent agent;
-
-        private void Awake()
+        public void InitStatSetting(ObjectType type)
         {
-            agent = GetComponent<NavMeshAgent>();
+            Dictionary<string, Data.ObjStat> dict = Managers.Data.ObjStatDict;
+            Data.ObjStat stat = dict[type.ToString()];
 
-            if (agent != null) {
-                //agent setting
-                agent.acceleration = 80.0f;
-                agent.updateRotation = false;
-            }
+            basicAttackPower = stat.basicAttackPower;
+            attackSpeed = stat.attackSpeed;
+            attackRange = stat.attackRange;
+            recognitionRange = stat.recognitionRange;
 
-            //공격
-            basicAttackPower = 30.0f;
-            attackSpeed = 5.0f;
-            attackRange = 6.0f;
+            maxHealth = stat.maxHealth;
+            nowHealth = maxHealth;
+            defensePower = stat.defensePower;
+            nowBattery = stat.nowBattery;
 
-            //방어
-            maxHealth = 150.0f;
+            speed = stat.speed;
 
-            //마나
-            maxMana = 3.0f;
-            manaRegenerationTime = 4.0f;
-
-            //레벨
-            level = 7;
-
-            //이동
-            speed = 4.0f;
-        }
-
-        private void Update()
-        {
-            nowMana = Time.deltaTime;
+            gold = stat.gold;
+            experience = stat.experience;
         }
     }
 }

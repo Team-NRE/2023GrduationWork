@@ -112,6 +112,12 @@ public class PoolManager
         return _pool[original.name].Pop(parent);
     }
 
+    public Poolable Pop(string original, Transform parent = null)
+    {
+        GameObject obj = Managers.Resource.Load<GameObject>($"Prefabs/Reference/AI/Minion/{original}");
+        return Pop(obj, parent);
+    }
+
 
     public GameObject GetOriginal(string name)
     {

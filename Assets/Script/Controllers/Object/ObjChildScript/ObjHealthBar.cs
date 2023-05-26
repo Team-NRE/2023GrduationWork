@@ -20,7 +20,6 @@ public class ObjHealthBar : MonoBehaviour
     private bool isHealHitEffect = true;
 
     private Transform cam;
-    public Component Stats;
     public ObjStats stats;
     private float maxHealth;
     private float nowHealth;

@@ -126,8 +126,11 @@ GameObject:
   - component: {fileID: 3487415417060689718}
   - component: {fileID: 3487415417060689719}
   - component: {fileID: 3487415417060689712}
+  - component: {fileID: 3487370221466692442}
   - component: {fileID: 3487415417060689713}
   - component: {fileID: 3533873677659460419}
+  - component: {fileID: 636955393367507556}
+  - component: {fileID: 1878764065464206022}
   m_Layer: 6
   m_Name: HumanNexus
   m_TagString: Untagged
@@ -202,6 +205,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &3487370221466692442
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487415417060689714}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d5994568c2524a547b45ef7e751f0074, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!136 &3487415417060689713
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -212,7 +235,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5000001
+  m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
@@ -231,13 +254,39 @@ MonoBehaviour:
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackRange: 0
+  _recognitionRange: 0
   _maxHealth: 0
   _nowHealth: 0
-  _healthRegeneration: 0
   _defensePower: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
-  _level: 0
-  _experience: 0
+  _nowBattery: 0
   _speed: 0
+  _gold: 0
+  _experience: 0
+--- !u!114 &636955393367507556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487415417060689714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70206e3d1b534348a89ef465fdd325a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _action: 0
+  _targetEnemyTransform: {fileID: 0}
+--- !u!114 &1878764065464206022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487415417060689714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8d5a45290b3274d89b8de5358450a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _summonCycle: 30
+  _nowSummonTime: 5

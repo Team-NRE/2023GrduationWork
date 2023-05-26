@@ -25,7 +25,7 @@ public abstract class ObjectController : MonoBehaviour
 	public ObjStats _oStats { get; set; }
 
     //외부 namespace Define 참조
-    public ObjectAction _action { get; set; }
+    public ObjectAction _action; //{ get; set; }
     public ObjectType _type { get; set; }
 
     //모든 오브젝트의 Transform이 담긴 배열
@@ -44,6 +44,13 @@ public abstract class ObjectController : MonoBehaviour
         init();
     }
 
+    public void OnEnable()
+    {
+        _oStats.InitStatSetting(_type);
+
+        initOnEnable();
+    }
+
     /// <summary>
     /// 초기화 함수, 하위 객체에서 초기화용
     /// </summary>
@@ -51,6 +58,11 @@ public abstract class ObjectController : MonoBehaviour
     {
         _pv = GetComponent<PhotonView>();
 	}
+
+    /// <summary>
+    /// 초기화 함수, OnEnable될 때 마다 실행될 코드 작성용
+    /// </summary>
+    public virtual void initOnEnable(){ }
 
     public void Update()
     {
@@ -82,7 +94,10 @@ public abstract class ObjectController : MonoBehaviour
                 animator.SetBool("Move", true);
                 Move();
                 break;
-            case ObjectAction.None:
+            case ObjectAction.Idle:
+                animator.SetBool("Attack", false);
+                animator.SetBool("Death", false);
+                animator.SetBool("Move", false);
                 break;
         }
     }
@@ -111,14 +126,20 @@ public abstract class ObjectController : MonoBehaviour
     protected void UpdateInRangeEnemyObjectTransform()
     {
         Transform newTarget = null;
-        float minRange = _oStats.attackRange;
+        float minRange = _oStats.recognitionRange;
 
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {
+            if (_allObjectTransforms[i].gameObject.activeSelf == false) continue; 
             if (_allObjectTransforms[i].gameObject.layer == gameObject.layer) continue;
+
             if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
             {
                 if (_allObjectTransforms[i].GetComponent<PlayerController>()._state == State.Die) continue;
+            }
+            else
+            {
+                if (_allObjectTransforms[i].GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
             }
 
             float nowRange = Vector3.Distance(transform.position, _allObjectTransforms[i].position);

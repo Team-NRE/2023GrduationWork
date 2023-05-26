@@ -1,0 +1,106 @@
+{
+    "stats": [
+      {
+        "type": "Melee",
+        
+        "basicAttackPower": "12",
+        "attackSpeed" : "10",
+        "attackRange" : "1.1",
+        "recognitionRange" : "10",
+
+        "maxHealth" : "455",
+        "defensePower" : "0",
+        "nowBattery" : "59",
+
+        "speed" : "4",
+
+        "gold" : "500",
+        "experience" : "10"
+      },
+      {
+        "type": "Range",
+        
+        "basicAttackPower": "22.5",
+        "attackSpeed" : "5",
+        "attackRange" : "5.5",
+        "recognitionRange" : "10",
+
+        "maxHealth" : "290",
+        "defensePower" : "0",
+        "nowBattery" : "59",
+
+        "speed" : "4",
+
+        "gold" : "500",
+        "experience" : "10"
+      },
+      {
+        "type": "Super",
+        
+        "basicAttackPower": "39.5",
+        "attackSpeed" : "7.5",
+        "attackRange" : "1.1",
+        "recognitionRange" : "10",
+
+        "maxHealth" : "850",
+        "defensePower" : "0",
+        "nowBattery" : "59",
+
+        "speed" : "4",
+
+        "gold" : "500",
+        "experience" : "10"
+      },
+      {
+        "type": "Turret",
+        
+        "basicAttackPower": "187",
+        "attackSpeed" : "7.5",
+        "attackRange" : "7.5",
+        "recognitionRange" : "7.5",
+
+        "maxHealth" : "3600",
+        "defensePower" : "55",
+        "nowBattery" : "-1",
+
+        "speed" : "0",
+
+        "gold" : "500",
+        "experience" : "10"
+      },
+      {
+        "type": "Nexus",
+        
+        "basicAttackPower": "0",
+        "attackSpeed" : "1",
+        "attackRange" : "0",
+        "recognitionRange" : "0",
+
+        "maxHealth" : "5500",
+        "defensePower" : "0",
+        "nowBattery" : "-1",
+
+        "speed" : "0",
+
+        "gold" : "500",
+        "experience" : "10"
+      },
+      {
+        "type": "Neutral",
+        
+        "basicAttackPower": "999",
+        "attackSpeed" : "10",
+        "attackRange" : "10",
+        "recognitionRange" : "20",
+
+        "maxHealth" : "9999",
+        "defensePower" : "999",
+        "nowBattery" : "-1",
+
+        "speed" : "0",
+
+        "gold" : "500",
+        "experience" : "10"
+      }
+    ]
+  } 

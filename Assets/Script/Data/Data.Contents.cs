@@ -28,6 +28,26 @@ namespace Data
     }
 
     [Serializable]
+    public class ObjStat
+    {
+        public string type;
+
+        public float basicAttackPower;
+        public float attackSpeed;
+        public float attackRange;
+        public float recognitionRange;
+
+        public float maxHealth;
+        public float defensePower;
+        public float nowBattery;
+
+        public float speed;
+
+        public float gold;
+        public float experience;
+    }
+
+    [Serializable]
     public class Card
     {
         public string name;
@@ -56,6 +76,23 @@ namespace Data
                 dict.Add(stat.name, stat);
                 //Debug.Log(stat.name);
                 //Debug.Log(stat.attackPower);
+            }
+            return dict;
+        }
+    }
+
+    [Serializable]
+    public class ObjStatData : ILoader<string, ObjStat>
+    {
+        public List<ObjStat> stats = new List<ObjStat>();
+
+        //json 딕셔너리 저장
+        public Dictionary<string, ObjStat> MakeDict()
+        {
+            Dictionary<string, ObjStat> dict = new Dictionary<string, ObjStat>();
+            foreach (ObjStat stat in stats)
+            {
+                dict.Add(stat.type, stat);
             }
             return dict;
         }
