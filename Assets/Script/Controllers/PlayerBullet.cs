@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
-public class PlayerBullet : Poolable
+public class PoliceBullet : Poolable
 {
     private Transform _Target;
     private float _BulletSpeed;
@@ -16,7 +16,7 @@ public class PlayerBullet : Poolable
 
     public void OnEnable()
     {
-        GameObject _player = GameObject.Find("PlayerController");
+        GameObject _player = GameObject.FindWithTag("PLAYER");
 
         _pStats = _player.GetComponent<PlayerStats>();
 

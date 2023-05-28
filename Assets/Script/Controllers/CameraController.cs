@@ -20,7 +20,9 @@ public class CameraController : BaseController
 
     public bool IsRenderer = true;
 
-    public override void Setting()
+    public Color invisibleColor;
+
+    public override void Init()
     {
         //초기 값 세팅
         planescale_X = 80; // -80 < X < 80
@@ -28,7 +30,7 @@ public class CameraController : BaseController
         Cam_Y = 9;
         Cam_Z = 6;
 
-        player = GameObject.Find("PlayerController");
+        player = GameObject.FindWithTag("PLAYER");
         p_Position = player.transform;
     }
 
@@ -40,12 +42,12 @@ public class CameraController : BaseController
         if (IsRenderer == true) re_Renderer();
     }
 
-    public override void MouseDownAction(string _button)
+    public void MouseDownAction(string _button)
     {
         if (_button == "rightButton") 
         {
-            if(Get3DMousePosition().Item2.layer == 9) { Debug.Log("불투명화"); IsRenderer = true; }
-            if(Get3DMousePosition().Item2.layer == 0) { Debug.Log("투명화"); IsRenderer = false; }
+            if(Managers.Input.Get3DMousePosition().Item2.layer == 9) { Debug.Log("불투명화"); IsRenderer = true; }
+            if(Managers.Input.Get3DMousePosition().Item2.layer == 0) { Debug.Log("투명화"); IsRenderer = false; }
         }
     }
 
@@ -66,6 +68,7 @@ public class CameraController : BaseController
 
             //alpha값 조절
             Color matColor = Mat.color;
+            matColor = Color.white;
             matColor.a = 1f;
             Mat.color = matColor;
 
@@ -74,6 +77,7 @@ public class CameraController : BaseController
         save.Clear();
 
     }
+    
     private void hitRenderer()
     {
         float Distance = Vector3.Distance(transform.position, p_Position.position);
@@ -110,7 +114,8 @@ public class CameraController : BaseController
 
                 //alpha값 조절
                 Color matColor = Mat.color;
-                matColor.a = 0.1f;
+                matColor = invisibleColor;
+                matColor.a = 0.3f;
                 Mat.color = matColor;
 
                 if (save.IndexOf(RendererGameobject) == -1)
@@ -138,7 +143,7 @@ public class CameraController : BaseController
         }
     }
 
-    public override void KeyDownAction(Define.KeyboardEvent _key)
+    public void KeyDownAction(Define.KeyboardEvent _key)
     {
         if (_key == Define.KeyboardEvent.U)
         {
