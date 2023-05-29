@@ -115,6 +115,7 @@ namespace Stat
         {
             get
             {
+                //Layer 번호 알아내기
                 _playerArea = ((int)Mathf.Log(_layerArea.value, 2));
                 return _playerArea;
             }
@@ -125,6 +126,7 @@ namespace Stat
         {
             get
             {
+                //적 Layer 설정
                 _enemyArea = (_playerArea == (int)Define.Layer.Human) ? (int)Define.Layer.Cyborg : (int)Define.Layer.Human;
                 return _enemyArea;
             }

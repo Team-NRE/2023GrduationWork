@@ -8,22 +8,19 @@ using Stat;
 
 public class Police : BaseController
 {
+    //플레이어 스텟 초기화
     private PlayerStats _pStats;
 
     //Range On/off
     private bool IsRange = false;
-    private bool IsEnemy = false;
-    //private bool _used = false;  //Announce GetDeck is first or not
+    //총알 발사 여부
+    private bool IsFired = false;
 
-    //PlayerInHandCard
-    public List<UI_Card> _inHand = new List<UI_Card>();
-    //PlayerDeckBase
-    public List<string> _baseDeck = new List<string>();
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
 
 
-    //초기화
+    //총알 위치
     private Transform Proj_Parent;
 
 
@@ -36,8 +33,8 @@ public class Police : BaseController
     public override void Init()
     {
         //초기화
-        animator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
+        _anim = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
         _pStats = GetComponent<PlayerStats>();
 
         //액션 대리자 호출
@@ -46,7 +43,6 @@ public class Police : BaseController
 
         //총알 위치
         Proj_Parent = GameObject.Find("Barrel_Location").transform;
-
 
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -60,7 +56,6 @@ public class Police : BaseController
 
             _attackRange.Add(Prefab);
         }
-        
 
         //AttackRange 초기화
         Projector projector = _attackRange[0].GetComponent<Projector>();
@@ -73,51 +68,13 @@ public class Police : BaseController
         ObjectController._allObjectTransforms.Add(transform);
     }
 
-    //Key event
-    public void KeyDownAction(Define.KeyboardEvent _key)
-    {
-        switch (_key)
-        {
-            case Define.KeyboardEvent.A:
-                AttRange_Active();
 
-                break;
-
-            case Define.KeyboardEvent.Q:
-                _state = Define.State.Skill;
-
-                break;
-
-            case Define.KeyboardEvent.W:
-                _state = Define.State.Skill;
-
-                break;
-
-            case Define.KeyboardEvent.E:
-                _state = Define.State.Skill;
-
-                break;
-
-            case Define.KeyboardEvent.R:
-                _state = Define.State.Skill;
-
-                break;
-        }
-    }
-
-    
     //Mouse event
     void MouseDownAction(Define.MouseEvent evt)
     {
+        /*
         switch (State)
         {
-            case Define.State.Moving:
-                //이동 시 건물Layer 탐지 x
-                playerMove(Managers.Input.Get3DMousePosition((1 << 0 | 1 << 2)).Item1);
-                _state = Define.State.Moving;
-
-                break;
-
             case Define.State.Attack:
                 if (IsRange == true && AttTarget_Set() != null)
                 {
@@ -126,138 +83,105 @@ public class Police : BaseController
                 }
 
                 break;
-        }
+        }*/
+        (Vector3, GameObject) _MP = Managers.Input.Get3DMousePosition((1 << 0 | 1 << 2));
 
         switch (evt)
         {
             case Define.MouseEvent.Press:
-                Debug.Log("누르고 ");
+                MouseClickState(_MP.Item1, _MP.Item2);
+                break;
+
+            case Define.MouseEvent.Click:
+                MouseClickState(_MP.Item1, _MP.Item2);
+
+                break;
+
+            case Define.MouseEvent.PointerDown:
+
                 break;
         }
     }
 
-
-
-
-    //Invoke 통한 Idle 외 다른 Animation 작동 시간 벌어주기
-    private void idle()
+    //마우스 클릭 시 대상 반환
+    private void MouseClickState(Vector3 hitPosition = default, GameObject hitObject = null)
     {
-        if (agent.remainingDistance < 0.2f)
+        //hitObject가 없을 시
+        if (hitObject == null) return;
+
+        //hitObject가 있을 시
+        if (hitObject != null)
         {
-            _state = Define.State.Idle;
+            int hitObjectLayer = hitObject.layer;
+
+            //도로를 클릭 시
+            if (hitObjectLayer == (int)Define.Layer.Road)
+            {
+                _MovingPos = hitPosition;
+                _lockTarget = null;
+
+                State = Define.State.Moving;
+            }
+
+            //적 or 중앙 obj 클릭 시
+            //_pStats.enemyArea가 상수반환이 안되서 if문으로 대체
+            if (hitObjectLayer == _pStats.enemyArea || hitObjectLayer == (int)Define.Layer.Neutral)
+            {
+                _MovingPos = hitPosition;
+                _lockTarget = hitObject;
+
+                State = Define.State.Moving;
+            }
         }
     }
 
     protected override void UpdateIdle()
     {
-
+        if (_agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
     }
+
 
     protected override void UpdateMoving()
     {
+        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+        _agent.SetDestination(_MovingPos);
 
+        //코루틴 우선순위 1. moving 2. 아래 조건
+        if (_lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
+        if (_lockTarget != null && _agent.remainingDistance <= _pStats._attackRange) { State = Define.State.Attack; }
     }
+
 
     protected override void UpdateAttack()
     {
+        if (_agent.remainingDistance <= _pStats._attackRange)
+        {
+            //애니메이션 Attack으로 변환
+            State = Define.State.Attack;
 
+            //Shoot
+            Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, _lockTarget.transform,
+            _pStats._attackSpeed, _pStats._basicAttackPower);
+
+            //Idle로 전환
+            _agent.ResetPath();
+
+            //애니메이션 Idle로 변환
+            State = Define.State.Idle;
+        }
     }
 
-    protected override void UpdateSkill()
-    {
+    
 
-    }
-
-    protected override void UpdateDie()
-    {
-        //사망 시
-        if (_pStats.nowHealth <= 0) { _state = Define.State.Die; }
-    }
 
     //Update에서 발생하는 애니메이션 변환
     private IEnumerator Player_Update_State()
     {
-        //오른쪽 클릭 공격
-        if (agent.remainingDistance <= _pStats._attackRange && (int)_layer == _pStats.enemyArea)
-        {
-            Shoot();
-            _state = Define.State.Attack;
-        }
-
         //부활 시
         if (_pStats.nowHealth > 0 && _state == Define.State.Die) { _state = Define.State.Idle; }
 
 
         yield return new WaitForSeconds(0.3f);
-    }
-
-
-    //Animator coroutine
-    private IEnumerator PlayerAnim()
-    {
-        switch (_state)
-        {
-            case Define.State.Idle:
-                //animator.SetBool("IsIdle", true);
-                //animator.SetBool("IsWalk", false);
-                //animator.SetBool("IsThrow1", false);
-                //animator.SetBool("IsFire", false);
-
-                break;
-
-            case Define.State.Moving:
-                Invoke("idle", 0.2f);
-
-                //animator.SetBool("IsWalk", true);
-                //animator.SetBool("IsIdle", false);
-                //animator.SetBool("IsThrow1", false);
-                //animator.SetBool("IsFire", false);
-
-                break;
-
-            case Define.State.Attack:
-                Invoke("idle", 0.2f);
-
-                agent.ResetPath();
-
-                //animator.SetBool("IsFire", true);
-                //animator.SetBool("IsIdle", false);
-                //animator.SetBool("IsThrow1", false);
-
-                break;
-
-            case Define.State.Skill:
-                Invoke("idle", 0.2f);
-
-                agent.ResetPath();
-
-                //animator.SetBool("IsThrow1", true);
-                //animator.SetBool("IsIdle", false);
-                //animator.SetBool("IsFire", false);
-
-                break;
-
-            case Define.State.Die:
-                //animator.SetTrigger("Die");
-                //animator.SetBool("IsIdle", false);
-                inputAction.Disable();
-                GetComponent<CapsuleCollider>().enabled = false;
-                this.enabled = false;
-
-                StopAllCoroutines();
-
-                break;
-        }
-
-        yield return new WaitForSeconds(0.3f);
-    }
-
-
-    //Ray 통한 Move
-    private void playerMove(Vector3 mouseposition)
-    {
-        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, mouseposition) - transform.position);
-        agent.SetDestination(mouseposition);
     }
 
 
@@ -311,9 +235,43 @@ public class Police : BaseController
         Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, AttTarget_Set().transform,
             _pStats._attackSpeed, _pStats._basicAttackPower);
 
-        if ((int)_layer == _pStats.enemyArea) { _layer = Define.Layer.Default; }
-
         //Attack Range off
         if (IsRange == true) { AttRange_Active(); }
     }
+
+
+    /*
+    //Key event
+    public void KeyDownAction(Define.KeyboardEvent _key)
+    {
+        switch (_key)
+        {
+            case Define.KeyboardEvent.A:
+                AttRange_Active();
+
+                break;
+
+            case Define.KeyboardEvent.Q:
+                _state = Define.State.Skill;
+
+                break;
+
+            case Define.KeyboardEvent.W:
+                _state = Define.State.Skill;
+
+                break;
+
+            case Define.KeyboardEvent.E:
+                _state = Define.State.Skill;
+
+                break;
+
+            case Define.KeyboardEvent.R:
+                _state = Define.State.Skill;
+
+                break;
+        }
+    }
+    */
+
 }

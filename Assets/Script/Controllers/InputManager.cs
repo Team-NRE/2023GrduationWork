@@ -49,7 +49,6 @@ public class InputManager
     }
 
 
-
     public void OnUpdate()
     {
         if (KeyAction != null && Input.anyKey != false)
@@ -61,25 +60,34 @@ public class InputManager
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            if (Input.GetMouseButton(0))
+            //마우스 왼쪽 / 오른쪽 버튼 누를 시 
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
             {
                 //눌렀을 때
                 if (!_pressed)
                 {
+                    //눌렀을 때 PointerDown 액션 전달
                     MouseAction.Invoke(MouseEvent.PointerDown);
+                    //누른 시간 저장
                     _pressedTime = Time.time;
                 }
+
+                //누르는 동안 Press 액션 전달
                 MouseAction.Invoke(MouseEvent.Press);
+                //PointerDown 액션 전달 하지 않게 true로 변경
                 _pressed = true;
             }
             
-            if(Input.GetMouseButton(1))
+            //마우스 왼쪽 / 오른쪽 버튼 땠을 시
+            else
             {
-                //땟을 때
+                //클릭 여부 판별
                 if (_pressed)
                 {
+                    //버튼을 땠을 때의 시간이 저장한 시간+0.2f 보다 작을 때
                     if (Time.time < _pressedTime + 0.2f)
-                        MouseAction.Invoke(MouseEvent.PointerUp);
+                        //클릭 형태가 됨.
+                        MouseAction.Invoke(MouseEvent.Click);
                 }
                 _pressed = false;
                 _pressedTime = 0;

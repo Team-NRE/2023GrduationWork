@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
-public class PoliceBullet : Poolable
+public class RangedBullet : Poolable
 {
     private Transform _Target;
     private float _BulletSpeed;

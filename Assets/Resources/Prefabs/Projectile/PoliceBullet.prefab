@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 8189593966856435038}
   - component: {fileID: 9185894979385121958}
   - component: {fileID: 2761207895895286629}
-  - component: {fileID: 1779488282063028456}
+  - component: {fileID: 8427172658094011784}
   m_Layer: 0
   m_Name: PoliceBullet
   m_TagString: Untagged
@@ -233,7 +233,7 @@ CapsuleCollider:
   m_Height: 0.03
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.013}
---- !u!114 &1779488282063028456
+--- !u!114 &8427172658094011784
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

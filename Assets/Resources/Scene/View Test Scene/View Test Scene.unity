@@ -2449,6 +2449,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.69
       objectReference: {fileID: 0}
+    - target: {fileID: 9096345831777095052, guid: 28f13ac6ce78ba245ad686fdf7d1d89b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9096389388378340303, guid: 28f13ac6ce78ba245ad686fdf7d1d89b, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4397,29 +4401,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8d88abb80717e45aa93dcc9c533fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction:
-    m_Name: Input Action
-    m_Id: dc528d71-e254-43d4-9023-7618eba1c40f
-    m_Asset: {fileID: 0}
-    m_Actions: []
-    m_Bindings: []
-  <_pStats>k__BackingField: {fileID: 0}
-  <_cStats>k__BackingField: {fileID: 0}
-  <_oStats>k__BackingField: {fileID: 0}
-  <_state>k__BackingField: 0
-  <_layer>k__BackingField: 0
-  <_keyboardEvent>k__BackingField: 0
-  <_cardType>k__BackingField: 0
-  <_cameraMode>k__BackingField: 0
-  <_projectile>k__BackingField: 0
-  IsRange: 0
-  IsEnemy: 0
-  _inHand: []
-  _baseDeck: []
-  _attackRange: []
-  <animator>k__BackingField: {fileID: 0}
-  <agent>k__BackingField: {fileID: 0}
-  Proj_Parent: {fileID: 0}
 --- !u!1 &6717707010328764945
 GameObject:
   m_ObjectHideFlags: 0
