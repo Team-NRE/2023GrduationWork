@@ -3159,12 +3159,40 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4213711620244162979, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
   m_PrefabInstance: {fileID: 6699652265534741908}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1 &1625197586
 GameObject:
+=======
+<<<<<<< HEAD
+--- !u!1 &1521982071 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9096881217894554725, guid: 28f13ac6ce78ba245ad686fdf7d1d89b, type: 3}
+  m_PrefabInstance: {fileID: 1316411204}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1521982075
+MeshCollider:
+=======
+--- !u!1 &1625197586
+GameObject:
+>>>>>>> checking
+>>>>>>> Dev
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  m_GameObject: {fileID: 1521982071}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: da3587d12d6795540bdf7ffcd32b6ee7, type: 3}
+=======
+>>>>>>> Dev
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1625197587}
@@ -3210,6 +3238,10 @@ Projector:
   m_IgnoreLayers:
     serializedVersion: 2
     m_Bits: 3383
+<<<<<<< HEAD
+=======
+>>>>>>> checking
+>>>>>>> Dev
 --- !u!1 &1689215262
 GameObject:
   m_ObjectHideFlags: 0

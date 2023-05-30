@@ -566,6 +566,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> Dev
   inputAction:
     m_Name: Input Action
     m_Id: d229f4c1-ab79-444b-b4b6-7a083ca5a03b
@@ -573,8 +577,12 @@ MonoBehaviour:
     m_Actions: []
     m_Bindings: []
   CardCost: 1
+<<<<<<< HEAD
 =======
 >>>>>>> shk
+=======
+>>>>>>> checking
+>>>>>>> Dev
 --- !u!1 &1511361260008986087
 GameObject:
   m_ObjectHideFlags: 0
