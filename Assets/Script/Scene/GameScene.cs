@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GameScene : BaseScene
 {
 	protected override void Init()
 	{
 		SceneType = Define.Scene.Game;
-		Managers.Resource.Instantiate("UI_Card");
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
-		//Managers.UI.ShowSceneUI<UI_NextCard>();
-		
-		
 	}
 	
+	void LoadObjects()
+	{
+
+	}
+
 
 	public override void Clear()
 	{

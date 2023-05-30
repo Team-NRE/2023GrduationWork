@@ -77,35 +77,17 @@ public abstract class BaseController : MonoBehaviour
 
 
     //Ray로 마우스 좌표 받기
-    public Vector3 Get3DMousePosition()
+    public (Vector3, GameObject) Get3DMousePosition(int layerMask = default)
     {
         RaycastHit hit;
 
         //마우스 좌표에 위치하고 있는 오브젝트 레이어 구별.
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ~layerMask))
         {
-            switch (hit.collider.gameObject.layer)
-            {
-                case (int)Define.Layer.Cyborg:
-                    _layer = Define.Layer.Cyborg;
-
-                    break;
-
-                case (int)Define.Layer.Human:
-                    _layer = Define.Layer.Human;
-
-                    break;
-
-                case (int)Define.Layer.Road:
-                    _layer = Define.Layer.Road;
-
-                    break;
-            }
-
-            return hit.point;
+            return (hit.point, hit.collider.gameObject);
         }
 
-        else { return Vector3.zero; }
+        else { return (Vector3.zero, null); }
     }
 
 

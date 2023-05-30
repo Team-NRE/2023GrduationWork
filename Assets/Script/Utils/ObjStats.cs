@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
-using UnityEditor.Animations;
+//using UnityEditor.Animations;
 
 namespace Stat
 {

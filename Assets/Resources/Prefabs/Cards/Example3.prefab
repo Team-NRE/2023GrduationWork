@@ -268,7 +268,7 @@ RectTransform:
   m_GameObject: {fileID: 7117535201203276008}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.14999999, y: 0.14999999, z: 0.010000001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7117535201457919674}
@@ -343,12 +343,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1f05fe3762ac14da34ebd1a02f4041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   inputAction:
     m_Name: Input Action
     m_Id: c3047192-320c-4e5d-87ad-6838f7331f3d
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []
+=======
+  _initDeck: []
+>>>>>>> shk
   CardCost: 1
 --- !u!1 &7117535201217100098
 GameObject:

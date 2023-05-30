@@ -7,13 +7,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
+using Photon.Pun;
+using TMPro;
 
 [RequireComponent(typeof(ObjStats))]
 
 public abstract class ObjectController : MonoBehaviour
 {
-    //외부 namespace Stat 참조
-    public ObjStats _oStats { get; set; }
+	//동기화 기점
+	public PhotonView _pv;
+
+	//위치 동기화 코드
+	private Vector3 receivePos;
+	private Quaternion receiveRot;
+
+	//외부 namespace Stat 참조
+	public ObjStats _oStats { get; set; }
 
     //외부 namespace Define 참조
     public ObjectAction _action; //{ get; set; }
@@ -28,6 +37,7 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Awake()
     {
+        _pv = GetComponent<PhotonView>();
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
@@ -45,7 +55,10 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 초기화 함수, 하위 객체에서 초기화용
     /// </summary>
-    public virtual void init() { }
+    public virtual void init() 
+    {
+
+	}
 
     /// <summary>
     /// 초기화 함수, OnEnable될 때 마다 실행될 코드 작성용
@@ -54,7 +67,8 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
-        UpdateInRangeEnemyObjectTransform();
+        _pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
+        //UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -80,7 +94,9 @@ public abstract class ObjectController : MonoBehaviour
                 animator.SetBool("Attack", false);
                 animator.SetBool("Death", false);
                 animator.SetBool("Move", true);
-                Move();
+                if(_pv.IsMine)
+                _pv.RPC("Move", RpcTarget.Others);
+                //Move();
                 break;
             case ObjectAction.Idle:
                 animator.SetBool("Attack", false);
@@ -111,6 +127,7 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 공격 타겟(가장 가까운 적)을 정하는 스크립트 
     /// </summary>
+    [PunRPC]
     protected void UpdateInRangeEnemyObjectTransform()
     {
         Transform newTarget = null;

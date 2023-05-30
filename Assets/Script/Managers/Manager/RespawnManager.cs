@@ -47,8 +47,8 @@ public class RespawnManager
             _root = new GameObject { name = "@Respawn" };
             Object.DontDestroyOnLoad(_root);
 
-            _pController = _player.GetComponent<PlayerController>();
-            _pStats = _player.GetComponent<PlayerStats>();
+            //_pController = _player.GetComponent<PlayerController>();
+            //_pStats = _player.GetComponent<PlayerStats>();
 
             RespawnTime = 6.0f;
         }

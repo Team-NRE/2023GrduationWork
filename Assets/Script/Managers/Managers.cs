@@ -36,7 +36,7 @@ public class Managers : MonoBehaviour
 
     void Update()
     {
-        Update_Init();
+        //Update_Init();
     }
 
     static void Init()

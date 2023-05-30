@@ -1137,6 +1137,8 @@ GameObject:
   - component: {fileID: -7624080335904981929}
   - component: {fileID: 3506335774208589965}
   - component: {fileID: 4431501649691718591}
+  - component: {fileID: 4982781138758817032}
+  - component: {fileID: -7448739445706011749}
   m_Layer: 6
   m_Name: HumanRangeRobot
   m_TagString: Untagged
@@ -1278,8 +1280,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b59348c01369f2a4ca64fd72be531701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _action: 0
   _targetEnemyTransform: {fileID: 0}
   line: 0
+  area: 0
+--- !u!114 &4982781138758817032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148914318986443889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-7448739445706011749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148914318986443889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &9148914318989915565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,7 +1443,6 @@ MonoBehaviour:
   healthBarHit: {fileID: 9148914318566132377}
   healthBarBasic: {fileID: 9148914319775309538}
   isHealHitEffect: 1
-  Stats: {fileID: 0}
   stats: {fileID: 0}
 --- !u!1 &9148914319022559258
 GameObject:

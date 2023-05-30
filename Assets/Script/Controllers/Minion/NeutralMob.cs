@@ -5,10 +5,15 @@
 using UnityEngine;
 using Stat;
 using Define;
+using Photon.Pun;
 
 public class NeutralMob : ObjectController
 {
+<<<<<<< HEAD
     [Header ("- Basic Attack")]
+=======
+    PhotonView _pv;
+>>>>>>> shk
     GameObject bullet;
     public Transform[] muzzles;
     private LineRenderer lineRenderer;
@@ -24,7 +29,7 @@ public class NeutralMob : ObjectController
     public override void init() 
     {
         base.init();
-
+        _pv = GetComponent<PhotonView>();
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
@@ -49,6 +54,7 @@ public class NeutralMob : ObjectController
     public override void Death()
     {
         base.Death();
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
@@ -81,6 +87,7 @@ public class NeutralMob : ObjectController
         }
     }
 
+    [PunRPC]
     private void BasicAttack()
     {
         if (_targetEnemyTransform == null) return;
@@ -89,6 +96,7 @@ public class NeutralMob : ObjectController
         else Laser();
     }
 
+    [PunRPC]
     private void SpecialAttack()
     {
         if (_targetEnemyTransform == null) return;
