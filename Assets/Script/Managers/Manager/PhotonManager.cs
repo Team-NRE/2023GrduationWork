@@ -8,7 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
+	
 	public TMP_InputField roomCodeIF;
+
 	void Start()
 	{
 		ConnectToServer();
@@ -23,30 +25,25 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("Connected to the server!");
-		base.OnConnectedToMaster();
+		//base.OnConnectedToMaster();
+	}
+
+	public override void OnJoinedLobby()
+	{
+		Debug.Log("On Joined Lobby");
+		//base.OnJoinedLobby();
 	}
 
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("Joined a room!");
-		base.OnJoinedRoom();
-		SceneManager.LoadScene("Content");
+		//base.OnJoinedRoom();
+		//SceneManager.LoadScene("View Test Scene");
 	}
 
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		Debug.Log("A new player has entered the room!");
 		base.OnPlayerEnteredRoom(newPlayer);
-	}
-
-	public void InitRoom()
-	{
-		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.MaxPlayers = 10;
-		roomOptions.IsVisible = true;
-		roomOptions.IsOpen = true;
-		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
-		PhotonNetwork.JoinOrCreateRoom(roomCodeIF.text, roomOptions, TypedLobby.Default);
-		Debug.Log($"your room code is {roomCodeIF.text}");
 	}
 }

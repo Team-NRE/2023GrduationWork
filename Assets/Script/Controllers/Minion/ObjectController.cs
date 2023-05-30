@@ -15,7 +15,7 @@ using TMPro;
 public abstract class ObjectController : MonoBehaviour
 {
 	//동기화 기점
-	private PhotonView _pv;
+	public PhotonView _pv;
 
 	//위치 동기화 코드
 	private Vector3 receivePos;
@@ -37,6 +37,7 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Awake()
     {
+        _pv = GetComponent<PhotonView>();
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
@@ -56,7 +57,7 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     public virtual void init() 
     {
-        _pv = GetComponent<PhotonView>();
+
 	}
 
     /// <summary>
@@ -66,7 +67,8 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
-        UpdateInRangeEnemyObjectTransform();
+        _pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
+        //UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -92,7 +94,9 @@ public abstract class ObjectController : MonoBehaviour
                 animator.SetBool("Attack", false);
                 animator.SetBool("Death", false);
                 animator.SetBool("Move", true);
-                Move();
+                if(_pv.IsMine)
+                _pv.RPC("Move", RpcTarget.Others);
+                //Move();
                 break;
             case ObjectAction.Idle:
                 animator.SetBool("Attack", false);
@@ -123,6 +127,7 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 공격 타겟(가장 가까운 적)을 정하는 스크립트 
     /// </summary>
+    [PunRPC]
     protected void UpdateInRangeEnemyObjectTransform()
     {
         Transform newTarget = null;
@@ -154,19 +159,4 @@ public abstract class ObjectController : MonoBehaviour
 
         _targetEnemyTransform = newTarget;
     }
-
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-	{
-		// 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
-		if (stream.IsWriting)
-		{
-			stream.SendNext(transform.position);
-			stream.SendNext(transform.rotation);
-		}
-		else
-		{
-			receivePos = (Vector3)stream.ReceiveNext();
-			receiveRot = (Quaternion)stream.ReceiveNext();
-		}
-	}
 }

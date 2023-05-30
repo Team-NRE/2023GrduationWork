@@ -6,11 +6,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 using Define;
+using Photon.Pun;
 
 public class Minion : ObjectController
 {
-    /// <summary>상단 길 이정표</summary>
-    private Transform[] milestoneUpper;
+
+	/// <summary>상단 길 이정표</summary>
+	private Transform[] milestoneUpper;
     /// <summary>하단 길 이정표</summary>
     private Transform[] milestoneLower;
 
@@ -31,6 +33,7 @@ public class Minion : ObjectController
     public override void init()
     {
         base.init();
+        //_pv = GetComponent<PhotonView>();
         grid = FindObjectOfType<GridLayout>();
         tilemap = FindObjectOfType<Tilemap>();
         nav = GetComponent<NavMeshAgent>();
@@ -52,9 +55,11 @@ public class Minion : ObjectController
                 lineIdx = milestoneLower.Length - 2;
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate() 
+    {
         if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
-        GetTransformArea();
+
+			GetTransformArea();
     }
 
     public override void Attack()
@@ -68,9 +73,11 @@ public class Minion : ObjectController
     public override void Death()
     {
         base.Death();
-        Managers.Pool.Push(GetComponent<Poolable>());
+        PhotonNetwork.Destroy(this.gameObject);
+        //Managers.Pool.Push(GetComponent<Poolable>());
     }
 
+    [PunRPC]
     public override void Move()
     {
         base.Move();

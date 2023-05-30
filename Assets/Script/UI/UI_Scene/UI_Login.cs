@@ -26,7 +26,9 @@ public class UI_Login : UI_Scene
 	public void LoginClick(PointerEventData data)
 	{
 		InitialRoom();
-		SceneManager.LoadScene("View Test Scene");
+		//SceneManager.LoadScene("View Test Scene");
+		//if (PhotonNetwork.InRoom)
+			SceneManager.LoadScene("View Test Scene");
 	}
 
 	public void InitialRoom(string name = "default")

@@ -6,15 +6,18 @@ using UnityEngine;
 using UnityEngine.AI;
 using Define;
 using System.Collections;
+using Photon.Pun;
 
-public class MinionSummoner : MonoBehaviour
+public class MinionSummoner : MonoBehaviourPun
 {
+    PhotonView _pv; 
     Transform _summonPos;
     public float _summonCycle = 30;
     public float _nowSummonTime = 65;
 
     void Start()
     {
+        _pv = GetComponent<PhotonView>();
         _summonPos = transform.Find("SummonPos");
     }
 
@@ -48,12 +51,17 @@ public class MinionSummoner : MonoBehaviour
     {
         string objName = LayerMask.LayerToName(gameObject.layer) + type.ToString() + "Robot";
 
-        var upperMinion = Managers.Pool.Pop(objName);
+        //Transform tr = Managers.Pool.Pop(objName).transform;
+        //Transform tr = Managers.Pool.Pop(objName).transform;
+        //Poolable upperMinion = Managers.Pool.NetPop(objName, tr);
+        GameObject upperMinion = PhotonNetwork.Instantiate(objName, this.transform.position, this.transform.rotation);
         upperMinion.transform.position = _summonPos.position + Vector3.forward;
         upperMinion.GetComponent<Minion>().line = ObjectLine.UpperLine;
         upperMinion.GetComponent<NavMeshAgent>().enabled = true;
 
-        var lowerMinion = Managers.Pool.Pop(objName);
+        //var lowerMinion = Managers.Pool.Pop(objName);
+        //Poolable lowerMinion = Managers.Pool.NetPop(objName, tr);
+        GameObject lowerMinion = PhotonNetwork.Instantiate(objName, this.transform.position, this.transform.rotation);
         lowerMinion.transform.position = _summonPos.position + Vector3.back;
         lowerMinion.GetComponent<Minion>().line = ObjectLine.LowerLine;
         lowerMinion.GetComponent<NavMeshAgent>().enabled = true;

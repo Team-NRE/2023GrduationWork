@@ -4,6 +4,7 @@
 
 using Stat;
 using Define;
+using Photon.Pun;
 
 public class MeleeMinion : Minion
 {
@@ -13,6 +14,7 @@ public class MeleeMinion : Minion
         _type = ObjectType.Melee;
     }
 
+    [PunRPC]
     public override void Attack()
     {
         if (_targetEnemyTransform == null) return;

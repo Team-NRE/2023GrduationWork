@@ -4,21 +4,23 @@
 
 using UnityEngine;
 using Define;
+using Photon.Pun;
 
 public class Nexus : ObjectController
 {
+
     public override void init() 
     {
         base.init();
-
+        _pv = GetComponent<PhotonView>();
         _type = ObjectType.Nexus;
     }
 
     public override void Death()
     {
         base.Death();
-
-        gameObject.SetActive(false);
+        PhotonNetwork.Destroy(this.gameObject);
+        //gameObject.SetActive(false);
     }
 
     protected override void UpdateObjectAction()

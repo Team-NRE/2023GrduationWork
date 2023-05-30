@@ -23,7 +23,6 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
-
     //Check poolable & Instantiate
     public GameObject Instantiate(string path, Transform parent = null)
     {

@@ -3,6 +3,7 @@
 /// InitPoolingManager 스크립트
 /// Inspector 창에서 보이는 형태 디자인해 주는 스크립트
 
+#if UnityEditor
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
@@ -88,3 +89,4 @@ public class InitPoolingManagerEditor : Editor
         element.FindPropertyRelative("count").intValue = 5; // count 초기 값 : 5
     }
 }
+#endif

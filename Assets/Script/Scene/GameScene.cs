@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GameScene : BaseScene
 {
@@ -10,6 +11,11 @@ public class GameScene : BaseScene
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 	}
 	
+	void LoadObjects()
+	{
+
+	}
+
 
 	public override void Clear()
 	{
