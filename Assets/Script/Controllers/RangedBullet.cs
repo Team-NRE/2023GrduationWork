@@ -41,7 +41,7 @@ public class RangedBullet : Poolable
     void Bullet_shoot()
     {
         Vector3 target_Pos = new Vector3(_Target.position.x, transform.position.y, _Target.position.z);
-        transform.position = Vector3.Slerp(transform.position, target_Pos, Time.deltaTime * _BulletSpeed);
+        transform.position = Vector3.Lerp(transform.position, target_Pos, Time.deltaTime * _BulletSpeed);
 
         if (Vector3.Distance(transform.position, target_Pos) <= 0.7f)
         {

@@ -13,12 +13,12 @@ public class Police : BaseController
 
     //Range On/off
     private bool IsRange = false;
-    //총알 발사 여부
-    private bool IsFired = false;
 
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
 
+    //평타 쿨타임 (공격 속도)
+    private float _SaveAttackSpeed = default;
 
     //총알 위치
     private Transform Proj_Parent;
@@ -37,12 +37,17 @@ public class Police : BaseController
         _agent = GetComponent<NavMeshAgent>();
         _pStats = GetComponent<PlayerStats>();
 
+
         //액션 대리자 호출
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+
 
         //총알 위치
         Proj_Parent = GameObject.Find("Barrel_Location").transform;
+
 
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -70,38 +75,29 @@ public class Police : BaseController
 
 
     //Mouse event
-    void MouseDownAction(Define.MouseEvent evt)
+    private void MouseDownAction(Define.MouseEvent evt)
     {
-        /*
-        switch (State)
-        {
-            case Define.State.Attack:
-                if (IsRange == true && AttTarget_Set() != null)
-                {
-                    Shoot();
-                    _state = Define.State.Attack;
-                }
-
-                break;
-        }*/
-        (Vector3, GameObject) _MP = Managers.Input.Get3DMousePosition((1 << 0 | 1 << 2));
+        (Vector3, GameObject) _MousePos = Managers.Input.Get3DMousePosition((1 << 0 | 1 << 2));
 
         switch (evt)
         {
+            case Define.MouseEvent.PointerDown:
+                MouseClickState(_MousePos.Item1, _MousePos.Item2);
+                
+                break;
+
             case Define.MouseEvent.Press:
-                MouseClickState(_MP.Item1, _MP.Item2);
+                MouseClickState(_MousePos.Item1, _MousePos.Item2);
+                
                 break;
 
             case Define.MouseEvent.Click:
-                MouseClickState(_MP.Item1, _MP.Item2);
+                Debug.Log("왼쪽 클릭");
 
-                break;
-
-            case Define.MouseEvent.PointerDown:
-
-                break;
+                break; 
         }
     }
+
 
     //마우스 클릭 시 대상 반환
     private void MouseClickState(Vector3 hitPosition = default, GameObject hitObject = null)
@@ -130,14 +126,59 @@ public class Police : BaseController
                 _MovingPos = hitPosition;
                 _lockTarget = hitObject;
 
-                State = Define.State.Moving;
+                if (_stopAttack == false) { State = Define.State.Attack; }
             }
         }
     }
 
+
+    //Key event
+    private void KeyDownAction(Define.KeyboardEvent _key)
+    {
+        switch (_key)
+        {
+            case Define.KeyboardEvent.Q:
+                KeyPushState();
+                
+                break;
+
+            case Define.KeyboardEvent.W:
+                KeyPushState();
+
+                break;
+
+            case Define.KeyboardEvent.E:
+                KeyPushState();
+
+                break;
+
+            case Define.KeyboardEvent.R:
+                KeyPushState();
+
+                break;
+            
+            case Define.KeyboardEvent.A:
+                
+
+                break;
+
+        }
+    }
+
+
+    private void KeyPushState()
+    {
+        //사거리 표시 
+
+    }
+
+
     protected override void UpdateIdle()
     {
-        if (_agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
+        if (_agent.remainingDistance < 0.2f)
+        {
+            State = Define.State.Idle;
+        }
     }
 
 
@@ -146,42 +187,71 @@ public class Police : BaseController
         transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
         _agent.SetDestination(_MovingPos);
 
-        //코루틴 우선순위 1. moving 2. 아래 조건
+        // 조건 만족 시 상태 변환
         if (_lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
-        if (_lockTarget != null && _agent.remainingDistance <= _pStats._attackRange) { State = Define.State.Attack; }
+        if (_lockTarget != null && _agent.remainingDistance <= _pStats._attackRange && _stopAttack == false) { State = Define.State.Attack; }
     }
 
 
     protected override void UpdateAttack()
     {
-        if (_agent.remainingDistance <= _pStats._attackRange)
+        //적이 공격 범위 밖에 있을 때 Moving 전환
+        if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats._attackRange)
         {
-            //애니메이션 Attack으로 변환
-            State = Define.State.Attack;
+            //애니메이션 Moving으로 변한
+            State = Define.State.Moving;
 
-            //Shoot
-            Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, _lockTarget.transform,
-            _pStats._attackSpeed, _pStats._basicAttackPower);
+            return;
+        }
 
-            //Idle로 전환
-            _agent.ResetPath();
+        //적이 공격 범위 안에 있을 때
+        else
+        {
+            if (!_stopAttack)
+            {
+                //공격속도 
+                _stopAttack = true;
 
-            //애니메이션 Idle로 변환
-            State = Define.State.Idle;
+                //Shoot
+                Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, _lockTarget.transform,
+                5.0f, _pStats._basicAttackPower);
+
+                //타겟을 향해 회전 및 멈추기
+                transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+                _agent.ResetPath();
+
+                //애니메이션 Idle로 변환
+                State = Define.State.Idle;
+
+                return;
+            }
         }
     }
 
-    
 
-
-    //Update에서 발생하는 애니메이션 변환
-    private IEnumerator Player_Update_State()
+    protected override void UpdateSkill()
     {
-        //부활 시
-        if (_pStats.nowHealth > 0 && _state == Define.State.Die) { _state = Define.State.Idle; }
+        Debug.Log("UpdateSkill");
+    }
 
+    protected override void UpdateDie()
+    {
 
-        yield return new WaitForSeconds(0.3f);
+    }
+
+    protected override void StopAttack()
+    {
+        if (_SaveAttackSpeed == default) { _SaveAttackSpeed = 0.01f; }
+        if (_SaveAttackSpeed != default)
+        {
+            _SaveAttackSpeed += Time.deltaTime;
+
+            if (_SaveAttackSpeed >= _pStats._attackDelay)
+            {
+                _stopAttack = false;
+                _SaveAttackSpeed = default;
+            }
+        }
     }
 
 
@@ -233,45 +303,9 @@ public class Police : BaseController
     private void Shoot()
     {
         Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, AttTarget_Set().transform,
-            _pStats._attackSpeed, _pStats._basicAttackPower);
+            5.0f, _pStats._basicAttackPower);
 
         //Attack Range off
         if (IsRange == true) { AttRange_Active(); }
     }
-
-
-    /*
-    //Key event
-    public void KeyDownAction(Define.KeyboardEvent _key)
-    {
-        switch (_key)
-        {
-            case Define.KeyboardEvent.A:
-                AttRange_Active();
-
-                break;
-
-            case Define.KeyboardEvent.Q:
-                _state = Define.State.Skill;
-
-                break;
-
-            case Define.KeyboardEvent.W:
-                _state = Define.State.Skill;
-
-                break;
-
-            case Define.KeyboardEvent.E:
-                _state = Define.State.Skill;
-
-                break;
-
-            case Define.KeyboardEvent.R:
-                _state = Define.State.Skill;
-
-                break;
-        }
-    }
-    */
-
 }

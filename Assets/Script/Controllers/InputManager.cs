@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using Define;
 
 public class InputManager
@@ -12,19 +11,10 @@ public class InputManager
     public Action<MouseEvent> MouseAction = null;
 
 
-    bool _pressed = false;
+    bool _MousePressed = false;
+    bool _KeyPressed = false;
     float _pressedTime = 0.0f;
 
-
-    //키 이벤트
-    public void OnKeyDown(InputAction.CallbackContext context)
-    {
-        string keyName = context.control.name;
-        int keyValue = (int)Enum.Parse(typeof(KeyCode), keyName, true);
-        //키보드  Define.KeyboardEvent 로 받기
-        KeyboardEvent keyboardEvent = (KeyboardEvent)keyValue;
-        KeyAction.Invoke(keyboardEvent);
-    }
 
 
     //마우스 좌표에 따른 PlayerRotate
@@ -51,20 +41,31 @@ public class InputManager
 
     public void OnUpdate()
     {
-        if (KeyAction != null && Input.anyKey != false)
-            KeyAction.Invoke(KeyboardEvent.NoInput);
+        HitMouseEvent();
+        HitKeyEvent();
+    }
 
+    //마우스 이벤트
+    public void HitMouseEvent()
+    {
         if (MouseAction != null)
         {
             //현재 포인터가 UI 객체 위에 있는지 여부를 확인하는 데 사용
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            //마우스 왼쪽 / 오른쪽 버튼 누를 시 
-            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+            if(Input.GetMouseButtonDown(0)) 
+            {
+                MouseAction.Invoke(MouseEvent.Click);
+                
+                return;
+            }
+
+            //마우스 오른쪽 버튼 누를 시 
+            if (Input.GetMouseButton(1))
             {
                 //눌렀을 때
-                if (!_pressed)
+                if (!_MousePressed)
                 {
                     //눌렀을 때 PointerDown 액션 전달
                     MouseAction.Invoke(MouseEvent.PointerDown);
@@ -75,22 +76,102 @@ public class InputManager
                 //누르는 동안 Press 액션 전달
                 MouseAction.Invoke(MouseEvent.Press);
                 //PointerDown 액션 전달 하지 않게 true로 변경
-                _pressed = true;
+                _MousePressed = true;
             }
-            
-            //마우스 왼쪽 / 오른쪽 버튼 땠을 시
+
+            //마우스 오른쪽 버튼 땠을 시
             else
             {
                 //클릭 여부 판별
-                if (_pressed)
+                if (_MousePressed)
                 {
                     //버튼을 땠을 때의 시간이 저장한 시간+0.2f 보다 작을 때
                     if (Time.time < _pressedTime + 0.2f)
                         //클릭 형태가 됨.
-                        MouseAction.Invoke(MouseEvent.Click);
+                        MouseAction.Invoke(MouseEvent.PointerUp);
                 }
-                _pressed = false;
+                _MousePressed = false;
                 _pressedTime = 0;
+            }
+        }
+    }
+
+    //키보드 이벤트
+    public void HitKeyEvent()
+    {
+        //키보드만 입력 시
+        if (KeyAction != null)
+        {
+            //스킬
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                KeyAction.Invoke(KeyboardEvent.Q);
+            }
+
+            //스킬
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                KeyAction.Invoke(KeyboardEvent.W);
+            }
+
+            //스킬
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                KeyAction.Invoke(KeyboardEvent.E);
+            }
+
+            //스킬
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                KeyAction.Invoke(KeyboardEvent.R);
+            }
+
+            //공격 사거리
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                KeyAction.Invoke(KeyboardEvent.A);
+            }
+
+            //카메라 고정
+            else if (Input.GetKeyDown(KeyCode.U))
+            {
+                KeyAction.Invoke(KeyboardEvent.U);
+            }
+
+            //상점
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                KeyAction.Invoke(KeyboardEvent.P);
+            }
+
+            //설정
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                KeyAction.Invoke(KeyboardEvent.Escape);
+            }
+
+            //누르고 있을 때 상태창 On
+            else if (Input.GetKey(KeyCode.Tab))
+            {
+                KeyAction.Invoke(KeyboardEvent.Tab);
+            }
+
+            //땠을 때 상태창 Off
+            else if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                KeyAction.Invoke(KeyboardEvent.TabUp);
+            }     
+
+            //누르고 있을 때 카메라 따라가기
+            else if (Input.GetKey(KeyCode.Space))
+            {
+                KeyAction.Invoke(KeyboardEvent.Space);
+            }
+
+            //땠을 때 카메라 이동
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
+                KeyAction.Invoke(KeyboardEvent.SpaceUp);
             }
         }
     }
@@ -102,3 +183,4 @@ public class InputManager
         MouseAction = null;
     }
 }
+

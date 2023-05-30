@@ -73,13 +73,19 @@ namespace Define
 
     public enum KeyboardEvent
     {
-        NoInput = 0, 
-        Q = 113,
-        W = 119,
-        E = 101,
-        R = 114,
-        A = 97,
-        U = 117,
+        KeyUp,
+        Q,
+        W,
+        E,
+        R,
+        A,
+        U,
+        P,
+        Escape,
+        Tab,
+        TabUp,
+        Space,
+        SpaceUp,
     }
 
     public enum CardType
