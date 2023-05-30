@@ -19,12 +19,14 @@ public abstract class BaseController : MonoBehaviour
     protected Vector3 _MovingPos;
     //총알 발사 여부
     protected bool _stopAttack = false;
-
+    //스킬 발동 여부
+    protected bool _stopSkill = false;
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
     public State _state { get; protected set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.FloatCamera;
+    public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
     //State
     public virtual State State
@@ -88,6 +90,7 @@ public abstract class BaseController : MonoBehaviour
         Debug.Log(State);
 
         if (_stopAttack == true) { StopAttack(); }
+        if (_stopSkill == true) { StopSkill(); }
 
         switch (State)
         {
@@ -127,6 +130,7 @@ public abstract class BaseController : MonoBehaviour
     protected virtual void UpdateDie() { }
 
     protected virtual void StopAttack() { }
+    protected virtual void StopSkill() { }
 }
 
 
