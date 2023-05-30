@@ -140,7 +140,7 @@ public abstract class ObjectController : MonoBehaviour
 
             if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
             {
-                if (_allObjectTransforms[i].GetComponent<PlayerController>()._state == State.Die) continue;
+                if (_allObjectTransforms[i].GetComponent<BaseController>()._state == State.Die) continue;
             }
             else
             {

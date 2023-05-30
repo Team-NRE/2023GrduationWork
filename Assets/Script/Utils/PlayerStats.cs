@@ -12,6 +12,7 @@ namespace Stat
         [Header("-- 공격 --")]
         public float _basicAttackPower; //평타 공격력
         public float _attackSpeed; //평타 공속
+        public float _attackDelay; //평타 딜레이
         public float _attackRange; //평타 범위 
 
 
@@ -45,8 +46,18 @@ namespace Stat
 
         //공격
         public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
-        public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
+        public float attackSpeed
+        {
+            get { return _attackSpeed; }
+            set
+            {
+                _attackSpeed = value;
+                //공격 속도 계산식
+                _attackDelay = (1 / _attackSpeed);
+            }
+        }
         public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
+
 
         //방어
         public float maxHealth
@@ -115,6 +126,7 @@ namespace Stat
         {
             get
             {
+                //Layer 번호 알아내기
                 _playerArea = ((int)Mathf.Log(_layerArea.value, 2));
                 return _playerArea;
             }
@@ -125,6 +137,7 @@ namespace Stat
         {
             get
             {
+                //적 Layer 설정
                 _enemyArea = (_playerArea == (int)Define.Layer.Human) ? (int)Define.Layer.Cyborg : (int)Define.Layer.Human;
                 return _enemyArea;
             }
@@ -142,7 +155,7 @@ namespace Stat
 
             //공격
             basicAttackPower = 30.0f;
-            attackSpeed = 5.0f;
+            attackSpeed = 0.8f;
             attackRange = 6.0f;
 
             //방어

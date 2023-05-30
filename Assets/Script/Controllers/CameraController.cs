@@ -12,15 +12,22 @@ public class CameraController : BaseController
     //속도
     private Vector3 velocity = Vector3.zero;
 
+    //Player 찾기
+    private GameObject player;
     private Transform p_Position;
 
-    private GameObject player;
+    //건물 투명화
     public GameObject RendererGameobject;
-    public List<GameObject> save;
+    public List<GameObject> SaveRendererModel;
 
+    //Renderer 여부
     public bool IsRenderer = true;
+    
+    //투명화 되는 건물 색깔
+    public Color invisibleColor;
 
-    public override void Setting()
+    
+    public override void Init()
     {
         //초기 값 세팅
         planescale_X = 80; // -80 < X < 80
@@ -28,32 +35,92 @@ public class CameraController : BaseController
         Cam_Y = 9;
         Cam_Z = 6;
 
-        player = GameObject.Find("PlayerController");
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+
+        player = GameObject.FindWithTag("PLAYER");
         p_Position = player.transform;
     }
 
     void Update()
     {
-        //건물 투명화
-        if (IsRenderer == false) hitRenderer();
         //건물 불투명화
         if (IsRenderer == true) re_Renderer();
+        //건물 투명화
+        if (IsRenderer == false) hitRenderer();
     }
 
-    public override void MouseDownAction(string _button)
+    
+    private void LateUpdate()
     {
-        if (_button == "rightButton") 
+        switch (_cameraMode)
         {
-            if(Get3DMousePosition().Item2.layer == 9) { Debug.Log("불투명화"); IsRenderer = true; }
-            if(Get3DMousePosition().Item2.layer == 0) { Debug.Log("투명화"); IsRenderer = false; }
+            case Define.CameraMode.QuaterView:
+                QuaterviewCam();
+
+                break;
+
+            case Define.CameraMode.FloatCamera:
+                FloatCam();
+
+                break;
         }
     }
 
+    //마우스 이벤트
+    public void MouseDownAction(Define.MouseEvent _evt)
+    {
+        if (_evt == Define.MouseEvent.PointerDown || _evt == Define.MouseEvent.Press)
+        {
+            GameObject hitObject = Managers.Input.Get3DMousePosition().Item2;
+
+            if (hitObject != null)
+            {
+                switch (hitObject.layer)
+                {
+                    case (int)Define.Layer.Road:
+                        IsRenderer = true;
+                        break;
+
+                    case (int)Define.Layer.Default:
+                        IsRenderer = false;
+                        break;
+                }
+            }
+        }
+    }
+
+    //키보드 이벤트
+    public void KeyDownAction(Define.KeyboardEvent _key)
+    {
+        if (_key == Define.KeyboardEvent.U)
+        {
+            _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
+        }
+
+        //이동 카메라 일 때 Spacebar 꾹 누를 시 
+        if(_key == Define.KeyboardEvent.Space)
+        {
+            //카메라 고정
+            _cameraMode = Define.CameraMode.QuaterView;
+        }
+
+        //Space 키 땠을 때 
+        if(_key == Define.KeyboardEvent.SpaceUp)
+        {
+            _cameraMode = Define.CameraMode.FloatCamera;
+        }
+    }
+
+
+    //불투명화
     private void re_Renderer()
     {
-        for (int i = 0; i < save.Count; i++)
+        for (int i = 0; i < SaveRendererModel.Count; i++)
         {
-            Material Mat = save[i].GetComponent<Renderer>().material;
+            Material Mat = SaveRendererModel[i].GetComponent<Renderer>().material;
             Mat.SetFloat("_Mode", 0);
 
             Mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
@@ -66,14 +133,18 @@ public class CameraController : BaseController
 
             //alpha값 조절
             Color matColor = Mat.color;
+            matColor = Color.white;
             matColor.a = 1f;
             Mat.color = matColor;
 
-            save[i].layer = 0;
+            SaveRendererModel[i].layer = 0;
         }
-        save.Clear();
+        SaveRendererModel.Clear();
 
     }
+
+
+    //투명화
     private void hitRenderer()
     {
         float Distance = Vector3.Distance(transform.position, p_Position.position);
@@ -110,39 +181,16 @@ public class CameraController : BaseController
 
                 //alpha값 조절
                 Color matColor = Mat.color;
-                matColor.a = 0.1f;
+                matColor = invisibleColor;
+                matColor.a = 0.3f;
                 Mat.color = matColor;
 
-                if (save.IndexOf(RendererGameobject) == -1)
+                if (SaveRendererModel.IndexOf(RendererGameobject) == -1)
                 {
                     RendererGameobject.layer = 2;
-                    save.Add(RendererGameobject);
+                    SaveRendererModel.Add(RendererGameobject);
                 }
             }
-        }
-    }
-
-    private void LateUpdate()
-    {
-        switch (_cameraMode)
-        {
-            case Define.CameraMode.QuaterView:
-                QuaterviewCam();
-
-                break;
-
-            case Define.CameraMode.FloatCamera:
-                FloatCam();
-
-                break;
-        }
-    }
-
-    public override void KeyDownAction(Define.KeyboardEvent _key)
-    {
-        if (_key == Define.KeyboardEvent.U)
-        {
-            _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
         }
     }
 
@@ -163,33 +211,33 @@ public class CameraController : BaseController
         Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, planescale_Z - 24);
         Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, planescale_Z + 24);
 
-        if (MousePos.x <= 0)
+        if (MousePos.x <= 0.1)
         {
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_x_0, Time.deltaTime);
         }
 
-        if (MousePos.x >= 1)
+        if (MousePos.x >= 0.9)
         {
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_x_1, Time.deltaTime);
         }
 
-        if (MousePos.y <= 0)
+        if (MousePos.y <= 0.1)
         {
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_z_0, Time.deltaTime);
         }
 
-        if (MousePos.y >= 1)
+        if (MousePos.y >= 0.9)
         {
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_z_1, Time.deltaTime);
         }
     }
 
-    //고정 카메라 이동
+
+    //카메라 고정
     public void QuaterviewCam()
     {
         //카메라 이동
         Vector3 pos = new Vector3(p_Position.position.x, p_Position.position.y + Cam_Y, p_Position.position.z - Cam_Z);
         Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, pos, ref velocity, 0.25f);
     }
-
 }
