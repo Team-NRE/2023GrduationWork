@@ -23,7 +23,8 @@ namespace Stat
         public float _defensePower; //방어력
 
 
-        [Header("-- 마나 --")]
+        [Header("-- 카드 --")]
+        public float _cardCoolTime; //카드 쿨타임
         public float _nowMana; //현재 마나
         public float _manaRegenerationTime; //마나 회복 속도
         public float _maxMana; //최대 마나
@@ -60,6 +61,7 @@ namespace Stat
 
 
         //방어
+        public float cardCoolTime { get { return _cardCoolTime; } set { _cardCoolTime = value; } }
         public float maxHealth
         {
             get { return _maxHealth; }
@@ -159,6 +161,7 @@ namespace Stat
             attackRange = 6.0f;
 
             //방어
+            cardCoolTime = 3.0f;
             maxHealth = 300.0f;
 
             //마나

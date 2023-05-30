@@ -343,8 +343,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1f05fe3762ac14da34ebd1a02f4041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initDeck: []
-  CardCost: 1
+  _cost: 0
+  _damage: 0
+  _defence: 0
+  _debuff: 0
+  _buff: 0
+  _time: 0
+  _rangeType: 
+  _rangeScale: 0
+  _rangeRange: 0
+  _rangeAngle: 0
 --- !u!1 &7117535201217100098
 GameObject:
   m_ObjectHideFlags: 0

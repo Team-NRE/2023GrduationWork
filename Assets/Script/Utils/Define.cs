@@ -99,10 +99,11 @@ namespace Define
     public enum Projectile
     {
         Undefine,
-        Proj_Target,
-        Proj_NonTarget,
-        NonProj_Target,
-        NonProj_NonTarget,
+        Proj_Target_Attack,
+        Proj_Target_Skill,
+        Proj_NonTarget_Skill,
+        NonProj_Target_Skill,
+        NonProj_NonTarget_Skill,
     }
 
     public enum ObjectAction

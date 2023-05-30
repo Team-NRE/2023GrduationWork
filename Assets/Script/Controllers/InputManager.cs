@@ -12,7 +12,6 @@ public class InputManager
 
 
     bool _MousePressed = false;
-    bool _KeyPressed = false;
     float _pressedTime = 0.0f;
 
 
@@ -54,7 +53,7 @@ public class InputManager
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            if(Input.GetMouseButtonDown(0)) 
+            if(Input.GetMouseButton(0)) 
             {
                 MouseAction.Invoke(MouseEvent.Click);
                 
