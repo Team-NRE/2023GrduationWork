@@ -8,7 +8,6 @@ using Photon.Pun;
 
 public class NeutralMob : ObjectController
 {
-    PhotonView _pv;
     GameObject bullet;
     public Transform[] muzzles;
     private LineRenderer lineRenderer;

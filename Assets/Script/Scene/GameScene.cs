@@ -7,8 +7,10 @@ public class GameScene : BaseScene
 {
 	protected override void Init()
 	{
+		Debug.Log("Inst");
 		SceneType = Define.Scene.Game;
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
+		StartCoroutine("ForStupidPhoton");
 	}
 	
 	void LoadObjects()
@@ -20,5 +22,12 @@ public class GameScene : BaseScene
 	public override void Clear()
 	{
 		
+	}
+
+	IEnumerator ForStupidPhoton()
+	{
+		yield return new WaitForSeconds(2.0f);
+		Debug.Log("Instantiate Player");
+		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
 	}
 }

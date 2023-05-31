@@ -4,22 +4,26 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
-
+using Photon.Pun;
+using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviour
+public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 {
+    protected PhotonView _pv;
+    protected Vector3 receivePos;
+    protected Quaternion receiveRot;
+    protected float damping = 10.0f;
+
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
     protected Animator _anim;
     protected NavMeshAgent _agent;
 
-
     protected GameObject _lockTarget;
     protected Vector3 _MovingPos;
     //총알 발사 여부
     protected bool _stopAttack = false;
-
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
@@ -81,14 +85,16 @@ public abstract class BaseController : MonoBehaviour
     }
 
 
-    private void Start() { Init(); }
+    private void Start() 
+    { 
+        Init(); 
+
+    }
 
     private void Update()
     {
         Debug.Log(State);
-
         if (_stopAttack == true) { StopAttack(); }
-
         switch (State)
         {
             case Define.State.Idle:
@@ -127,6 +133,21 @@ public abstract class BaseController : MonoBehaviour
     protected virtual void UpdateDie() { }
 
     protected virtual void StopAttack() { }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            receivePos = (Vector3)stream.ReceiveNext();
+            receiveRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
 }
 
 

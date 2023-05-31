@@ -4,10 +4,13 @@ using UnityEngine;
 using Werewolf.StatusIndicators.Components;
 using UnityEngine.AI;
 using Stat;
+using Photon.Pun;
 
 
 public class Police : BaseController
 {
+
+
     //플레이어 스텟 초기화
     private PlayerStats _pStats;
 
@@ -23,7 +26,6 @@ public class Police : BaseController
     //총알 위치
     private Transform Proj_Parent;
 
-
     public void OnEnable()
     {
         GetComponent<CapsuleCollider>().enabled = true;
@@ -32,21 +34,21 @@ public class Police : BaseController
     //start 초기화
     public override void Init()
     {
+        _pv = GetComponent<PhotonView>();
         //초기화
         _anim = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
         _pStats = GetComponent<PlayerStats>();
 
-
-        //액션 대리자 호출
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-
+            //액션 대리자 호출
+            Managers.Input.MouseAction -= MouseDownAction;
+            Managers.Input.MouseAction += MouseDownAction;
+            Managers.Input.KeyAction -= KeyDownAction;
+            Managers.Input.KeyAction += KeyDownAction;
+        
 
         //총알 위치
-        Proj_Parent = GameObject.Find("Barrel_Location").transform;
+        //Proj_Parent = GameObject.Find("Barrel_Location").transform;
 
 
         //Range List Setting 
@@ -78,7 +80,6 @@ public class Police : BaseController
     private void MouseDownAction(Define.MouseEvent evt)
     {
         (Vector3, GameObject) _MousePos = Managers.Input.Get3DMousePosition((1 << 0 | 1 << 2));
-
         switch (evt)
         {
             case Define.MouseEvent.PointerDown:
@@ -135,11 +136,12 @@ public class Police : BaseController
     //Key event
     private void KeyDownAction(Define.KeyboardEvent _key)
     {
+
         switch (_key)
         {
             case Define.KeyboardEvent.Q:
                 KeyPushState();
-                
+
                 break;
 
             case Define.KeyboardEvent.W:
@@ -156,13 +158,14 @@ public class Police : BaseController
                 KeyPushState();
 
                 break;
-            
+
             case Define.KeyboardEvent.A:
-                
+
 
                 break;
 
         }
+        
     }
 
 
@@ -184,12 +187,30 @@ public class Police : BaseController
 
     protected override void UpdateMoving()
     {
-        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
-        _agent.SetDestination(_MovingPos);
+        if (_pv.IsMine)
+        {
+            transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+            _agent.SetDestination(_MovingPos);
 
-        // 조건 만족 시 상태 변환
-        if (_lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
-        if (_lockTarget != null && _agent.remainingDistance <= _pStats._attackRange && _stopAttack == false) { State = Define.State.Attack; }
+            // 조건 만족 시 상태 변환
+            if (_lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
+            if (_lockTarget != null && _agent.remainingDistance <= _pStats._attackRange && _stopAttack == false) { State = Define.State.Attack; }
+        }
+		else
+		{
+                Debug.Log("else moving");
+
+                // 수신된 좌표로 보간한 이동처리
+                transform.position = Vector3.Lerp(transform.position,
+                                                  receivePos,
+                                                  Time.deltaTime * damping);
+
+                // 수신된 회전값으로 보간한 회전처리
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                      receiveRot,
+                                                      Time.deltaTime * damping);
+            
+        }
     }
 
 
