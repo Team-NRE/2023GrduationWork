@@ -8,17 +8,13 @@ using UnityEngine;
 
 using Stat;
 
-public class Missile : MonoBehaviour
+public class EnergyRelease : MonoBehaviour
 {
-
     static List<Transform> _allObjectTransforms;
     float damage;
     float distance = 5.0f;
 
-    [SerializeField]
-    ParticleSystem explosionParticle;
-
-    public void SummonMissile(List<Transform> objList, Vector3 pos, float dam, float dis = 5.0f)
+    public void SummonEnergyRelease(List<Transform> objList, Vector3 pos, float dam, float dis = 5.0f)
     {
         _allObjectTransforms = objList;
         transform.position = pos;
@@ -30,9 +26,6 @@ public class Missile : MonoBehaviour
 
     public void TakeDamage()
     {
-        explosionParticle.gameObject.SetActive(true);
-        explosionParticle.Play();
-
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {
             Transform nowTarget = _allObjectTransforms[i];

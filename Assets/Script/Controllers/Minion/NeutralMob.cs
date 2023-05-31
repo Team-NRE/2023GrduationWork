@@ -9,17 +9,14 @@ using Photon.Pun;
 
 public class NeutralMob : ObjectController
 {
-<<<<<<< HEAD
     [Header ("- Basic Attack")]
-=======
-    PhotonView _pv;
->>>>>>> shk
     GameObject bullet;
     public Transform[] muzzles;
     private LineRenderer lineRenderer;
 
     [Header ("- Special Attack")]
-    public Missile missile;
+    public GameObject missile;
+    public GameObject EnergyRelease;
 
     public float _specialAttackCoolingTime = 10;
     public float _specialAttackCoolingTimeNow;
@@ -101,7 +98,7 @@ public class NeutralMob : ObjectController
     {
         if (_targetEnemyTransform == null) return;
 
-        int type = Random.Range(0, 0);
+        int type = Random.Range(0, 2);
 
         switch (type)
         {
@@ -148,12 +145,14 @@ public class NeutralMob : ObjectController
 
     private void Missile()
     {
-        missile.SummonMissile(_allObjectTransforms, _targetEnemyTransform.position, _oStats.basicAttackPower, 3.0f);
+        GameObject SummonedMissile = Instantiate(missile);
+        SummonedMissile.GetComponent<Missile>().SummonMissile(_allObjectTransforms, _targetEnemyTransform.position, _oStats.basicAttackPower, 3.0f);
     }
 
-    private void EnergyRelease()
+    private void Energy()
     {
-
+        GameObject SummonedEnergyRelease = Instantiate(EnergyRelease);
+        SummonedEnergyRelease.GetComponent<EnergyRelease>().SummonEnergyRelease(_allObjectTransforms, transform.position, _oStats.basicAttackPower, 5.0f);
     }
 
     private void ProtectiveShield()
