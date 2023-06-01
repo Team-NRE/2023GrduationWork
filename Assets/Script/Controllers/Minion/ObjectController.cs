@@ -67,8 +67,8 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
-        _pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
-        //UpdateInRangeEnemyObjectTransform();
+        //_pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
+        UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -127,7 +127,6 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 공격 타겟(가장 가까운 적)을 정하는 스크립트 
     /// </summary>
-    [PunRPC]
     protected void UpdateInRangeEnemyObjectTransform()
     {
         Transform newTarget = null;
