@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
     IEnumerator GetPlayer()
 	{
         yield return new WaitForSeconds(2.5f);
-        Debug.Log("GetPlayer");
+        //Debug.Log("GetPlayer");
         player = GameObject.FindWithTag("PLAYER"); 
         _pv = player.GetComponent<PhotonView>();
         p_Position = player.transform;
@@ -64,8 +64,7 @@ public class CameraController : MonoBehaviour
         planescale_Z = -4; // -28 < Z < 20 / +24
         Cam_Y = 9;
         Cam_Z = 6;
-        if (_pv.IsMine)
-        {
+
             Managers.Input.MouseAction -= MouseDownAction;
             Managers.Input.MouseAction += MouseDownAction;
             Managers.Input.KeyAction -= KeyDownAction;
@@ -73,7 +72,6 @@ public class CameraController : MonoBehaviour
 
             //player = GameObject.FindWithTag("PLAYER");
             //p_Position = player.transform;
-        }
     }
 
     void Update()
@@ -87,8 +85,6 @@ public class CameraController : MonoBehaviour
     
     private void LateUpdate()
     {
-        if (_pv.IsMine)
-        {
             switch (_cameraMode)
             {
                 case Define.CameraMode.QuaterView:
@@ -101,7 +97,6 @@ public class CameraController : MonoBehaviour
 
                     break;
             }
-        }
     }
 
     //마우스 이벤트

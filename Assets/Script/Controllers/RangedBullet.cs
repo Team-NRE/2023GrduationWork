@@ -18,7 +18,7 @@ public class RangedBullet : Poolable
     {
         GameObject _player = GameObject.FindWithTag("PLAYER");
 
-        _pStats = _player.GetComponent<PlayerStats>();
+        //_pStats = _player.GetComponent<PlayerStats>();
 
         Proj_Target_Init(transform.position, _Target, _BulletSpeed, _BulletDamage);
     }
@@ -59,7 +59,7 @@ public class RangedBullet : Poolable
                 _Stats.nowHealth -= _BulletDamage;
             }
 
-            Managers.Pool.Push(this);
+            //Managers.Pool.Push(this);
         }
 
     }

@@ -12,7 +12,7 @@ using TMPro;
 
 [RequireComponent(typeof(ObjStats))]
 
-public abstract class ObjectController : MonoBehaviour
+public abstract class ObjectController : MonoBehaviourPunCallbacks
 {
 	//동기화 기점
 	public PhotonView _pv;
@@ -38,6 +38,7 @@ public abstract class ObjectController : MonoBehaviour
     public void Awake()
     {
         _pv = GetComponent<PhotonView>();
+        //이게 여기서 돌아가면 안됌, 오브젝트 풀링이 사라졌기 때문
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
@@ -67,7 +68,6 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
-        //_pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
         UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
@@ -94,9 +94,8 @@ public abstract class ObjectController : MonoBehaviour
                 animator.SetBool("Attack", false);
                 animator.SetBool("Death", false);
                 animator.SetBool("Move", true);
-                if(_pv.IsMine)
-                _pv.RPC("Move", RpcTarget.Others);
-                //Move();
+                
+                Move();
                 break;
             case ObjectAction.Idle:
                 animator.SetBool("Attack", false);

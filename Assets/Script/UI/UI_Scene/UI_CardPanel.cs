@@ -37,7 +37,7 @@ public class UI_CardPanel : UI_Card
 	private void Update()
 	{
 		KeyAction(_keyEvent);
-		Debug.Log(_keyEvent);
+		//Debug.Log(_keyEvent);
 	}
 
 	private void KeyAction(Define.KeyboardEvent evt)

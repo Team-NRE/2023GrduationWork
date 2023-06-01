@@ -8,11 +8,14 @@ using UnityEngine.Tilemaps;
 using Define;
 using Photon.Pun;
 
-public class Minion : ObjectController
+public class Minion : ObjectController, IPunObservable
 {
+    protected Vector3 receivePos;
+    protected Quaternion receiveRot;
+    protected float damping = 10.0f;
 
-	/// <summary>상단 길 이정표</summary>
-	private Transform[] milestoneUpper;
+    /// <summary>상단 길 이정표</summary>
+    private Transform[] milestoneUpper;
     /// <summary>하단 길 이정표</summary>
     private Transform[] milestoneLower;
 
@@ -73,50 +76,66 @@ public class Minion : ObjectController
     public override void Death()
     {
         base.Death();
+        Destroy(this.gameObject);
         PhotonNetwork.Destroy(this.gameObject);
         //Managers.Pool.Push(GetComponent<Poolable>());
     }
-
-    [PunRPC]
     public override void Move()
     {
-        base.Move();
-
-        Vector3 moveTarget = Vector3.zero;
-
-        if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
+        if (_pv.IsMine)
         {
-            moveTarget = _targetEnemyTransform.position;
-        }
-        else
-        {
-            if (line == ObjectLine.UpperLine)
+            base.Move();
+
+            Vector3 moveTarget = Vector3.zero;
+
+            if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
             {
-                moveTarget = milestoneUpper[lineIdx].position;
+                moveTarget = _targetEnemyTransform.position;
             }
-            else if (line == ObjectLine.LowerLine)
+            else
             {
-                moveTarget = milestoneLower[lineIdx].position;
+                if (line == ObjectLine.UpperLine)
+                {
+                    moveTarget = milestoneUpper[lineIdx].position;
+                }
+                else if (line == ObjectLine.LowerLine)
+                {
+                    moveTarget = milestoneLower[lineIdx].position;
+                }
+
+                if (gameObject.layer == LayerMask.NameToLayer("Human"))
+                {
+                    if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
+                        lineIdx++;
+                }
+                else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
+                {
+                    if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
+                        lineIdx--;
+                }
             }
 
-            if (gameObject.layer == LayerMask.NameToLayer("Human"))
-            {
-                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
-                    lineIdx++;
-            }
-            else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
-            {
-                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
-                    lineIdx--;
-            }
+            transform.LookAt(new Vector3(
+                moveTarget.x,
+                transform.position.y,
+                moveTarget.z
+            ));
+            nav.SetDestination(moveTarget);
         }
-        
-        transform.LookAt(new Vector3 (
-            moveTarget.x,
-            transform.position.y,
-            moveTarget.z
-        ));
-        nav.SetDestination(moveTarget);
+		else
+		{
+            Debug.Log("else moving");
+
+            // 수신된 좌표로 보간한 이동처리
+            transform.position = Vector3.Lerp(transform.position,
+                                              receivePos,
+                                              Time.deltaTime * damping);
+
+            // 수신된 회전값으로 보간한 회전처리
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                  receiveRot,
+                                                  Time.deltaTime * damping);
+        }
     }
 
     protected override void UpdateObjectAction()
@@ -190,5 +209,20 @@ public class Minion : ObjectController
         if (posName.Equals("tilePalette_1"))  area = ObjectPosArea.Building;
         if (posName.Equals("tilePalette_10")) area = ObjectPosArea.MidWay;
         if (posName.Equals("tilePalette_2"))  area = ObjectPosArea.CenterArea;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            receivePos = (Vector3)stream.ReceiveNext();
+            receiveRot = (Quaternion)stream.ReceiveNext();
+        }
     }
 }
