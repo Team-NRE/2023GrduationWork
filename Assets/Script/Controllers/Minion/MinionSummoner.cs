@@ -27,7 +27,7 @@ public class MinionSummoner : MonoBehaviourPun
 
         if (_nowSummonTime <= 0)
         {
-            StartCoroutine(SummonLine());
+            //StartCoroutine(SummonLine());
             _nowSummonTime = _summonCycle;
         }
     }

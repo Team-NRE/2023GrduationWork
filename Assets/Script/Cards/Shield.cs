@@ -5,28 +5,30 @@ using UnityEngine;
 
 public class Shield : UI_Card
 {
+    private GameObject Range;
 
-	public int _cost;
-	public float _damage;
-	public float _defence;
-	public float _debuff;
-	public float _buff;
-	public float _range;
-	public float _time;
+    public override void Init()
+    {
+        _rangeType = "Point";
+        _rangeScale = 6.0f;
+        _rangeRange = 6.0f;
+
+        Range = GameObject.Find("AttackRange");
+    }
 
     public override void InitCard()
     {
-        //Debug.Log($"{this.gameObject.name} is called");
+        Debug.Log($"{this.gameObject.name} is called");
+        Managers.Resource.Instantiate($"Particle/Boom", Range.transform.GetChild(3));
     }
 
-	public void cardEffect()
+    public override void cardEffect(Transform trans)
     {
-
+        Managers.Resource.Instantiate($"Particle/Boom", trans);
     }
-
-	public override void DestroyCard()
-	{
-		Debug.Log(this.gameObject.name + " Destroy Card");
-		Managers.Resource.Destroy(this.gameObject);
-	}
+    
+    public override void DestroyCard()
+    {
+        Managers.Resource.Destroy(this.gameObject);
+    }
 }

@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class Sword : UI_Card
 {
-    public int CardCost = 1;
+    private GameObject Range;
 
-	public override void InitCard()
-	{
-		Debug.Log($"{this.gameObject.name} is called");
-	}
-    
-    public void cardEffect()
+    public override void Init()
     {
-        Debug.Log(CardCost);
+        _rangeType = "Point";
+        _rangeScale = 6.0f;
+        _rangeRange = 6.0f;
+
+        Range = GameObject.Find("AttackRange");
     }
 
-	public override void DestroyCard()
-	{
-		Debug.Log(this.gameObject.name + " Destroy card");
-		Managers.Resource.Destroy(this.gameObject);
-	}
+    public override void InitCard()
+    {
+        Debug.Log($"{this.gameObject.name} is called");
+        Managers.Resource.Instantiate($"Particle/Boom", Range.transform.GetChild(3));
+    }
+
+    public override void cardEffect(Transform trans)
+    {
+        Managers.Resource.Instantiate($"Particle/Boom", trans);
+    }
+    
+    public override void DestroyCard()
+    {
+        Managers.Resource.Destroy(this.gameObject);
+    }
 }
