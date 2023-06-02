@@ -212,9 +212,10 @@ public class Police : BaseController
         }
     }
 
-
+    [PunRPC]
     protected override void UpdateAttack()
     {
+        Debug.Log(_pv.IsMine);
         //적이 공격 범위 밖에 있을 때 Moving 전환
         if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats._attackRange)
         {
@@ -259,6 +260,7 @@ public class Police : BaseController
 
     }
 
+    [PunRPC]
     protected override void StopAttack()
     {
         if (_SaveAttackSpeed == default) { _SaveAttackSpeed = 0.01f; }
