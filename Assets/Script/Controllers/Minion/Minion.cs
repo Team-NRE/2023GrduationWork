@@ -73,6 +73,7 @@ public class Minion : ObjectController
     public override void Death()
     {
         base.Death();
+        _allObjectTransforms.Remove(transform);
         PhotonNetwork.Destroy(this.gameObject);
         //Managers.Pool.Push(GetComponent<Poolable>());
     }
