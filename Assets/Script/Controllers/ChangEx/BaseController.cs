@@ -111,8 +111,8 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
                 break;
 
             case Define.State.Attack:
-                UpdateAttack();
-
+                //UpdateAttack();
+                _pv.RPC("UpdateAttack", RpcTarget.All);
                 break;
 
             case Define.State.Skill:
