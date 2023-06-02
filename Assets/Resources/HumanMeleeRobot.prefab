@@ -2825,6 +2825,8 @@ MonoBehaviour:
   _action: 0
   _targetEnemyTransform: {fileID: 0}
   line: 0
+  grid: {fileID: 0}
+  tilemap: {fileID: 0}
   area: 0
 --- !u!114 &-4683574957982412713
 MonoBehaviour:

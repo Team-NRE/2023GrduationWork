@@ -55,8 +55,16 @@ public class CameraController : MonoBehaviour
 	{
         yield return new WaitForSeconds(2.5f);
         //Debug.Log("GetPlayer");
-        player = GameObject.FindWithTag("PLAYER"); 
-        _pv = player.GetComponent<PhotonView>();
+        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
+        foreach(GameObject p in p_Container)
+		{
+            _pv = p.GetComponent<PhotonView>();
+            if (_pv.IsMine)
+            {
+                player = p;
+                break;
+            }
+        }
         p_Position = player.transform;
 
         //초기 값 세팅
@@ -65,11 +73,12 @@ public class CameraController : MonoBehaviour
         Cam_Y = 9;
         Cam_Z = 6;
 
+
             Managers.Input.MouseAction -= MouseDownAction;
             Managers.Input.MouseAction += MouseDownAction;
             Managers.Input.KeyAction -= KeyDownAction;
             Managers.Input.KeyAction += KeyDownAction;
-
+        
             //player = GameObject.FindWithTag("PLAYER");
             //p_Position = player.transform;
     }
@@ -128,26 +137,23 @@ public class CameraController : MonoBehaviour
     //키보드 이벤트
     public void KeyDownAction(Define.KeyboardEvent _key)
     {
-        if (_pv.IsMine)
+        if (_key == Define.KeyboardEvent.U)
         {
-            if (_key == Define.KeyboardEvent.U)
-            {
-                Debug.Log("Key U Invoke");
-                _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
-            }
+            Debug.Log("Key U Invoke");
+            _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
+        }
 
-            //이동 카메라 일 때 Spacebar 꾹 누를 시 
-            if (_key == Define.KeyboardEvent.Space)
-            {
-                //카메라 고정
-                _cameraMode = Define.CameraMode.QuaterView;
-            }
+        //이동 카메라 일 때 Spacebar 꾹 누를 시 
+        if (_key == Define.KeyboardEvent.Space)
+        {
+            //카메라 고정
+            _cameraMode = Define.CameraMode.QuaterView;
+        }
 
-            //Space 키 땠을 때 
-            if (_key == Define.KeyboardEvent.SpaceUp)
-            {
-                _cameraMode = Define.CameraMode.FloatCamera;
-            }
+        //Space 키 땠을 때 
+        if (_key == Define.KeyboardEvent.SpaceUp)
+        {
+            _cameraMode = Define.CameraMode.FloatCamera;
         }
     }
 

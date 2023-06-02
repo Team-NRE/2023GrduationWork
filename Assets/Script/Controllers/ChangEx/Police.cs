@@ -9,8 +9,6 @@ using Photon.Pun;
 
 public class Police : BaseController
 {
-
-
     //플레이어 스텟 초기화
     private PlayerStats _pStats;
 
@@ -24,7 +22,7 @@ public class Police : BaseController
     private float _SaveAttackSpeed = default;
 
     //총알 위치
-    private Transform Proj_Parent;
+    public Transform Proj_Parent;
 
     public void OnEnable()
     {
@@ -235,8 +233,8 @@ public class Police : BaseController
                 _stopAttack = true;
 
                 //Shoot
-                Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, _lockTarget.transform,
-                5.0f, _pStats._basicAttackPower);
+                //Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, _lockTarget.transform,
+                //5.0f, _pStats._basicAttackPower);
 
                 //타겟을 향해 회전 및 멈추기
                 transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
