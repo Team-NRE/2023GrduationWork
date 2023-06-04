@@ -93,7 +93,7 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-        Debug.Log(State);
+        //Debug.Log(State);
         if (_stopAttack == true) { StopAttack(); }
         switch (State)
         {

@@ -51,16 +51,11 @@ public class MinionSummoner : MonoBehaviourPun
     {
         string objName = LayerMask.LayerToName(gameObject.layer) + type.ToString() + "Robot";
 
-        //Transform tr = Managers.Pool.Pop(objName).transform;
-        //Transform tr = Managers.Pool.Pop(objName).transform;
-        //Poolable upperMinion = Managers.Pool.NetPop(objName, tr);
         GameObject upperMinion = PhotonNetwork.Instantiate(objName, this.transform.position, this.transform.rotation);
         upperMinion.transform.position = _summonPos.position + Vector3.forward;
         upperMinion.GetComponent<Minion>().line = ObjectLine.UpperLine;
         upperMinion.GetComponent<NavMeshAgent>().enabled = true;
 
-        //var lowerMinion = Managers.Pool.Pop(objName);
-        //Poolable lowerMinion = Managers.Pool.NetPop(objName, tr);
         GameObject lowerMinion = PhotonNetwork.Instantiate(objName, this.transform.position, this.transform.rotation);
         lowerMinion.transform.position = _summonPos.position + Vector3.back;
         lowerMinion.GetComponent<Minion>().line = ObjectLine.LowerLine;

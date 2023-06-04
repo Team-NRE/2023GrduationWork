@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using Define;
+using Photon.Pun;
 
 public class Tower : ObjectController
 {
@@ -16,10 +17,7 @@ public class Tower : ObjectController
         _type = ObjectType.Turret;
 
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
-        muzzle = transform.Find("Crystal/BulletPos");
-
-        //새로운 풀링 해주기
-        if (Managers.Pool.GetOriginal(bullet.name) == null) { Managers.Pool.CreatePool(bullet, 5); }
+        muzzle = transform.Find("BulletPos");
     }
 
     public override void Attack()
@@ -28,7 +26,8 @@ public class Tower : ObjectController
 
         if (_targetEnemyTransform == null) return;
 
-        Managers.Pool.Pop(bullet).Proj_Target_Init(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        GameObject nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 
     public override void Death()

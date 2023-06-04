@@ -3,17 +3,25 @@
 /// 중립 몹의 상세 코드 스크립트
 
 using UnityEngine;
+using Stat;
 using Define;
 using Photon.Pun;
 
 public class NeutralMob : ObjectController
 {
+    [Header ("- Basic Attack")]
     GameObject bullet;
     public Transform[] muzzles;
     private LineRenderer lineRenderer;
 
+    [Header ("- Special Attack")]
+    public GameObject missile;
+    public GameObject EnergyRelease;
+
     public float _specialAttackCoolingTime = 10;
-    private float _specialAttackCoolingTimeNow;
+    public float _specialAttackCoolingTimeNow;
+
+    private bool isMachineGun;
 
     public override void init() 
     {
@@ -22,6 +30,7 @@ public class NeutralMob : ObjectController
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
+        isMachineGun = false;
 
         _type = ObjectType.Neutral;
     }
@@ -42,6 +51,7 @@ public class NeutralMob : ObjectController
     public override void Death()
     {
         base.Death();
+        Destroy(this.gameObject);
         PhotonNetwork.Destroy(this.gameObject);
     }
 
@@ -49,14 +59,29 @@ public class NeutralMob : ObjectController
     {
         if (_targetEnemyTransform != null)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - transform.position), Time.deltaTime * 2.0f);
+            transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
             _action = ObjectAction.Attack;
+
+            isMachineGun = (Vector3.Distance(this.transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange);
+
+            if (isMachineGun) lineRenderer.positionCount = 0;
+            else 
+            {
+                lineRenderer.positionCount = 2;
+
+                lineRenderer.startWidth = .125f;
+                lineRenderer.endWidth = .25f;
+
+                lineRenderer.SetPosition(0, muzzles[2].position);
+                lineRenderer.SetPosition(1, _targetEnemyTransform.position);
+            }
         }
         else 
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), Time.deltaTime);
+            lineRenderer.positionCount = 0;
+
+            transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
             _action = ObjectAction.Idle;
-            
         }
     }
 
@@ -65,25 +90,24 @@ public class NeutralMob : ObjectController
     {
         if (_targetEnemyTransform == null) return;
 
-        if (Vector3.Distance(transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange) MachineGun();
+        if (isMachineGun) MachineGun();
         else Laser();
     }
 
     [PunRPC]
     private void SpecialAttack()
     {
+        if (_targetEnemyTransform == null) return;
+
         int type = Random.Range(0, 2);
 
         switch (type)
         {
             case 0:
-                Missile();
+                animator.SetTrigger("Missile");
                 break;
             case 1:
-                EnergyRelease();
-                break;
-            case 2:
-                ProtectiveShield();
+                animator.SetTrigger("Energy");
                 break;
         }
 
@@ -93,37 +117,38 @@ public class NeutralMob : ObjectController
     #region 공격 함수
     private void MachineGun()
     {
-        Managers.Pool.Pop(bullet).Proj_Target_Init(
-            muzzles[0].position, _targetEnemyTransform, 
-            _oStats.attackSpeed, _oStats.basicAttackPower);
+        GameObject nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[0].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
 
-        Managers.Pool.Pop(bullet).Proj_Target_Init(
-            muzzles[1].position, _targetEnemyTransform, 
-            _oStats.attackSpeed, _oStats.basicAttackPower);
+        nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[1].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 
     private void Laser()
     {
-        lineRenderer.startWidth = .125f;
-        lineRenderer.endWidth = .25f;
-
-        lineRenderer.SetPosition(0, muzzles[2].position);
-        lineRenderer.SetPosition(1, _targetEnemyTransform.position);
+        //타겟이 적 Player일 시
+        if (_targetEnemyTransform.tag == "PLAYER")
+        {
+            PlayerStats _Stats = _targetEnemyTransform.GetComponent<PlayerStats>();
+            _Stats.nowHealth -= _oStats.basicAttackPower;
+        }
+        else
+        {
+            ObjStats _Stats = _targetEnemyTransform.GetComponent<ObjStats>();
+            _Stats.nowHealth -= _oStats.basicAttackPower;
+        }
     }
 
     private void Missile()
     {
-
+        GameObject SummonedMissile = Instantiate(missile);
+        SummonedMissile.GetComponent<Missile>().SummonMissile(_allObjectTransforms, _targetEnemyTransform.position, _oStats.basicAttackPower, 3.0f);
     }
 
-    private void EnergyRelease()
+    private void Energy()
     {
-
+        GameObject SummonedEnergyRelease = Instantiate(EnergyRelease);
+        SummonedEnergyRelease.GetComponent<EnergyRelease>().SummonEnergyRelease(_allObjectTransforms, transform.position, _oStats.basicAttackPower, 5.0f);
     }
-
-    private void ProtectiveShield()
-    {
-
-    }
-    #endregion
 }
+#endregion

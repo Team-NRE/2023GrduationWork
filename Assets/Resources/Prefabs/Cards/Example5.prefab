@@ -565,6 +565,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3038fe97b5d46fa4ebf990d8129be667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> Dev
+  inputAction:
+    m_Name: Input Action
+    m_Id: 047dbfc4-bbff-4581-8156-980b536ea54a
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
+  CardCost: 1
+<<<<<<< HEAD
+=======
+>>>>>>> shk
+=======
+>>>>>>> checking
+>>>>>>> Dev
 --- !u!1 &1511361260008986087
 GameObject:
   m_ObjectHideFlags: 0

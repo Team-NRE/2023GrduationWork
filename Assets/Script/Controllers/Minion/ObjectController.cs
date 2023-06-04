@@ -18,8 +18,8 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
 	public PhotonView _pv;
 
 	//위치 동기화 코드
-	private Vector3 receivePos;
-	private Quaternion receiveRot;
+	protected Vector3 receivePos;
+	protected Quaternion receiveRot;
 
 	//외부 namespace Stat 참조
 	public ObjStats _oStats { get; set; }
@@ -46,7 +46,7 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
         init();
     }
 
-    public void OnEnable()
+    public override void OnEnable()
     {
         _oStats.InitStatSetting(_type);
 
