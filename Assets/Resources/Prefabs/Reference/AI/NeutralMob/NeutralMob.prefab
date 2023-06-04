@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 2930047993505236790}
   - component: {fileID: 1370145856803952392}
   - component: {fileID: 8769084917174430915}
+  - component: {fileID: 6371478746496615970}
   m_Layer: 8
   m_Name: NeutralMob
   m_TagString: Untagged
@@ -352,6 +353,28 @@ MonoBehaviour:
   EnergyRelease: {fileID: 5058040512685249462, guid: e935243e7d7f1a240b5ea993bc3c8348, type: 3}
   _specialAttackCoolingTime: 10
   _specialAttackCoolingTimeNow: 0
+--- !u!114 &6371478746496615970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3386471422498301666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3461983957184644201
 GameObject:
   m_ObjectHideFlags: 0

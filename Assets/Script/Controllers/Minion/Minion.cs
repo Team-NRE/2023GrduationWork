@@ -10,8 +10,6 @@ using Photon.Pun;
 
 public class Minion : ObjectController, IPunObservable
 {
-    protected Vector3 receivePos;
-    protected Quaternion receiveRot;
     protected float damping = 10.0f;
 
     /// <summary>상단 길 이정표</summary>
@@ -79,7 +77,6 @@ public class Minion : ObjectController, IPunObservable
         _allObjectTransforms.Remove(this.transform);
         Destroy(this.gameObject);
         PhotonNetwork.Destroy(this.gameObject);
-        //Managers.Pool.Push(GetComponent<Poolable>());
     }
     public override void Move()
     {

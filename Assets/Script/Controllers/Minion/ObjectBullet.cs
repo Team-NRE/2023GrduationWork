@@ -4,13 +4,18 @@
 
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
-public class ObjectBullet : Poolable
+public class ObjectBullet : MonoBehaviour
 {
+    [SerializeField]
     Transform _Target;
+    [SerializeField]
     Vector3 _TargetPos;
 
+    [SerializeField]
     float _bulletSpeed;
+    [SerializeField]
     float _damage;
 
     public void Update()
@@ -19,7 +24,7 @@ public class ObjectBullet : Poolable
         HitDetection();
     }
 
-    public override void Proj_Target_Init(Vector3 muzzle, Transform _target, float bulletSpeed, float damage)
+    public void BulletSetting(Vector3 muzzle, Transform _target, float bulletSpeed, float damage)
     {
         transform.position = muzzle;
         _Target = _target;
@@ -31,8 +36,8 @@ public class ObjectBullet : Poolable
     {
         if (_Target == null) 
         {
-            Managers.Pool.Push(this);
-            return;
+            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
 
         _TargetPos = _Target.position;
@@ -59,7 +64,8 @@ public class ObjectBullet : Poolable
                 _Stats.nowHealth -= _damage;
             }
             
-            Managers.Pool.Push(this);
+            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
