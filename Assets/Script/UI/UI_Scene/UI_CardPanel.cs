@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class UI_CardPanel : UI_Card
 {
+	public Define.KeyboardEvent _keyEvent { get; protected set; }
+
 	GameObject Q_Btn;
 	GameObject W_Btn;
 	GameObject E_Btn;
@@ -34,23 +36,27 @@ public class UI_CardPanel : UI_Card
 
 	private void Update()
 	{
-		KeyAction();
+		KeyAction(_keyEvent);
+		//Debug.Log(_keyEvent);
 	}
 
-	private void KeyAction()
+	private void KeyAction(Define.KeyboardEvent evt)
 	{
-		if (Input.GetKeyDown(KeyCode.Q))
+		if (evt == Define.KeyboardEvent.Q)
 			UI_UseQ();
-		if (Input.GetKeyDown(KeyCode.W))
+		if (evt == Define.KeyboardEvent.W)
 			UI_UseW();
-		if (Input.GetKeyDown(KeyCode.E))
+		if (evt == Define.KeyboardEvent.E)
 			UI_UseE();
-		if (Input.GetKeyDown(KeyCode.R))
+		if (evt == Define.KeyboardEvent.R)
 			UI_UseR();
 	}
 
 	public override void Init()
 	{
+		Managers.Input.KeyAction -= KeyAction;
+		Managers.Input.KeyAction += KeyAction;
+
 		//나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
 		BaseCard.ExportDeck();
 		
@@ -159,7 +165,7 @@ public class UI_CardPanel : UI_Card
 		//if (useId != 0)
 		//{
 		Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", R_Btn.transform);
-			Debug.Log(useId);
+		Debug.Log(useId);
 		//}
 
 		BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });

@@ -210,7 +210,7 @@ public class PoolManager
 
         //못 찾았으면 함수 종료
         if (GetObject == null) return;
-        
+ 
         Pop(GetObject, parent).GetComponent<Poolable>().Proj_Target_Init(_shooter, _target, bulletSpeed, damage);
     }
 

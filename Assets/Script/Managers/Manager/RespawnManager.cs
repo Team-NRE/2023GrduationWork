@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 
-public class RespawnManager
+public class RespawnManager : MonoBehaviour
 {
     private PlayerStats _pStats;
-    private PlayerController _pController;
+    private Police _pController;
 
     public float _RespawnTime;
     public float RespawnTime
@@ -36,31 +36,38 @@ public class RespawnManager
         }
     }
 
+    private void Start()
+    {
+        Init();
+    }
 
     //start
     public void Init()
     {
-        GameObject _root = GameObject.Find("@Respawn");
-        GameObject _player = GameObject.Find("PlayerController");
-        if (_root == null)
-        {
-            _root = new GameObject { name = "@Respawn" };
-            Object.DontDestroyOnLoad(_root);
+        //GameObject _player = GameObject.FindWithTag("PLAYER");
 
-            //_pController = _player.GetComponent<PlayerController>();
-            //_pStats = _player.GetComponent<PlayerStats>();
+        //_pController = _player.GetComponent<Police>();
+        //_pStats = _player.GetComponent<PlayerStats>();
 
-            RespawnTime = 6.0f;
-        }
+        StartCoroutine("GetPlayer");
+        RespawnTime = 6.0f;
     }
 
     //update
-    public void Update_Init()
+    public void Update()
     {
         if (_pController.enabled == false)
         {
             SetRespawn = Time.deltaTime;
         }
+    }
+
+    IEnumerator GetPlayer()
+	{
+        yield return new WaitForSeconds(2.5f);
+        GameObject player = GameObject.FindWithTag("PLAYER");
+        _pController = player.GetComponent<Police>();
+        _pStats = player.GetComponent<PlayerStats>();
     }
 
     public void Clear()

@@ -1055,7 +1055,6 @@ MonoBehaviour:
   healthBarHit: {fileID: 8624526780777805681}
   healthBarBasic: {fileID: 6160133027070085260}
   isHealHitEffect: 1
-  Stats: {fileID: 0}
   stats: {fileID: 0}
 --- !u!1 &5073372946023377133
 GameObject:
@@ -3104,6 +3103,9 @@ GameObject:
   - component: {fileID: 6699652266110847466}
   - component: {fileID: 6699652264501949092}
   - component: {fileID: 6699652264501949093}
+  - component: {fileID: 3643027509083942842}
+  - component: {fileID: 1141389259461158246}
+  - component: {fileID: 2699633906330663039}
   m_Layer: 6
   m_Name: PlayerController
   m_TagString: PLAYER
@@ -3189,6 +3191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _basicAttackPower: 0
   _attackSpeed: 0
+  _attackDelay: 0
   _attackRange: 0
   _maxHealth: 0
   _nowHealth: 0
@@ -3200,6 +3203,10 @@ MonoBehaviour:
   _level: 0
   _experience: 0
   _speed: 0
+  _layerArea:
+    serializedVersion: 2
+    m_Bits: 0
+  _enemyArea: 0
 --- !u!114 &6699652264501949093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3212,21 +3219,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e06b0c894ab834cb3c196d85cd39ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction:
-    m_Name: Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 1679225a-b467-444b-ba4b-203e17c022ad
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  IsKey: 0
-  _inHand: []
-  _baseDeck: []
   _attackRange: []
-  muzzle: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf, type: 3}
-  barrelLocation: {fileID: 7394114302477474450}
+--- !u!114 &3643027509083942842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6699652264501699410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsWalk
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsIdle
+  - Type: 9
+    SynchronizeType: 0
+    Name: Die
+  - Type: 9
+    SynchronizeType: 0
+    Name: Idle
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsThrow1
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsFire
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsThrow2
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
+--- !u!136 &1141389259461158246
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6699652264501699410}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &2699633906330663039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6699652264501699410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 3643027509083942842}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6699652264501702308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3537,10 +3608,5 @@ PrefabInstance:
 --- !u!4 &7387009882017797480 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4213711620244162979, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
-  m_PrefabInstance: {fileID: 6699652265427229899}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7394114302477474450 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4207727600251979353, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
   m_PrefabInstance: {fileID: 6699652265427229899}
   m_PrefabAsset: {fileID: 0}

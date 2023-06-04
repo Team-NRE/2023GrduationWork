@@ -3410,6 +3410,8 @@ MonoBehaviour:
   _action: 0
   _targetEnemyTransform: {fileID: 0}
   line: 0
+  grid: {fileID: 0}
+  tilemap: {fileID: 0}
   area: 0
 --- !u!114 &3657593313760486446
 MonoBehaviour:
@@ -3430,6 +3432,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 2575670038818400176}
   - {fileID: -6413433856017555815}
   sceneViewId: 0
   InstantiationId: 0

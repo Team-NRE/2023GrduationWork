@@ -26,6 +26,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Connected to the server!");
 		//base.OnConnectedToMaster();
+		PhotonNetwork.JoinLobby();
 	}
 
 	public override void OnJoinedLobby()
