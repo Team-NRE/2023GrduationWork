@@ -19,13 +19,23 @@ public class Nexus : ObjectController
     public override void Death()
     {
         base.Death();
-        PhotonNetwork.Destroy(this.gameObject);
         //gameObject.SetActive(false);
+        gameFinish();
     }
 
     protected override void UpdateObjectAction()
     {
         if (_oStats.nowHealth <= 0) _action = ObjectAction.Death;
         else _action = ObjectAction.Idle;
+    }
+
+    public void disablePlay()
+    {
+
+    }
+
+    public void gameFinish()
+    {
+
     }
 }
