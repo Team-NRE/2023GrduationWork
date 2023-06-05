@@ -65,10 +65,10 @@ namespace Define
 
     public enum MouseEvent
     {
+        PointerUp,
         Press,
         PointerDown,
-        PointerUp,
-        Click,
+        LeftButton,
     }
 
     public enum KeyboardEvent
@@ -96,14 +96,25 @@ namespace Define
         Projective,
     }
 
+    public enum PlayerAttackType
+    {
+        Undefine,
+        ShortRange,
+        LongRange,
+    }
+
+    public enum TargetActive
+    {
+        Undefine,
+        Target,
+        NonTarget,
+    }
+    
     public enum Projectile
     {
         Undefine,
-        Proj_Target_Attack,
-        Proj_Target_Skill,
-        Proj_NonTarget_Skill,
-        NonProj_Target_Skill,
-        NonProj_NonTarget_Skill,
+        Attack_Proj,
+        Skill_Proj,
     }
 
     public enum ObjectAction
