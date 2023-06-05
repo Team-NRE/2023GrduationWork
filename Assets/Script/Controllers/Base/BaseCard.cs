@@ -61,15 +61,23 @@ public static class BaseCard
 	//초기 4장 선정
 	//1. 선정된 카드를 리스트에서 지운다
 	//2. 초기 4장을 인스턴스 한다. 한번 사용하고 그 뒤로는 사용되지 않는다.
-	public static int StartDeck()
+	public static string StartDeck()
 	{
 		int rand = UnityEngine.Random.Range(0, _initDeck.Count - 1);
-
+		Debug.Log($"{rand} : {_initDeck[rand]}");
 		//Managers.Resource.Instantiate()
+		//Debug.Log($"{_initDeck.Count}");
+		for(int i = 0; i < _initDeck.Count; i++)
+		{
+			//Debug.Log($"덱 {i} 카드 이름 : {_initDeck[i]}");
+		}
+
+		string ChoiseCard = _initDeck[rand];
 		_initDeck.RemoveAt(rand);
 
-		Debug.Log("남은 카드 덱 : " + _initDeck.Count + ", 초기호출 인덱스 : " + rand);
-		return rand;
+
+		//Debug.Log("남은 카드 덱 : " + _initDeck.Count + ", 초기호출 인덱스 : " + rand);
+		return ChoiseCard;
 	}
 
 	//다쓰면 다시 채운다, 비었는지 여부는 UI 이벤트 단에서 바꾼다.

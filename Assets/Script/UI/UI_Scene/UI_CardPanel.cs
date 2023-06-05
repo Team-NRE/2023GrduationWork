@@ -19,6 +19,8 @@ public class UI_CardPanel : UI_Card
     GameObject E_Card;
     GameObject R_Card;
 
+    string RangeType;
+
     public enum CardObjects
     {
         Panel,
@@ -32,8 +34,12 @@ public class UI_CardPanel : UI_Card
         R,
     }
 
+    private void Start() 
+    {
+        init();
+    }
 
-    public override void Init()
+    public void init()
     {
         //키 액션 delegate
         Managers.Input.MouseAction -= MouseDownAction;
@@ -63,34 +69,6 @@ public class UI_CardPanel : UI_Card
     {
         if (_evt == Define.MouseEvent.LeftButton)
         {
-            /*
-            switch ()
-            {
-                case "Q":
-                    Debug.Log("Q 사용");
-                    UI_UseQ();
-
-                    break;
-
-                case "W":
-                    Debug.Log("W 사용");
-                    UI_UseW();
-
-                    break;
-
-                case "E":
-                    Debug.Log("E 사용");
-                    UI_UseE();
-
-                    break;
-
-                case "R":
-                    Debug.Log("R 사용");
-                    UI_UseR();
-                    
-                    break;
-
-            }*/
 
         }
     }
@@ -98,42 +76,54 @@ public class UI_CardPanel : UI_Card
     public void KeyDownAction(Define.KeyboardEvent _key)
     {
         switch (_key)
-            {
-                case Define.KeyboardEvent.Q:
-                    Debug.Log("Q 사용");
+        {
+            case Define.KeyboardEvent.Q:
+                Debug.Log("Q 사용");
+                if (Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                {
                     UI_UseQ();
+                }
 
-                    break;
+                break;
 
-                case Define.KeyboardEvent.W:
-                    Debug.Log("W 사용");
+            case Define.KeyboardEvent.W:
+                Debug.Log("W 사용");
+                if (W_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                {
                     UI_UseW();
+                }
 
-                    break;
+                break;
 
-                case Define.KeyboardEvent.E:
-                    Debug.Log("E 사용");
+            case Define.KeyboardEvent.E:
+                Debug.Log("E 사용");
+                if (E_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                {
                     UI_UseE();
+                }
 
-                    break;
+                break;
 
-                case Define.KeyboardEvent.R:
-                    Debug.Log("R 사용");
+            case Define.KeyboardEvent.R:
+                Debug.Log("R 사용");
+                if (R_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                {
                     UI_UseR();
-                    
-                    break;
+                }
 
-            }
+                break;
+
+        }
     }
 
 
     public void DeckStart()
     {
         //여기서 이제 UI를 자식객체로 넣어준다.
-        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", Q_Btn.transform);
-        W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", W_Btn.transform);
-        E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", E_Btn.transform);
-        R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", R_Btn.transform);
+        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", Q_Btn.transform);
+        W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", W_Btn.transform);
+        E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
+        R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", R_Btn.transform);
     }
 
 
@@ -157,6 +147,7 @@ public class UI_CardPanel : UI_Card
         //}
         BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
     }
+
 
     //1번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseW(PointerEventData data = null)
