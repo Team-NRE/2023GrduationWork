@@ -32,28 +32,15 @@ public class UI_CardPanel : UI_Card
         R,
     }
 
-    private void Update()
-    {
-        KeyAction();
-    }
-
-    private void KeyAction()
-    {
-        /*if (Q_Card != null || W_Card != null || E_Card != null || R_Card != null)
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-                UI_UseQ();
-            if (Input.GetKeyDown(KeyCode.W))
-                UI_UseW();
-            if (Input.GetKeyDown(KeyCode.E))
-                UI_UseE();
-            if (Input.GetKeyDown(KeyCode.R))
-                UI_UseR();
-        }*/
-    }
 
     public override void Init()
     {
+        //키 액션 delegate
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
 
@@ -72,6 +59,74 @@ public class UI_CardPanel : UI_Card
         BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
     }
 
+    public void MouseDownAction(Define.MouseEvent _evt)
+    {
+        if (_evt == Define.MouseEvent.LeftButton)
+        {
+            /*
+            switch ()
+            {
+                case "Q":
+                    Debug.Log("Q 사용");
+                    UI_UseQ();
+
+                    break;
+
+                case "W":
+                    Debug.Log("W 사용");
+                    UI_UseW();
+
+                    break;
+
+                case "E":
+                    Debug.Log("E 사용");
+                    UI_UseE();
+
+                    break;
+
+                case "R":
+                    Debug.Log("R 사용");
+                    UI_UseR();
+                    
+                    break;
+
+            }*/
+
+        }
+    }
+
+    public void KeyDownAction(Define.KeyboardEvent _key)
+    {
+        switch (_key)
+            {
+                case Define.KeyboardEvent.Q:
+                    Debug.Log("Q 사용");
+                    UI_UseQ();
+
+                    break;
+
+                case Define.KeyboardEvent.W:
+                    Debug.Log("W 사용");
+                    UI_UseW();
+
+                    break;
+
+                case Define.KeyboardEvent.E:
+                    Debug.Log("E 사용");
+                    UI_UseE();
+
+                    break;
+
+                case Define.KeyboardEvent.R:
+                    Debug.Log("R 사용");
+                    UI_UseR();
+                    
+                    break;
+
+            }
+    }
+
+
     public void DeckStart()
     {
         //여기서 이제 UI를 자식객체로 넣어준다.
@@ -81,13 +136,14 @@ public class UI_CardPanel : UI_Card
         R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", R_Btn.transform);
     }
 
+
     //0번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseQ(PointerEventData data = null)
     {
-        Q_Btn.GetComponentInChildren<UI_Card>().InitCard();
+        //Q_Btn.GetComponentInChildren<UI_Card>().InitCard();
         int useId = BaseCard.UseCard(Q_Btn.transform.GetChild(0).name);
-        Q_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
-        Debug.Log(Q_Btn.transform.GetChild(0).name);
+        Q_Btn.GetComponentInChildren<UI_Card>().DestroyCard(0.5f);
+        //Debug.Log(Q_Btn.transform.GetChild(0).name);
         if (BaseCard._initDeck.Count <= 0)
         {
             Debug.Log("reload");
@@ -105,10 +161,10 @@ public class UI_CardPanel : UI_Card
     //1번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseW(PointerEventData data = null)
     {
-        W_Btn.GetComponentInChildren<UI_Card>().InitCard();
+        //W_Btn.GetComponentInChildren<UI_Card>().InitCard();
         int useId = BaseCard.UseCard(W_Btn.transform.GetChild(0).name);
-        W_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
-        Debug.Log(W_Btn.transform.GetChild(0).name);
+        W_Btn.GetComponentInChildren<UI_Card>().DestroyCard(0.5f);
+        //Debug.Log(W_Btn.transform.GetChild(0).name);
 
         if (BaseCard._initDeck.Count <= 0)
         {
@@ -127,15 +183,10 @@ public class UI_CardPanel : UI_Card
     //2번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseE(PointerEventData data = null)
     {
-        E_Btn.GetComponentInChildren<UI_Card>().InitCard();
+        //E_Btn.GetComponentInChildren<UI_Card>().InitCard();
         int useId = BaseCard.UseCard(E_Btn.transform.GetChild(0).name);
-        E_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
-        Debug.Log(E_Btn.transform.GetChild(0).name);
-        //if (useId != 0)
-        //{
-        Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", E_Btn.transform);
-        Debug.Log(useId);
-        //}
+        E_Btn.GetComponentInChildren<UI_Card>().DestroyCard(0.5f);
+        //Debug.Log(E_Btn.transform.GetChild(0).name);
 
         if (BaseCard._initDeck.Count <= 0)
         {
@@ -143,15 +194,20 @@ public class UI_CardPanel : UI_Card
             BaseCard.ReloadDeck();
         }
 
+        //if (useId != 0)
+        //{
+        Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", E_Btn.transform);
+        Debug.Log(useId);
+        //}
         BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
     }
 
     public void UI_UseR(PointerEventData data = null)
     {
-        R_Btn.GetComponentInChildren<UI_Card>().InitCard();
+        //R_Btn.GetComponentInChildren<UI_Card>().InitCard();
         int useId = BaseCard.UseCard(R_Btn.transform.GetChild(0).name);
-        R_Btn.GetComponentInChildren<UI_Card>().DestroyCard();
-        Debug.Log(R_Btn.transform.GetChild(0).name);
+        R_Btn.GetComponentInChildren<UI_Card>().DestroyCard(0.5f);
+        //Debug.Log(R_Btn.transform.GetChild(0).name);
 
         if (BaseCard._initDeck.Count <= 0)
         {

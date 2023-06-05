@@ -6,13 +6,17 @@ using UnityEngine;
 
 public class UI_Card : UI_Scene
 {
-    //public BaseCard _baseCard = new BaseCard();
+    //카드 비용
     public int _cost;
+    //카드 시전 시간
+    public float _CastingTime;
+    //이펙트 발동 시간
+    public float _effectTime; 
+
     public float _damage;
     public float _defence;
     public float _debuff;
     public float _buff;
-    public float _time;
 
     //스킬 범위 타입
     //Arrow = _rangeScale 고정 / Cone = _rangeScale, _rangeAngle / Line = _rangeScale 
@@ -25,7 +29,6 @@ public class UI_Card : UI_Scene
     //스킬 각도
     public float _rangeAngle;
 
-	public GameObject obj; 
     public override void Init()
     {
         Debug.Log("UI_Card Init");
@@ -42,7 +45,7 @@ public class UI_Card : UI_Scene
         
     }
 
-    public virtual void DestroyCard()
+    public virtual void DestroyCard(float delay)
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }

@@ -42,6 +42,7 @@ namespace Stat
         public LayerMask _layerArea; //진영 레이어
         private int _playerArea; //내 진영
         public int _enemyArea; //상대방 진영
+        
         #endregion
 
 
@@ -145,6 +146,9 @@ namespace Stat
             }
         }
 
+        public Define.PlayerAttackType AttackType { get; set; } = Define.PlayerAttackType.Undefine;
+
+
         private NavMeshAgent agent;
 
         private void Awake()
@@ -178,6 +182,9 @@ namespace Stat
             //진영 선택 창에서 진영 정보를 불러와 area에 저장
             //area = 진영정보 불러오기 -> 일단 Inspector에서 선택.
             this.gameObject.layer = playerArea;
+
+            //평타 타입
+            AttackType = Define.PlayerAttackType.LongRange;
         }
 
         private void Update()
