@@ -2429,7 +2429,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackRange: []
-  Proj_Parent: {fileID: 0}
+  _PushKeyInfo: 
+  _IsRange: 0
 --- !u!114 &216673837364405853
 MonoBehaviour:
   m_ObjectHideFlags: 0
