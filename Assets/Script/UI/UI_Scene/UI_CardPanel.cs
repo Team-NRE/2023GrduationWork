@@ -69,10 +69,25 @@ public class UI_CardPanel : UI_Card
 
 		DeckStart();
 
-		BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
-		BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
-		BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
-		BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
+		if (Q_Card != null)
+			BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
+		else
+			Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", Q_Btn.transform);
+		
+		if (W_Card != null)
+			BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
+		else
+			W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", W_Btn.transform);
+		
+		if (E_Card != null)
+			BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
+		else
+			E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", E_Btn.transform);
+
+		if (R_Card != null)
+			BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
+		else
+			R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[BaseCard.StartDeck()]}", R_Btn.transform);
 	}
 
 	public void DeckStart()
@@ -162,12 +177,14 @@ public class UI_CardPanel : UI_Card
 			BaseCard.ReloadDeck();
 		}
 
-		//if (useId != 0)
-		//{
 		Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", R_Btn.transform);
 		Debug.Log(useId);
-		//}
 
 		BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
+	}
+
+	public void UI_Mana()
+	{
+
 	}
 }

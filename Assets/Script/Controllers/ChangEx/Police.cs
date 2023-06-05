@@ -82,7 +82,6 @@ public class Police : BaseController
         {
             case Define.MouseEvent.PointerDown:
                 MouseClickState(_MousePos.Item1, _MousePos.Item2);
-                
                 break;
 
             case Define.MouseEvent.Press:
@@ -124,7 +123,9 @@ public class Police : BaseController
             {
                 _MovingPos = hitPosition;
                 _lockTarget = hitObject;
-
+                //여기서 필요한 hitObject의 스탯도 반환한다. 미니언이랑 플레이어 위에 최상위를 만들어야함
+                //float hitHp = hitObject.GetComponent<PlayerStats>().nowHealth;
+                //hitHp -= this.gameObject.GetComponent<PlayerStats>().basicAttackPower;
                 if (_stopAttack == false) { State = Define.State.Attack; }
             }
         }
@@ -215,7 +216,6 @@ public class Police : BaseController
     [PunRPC]
     protected override void UpdateAttack()
     {
-        Debug.Log(_pv.IsMine);
         //적이 공격 범위 밖에 있을 때 Moving 전환
         if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats._attackRange)
         {
@@ -236,6 +236,7 @@ public class Police : BaseController
                 //Shoot
                 //Managers.Pool.Projectile_Pool("PoliceBullet", Proj_Parent.position, _lockTarget.transform,
                 //5.0f, _pStats._basicAttackPower);
+
 
                 //타겟을 향해 회전 및 멈추기
                 transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);

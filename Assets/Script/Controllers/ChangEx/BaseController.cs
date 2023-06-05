@@ -14,6 +14,7 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
+    protected GameObject _myPlayer;
 
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
@@ -86,9 +87,10 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 
 
     private void Start() 
-    { 
+    {
+        //여러개의 플레이어 중 본인 것을 찾아야한다.
+        GetMyCharacter();
         Init(); 
-
     }
 
     private void Update()
@@ -112,7 +114,8 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 
             case Define.State.Attack:
                 //UpdateAttack();
-                _pv.RPC("UpdateAttack", RpcTarget.All);
+                if(this.gameObject == _myPlayer)
+                    _pv.RPC("UpdateAttack", RpcTarget.All);
                 break;
 
             case Define.State.Skill:
@@ -148,6 +151,21 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
             receiveRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
+    protected GameObject GetMyCharacter()
+	{
+        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
+        foreach(GameObject p in p_Container)
+		{
+            _pv = p.GetComponent<PhotonView>();
+			if (_pv.IsMine)
+			{
+                _myPlayer = p;
+                break;
+			}
+		}
+        return _myPlayer;
+	}
 }
 
 

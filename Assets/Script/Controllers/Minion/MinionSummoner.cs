@@ -18,7 +18,7 @@ public class MinionSummoner : MonoBehaviourPun
     void Start()
     {
         //_pv = GetComponent<PhotonView>();
-        _summonPos = transform.Find("SummonPos");
+        _summonPos = this.transform.Find("SummonPos");
     }
 
     void Update()
@@ -27,7 +27,7 @@ public class MinionSummoner : MonoBehaviourPun
 
         if (_nowSummonTime <= 0)
         {
-            //StartCoroutine(SummonLine());
+            StartCoroutine(SummonLine());
             _nowSummonTime = _summonCycle;
         }
     }
