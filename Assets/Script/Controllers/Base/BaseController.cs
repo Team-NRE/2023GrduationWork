@@ -4,10 +4,11 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
-
+using Photon.Pun;
+using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviour
+public abstract class BaseController : MonoBehaviourPunCallbacks//, IPunObservable
 {
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근

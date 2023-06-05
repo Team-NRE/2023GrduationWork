@@ -5,7 +5,6 @@ using Werewolf.StatusIndicators.Components;
 using UnityEngine.AI;
 using Stat;
 
-
 public class Police : BaseController
 {
     //플레이어 스텟 초기화
@@ -545,8 +544,8 @@ public class Police : BaseController
                     //원거리
                     case Define.PlayerAttackType.LongRange:
                         //Shoot
-                        Managers.Pool.Projectile_Pool("PoliceBullet", _Proj_Parent.position, _lockTarget.transform,
-                        5.0f, _pStats._basicAttackPower);
+                        //Managers.Pool.Projectile_Pool("PoliceBullet", _Proj_Parent.position, _lockTarget.transform,
+                        //5.0f, _pStats._basicAttackPower);
 
                         Debug.Log("Shoot");
 
