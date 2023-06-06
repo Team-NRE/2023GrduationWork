@@ -75,7 +75,7 @@ public class Minion : ObjectController, IPunObservable
     {
         base.Death();
         _allObjectTransforms.Remove(this.transform);
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
         PhotonNetwork.Destroy(this.gameObject);
     }
     public override void Move()

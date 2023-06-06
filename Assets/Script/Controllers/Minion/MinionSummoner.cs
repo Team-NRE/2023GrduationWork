@@ -18,7 +18,7 @@ public class MinionSummoner : MonoBehaviourPun
     void Start()
     {
         //_pv = GetComponent<PhotonView>();
-        _summonPos = this.transform.Find("SummonPos");
+        _summonPos = transform.Find("SummonPos");
     }
 
     void Update()

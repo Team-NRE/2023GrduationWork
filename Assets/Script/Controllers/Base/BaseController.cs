@@ -14,6 +14,9 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
+    private GameObject _player;
+
+    public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
@@ -87,38 +90,42 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
+        _pv = GetComponent<PhotonView>();
         Init();
-
     }
 
     private void Update()
     {
-        Debug.Log(State);
-        if (_stopAttack == true) { StopAttack(); }
-        switch (State)
-        {
-            case Define.State.Idle:
-                UpdateIdle();
-                break;
+        //Debug.Log(State);
+        //if (_stopAttack == true) { StopAttack(); }
+        //switch (State)
+        //{
+        //    case Define.State.Idle:
+        //        UpdateIdle();
+        //        break;
 
-            case Define.State.Die:
-                UpdateDie();
-                break;
+        //    case Define.State.Die:
+        //        UpdateDie();
+        //        break;
 
-            //키, 마우스 이벤트 받으면 state가 변환
-            case Define.State.Moving:
-                UpdateMoving();
-                break;
+        //    //키, 마우스 이벤트 받으면 state가 변환
+        //    case Define.State.Moving:
+        //        UpdateMoving();
+        //        break;
 
-            case Define.State.Attack:
-                UpdateAttack();
+        //    case Define.State.Attack:
+        //        //UpdateAttack();
+        //        if (_pv.IsMine)
+        //        {
+        //            _pv.RPC("UpdateAttack", RpcTarget.Others);
+        //            UpdateAttack();
+        //        }
+        //        break;
 
-                break;
-
-            case Define.State.Skill:
-                UpdateSkill();
-                break;
-        }
+        //    case Define.State.Skill:
+        //        UpdateSkill();
+        //        break;
+        //}
     }
 
 
@@ -147,6 +154,23 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
             receivePos = (Vector3)stream.ReceiveNext();
             receiveRot = (Quaternion)stream.ReceiveNext();
         }
+    }
+
+    protected GameObject GetPlayer()
+    {
+        //yield return new WaitForSeconds(2.5f);
+        //Debug.Log("GetPlayer");
+        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
+        foreach (GameObject p in p_Container)
+        {
+            _pv = p.GetComponent<PhotonView>();
+            if (_pv.IsMine)
+            {
+                _player = p;
+                break;
+            }
+        }
+        return _player;
     }
 }
 

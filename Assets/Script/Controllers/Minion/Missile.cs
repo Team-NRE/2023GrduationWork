@@ -16,7 +16,7 @@ public class Missile : MonoBehaviour
     float distance = 5.0f;
 
     [SerializeField]
-    ParticleSystem explosionParticle;
+    GameObject explosionParticle;
 
     public void SummonMissile(List<Transform> objList, Vector3 pos, float dam, float dis = 5.0f)
     {
@@ -25,13 +25,12 @@ public class Missile : MonoBehaviour
         damage = dam;
         distance = dis;
 
-        gameObject.SetActive(true);
+        this.gameObject.SetActive(true);
     }
 
     public void TakeDamage()
     {
-        explosionParticle.gameObject.SetActive(true);
-        explosionParticle.Play();
+        explosionParticle.SetActive(true);
 
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {

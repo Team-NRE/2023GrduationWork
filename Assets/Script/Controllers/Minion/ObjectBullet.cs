@@ -8,6 +8,7 @@ using Photon.Pun;
 
 public class ObjectBullet : MonoBehaviour
 {
+    PhotonView _pv;
     [SerializeField]
     Transform _Target;
     [SerializeField]
@@ -18,9 +19,15 @@ public class ObjectBullet : MonoBehaviour
     [SerializeField]
     float _damage;
 
-    public void Update()
+	private void Start()
+	{
+        _pv = GetComponent<PhotonView>();
+	}
+
+	public void Update()
     {
         FollowTarget();
+        //_pv.RPC("FollowTarget", RpcTarget.All);
         HitDetection();
     }
 
@@ -36,8 +43,8 @@ public class ObjectBullet : MonoBehaviour
     {
         if (_Target == null) 
         {
-            //Destroy(this.gameObject);
-            PhotonNetwork.Destroy(this.gameObject);
+            Destroy(this.gameObject);
+            //PhotonNetwork.Destroy(this.gameObject);
         }
 
         _TargetPos = _Target.position;
@@ -65,7 +72,7 @@ public class ObjectBullet : MonoBehaviour
             }
             
             Destroy(this.gameObject);
-            PhotonNetwork.Destroy(this.gameObject);
+            //PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
