@@ -8,6 +8,7 @@ public class GameScene : BaseScene
 	protected override void Init()
 	{
 		SceneType = Define.Scene.Game;
+		Managers.UI.ShowSceneUI<UI_Mana>();
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 	}
 	

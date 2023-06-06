@@ -22,14 +22,10 @@ public class Police : BaseController
 
     //현재 상태
     private string _NowState = null;
-    private string _NowKey = null;
-
-    //Range On/off
-    public string _PushKeyInfo = null;
-    public bool _IsRange = false;
 
     //타겟 유무
     private bool _IsTarget = false;
+    private bool _IsRange = false;
 
     //범위 넘버 저장
     private int _SaveRangeNum;
@@ -142,8 +138,9 @@ public class Police : BaseController
 
                         //타겟이 없을 때 (Arrow, Cone, Line, Point)
                         case false:
-                            //타겟 좌표 설정
+                            //Effect 좌표 설정
                             _MovingPos = _mousePos.Item1;
+                            BaseCard._lockTarget = _mousePos.Item2;
 
                             //스킬 상태로 전환
                             State = Define.State.Skill;
@@ -158,7 +155,7 @@ public class Police : BaseController
                 //Range Off일 때 아무일도 없음.
                 else
                 {
-                    Debug.Log("Range Off 입니다.");
+                    //Debug.Log("Range Off 입니다.");
                     return;
                 }
 
@@ -208,7 +205,7 @@ public class Police : BaseController
             //좌표 설정
             _MovingPos = mousePos;
             //타겟 오브젝트 설정
-            _lockTarget = lockTarget;
+            BaseCard._lockTarget = lockTarget;
 
             //Attack or Skill
             switch (_proj)
@@ -232,30 +229,29 @@ public class Police : BaseController
     //Key event
     private void KeyDownAction(Define.KeyboardEvent _key)
     {
+        //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기 
+        BaseCard._lockTarget = null;
+
         //키보드 입력 시
         switch (_key)
         {
             case Define.KeyboardEvent.Q:
-                _PushKeyInfo = "Q";
-                KeyPushState(_PushKeyInfo);
+                KeyPushState("Q");
 
                 break;
 
             case Define.KeyboardEvent.W:
-                _PushKeyInfo = "W";
-                KeyPushState(_PushKeyInfo);
+                KeyPushState("W");
 
                 break;
 
             case Define.KeyboardEvent.E:
-                _PushKeyInfo = "E";
-                KeyPushState(_PushKeyInfo);
+                KeyPushState("E");
 
                 break;
 
             case Define.KeyboardEvent.R:
-                _PushKeyInfo = "R";
-                KeyPushState(_PushKeyInfo);
+                KeyPushState("R");
 
                 break;
 
@@ -273,13 +269,13 @@ public class Police : BaseController
     {
         //스킬 사거리 표시 On/Off 관리
         //이전 키와 같은 키를 눌렀을 경우 
-        if (Keyname != "MouseRightButton" && Keyname == _NowKey)
+        if (Keyname != "MouseRightButton" && Keyname == BaseCard._NowKey)
         {
             //사거리 On/Off 관리
             _IsRange = (_IsRange == true ? false : true);
         }
         //이전 키와 다른 키를 눌렀을 때
-        if (Keyname != _NowKey)
+        if (Keyname != BaseCard._NowKey)
         {
             //사거리 On/Off 관리
             switch (_IsRange)
@@ -322,7 +318,7 @@ public class Police : BaseController
                         //사거리가 On일 때
                         if (_IsRange == true)
                         {
-                            _NowKey = Keyname;
+                            BaseCard._NowKey = Keyname;
 
                             //스킬 타입
                             _proj = Define.Projectile.Skill_Proj;
@@ -346,7 +342,7 @@ public class Police : BaseController
                         //사거리가 On일 때
                         if (_IsRange == true)
                         {
-                            _NowKey = Keyname;
+                            BaseCard._NowKey = Keyname;
 
                             //스킬 타입
                             _proj = Define.Projectile.Skill_Proj;
@@ -373,7 +369,7 @@ public class Police : BaseController
                         //사거리 On 일 때
                         if (_IsRange == true)
                         {
-                            _NowKey = Keyname;
+                            BaseCard._NowKey = Keyname;
 
                             //스킬 타입
                             _proj = Define.Projectile.Skill_Proj;
@@ -398,7 +394,7 @@ public class Police : BaseController
                         //사거리 On일 때
                         if (_IsRange == true)
                         {
-                            _NowKey = Keyname;
+                            BaseCard._NowKey = Keyname;
 
                             //스킬 타입
                             _proj = Define.Projectile.Skill_Proj;
@@ -425,7 +421,7 @@ public class Police : BaseController
                         //사거리 On일 때
                         if (_IsRange == true)
                         {
-                            _NowKey = Keyname;
+                            BaseCard._NowKey = Keyname;
 
                             //타겟
                             _IsTarget = true;
@@ -467,7 +463,7 @@ public class Police : BaseController
                 //사거리 On일 때
                 if (_IsRange == true)
                 {
-                    _NowKey = Keyname;
+                    BaseCard._NowKey = Keyname;
 
                     //타겟
                     _IsTarget = true;
@@ -544,20 +540,22 @@ public class Police : BaseController
                 {
                     //원거리
                     case Define.PlayerAttackType.LongRange:
-                        //Shoot
-                        Managers.Pool.Projectile_Pool("PoliceBullet", _Proj_Parent.position, _lockTarget.transform,
-                        5.0f, _pStats._basicAttackPower);
+                        if (BaseCard._lockTarget != null)
+                        {
+                            //Shoot
+                            Managers.Pool.Projectile_Pool("PoliceBullet", _Proj_Parent.position, BaseCard._lockTarget.transform,
+                            5.0f, _pStats._basicAttackPower);
 
-                        Debug.Log("Shoot");
+                            //Debug.Log("Shoot");
+                        }
 
                         break;
 
                     //근거리
                     case Define.PlayerAttackType.ShortRange:
-                        Debug.Log("근접 공격");
+                        //Debug.Log("근접 공격");
 
                         break;
-
                 }
 
                 //타겟을 향해 회전 및 멈추기
@@ -593,6 +591,7 @@ public class Police : BaseController
         {
             if (_stopSkill == false)
             {
+
                 //Range Off
                 _IsRange = false;
                 if (_cardStats._rangeType != "None")
@@ -606,7 +605,8 @@ public class Police : BaseController
                     GameObject go = new GameObject("Particle");
                     go.transform.position = _MovingPos;
                     _cardStats.cardEffect(go.transform);
-                    _cardStats.InitCard();
+                    //_cardStats.InitCard();
+
                     Destroy(go, 2.0f);
 
                     //타겟을 향해 회전 및 멈추기
@@ -633,21 +633,34 @@ public class Police : BaseController
 
     protected override void StopAttack()
     {
+        //초기 세팅
         if (_SaveAttackSpeed == default)
         {
+            //attack Delay start
             _SaveAttackSpeed = 0.01f;
+
+            //현재 상태 초기화
             _NowState = null;
+            //마우스 좌표, 타겟 초기화
+            _MovingPos = default;
+            BaseCard._lockTarget = null;
         }
 
+        //attack Delay start
         if (_SaveAttackSpeed != default)
         {
+            //attack Delay start
             _SaveAttackSpeed += Time.deltaTime;
 
+            //플레이어 평타 딜레이 시간 지나면,
             if (_SaveAttackSpeed >= _pStats._attackDelay)
             {
-                Debug.Log("Attack Ready");
-                _stopAttack = false;
+                //attackDelay 초기화
                 _SaveAttackSpeed = default;
+                //StopAttack() update문 stop
+                _stopAttack = false;
+
+                //Debug.Log("Attack Ready");
             }
         }
     }
@@ -655,29 +668,41 @@ public class Police : BaseController
 
     protected override void StopSkill()
     {
+        //초기 세팅
         if (_SaveSkillCool == default)
         {
+            //스킬 시전 시간 벌어주는 Delay Start
             _SaveSkillCool = 0.01f;
-            _lockTarget = null;
-            _MovingPos = default;
-            _NowState = null;
 
+            //스킬 시전 시간동안 키 입력 X
             Managers.Input.MouseAction = null;
             Managers.Input.KeyAction = null;
         }
 
+        //스킬 시전 시간 벌어주는 Delay Start
         if (_SaveSkillCool != default)
         {
+            //스킬 시전 시간 벌어주는 Delay Start
             _SaveSkillCool += Time.deltaTime;
 
-            //스킬 시전 시간동안 키 입력 X
+            //지정해준 Delay 가 지나면,
             if (_SaveSkillCool >= _cardStats._CastingTime)
             {
-                Debug.Log("스킬 시전 완료");
-                _stopSkill = false;
+                //Skill Delay 초기화
                 _SaveSkillCool = default;
+                //StopSkill() Update문에서 Stop
+                _stopSkill = false;
+
+                //마우스 좌표 초기화
+                _MovingPos = default;
+                //현재 상태 초기화
+                _NowState = null;
+
+                //키 입력 재 시작
                 Managers.Input.MouseAction += MouseDownAction;
                 Managers.Input.KeyAction += KeyDownAction;
+
+                //Debug.Log("스킬 시전 완료");
             }
         }
     }

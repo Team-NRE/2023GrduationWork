@@ -98,6 +98,7 @@ namespace Stat
                 if (_nowMana <= 0) { _nowMana = 0; }
             }
         }
+        
         public float manaRegenerationTime
         {
             get { return _manaRegenerationTime; }
