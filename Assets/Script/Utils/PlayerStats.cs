@@ -23,10 +23,11 @@ namespace Stat
         public float _defensePower; //방어력
 
 
-        [Header("-- 마나 --")]
-        public float _nowMana; //현재 마나
-        public float _manaRegenerationTime; //마나 회복 속도
-        public float _maxMana; //최대 마나
+        [Header("-- 카드 --")]
+        public float _cardCoolTime; //카드 쿨타임
+        //public float _nowMana; //현재 마나
+        //public float _manaRegenerationTime; //마나 회복 속도
+        //public float _maxMana; //최대 마나
 
 
         [Header("-- 레벨 --")]
@@ -41,6 +42,7 @@ namespace Stat
         public LayerMask _layerArea; //진영 레이어
         private int _playerArea; //내 진영
         public int _enemyArea; //상대방 진영
+
         #endregion
 
 
@@ -60,6 +62,7 @@ namespace Stat
 
 
         //방어
+        public float cardCoolTime { get { return _cardCoolTime; } set { _cardCoolTime = value; } }
         public float maxHealth
         {
             get { return _maxHealth; }
@@ -82,30 +85,8 @@ namespace Stat
         public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
 
-
-        //마나
-        public float maxMana { get { return _maxMana; } set { _maxMana = value; } }
-        public float nowMana
-        {
-            get { return _nowMana; }
-            set
-            {
-                _nowMana += value;
-                if (_nowMana >= _maxMana * _manaRegenerationTime) { _nowMana = _maxMana * _manaRegenerationTime; }
-                if (_nowMana <= 0) { _nowMana = 0; }
-            }
-        }
-        public float manaRegenerationTime
-        {
-            get { return _manaRegenerationTime; }
-            set
-            {
-                _manaRegenerationTime = value;
-            }
-        }
-
-
         //레벨
+        
         public int level { get { return _level; } set { _level = value; } }
         public float experience { get { return _experience; } set { _experience = value; } }
 
@@ -143,6 +124,9 @@ namespace Stat
             }
         }
 
+        public Define.PlayerAttackType AttackType { get; set; } = Define.PlayerAttackType.Undefine;
+
+
         private NavMeshAgent agent;
 
         private void Awake()
@@ -159,11 +143,8 @@ namespace Stat
             attackRange = 6.0f;
 
             //방어
+            cardCoolTime = 3.0f;
             maxHealth = 300.0f;
-
-            //마나
-            maxMana = 3.0f;
-            manaRegenerationTime = 4.0f;
 
             //레벨
             level = 7;
@@ -175,11 +156,9 @@ namespace Stat
             //진영 선택 창에서 진영 정보를 불러와 area에 저장
             //area = 진영정보 불러오기 -> 일단 Inspector에서 선택.
             this.gameObject.layer = playerArea;
-        }
 
-        private void Update()
-        {
-            nowMana = Time.deltaTime;
+            //평타 타입
+            AttackType = Define.PlayerAttackType.LongRange;
         }
     }
 }

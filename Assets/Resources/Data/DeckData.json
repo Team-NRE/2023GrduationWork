@@ -2,15 +2,7 @@
     "decks": [
       {
         "id" : "0",
-        "cards" : ["Shield", "Sword", "Example3", "Example4", "Example5", "Example6", "Example7", "Example8"]
-      },
-      {
-        "id" : "1",
-        "cards" : ["Shield", "Sword", "Example3", "Example4", "Example5", "Example6", "Example7", "Example8"]
-      },
-      {
-        "id" : "2",
-        "cards" : ["Shield", "Sword", "Example3", "Example4", "Example5", "Example6", "Example7", "Example8"]
+        "cards" : ["Card_Shield", "Card_Lava", "Card_Purify", "Card_Spear", "Card_InvincibleShield", "Card_Cannon", "Card_InvincibleWeapon", "Card_HackingGrenade"]
       }
     ]
   } 

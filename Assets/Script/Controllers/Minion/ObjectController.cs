@@ -68,7 +68,12 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
 
     public void Update()
     {
+<<<<<<< HEAD
         UpdateInRangeEnemyObjectTransform_OverlapSphere();
+=======
+        //_pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
+        //UpdateInRangeEnemyObjectTransform();
+>>>>>>> changjo
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
