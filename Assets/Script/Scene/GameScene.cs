@@ -10,6 +10,7 @@ public class GameScene : BaseScene
 		SceneType = Define.Scene.Game;
 		Managers.UI.ShowSceneUI<UI_Mana>();
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
+		Managers.UI.ShowSceneUI<UI_Popup>();
 	}
 	
 	void LoadObjects()

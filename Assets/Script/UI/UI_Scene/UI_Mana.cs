@@ -13,6 +13,7 @@ public class UI_Mana : UI_Scene
     Image Mana2_Img;
     Image Mana3_Img;
 
+
     public float manaRegeneration;
 
     public enum Manas
@@ -23,19 +24,34 @@ public class UI_Mana : UI_Scene
     }
 
     public override void Init()
-	{
+    {
         Bind<GameObject>(typeof(Manas));
-		Mana1 = Get<GameObject>((int)Manas.Mana1);
+        Mana1 = Get<GameObject>((int)Manas.Mana1);
         Mana2 = Get<GameObject>((int)Manas.Mana2);
         Mana3 = Get<GameObject>((int)Manas.Mana3);
 
         Mana1_Img = Mana1.GetComponentInChildren<Image>();
         Mana2_Img = Mana2.GetComponentInChildren<Image>();
         Mana3_Img = Mana3.GetComponentInChildren<Image>();
-	}
-
-    public void Update() 
-    {
-        
     }
+
+    public void Update()
+    {
+        ManaSystem();
+    }
+
+    public void ManaSystem()
+    {
+        BaseCard.nowMana = Time.deltaTime;
+
+        Mana1_Img.fillAmount = Mathf.Lerp(Mana1_Img.fillAmount,
+            BaseCard.nowMana / BaseCard._manaRegen, BaseCard.nowMana);
+
+        Mana2_Img.fillAmount = Mathf.Lerp(Mana2_Img.fillAmount,
+            ((BaseCard.nowMana) / BaseCard._manaRegen) - 1, BaseCard.nowMana);
+
+        Mana3_Img.fillAmount = Mathf.Lerp(Mana3_Img.fillAmount,
+            ((BaseCard.nowMana) / BaseCard._manaRegen) - 2, BaseCard.nowMana);
+    }
+
 }

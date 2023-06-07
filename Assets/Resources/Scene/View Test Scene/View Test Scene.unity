@@ -2978,9 +2978,6 @@ MonoBehaviour:
   _healthRegeneration: 0
   _defensePower: 0
   _cardCoolTime: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
   _level: 0
   _experience: 0
   _speed: 0

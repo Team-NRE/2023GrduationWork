@@ -25,9 +25,9 @@ namespace Stat
 
         [Header("-- 카드 --")]
         public float _cardCoolTime; //카드 쿨타임
-        public float _nowMana; //현재 마나
-        public float _manaRegenerationTime; //마나 회복 속도
-        public float _maxMana; //최대 마나
+        //public float _nowMana; //현재 마나
+        //public float _manaRegenerationTime; //마나 회복 속도
+        //public float _maxMana; //최대 마나
 
 
         [Header("-- 레벨 --")]
@@ -42,7 +42,7 @@ namespace Stat
         public LayerMask _layerArea; //진영 레이어
         private int _playerArea; //내 진영
         public int _enemyArea; //상대방 진영
-        
+
         #endregion
 
 
@@ -85,31 +85,8 @@ namespace Stat
         public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
 
-
-        //마나
-        public float maxMana { get { return _maxMana; } set { _maxMana = value; } }
-        public float nowMana
-        {
-            get { return _nowMana; }
-            set
-            {
-                _nowMana += value;
-                if (_nowMana >= _maxMana * _manaRegenerationTime) { _nowMana = _maxMana * _manaRegenerationTime; }
-                if (_nowMana <= 0) { _nowMana = 0; }
-            }
-        }
-        
-        public float manaRegenerationTime
-        {
-            get { return _manaRegenerationTime; }
-            set
-            {
-                _manaRegenerationTime = value;
-            }
-        }
-
-
         //레벨
+        
         public int level { get { return _level; } set { _level = value; } }
         public float experience { get { return _experience; } set { _experience = value; } }
 
@@ -169,10 +146,6 @@ namespace Stat
             cardCoolTime = 3.0f;
             maxHealth = 300.0f;
 
-            //마나
-            maxMana = 3.0f;
-            manaRegenerationTime = 4.0f;
-
             //레벨
             level = 7;
 
@@ -186,11 +159,6 @@ namespace Stat
 
             //평타 타입
             AttackType = Define.PlayerAttackType.LongRange;
-        }
-
-        private void Update()
-        {
-            nowMana = Time.deltaTime;
         }
     }
 }

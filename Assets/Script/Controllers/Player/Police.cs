@@ -236,22 +236,38 @@ public class Police : BaseController
         switch (_key)
         {
             case Define.KeyboardEvent.Q:
-                KeyPushState("Q");
+                string Q_key = "Q";
+                if (BaseCard.UseMana(Q_key).Item1 == true)
+                {
+                    KeyPushState(Q_key);
+                }
 
                 break;
 
             case Define.KeyboardEvent.W:
-                KeyPushState("W");
+                string W_key = "W";
+                if (BaseCard.UseMana(W_key).Item1 == true)
+                {
+                    KeyPushState(W_key);
+                }
 
                 break;
 
             case Define.KeyboardEvent.E:
-                KeyPushState("E");
+                string E_key = "E";
+                if (BaseCard.UseMana(E_key).Item1 == true)
+                {
+                    KeyPushState(E_key);
+                }
 
                 break;
 
             case Define.KeyboardEvent.R:
-                KeyPushState("R");
+                string R_key = "R";
+                if (BaseCard.UseMana(R_key).Item1 == true)
+                {
+                    KeyPushState(R_key);
+                }
 
                 break;
 
@@ -507,6 +523,8 @@ public class Police : BaseController
         //Skill
         if (_NowState == "Skill" && _agent.remainingDistance <= _cardStats._rangeScale)
         {
+            Managers.Input.MouseAction = null;
+            Managers.Input.KeyAction = null;
             State = Define.State.Skill;
         }
     }
@@ -591,7 +609,6 @@ public class Police : BaseController
         {
             if (_stopSkill == false)
             {
-
                 //Range Off
                 _IsRange = false;
                 if (_cardStats._rangeType != "None")
