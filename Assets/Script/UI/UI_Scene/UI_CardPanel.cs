@@ -9,19 +9,10 @@ using UnityEngine.UI;
 
 public class UI_CardPanel : UI_Card
 {
-<<<<<<< HEAD
-	public Define.KeyboardEvent _keyEvent { get; protected set; }
-
-	GameObject Q_Btn;
-	GameObject W_Btn;
-	GameObject E_Btn;
-	GameObject R_Btn;
-=======
     GameObject Q_Btn;
     GameObject W_Btn;
     GameObject E_Btn;
     GameObject R_Btn;
->>>>>>> changjo
 
     GameObject Q_Card;
     GameObject W_Card;
@@ -34,47 +25,12 @@ public class UI_CardPanel : UI_Card
     UI_Card E_UI;
     UI_Card R_UI;
 
-<<<<<<< HEAD
-	private void Update()
-	{
-		KeyAction(_keyEvent);
-		//Debug.Log(_keyEvent);
-	}
-
-	private void KeyAction(Define.KeyboardEvent evt)
-	{
-		if (evt == Define.KeyboardEvent.Q)
-			UI_UseQ();
-		if (evt == Define.KeyboardEvent.W)
-			UI_UseW();
-		if (evt == Define.KeyboardEvent.E)
-			UI_UseE();
-		if (evt == Define.KeyboardEvent.R)
-			UI_UseR();
-	}
-
-	public override void Init()
-	{
-		Managers.Input.KeyAction -= KeyAction;
-		Managers.Input.KeyAction += KeyAction;
-
-		//나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
-		BaseCard.ExportDeck();
-		
-		//Find and Bind UI object
-		Bind<GameObject>(typeof(Cards));
-		Q_Btn = Get<GameObject>((int)Cards.Q);
-		W_Btn = Get<GameObject>((int)Cards.W);
-		E_Btn = Get<GameObject>((int)Cards.E);
-		R_Btn = Get<GameObject>((int)Cards.R);
-=======
 
     Image Q_cardimg;
     Image W_cardimg;
     Image E_cardimg;
     Image R_cardimg;
 
->>>>>>> changjo
 
     public enum CardObjects
     {
@@ -146,18 +102,10 @@ public class UI_CardPanel : UI_Card
                         UI_UseQ();
                         break;
 
-<<<<<<< HEAD
-		//if (useId != 0)
-		//{
-		Managers.Resource.Instantiate($"Cards/{BaseCard._initDeck[useId]}", R_Btn.transform);
-		Debug.Log(useId);
-		//}
-=======
                     case "W":
                         Debug.Log("W UI Change");
                         UI_UseW();
                         break;
->>>>>>> changjo
 
                     case "E":
                         Debug.Log("E UI Change");

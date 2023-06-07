@@ -4,7 +4,6 @@
 
 using UnityEngine;
 using Define;
-using Photon.Pun;
 
 public class Nexus : ObjectController
 {
@@ -12,7 +11,6 @@ public class Nexus : ObjectController
     public override void init() 
     {
         base.init();
-        _pv = GetComponent<PhotonView>();
         _type = ObjectType.Nexus;
     }
 

@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9090674261511650785}
   m_Layer: 7
-  m_Name: Summon Pos LowWay
+  m_Name: SummonPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,6 @@ GameObject:
   - component: {fileID: 558655730079049351}
   - component: {fileID: 8501376806196031989}
   - component: {fileID: 6566784834773782942}
-  - component: {fileID: 6227476922719384895}
   m_Layer: 7
   m_Name: CyborgNexus
   m_TagString: OBJECT
@@ -226,7 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70206e3d1b534348a89ef465fdd325a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pv: {fileID: 0}
   _action: 0
   _targetEnemyTransform: {fileID: 0}
 --- !u!114 &6566784834773782942
@@ -243,28 +241,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _summonCycle: 30
   _nowSummonTime: 5
---- !u!114 &6227476922719384895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9090674263234045534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1001 &170363739828052984
 PrefabInstance:
   m_ObjectHideFlags: 0

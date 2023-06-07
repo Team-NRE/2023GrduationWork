@@ -2687,8 +2687,6 @@ GameObject:
   - component: {fileID: -5123393768911319821}
   - component: {fileID: 7704988331899182705}
   - component: {fileID: 7115447419139147917}
-  - component: {fileID: -4683574957982412713}
-  - component: {fileID: -4702388140239540657}
   m_Layer: 6
   m_Name: HumanMeleeRobot
   m_TagString: OBJECT
@@ -2828,63 +2826,6 @@ MonoBehaviour:
   grid: {fileID: 0}
   tilemap: {fileID: 0}
   area: 0
---- !u!114 &-4683574957982412713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7704988331899182707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 7115447419139147917}
-  - {fileID: -4702388140239540657}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &-4702388140239540657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7704988331899182707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 0
-    Name: Attack
-  - Type: 4
-    SynchronizeType: 0
-    Name: Move
-  - Type: 4
-    SynchronizeType: 0
-    Name: Death
-  - Type: 1
-    SynchronizeType: 0
-    Name: attackSpeed
-  - Type: 1
-    SynchronizeType: 0
-    Name: moveSpeed
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!1 &7704988331928274245
 GameObject:
   m_ObjectHideFlags: 0

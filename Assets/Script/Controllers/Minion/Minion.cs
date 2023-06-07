@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 using Define;
 using Photon.Pun;
 
-public class Minion : ObjectController, IPunObservable
+public class Minion : ObjectController
 {
     protected float damping = 10.0f;
 
@@ -80,60 +80,43 @@ public class Minion : ObjectController, IPunObservable
     }
     public override void Move()
     {
-        if (_pv.IsMine)
+        base.Move();
+
+        Vector3 moveTarget = Vector3.zero;
+
+        if (_targetEnemyTransform != null /*&& area == ObjectPosArea.Road*/)
         {
-            base.Move();
-
-            Vector3 moveTarget = Vector3.zero;
-
-            if (_targetEnemyTransform != null /*&& area == ObjectPosArea.Road*/)
+            moveTarget = _targetEnemyTransform.position;
+        }
+        else
+        {
+            if (line == ObjectLine.UpperLine)
             {
-                moveTarget = _targetEnemyTransform.position;
+                moveTarget = milestoneUpper[lineIdx].position;
             }
-            else
+            else if (line == ObjectLine.LowerLine)
             {
-                if (line == ObjectLine.UpperLine)
-                {
-                    moveTarget = milestoneUpper[lineIdx].position;
-                }
-                else if (line == ObjectLine.LowerLine)
-                {
-                    moveTarget = milestoneLower[lineIdx].position;
-                }
-
-                if (gameObject.layer == LayerMask.NameToLayer("Human"))
-                {
-                    if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
-                        lineIdx++;
-                }
-                else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
-                {
-                    if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
-                        lineIdx--;
-                }
+                moveTarget = milestoneLower[lineIdx].position;
             }
 
-            transform.LookAt(new Vector3(
-                moveTarget.x,
-                transform.position.y,
-                moveTarget.z
-            ));
-            nav.SetDestination(moveTarget);
+            if (gameObject.layer == LayerMask.NameToLayer("Human"))
+            {
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
+                    lineIdx++;
+            }
+            else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
+            {
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
+                    lineIdx--;
+            }
         }
-		else
-		{
-            Debug.Log("else moving");
 
-            // 수신된 좌표로 보간한 이동처리
-            transform.position = Vector3.Lerp(transform.position,
-                                              receivePos,
-                                              Time.deltaTime * damping);
-
-            // 수신된 회전값으로 보간한 회전처리
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                                                  receiveRot,
-                                                  Time.deltaTime * damping);
-        }
+        transform.LookAt(new Vector3(
+            moveTarget.x,
+            transform.position.y,
+            moveTarget.z
+        ));
+        nav.SetDestination(moveTarget);
     }
 
     protected override void UpdateObjectAction()

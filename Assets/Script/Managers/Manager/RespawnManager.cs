@@ -44,12 +44,11 @@ public class RespawnManager : MonoBehaviour
     //start
     public void Init()
     {
-        //GameObject _player = GameObject.FindWithTag("PLAYER");
+        GameObject _player = GameObject.FindWithTag("PLAYER");
 
-        //_pController = _player.GetComponent<Police>();
-        //_pStats = _player.GetComponent<PlayerStats>();
+        _pController = _player.GetComponent<Police>();
+        _pStats = _player.GetComponent<PlayerStats>();
 
-        StartCoroutine("GetPlayer");
         RespawnTime = 6.0f;
     }
 
@@ -62,18 +61,8 @@ public class RespawnManager : MonoBehaviour
         }
     }
 
-    IEnumerator GetPlayer()
-	{
-        yield return new WaitForSeconds(2.5f);
-        GameObject player = GameObject.FindWithTag("PLAYER");
-        _pController = player.GetComponent<Police>();
-        _pStats = player.GetComponent<PlayerStats>();
-    }
-
     public void Clear()
     {
 
     }
 }
-
-

@@ -1,13 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class CameraController : MonoBehaviour
+public class CameraController : BaseController
 {
-    public Define.CameraMode _cameraMode { get; protected set; } = Define.CameraMode.FloatCamera;
-
-    PhotonView _pv;
     public float planescale_X { get; set; }
     public float planescale_Z { get; set; }
     public float Cam_Y { get; set; }
@@ -17,8 +13,8 @@ public class CameraController : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     //Player 찾기
-    private GameObject player;
-    private Transform p_Position;
+    public GameObject player;
+    public Transform p_Position;
 
     //건물 투명화
     public GameObject RendererGameobject;
@@ -31,56 +27,21 @@ public class CameraController : MonoBehaviour
     public Color invisibleColor;
 
     
-    public void Start()
+    public override void Init()
     {
-        StartCoroutine("GetPlayer");
-        //초기 값 세팅
-        //planescale_X = 80; // -80 < X < 80
-        //planescale_Z = -4; // -28 < Z < 20 / +24
-        //Cam_Y = 9;
-        //Cam_Z = 6;
-        //if (_pv.IsMine)
-        //{
-        //    Managers.Input.MouseAction -= MouseDownAction;
-        //    Managers.Input.MouseAction += MouseDownAction;
-        //    Managers.Input.KeyAction -= KeyDownAction;
-        //    Managers.Input.KeyAction += KeyDownAction;
-
-        //    //player = GameObject.FindWithTag("PLAYER");
-        //    //p_Position = player.transform;
-        //}
-    }
-
-    IEnumerator GetPlayer()
-	{
-        yield return new WaitForSeconds(2.5f);
-        //Debug.Log("GetPlayer");
-        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
-        foreach(GameObject p in p_Container)
-		{
-            _pv = p.GetComponent<PhotonView>();
-            if (_pv.IsMine)
-            {
-                player = p;
-                break;
-            }
-        }
-        p_Position = player.transform;
-
         //초기 값 세팅
         planescale_X = 80; // -80 < X < 80
         planescale_Z = -4; // -28 < Z < 20 / +24
         Cam_Y = 9;
         Cam_Z = 6;
 
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
 
-            Managers.Input.MouseAction -= MouseDownAction;
-            Managers.Input.MouseAction += MouseDownAction;
-            Managers.Input.KeyAction -= KeyDownAction;
-            Managers.Input.KeyAction += KeyDownAction;
-        
-            //player = GameObject.FindWithTag("PLAYER");
-            //p_Position = player.transform;
+        player = GameObject.FindWithTag("PLAYER");
+        p_Position = player.transform;
     }
 
     void Update()
@@ -94,41 +55,38 @@ public class CameraController : MonoBehaviour
     
     private void LateUpdate()
     {
-            switch (_cameraMode)
-            {
-                case Define.CameraMode.QuaterView:
-                    QuaterviewCam();
+        switch (_cameraMode)
+        {
+            case Define.CameraMode.QuaterView:
+                QuaterviewCam();
 
-                    break;
+                break;
 
-                case Define.CameraMode.FloatCamera:
-                    FloatCam();
+            case Define.CameraMode.FloatCamera:
+                FloatCam();
 
-                    break;
-            }
+                break;
+        }
     }
 
     //마우스 이벤트
     public void MouseDownAction(Define.MouseEvent _evt)
     {
-        if (_pv.IsMine)
+        if (_evt == Define.MouseEvent.PointerDown || _evt == Define.MouseEvent.Press)
         {
-            if (_evt == Define.MouseEvent.PointerDown || _evt == Define.MouseEvent.Press)
+            GameObject hitObject = Managers.Input.Get3DMousePosition().Item2;
+
+            if (hitObject != null)
             {
-                GameObject hitObject = Managers.Input.Get3DMousePosition().Item2;
-
-                if (hitObject != null)
+                switch (hitObject.layer)
                 {
-                    switch (hitObject.layer)
-                    {
-                        case (int)Define.Layer.Road:
-                            IsRenderer = true;
-                            break;
+                    case (int)Define.Layer.Road:
+                        IsRenderer = true;
+                        break;
 
-                        case (int)Define.Layer.Default:
-                            IsRenderer = false;
-                            break;
-                    }
+                    case (int)Define.Layer.Default:
+                        IsRenderer = false;
+                        break;
                 }
             }
         }
@@ -139,19 +97,18 @@ public class CameraController : MonoBehaviour
     {
         if (_key == Define.KeyboardEvent.U)
         {
-            Debug.Log("Key U Invoke");
             _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
         }
 
         //이동 카메라 일 때 Spacebar 꾹 누를 시 
-        if (_key == Define.KeyboardEvent.Space)
+        if(_key == Define.KeyboardEvent.Space)
         {
             //카메라 고정
             _cameraMode = Define.CameraMode.QuaterView;
         }
 
         //Space 키 땠을 때 
-        if (_key == Define.KeyboardEvent.SpaceUp)
+        if(_key == Define.KeyboardEvent.SpaceUp)
         {
             _cameraMode = Define.CameraMode.FloatCamera;
         }

@@ -5,7 +5,6 @@
 using UnityEngine;
 using Stat;
 using Define;
-using Photon.Pun;
 
 public class NeutralMob : ObjectController
 {
@@ -26,7 +25,6 @@ public class NeutralMob : ObjectController
     public override void init() 
     {
         base.init();
-        _pv = GetComponent<PhotonView>();
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
@@ -52,7 +50,6 @@ public class NeutralMob : ObjectController
     {
         base.Death();
         Destroy(this.gameObject);
-        PhotonNetwork.Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
@@ -85,7 +82,6 @@ public class NeutralMob : ObjectController
         }
     }
 
-    [PunRPC]
     private void BasicAttack()
     {
         if (_targetEnemyTransform == null) return;
@@ -94,7 +90,6 @@ public class NeutralMob : ObjectController
         else Laser();
     }
 
-    [PunRPC]
     private void SpecialAttack()
     {
         if (_targetEnemyTransform == null) return;
@@ -117,10 +112,10 @@ public class NeutralMob : ObjectController
     #region 공격 함수
     private void MachineGun()
     {
-        GameObject nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        GameObject nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
         nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[0].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
 
-        nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
         nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[1].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 

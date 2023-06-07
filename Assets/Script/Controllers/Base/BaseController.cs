@@ -8,7 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
+public abstract class BaseController : MonoBehaviour
 {
     protected PhotonView _pv;
     protected Vector3 receivePos;
@@ -20,10 +20,6 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     protected Animator _anim;
     protected NavMeshAgent _agent;
 
-<<<<<<< HEAD:Assets/Script/Controllers/ChangEx/BaseController.cs
-    protected GameObject _lockTarget;
-=======
->>>>>>> changjo:Assets/Script/Controllers/Base/BaseController.cs
     protected Vector3 _MovingPos;
 
     //총알 발사 여부
@@ -97,22 +93,16 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     private void Start() 
     { 
         Init(); 
-
     }
 
     private void Update()
     {
-<<<<<<< HEAD:Assets/Script/Controllers/ChangEx/BaseController.cs
-        Debug.Log(State);
-        if (_stopAttack == true) { StopAttack(); }
-=======
         //Debug.Log(State);
 
         if (_stopAttack == true) { StopAttack(); }
         if (_stopSkill == true) { StopSkill(); }
 
         //키, 마우스 이벤트 받으면 state가 변환
->>>>>>> changjo:Assets/Script/Controllers/Base/BaseController.cs
         switch (State)
         {
             case Define.State.Idle:
@@ -151,25 +141,7 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void UpdateDie() { }
 
     protected virtual void StopAttack() { }
-<<<<<<< HEAD:Assets/Script/Controllers/ChangEx/BaseController.cs
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            receivePos = (Vector3)stream.ReceiveNext();
-            receiveRot = (Quaternion)stream.ReceiveNext();
-        }
-    }
-=======
     protected virtual void StopSkill() { }
->>>>>>> changjo:Assets/Script/Controllers/Base/BaseController.cs
 }
 
 

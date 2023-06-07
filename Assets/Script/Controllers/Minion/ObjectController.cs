@@ -7,16 +7,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
-using Photon.Pun;
 using TMPro;
 
 [RequireComponent(typeof(ObjStats))]
 
-public abstract class ObjectController : MonoBehaviourPunCallbacks
+public abstract class ObjectController : MonoBehaviour
 {
-	//동기화 기점
-	public PhotonView _pv;
-
 	//위치 동기화 코드
 	protected Vector3 receivePos;
 	protected Quaternion receiveRot;
@@ -37,7 +33,6 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
 
     public void Awake()
     {
-        _pv = GetComponent<PhotonView>();
         //이게 여기서 돌아가면 안됌, 오브젝트 풀링이 사라졌기 때문
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
@@ -46,7 +41,7 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
         init();
     }
 
-    public override void OnEnable()
+    public void OnEnable()
     {
         _oStats.InitStatSetting(_type);
 
@@ -68,12 +63,8 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
 
     public void Update()
     {
-<<<<<<< HEAD
-        UpdateInRangeEnemyObjectTransform_OverlapSphere();
-=======
         //_pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
         //UpdateInRangeEnemyObjectTransform();
->>>>>>> changjo
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
