@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 7242414620504924426}
   m_Layer: 7
   m_Name: CyborgTower
-  m_TagString: Untagged
+  m_TagString: OBJECT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

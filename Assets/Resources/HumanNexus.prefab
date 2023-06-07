@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 2363447952888362947}
   m_Layer: 6
   m_Name: HumanNexus
-  m_TagString: Untagged
+  m_TagString: OBJECT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

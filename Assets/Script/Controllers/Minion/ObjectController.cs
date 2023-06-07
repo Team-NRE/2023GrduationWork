@@ -68,7 +68,7 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
 
     public void Update()
     {
-        UpdateInRangeEnemyObjectTransform();
+        UpdateInRangeEnemyObjectTransform_OverlapSphere();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -152,6 +152,43 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
             {
                 minRange = nowRange;
                 newTarget = _allObjectTransforms[i];
+            }
+        }
+
+        _targetEnemyTransform = newTarget;
+    }
+
+    protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()
+    {
+        Collider[] inRangeObject = Physics.OverlapSphere(this.transform.position, _oStats.recognitionRange);
+        Transform newTarget = null;
+        float minRange = _oStats.recognitionRange;
+
+        foreach (var nowObject in inRangeObject)
+        {
+            if (nowObject.gameObject.activeSelf == false) continue; 
+            if (nowObject.gameObject.layer == gameObject.layer) continue;
+
+            if (nowObject.gameObject.tag == "PLAYER")
+            {
+                if (nowObject.GetComponent<BaseController>()._state == State.Die) continue;
+            }
+            else if (nowObject.gameObject.tag == "OBJECT")
+            {
+                if (nowObject.GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
+            }
+            else
+            {
+                continue;
+            }
+
+            float nowRange = Vector3.Distance(transform.position, nowObject.transform.position);
+
+            // **라인에 있는 조건도 넣을 것.**
+            if (minRange >= nowRange)
+            {
+                minRange = nowRange;
+                newTarget = nowObject.transform;
             }
         }
 

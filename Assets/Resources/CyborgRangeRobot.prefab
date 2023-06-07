@@ -1075,7 +1075,7 @@ GameObject:
   - component: {fileID: 7681060438149564282}
   m_Layer: 7
   m_Name: CyborgRangeRobot
-  m_TagString: Untagged
+  m_TagString: OBJECT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1240,6 +1240,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 4711898211703572305}
   - {fileID: 7681060438149564282}
   sceneViewId: 0
   InstantiationId: 0
