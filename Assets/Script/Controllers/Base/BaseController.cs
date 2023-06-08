@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Define;
 using Photon.Pun;
+using Stat;
 using Photon.Realtime;
 
 [System.Serializable]
@@ -15,6 +16,7 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
     private GameObject _player;
+    protected int _enemyLayer;
 
     public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
@@ -91,41 +93,50 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     private void Start()
     {
         _pv = GetComponent<PhotonView>();
+        if (_pv.Owner.ActorNumber % 2 != 0)
+        {
+            this.gameObject.layer = 6;
+            _enemyLayer = this.gameObject.layer + 1;
+        }
+        else
+        {
+            this.gameObject.layer = 7;
+            _enemyLayer = this.gameObject.layer - 1;
+        }
         Init();
     }
 
     private void Update()
     {
         //Debug.Log(State);
-        //if (_stopAttack == true) { StopAttack(); }
-        //switch (State)
-        //{
-        //    case Define.State.Idle:
-        //        UpdateIdle();
-        //        break;
+        if (_stopAttack == true) { StopAttack(); }
+        switch (State)
+        {
+            case Define.State.Idle:
+                UpdateIdle();
+                break;
 
-        //    case Define.State.Die:
-        //        UpdateDie();
-        //        break;
+            case Define.State.Die:
+                UpdateDie();
+                break;
 
-        //    //키, 마우스 이벤트 받으면 state가 변환
-        //    case Define.State.Moving:
-        //        UpdateMoving();
-        //        break;
+            //키, 마우스 이벤트 받으면 state가 변환
+            case Define.State.Moving:
+                UpdateMoving();
+                break;
 
-        //    case Define.State.Attack:
-        //        //UpdateAttack();
-        //        if (_pv.IsMine)
-        //        {
-        //            _pv.RPC("UpdateAttack", RpcTarget.Others);
-        //            UpdateAttack();
-        //        }
-        //        break;
+            case Define.State.Attack:
+                //UpdateAttack();
+                if (_pv.IsMine)
+                {
+                    _pv.RPC("UpdateAttack", RpcTarget.All);
+                }
+                break;
 
-        //    case Define.State.Skill:
-        //        UpdateSkill();
-        //        break;
-        //}
+            case Define.State.Skill:
+                UpdateSkill();
+                break;
+        }
     }
 
 

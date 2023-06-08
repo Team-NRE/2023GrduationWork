@@ -202,8 +202,7 @@ public class PoolManager
 
 
     //투사체 Pop
-    public void Projectile_Pool(string ProjName, Vector3 _shooter = default,
-        Transform _target = null, float bulletSpeed = default, float damage = default, Transform parent = null)
+    public void Projectile_Pool(string ProjName, Vector3 _shooter = default, Transform _target = null, float bulletSpeed = default, float damage = default, Transform parent = null)
     {
         //Prefab 찾아주기
         GameObject GetObject = GetOriginal(ProjName);
@@ -213,6 +212,4 @@ public class PoolManager
  
         Pop(GetObject, parent).GetComponent<Poolable>().Proj_Target_Init(_shooter, _target, bulletSpeed, damage);
     }
-
-
 }

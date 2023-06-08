@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
-public class RangedBullet : Poolable
+using Photon.Pun;
+
+public class RangedBullet : MonoBehaviour
 {
     private Transform _Target;
     private float _BulletSpeed;
     private float _BulletDamage;
-    
-
 
     //외부 namespace Stat 참조
     public PlayerStats _pStats { get; set; }
@@ -18,9 +18,9 @@ public class RangedBullet : Poolable
     {
         GameObject _player = GameObject.FindWithTag("PLAYER");
 
-        //_pStats = _player.GetComponent<PlayerStats>();
+        _pStats = _player.GetComponent<PlayerStats>();
 
-        Proj_Target_Init(transform.position, _Target, _BulletSpeed, _BulletDamage);
+        //GetClickedTarget(transform.position, _Target, _BulletSpeed, _BulletDamage);
     }
 
 
@@ -30,7 +30,7 @@ public class RangedBullet : Poolable
         Bullet_shoot();
     }
 
-    public override void Proj_Target_Init(Vector3 _shooter, Transform _target, float _bulletSpeed, float _damage)
+    public void GetClickedTarget(Vector3 _shooter, Transform _target, float _bulletSpeed, float _damage)
     {
         transform.position = _shooter;
         _Target = _target;
@@ -60,6 +60,7 @@ public class RangedBullet : Poolable
             }
 
             //Managers.Pool.Push(this);
+            PhotonNetwork.Destroy(this.gameObject);
         }
 
     }

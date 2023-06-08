@@ -34,21 +34,6 @@ public class CameraController : MonoBehaviour
     public void Start()
     {
         StartCoroutine("GetPlayer");
-        //초기 값 세팅
-        //planescale_X = 80; // -80 < X < 80
-        //planescale_Z = -4; // -28 < Z < 20 / +24
-        //Cam_Y = 9;
-        //Cam_Z = 6;
-        //if (_pv.IsMine)
-        //{
-        //    Managers.Input.MouseAction -= MouseDownAction;
-        //    Managers.Input.MouseAction += MouseDownAction;
-        //    Managers.Input.KeyAction -= KeyDownAction;
-        //    Managers.Input.KeyAction += KeyDownAction;
-
-        //    //player = GameObject.FindWithTag("PLAYER");
-        //    //p_Position = player.transform;
-        //}
     }
 
     IEnumerator GetPlayer()

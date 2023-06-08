@@ -1093,7 +1093,7 @@ GameObject:
   - component: {fileID: -3275010180569089201}
   - component: {fileID: 3045937520113182126}
   m_Layer: 0
-  m_Name: Police
+  m_Name: PoliceHu
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3579,6 +3579,18 @@ PrefabInstance:
     - target: {fileID: 4213711620244162979, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 99.564
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634820778430546448, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634820778430546448, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634820778430546448, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4634820778430586416, guid: 87e308cb23eea97419b3c2623d8bb3fa, type: 3}
       propertyPath: m_Layer
