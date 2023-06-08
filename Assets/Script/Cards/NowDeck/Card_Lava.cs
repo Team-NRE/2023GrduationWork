@@ -8,10 +8,11 @@ public class Card_Lava : UI_Card
     {
         _cost = 2;
         _rangeType = "Point";
-        _rangeScale = 4.0f;
-        _rangeRange = 6.0f;
-        
+        _rangeScale = 3.0f;
+        _rangeRange = 4.0f;
+
         _CastingTime = 0.3f;
+        _effectTime = 4.0f;
     }
 
     public override void InitCard()
@@ -21,12 +22,14 @@ public class Card_Lava : UI_Card
         Debug.Log($"{_rangeScale} 크기의 독 장판 On");
     }
 
-    public override void cardEffect(Transform trans)
+    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
-        Managers.Resource.Instantiate($"Particle/Card_Lava", trans);
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Lava", Ground);
+        
+        return _effectObject;
     }
 
-    public override void DestroyCard(float delay)
+    public override void DestroyCard(GameObject Particle = null, float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

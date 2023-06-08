@@ -12,6 +12,7 @@ public class Card_Cannon : UI_Card
         _rangeRange = 4.0f;
 
         _CastingTime = 0.7f;
+        _effectTime = 1.0f;
     }
 
     public override void InitCard()
@@ -21,12 +22,14 @@ public class Card_Cannon : UI_Card
         Debug.Log($"{_rangeScale}내에 Cone 모양 대포 발사");
     }
 
-    public override void cardEffect(Transform trans)
+    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
-        Managers.Resource.Instantiate($"Particle/Card_Cannon", trans);
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Cannon", Ground);
+
+        return _effectObject;
     }
 
-    public override void DestroyCard(float delay)
+    public override void DestroyCard(GameObject Particle = null, float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

@@ -29,6 +29,7 @@ public class UI_Card : UI_Scene
     //스킬 각도
     public float _rangeAngle;
 
+    public GameObject _effectObject;
     public override void Init()
     {
         Debug.Log("UI_Card Init");
@@ -39,13 +40,18 @@ public class UI_Card : UI_Scene
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }
-    
-    public virtual void cardEffect(Transform trans)
+
+    public override void UpdateInit()
     {
-        
+
+    }
+    
+    public virtual GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    {
+        return _effectObject;
     }
 
-    public virtual void DestroyCard(float delay)
+    public virtual void DestroyCard(GameObject Particle = null, float delay = default)
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }

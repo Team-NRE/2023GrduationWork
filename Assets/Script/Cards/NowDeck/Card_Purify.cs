@@ -10,6 +10,7 @@ public class Card_Purify : UI_Card
         _rangeType = "None";
 
         _CastingTime = 0.3f;
+        _effectTime = 2.0f;
     }
 
     public override void InitCard()
@@ -19,12 +20,14 @@ public class Card_Purify : UI_Card
         Debug.Log($"정화됨");
     }
 
-    public override void cardEffect(Transform trans)
+    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
-        Managers.Resource.Instantiate($"Particle/Card_Purify", trans);
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Purify", Player);
+
+        return _effectObject;
     }
 
-    public override void DestroyCard(float delay)
+    public override void DestroyCard(GameObject Particle = null, float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

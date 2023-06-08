@@ -66,6 +66,7 @@ public class UI_CardPanel : UI_Card
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
         R_UI = R_Card.GetComponentInChildren<UI_Card>();
 
+
         //UI_img
         Q_cardimg = Q_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
         W_cardimg = W_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
@@ -193,10 +194,10 @@ public class UI_CardPanel : UI_Card
     public void DeckStart()
     {
         //여기서 이제 UI를 자식객체로 넣어준다.
+        R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartJobCard()}", R_Btn.transform);
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", Q_Btn.transform);
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", W_Btn.transform);
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
-        R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", R_Btn.transform);
     }
 
 
@@ -212,7 +213,7 @@ public class UI_CardPanel : UI_Card
         string _nowCard = Q_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
         //사용한 카드 파괴
-        Q_CardUI.DestroyCard(0.1f);
+        Q_CardUI.DestroyCard(null, 0.1f);
 
         //새로운 카드 덱에서 리필
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
@@ -234,7 +235,7 @@ public class UI_CardPanel : UI_Card
         string _nowCard = W_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
         //사용한 카드 파괴
-        W_CardUI.DestroyCard(0.1f);
+        W_CardUI.DestroyCard(null, 0.1f);
 
         //새로운 카드 덱에서 리필
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
@@ -255,7 +256,7 @@ public class UI_CardPanel : UI_Card
         string _nowCard = E_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
         //사용한 카드 파괴
-        E_CardUI.DestroyCard(0.1f);
+        E_CardUI.DestroyCard(null, 0.1f);
 
         //새로운 카드 덱에서 리필
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
@@ -275,13 +276,15 @@ public class UI_CardPanel : UI_Card
         //사용한 카드
         string _nowCard = R_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
+
+        /*
         //사용한 카드 파괴
-        R_CardUI.DestroyCard(0.1f);
+        R_CardUI.DestroyCard(null, 0.1f);
 
         //새로운 카드 덱에서 리필
         R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", R_Btn.transform);
         R_UI = R_Card.GetComponentInChildren<UI_Card>();
-        R_cardimg = R_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+        R_cardimg = R_Card.transform.GetChild(1).gameObject.GetComponent<Image>();*/
         
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
     }

@@ -200,7 +200,7 @@ public class Police : BaseController
 
         //적 or 중앙 obj 클릭 시
         //_pStats.enemyArea가 상수반환이 안되서 if문으로 대체
-        if (lockTarget.layer == _pStats.enemyArea || lockTarget.layer == (int)Define.Layer.Neutral)
+        if (lockTarget.layer == 7 || lockTarget.layer == (int)Define.Layer.Neutral)
         {
             //좌표 설정
             _MovingPos = mousePos;
@@ -291,7 +291,7 @@ public class Police : BaseController
             _IsRange = (_IsRange == true ? false : true);
         }
         //이전 키와 다른 키를 눌렀을 때
-        if (Keyname != BaseCard._NowKey)
+        if (Keyname != BaseCard._NowKey && Keyname != default)
         {
             //사거리 On/Off 관리
             switch (_IsRange)
@@ -300,7 +300,10 @@ public class Police : BaseController
                 case true:
                     //이전 키 사거리를 Off
                     _attackRange[_SaveRangeNum].SetActive(false);
-                    if (Keyname == "MouseRightButton") { _IsRange = false; }
+                    if (Keyname == "MouseRightButton")
+                    {
+                        _IsRange = false;
+                    }
 
                     break;
 
@@ -618,13 +621,14 @@ public class Police : BaseController
                 if (_MovingPos != default)
                 {
                     //Skill On
-                    GameObject go = new GameObject("Particle");
-                    go.transform.position = _MovingPos;
+                    GameObject ground = new GameObject("Particle");
+                    ground.transform.position = _MovingPos;
 
-                    _cardStats.cardEffect(go.transform);
                     _cardStats.InitCard();
+                    GameObject effectObj = _cardStats.cardEffect(ground.transform, this.transform, 1 << 6);
 
-                    Destroy(go, 2.0f);
+                    Destroy(effectObj, _cardStats._effectTime);
+                    Destroy(ground, _cardStats._effectTime);
 
                     //타겟을 향해 회전 및 멈추기
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);

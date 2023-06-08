@@ -8,10 +8,11 @@ public class Card_HackingGrenade : UI_Card
     {
         _cost = 1;
         _rangeType = "Point";
-        _rangeScale = 5.0f;
-        _rangeRange = 6.0f;
+        _rangeScale = 3.0f;
+        _rangeRange = 5.0f;
 
-        _CastingTime = 0.3f;
+        _CastingTime = 0.7f;
+        _effectTime = 0.7f;
     }
 
     public override void InitCard()
@@ -21,12 +22,14 @@ public class Card_HackingGrenade : UI_Card
         Debug.Log($"{_rangeScale}내 적 카드 사용 불가");
     }
 
-    public override void cardEffect(Transform trans)
+    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
-        Managers.Resource.Instantiate($"Particle/Card_HackingGrenade", trans);
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_HackingGrenade", Ground);
+
+        return _effectObject;
     }
 
-    public override void DestroyCard(float delay)
+    public override void DestroyCard(GameObject Particle = null, float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

@@ -10,23 +10,25 @@ public class Card_Shield : UI_Card
         _rangeType = "None";
 
         _CastingTime = 0.3f;
+        _effectTime = 2.0f;
     }
+
 
     public override void InitCard()
     {
-        Debug.Log($"{this.gameObject.name} is called");
-        Debug.Log($"마나 {_cost} 사용 ");
         Debug.Log($"방어력 증가");
     }
 
-    public override void cardEffect(Transform trans)
+    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
-        Managers.Resource.Instantiate($"Particle/Card_Shield", trans);
         //따라다녀야함
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Shield", Player);
+
+        return _effectObject;
     }
-    
-    public override void DestroyCard(float delay)
+
+    public override void DestroyCard(GameObject Particle = null, float delay = default)
     {
-        Destroy(this.gameObject, delay);
+        Destroy(this.gameObject, delay); 
     }
 }

@@ -117,6 +117,17 @@ public static class BaseCard
         return ChoiseCard;
     }
 
+    public static string StartJobCard()
+    {
+        string ChoiseCard = _initDeck[_initDeck.Count - 1];
+        //뽑은 카드 덱에서 삭제
+        _initDeck.RemoveAt(_initDeck.Count - 1);
+
+        Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
+
+        return ChoiseCard;
+    }
+
     //다쓰면 다시 채운다, 비었는지 여부는 UI 이벤트 단에서 바꾼다.
     public static List<string> ReloadDeck()
     {

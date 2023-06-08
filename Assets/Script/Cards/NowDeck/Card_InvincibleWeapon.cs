@@ -9,7 +9,8 @@ public class Card_InvincibleWeapon : UI_Card
         _cost = 3;
         _rangeType = "Arrow";
 
-        _CastingTime = 0.7f;
+        _CastingTime = 2.0f;
+        _effectTime = 2.0f;
     }
 
     public override void InitCard()
@@ -19,12 +20,14 @@ public class Card_InvincibleWeapon : UI_Card
         Debug.Log($"큰 화살 발사");
     }
 
-    public override void cardEffect(Transform trans)
+    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
-        Managers.Resource.Instantiate($"Particle/Card_InvincibleWeapon", trans);
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleWeapon", Player);
+
+        return _effectObject;
     }
 
-    public override void DestroyCard(float delay)
+    public override void DestroyCard(GameObject Particle = null, float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

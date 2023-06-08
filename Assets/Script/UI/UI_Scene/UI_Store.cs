@@ -6,13 +6,13 @@ public class UI_Store : UI_Popup
 {
     GameObject store;
     GameObject strengthen;
-    GameObject delete;
+    GameObject deck;
 
     public enum StoreUI
     {
         store,
         strengthen,
-        delete,
+        deck,
     }
 
     public override void Init()
@@ -20,31 +20,31 @@ public class UI_Store : UI_Popup
         Bind<GameObject>(typeof(StoreUI));
         store = Get<GameObject>((int)StoreUI.store);
         strengthen = Get<GameObject>((int)StoreUI.strengthen);
-        delete = Get<GameObject>((int)StoreUI.delete);
+        deck = Get<GameObject>((int)StoreUI.deck);
 
         store.SetActive(true);
         strengthen.SetActive(false);
-        delete.SetActive(false);
+        deck.SetActive(false);
     }
 
     public void storeActive()
     {
         store.SetActive(true);
         strengthen.SetActive(false);
-        delete.SetActive(false);
+        deck.SetActive(false);
     }
 
     public void strengthenActive()
     {
         store.SetActive(false);
         strengthen.SetActive(true);
-        delete.SetActive(false);
+        deck.SetActive(false);
     }
 
-    public void deleteActive()
+    public void deckActive()
     {
         store.SetActive(false);
         strengthen.SetActive(false);
-        delete.SetActive(true);
+        deck.SetActive(true);
     }
 }

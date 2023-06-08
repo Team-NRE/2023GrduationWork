@@ -1590,7 +1590,7 @@ GameObject:
   - component: {fileID: 2310387741915106092}
   - component: {fileID: 2310387741915106091}
   m_Layer: 0
-  m_Name: Character_Male_Police_01
+  m_Name: Police
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2690,7 +2690,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2310387742807828893}
+  - {fileID: 2310387743693674690}
   - {fileID: 2310387741915106092}
   m_Father: {fileID: 2310387743789963051}
   m_RootOrder: 1
@@ -4154,7 +4154,7 @@ GameObject:
   - component: {fileID: 2310387742300965543}
   - component: {fileID: 2310387742300965542}
   m_Layer: 0
-  m_Name: Character_CyborgNinja_01
+  m_Name: lightsaber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7636,7 +7636,7 @@ GameObject:
   - component: {fileID: 2310387742807828893}
   - component: {fileID: 2310387742807828892}
   m_Layer: 0
-  m_Name: Character_Monk_Male_01
+  m_Name: Monk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7676,8 +7676,8 @@ Transform:
   - {fileID: 2310387742034695173}
   - {fileID: 2310387742961932655}
   - {fileID: 2310387743541437881}
-  m_Father: {fileID: 2310387742073339371}
-  m_RootOrder: 0
+  m_Father: {fileID: 2310387743131922880}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2310387742807828892
 Animator:
@@ -10408,7 +10408,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2310387742300965543}
-  - {fileID: 2310387743693674690}
+  - {fileID: 2310387742807828893}
   m_Father: {fileID: 2310387743789963051}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -12257,7 +12257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2310387743331030522}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 2, y: 1.6, z: 0.6}
+  m_LocalPosition: {x: -2, y: 1.6, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13543,7 +13543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2310387743541437882}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -2, y: 1.6, z: 0.7}
+  m_LocalPosition: {x: 2, y: 1.6, z: 0.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14697,7 +14697,7 @@ GameObject:
   - component: {fileID: 2310387743693674690}
   - component: {fileID: 2310387743693674689}
   m_Layer: 0
-  m_Name: Character_Cop_01
+  m_Name: firefighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14710,8 +14710,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2310387743693674691}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 2, y: 1, z: 0}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 2, y: 1, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14737,8 +14737,8 @@ Transform:
   - {fileID: 2310387741781026063}
   - {fileID: 2310387742015254800}
   - {fileID: 2310387743488781556}
-  m_Father: {fileID: 2310387743131922880}
-  m_RootOrder: 1
+  m_Father: {fileID: 2310387742073339371}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2310387743693674689
 Animator:

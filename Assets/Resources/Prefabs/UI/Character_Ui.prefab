@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 838609087019540953}
+  - component: {fileID: 1094524596}
+  - component: {fileID: 1094524595}
   m_Layer: 0
   m_Name: LevelBar
   m_TagString: Untagged
@@ -37,6 +39,44 @@ RectTransform:
   m_AnchoredPosition: {x: -56.72998, y: -536.5}
   m_SizeDelta: {x: 0.25, y: 0.25}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!222 &1094524596
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848780555700017463}
+  m_CullTransparentMesh: 1
+--- !u!114 &1094524595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848780555700017463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 88099895588deaa4d98556dde0806e51, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &913527311967584193
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +165,6 @@ GameObject:
   - component: {fileID: 1807885303359963720}
   - component: {fileID: 1536660263321794059}
   - component: {fileID: 5091653290486222114}
-  - component: {fileID: 3053138111593641676}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -218,23 +257,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3053138111593641676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2389867564570634799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4a0bc2ac4491354eb863b406f3c25f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarHeal: {fileID: 8535112584435489627}
-  healthBarHit: {fileID: 6498335850294897890}
-  healthBarBasic: {fileID: 6982629007476983237}
-  isHealHitEffect: 1
-  stats: {fileID: 0}
 --- !u!1 &2808899968324219950
 GameObject:
   m_ObjectHideFlags: 0

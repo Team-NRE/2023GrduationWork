@@ -10,11 +10,18 @@ public abstract class UI_Base : MonoBehaviour
 	Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>(); //타입별로 따로 저장되는 딕셔너리 선언
 
 	public abstract void Init();
+	public abstract void UpdateInit();
 
 	private void Start()
 	{
 		Init();
 	}
+
+	private void Update()
+	{
+		UpdateInit();	
+	}
+
 
 	//Reflection을 이용한다. 하위 컴포넌트들을 모두 찾아주는 단계
 	protected void Bind<T>(Type type) where T : UnityEngine.Object    //하위 함수에서와 조건을 맞춰준다.
