@@ -7,8 +7,7 @@ public class Card_Shield : UI_Card
     public override void Init()
     {
         _cost = 0;
-        _rangeType = "Range";
-        _rangeScale = 8.0f;
+        _rangeType = "None";
 
         _CastingTime = 0.3f;
     }
@@ -22,7 +21,8 @@ public class Card_Shield : UI_Card
 
     public override void cardEffect(Transform trans)
     {
-        Managers.Resource.Instantiate($"Particle/Boom", trans);
+        Managers.Resource.Instantiate($"Particle/Card_Shield", trans);
+        //따라다녀야함
     }
     
     public override void DestroyCard(float delay)

@@ -7,9 +7,9 @@ public class Card_Cannon : UI_Card
     public override void Init()
     {
         _cost = 2;
-        _rangeType = "Cone";
-        _rangeScale = 5.0f;
-        _rangeAngle = 130.0f;
+        _rangeType = "Point";
+        _rangeScale = 1.5f;
+        _rangeRange = 4.0f;
 
         _CastingTime = 0.7f;
     }
@@ -23,7 +23,7 @@ public class Card_Cannon : UI_Card
 
     public override void cardEffect(Transform trans)
     {
-        Managers.Resource.Instantiate($"Particle/Boom", trans);
+        Managers.Resource.Instantiate($"Particle/Card_Cannon", trans);
     }
 
     public override void DestroyCard(float delay)

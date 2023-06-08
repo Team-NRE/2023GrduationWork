@@ -8,7 +8,7 @@ public class Card_Spear : UI_Card
     {
         _cost = 1;
         _rangeType = "Line";
-        _rangeScale = 3.0f;
+        _rangeScale = 6.5f;
 
         _CastingTime = 1.0f;
     }
@@ -22,7 +22,7 @@ public class Card_Spear : UI_Card
 
     public override void cardEffect(Transform trans)
     {
-        Managers.Resource.Instantiate($"Particle/Boom", trans);
+        Managers.Resource.Instantiate($"Particle/Card_Spear", trans);
     }
 
     public override void DestroyCard(float delay)

@@ -22,7 +22,7 @@ public class Card_InvincibleShield : UI_Card
 
     public override void cardEffect(Transform trans)
     {
-        Managers.Resource.Instantiate($"Particle/Boom", trans);
+        Managers.Resource.Instantiate($"Particle/Card_InvincibleShield", trans);
     }
 
     public override void DestroyCard(float delay)

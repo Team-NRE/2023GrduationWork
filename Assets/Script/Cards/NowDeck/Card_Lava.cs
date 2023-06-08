@@ -23,7 +23,7 @@ public class Card_Lava : UI_Card
 
     public override void cardEffect(Transform trans)
     {
-        Managers.Resource.Instantiate($"Particle/Boom", trans);
+        Managers.Resource.Instantiate($"Particle/Card_Lava", trans);
     }
 
     public override void DestroyCard(float delay)

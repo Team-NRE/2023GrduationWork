@@ -23,7 +23,7 @@ public class Card_HackingGrenade : UI_Card
 
     public override void cardEffect(Transform trans)
     {
-        Managers.Resource.Instantiate($"Particle/Boom", trans);
+        Managers.Resource.Instantiate($"Particle/Card_HackingGrenade", trans);
     }
 
     public override void DestroyCard(float delay)

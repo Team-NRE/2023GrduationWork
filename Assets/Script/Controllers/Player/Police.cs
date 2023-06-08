@@ -601,7 +601,6 @@ public class Police : BaseController
             State = Define.State.Moving;
             //현재 상태는 Skill -> Moving에서 Skill로 와야함.
             _NowState = "Skill";
-
             return;
         }
 
@@ -621,8 +620,9 @@ public class Police : BaseController
                     //Skill On
                     GameObject go = new GameObject("Particle");
                     go.transform.position = _MovingPos;
+
                     _cardStats.cardEffect(go.transform);
-                    //_cardStats.InitCard();
+                    _cardStats.InitCard();
 
                     Destroy(go, 2.0f);
 
