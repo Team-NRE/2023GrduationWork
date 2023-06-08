@@ -16,7 +16,7 @@ public class Tower : ObjectController
         base.init();
         _type = ObjectType.Turret;
 
-        bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
+        bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}TowerBullet");
         muzzle = transform.Find("BulletPos");
     }
 
@@ -26,7 +26,7 @@ public class Tower : ObjectController
 
         if (_targetEnemyTransform == null) return;
 
-        GameObject nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        GameObject nowBullet = Instantiate(bullet, muzzle.position, this.transform.rotation);
         nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 

@@ -63,8 +63,7 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
-        //_pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
-        //UpdateInRangeEnemyObjectTransform();
+        UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }

@@ -4,7 +4,6 @@
 
 using UnityEngine;
 using Stat;
-using Photon.Pun;
 
 public class ObjectBullet : MonoBehaviour
 {
@@ -28,7 +27,7 @@ public class ObjectBullet : MonoBehaviour
     {
         transform.position = muzzle;
         _Target = _target;
-        _bulletSpeed = bulletSpeed * 2; // 공속 대비 3배 속도
+        _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
         _damage = damage;
     }
 
@@ -37,7 +36,6 @@ public class ObjectBullet : MonoBehaviour
         if (_Target == null) 
         {
             Destroy(this.gameObject);
-            PhotonNetwork.Destroy(this.gameObject);
         }
 
         _TargetPos = _Target.position;
@@ -64,8 +62,8 @@ public class ObjectBullet : MonoBehaviour
                 _Stats.nowHealth -= _damage;
             }
             
-            Destroy(this.gameObject);
-            PhotonNetwork.Destroy(this.gameObject);
+            Destroy(this.gameObject, 0.5f);
+            this.enabled = false;
         }
     }
 }

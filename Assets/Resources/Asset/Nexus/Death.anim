@@ -156,7 +156,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: DomeNukeBlue
+    path: DomeNuke
     classID: 1
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -189,7 +189,7 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 395833684
+      path: 3264440773
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
@@ -474,7 +474,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: DomeNukeBlue
+    path: DomeNuke
     classID: 1
     script: {fileID: 0}
   m_EulerEditorCurves: []
@@ -483,13 +483,6 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: disablePlay
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 5.016667
-    functionName: ExecuteEffectBlackHole
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

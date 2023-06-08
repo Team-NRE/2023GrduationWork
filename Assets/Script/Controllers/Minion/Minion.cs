@@ -60,7 +60,7 @@ public class Minion : ObjectController
     {
         if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
 
-		//GetTransformArea();
+		GetTransformArea();
     }
 
     public override void Attack()
@@ -76,7 +76,6 @@ public class Minion : ObjectController
         base.Death();
         _allObjectTransforms.Remove(this.transform);
         Destroy(this.gameObject);
-        PhotonNetwork.Destroy(this.gameObject);
     }
     public override void Move()
     {
@@ -84,7 +83,7 @@ public class Minion : ObjectController
 
         Vector3 moveTarget = Vector3.zero;
 
-        if (_targetEnemyTransform != null /*&& area == ObjectPosArea.Road*/)
+        if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
         {
             moveTarget = _targetEnemyTransform.position;
         }
@@ -190,20 +189,5 @@ public class Minion : ObjectController
         if (posName.Equals("tilePalette_1"))  area = ObjectPosArea.Building;
         if (posName.Equals("tilePalette_10")) area = ObjectPosArea.MidWay;
         if (posName.Equals("tilePalette_2"))  area = ObjectPosArea.CenterArea;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            receivePos = (Vector3)stream.ReceiveNext();
-            receiveRot = (Quaternion)stream.ReceiveNext();
-        }
     }
 }

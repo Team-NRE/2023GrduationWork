@@ -273,7 +273,7 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 0, b: 0, a: 1}
+      key1: {r: 1, g: 0.3101677, b: 0.28235292, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -342,7 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d514fa8a4008d498c4b42ab28b3eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pv: {fileID: 0}
   _action: 0
   _targetEnemyTransform: {fileID: 0}
   muzzles:
