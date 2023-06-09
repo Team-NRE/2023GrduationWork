@@ -13,9 +13,18 @@ public class MinionSummoner : MonoBehaviour
     public float _summonCycle = 30;
     public float _nowSummonTime = 65;
 
+    Coroutine summonCoroutine;
+
     void Start()
     {
         _summonPos = this.transform.Find("SummonPos");
+    }
+
+    void OnDisable()
+    {
+
+        if (summonCoroutine != null)
+            StopCoroutine(summonCoroutine);
     }
 
     void Update()
@@ -24,7 +33,7 @@ public class MinionSummoner : MonoBehaviour
 
         if (_nowSummonTime <= 0)
         {
-            StartCoroutine(SummonLine());
+            summonCoroutine = StartCoroutine(SummonLine());
             _nowSummonTime = _summonCycle;
         }
     }

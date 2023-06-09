@@ -49,12 +49,15 @@ public class NeutralMob : ObjectController
     public override void Death()
     {
         base.Death();
+        _allObjectTransforms.Remove(this.transform);
         Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
     {
-        if (_targetEnemyTransform != null)
+        if (_oStats.nowHealth <= 0)
+            _action = ObjectAction.Death;
+        else if (_targetEnemyTransform != null)
         {
             transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
             _action = ObjectAction.Attack;
