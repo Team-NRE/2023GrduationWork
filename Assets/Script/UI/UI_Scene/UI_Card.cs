@@ -12,11 +12,10 @@ public class UI_Card : UI_Scene
     public float _CastingTime;
     //이펙트 발동 시간
     public float _effectTime; 
-
     public float _damage;
     public float _defence;
-    public float _debuff;
     public float _buff;
+    public float _debuff; 
 
     //스킬 범위 타입
     //Arrow = _rangeScale 고정 / Cone = _rangeScale, _rangeAngle / Line = _rangeScale 

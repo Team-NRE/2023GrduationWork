@@ -6,6 +6,8 @@ using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Stat;
+
 
 public class UI_CardPanel : UI_Card
 {
@@ -31,6 +33,7 @@ public class UI_CardPanel : UI_Card
     Image E_cardimg;
     Image R_cardimg;
 
+    PlayerStats pStat;
 
     public enum CardObjects
     {
@@ -72,6 +75,9 @@ public class UI_CardPanel : UI_Card
         W_cardimg = W_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
         E_cardimg = E_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
         R_cardimg = R_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+
+
+        pStat = GameObject.FindWithTag("PLAYER").GetComponent<PlayerStats>();
 
 
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
@@ -127,7 +133,7 @@ public class UI_CardPanel : UI_Card
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (BaseCard.UseMana("Q").Item1 == true
+            if (pStat.UseMana("Q").Item1 == true
                         && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
             {
                 UI_UseQ();
@@ -136,7 +142,7 @@ public class UI_CardPanel : UI_Card
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (BaseCard.UseMana("W").Item1 == true
+            if (pStat.UseMana("W").Item1 == true
                         && W_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
             {
                 UI_UseW();
@@ -145,7 +151,7 @@ public class UI_CardPanel : UI_Card
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (BaseCard.UseMana("E").Item1 == true
+            if (pStat.UseMana("E").Item1 == true
                         && E_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
             {
                 UI_UseE();
@@ -154,7 +160,7 @@ public class UI_CardPanel : UI_Card
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            if (BaseCard.UseMana("R").Item1 == true
+            if (pStat.UseMana("R").Item1 == true
                         && R_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
             {
                 UI_UseR();
@@ -166,27 +172,27 @@ public class UI_CardPanel : UI_Card
     public void CardUseable()
     {
         //Q Image
-        if (BaseCard.UseMana(null, Q_UI).Item1 == false)
+        if (pStat.UseMana(null, Q_UI).Item1 == false)
             Q_cardimg.color = new Color32(61, 61, 61, 255);
-        if (BaseCard.UseMana(null, Q_UI).Item1 == true)
+        if (pStat.UseMana(null, Q_UI).Item1 == true)
             Q_cardimg.color = new Color32(255, 255, 255, 255);
 
         //W Image
-        if (BaseCard.UseMana(null, W_UI).Item1 == false)
+        if (pStat.UseMana(null, W_UI).Item1 == false)
             W_cardimg.color = new Color32(61, 61, 61, 255);
-        if (BaseCard.UseMana(null, W_UI).Item1 == true)
+        if (pStat.UseMana(null, W_UI).Item1 == true)
             W_cardimg.color = new Color32(255, 255, 255, 255);
 
         //E Image
-        if (BaseCard.UseMana(null, E_UI).Item1 == false)
+        if (pStat.UseMana(null, E_UI).Item1 == false)
             E_cardimg.color = new Color32(61, 61, 61, 255);
-        if (BaseCard.UseMana(null, E_UI).Item1 == true)
+        if (pStat.UseMana(null, E_UI).Item1 == true)
             E_cardimg.color = new Color32(255, 255, 255, 255);
 
         //R Image
-        if (BaseCard.UseMana(null, R_UI).Item1 == false)
+        if (pStat.UseMana(null, R_UI).Item1 == false)
             R_cardimg.color = new Color32(61, 61, 61, 255);
-        if (BaseCard.UseMana(null, R_UI).Item1 == true)
+        if (pStat.UseMana(null, R_UI).Item1 == true)
             R_cardimg.color = new Color32(255, 255, 255, 255);
     }
 
@@ -208,7 +214,7 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card Q_CardUI = Q_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        BaseCard._nowMana -= BaseCard.UseMana(null, Q_CardUI).Item2;
+        pStat._nowMana -= pStat.UseMana(null, Q_CardUI).Item2;
         //사용한 카드
         string _nowCard = Q_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -230,7 +236,7 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card W_CardUI = W_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        BaseCard._nowMana -= BaseCard.UseMana(null, W_CardUI).Item2;
+        pStat._nowMana -= pStat.UseMana(null, W_CardUI).Item2;
         //사용한 카드
         string _nowCard = W_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -251,7 +257,7 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card E_CardUI = E_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        BaseCard._nowMana -= BaseCard.UseMana(null, E_CardUI).Item2;
+        pStat._nowMana -= pStat.UseMana(null, E_CardUI).Item2;
         // 사용한 카드
         string _nowCard = E_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -272,7 +278,7 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card R_CardUI = R_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        BaseCard._nowMana -= BaseCard.UseMana(null, R_CardUI).Item2;
+        pStat._nowMana -= pStat.UseMana(null, R_CardUI).Item2;
         //사용한 카드
         string _nowCard = R_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");

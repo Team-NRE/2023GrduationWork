@@ -22,11 +22,12 @@ public class CameraController : BaseController
 
     //Renderer 여부
     public bool IsRenderer = true;
-    
+
     //투명화 되는 건물 색깔
     public Color invisibleColor;
 
-    
+    LayerMask ignore;
+
     public override void Init()
     {
         //초기 값 세팅
@@ -42,6 +43,7 @@ public class CameraController : BaseController
 
         player = GameObject.FindWithTag("PLAYER");
         p_Position = player.transform;
+        ignore = LayerMask.GetMask("Human", "Cyborg");
     }
 
     void Update()
@@ -52,7 +54,7 @@ public class CameraController : BaseController
         if (IsRenderer == false) hitRenderer();
     }
 
-    
+
     private void LateUpdate()
     {
         switch (_cameraMode)
@@ -74,7 +76,8 @@ public class CameraController : BaseController
     {
         if (_evt == Define.MouseEvent.PointerDown || _evt == Define.MouseEvent.Press)
         {
-            GameObject hitObject = Managers.Input.Get3DMousePosition().Item2;
+            GameObject hitObject = Managers.Input.Get3DMousePosition(ignore).Item2;
+            Debug.Log(hitObject);
 
             if (hitObject != null)
             {
@@ -101,14 +104,14 @@ public class CameraController : BaseController
         }
 
         //이동 카메라 일 때 Spacebar 꾹 누를 시 
-        if(_key == Define.KeyboardEvent.Space)
+        if (_key == Define.KeyboardEvent.Space)
         {
             //카메라 고정
             _cameraMode = Define.CameraMode.QuaterView;
         }
 
         //Space 키 땠을 때 
-        if(_key == Define.KeyboardEvent.SpaceUp)
+        if (_key == Define.KeyboardEvent.SpaceUp)
         {
             _cameraMode = Define.CameraMode.FloatCamera;
         }
@@ -159,6 +162,7 @@ public class CameraController : BaseController
         if (Physics.Raycast(transform.position, Direction, out hit, Distance, layerMask))
         {
             RendererGameobject = hit.collider.gameObject;
+            Debug.Log(RendererGameobject);
             // 2.맞았으면 Renderer를 얻어온다.
             Renderer ObstacleRenderer = RendererGameobject.GetComponent<Renderer>();
 

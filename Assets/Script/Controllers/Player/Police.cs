@@ -36,7 +36,9 @@ public class Police : BaseController
     private float _SaveAttackSpeed = default;
     private float _SaveSkillCool = default;
 
-    
+    private LayerMask ignore;
+
+
     public void OnEnable()
     {
         GetComponent<CapsuleCollider>().enabled = true;
@@ -81,87 +83,93 @@ public class Police : BaseController
 
         //Object Target 정하는 리스트
         ObjectController._allObjectTransforms.Add(transform);
+
+        ignore = LayerMask.GetMask("Default", "Ignore Raycast");
     }
 
 
     //Mouse event
     private void MouseDownAction(Define.MouseEvent evt)
     {
-        (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition((1 << 0 | 1 << 2));
+        (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition(ignore);
 
-        switch (evt)
+        if (_mousePos.Item2 != null)
         {
-            //마우스 오른쪽 버튼 클릭 시
-            case Define.MouseEvent.PointerDown:
-                //공격 타입
-                _proj = Define.Projectile.Attack_Proj;
+            switch (evt)
+            {
+                //마우스 오른쪽 버튼 클릭 시
+                case Define.MouseEvent.PointerDown:
+                    //공격 타입
+                    _proj = Define.Projectile.Attack_Proj;
 
-                //타겟이 있을 때 마우스 좌표 오브젝트의 Layer 판별
-                MouseClickState(evt, _mousePos.Item1, _mousePos.Item2);
+                    //타겟이 있을 때 마우스 좌표 오브젝트의 Layer 판별
+                    MouseClickState(evt, _mousePos.Item1, _mousePos.Item2);
 
-                //사거리 Off
-                if (_IsRange == true)
-                {
-                    KeyPushState("MouseRightButton");
-                }
-
-                break;
-
-            //마우스 오른쪽 버튼 누르고 있을 시
-            case Define.MouseEvent.Press:
-                //공격 타입
-                _proj = Define.Projectile.Attack_Proj;
-
-                //타겟이 있을 때 마우스 좌표 오브젝트의 Layer 판별
-                MouseClickState(evt, _mousePos.Item1, _mousePos.Item2);
-
-                //사거리 Off
-                if (_IsRange == true)
-                {
-                    KeyPushState("MouseRightButton");
-                }
-
-                break;
-
-            //마우스 왼쪽 버튼 클릭 시
-            case Define.MouseEvent.LeftButton:
-                //Range가 On일 때만 좌클릭 시
-                if (_IsRange == true)
-                {
-                    switch (_IsTarget)
+                    //사거리 Off
+                    if (_IsRange == true)
                     {
-                        //타겟이 있을 때 (Range)
-                        case true:
-                            //타겟이 있을 때 마우스 좌표 오브젝트의 Layer 판별
-                            MouseClickState(evt, _mousePos.Item1, _mousePos.Item2);
-
-                            break;
-
-                        //타겟이 없을 때 (Arrow, Cone, Line, Point)
-                        case false:
-                            //Effect 좌표 설정
-                            _MovingPos = _mousePos.Item1;
-                            BaseCard._lockTarget = _mousePos.Item2;
-
-                            //스킬 상태로 전환
-                            State = Define.State.Skill;
-
-                            //논타겟 스킬이여서 움직임 없음.
-                            _NowState = "SkipMove";
-
-                            break;
+                        KeyPushState("MouseRightButton");
                     }
-                }
 
-                //Range Off일 때 아무일도 없음.
-                else
-                {
-                    //Debug.Log("Range Off 입니다.");
-                    return;
-                }
+                    break;
 
-                break;
+                //마우스 오른쪽 버튼 누르고 있을 시
+                case Define.MouseEvent.Press:
+                    //공격 타입
+                    _proj = Define.Projectile.Attack_Proj;
+
+                    //타겟이 있을 때 마우스 좌표 오브젝트의 Layer 판별
+                    MouseClickState(evt, _mousePos.Item1, _mousePos.Item2);
+
+                    //사거리 Off
+                    if (_IsRange == true)
+                    {
+                        KeyPushState("MouseRightButton");
+                    }
+
+                    break;
+
+                //마우스 왼쪽 버튼 클릭 시
+                case Define.MouseEvent.LeftButton:
+                    //Range가 On일 때만 좌클릭 시
+                    if (_IsRange == true)
+                    {
+                        switch (_IsTarget)
+                        {
+                            //타겟이 있을 때 (Range)
+                            case true:
+                                //타겟이 있을 때 마우스 좌표 오브젝트의 Layer 판별
+                                MouseClickState(evt, _mousePos.Item1, _mousePos.Item2);
+
+                                break;
+
+                            //타겟이 없을 때 (Arrow, Cone, Line, Point)
+                            case false:
+                                //Effect 좌표 설정
+                                _MovingPos = _mousePos.Item1;
+                                BaseCard._lockTarget = _mousePos.Item2;
+
+                                //스킬 상태로 전환
+                                State = Define.State.Skill;
+
+                                //논타겟 스킬이여서 움직임 없음.
+                                _NowState = "SkipMove";
+
+                                break;
+                        }
+                    }
+
+                    //Range Off일 때 아무일도 없음.
+                    else
+                    {
+                        //Debug.Log("Range Off 입니다.");
+                        return;
+                    }
+
+                    break;
+            }
         }
+
     }
 
 
@@ -238,7 +246,7 @@ public class Police : BaseController
         {
             case Define.KeyboardEvent.Q:
                 string Q_key = "Q";
-                if (BaseCard.UseMana(Q_key).Item1 == true)
+                if (_pStats.UseMana(Q_key).Item1 == true)
                 {
                     KeyPushState(Q_key);
                 }
@@ -247,7 +255,7 @@ public class Police : BaseController
 
             case Define.KeyboardEvent.W:
                 string W_key = "W";
-                if (BaseCard.UseMana(W_key).Item1 == true)
+                if (_pStats.UseMana(W_key).Item1 == true)
                 {
                     KeyPushState(W_key);
                 }
@@ -256,7 +264,7 @@ public class Police : BaseController
 
             case Define.KeyboardEvent.E:
                 string E_key = "E";
-                if (BaseCard.UseMana(E_key).Item1 == true)
+                if (_pStats.UseMana(E_key).Item1 == true)
                 {
                     KeyPushState(E_key);
                 }
@@ -265,7 +273,7 @@ public class Police : BaseController
 
             case Define.KeyboardEvent.R:
                 string R_key = "R";
-                if (BaseCard.UseMana(R_key).Item1 == true)
+                if (_pStats.UseMana(R_key).Item1 == true)
                 {
                     KeyPushState(R_key);
                 }
@@ -625,7 +633,7 @@ public class Police : BaseController
 
                     _cardStats.InitCard();
                     GameObject effectObj = _cardStats.cardEffect(ground.transform, this.transform, 1 << 6);
-                        
+
                     Destroy(effectObj, _cardStats._effectTime);
                     Destroy(ground, _cardStats._effectTime);
 

@@ -23,18 +23,14 @@ public class Card_Cannon : UI_Card
         _effectTime = 1.0f;
     }
 
-    public override void InitCard()
-    {
-        //Debug.Log($"{this.gameObject.name} is called");
-        //Debug.Log($"마나 {_cost} 사용 ");
-        //Debug.Log($"{_rangeScale}내에 Cone 모양 대포 발사");
-    }
-
     public override void UpdateInit()
     {
-        if (_Ground != null && _enemylayer != default && !isCannon && _Player != default)
+        if (_Ground != null && _Player != default && _enemylayer != default && !isCannon)
         {
             CannonOn(_Ground, _Player, _enemylayer);
+            _Ground = null;
+            _Player = default;
+            _enemylayer = default;
             isCannon = true; // 호출 상태를 true로 변경
         }
     }
@@ -64,7 +60,7 @@ public class Card_Cannon : UI_Card
             {
                 ObjStats _Stats = col.gameObject.GetComponent<ObjStats>();
                 PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
-                
+
                 _Stats.nowHealth -= (_damage + (_pStats.basicAttackPower * 0.5f));
             }
 

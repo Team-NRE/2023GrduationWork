@@ -29,10 +29,10 @@ public class Card_InvincibleShield : UI_Card
 
     public override void UpdateInit()
     {
-        if (_Player != null && _layer != default && !isShieldOn)
+        if (_Player != null && _layer != default && isShieldOn == true)
         {
             ShieldOn(_Player, _layer);
-            isShieldOn = true; // 호출 상태를 true로 변경
+            isShieldOn = false; // 호출 상태를 true로 변경
         }
     }
 
@@ -42,6 +42,8 @@ public class Card_InvincibleShield : UI_Card
         _Player = Player;
         _layer = layer;
 
+        isShieldOn = true;
+        
         return _effectObject;
     }
 
@@ -53,7 +55,7 @@ public class Card_InvincibleShield : UI_Card
         {
             //col.transform -> Police, 미니언
             GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
-            shield.AddComponent<InvincibleShieldStart>().StartInvincibility(_Player, _defence, 1.5f, 3.0f);
+            shield.AddComponent<InvincibleShieldStart>().Invincibility(_Player, _defence, 1.5f, 3.0f);
             Player.gameObject.GetComponent<PlayerStats>().defensePower += _defence;
         }
     }

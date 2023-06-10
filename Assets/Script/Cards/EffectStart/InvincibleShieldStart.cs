@@ -5,51 +5,69 @@ using Stat;
 
 public class InvincibleShieldStart : MonoBehaviour
 {
+    PlayerStats _pStats;
+    ObjStats _oStats;
     Transform Player = null;
     float Defence = default;
     float Invincibility_Time = default;
     float Shield_Time = default;
-    float Save_Health;
+    float pSave_Health;
+
     float time = 0.01f;
 
-    int stop = 0;
+    bool stop = false;
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (stop == 0)
-        {
-            StartInvincibility(Player, Defence, Invincibility_Time, Shield_Time);
-            Debug.Log("무적");
-        }
-
-        if(stop == 1)
-        {
-            StartShield();
-            Debug.Log("방어막");
-        }
-    }
-
-    public void StartInvincibility(Transform _Player, float _defence, float _Invincibility_Time, float _Shield_Time)
+    public void Invincibility(Transform _Player, float _defence, float _Invincibility_Time, float _Shield_Time)
     {
         Player = _Player;
         Defence = _defence;
         Invincibility_Time = _Invincibility_Time;
         Shield_Time = _Shield_Time;
+    }
 
+
+    public void Start()
+    {
+        Invincibility(Player, Defence, Invincibility_Time, Shield_Time);
+        _pStats = Player.gameObject.GetComponent<PlayerStats>();
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        Debug.Log(time);
+        if (stop == false)
+        {
+            StartInvincibility();
+            Debug.Log("무적");
+        }
+
+        if (stop == true)
+        {
+            Invoke("StartShield", 0.02f);
+            //StartShield();
+            Debug.Log("방어막");
+        }
+    }
+
+
+    public void StartInvincibility()
+    {
         time += Time.deltaTime;
 
-        if(time >= Invincibility_Time)
+        if (time >= Invincibility_Time)
         {
-            PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
             _pStats.defensePower -= Defence;
-            
-            Save_Health = _pStats.nowHealth;
-            Debug.Log(Save_Health);
-            
-            _pStats.nowHealth +=  (_pStats.maxHealth / 100) * 33;
-            stop = 1;
+
+            pSave_Health = _pStats.nowHealth;
+
+            Debug.Log(pSave_Health);
+            _pStats.nowHealth += (_pStats.maxHealth / 100) * 10;
+
+
+            stop = true;
             time = 0;
         }
     }
@@ -58,16 +76,13 @@ public class InvincibleShieldStart : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        if(time >= Shield_Time)
+        if (time >= Shield_Time)
         {
-            PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
-            _pStats.nowHealth =  Save_Health;
-            stop = 2;
-            Destroy(this.gameObject);
+            _pStats.nowHealth = pSave_Health;
+            stop = false;
+
             time = 0;
+            Destroy(this.gameObject);
         }
     }
-
-
-
 }

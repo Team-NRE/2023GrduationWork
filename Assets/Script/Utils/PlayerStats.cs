@@ -31,10 +31,19 @@ namespace Stat
         [Header("-- 이동 --")]
         public float _speed; //이동 속도
 
+        [Header("-- 마나 --")]
+        public float _nowMana = 0; //현재 마나
+        public float _manaRegen = 4.0f; //마나 회복 속도
+        public float _maxMana = 3f; //최대 마나
+
+        [Header("-- 현재 상태 --")]
+        public string _nowState;
+
+
         [Header("-- 진영 --")]
         public LayerMask _layerArea; //진영 레이어
         private int _playerArea; //내 진영
-        public int _enemyArea; //상대방 진영
+        private int _enemyArea; //상대방 진영
 
         #endregion
 
@@ -74,7 +83,7 @@ namespace Stat
                 {
                     _nowHealth = value;
                 }
-                else if (value < 0) 
+                else if (value < 0)
                 {
                     value *= 100 / (100 + defensePower);
                     _nowHealth = value;
@@ -89,7 +98,7 @@ namespace Stat
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
 
         //레벨
-        
+
         public int level { get { return _level; } set { _level = value; } }
         public float experience { get { return _experience; } set { _experience = value; } }
 
@@ -104,6 +113,10 @@ namespace Stat
                 agent.speed = _speed;
             }
         }
+
+        //현재 상태
+        public string nowState { get { return _nowState; } set { _nowState = value; } }
+
 
         //진영
         public int playerArea
@@ -127,6 +140,38 @@ namespace Stat
             }
         }
 
+
+
+
+        //현재 마나 get,set
+        public float nowMana
+        {
+            get { return _nowMana; }
+            set
+            {
+                _nowMana += value;
+                if (_nowMana >= _maxMana * _manaRegen) { _nowMana = _maxMana * _manaRegen; }
+                if (_nowMana <= 0) { _nowMana = 0; }
+            }
+        }
+
+        //마나 사용
+        public (bool, float) UseMana(string _key = null, UI_Card ui_card = null)
+        {
+            bool CanUseCard;
+
+            if (_key != null) { ui_card = GameObject.Find(_key).GetComponentInChildren<UI_Card>(); }
+            float cardValue = ui_card._cost * _manaRegen;
+
+            if (_nowMana >= cardValue) { CanUseCard = true; }
+            else { CanUseCard = false; }
+
+            return (CanUseCard, cardValue);
+        }
+
+
+
+
         public Define.PlayerAttackType AttackType { get; set; } = Define.PlayerAttackType.Undefine;
 
 
@@ -146,7 +191,7 @@ namespace Stat
             attackRange = 6.0f;
 
             //방어
-            maxHealth = 300.0f;
+            maxHealth = 1000f;
             defensePower = 50.0f;
 
             //레벨
@@ -155,10 +200,17 @@ namespace Stat
             //이동
             speed = 4.0f;
 
+            //마나
+            nowMana = 0; //현재 마나
+            _manaRegen = 4.0f; //마나 회복 속도
+            _maxMana = 3f; //최대 마나
+
+            nowState = "Health";
+
             //진영
             //진영 선택 창에서 진영 정보를 불러와 area에 저장
             //area = 진영정보 불러오기 -> 일단 Inspector에서 선택.
-            this.gameObject.layer = 6;
+            //this.gameObject.layer = 6;
 
             //평타 타입
             AttackType = Define.PlayerAttackType.LongRange;

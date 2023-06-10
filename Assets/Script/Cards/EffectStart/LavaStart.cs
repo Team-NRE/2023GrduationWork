@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 
-public class InvincibleWeaponStart : MonoBehaviour
+public class LavaStart : MonoBehaviour
 {
     Transform Player = null;
     float Damage = default;
     int Enemylayer = default;
 
 
-    public void StartWeapon(Transform _Player, float _damage, LayerMask _enemylayer)
+    public void StartLava(Transform _Player, float _damage, LayerMask _enemylayer)
     {
         Player = _Player;
         Damage = _damage;
@@ -19,7 +19,7 @@ public class InvincibleWeaponStart : MonoBehaviour
 
     public void Start()
     {
-        StartWeapon(Player, Damage, Enemylayer);
+        StartLava(Player, Damage, Enemylayer);
     }
 
 
@@ -35,7 +35,7 @@ public class InvincibleWeaponStart : MonoBehaviour
                 ObjStats _Stats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
 
-                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.04f));
+                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
             }
 
             //타겟이 적 Player일 시
@@ -44,7 +44,7 @@ public class InvincibleWeaponStart : MonoBehaviour
                 PlayerStats _EnemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
 
-                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.04f));
+                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
             }
         }
     }

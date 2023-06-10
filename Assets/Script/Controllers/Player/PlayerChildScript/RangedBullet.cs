@@ -67,5 +67,4 @@ public class RangedBullet : MonoBehaviour
             this.enabled = false;
         }
     }
-
 }
