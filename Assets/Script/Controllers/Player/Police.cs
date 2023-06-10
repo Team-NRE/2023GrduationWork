@@ -13,6 +13,7 @@ public class Police : BaseController
 
     //총알 위치
     private Transform _Proj_Parent;
+    private GameObject _bullet;
 
     //UI_Card 접근
     private UI_Card _cardStats;
@@ -35,7 +36,7 @@ public class Police : BaseController
     private float _SaveAttackSpeed = default;
     private float _SaveSkillCool = default;
 
-
+    
     public void OnEnable()
     {
         GetComponent<CapsuleCollider>().enabled = true;
@@ -58,8 +59,8 @@ public class Police : BaseController
 
 
         //총알 위치
-        _Proj_Parent = GameObject.Find("Barrel_Location").transform;
-
+        _Proj_Parent = this.transform.GetChild(2);
+        _bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
 
         //Range List Setting 
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -564,10 +565,8 @@ public class Police : BaseController
                         if (BaseCard._lockTarget != null)
                         {
                             //Shoot
-                            Managers.Pool.Projectile_Pool("PoliceBullet", _Proj_Parent.position, BaseCard._lockTarget.transform,
-                            5.0f, _pStats._basicAttackPower);
-
-                            //Debug.Log("Shoot");
+                            GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
+                            nowBullet.GetComponent<RangedBullet>().BulletSetting(_Proj_Parent.position, BaseCard._lockTarget.transform, _pStats.speed, _pStats.basicAttackPower);
                         }
 
                         break;
@@ -626,7 +625,7 @@ public class Police : BaseController
 
                     _cardStats.InitCard();
                     GameObject effectObj = _cardStats.cardEffect(ground.transform, this.transform, 1 << 6);
-
+                        
                     Destroy(effectObj, _cardStats._effectTime);
                     Destroy(ground, _cardStats._effectTime);
 

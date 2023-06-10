@@ -203,7 +203,7 @@ public class UI_CardPanel : UI_Card
 
 
     //0번 인덱스의 리스트를 반드시 사용한다.
-    public void UI_UseQ(PointerEventData data = null)
+    public void UI_UseQ()
     {
         //UI_Card 
         UI_Card Q_CardUI = Q_Btn.GetComponentInChildren<UI_Card>();
@@ -219,13 +219,13 @@ public class UI_CardPanel : UI_Card
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
         Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
         Q_cardimg = Q_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-        
+
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
 
     }
 
     //1번 인덱스의 리스트를 반드시 사용한다.
-    public void UI_UseW(PointerEventData data = null)
+    public void UI_UseW()
     {
         //UI_Card 
         UI_Card W_CardUI = W_Btn.GetComponentInChildren<UI_Card>();
@@ -241,12 +241,12 @@ public class UI_CardPanel : UI_Card
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
         W_UI = W_Card.GetComponentInChildren<UI_Card>();
         W_cardimg = W_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-        
+
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
     }
 
     //2번 인덱스의 리스트를 반드시 사용한다.
-    public void UI_UseE(PointerEventData data = null)
+    public void UI_UseE()
     {
         //UI_Card 
         UI_Card E_CardUI = E_Btn.GetComponentInChildren<UI_Card>();
@@ -262,12 +262,12 @@ public class UI_CardPanel : UI_Card
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
         E_cardimg = E_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-        
+
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
     }
 
     //3번 인덱스의 리스트를 반드시 사용한다.
-    public void UI_UseR(PointerEventData data = null)
+    public void UI_UseR()
     {
         //UI_Card 
         UI_Card R_CardUI = R_Btn.GetComponentInChildren<UI_Card>();
@@ -277,15 +277,6 @@ public class UI_CardPanel : UI_Card
         string _nowCard = R_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
 
-        /*
-        //사용한 카드 파괴
-        R_CardUI.DestroyCard(null, 0.1f);
-
-        //새로운 카드 덱에서 리필
-        R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", R_Btn.transform);
-        R_UI = R_Card.GetComponentInChildren<UI_Card>();
-        R_cardimg = R_Card.transform.GetChild(1).gameObject.GetComponent<Image>();*/
-        
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
     }
 }

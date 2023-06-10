@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1094925899623237681}
   - component: {fileID: 1095569309821111545}
   - component: {fileID: 892976164432205435}
+  - component: {fileID: 6834242047265660811}
   m_Layer: 0
   m_Name: Effect_Cannon
   m_TagString: Untagged
@@ -4903,6 +4904,19 @@ MonoBehaviour:
   destroyWhenDone: 1
   soundPrefabIsChild: 0
   pitchRandomMultiplier: 1.2
+--- !u!135 &6834242047265660811
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005835247375216511}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.33
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1005854043573021443
 GameObject:
   m_ObjectHideFlags: 0

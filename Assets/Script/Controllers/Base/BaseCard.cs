@@ -6,7 +6,6 @@ using UnityEngine;
 
 public static class BaseCard
 {
-    public static Action<Define.KeyboardEvent> cardAction = null;
 
     //덱 안의 카드 변환 List
     public static List<string> _initDeck = new List<string>();

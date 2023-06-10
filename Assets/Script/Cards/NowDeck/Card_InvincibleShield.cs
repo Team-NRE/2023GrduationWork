@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Stat;
 
 public class Card_InvincibleShield : UI_Card
 {
@@ -10,6 +11,8 @@ public class Card_InvincibleShield : UI_Card
     public override void Init()
     {
         _cost = 3;
+        _defence = 99999;
+
         _rangeType = "None";
         _rangeScale = 6.0f;
 
@@ -26,7 +29,8 @@ public class Card_InvincibleShield : UI_Card
 
     public override void UpdateInit()
     {
-        if (_Player != null && _layer != default && !isShieldOn){
+        if (_Player != null && _layer != default && !isShieldOn)
+        {
             ShieldOn(_Player, _layer);
             isShieldOn = true; // 호출 상태를 true로 변경
         }
@@ -41,15 +45,16 @@ public class Card_InvincibleShield : UI_Card
         return _effectObject;
     }
 
+
     public void ShieldOn(Transform Player, LayerMask layer)
     {
-        Collider[] cols = Physics.OverlapSphere(Player.position, _rangeScale, layer);
+        Collider[] cols = Physics.OverlapSphere(Player.position, 2 * _rangeScale, layer);
         foreach (Collider col in cols)
         {
             //col.transform -> Police, 미니언
             GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
-
-            Destroy(shield, 3.0f);
+            shield.AddComponent<InvincibleShieldStart>().StartInvincibility(_Player, _defence, 1.5f, 3.0f);
+            Player.gameObject.GetComponent<PlayerStats>().defensePower += _defence;
         }
     }
 

@@ -19846,6 +19846,7 @@ GameObject:
   - component: {fileID: 1014067766347747826}
   - component: {fileID: 4686794929353712723}
   - component: {fileID: 5384884864385449181}
+  - component: {fileID: 5952489587380295282}
   m_Layer: 0
   m_Name: Effect_InvincibleWeapon
   m_TagString: Untagged
@@ -24718,6 +24719,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!65 &5952489587380295282
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7870668705215844770}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 0.6, z: 0.78}
+  m_Center: {x: 3, y: 0, z: 0.25}
 --- !u!1 &8968428679358432810
 GameObject:
   m_ObjectHideFlags: 0

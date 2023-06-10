@@ -42,6 +42,7 @@ public abstract class UI_Base : MonoBehaviour
 		}
 	}
 
+
 	protected T Get<T>(int idx) where T : UnityEngine.Object
 	{
 		UnityEngine.Object[] objects = null;
@@ -51,11 +52,13 @@ public abstract class UI_Base : MonoBehaviour
 		return objects[idx] as T;
 	}
 
+
 	//편의를 위해서 입력을 줄이기 위한 함수들
 	protected GameObject GetObject(int idx) { return Get<GameObject>(idx); }
 	protected Text GetText(int idx) { return Get<Text>(idx); }
 	protected Button GetButton(int idx) { return Get<Button>(idx); }
 	protected Image GetImage(int idx) { return Get<Image>(idx); }
+
 
 	public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
 	{

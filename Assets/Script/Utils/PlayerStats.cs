@@ -70,10 +70,21 @@ namespace Stat
             get { return _nowHealth; }
             set
             {
-                _nowHealth = value;
-                if (_nowHealth >= _maxHealth) { _nowHealth = _maxHealth; }
+                if (value > 0)
+                {
+                    _nowHealth = value;
+                }
+                else if (value < 0) 
+                {
+                    value *= 100 / (100 + defensePower);
+                    _nowHealth = value;
+                }
+
+                if (_nowHealth >= _maxHealth) _nowHealth = _maxHealth;
+                if (_nowHealth < 0) _nowHealth = 0;
             }
         }
+
         public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
 
@@ -136,6 +147,7 @@ namespace Stat
 
             //방어
             maxHealth = 300.0f;
+            defensePower = 50.0f;
 
             //레벨
             level = 7;

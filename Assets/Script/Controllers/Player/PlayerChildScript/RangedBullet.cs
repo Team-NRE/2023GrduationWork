@@ -1,67 +1,71 @@
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Stat;
-public class RangedBullet : Poolable
+public class RangedBullet : MonoBehaviour
 {
-    private Transform _Target;
-    private float _BulletSpeed;
-    private float _BulletDamage;
+    [SerializeField]
+    Transform _Target;
+    [SerializeField]
+    Vector3 _TargetPos;
+
+    [SerializeField]
+    float _bulletSpeed;
+    [SerializeField]
+    float _damage;
     
-
-
-    //외부 namespace Stat 참조
-    public PlayerStats _pStats { get; set; }
-
-    public void OnEnable()
-    {
-        GameObject _player = GameObject.FindWithTag("PLAYER");
-
-        _pStats = _player.GetComponent<PlayerStats>();
-
-        Proj_Target_Init(transform.position, _Target, _BulletSpeed, _BulletDamage);
-    }
-
-
 
     public void Update()
     {
-        Bullet_shoot();
+        FollowTarget();
+        HitDetection();
     }
 
-    public override void Proj_Target_Init(Vector3 _shooter, Transform _target, float _bulletSpeed, float _damage)
+
+    public void BulletSetting(Vector3 muzzle, Transform _target, float bulletSpeed, float damage)
     {
-        transform.position = _shooter;
+        transform.position = muzzle;
         _Target = _target;
-        _BulletSpeed = _bulletSpeed;
-        _BulletDamage = _damage;
+        _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
+        _damage = damage;
     }
 
-    void Bullet_shoot()
+    public void FollowTarget()
     {
-        Vector3 target_Pos = new Vector3(_Target.position.x, transform.position.y, _Target.position.z);
-        transform.position = Vector3.Lerp(transform.position, target_Pos, Time.deltaTime * _BulletSpeed);
+        if (_Target == null) 
+        {
+            Destroy(this.gameObject);
+        }
 
-        if (Vector3.Distance(transform.position, target_Pos) <= 0.7f)
+        _TargetPos = _Target.position;
+
+        transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
+        transform.LookAt(_TargetPos);
+    }
+
+    public void HitDetection()
+    {
+        Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
+
+        if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
             //타겟이 미니언, 타워일 시 
             if (_Target.tag != "PLAYER")
             {
                 ObjStats _Stats = _Target.GetComponent<ObjStats>();
-                _Stats.nowHealth -= _BulletDamage;
+                _Stats.nowHealth -= _damage;
             }
 
             //타겟이 적 Player일 시
             if (_Target.tag == "PLAYER")
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
-                _Stats.nowHealth -= _BulletDamage;
+                _Stats.nowHealth -= _damage;
             }
-
-            Managers.Pool.Push(this);
+            
+            Destroy(this.gameObject, 0.5f);
+            this.enabled = false;
         }
-
     }
 
 }
