@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Card_Strike : UI_Card
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    public override void Init()
     {
-        
+        _cardBuyCost = 1400;
     }
-
     // Update is called once per frame
     void Update()
     {

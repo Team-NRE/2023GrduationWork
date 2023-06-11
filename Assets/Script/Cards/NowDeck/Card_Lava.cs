@@ -12,6 +12,7 @@ public class Card_Lava : UI_Card
 
     public override void Init()
     {
+        _cardBuyCost = 1400;
         _cost = 2;
         _damage = 0.1f;
         _rangeType = "Point";

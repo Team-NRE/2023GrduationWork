@@ -35,7 +35,7 @@ public class InvincibleWeaponStart : MonoBehaviour
                 ObjStats _Stats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
 
-                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.04f));
+                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
             }
 
             //타겟이 적 Player일 시
@@ -44,7 +44,7 @@ public class InvincibleWeaponStart : MonoBehaviour
                 PlayerStats _EnemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
 
-                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.04f));
+                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
             }
         }
     }

@@ -1,8 +1,18 @@
 {
-    "decks": [
-      {
-        "id" : "0",
-        "cards" : ["Card_Shield", "Card_Lava", "Card_Purify", "Card_Spear", "Card_InvincibleShield", "Card_Cannon", "Card_InvincibleWeapon", "Card_HackingGrenade", "JobCard_Grenade"]
-      }
-    ]
-  } 
+  "decks": [
+    {
+      "id": "0",
+      "cards": [
+        "JobCard_Grenade",
+        "Card_Cannon",
+        "Card_HackingGrenade",
+        "Card_InvincibleShield",
+        "Card_InvincibleWeapon",
+        "Card_Lava",
+        "Card_Shield",
+        "Card_Spear",
+        "Card_Purify"
+      ]
+    }
+  ]
+}

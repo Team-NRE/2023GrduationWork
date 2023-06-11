@@ -13,6 +13,7 @@ public class Card_Cannon : UI_Card
 
     public override void Init()
     {
+        _cardBuyCost = 1400;
         _cost = 2;
         _damage = 50;
         _rangeType = "Point";

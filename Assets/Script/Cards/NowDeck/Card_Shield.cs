@@ -11,6 +11,7 @@ public class Card_Shield : UI_Card
 
     public override void Init()
     {
+        _cardBuyCost = 300;    
         _cost = 0;
         _defence = 50;
         _rangeType = "None";

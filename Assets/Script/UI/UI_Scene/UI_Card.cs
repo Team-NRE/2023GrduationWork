@@ -8,6 +8,7 @@ public class UI_Card : UI_Scene
 {
     //카드 비용
     public int _cost;
+    public int _cardBuyCost;
     //카드 시전 시간
     public float _CastingTime;
     //이펙트 발동 시간

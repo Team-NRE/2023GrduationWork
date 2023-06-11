@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class BaseCard
 {
-
+    public static List<string> _MyDeck = new List<string>();
     //덱 안의 카드 변환 List
     public static List<string> _initDeck = new List<string>();
     //현재 덱 안의 전체 카드 -> 상점에 띄우려면 필요할거같음
@@ -37,6 +37,11 @@ public static class BaseCard
         return cardNames;
     }
 
+    public static List<string> ExportMyDeck()
+    {
+        return _MyDeck = LoadDeck();
+    }
+
     //가져온 이름으로 List를 채운다
     public static List<string> ExportDeck()
     {
@@ -47,7 +52,7 @@ public static class BaseCard
     public static string UseCard(string ReloadCard = null)
     {
         //카드가 남아 있다면 랜덤으로 뽑아서 처리 
-        int rand = UnityEngine.Random.Range(0, _initDeck.Count);
+        int rand = UnityEngine.Random.Range(1, _initDeck.Count);
         //카드 이름 저장
         string ChoiseCard = _initDeck[rand];
         //남은 카드 List의 랜덤하게 뽑은 카드 삭제
@@ -74,7 +79,7 @@ public static class BaseCard
     public static string StartDeck()
     {
         //랜덤으로 카드 뽑기
-        int rand = UnityEngine.Random.Range(0, _initDeck.Count);
+        int rand = UnityEngine.Random.Range(1, _initDeck.Count);
         string ChoiseCard = _initDeck[rand];
         //뽑은 카드 덱에서 삭제
         _initDeck.RemoveAt(rand);
@@ -86,7 +91,7 @@ public static class BaseCard
 
     public static string StartJobCard()
     {
-        string ChoiseCard = _initDeck[_initDeck.Count - 1];
+        string ChoiseCard = _initDeck[0];
         //뽑은 카드 덱에서 삭제
         _initDeck.RemoveAt(_initDeck.Count - 1);
 

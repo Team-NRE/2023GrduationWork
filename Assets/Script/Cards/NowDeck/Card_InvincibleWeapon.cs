@@ -10,6 +10,7 @@ public class Card_InvincibleWeapon : UI_Card
 
     public override void Init()
     {
+        _cardBuyCost = 3000;
         _cost = 3;
         _damage = 1;
         _rangeType = "Arrow";

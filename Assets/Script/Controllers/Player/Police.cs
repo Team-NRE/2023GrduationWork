@@ -8,9 +8,6 @@ using Stat;
 
 public class Police : BaseController
 {
-    //플레이어 스텟 초기화
-    private PlayerStats _pStats;
-
     //총알 위치
     private Transform _Proj_Parent;
     private GameObject _bullet;
@@ -41,24 +38,24 @@ public class Police : BaseController
 
     public void OnEnable()
     {
-        GetComponent<CapsuleCollider>().enabled = true;
+        _pType = Define.PlayerType.Police;
+        _state = Define.State.Idle;
+
+        //액션 대리자 호출
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
     }
 
     //start 초기화
     public override void Init()
     {
         //초기화
+        _pStats = GetComponent<PlayerStats>();
         _anim = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
-        _pStats = GetComponent<PlayerStats>();
 
-
-        //액션 대리자 호출
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-
+        //스텟 호출
+        _pStats.PlayerStatSetting(_pType);
 
         //총알 위치
         _Proj_Parent = this.transform.GetChild(2);
@@ -80,10 +77,10 @@ public class Police : BaseController
         //Prefab off
         GetComponentInChildren<SplatManager>().enabled = true;
 
-
         //Object Target 정하는 리스트
         ObjectController._allObjectTransforms.Add(transform);
 
+        //마우스 이벤트 시 무시할 레이어
         ignore = LayerMask.GetMask("Default", "Ignore Raycast");
     }
 
@@ -200,8 +197,6 @@ public class Police : BaseController
                     break;
 
                 case Define.MouseEvent.LeftButton:
-
-
                     break;
             }
 
@@ -516,6 +511,8 @@ public class Police : BaseController
         {
             State = Define.State.Idle;
         }
+
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
     }
 
 
@@ -528,7 +525,7 @@ public class Police : BaseController
         //Idle
         if (_agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
         //Attack
-        if (_NowState == "Attack" && _agent.remainingDistance <= _pStats._attackRange)
+        if (_NowState == "Attack" && _agent.remainingDistance <= _pStats.attackRange)
         {
             State = Define.State.Attack;
         }
@@ -539,13 +536,17 @@ public class Police : BaseController
             Managers.Input.KeyAction = null;
             State = Define.State.Skill;
         }
+        //Die
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
     }
 
 
     protected override void UpdateAttack()
     {
+        //죽었을 때
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
         //적이 공격 범위 밖에 있을 때 Moving 전환
-        if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats._attackRange)
+        if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats.attackRange)
         {
             //애니메이션 Moving으로 변한
             State = Define.State.Moving;
@@ -566,22 +567,24 @@ public class Police : BaseController
 
                 //플레이어 평타 타입에 따른 변환
                 //원거리일시
-                switch (_pStats.AttackType)
+                switch (_pStats.attackType)
                 {
-                    //원거리
-                    case Define.PlayerAttackType.LongRange:
+                    case "LongRange":
                         if (BaseCard._lockTarget != null)
                         {
                             //Shoot
                             GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
                             nowBullet.GetComponent<RangedBullet>().BulletSetting(_Proj_Parent.position, BaseCard._lockTarget.transform, _pStats.speed, _pStats.basicAttackPower);
                         }
+                        break;
+
+                    case "ShortRange":
+                        Debug.Log("근접 공격");
 
                         break;
 
-                    //근거리
-                    case Define.PlayerAttackType.ShortRange:
-                        //Debug.Log("근접 공격");
+                    default:
+                        Debug.Log("평타 불가");
 
                         break;
                 }
@@ -604,6 +607,8 @@ public class Police : BaseController
 
     protected override void UpdateSkill()
     {
+        //죽었을 때
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
         //이동을 스킵 안함 && 적이 공격 범위 밖에 있을 때 Moving 전환 
         if (_NowState != "SkipMove" && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale)
         {
@@ -655,7 +660,15 @@ public class Police : BaseController
 
     protected override void UpdateDie()
     {
+        GetComponent<CapsuleCollider>().enabled = false;
+        //스킬 시전 시간동안 키 입력 X
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
 
+        _IsRange = false;
+        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+
+        this.enabled = false;
     }
 
 
@@ -681,14 +694,12 @@ public class Police : BaseController
             _SaveAttackSpeed += Time.deltaTime;
 
             //플레이어 평타 딜레이 시간 지나면,
-            if (_SaveAttackSpeed >= _pStats._attackDelay)
+            if (_SaveAttackSpeed >= _pStats.attackDelay)
             {
                 //attackDelay 초기화
                 _SaveAttackSpeed = default;
                 //StopAttack() update문 stop
                 _stopAttack = false;
-
-                //Debug.Log("Attack Ready");
             }
         }
     }
@@ -703,8 +714,8 @@ public class Police : BaseController
             _SaveSkillCool = 0.01f;
 
             //스킬 시전 시간동안 키 입력 X
-            Managers.Input.MouseAction = null;
-            Managers.Input.KeyAction = null;
+            Managers.Input.MouseAction -= MouseDownAction;
+            Managers.Input.KeyAction -= KeyDownAction;
         }
 
         //스킬 시전 시간 벌어주는 Delay Start

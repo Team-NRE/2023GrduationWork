@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Stat;
+using Define;
 
 
 public class UI_CardPanel : UI_Card
@@ -34,6 +35,7 @@ public class UI_CardPanel : UI_Card
     Image R_cardimg;
 
     PlayerStats pStat;
+    PlayerType _pType;
 
     public enum CardObjects
     {
@@ -48,9 +50,10 @@ public class UI_CardPanel : UI_Card
         R,
     }
 
-
     public override void Init()
     {
+        pStatAction();
+
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
 
@@ -77,20 +80,55 @@ public class UI_CardPanel : UI_Card
         R_cardimg = R_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
 
 
-        pStat = GameObject.FindWithTag("PLAYER").GetComponent<PlayerStats>();
-
-
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
+    }
 
+    //초기 덱 
+    public void DeckStart()
+    {
+        //여기서 이제 UI를 자식객체로 넣어준다.
+        R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartJobCard()}", R_Btn.transform);
+        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", Q_Btn.transform);
+        W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", W_Btn.transform);
+        E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
+    }
+
+    public void pStatAction()
+    {
+        switch (_pType)
+        {
+            case Define.PlayerType.Police:
+                pStat = GameObject.Find("Police").GetComponent<PlayerStats>();
+                
+                break;
+            
+            case Define.PlayerType.Firefight:
+                pStat = GameObject.Find("Firefight").GetComponent<PlayerStats>();
+                
+                break;
+
+            case Define.PlayerType.Lightsaber:
+                pStat = GameObject.Find("Lightsaber").GetComponent<PlayerStats>();
+                
+                break;
+
+            case Define.PlayerType.Monk:
+                pStat = GameObject.Find("Monk").GetComponent<PlayerStats>();
+                
+                break;
+        }
     }
 
     private void Update()
     {
-        MouseDownAction();
-        KeyDownAction();
+        if(pStat.nowHealth > 0)
+        {
+            MouseDownAction();
+            KeyDownAction();
+        }
         CardUseable();
     }
 
@@ -196,16 +234,6 @@ public class UI_CardPanel : UI_Card
             R_cardimg.color = new Color32(255, 255, 255, 255);
     }
 
-    //초기 덱 
-    public void DeckStart()
-    {
-        //여기서 이제 UI를 자식객체로 넣어준다.
-        R_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartJobCard()}", R_Btn.transform);
-        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", Q_Btn.transform);
-        W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", W_Btn.transform);
-        E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
-    }
-
 
 
     //0번 인덱스의 리스트를 반드시 사용한다.
@@ -214,7 +242,7 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card Q_CardUI = Q_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        pStat._nowMana -= pStat.UseMana(null, Q_CardUI).Item2;
+        pStat.nowMana -= pStat.UseMana(null, Q_CardUI).Item2;
         //사용한 카드
         string _nowCard = Q_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -225,7 +253,7 @@ public class UI_CardPanel : UI_Card
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
         Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
         Q_cardimg = Q_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-
+        BaseCard._NowKey = null;
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
 
     }
@@ -236,7 +264,7 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card W_CardUI = W_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        pStat._nowMana -= pStat.UseMana(null, W_CardUI).Item2;
+        pStat.nowMana -= pStat.UseMana(null, W_CardUI).Item2;
         //사용한 카드
         string _nowCard = W_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -247,7 +275,7 @@ public class UI_CardPanel : UI_Card
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
         W_UI = W_Card.GetComponentInChildren<UI_Card>();
         W_cardimg = W_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-
+        BaseCard._NowKey = null;
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
     }
 
@@ -257,7 +285,7 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card E_CardUI = E_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        pStat._nowMana -= pStat.UseMana(null, E_CardUI).Item2;
+        pStat.nowMana -= pStat.UseMana(null, E_CardUI).Item2;
         // 사용한 카드
         string _nowCard = E_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -268,7 +296,7 @@ public class UI_CardPanel : UI_Card
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
         E_cardimg = E_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-
+        BaseCard._NowKey = null;
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
     }
 
@@ -278,11 +306,11 @@ public class UI_CardPanel : UI_Card
         //UI_Card 
         UI_Card R_CardUI = R_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
-        pStat._nowMana -= pStat.UseMana(null, R_CardUI).Item2;
+        pStat.nowMana -= pStat.UseMana(null, R_CardUI).Item2;
         //사용한 카드
         string _nowCard = R_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
-
+        BaseCard._NowKey = null;
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
     }
 }

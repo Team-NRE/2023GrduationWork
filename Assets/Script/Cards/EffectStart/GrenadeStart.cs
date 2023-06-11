@@ -63,13 +63,16 @@ public class GrenadeStart : MonoBehaviour
                 _pStats = Player.gameObject.GetComponent<PlayerStats>();
 
                 _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.5f));
+                if (_EnemyStats.nowHealth <= 0) { _pStats.kill += 1; }
+
+
                 if (Debuff != default)
                 {
                     _EnemyStats.nowState = "Debuff";
-                    
-                    Save = _EnemyStats._manaRegen;
-                    _EnemyStats._manaRegen = 0;
-                    
+
+                    Save = _EnemyStats.manaRegen;
+                    _EnemyStats.manaRegen = 0;
+
                     IsDebuff = true;
                 }
             }
@@ -78,9 +81,9 @@ public class GrenadeStart : MonoBehaviour
 
     private void ManaRegenBack()
     {
-        if (time >= Debuff - 0.02f || _EnemyStats.nowState == "Health") 
-        { 
-            _EnemyStats._manaRegen = Save;
+        if (time >= Debuff - 0.02f || _EnemyStats.nowState == "Health")
+        {
+            _EnemyStats.manaRegen = Save;
             _EnemyStats.nowState = "Health";
             time = 0;
             IsDebuff = false;

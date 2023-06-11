@@ -10,6 +10,7 @@ public class Card_InvincibleShield : UI_Card
     private bool isShieldOn = false;
     public override void Init()
     {
+        _cardBuyCost = 3333;
         _cost = 3;
         _defence = 99999;
 

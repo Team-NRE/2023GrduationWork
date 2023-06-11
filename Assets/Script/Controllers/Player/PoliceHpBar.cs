@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Stat;
 
-public class PoliceHealthBar : MonoBehaviour
+public class PoliceHpBar : MonoBehaviour
 {
     [Header ("- Health Bar Images")]
     [SerializeField]
@@ -19,21 +19,22 @@ public class PoliceHealthBar : MonoBehaviour
     [SerializeField]
     private bool isHealHitEffect = true;
 
+    private PlayerStats _pStats;
     private Transform cam;
-    public PlayerStats stats;
+
     private float maxHealth;
     private float nowHealth;
 
     private static float DELAY_TIME = 0.5f;
     
-    private void Awake() 
+    public void Awake() 
     {
         cam = Camera.main.transform;
-        
-        GetStatsScript();
+        _pStats = GetComponentInParent<PlayerStats>();
 
-        maxHealth = stats.maxHealth;
-        nowHealth = stats.nowHealth;
+        maxHealth = _pStats.maxHealth;
+        nowHealth = _pStats.nowHealth;
+
 
         healthBarHeal = transform.GetChild(1).gameObject.GetComponent<Image>();
         healthBarHit = transform.GetChild(2).gameObject.GetComponent<Image>();
@@ -44,10 +45,10 @@ public class PoliceHealthBar : MonoBehaviour
     {
         transform.LookAt(transform.position + cam.transform.rotation * Vector3.back, cam.transform.rotation * Vector3.up);
 
-        if (nowHealth < stats.nowHealth)
+        if (nowHealth < _pStats.nowHealth)
         {
-            nowHealth = stats.nowHealth;
-            maxHealth = stats.maxHealth;
+            nowHealth = _pStats.nowHealth;
+            maxHealth = _pStats.maxHealth;
 
             if (isHealHitEffect)
             {
@@ -63,10 +64,10 @@ public class PoliceHealthBar : MonoBehaviour
             }
         }
 
-        if (nowHealth > stats.nowHealth)
+        if (nowHealth > _pStats.nowHealth)
         {
-            nowHealth = stats.nowHealth;
-            maxHealth = stats.maxHealth;
+            nowHealth = _pStats.nowHealth;
+            maxHealth = _pStats.maxHealth;
 
             if (isHealHitEffect)
             {
@@ -81,20 +82,6 @@ public class PoliceHealthBar : MonoBehaviour
                 UIChangeHit();
             }
         }
-    }
-
-    private Component GetStatsScript()
-    {
-        GameObject police = gameObject;
-        
-
-        while (stats == null) 
-        {
-            police = police.transform.parent.gameObject;
-            if(police.tag == "PLAYER") { stats = police?.GetComponent<PlayerStats>(); }
-        }
-
-        return stats;
     }
 
     private void UIChangeBasic()

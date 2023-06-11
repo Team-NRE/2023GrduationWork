@@ -37,18 +37,14 @@ public class InvincibleShieldStart : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(time);
         if (stop == false)
         {
             StartInvincibility();
-            Debug.Log("무적");
         }
 
         if (stop == true)
         {
             Invoke("StartShield", 0.02f);
-            //StartShield();
-            Debug.Log("방어막");
         }
     }
 

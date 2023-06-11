@@ -10,6 +10,7 @@ public class Card_Spear : UI_Card
 
     public override void Init()
     {
+        _cardBuyCost = 100;
         _cost = 1;
         _damage = 15;
 
@@ -31,7 +32,7 @@ public class Card_Spear : UI_Card
 
 
         PlayerStats pStat = Player.gameObject.GetComponent<PlayerStats>();
-        float speed = pStat._speed;
+        float speed = pStat.speed;
         _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
         _effectObject.AddComponent<SpearStart>().Setting(Player, _enemylayer, speed, _damage);
 
