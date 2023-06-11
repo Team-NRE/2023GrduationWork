@@ -1212,13 +1212,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b59348c01369f2a4ca64fd72be531701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pv: {fileID: 0}
   _action: 0
   _targetEnemyTransform: {fileID: 0}
   line: 0
   grid: {fileID: 0}
   tilemap: {fileID: 0}
   area: 0
+  bullet: {fileID: 0}
 --- !u!1 &2703213112225798818
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,7 +1669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7315127077526923176
 Transform:
   m_ObjectHideFlags: 0

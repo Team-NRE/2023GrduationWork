@@ -13,8 +13,7 @@ public class CameraController : BaseController
     private Vector3 velocity = Vector3.zero;
 
     //Player 찾기
-    public GameObject player;
-    public Transform p_Position;
+    private Transform p_Position;
 
     //건물 투명화
     public GameObject RendererGameobject;
@@ -40,11 +39,38 @@ public class CameraController : BaseController
         Managers.Input.MouseAction += MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
+        
+        pStatAction();
 
-        player = GameObject.FindWithTag("PLAYER");
-        p_Position = player.transform;
         ignore = LayerMask.GetMask("Human", "Cyborg");
     }
+
+    public void pStatAction()
+    {
+        switch (_pType)
+        {
+            case Define.PlayerType.Police:
+                p_Position = GameObject.Find("Police").transform;
+                
+                break;
+            
+            case Define.PlayerType.Firefight:
+                p_Position = GameObject.Find("Firefight").transform;
+                
+                break;
+
+            case Define.PlayerType.Lightsaber:
+                p_Position = GameObject.Find("Lightsaber").transform;
+                
+                break;
+
+            case Define.PlayerType.Monk:
+                p_Position = GameObject.Find("Monk").transform;
+                
+                break;
+        }
+    }
+
 
     void Update()
     {
@@ -77,7 +103,6 @@ public class CameraController : BaseController
         if (_evt == Define.MouseEvent.PointerDown || _evt == Define.MouseEvent.Press)
         {
             GameObject hitObject = Managers.Input.Get3DMousePosition(ignore).Item2;
-            Debug.Log(hitObject);
 
             if (hitObject != null)
             {
@@ -162,7 +187,7 @@ public class CameraController : BaseController
         if (Physics.Raycast(transform.position, Direction, out hit, Distance, layerMask))
         {
             RendererGameobject = hit.collider.gameObject;
-            Debug.Log(RendererGameobject);
+            
             // 2.맞았으면 Renderer를 얻어온다.
             Renderer ObstacleRenderer = RendererGameobject.GetComponent<Renderer>();
 

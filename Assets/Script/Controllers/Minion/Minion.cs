@@ -60,7 +60,7 @@ public class Minion : ObjectController
     {
         if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
 
-		// GetTransformArea();
+        // GetTransformArea();
     }
 
     public override void Attack()

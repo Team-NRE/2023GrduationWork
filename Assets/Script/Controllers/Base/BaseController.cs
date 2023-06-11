@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Stat;
 using Define;
 using Photon.Pun;
 using Photon.Realtime;
@@ -19,7 +20,6 @@ public abstract class BaseController : MonoBehaviour
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
     protected Animator _anim;
     protected NavMeshAgent _agent;
-
     protected Vector3 _MovingPos;
 
     //총알 발사 여부
@@ -28,9 +28,11 @@ public abstract class BaseController : MonoBehaviour
     protected bool _stopSkill = false;
 
 
+    public PlayerStats _pStats { get; set; }
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
+    public PlayerType _pType { get; protected set; }
     public State _state { get; protected set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.FloatCamera;
     public Projectile _proj { get; protected set; } = Projectile.Undefine;
@@ -79,21 +81,13 @@ public abstract class BaseController : MonoBehaviour
                 case Define.State.Die:
                     _anim.SetTrigger("Die");
                     _anim.SetBool("IsIdle", false);
-                    //inputAction.Disable();
-                    //GetComponent<CapsuleCollider>().enabled = false;
-                    //this.enabled = false;
-                    //StopAllCoroutines();
 
                     break;
             }
         }
     }
 
-
-    private void Start() 
-    { 
-        Init(); 
-    }
+    private void Start() { Init(); }
 
     private void Update()
     {
@@ -101,6 +95,7 @@ public abstract class BaseController : MonoBehaviour
 
         if (_stopAttack == true) { StopAttack(); }
         if (_stopSkill == true) { StopSkill(); }
+
 
         //키, 마우스 이벤트 받으면 state가 변환
         switch (State)
@@ -118,12 +113,12 @@ public abstract class BaseController : MonoBehaviour
                 break;
 
             case Define.State.Attack:
-                if(_stopAttack == false)
+                if (_stopAttack == false)
                     UpdateAttack();
                 break;
 
             case Define.State.Skill:
-                if(_stopSkill == false)
+                if (_stopSkill == false)
                     UpdateSkill();
                 break;
         }

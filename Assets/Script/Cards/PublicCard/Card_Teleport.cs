@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Card_Teleport : UI_Card
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    public override void Init()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _cardBuyCost = 2200;
     }
 }

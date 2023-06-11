@@ -19636,7 +19636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8189593966856435038}
   - component: {fileID: 9185894979385121958}
-  - component: {fileID: 8427172658094011784}
+  - component: {fileID: 8881559705570436048}
   m_Layer: 0
   m_Name: PoliceBullet
   m_TagString: Untagged
@@ -19677,7 +19677,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!114 &8427172658094011784
+--- !u!114 &8881559705570436048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19686,7 +19686,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8190688187498554100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e9b868b1d7cd5b4f800e384081de6ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 621ad14eaa45fd84ebaa3a0a0bedd084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _Target: {fileID: 0}

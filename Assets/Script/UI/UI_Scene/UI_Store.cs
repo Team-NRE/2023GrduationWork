@@ -19,12 +19,12 @@ public class UI_Store : UI_Popup
     {
         Bind<GameObject>(typeof(StoreUI));
         store = Get<GameObject>((int)StoreUI.store);
-        strengthen = Get<GameObject>((int)StoreUI.strengthen);
-        deck = Get<GameObject>((int)StoreUI.deck);
+        //strengthen = Get<GameObject>((int)StoreUI.strengthen);
+        //deck = Get<GameObject>((int)StoreUI.deck);
 
         store.SetActive(true);
-        strengthen.SetActive(false);
-        deck.SetActive(false);
+        //strengthen.SetActive(false);
+        //deck.SetActive(false);
     }
 
     public void storeActive()

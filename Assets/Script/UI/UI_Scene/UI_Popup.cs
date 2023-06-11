@@ -8,10 +8,13 @@ public class UI_Popup : UI_Scene
     GameObject KillLog;
     GameObject Scoreboard;
     GameObject Setting;
-    public GameObject Store;
+    GameObject Store;
+    public GameObject Deck;
 
-    bool IsSetting = false;
+    public bool IsSetting = false;
     bool IsStore = false;
+    public bool IsDeck = false;
+    public bool FirstOn = false;
 
     public enum Popup
     {
@@ -20,6 +23,7 @@ public class UI_Popup : UI_Scene
         UI_Scoreboard,
         UI_Setting,
         UI_Store,
+        UI_Deck,
     }
 
     public override void Init()
@@ -30,24 +34,27 @@ public class UI_Popup : UI_Scene
         Scoreboard = Get<GameObject>((int)Popup.UI_Scoreboard);
         Setting = Get<GameObject>((int)Popup.UI_Setting);
         Store = Get<GameObject>((int)Popup.UI_Store);
+        Deck = Get<GameObject>((int)Popup.UI_Deck);
+
 
         KDA.SetActive(true);
-        KillLog.SetActive(true);
+        KillLog.SetActive(false);
         Scoreboard.SetActive(false);
         Setting.SetActive(IsSetting);
         Store.SetActive(IsSetting);
+        Deck.SetActive(IsSetting);
     }
 
-    public void Update()
+    public override void UpdateInit() 
     {
         KeyDownAction();
-
     }
 
     public void KeyDownAction()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
+            
             IsStore = (IsStore == false ? true : false);
 
             Store.SetActive(IsStore);
@@ -61,6 +68,14 @@ public class UI_Popup : UI_Scene
             IsSetting = (IsSetting == false ? true : false);
 
             Setting.SetActive(IsSetting);
+        }
+
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            
+            IsDeck = (IsDeck == false ? true : false);
+
+            Deck.SetActive(IsDeck);
         }
     }
 

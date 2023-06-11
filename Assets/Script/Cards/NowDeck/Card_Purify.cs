@@ -6,11 +6,10 @@ public class Card_Purify : UI_Card
 {
     public override void Init()
     {
+        _cardBuyCost = 1200;
         _cost = 0;
         
         _rangeType = "None";
-
-
 
         _CastingTime = 0.3f;
         _effectTime = 2.0f;

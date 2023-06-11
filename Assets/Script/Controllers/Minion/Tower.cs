@@ -26,6 +26,9 @@ public class Tower : ObjectController
 
         if (_targetEnemyTransform == null) return;
 
+        Debug.Log(bullet);
+        Debug.Log(muzzle.position);
+        Debug.Log(this.transform.rotation);
         GameObject nowBullet = Instantiate(bullet, muzzle.position, this.transform.rotation);
         nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }

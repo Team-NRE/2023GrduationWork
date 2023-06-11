@@ -12,6 +12,7 @@ public class Card_HackingGrenade : UI_Card
 
     public override void Init()
     {
+        _cardBuyCost = 1200;
         _cost = 1;
         _damage = 25;
         _debuff = 1.02f;
