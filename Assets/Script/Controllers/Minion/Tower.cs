@@ -42,6 +42,7 @@ public class Tower : ObjectController
         if (_oStats.nowHealth <= 0) 
         {
             _action = ObjectAction.Death;
+            transform.Find("UI").gameObject.SetActive(false);
         }
         else if (_targetEnemyTransform != null && Vector3.Distance(transform.position, _targetEnemyTransform.position) <= _oStats.attackRange) 
         {

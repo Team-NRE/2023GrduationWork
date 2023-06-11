@@ -55,8 +55,10 @@ public class NeutralMob : ObjectController
 
     protected override void UpdateObjectAction()
     {
-        if (_oStats.nowHealth <= 0)
+        if (_oStats.nowHealth <= 0) {
             _action = ObjectAction.Death;
+            transform.Find("UI").gameObject.SetActive(false);
+        }
         else if (_targetEnemyTransform != null)
         {
             transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
@@ -146,7 +148,7 @@ public class NeutralMob : ObjectController
     private void Energy()
     {
         GameObject SummonedEnergyRelease = Instantiate(EnergyRelease);
-        SummonedEnergyRelease.GetComponent<EnergyRelease>().SummonEnergyRelease(_allObjectTransforms, transform.position, _oStats.basicAttackPower, 5.0f);
+        SummonedEnergyRelease.GetComponent<EnergyRelease>().SummonEnergyRelease(_allObjectTransforms, transform, _oStats.basicAttackPower, 5.0f);
     }
 }
 #endregion

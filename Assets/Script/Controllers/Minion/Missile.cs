@@ -22,7 +22,7 @@ public class Missile : MonoBehaviour
     {
         _allObjectTransforms = objList;
         transform.position = pos;
-        damage = dam;
+        damage = dam * 3.5f;
         distance = dis;
 
         this.gameObject.SetActive(true);
