@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Stat;
 
 public class UI_Mana : UI_Scene
 {
@@ -13,6 +14,7 @@ public class UI_Mana : UI_Scene
     Image Mana2_Img;
     Image Mana3_Img;
 
+    PlayerStats pStat;
 
     public float manaRegeneration;
 
@@ -33,6 +35,8 @@ public class UI_Mana : UI_Scene
         Mana1_Img = Mana1.GetComponentInChildren<Image>();
         Mana2_Img = Mana2.GetComponentInChildren<Image>();
         Mana3_Img = Mana3.GetComponentInChildren<Image>();
+
+        pStat = GameObject.FindWithTag("PLAYER").GetComponent<PlayerStats>();
     }
 
     public void Update()
@@ -42,16 +46,16 @@ public class UI_Mana : UI_Scene
 
     public void ManaSystem()
     {
-        BaseCard.nowMana = Time.deltaTime;
+        pStat.nowMana = Time.deltaTime;
 
         Mana1_Img.fillAmount = Mathf.Lerp(Mana1_Img.fillAmount,
-            BaseCard.nowMana / BaseCard._manaRegen, BaseCard.nowMana);
+            pStat.nowMana / pStat._manaRegen, pStat.nowMana);
 
         Mana2_Img.fillAmount = Mathf.Lerp(Mana2_Img.fillAmount,
-            ((BaseCard.nowMana) / BaseCard._manaRegen) - 1, BaseCard.nowMana);
+            ((pStat.nowMana) / pStat._manaRegen) - 1, pStat.nowMana);
 
         Mana3_Img.fillAmount = Mathf.Lerp(Mana3_Img.fillAmount,
-            ((BaseCard.nowMana) / BaseCard._manaRegen) - 2, BaseCard.nowMana);
+            ((pStat.nowMana) / pStat._manaRegen) - 2, pStat.nowMana);
     }
 
 }

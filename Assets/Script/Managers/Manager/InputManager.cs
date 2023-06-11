@@ -24,7 +24,7 @@ public class InputManager
 
 
     //Ray로 마우스 좌표 받기
-    public (Vector3, GameObject) Get3DMousePosition(int layerMask = default)
+    public (Vector3, GameObject) Get3DMousePosition(LayerMask layerMask = default)
     {
         RaycastHit hit;
 

@@ -8,34 +8,34 @@ public class UI_Popup : UI_Scene
     GameObject KillLog;
     GameObject Scoreboard;
     GameObject Setting;
-    GameObject Store;
+    public GameObject Store;
 
     bool IsSetting = false;
     bool IsStore = false;
 
     public enum Popup
     {
-        KDA,
-        KillLog,
-        Scoreboard,
-        Setting,
-        Store,
+        UI_KDA,
+        UI_KillLog,
+        UI_Scoreboard,
+        UI_Setting,
+        UI_Store,
     }
 
     public override void Init()
     {
         Bind<GameObject>(typeof(Popup));
-        KDA = Get<GameObject>((int)Popup.KDA);
-        KillLog = Get<GameObject>((int)Popup.KillLog);
-        Scoreboard = Get<GameObject>((int)Popup.Scoreboard);
-        Setting = Get<GameObject>((int)Popup.Setting);
-        Store = Get<GameObject>((int)Popup.Store);
+        KDA = Get<GameObject>((int)Popup.UI_KDA);
+        KillLog = Get<GameObject>((int)Popup.UI_KillLog);
+        Scoreboard = Get<GameObject>((int)Popup.UI_Scoreboard);
+        Setting = Get<GameObject>((int)Popup.UI_Setting);
+        Store = Get<GameObject>((int)Popup.UI_Store);
 
         KDA.SetActive(true);
         KillLog.SetActive(true);
         Scoreboard.SetActive(false);
         Setting.SetActive(IsSetting);
-        Store.SetActive(IsStore);
+        Store.SetActive(IsSetting);
     }
 
     public void Update()

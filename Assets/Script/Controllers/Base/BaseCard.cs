@@ -6,7 +6,6 @@ using UnityEngine;
 
 public static class BaseCard
 {
-    public static Action<Define.KeyboardEvent> cardAction = null;
 
     //덱 안의 카드 변환 List
     public static List<string> _initDeck = new List<string>();
@@ -20,38 +19,6 @@ public static class BaseCard
     //타겟 정보
     public static GameObject _lockTarget = null;
 
-
-    //카드 마나
-    public static float _nowMana = 0; //현재 마나
-    public static float _manaRegen = 4.0f; //마나 회복 속도
-    public static float _maxMana = 3f; //최대 마나
-
-
-    //현재 마나 get,set
-    public static float nowMana
-    {
-        get { return _nowMana; }
-        set
-        {
-            _nowMana += value;
-            if (_nowMana >= _maxMana * _manaRegen) { _nowMana = _maxMana * _manaRegen; }
-            if (_nowMana <= 0) { _nowMana = 0; }
-        }
-    }
-
-    //마나 사용
-    public static (bool, float) UseMana(string _key = null, UI_Card ui_card = null)
-    {
-        bool CanUseCard;
-
-        if (_key != null) { ui_card = GameObject.Find(_key).GetComponentInChildren<UI_Card>(); }
-        float cardValue = ui_card._cost * _manaRegen;
-
-        if (_nowMana >= cardValue) { CanUseCard = true; }
-        else { CanUseCard = false; }
-
-        return (CanUseCard, cardValue);
-    }
 
 
     //Json으로 덱을 가져온다. 나중에 덱 숫자가 늘어나면 파라미터로 입력
@@ -111,6 +78,17 @@ public static class BaseCard
         string ChoiseCard = _initDeck[rand];
         //뽑은 카드 덱에서 삭제
         _initDeck.RemoveAt(rand);
+
+        Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
+
+        return ChoiseCard;
+    }
+
+    public static string StartJobCard()
+    {
+        string ChoiseCard = _initDeck[_initDeck.Count - 1];
+        //뽑은 카드 덱에서 삭제
+        _initDeck.RemoveAt(_initDeck.Count - 1);
 
         Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
 

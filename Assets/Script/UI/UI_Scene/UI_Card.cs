@@ -12,11 +12,10 @@ public class UI_Card : UI_Scene
     public float _CastingTime;
     //이펙트 발동 시간
     public float _effectTime; 
-
     public float _damage;
     public float _defence;
-    public float _debuff;
     public float _buff;
+    public float _debuff; 
 
     //스킬 범위 타입
     //Arrow = _rangeScale 고정 / Cone = _rangeScale, _rangeAngle / Line = _rangeScale 
@@ -29,6 +28,8 @@ public class UI_Card : UI_Scene
     //스킬 각도
     public float _rangeAngle;
 
+    public GameObject _effectObject;
+    
     public override void Init()
     {
         Debug.Log("UI_Card Init");
@@ -39,13 +40,22 @@ public class UI_Card : UI_Scene
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }
+
+
+
     
-    public virtual void cardEffect(Transform trans)
+    public virtual void OnTriggerEnter(Collider other) 
     {
         
     }
 
-    public virtual void DestroyCard(float delay)
+
+    public virtual GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    {
+        return _effectObject;
+    }
+
+    public virtual void DestroyCard(GameObject Particle = null, float delay = default)
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }
