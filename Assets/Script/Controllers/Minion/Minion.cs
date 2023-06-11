@@ -60,7 +60,7 @@ public class Minion : ObjectController
     {
         if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
 
-		GetTransformArea();
+      // GetTransformArea();
     }
 
     public override void Attack()
@@ -83,7 +83,7 @@ public class Minion : ObjectController
 
         Vector3 moveTarget = Vector3.zero;
 
-        if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
+        if (_targetEnemyTransform != null /*&& area == ObjectPosArea.Road*/)
         {
             moveTarget = _targetEnemyTransform.position;
         }
