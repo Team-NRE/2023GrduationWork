@@ -27,8 +27,6 @@ public class UI_Login : UI_Scene
 	{
 		InitialRoom();
 		//SceneManager.LoadScene("View Test Scene");
-		//if (PhotonNetwork.InRoom)
-			SceneManager.LoadScene("View Test Scene");
 	}
 
 	public void InitialRoom(string name = "default")
@@ -38,7 +36,8 @@ public class UI_Login : UI_Scene
 		roomOptions.IsVisible = true;
 		roomOptions.IsOpen = true;
 		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
-		PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default);
+		if (PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default) == true)
+			SceneManager.LoadScene("View Test Scene");
 		Debug.Log($"your room code is {name}");
 	}
 }

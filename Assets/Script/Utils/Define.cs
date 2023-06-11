@@ -82,6 +82,7 @@ namespace Define
 
     public enum KeyboardEvent
     {
+        Undefine,
         KeyUp,
         Q,
         W,

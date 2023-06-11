@@ -1784,11 +1784,9 @@ GameObject:
   - component: {fileID: 9213135924825840288}
   - component: {fileID: 6063331526524027687}
   - component: {fileID: 6403030393043347428}
-  - component: {fileID: -2653236327847746683}
-  - component: {fileID: -582179387223875407}
   m_Layer: 7
   m_Name: CyborgSuperRobot
-  m_TagString: Untagged
+  m_TagString: OBJECT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1924,48 +1922,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c35e68cdf88654091b930fd00eaed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pv: {fileID: 0}
   _action: 0
   _targetEnemyTransform: {fileID: 0}
   line: 0
+  grid: {fileID: 0}
+  tilemap: {fileID: 0}
   area: 0
---- !u!114 &-2653236327847746683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4687264550810386674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &-582179387223875407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4687264550810386674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
 --- !u!1 &4687264550810386676
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,9 +10,8 @@ public class UI_Time : UI_Popup
     int min;
     float time;
 
-    Text secText;
-    Text minText;
-    public TextMeshProUGUI timeText;
+    TextMeshProUGUI timeText;
+
     public override void Init()
     {
         timeText = GetComponent<TextMeshProUGUI>();

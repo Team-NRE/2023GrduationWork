@@ -90,8 +90,8 @@
         
         "basicAttackPower": "999",
         "attackSpeed" : "10",
-        "attackRange" : "10",
-        "recognitionRange" : "20",
+        "attackRange" : "8.5",
+        "recognitionRange" : "8.5",
 
         "maxHealth" : "9999",
         "defensePower" : "999",

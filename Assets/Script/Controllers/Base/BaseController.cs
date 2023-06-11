@@ -5,11 +5,17 @@ using UnityEngine;
 using UnityEngine.AI;
 using Stat;
 using Define;
-
+using Photon.Pun;
+using Photon.Realtime;
 
 [System.Serializable]
 public abstract class BaseController : MonoBehaviour
 {
+    protected PhotonView _pv;
+    protected Vector3 receivePos;
+    protected Quaternion receiveRot;
+    protected float damping = 10.0f;
+
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
     protected Animator _anim;
@@ -23,7 +29,6 @@ public abstract class BaseController : MonoBehaviour
 
 
     public PlayerStats _pStats { get; set; }
-
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정

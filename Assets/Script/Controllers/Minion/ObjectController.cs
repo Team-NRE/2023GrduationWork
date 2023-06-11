@@ -7,19 +7,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
-using Photon.Pun;
 using TMPro;
 
 [RequireComponent(typeof(ObjStats))]
 
 public abstract class ObjectController : MonoBehaviour
 {
-	//동기화 기점
-	public PhotonView _pv;
-
 	//위치 동기화 코드
-	private Vector3 receivePos;
-	private Quaternion receiveRot;
+	protected Vector3 receivePos;
+	protected Quaternion receiveRot;
 
 	//외부 namespace Stat 참조
 	public ObjStats _oStats { get; set; }
@@ -37,7 +33,7 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Awake()
     {
-        _pv = GetComponent<PhotonView>();
+        //이게 여기서 돌아가면 안됌, 오브젝트 풀링이 사라졌기 때문
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
@@ -67,8 +63,7 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
-        //_pv.RPC("UpdateInRangeEnemyObjectTransform", RpcTarget.All);
-        //UpdateInRangeEnemyObjectTransform();
+        UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -94,9 +89,8 @@ public abstract class ObjectController : MonoBehaviour
                 animator.SetBool("Attack", false);
                 animator.SetBool("Death", false);
                 animator.SetBool("Move", true);
-                if(_pv.IsMine)
-                _pv.RPC("Move", RpcTarget.Others);
-                //Move();
+                
+                Move();
                 break;
             case ObjectAction.Idle:
                 animator.SetBool("Attack", false);
@@ -127,7 +121,6 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 공격 타겟(가장 가까운 적)을 정하는 스크립트 
     /// </summary>
-    [PunRPC]
     protected void UpdateInRangeEnemyObjectTransform()
     {
         Transform newTarget = null;
@@ -154,6 +147,43 @@ public abstract class ObjectController : MonoBehaviour
             {
                 minRange = nowRange;
                 newTarget = _allObjectTransforms[i];
+            }
+        }
+
+        _targetEnemyTransform = newTarget;
+    }
+
+    protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()
+    {
+        Collider[] inRangeObject = Physics.OverlapSphere(this.transform.position, _oStats.recognitionRange);
+        Transform newTarget = null;
+        float minRange = _oStats.recognitionRange;
+
+        foreach (var nowObject in inRangeObject)
+        {
+            if (nowObject.gameObject.activeSelf == false) continue; 
+            if (nowObject.gameObject.layer == gameObject.layer) continue;
+
+            if (nowObject.gameObject.tag == "PLAYER")
+            {
+                if (nowObject.GetComponent<BaseController>()._state == State.Die) continue;
+            }
+            else if (nowObject.gameObject.tag == "OBJECT")
+            {
+                if (nowObject.GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
+            }
+            else
+            {
+                continue;
+            }
+
+            float nowRange = Vector3.Distance(transform.position, nowObject.transform.position);
+
+            // **라인에 있는 조건도 넣을 것.**
+            if (minRange >= nowRange)
+            {
+                minRange = nowRange;
+                newTarget = nowObject.transform;
             }
         }
 

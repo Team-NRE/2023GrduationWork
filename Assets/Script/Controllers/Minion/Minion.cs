@@ -10,9 +10,10 @@ using Photon.Pun;
 
 public class Minion : ObjectController
 {
+    protected float damping = 10.0f;
 
-	/// <summary>상단 길 이정표</summary>
-	private Transform[] milestoneUpper;
+    /// <summary>상단 길 이정표</summary>
+    private Transform[] milestoneUpper;
     /// <summary>하단 길 이정표</summary>
     private Transform[] milestoneLower;
 
@@ -24,9 +25,9 @@ public class Minion : ObjectController
     private int lineIdx = 1;
 
     /// <summary>타일 그리드</summary>
-    private GridLayout grid;
+    public GridLayout grid;
     /// <summary>타일 맵</summary>
-    private Tilemap tilemap;
+    public Tilemap tilemap;
     /// <summary>현재 서 있는 지역</summary>
     public ObjectPosArea area;
     
@@ -59,7 +60,7 @@ public class Minion : ObjectController
     {
         if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
 
-			GetTransformArea();
+		GetTransformArea();
     }
 
     public override void Attack()
@@ -73,11 +74,9 @@ public class Minion : ObjectController
     public override void Death()
     {
         base.Death();
-        PhotonNetwork.Destroy(this.gameObject);
-        //Managers.Pool.Push(GetComponent<Poolable>());
+        _allObjectTransforms.Remove(this.transform);
+        Destroy(this.gameObject);
     }
-
-    [PunRPC]
     public override void Move()
     {
         base.Move();
@@ -110,8 +109,8 @@ public class Minion : ObjectController
                     lineIdx--;
             }
         }
-        
-        transform.LookAt(new Vector3 (
+
+        transform.LookAt(new Vector3(
             moveTarget.x,
             transform.position.y,
             moveTarget.z
@@ -181,7 +180,7 @@ public class Minion : ObjectController
 
     private void GetTransformArea()
     {
-        Vector3Int pos = grid.WorldToCell(transform.position);
+        Vector3Int pos = grid.WorldToCell(this.transform.position);
         string posName = tilemap.GetTile(pos).name;
 
         area = ObjectPosArea.Undefine;
