@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 using Define;
+using Stat;
 using Photon.Pun;
 
 public class Minion : ObjectController
@@ -74,6 +75,14 @@ public class Minion : ObjectController
     public override void Death()
     {
         base.Death();
+
+        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
+
+        for (int i=0; i<pStats.Length; i++) {
+            if (pStats[i].gameObject.layer != gameObject.layer)
+                pStats[i].gold += _oStats.gold;
+        }
+
         _allObjectTransforms.Remove(this.transform);
         Destroy(this.gameObject);
     }

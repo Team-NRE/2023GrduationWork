@@ -88,13 +88,13 @@
       {
         "type": "Neutral",
         
-        "basicAttackPower": "999",
+        "basicAttackPower": "100",
         "attackSpeed" : "10",
         "attackRange" : "8.5",
         "recognitionRange" : "8.5",
 
-        "maxHealth" : "9999",
-        "defensePower" : "999",
+        "maxHealth" : "3600",
+        "defensePower" : "3600",
         "nowBattery" : "-1",
 
         "speed" : "0",
