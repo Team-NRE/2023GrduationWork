@@ -44,6 +44,7 @@ public abstract class ObjectController : MonoBehaviour
     public void OnEnable()
     {
         _oStats.InitStatSetting(_type);
+        resetMinimapIconColor();
 
         initOnEnable();
     }
@@ -51,10 +52,7 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 초기화 함수, 하위 객체에서 초기화용
     /// </summary>
-    public virtual void init() 
-    {
-
-	}
+    public virtual void init() { }
 
     /// <summary>
     /// 초기화 함수, OnEnable될 때 마다 실행될 코드 작성용
@@ -209,5 +207,17 @@ public abstract class ObjectController : MonoBehaviour
         }
 
         _targetEnemyTransform = (newTargetObject != null) ? newTargetObject : newTargetPlayer;
+    }
+
+    private void resetMinimapIconColor()
+    {
+        SpriteRenderer icon = gameObject.GetComponentInChildren<SpriteRenderer>();
+
+        if (icon == null) return;
+
+        if (gameObject.layer == ((int)Layer.Cyborg))
+            icon.color = Color.red;
+        else if (gameObject.layer == ((int)Layer.Human))
+            icon.color = Color.blue;
     }
 }
