@@ -123,8 +123,8 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     protected void UpdateInRangeEnemyObjectTransform()
     {
-        Transform newTarget = null;
-        float minRange = _oStats.recognitionRange;
+        Transform newTargetPlayer = null, newTargetObject = null;
+        float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {
@@ -142,51 +142,72 @@ public abstract class ObjectController : MonoBehaviour
 
             float nowRange = Vector3.Distance(transform.position, _allObjectTransforms[i].position);
 
-            // **라인에 있는 조건도 넣을 것.**
-            if (minRange >= nowRange)
+            if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
             {
-                minRange = nowRange;
-                newTarget = _allObjectTransforms[i];
+                if (minRangePlayer >= nowRange)
+                {
+                    minRangePlayer = nowRange;
+                    newTargetPlayer = _allObjectTransforms[i].transform;
+                }
+            }
+            else if (_allObjectTransforms[i].gameObject.tag == "OBJECT")
+            {
+                if (minRangeObject >= nowRange)
+                {
+                    minRangeObject = nowRange;
+                    newTargetObject = _allObjectTransforms[i].transform;
+                }
             }
         }
 
-        _targetEnemyTransform = newTarget;
+        _targetEnemyTransform = (newTargetObject != null) ? newTargetObject : newTargetPlayer;
     }
 
     protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()
     {
-        Collider[] inRangeObject = Physics.OverlapSphere(this.transform.position, _oStats.recognitionRange);
-        Transform newTarget = null;
-        float minRange = _oStats.recognitionRange;
+        Transform newTargetPlayer = null, newTargetObject = null;
+        float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 
-        foreach (var nowObject in inRangeObject)
+        Collider[] inRangeObject = Physics.OverlapSphere(this.transform.position, minRangePlayer);
+
+        for (int i=0; i<inRangeObject.Length; i++)
         {
-            if (nowObject.gameObject.activeSelf == false) continue; 
-            if (nowObject.gameObject.layer == gameObject.layer) continue;
+            if (inRangeObject[i].gameObject.activeSelf == false) continue; 
+            if (inRangeObject[i].gameObject.layer == gameObject.layer) continue;
 
-            if (nowObject.gameObject.tag == "PLAYER")
+            if (inRangeObject[i].gameObject.tag == "PLAYER")
             {
-                if (nowObject.GetComponent<BaseController>()._state == State.Die) continue;
+                if (inRangeObject[i].GetComponent<BaseController>()._state == State.Die) continue;
             }
-            else if (nowObject.gameObject.tag == "OBJECT")
+            else if (inRangeObject[i].gameObject.tag == "OBJECT")
             {
-                if (nowObject.GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
+                if (inRangeObject[i].GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
             }
             else
             {
                 continue;
             }
 
-            float nowRange = Vector3.Distance(transform.position, nowObject.transform.position);
+            float nowRange = Vector3.Distance(transform.position, inRangeObject[i].transform.position);
 
-            // **라인에 있는 조건도 넣을 것.**
-            if (minRange >= nowRange)
+            if (inRangeObject[i].gameObject.tag == "PLAYER")
             {
-                minRange = nowRange;
-                newTarget = nowObject.transform;
+                if (minRangePlayer >= nowRange)
+                {
+                    minRangePlayer = nowRange;
+                    newTargetPlayer = inRangeObject[i].transform;
+                }
+            }
+            else if (inRangeObject[i].gameObject.tag == "OBJECT")
+            {
+                if (minRangeObject >= nowRange)
+                {
+                    minRangeObject = nowRange;
+                    newTargetObject = inRangeObject[i].transform;
+                }
             }
         }
 
-        _targetEnemyTransform = newTarget;
+        _targetEnemyTransform = (newTargetObject != null) ? newTargetObject : newTargetPlayer;
     }
 }

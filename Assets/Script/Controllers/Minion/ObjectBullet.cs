@@ -33,12 +33,10 @@ public class ObjectBullet : MonoBehaviour
 
     public void FollowTarget()
     {
-        if (_Target == null) 
-        {
+        if (_Target == null)
             Destroy(this.gameObject);
-        }
-
-        _TargetPos = _Target.position;
+        else
+            _TargetPos = _Target.position;
 
         transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
         transform.LookAt(_TargetPos);
