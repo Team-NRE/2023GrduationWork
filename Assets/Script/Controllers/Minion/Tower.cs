@@ -8,6 +8,8 @@ using Photon.Pun;
 
 public class Tower : ObjectController
 {
+    LineRenderer lineRenderer;
+
     GameObject bullet;
     Transform muzzle;
 
@@ -16,8 +18,30 @@ public class Tower : ObjectController
         base.init();
         _type = ObjectType.Turret;
 
+        lineRenderer = GetComponent<LineRenderer>();
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}TowerBullet");
         muzzle = transform.Find("BulletPos");
+    }
+
+    private void FixedUpdate()
+    {
+        if (lineRenderer != null)
+        {
+            if (_targetEnemyTransform == null)
+            {
+                lineRenderer.positionCount = 0;
+            }
+            else
+            {
+                lineRenderer.positionCount = 2;
+
+                lineRenderer.startWidth = .04f;
+                lineRenderer.endWidth = .04f;
+
+                lineRenderer.SetPosition(0, muzzle.position);
+                lineRenderer.SetPosition(1, _targetEnemyTransform.position);
+            }
+        }
     }
 
     public override void Attack()
