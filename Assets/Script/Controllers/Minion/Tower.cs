@@ -109,5 +109,18 @@ public class Tower : ObjectController
         {
             _action = ObjectAction.Idle;
         }
+
+        switch (_action)
+        {
+            case ObjectAction.Attack:
+                break;
+            case ObjectAction.Death:
+                transform.Find("UI").gameObject.SetActive(false);
+                break;
+            case ObjectAction.Move:
+                break;
+            case ObjectAction.Idle:
+                break;
+        }
     }
 }

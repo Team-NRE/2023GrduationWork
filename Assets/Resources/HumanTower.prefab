@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4364801842235880555}
   - component: {fileID: 3684036385569191064}
   - component: {fileID: 1026893540667700072}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBarBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 5450770113348509122}
   - component: {fileID: 6893591641521760678}
   - component: {fileID: 7612241777152459509}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,6 +439,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _action: 0
   _targetEnemyTransform: {fileID: 0}
+  particleCoinDrop: {fileID: 143964, guid: 33538499c33356a46a313c40c1c95fd6, type: 3}
+  meleeMinionAttackRatio: 0.45
+  rangeMinionAttackRatio: 0.7
+  superMinionAttackRatio: 0.14
 --- !u!1 &5098647710468447662
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,7 +454,7 @@ GameObject:
   - component: {fileID: 5914359576206491151}
   - component: {fileID: 8918409276461128156}
   - component: {fileID: 540191851790199709}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBarHealEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,7 +561,7 @@ GameObject:
   - component: {fileID: 8495672487356246063}
   - component: {fileID: 2488320467406540049}
   - component: {fileID: 835689098675147865}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -633,7 +637,7 @@ GameObject:
   - component: {fileID: 2346061943002443309}
   - component: {fileID: 9156874150176132746}
   - component: {fileID: 2978497828474743716}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBarHitEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 390258510398720581}
   - component: {fileID: 6091176689704190902}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Mini Map Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

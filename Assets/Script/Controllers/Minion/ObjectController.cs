@@ -31,6 +31,10 @@ public abstract class ObjectController : MonoBehaviour
     //초기화
     protected Animator animator { get; set; }
 
+    //처치시 코인 드랍 파티클
+    [SerializeField]
+    GameObject particleCoinDrop;
+
     public void Awake()
     {
         //이게 여기서 돌아가면 안됌, 오브젝트 풀링이 사라졌기 때문
@@ -219,5 +223,11 @@ public abstract class ObjectController : MonoBehaviour
             icon.color = Color.red;
         else if (gameObject.layer == ((int)Layer.Human))
             icon.color = Color.blue;
+    }
+
+    protected void summonCoinDrop()
+    {
+        GameObject coinDrop = Instantiate(particleCoinDrop, transform.position, transform.rotation);
+        coinDrop.GetComponent<Particle_CoinDrop>().setInit(_oStats.gold.ToString());
     }
 }

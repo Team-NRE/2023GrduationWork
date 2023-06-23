@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 709758223023424800}
   - component: {fileID: 8423643181129577755}
   - component: {fileID: 56532346734973602}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 4462175922609465814}
   - component: {fileID: 2460942462382349974}
   - component: {fileID: 6477581029588812243}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5898907412930457967}
   - component: {fileID: 17855968468908188}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Mini Map Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,6 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _action: 0
   _targetEnemyTransform: {fileID: 0}
+  particleCoinDrop: {fileID: 0}
   camPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1878764065464206022
 MonoBehaviour:
@@ -1006,7 +1007,7 @@ GameObject:
   - component: {fileID: 6542474475367839372}
   - component: {fileID: 2309281948310144743}
   - component: {fileID: 7006614406876748883}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBarBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1352,7 +1353,7 @@ GameObject:
   - component: {fileID: 2022332943800640640}
   - component: {fileID: 3430195054584759290}
   - component: {fileID: 8138483630152545159}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBarHitEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1670,7 +1671,7 @@ GameObject:
   - component: {fileID: 7506848351381618911}
   - component: {fileID: 2998524062302653265}
   - component: {fileID: 8456731346605735126}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBarHealEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
