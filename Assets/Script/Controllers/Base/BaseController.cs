@@ -28,7 +28,9 @@ public abstract class BaseController : MonoBehaviour
     protected bool _stopSkill = false;
 
 
+    protected RespawnManager respawnManager;    
     public PlayerStats _pStats { get; set; }
+
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정

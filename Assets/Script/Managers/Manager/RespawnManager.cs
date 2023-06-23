@@ -36,12 +36,15 @@ public class RespawnManager : MonoBehaviour
             _SetRespawn -= value;
             if (_SetRespawn <= 0)
             {
-                pStat.nowHealth = pStat.maxHealth;
-                Player.transform.position = RespawnPos.position;
-                
                 Player.GetComponent<CapsuleCollider>().enabled = true;
                 Player.GetComponent<BaseController>().enabled = true;
 
+                Player.transform.position = default;
+                Player.transform.position = RespawnPos.localPosition;
+                Debug.Log(Player.transform.position);
+
+                pStat.nowHealth = pStat.maxHealth;
+                
                 _SetRespawn = RespawnTime;
             }
         }
@@ -49,9 +52,9 @@ public class RespawnManager : MonoBehaviour
 
     private void Start()
     {
-        pStatAction();
         HumanRespawn = transform.GetChild(0);
         CyborgRespawn = transform.GetChild(1);
+        pStatAction();
 
         RespawnTime = 6.0f;
     }

@@ -38,13 +38,15 @@ public class Police : BaseController
 
     public void OnEnable()
     {
-        _pType = Define.PlayerType.Police;
         _state = Define.State.Idle;
 
         //액션 대리자 호출
+        Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
     }
+
 
     //start 초기화
     public override void Init()
@@ -55,6 +57,7 @@ public class Police : BaseController
         _agent = GetComponent<NavMeshAgent>();
 
         //스텟 호출
+        _pType = Define.PlayerType.Police;
         _pStats.PlayerStatSetting(_pType);
 
         //총알 위치
