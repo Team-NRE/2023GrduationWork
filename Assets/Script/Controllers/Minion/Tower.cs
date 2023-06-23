@@ -3,6 +3,7 @@
 /// 타워의 상세 코드 스크립트
 
 using UnityEngine;
+using Stat;
 using Define;
 using Photon.Pun;
 
@@ -12,6 +13,18 @@ public class Tower : ObjectController
 
     GameObject bullet;
     Transform muzzle;
+
+    [Space(10.0f)]
+    [Header("- 미니언에게 가하는 최대 체력 비례 공격력")]
+    [SerializeField]
+    [Range(0.01f, 1.0f)]
+    float meleeMinionAttackRatio = 0.45f;
+    [SerializeField]
+    [Range(0.01f, 1.0f)]
+    float rangeMinionAttackRatio = 0.70f;
+    [SerializeField]
+    [Range(0.01f, 1.0f)]
+    float superMinionAttackRatio = 0.14f;
 
     public override void init() 
     {
@@ -51,7 +64,27 @@ public class Tower : ObjectController
         if (_targetEnemyTransform == null) return;
 
         GameObject nowBullet = Instantiate(bullet, muzzle.position, this.transform.rotation);
-        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+
+        if (_targetEnemyTransform.tag == "OBJECT")
+        {
+            ObjectController targetObjController = _targetEnemyTransform.GetComponent<ObjectController>();
+            ObjStats targetObjStat = _targetEnemyTransform.GetComponent<ObjStats>();
+
+
+            /// 미니언들 체력 비례 데미지를 입히기 위한 if문
+            if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Melee)
+                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, targetObjStat.maxHealth * meleeMinionAttackRatio);
+            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Range)
+                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, targetObjStat.maxHealth * rangeMinionAttackRatio);
+            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Super)
+                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, targetObjStat.maxHealth * superMinionAttackRatio);
+            else
+                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        }
+        else
+        {
+            nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        }
     }
 
     public override void Death()
