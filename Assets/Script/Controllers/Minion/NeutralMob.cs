@@ -85,6 +85,19 @@ public class NeutralMob : ObjectController
             transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
             _action = ObjectAction.Idle;
         }
+
+        switch (_action)
+        {
+            case ObjectAction.Attack:
+                break;
+            case ObjectAction.Death:
+                transform.Find("UI").gameObject.SetActive(false);
+                break;
+            case ObjectAction.Move:
+                break;
+            case ObjectAction.Idle:
+                break;
+        }
     }
 
     private void BasicAttack()

@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 using Define;
 using Stat;
+using Photon.Pun;
 
 public class Minion : ObjectController
 {
