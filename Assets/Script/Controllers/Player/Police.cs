@@ -11,7 +11,7 @@ public class Police : BaseController
     //총알 위치
     private Transform _Proj_Parent;
     private GameObject _bullet;
-
+    public GameObject target;
     //UI_Card 접근
     private UI_Card _cardStats;
 
@@ -200,6 +200,16 @@ public class Police : BaseController
                     break;
 
                 case Define.MouseEvent.LeftButton:
+                    if(RangeAttack() != null)
+                    {
+                        //좌표 설정
+                        _MovingPos = RangeAttack().transform.position;
+                        BaseCard._lockTarget = RangeAttack();
+
+                        //State Moving 변환
+                        State = Define.State.Attack;
+                    }
+
                     break;
             }
 
@@ -507,6 +517,25 @@ public class Police : BaseController
 
     }
 
+    protected override GameObject RangeAttack()
+    {
+        float dist = 999;
+        target = null;
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
+
+        foreach(Collider col in cols)
+        {
+            float Distance = Vector3.Distance(col.transform.position, transform.position);
+            if(Distance <= _pStats.attackRange && Distance < dist)
+            {
+                dist = Distance;
+                target = col.gameObject;
+            }
+        }
+        
+        return target;
+    }
 
     protected override void UpdateIdle()
     {

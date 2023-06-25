@@ -36,10 +36,13 @@ public class RangedBullet : MonoBehaviour
 
     public void FollowTarget()
     {
-        _TargetPos = _Target.position;
+        if(_Target != null)
+        {
+            _TargetPos = _Target.position;
 
-        transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
-        transform.LookAt(_TargetPos);
+            transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
+            transform.LookAt(_TargetPos);
+        }
     }
 
     public void HitDetection()
