@@ -14,7 +14,7 @@
 
         "speed" : "4",
 
-        "gold" : "500",
+        "gold" : "100",
         "experience" : "10"
       },
       {
@@ -31,7 +31,7 @@
 
         "speed" : "4",
 
-        "gold" : "500",
+        "gold" : "70",
         "experience" : "10"
       },
       {
@@ -48,7 +48,7 @@
 
         "speed" : "4",
 
-        "gold" : "500",
+        "gold" : "120",
         "experience" : "10"
       },
       {
@@ -65,7 +65,7 @@
 
         "speed" : "0",
 
-        "gold" : "500",
+        "gold" : "300",
         "experience" : "10"
       },
       {
@@ -88,18 +88,18 @@
       {
         "type": "Neutral",
         
-        "basicAttackPower": "999",
+        "basicAttackPower": "180",
         "attackSpeed" : "10",
         "attackRange" : "8.5",
         "recognitionRange" : "8.5",
 
-        "maxHealth" : "9999",
-        "defensePower" : "999",
+        "maxHealth" : "5000",
+        "defensePower" : "10",
         "nowBattery" : "-1",
 
         "speed" : "0",
 
-        "gold" : "500",
+        "gold" : "1000",
         "experience" : "10"
       }
     ]

@@ -12,10 +12,15 @@ public class RangedBullet : MonoBehaviour
     float _bulletSpeed;
     [SerializeField]
     float _damage;
-    
+
 
     public void Update()
     {
+        if (_Target == null)
+        {
+            Destroy(this.gameObject);
+        }
+
         FollowTarget();
         HitDetection();
     }
@@ -31,11 +36,6 @@ public class RangedBullet : MonoBehaviour
 
     public void FollowTarget()
     {
-        if (_Target == null) 
-        {
-            Destroy(this.gameObject);
-        }
-
         _TargetPos = _Target.position;
 
         transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
@@ -62,7 +62,7 @@ public class RangedBullet : MonoBehaviour
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= _damage;
             }
-            
+
             Destroy(this.gameObject, 0.5f);
             this.enabled = false;
         }
