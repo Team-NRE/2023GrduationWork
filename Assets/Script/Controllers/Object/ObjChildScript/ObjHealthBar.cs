@@ -39,7 +39,7 @@ public class ObjHealthBar : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        transform.LookAt(transform.position + cam.transform.rotation * Vector3.back, cam.transform.rotation * Vector3.up);
+        transform.LookAt(transform.position + cam.rotation * Vector3.back, cam.rotation * Vector3.up);
 
         if (nowHealth < stats.nowHealth)
         {
