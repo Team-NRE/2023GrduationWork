@@ -3,10 +3,9 @@
 /// 미니맵 스크립트
 
 using UnityEngine;
-using UnityEngine.UI;
-using Define;
+using UnityEngine.EventSystems;
 
-public class MiniMap : MonoBehaviour
+public class MiniMap : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public float planescale_X { get; set; }
     public float planescale_Z { get; set; }
@@ -20,7 +19,7 @@ public class MiniMap : MonoBehaviour
     [SerializeField]
     RectTransform mapRectTransform;
 
-    public bool m_IsButtonDowning;
+    public bool isButtonDowning { get; set; }
 
     private void Awake()
     {
@@ -35,20 +34,26 @@ public class MiniMap : MonoBehaviour
 
     void Update()
     {
-        if(m_IsButtonDowning)
+        if(isButtonDowning)
         {
             setFramePositionToCameraPosition();
         }
     }
 
-    public void PointerDown()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        m_IsButtonDowning = true;
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            isButtonDowning = true;
+        }
     }
 
-    public void PointerUp()
+    public void OnPointerUp(PointerEventData eventData)
     {
-        m_IsButtonDowning = false;
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            isButtonDowning = false;
+        }
     }
 
     private void setFramePositionToCameraPosition()

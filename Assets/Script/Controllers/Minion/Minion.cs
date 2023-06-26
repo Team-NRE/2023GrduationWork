@@ -79,8 +79,11 @@ public class Minion : ObjectController
         PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
 
         for (int i=0; i<pStats.Length; i++) {
-            if (pStats[i].gameObject.layer != gameObject.layer)
+            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
+            {
                 pStats[i].gold += _oStats.gold;
+                pStats[i].experience += _oStats.experience;
+            }
         }
 
         _allObjectTransforms.Remove(this.transform);
