@@ -23,12 +23,15 @@ public class MinionSummoner : MonoBehaviourPun
 
     void Update()
     {
-        _nowSummonTime -= Time.deltaTime;
-
-        if (_nowSummonTime <= 0)
+        if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(SummonLine());
-            _nowSummonTime = _summonCycle;
+            _nowSummonTime -= Time.deltaTime;
+
+            if (_nowSummonTime <= 0)
+            {
+                StartCoroutine(SummonLine());
+                _nowSummonTime = _summonCycle;
+            }
         }
     }
 

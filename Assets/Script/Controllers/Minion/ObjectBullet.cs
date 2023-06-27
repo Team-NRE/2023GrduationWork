@@ -43,7 +43,8 @@ public class ObjectBullet : MonoBehaviour
     {
         if (_Target == null) 
         {
-            Destroy(this.gameObject);
+           PhotonNetwork.Destroy(this.gameObject);
+            return;
         }
 
         _TargetPos = _Target.position;
