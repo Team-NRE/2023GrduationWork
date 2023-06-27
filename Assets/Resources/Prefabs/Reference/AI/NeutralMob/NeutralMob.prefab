@@ -343,7 +343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d514fa8a4008d498c4b42ab28b3eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pv: {fileID: 0}
   _action: 0
   _targetEnemyTransform: {fileID: 0}
   muzzles:

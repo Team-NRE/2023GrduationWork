@@ -26,7 +26,7 @@ public class NeutralMob : ObjectController
     public override void init() 
     {
         base.init();
-        _pv = GetComponent<PhotonView>();
+        //_pv = GetComponent<PhotonView>();
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;

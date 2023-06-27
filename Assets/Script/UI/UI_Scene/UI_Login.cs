@@ -15,21 +15,29 @@ public class UI_Login : UI_Scene
 	public static string inputRc;
 	public static string inputTc;
 
-	public enum Logins
+	public enum LoginText
 	{
 		Title,
 		RoomCode,
-		TeamNumber,
+		TeamCode,
+	}
+
+	public enum LoginButtons
+	{
 		Login,
+	}
+
+	public enum InputField
+	{
+		RoomCode,
+		TeamNumber,
 	}
 
 	public override void Init()
 	{
-		Bind<Button>(typeof(Logins));
-		GameObject go = GetButton((int)Logins.Login).gameObject;
-		input = GetInput((int)Logins.RoomCode);
-		tc = GetInput((int)Logins.TeamNumber);
-		GetButton((int)Logins.Login).gameObject.BindEvent(LoginClick);
+		Bind<Button>(typeof(LoginButtons));
+		GameObject go = GetButton((int)LoginButtons.Login).gameObject;
+		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
 	} 
 
 	public void LoginClick(PointerEventData data)

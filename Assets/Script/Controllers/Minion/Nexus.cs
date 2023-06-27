@@ -12,7 +12,7 @@ public class Nexus : ObjectController
     public override void init() 
     {
         base.init();
-        _pv = GetComponent<PhotonView>();
+       // _pv = GetComponent<PhotonView>();
         _type = ObjectType.Nexus;
     }
 

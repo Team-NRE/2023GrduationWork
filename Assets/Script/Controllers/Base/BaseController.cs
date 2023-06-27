@@ -152,7 +152,7 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 
     protected virtual void StopAttack() { }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
         if (stream.IsWriting)

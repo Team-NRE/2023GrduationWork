@@ -574,5 +574,7 @@ public class Police : BaseController
         _baseProj.GetComponent<PlayerProjectile>().pTarget = _lockTarget;
         _baseProj.GetComponent<PlayerProjectile>().pAttacker = this.gameObject;
         _baseProj.GetComponent<PlayerProjectile>().Fire(_lockTarget.gameObject, this.gameObject);
-	}
+        //bullet.GetComponent<PlayerProjectile>().Fire(_lockTarget.gameObject, this.gameObject);
+
+    }
 }

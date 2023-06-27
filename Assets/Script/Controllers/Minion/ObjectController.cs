@@ -7,22 +7,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
-using Photon.Pun;
 using TMPro;
+using Photon.Pun;
 
 [RequireComponent(typeof(ObjStats))]
 
-public abstract class ObjectController : MonoBehaviourPunCallbacks
+public abstract class ObjectController : MonoBehaviour
 {
-	//동기화 기점
-	public PhotonView _pv;
+    protected PhotonView _pv;
 
-	//위치 동기화 코드
-	protected Vector3 receivePos;
-	protected Quaternion receiveRot;
+    //위치 동기화 코드
+    protected Vector3 receivePos;
+    protected Quaternion receiveRot;
 
-	//외부 namespace Stat 참조
-	public ObjStats _oStats { get; set; }
+    //외부 namespace Stat 참조
+    public ObjStats _oStats { get; set; }
 
     //외부 namespace Define 참조
     public ObjectAction _action; //{ get; set; }
@@ -46,7 +45,7 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
         init();
     }
 
-    public override void OnEnable()
+    public void OnEnable()
     {
         _oStats.InitStatSetting(_type);
 
@@ -56,19 +55,20 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
     /// <summary>
     /// 초기화 함수, 하위 객체에서 초기화용
     /// </summary>
-    public virtual void init() 
+    public virtual void init()
     {
 
-	}
+    }
 
     /// <summary>
     /// 초기화 함수, OnEnable될 때 마다 실행될 코드 작성용
     /// </summary>
-    public virtual void initOnEnable(){ }
+    public virtual void initOnEnable() { }
 
     public void Update()
     {
-        UpdateInRangeEnemyObjectTransform();
+        //UpdateInRangeEnemyObjectTransform();
+        UpdateInRangeEnemyObjectTransform_OverlapSphere();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -94,7 +94,7 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
                 animator.SetBool("Attack", false);
                 animator.SetBool("Death", false);
                 animator.SetBool("Move", true);
-                
+
                 Move();
                 break;
             case ObjectAction.Idle:
@@ -131,9 +131,9 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
         Transform newTarget = null;
         float minRange = _oStats.recognitionRange;
 
-        for (int i=0; i<_allObjectTransforms.Count; i++)
+        for (int i = 0; i < _allObjectTransforms.Count; i++)
         {
-            if (_allObjectTransforms[i].gameObject.activeSelf == false) continue; 
+            if (_allObjectTransforms[i].gameObject.activeSelf == false) continue;
             if (_allObjectTransforms[i].gameObject.layer == gameObject.layer) continue;
 
             if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
@@ -152,6 +152,43 @@ public abstract class ObjectController : MonoBehaviourPunCallbacks
             {
                 minRange = nowRange;
                 newTarget = _allObjectTransforms[i];
+            }
+        }
+
+        _targetEnemyTransform = newTarget;
+    }
+
+    protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()
+    {
+        Collider[] inRangeObject = Physics.OverlapSphere(this.transform.position, _oStats.recognitionRange);
+        Transform newTarget = null;
+        float minRange = _oStats.recognitionRange;
+
+        foreach (var nowObject in inRangeObject)
+        {
+            if (nowObject.gameObject.activeSelf == false) continue;
+            if (nowObject.gameObject.layer == gameObject.layer) continue;
+
+            if (nowObject.gameObject.tag == "PLAYER")
+            {
+                if (nowObject.GetComponent<BaseController>()._state == State.Die) continue;
+            }
+            else if (nowObject.gameObject.tag == "OBJECT")
+            {
+                if (nowObject.GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
+            }
+            else
+            {
+                continue;
+            }
+
+            float nowRange = Vector3.Distance(transform.position, nowObject.transform.position);
+
+            // **라인에 있는 조건도 넣을 것.**
+            if (minRange >= nowRange)
+            {
+                minRange = nowRange;
+                newTarget = nowObject.transform;
             }
         }
 

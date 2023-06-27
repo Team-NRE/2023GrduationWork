@@ -19,12 +19,12 @@ public class ObjectBullet : MonoBehaviour
     [SerializeField]
     float _damage;
 
-	private void Start()
+	void Start()
 	{
         _pv = GetComponent<PhotonView>();
 	}
 
-	public void Update()
+	void Update()
     {
         FollowTarget();
         //_pv.RPC("FollowTarget", RpcTarget.All);
@@ -44,7 +44,6 @@ public class ObjectBullet : MonoBehaviour
         if (_Target == null) 
         {
             Destroy(this.gameObject);
-            //PhotonNetwork.Destroy(this.gameObject);
         }
 
         _TargetPos = _Target.position;
