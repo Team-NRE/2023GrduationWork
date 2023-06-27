@@ -3,14 +3,14 @@
       {
         "type": "Police",
 
-        "basicAttackPower": "59",
-        "attackSpeed" : "0.66",
+        "basicAttackPower": "80",
+        "attackSpeed" : "0.78",
         "attackRange" : "5",
         "attackType" : "LongRange",
 
         "maxHealth" : "680",
         "healthRegeneration" : "0.6",
-        "defensePower" : "28",
+        "defensePower" : "50",
 
         "level" : "1",
         "experience" : "0",

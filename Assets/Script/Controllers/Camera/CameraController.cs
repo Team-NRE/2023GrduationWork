@@ -148,24 +148,27 @@ public class CameraController : BaseController
     {
         for (int i = 0; i < SaveRendererModel.Count; i++)
         {
-            Material Mat = SaveRendererModel[i].GetComponent<Renderer>().material;
-            Mat.SetFloat("_Mode", 0);
+            if(SaveRendererModel[i].tag != "OBJECT" || SaveRendererModel[i].tag != "PLAYER")
+            {
+                Material Mat = SaveRendererModel[i].GetComponent<Renderer>().material;
+                Mat.SetFloat("_Mode", 0);
 
-            Mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-            Mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-            Mat.SetInt("_ZWrite", 1);
-            Mat.DisableKeyword("_ALPHATEST_ON");
-            Mat.DisableKeyword("_ALPHABLEND_ON");
-            Mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-            Mat.renderQueue = -1;
+                Mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                Mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                Mat.SetInt("_ZWrite", 1);
+                Mat.DisableKeyword("_ALPHATEST_ON");
+                Mat.DisableKeyword("_ALPHABLEND_ON");
+                Mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                Mat.renderQueue = -1;
 
-            //alpha값 조절
-            Color matColor = Mat.color;
-            matColor = Color.white;
-            matColor.a = 1f;
-            Mat.color = matColor;
+                //alpha값 조절
+                Color matColor = Mat.color;
+                matColor = Color.white;
+                matColor.a = 1f;
+                Mat.color = matColor;
 
-            SaveRendererModel[i].layer = 0;
+                SaveRendererModel[i].layer = 0;
+            }
         }
         SaveRendererModel.Clear();
 

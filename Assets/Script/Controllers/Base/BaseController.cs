@@ -28,7 +28,10 @@ public abstract class BaseController : MonoBehaviour
     protected bool _stopSkill = false;
 
 
+
+    protected RespawnManager respawnManager;
     public PlayerStats _pStats { get; set; }
+
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
@@ -95,7 +98,7 @@ public abstract class BaseController : MonoBehaviour
 
         if (_stopAttack == true) { StopAttack(); }
         if (_stopSkill == true) { StopSkill(); }
-
+        if (BaseCard._NowKey == "A") { RangeAttack(); }
 
         //키, 마우스 이벤트 받으면 state가 변환
         switch (State)
@@ -134,6 +137,8 @@ public abstract class BaseController : MonoBehaviour
     protected virtual void UpdateAttack() { }
     protected virtual void UpdateSkill() { }
     protected virtual void UpdateDie() { }
+
+    protected virtual GameObject RangeAttack() { return null; }
 
     protected virtual void StopAttack() { }
     protected virtual void StopSkill() { }
