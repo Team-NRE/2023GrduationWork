@@ -5,6 +5,15 @@ using System.ComponentModel; // Enum을 string으로 받기.
 
 namespace Define
 {
+    public enum PlayerType 
+    {
+        Police,
+        Firefight,
+        Lightsaber,
+        Monk,
+    }
+
+
     public enum State
     {
         Idle,
@@ -89,26 +98,6 @@ namespace Define
         SpaceUp,
     }
 
-    public enum CardType
-    {
-        Undefine,
-        NonProjective,
-        Projective,
-    }
-
-    public enum PlayerAttackType
-    {
-        Undefine,
-        ShortRange,
-        LongRange,
-    }
-
-    public enum TargetActive
-    {
-        Undefine,
-        Target,
-        NonTarget,
-    }
     
     public enum Projectile
     {

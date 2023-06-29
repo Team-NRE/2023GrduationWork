@@ -5,7 +5,6 @@
 using UnityEngine;
 using Stat;
 using Define;
-using Photon.Pun;
 
 public class NeutralMob : ObjectController
 {
@@ -26,8 +25,12 @@ public class NeutralMob : ObjectController
     public override void init() 
     {
         base.init();
+<<<<<<< HEAD
         //_pv = GetComponent<PhotonView>();
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
+=======
+        bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}MobBullet");
+>>>>>>> SinglePlayVersion
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
         isMachineGun = false;
@@ -51,13 +54,28 @@ public class NeutralMob : ObjectController
     public override void Death()
     {
         base.Death();
+
+        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
+
+        for (int i=0; i<pStats.Length; i++) {
+            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
+            {
+                pStats[i].gold += _oStats.gold;
+                pStats[i].experience += _oStats.experience;
+            }
+        }
+        
+        _allObjectTransforms.Remove(this.transform);
         Destroy(this.gameObject);
-        PhotonNetwork.Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
     {
-        if (_targetEnemyTransform != null)
+        if (_oStats.nowHealth <= 0) {
+            _action = ObjectAction.Death;
+            transform.Find("UI").gameObject.SetActive(false);
+        }
+        else if (_targetEnemyTransform != null)
         {
             transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
             _action = ObjectAction.Attack;
@@ -83,9 +101,21 @@ public class NeutralMob : ObjectController
             transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
             _action = ObjectAction.Idle;
         }
+
+        switch (_action)
+        {
+            case ObjectAction.Attack:
+                break;
+            case ObjectAction.Death:
+                transform.Find("UI").gameObject.SetActive(false);
+                break;
+            case ObjectAction.Move:
+                break;
+            case ObjectAction.Idle:
+                break;
+        }
     }
 
-    [PunRPC]
     private void BasicAttack()
     {
         if (_targetEnemyTransform == null) return;
@@ -94,7 +124,6 @@ public class NeutralMob : ObjectController
         else Laser();
     }
 
-    [PunRPC]
     private void SpecialAttack()
     {
         if (_targetEnemyTransform == null) return;
@@ -117,10 +146,10 @@ public class NeutralMob : ObjectController
     #region 공격 함수
     private void MachineGun()
     {
-        GameObject nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        GameObject nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
         nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[0].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
 
-        nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
         nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[1].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 
@@ -148,7 +177,7 @@ public class NeutralMob : ObjectController
     private void Energy()
     {
         GameObject SummonedEnergyRelease = Instantiate(EnergyRelease);
-        SummonedEnergyRelease.GetComponent<EnergyRelease>().SummonEnergyRelease(_allObjectTransforms, transform.position, _oStats.basicAttackPower, 5.0f);
+        SummonedEnergyRelease.GetComponent<EnergyRelease>().SummonEnergyRelease(_allObjectTransforms, transform, _oStats.basicAttackPower, 5.0f);
     }
 }
 #endregion

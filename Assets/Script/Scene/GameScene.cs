@@ -9,8 +9,9 @@ public class GameScene : BaseScene
 	{
 		Debug.Log("Inst");
 		SceneType = Define.Scene.Game;
+		Managers.UI.ShowSceneUI<UI_Mana>();
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
-		StartCoroutine("ForStupidPhoton");
+		Managers.UI.ShowSceneUI<UI_Popup>();
 	}
 	
 	void LoadObjects()

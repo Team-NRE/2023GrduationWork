@@ -8,6 +8,7 @@ TagManager:
   - RED
   - WALL
   - BLUE
+  - OBJECT
   layers:
   - Default
   - TransparentFX

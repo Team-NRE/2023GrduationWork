@@ -6,25 +6,32 @@ using UnityEngine;
 using UnityEngine.AI;
 using Define;
 using System.Collections;
-using Photon.Pun;
 
-public class MinionSummoner : MonoBehaviourPun
+public class MinionSummoner : MonoBehaviour
 {
-    PhotonView _pv; 
     Transform _summonPos;
     public float _summonCycle = 30;
     public float _nowSummonTime = 65;
 
+    Coroutine summonCoroutine;
+
     void Start()
     {
-        //_pv = GetComponent<PhotonView>();
-        _summonPos = transform.Find("SummonPos");
+        _summonPos = this.transform.Find("SummonPos");
+    }
+
+    void OnDisable()
+    {
+
+        if (summonCoroutine != null)
+            StopCoroutine(summonCoroutine);
     }
 
     void Update()
     {
         if (PhotonNetwork.IsMasterClient)
         {
+<<<<<<< HEAD
             _nowSummonTime -= Time.deltaTime;
 
             if (_nowSummonTime <= 0)
@@ -32,6 +39,10 @@ public class MinionSummoner : MonoBehaviourPun
                 StartCoroutine(SummonLine());
                 _nowSummonTime = _summonCycle;
             }
+=======
+            summonCoroutine = StartCoroutine(SummonLine());
+            _nowSummonTime = _summonCycle;
+>>>>>>> SinglePlayVersion
         }
     }
 
@@ -54,13 +65,13 @@ public class MinionSummoner : MonoBehaviourPun
     {
         string objName = LayerMask.LayerToName(gameObject.layer) + type.ToString() + "Robot";
 
-        GameObject upperMinion = PhotonNetwork.Instantiate(objName, this.transform.position, this.transform.rotation);
-        upperMinion.transform.position = _summonPos.position + Vector3.forward;
+        GameObject obj = Managers.Resource.Load<GameObject>(objName);
+
+        GameObject upperMinion = Instantiate(obj, _summonPos.position + Vector3.forward, this.transform.rotation);
         upperMinion.GetComponent<Minion>().line = ObjectLine.UpperLine;
         upperMinion.GetComponent<NavMeshAgent>().enabled = true;
 
-        GameObject lowerMinion = PhotonNetwork.Instantiate(objName, this.transform.position, this.transform.rotation);
-        lowerMinion.transform.position = _summonPos.position + Vector3.back;
+        GameObject lowerMinion = Instantiate(obj, _summonPos.position + Vector3.back, this.transform.rotation);
         lowerMinion.GetComponent<Minion>().line = ObjectLine.LowerLine;
         lowerMinion.GetComponent<NavMeshAgent>().enabled = true;
     }

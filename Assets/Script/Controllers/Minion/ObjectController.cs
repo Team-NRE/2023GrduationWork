@@ -14,11 +14,17 @@ using Photon.Pun;
 
 public abstract class ObjectController : MonoBehaviour
 {
+<<<<<<< HEAD
     protected PhotonView _pv;
 
     //위치 동기화 코드
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
+=======
+	//위치 동기화 코드
+	protected Vector3 receivePos;
+	protected Quaternion receiveRot;
+>>>>>>> SinglePlayVersion
 
     //외부 namespace Stat 참조
     public ObjStats _oStats { get; set; }
@@ -34,9 +40,12 @@ public abstract class ObjectController : MonoBehaviour
     //초기화
     protected Animator animator { get; set; }
 
+    //처치시 코인 드랍 파티클
+    [SerializeField]
+    GameObject particleCoinDrop;
+
     public void Awake()
     {
-        _pv = GetComponent<PhotonView>();
         //이게 여기서 돌아가면 안됌, 오브젝트 풀링이 사라졌기 때문
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
@@ -48,6 +57,7 @@ public abstract class ObjectController : MonoBehaviour
     public void OnEnable()
     {
         _oStats.InitStatSetting(_type);
+        resetMinimapIconColor();
 
         initOnEnable();
     }
@@ -55,10 +65,14 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 초기화 함수, 하위 객체에서 초기화용
     /// </summary>
+<<<<<<< HEAD
     public virtual void init()
     {
 
     }
+=======
+    public virtual void init() { }
+>>>>>>> SinglePlayVersion
 
     /// <summary>
     /// 초기화 함수, OnEnable될 때 마다 실행될 코드 작성용
@@ -67,8 +81,12 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
+<<<<<<< HEAD
         //UpdateInRangeEnemyObjectTransform();
         UpdateInRangeEnemyObjectTransform_OverlapSphere();
+=======
+        UpdateInRangeEnemyObjectTransform();
+>>>>>>> SinglePlayVersion
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -128,8 +146,8 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     protected void UpdateInRangeEnemyObjectTransform()
     {
-        Transform newTarget = null;
-        float minRange = _oStats.recognitionRange;
+        Transform newTargetPlayer = null, newTargetObject = null;
+        float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 
         for (int i = 0; i < _allObjectTransforms.Count; i++)
         {
@@ -147,15 +165,91 @@ public abstract class ObjectController : MonoBehaviour
 
             float nowRange = Vector3.Distance(transform.position, _allObjectTransforms[i].position);
 
-            // **라인에 있는 조건도 넣을 것.**
-            if (minRange >= nowRange)
+            if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
             {
-                minRange = nowRange;
-                newTarget = _allObjectTransforms[i];
+                if (minRangePlayer >= nowRange)
+                {
+                    minRangePlayer = nowRange;
+                    newTargetPlayer = _allObjectTransforms[i].transform;
+                }
+            }
+            else if (_allObjectTransforms[i].gameObject.tag == "OBJECT")
+            {
+                if (minRangeObject >= nowRange)
+                {
+                    minRangeObject = nowRange;
+                    newTargetObject = _allObjectTransforms[i].transform;
+                }
             }
         }
 
-        _targetEnemyTransform = newTarget;
+        _targetEnemyTransform = (newTargetObject != null) ? newTargetObject : newTargetPlayer;
+    }
+
+    protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()
+    {
+        Transform newTargetPlayer = null, newTargetObject = null;
+        float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
+
+        Collider[] inRangeObject = Physics.OverlapSphere(this.transform.position, minRangePlayer);
+
+        for (int i=0; i<inRangeObject.Length; i++)
+        {
+            if (inRangeObject[i].gameObject.activeSelf == false) continue; 
+            if (inRangeObject[i].gameObject.layer == gameObject.layer) continue;
+
+            if (inRangeObject[i].gameObject.tag == "PLAYER")
+            {
+                if (inRangeObject[i].GetComponent<BaseController>()._state == State.Die) continue;
+            }
+            else if (inRangeObject[i].gameObject.tag == "OBJECT")
+            {
+                if (inRangeObject[i].GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
+            }
+            else
+            {
+                continue;
+            }
+
+            float nowRange = Vector3.Distance(transform.position, inRangeObject[i].transform.position);
+
+            if (inRangeObject[i].gameObject.tag == "PLAYER")
+            {
+                if (minRangePlayer >= nowRange)
+                {
+                    minRangePlayer = nowRange;
+                    newTargetPlayer = inRangeObject[i].transform;
+                }
+            }
+            else if (inRangeObject[i].gameObject.tag == "OBJECT")
+            {
+                if (minRangeObject >= nowRange)
+                {
+                    minRangeObject = nowRange;
+                    newTargetObject = inRangeObject[i].transform;
+                }
+            }
+        }
+
+        _targetEnemyTransform = (newTargetObject != null) ? newTargetObject : newTargetPlayer;
+    }
+
+    private void resetMinimapIconColor()
+    {
+        SpriteRenderer icon = gameObject.GetComponentInChildren<SpriteRenderer>();
+
+        if (icon == null) return;
+
+        if (gameObject.layer == ((int)Layer.Cyborg))
+            icon.color = Color.red;
+        else if (gameObject.layer == ((int)Layer.Human))
+            icon.color = Color.blue;
+    }
+
+    protected void summonCoinDrop()
+    {
+        GameObject coinDrop = Instantiate(particleCoinDrop, transform.position, transform.rotation);
+        coinDrop.GetComponent<Particle_CoinDrop>().setInit(_oStats.gold.ToString());
     }
 
     protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()

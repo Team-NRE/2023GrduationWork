@@ -14,11 +14,11 @@ public class EnergyRelease : MonoBehaviour
     float damage;
     float distance = 5.0f;
 
-    public void SummonEnergyRelease(List<Transform> objList, Vector3 pos, float dam, float dis = 5.0f)
+    public void SummonEnergyRelease(List<Transform> objList, Transform pos, float dam, float dis = 5.0f)
     {
         _allObjectTransforms = objList;
-        transform.position = pos;
-        damage = dam;
+        transform.position = pos.position;
+        damage = dam * 3.5f;
         distance = dis;
 
         gameObject.SetActive(true);
@@ -32,6 +32,9 @@ public class EnergyRelease : MonoBehaviour
 
             if (Vector3.Distance(transform.position, nowTarget.position) <= distance)
             {
+                // 임시방편, 사용자인지 검사하는 코드 추가할 것.
+                if (nowTarget.transform.position == transform.position) continue;
+
                 //타겟이 미니언, 타워일 시 
                 if (nowTarget.tag != "PLAYER")
                 {

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Stat;
 using Define;
 using Photon.Pun;
 using Stat;
 using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
+public abstract class BaseController : MonoBehaviour
 {
     protected PhotonView _pv;
     protected Vector3 receivePos;
@@ -24,14 +25,19 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
     protected Animator _anim;
     protected NavMeshAgent _agent;
-
-    protected GameObject _lockTarget;
     protected Vector3 _MovingPos;
     //총알 발사 여부
     protected bool _stopAttack = false;
 
+
+
+    protected RespawnManager respawnManager;
+    public PlayerStats _pStats { get; set; }
+
+
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
+    public PlayerType _pType { get; protected set; }
     public State _state { get; protected set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.FloatCamera;
 
@@ -79,16 +85,13 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
                 case Define.State.Die:
                     _anim.SetTrigger("Die");
                     _anim.SetBool("IsIdle", false);
-                    //inputAction.Disable();
-                    //GetComponent<CapsuleCollider>().enabled = false;
-                    //this.enabled = false;
-                    //StopAllCoroutines();
 
                     break;
             }
         }
     }
 
+<<<<<<< HEAD
 
     private void Start()
     {
@@ -105,11 +108,23 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
         }
         Init();
     }
+=======
+    private void Start() { Init(); }
+>>>>>>> SinglePlayVersion
 
     private void Update()
     {
         //Debug.Log(State);
+<<<<<<< HEAD
         if (_stopAttack == true) { StopAttack(); }
+=======
+
+        if (_stopAttack == true) { StopAttack(); }
+        if (_stopSkill == true) { StopSkill(); }
+        if (BaseCard._NowKey == "A") { RangeAttack(); }
+
+        //키, 마우스 이벤트 받으면 state가 변환
+>>>>>>> SinglePlayVersion
         switch (State)
         {
             case Define.State.Idle:
@@ -126,6 +141,7 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
                 break;
 
             case Define.State.Attack:
+<<<<<<< HEAD
                 //UpdateAttack();
                 if (_pv.IsMine)
                 {
@@ -135,6 +151,15 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 
             case Define.State.Skill:
                 UpdateSkill();
+=======
+                if (_stopAttack == false)
+                    UpdateAttack();
+                break;
+
+            case Define.State.Skill:
+                if (_stopSkill == false)
+                    UpdateSkill();
+>>>>>>> SinglePlayVersion
                 break;
         }
     }
@@ -150,6 +175,7 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void UpdateSkill() { }
     protected virtual void UpdateDie() { }
 
+<<<<<<< HEAD
     protected virtual void StopAttack() { }
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -183,5 +209,11 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
         }
         return _player;
     }
+=======
+    protected virtual GameObject RangeAttack() { return null; }
+
+    protected virtual void StopAttack() { }
+    protected virtual void StopSkill() { }
+>>>>>>> SinglePlayVersion
 }
 

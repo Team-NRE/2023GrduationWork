@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Define;
 
 public class RespawnManager : MonoBehaviour
 {
-    private PlayerStats _pStats;
-    private Police _pController;
+    State pState;
+    PlayerStats pStat;
+    PlayerType pType;
+    GameObject Player;
+
+    Transform HumanRespawn;
+    Transform CyborgRespawn;
+    Transform RespawnPos;
 
     public float _RespawnTime;
     public float RespawnTime
@@ -29,51 +36,69 @@ public class RespawnManager : MonoBehaviour
             _SetRespawn -= value;
             if (_SetRespawn <= 0)
             {
-                _pStats.nowHealth = _pStats.maxHealth;
+                Player.GetComponent<CapsuleCollider>().enabled = true;
+                Player.GetComponent<BaseController>().enabled = true;
+
+                Player.transform.position = default;
+                Player.transform.position = RespawnPos.localPosition;
+                Debug.Log(Player.transform.position);
+
+                pStat.nowHealth = pStat.maxHealth;
+                
                 _SetRespawn = RespawnTime;
-                _pController.enabled = true;
             }
         }
     }
 
     private void Start()
     {
-        Init();
+        HumanRespawn = transform.GetChild(0);
+        CyborgRespawn = transform.GetChild(1);
+        pStatAction();
+
+        RespawnTime = 6.0f;
     }
 
-    //start
-    public void Init()
+    public void pStatAction()
     {
-        //GameObject _player = GameObject.FindWithTag("PLAYER");
+        switch (pType)
+        {
+            case Define.PlayerType.Police:
+                Player = GameObject.Find("Police");
+                pStat = Player.GetComponent<PlayerStats>();
+                RespawnPos = HumanRespawn;
 
-        //_pController = _player.GetComponent<Police>();
-        //_pStats = _player.GetComponent<PlayerStats>();
+                break;
 
-        StartCoroutine("GetPlayer");
-        RespawnTime = 6.0f;
+            case Define.PlayerType.Firefight:
+                Player =  GameObject.Find("Firefight");
+                pStat = Player.GetComponent<PlayerStats>();
+                RespawnPos = HumanRespawn;
+
+                break;
+
+            case Define.PlayerType.Lightsaber:
+                Player = GameObject.Find("Lightsaber");
+                pStat = Player.GetComponent<PlayerStats>();
+                RespawnPos = CyborgRespawn;
+
+                break;
+
+            case Define.PlayerType.Monk:
+                Player = GameObject.Find("Monk");
+                pStat = Player.GetComponent<PlayerStats>();
+                RespawnPos = CyborgRespawn;
+                
+                break;
+        }
     }
 
     //update
     public void Update()
     {
-        if (_pController.enabled == false)
+        if (pStat.nowHealth <= 0)
         {
             SetRespawn = Time.deltaTime;
         }
     }
-
-    IEnumerator GetPlayer()
-	{
-        yield return new WaitForSeconds(2.5f);
-        GameObject player = GameObject.FindWithTag("PLAYER");
-        _pController = player.GetComponent<Police>();
-        _pStats = player.GetComponent<PlayerStats>();
-    }
-
-    public void Clear()
-    {
-
-    }
 }
-
-

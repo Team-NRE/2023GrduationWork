@@ -4,7 +4,6 @@
 
 using UnityEngine;
 using Stat;
-using Photon.Pun;
 
 public class ObjectBullet : MonoBehaviour
 {
@@ -35,27 +34,35 @@ public class ObjectBullet : MonoBehaviour
     {
         transform.position = muzzle;
         _Target = _target;
-        _bulletSpeed = bulletSpeed * 2; // 공속 대비 3배 속도
+        _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
         _damage = damage;
     }
 
     public void FollowTarget()
     {
+<<<<<<< HEAD
         if (_Target == null) 
         {
            PhotonNetwork.Destroy(this.gameObject);
             return;
         }
+=======
+        if (_Target == null)
+            Destroy(this.gameObject);
+        else
+            _TargetPos = _Target.position;
+>>>>>>> SinglePlayVersion
 
-        _TargetPos = _Target.position;
-
-        transform.position = Vector3.Slerp(transform.position, _TargetPos, Time.deltaTime * _bulletSpeed);
+        transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
         transform.LookAt(_TargetPos);
     }
 
     public void HitDetection()
     {
-        if (Vector3.Distance(transform.position, _TargetPos) <= 0.7f)
+        Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
+
+        if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
             //타겟이 미니언, 타워일 시 
             if (_Target.tag != "PLAYER")
@@ -71,8 +78,13 @@ public class ObjectBullet : MonoBehaviour
                 _Stats.nowHealth -= _damage;
             }
             
+<<<<<<< HEAD
             Destroy(this.gameObject);
             //PhotonNetwork.Destroy(this.gameObject);
+=======
+            Destroy(this.gameObject, 0.5f);
+            this.enabled = false;
+>>>>>>> SinglePlayVersion
         }
     }
 }

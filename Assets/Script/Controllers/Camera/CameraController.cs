@@ -1,13 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class CameraController : MonoBehaviour
+public class CameraController : BaseController
 {
-    public Define.CameraMode _cameraMode { get; protected set; } = Define.CameraMode.FloatCamera;
-
-    PhotonView _pv;
     public float planescale_X { get; set; }
     public float planescale_Z { get; set; }
     public float Cam_Y { get; set; }
@@ -17,7 +13,6 @@ public class CameraController : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     //Player 찾기
-    private GameObject player;
     private Transform p_Position;
 
     //건물 투명화
@@ -26,13 +21,15 @@ public class CameraController : MonoBehaviour
 
     //Renderer 여부
     public bool IsRenderer = true;
-    
+
     //투명화 되는 건물 색깔
     public Color invisibleColor;
 
-    
-    public void Start()
+    LayerMask ignore;
+
+    public override void Init()
     {
+<<<<<<< HEAD
         StartCoroutine("GetPlayer");
     }
 
@@ -52,21 +49,50 @@ public class CameraController : MonoBehaviour
         }
         p_Position = player.transform;
 
+=======
+>>>>>>> SinglePlayVersion
         //초기 값 세팅
         planescale_X = 80; // -80 < X < 80
         planescale_Z = -4; // -28 < Z < 20 / +24
         Cam_Y = 9;
         Cam_Z = 6;
 
-
-            Managers.Input.MouseAction -= MouseDownAction;
-            Managers.Input.MouseAction += MouseDownAction;
-            Managers.Input.KeyAction -= KeyDownAction;
-            Managers.Input.KeyAction += KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
         
-            //player = GameObject.FindWithTag("PLAYER");
-            //p_Position = player.transform;
+        pStatAction();
+
+        ignore = LayerMask.GetMask("Human", "Cyborg");
     }
+
+    public void pStatAction()
+    {
+        switch (_pType)
+        {
+            case Define.PlayerType.Police:
+                p_Position = GameObject.Find("Police").transform;
+                
+                break;
+            
+            case Define.PlayerType.Firefight:
+                p_Position = GameObject.Find("Firefight").transform;
+                
+                break;
+
+            case Define.PlayerType.Lightsaber:
+                p_Position = GameObject.Find("Lightsaber").transform;
+                
+                break;
+
+            case Define.PlayerType.Monk:
+                p_Position = GameObject.Find("Monk").transform;
+                
+                break;
+        }
+    }
+
 
     void Update()
     {
@@ -76,44 +102,41 @@ public class CameraController : MonoBehaviour
         if (IsRenderer == false) hitRenderer();
     }
 
-    
+
     private void LateUpdate()
     {
-            switch (_cameraMode)
-            {
-                case Define.CameraMode.QuaterView:
-                    QuaterviewCam();
+        switch (_cameraMode)
+        {
+            case Define.CameraMode.QuaterView:
+                QuaterviewCam();
 
-                    break;
+                break;
 
-                case Define.CameraMode.FloatCamera:
-                    FloatCam();
+            case Define.CameraMode.FloatCamera:
+                FloatCam();
 
-                    break;
-            }
+                break;
+        }
     }
 
     //마우스 이벤트
     public void MouseDownAction(Define.MouseEvent _evt)
     {
-        if (_pv.IsMine)
+        if (_evt == Define.MouseEvent.PointerDown || _evt == Define.MouseEvent.Press)
         {
-            if (_evt == Define.MouseEvent.PointerDown || _evt == Define.MouseEvent.Press)
+            GameObject hitObject = Managers.Input.Get3DMousePosition(ignore).Item2;
+
+            if (hitObject != null)
             {
-                GameObject hitObject = Managers.Input.Get3DMousePosition().Item2;
-
-                if (hitObject != null)
+                switch (hitObject.layer)
                 {
-                    switch (hitObject.layer)
-                    {
-                        case (int)Define.Layer.Road:
-                            IsRenderer = true;
-                            break;
+                    case (int)Define.Layer.Road:
+                        IsRenderer = true;
+                        break;
 
-                        case (int)Define.Layer.Default:
-                            IsRenderer = false;
-                            break;
-                    }
+                    case (int)Define.Layer.Default:
+                        IsRenderer = false;
+                        break;
                 }
             }
         }
@@ -124,7 +147,6 @@ public class CameraController : MonoBehaviour
     {
         if (_key == Define.KeyboardEvent.U)
         {
-            Debug.Log("Key U Invoke");
             _cameraMode = (_cameraMode == Define.CameraMode.FloatCamera ? Define.CameraMode.QuaterView : Define.CameraMode.FloatCamera);
         }
 
@@ -148,24 +170,27 @@ public class CameraController : MonoBehaviour
     {
         for (int i = 0; i < SaveRendererModel.Count; i++)
         {
-            Material Mat = SaveRendererModel[i].GetComponent<Renderer>().material;
-            Mat.SetFloat("_Mode", 0);
+            if(SaveRendererModel[i].tag != "OBJECT" || SaveRendererModel[i].tag != "PLAYER")
+            {
+                Material Mat = SaveRendererModel[i].GetComponent<Renderer>().material;
+                Mat.SetFloat("_Mode", 0);
 
-            Mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-            Mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-            Mat.SetInt("_ZWrite", 1);
-            Mat.DisableKeyword("_ALPHATEST_ON");
-            Mat.DisableKeyword("_ALPHABLEND_ON");
-            Mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-            Mat.renderQueue = -1;
+                Mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                Mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                Mat.SetInt("_ZWrite", 1);
+                Mat.DisableKeyword("_ALPHATEST_ON");
+                Mat.DisableKeyword("_ALPHABLEND_ON");
+                Mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                Mat.renderQueue = -1;
 
-            //alpha값 조절
-            Color matColor = Mat.color;
-            matColor = Color.white;
-            matColor.a = 1f;
-            Mat.color = matColor;
+                //alpha값 조절
+                Color matColor = Mat.color;
+                matColor = Color.white;
+                matColor.a = 1f;
+                Mat.color = matColor;
 
-            SaveRendererModel[i].layer = 0;
+                SaveRendererModel[i].layer = 0;
+            }
         }
         SaveRendererModel.Clear();
 
@@ -187,6 +212,7 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(transform.position, Direction, out hit, Distance, layerMask))
         {
             RendererGameobject = hit.collider.gameObject;
+            
             // 2.맞았으면 Renderer를 얻어온다.
             Renderer ObstacleRenderer = RendererGameobject.GetComponent<Renderer>();
 

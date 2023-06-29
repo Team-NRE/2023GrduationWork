@@ -6,6 +6,9 @@ using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Stat;
+using Define;
+
 
 public class UI_CardPanel : UI_Card
 {
@@ -31,6 +34,11 @@ public class UI_CardPanel : UI_Card
     Image E_cardimg;
     Image R_cardimg;
 
+<<<<<<< HEAD
+=======
+    PlayerStats pStat;
+    PlayerType _pType;
+>>>>>>> SinglePlayVersion
 
     public enum CardObjects
     {
@@ -45,9 +53,16 @@ public class UI_CardPanel : UI_Card
         R,
     }
 
+<<<<<<< HEAD
 
     public override void Init()
     {
+=======
+    public override void Init()
+    {
+        pStatAction();
+
+>>>>>>> SinglePlayVersion
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
 
@@ -78,6 +93,7 @@ public class UI_CardPanel : UI_Card
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
+<<<<<<< HEAD
 
     }
 
@@ -190,6 +206,10 @@ public class UI_CardPanel : UI_Card
             R_cardimg.color = new Color32(255, 255, 255, 255);
     }
 
+=======
+    }
+
+>>>>>>> SinglePlayVersion
     //초기 덱 
     public void DeckStart()
     {
@@ -200,15 +220,158 @@ public class UI_CardPanel : UI_Card
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
     }
 
+    public void pStatAction()
+    {
+        switch (_pType)
+        {
+            case Define.PlayerType.Police:
+                pStat = GameObject.Find("Police").GetComponent<PlayerStats>();
+                
+                break;
+            
+            case Define.PlayerType.Firefight:
+                pStat = GameObject.Find("Firefight").GetComponent<PlayerStats>();
+                
+                break;
+
+            case Define.PlayerType.Lightsaber:
+                pStat = GameObject.Find("Lightsaber").GetComponent<PlayerStats>();
+                
+                break;
+
+            case Define.PlayerType.Monk:
+                pStat = GameObject.Find("Monk").GetComponent<PlayerStats>();
+                
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        if(pStat.nowHealth > 0)
+        {
+            MouseDownAction();
+            KeyDownAction();
+        }
+        CardUseable();
+    }
+
+    //마우스
+    public void MouseDownAction()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //타겟이 있을 때 (아군, 도로, 적)
+            if (BaseCard._lockTarget != null)
+            {
+                switch (BaseCard._NowKey)
+                {
+                    case "Q":
+                        Debug.Log("Q UI Change");
+                        UI_UseQ();
+                        break;
+
+                    case "W":
+                        Debug.Log("W UI Change");
+                        UI_UseW();
+                        break;
+
+                    case "E":
+                        Debug.Log("E UI Change");
+                        UI_UseE();
+                        break;
+
+                    case "R":
+                        Debug.Log("R UI Change");
+                        UI_UseR();
+                        break;
+                }
+            }
+        }
+    }
+
+    //키보드
+    public void KeyDownAction()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (pStat.UseMana("Q").Item1 == true
+                        && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+            {
+                UI_UseQ();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (pStat.UseMana("W").Item1 == true
+                        && W_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+            {
+                UI_UseW();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (pStat.UseMana("E").Item1 == true
+                        && E_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+            {
+                UI_UseE();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (pStat.UseMana("R").Item1 == true
+                        && R_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+            {
+                UI_UseR();
+            }
+        }
+    }
+
+
+    public void CardUseable()
+    {
+        //Q Image
+        if (pStat.UseMana(null, Q_UI).Item1 == false)
+            Q_cardimg.color = new Color32(61, 61, 61, 255);
+        if (pStat.UseMana(null, Q_UI).Item1 == true)
+            Q_cardimg.color = new Color32(255, 255, 255, 255);
+
+        //W Image
+        if (pStat.UseMana(null, W_UI).Item1 == false)
+            W_cardimg.color = new Color32(61, 61, 61, 255);
+        if (pStat.UseMana(null, W_UI).Item1 == true)
+            W_cardimg.color = new Color32(255, 255, 255, 255);
+
+        //E Image
+        if (pStat.UseMana(null, E_UI).Item1 == false)
+            E_cardimg.color = new Color32(61, 61, 61, 255);
+        if (pStat.UseMana(null, E_UI).Item1 == true)
+            E_cardimg.color = new Color32(255, 255, 255, 255);
+
+        //R Image
+        if (pStat.UseMana(null, R_UI).Item1 == false)
+            R_cardimg.color = new Color32(61, 61, 61, 255);
+        if (pStat.UseMana(null, R_UI).Item1 == true)
+            R_cardimg.color = new Color32(255, 255, 255, 255);
+    }
+
+
 
 
     //0번 인덱스의 리스트를 반드시 사용한다.
-    public void UI_UseQ(PointerEventData data = null)
+    public void UI_UseQ()
     {
         //UI_Card 
         UI_Card Q_CardUI = Q_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
+<<<<<<< HEAD
         BaseCard._nowMana -= BaseCard.UseMana(null, Q_CardUI).Item2;
+=======
+        pStat.nowMana -= pStat.UseMana(null, Q_CardUI).Item2;
+>>>>>>> SinglePlayVersion
         //사용한 카드
         string _nowCard = Q_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -219,18 +382,26 @@ public class UI_CardPanel : UI_Card
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
         Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
         Q_cardimg = Q_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+<<<<<<< HEAD
         
+=======
+        BaseCard._NowKey = null;
+>>>>>>> SinglePlayVersion
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
 
     }
 
     //1번 인덱스의 리스트를 반드시 사용한다.
-    public void UI_UseW(PointerEventData data = null)
+    public void UI_UseW()
     {
         //UI_Card 
         UI_Card W_CardUI = W_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
+<<<<<<< HEAD
         BaseCard._nowMana -= BaseCard.UseMana(null, W_CardUI).Item2;
+=======
+        pStat.nowMana -= pStat.UseMana(null, W_CardUI).Item2;
+>>>>>>> SinglePlayVersion
         //사용한 카드
         string _nowCard = W_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -241,17 +412,25 @@ public class UI_CardPanel : UI_Card
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
         W_UI = W_Card.GetComponentInChildren<UI_Card>();
         W_cardimg = W_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+<<<<<<< HEAD
         
+=======
+        BaseCard._NowKey = null;
+>>>>>>> SinglePlayVersion
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
     }
 
     //2번 인덱스의 리스트를 반드시 사용한다.
-    public void UI_UseE(PointerEventData data = null)
+    public void UI_UseE()
     {
         //UI_Card 
         UI_Card E_CardUI = E_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
+<<<<<<< HEAD
         BaseCard._nowMana -= BaseCard.UseMana(null, E_CardUI).Item2;
+=======
+        pStat.nowMana -= pStat.UseMana(null, E_CardUI).Item2;
+>>>>>>> SinglePlayVersion
         // 사용한 카드
         string _nowCard = E_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
@@ -262,16 +441,25 @@ public class UI_CardPanel : UI_Card
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
         E_cardimg = E_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+<<<<<<< HEAD
         
+=======
+        BaseCard._NowKey = null;
+>>>>>>> SinglePlayVersion
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
     }
 
     //3번 인덱스의 리스트를 반드시 사용한다.
+<<<<<<< HEAD
     public void UI_UseR(PointerEventData data = null)
+=======
+    public void UI_UseR()
+>>>>>>> SinglePlayVersion
     {
         //UI_Card 
         UI_Card R_CardUI = R_Btn.GetComponentInChildren<UI_Card>();
         //마나 사용
+<<<<<<< HEAD
         BaseCard._nowMana -= BaseCard.UseMana(null, R_CardUI).Item2;
         //사용한 카드
         string _nowCard = R_Btn.transform.GetChild(0).name;
@@ -286,6 +474,13 @@ public class UI_CardPanel : UI_Card
         R_UI = R_Card.GetComponentInChildren<UI_Card>();
         R_cardimg = R_Card.transform.GetChild(1).gameObject.GetComponent<Image>();*/
         
+=======
+        pStat.nowMana -= pStat.UseMana(null, R_CardUI).Item2;
+        //사용한 카드
+        string _nowCard = R_Btn.transform.GetChild(0).name;
+        Debug.Log($"사용한 카드 : {_nowCard}");
+        BaseCard._NowKey = null;
+>>>>>>> SinglePlayVersion
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
     }
 }

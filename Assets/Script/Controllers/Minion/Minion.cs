@@ -6,9 +6,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 using Define;
+using Stat;
 using Photon.Pun;
 
-public class Minion : ObjectController, IPunObservable
+public class Minion : ObjectController
 {
     protected float damping = 10.0f;
 
@@ -60,7 +61,7 @@ public class Minion : ObjectController, IPunObservable
     {
         if (_oStats.nowBattery > 0) _oStats.nowBattery -= Time.fixedDeltaTime;
 
-		//GetTransformArea();
+        GetTransformArea();
     }
 
     public override void Attack()
@@ -74,67 +75,65 @@ public class Minion : ObjectController, IPunObservable
     public override void Death()
     {
         base.Death();
+
+        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
+
+        for (int i=0; i<pStats.Length; i++) {
+            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
+            {
+                pStats[i].gold += _oStats.gold;
+                pStats[i].experience += _oStats.experience;
+            }
+        }
+
         _allObjectTransforms.Remove(this.transform);
+<<<<<<< HEAD
         //Destroy(this.gameObject);
         if(PhotonNetwork.IsMasterClient)
             PhotonNetwork.Destroy(this.gameObject);
+=======
+        Destroy(this.gameObject);
+>>>>>>> SinglePlayVersion
     }
     public override void Move()
     {
-        if (_pv.IsMine)
+        base.Move();
+
+        Vector3 moveTarget = Vector3.zero;
+
+        if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
         {
-            base.Move();
-
-            Vector3 moveTarget = Vector3.zero;
-
-            if (_targetEnemyTransform != null /*&& area == ObjectPosArea.Road*/)
+            moveTarget = _targetEnemyTransform.position;
+        }
+        else
+        {
+            if (line == ObjectLine.UpperLine)
             {
-                moveTarget = _targetEnemyTransform.position;
+                moveTarget = milestoneUpper[lineIdx].position;
             }
-            else
+            else if (line == ObjectLine.LowerLine)
             {
-                if (line == ObjectLine.UpperLine)
-                {
-                    moveTarget = milestoneUpper[lineIdx].position;
-                }
-                else if (line == ObjectLine.LowerLine)
-                {
-                    moveTarget = milestoneLower[lineIdx].position;
-                }
-
-                if (gameObject.layer == LayerMask.NameToLayer("Human"))
-                {
-                    if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
-                        lineIdx++;
-                }
-                else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
-                {
-                    if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
-                        lineIdx--;
-                }
+                moveTarget = milestoneLower[lineIdx].position;
             }
 
-            transform.LookAt(new Vector3(
-                moveTarget.x,
-                transform.position.y,
-                moveTarget.z
-            ));
-            nav.SetDestination(moveTarget);
+            if (gameObject.layer == LayerMask.NameToLayer("Human"))
+            {
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
+                    lineIdx++;
+            }
+            else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
+            {
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
+                    lineIdx--;
+            }
         }
-		else
-		{
-            Debug.Log("else moving");
 
-            // 수신된 좌표로 보간한 이동처리
-            transform.position = Vector3.Lerp(transform.position,
-                                              receivePos,
-                                              Time.deltaTime * damping);
-
-            // 수신된 회전값으로 보간한 회전처리
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                                                  receiveRot,
-                                                  Time.deltaTime * damping);
-        }
+        transform.LookAt(new Vector3(
+            moveTarget.x,
+            transform.position.y,
+            moveTarget.z
+        ));
+        nav.SetDestination(moveTarget);
     }
 
     protected override void UpdateObjectAction()
@@ -208,20 +207,5 @@ public class Minion : ObjectController, IPunObservable
         if (posName.Equals("tilePalette_1"))  area = ObjectPosArea.Building;
         if (posName.Equals("tilePalette_10")) area = ObjectPosArea.MidWay;
         if (posName.Equals("tilePalette_2"))  area = ObjectPosArea.CenterArea;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            receivePos = (Vector3)stream.ReceiveNext();
-            receiveRot = (Quaternion)stream.ReceiveNext();
-        }
     }
 }
