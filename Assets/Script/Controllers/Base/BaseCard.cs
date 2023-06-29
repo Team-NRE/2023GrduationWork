@@ -32,7 +32,7 @@ public static class BaseCard
             cardNames.Add(deck[deckNum].cards[i]);
             //현재 카드 덱 정보
             _deckCards.Add(deck[deckNum].cards[i]);
-            Debug.Log($"카드 {i}번 : {_deckCards[i]}");
+            // Debug.Log($"카드 {i}번 : {_deckCards[i]}");
         }
         return cardNames;
     }
@@ -84,7 +84,7 @@ public static class BaseCard
         //뽑은 카드 덱에서 삭제
         _initDeck.RemoveAt(rand);
 
-        Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
+        // Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
 
         return ChoiseCard;
     }

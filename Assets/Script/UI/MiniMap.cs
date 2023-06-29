@@ -36,7 +36,12 @@ public class MiniMap : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if(isButtonDowning)
         {
+            mainCamera.enabled = false;
             setFramePositionToCameraPosition();
+        }
+        else
+        {
+            mainCamera.enabled = true;
         }
     }
 
