@@ -10,9 +10,11 @@ using TMPro;
 
 public class UI_Login : UI_Scene
 {
-	TMP_InputField input;
-	TMP_InputField tc;
-	public static string inputRc;
+	InputField input;
+	InputField tc;
+	public InputField user;
+	public static string _inputUser;
+	public string inputRc;
 	public static string inputTc;
 
 	public enum LoginText
@@ -27,8 +29,9 @@ public class UI_Login : UI_Scene
 		Login,
 	}
 
-	public enum InputField
+	public enum InputFields
 	{
+		UserName,
 		RoomCode,
 		TeamNumber,
 	}
@@ -42,10 +45,10 @@ public class UI_Login : UI_Scene
 
 	public void LoginClick(PointerEventData data)
 	{
-		//string inputRc = input.text;
-		//string inputTc = tc.text; 
+		_inputUser = user.text;
+		PhotonNetwork.NickName = user.text;
+		Debug.Log(user.text);
 		InitialRoom();
-		//SceneManager.LoadScene("View Test Scene");
 	}
 
 	public void InitialRoom(string name = "default")

@@ -58,7 +58,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -114,6 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98645e310db39a242b2bbbfa0ac32b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  user: {fileID: 9218121022762456094}
+  inputRc: 
 --- !u!1 &9110836014228551042
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +129,7 @@ GameObject:
   - component: {fileID: 9215289635294841714}
   - component: {fileID: 9215436997012727358}
   m_Layer: 5
-  m_Name: InputField (1)
+  m_Name: RoomCode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -590,7 +592,7 @@ GameObject:
   - component: {fileID: 9215247126068145116}
   - component: {fileID: 9218121022762456094}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: UserName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1022,7 +1024,7 @@ GameObject:
   - component: {fileID: 9035218400195168834}
   - component: {fileID: 9215358274156673810}
   m_Layer: 5
-  m_Name: TeamCode
+  m_Name: RoomCode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1102,7 +1104,7 @@ GameObject:
   - component: {fileID: 9034792610557985964}
   - component: {fileID: 9215214397570767146}
   m_Layer: 5
-  m_Name: RoomCode
+  m_Name: UserName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1169,7 +1171,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'ROOMCODE:'
+  m_Text: 'USERNAME:'
 --- !u!1 &9111894381702211516
 GameObject:
   m_ObjectHideFlags: 0
