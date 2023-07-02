@@ -2,7 +2,11 @@ fileFormatVersion: 2
 guid: 6f9595c9f92117b4993a1d319bfb37de
 NativeFormatImporter:
   externalObjects: {}
+<<<<<<< HEAD
+  mainObjectFileID: 11400000
+=======
   mainObjectFileID: 0
+>>>>>>> SinglePlayVersion
   userData: 
   assetBundleName: 
   assetBundleVariant: 

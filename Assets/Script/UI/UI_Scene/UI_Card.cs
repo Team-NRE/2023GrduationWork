@@ -12,7 +12,12 @@ public class UI_Card : UI_Scene
     //카드 시전 시간
     public float _CastingTime;
     //이펙트 발동 시간
+<<<<<<< HEAD
+    public float _effectTime;
+
+=======
     public float _effectTime; 
+>>>>>>> SinglePlayVersion
     public float _damage;
     public float _defence;
     public float _buff;
@@ -30,7 +35,10 @@ public class UI_Card : UI_Scene
     public float _rangeAngle;
 
     public GameObject _effectObject;
+<<<<<<< HEAD
+=======
     
+>>>>>>> SinglePlayVersion
     public override void Init()
     {
         Debug.Log("UI_Card Init");
@@ -42,15 +50,22 @@ public class UI_Card : UI_Scene
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }
 
+<<<<<<< HEAD
+    public override void UpdateInit()
+=======
 
 
     
     public virtual void OnTriggerEnter(Collider other) 
+>>>>>>> SinglePlayVersion
     {
-        
+
     }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> SinglePlayVersion
     public virtual GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
         return _effectObject;

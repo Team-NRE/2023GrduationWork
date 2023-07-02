@@ -29,6 +29,7 @@ public class GameScene : BaseScene
 	{
 		yield return new WaitForSeconds(2.0f);
 		Debug.Log("Instantiate Player");
-		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
+		PhotonNetwork.Instantiate("PoliceHu", new Vector3(-56, 0, 0), Quaternion.identity);
+		PhotonNetwork.Instantiate($"Prefabs/Reference/AI/NeutralMob/NeutralMob", new Vector3(-1.6f, 4.4f, -0.5f), Quaternion.identity);
 	}
 }

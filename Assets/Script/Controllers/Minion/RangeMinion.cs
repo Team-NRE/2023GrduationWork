@@ -21,7 +21,12 @@ public class RangeMinion : Minion
     public override void Attack()
     {
         base.Attack();
+<<<<<<< HEAD
+        //GameObject nowBullet = PhotonNetwork.Instantiate($"Prefabs/Projectile/ObjectBullet", this.transform.position, this.transform.rotation);
+        GameObject nowBullet = Managers.Resource.Instantiate($"Projectile/ObjectBullet");
+=======
         GameObject nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
+>>>>>>> SinglePlayVersion
         nowBullet.GetComponent<ObjectBullet>().BulletSetting(this.transform.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 }

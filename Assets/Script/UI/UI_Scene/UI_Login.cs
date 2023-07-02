@@ -6,25 +6,44 @@ using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UI_Login : UI_Scene
 {
-	public enum Logins
+	TMP_InputField input;
+	TMP_InputField tc;
+	public static string inputRc;
+	public static string inputTc;
+
+	public enum LoginText
 	{
 		Title,
 		RoomCode,
+		TeamCode,
+	}
+
+	public enum LoginButtons
+	{
 		Login,
+	}
+
+	public enum InputField
+	{
+		RoomCode,
+		TeamNumber,
 	}
 
 	public override void Init()
 	{
-		Bind<Button>(typeof(Logins));
-		GameObject go = GetButton((int)Logins.Login).gameObject;
-		GetButton((int)Logins.Login).gameObject.BindEvent(LoginClick);
+		Bind<Button>(typeof(LoginButtons));
+		GameObject go = GetButton((int)LoginButtons.Login).gameObject;
+		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
 	} 
 
 	public void LoginClick(PointerEventData data)
 	{
+		//string inputRc = input.text;
+		//string inputTc = tc.text; 
 		InitialRoom();
 		//SceneManager.LoadScene("View Test Scene");
 	}

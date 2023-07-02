@@ -29,6 +29,28 @@ public class CameraController : BaseController
 
     public override void Init()
     {
+<<<<<<< HEAD
+        StartCoroutine("GetPlayer");
+    }
+
+    IEnumerator GetPlayer()
+	{
+        yield return new WaitForSeconds(2.5f);
+        //Debug.Log("GetPlayer");
+        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
+        foreach(GameObject p in p_Container)
+		{
+            _pv = p.GetComponent<PhotonView>();
+            if (_pv.IsMine)
+            {
+                player = p;
+                break;
+            }
+        }
+        p_Position = player.transform;
+
+=======
+>>>>>>> SinglePlayVersion
         //초기 값 세팅
         planescale_X = 80; // -80 < X < 80
         planescale_Z = -4; // -28 < Z < 20 / +24

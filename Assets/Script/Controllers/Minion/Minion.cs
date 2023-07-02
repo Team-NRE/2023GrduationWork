@@ -87,7 +87,13 @@ public class Minion : ObjectController
         }
 
         _allObjectTransforms.Remove(this.transform);
+<<<<<<< HEAD
+        //Destroy(this.gameObject);
+        if(PhotonNetwork.IsMasterClient)
+            PhotonNetwork.Destroy(this.gameObject);
+=======
         Destroy(this.gameObject);
+>>>>>>> SinglePlayVersion
     }
     public override void Move()
     {
