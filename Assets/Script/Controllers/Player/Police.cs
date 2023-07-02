@@ -12,6 +12,7 @@ public class Police : BaseController
     private Transform _Proj_Parent;
     private GameObject _bullet;
     public GameObject target;
+
     //UI_Card 접근
     private UI_Card _cardStats;
 
@@ -29,27 +30,19 @@ public class Police : BaseController
     private int _SaveRangeNum;
 
 
-    //평타/스킬 쿨타임
+    //평타/스킬/스텟 쿨타임
     private float _SaveAttackSpeed = default;
     private float _SaveSkillCool = default;
+    private float _SaveHPSCool = default;
+    private float _SaveRespawnTime = default;
 
     private LayerMask ignore;
 
+    //리스폰
+    public Transform respawn;
+    private Transform saveRespawn;
 
-    public void OnEnable()
-    {
-        _state = Define.State.Idle;
-
-        //액션 대리자 호출
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-    }
-
-
-    //start 초기화
-    public override void Init()
+    public override void awakeInit()
     {
         //초기화
         _pStats = GetComponent<PlayerStats>();
@@ -59,7 +52,24 @@ public class Police : BaseController
         //스텟 호출
         _pType = Define.PlayerType.Police;
         _pStats.PlayerStatSetting(_pType);
+    }
 
+    public void OnEnable()
+    {
+        _state = Define.State.Idle;
+
+        //리스폰 지역
+        transform.position = respawn.position;
+
+        //액션 대리자 호출
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+    }
+
+
+    //start 초기화
+    public override void Init()
+    {
         //총알 위치
         _Proj_Parent = this.transform.GetChild(2);
         _bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
@@ -200,7 +210,7 @@ public class Police : BaseController
                     break;
 
                 case Define.MouseEvent.LeftButton:
-                    if(RangeAttack() != null)
+                    if (RangeAttack() != null)
                     {
                         //좌표 설정
                         _MovingPos = RangeAttack().transform.position;
@@ -524,18 +534,41 @@ public class Police : BaseController
 
         Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
 
-        foreach(Collider col in cols)
+        foreach (Collider col in cols)
         {
             float Distance = Vector3.Distance(col.transform.position, transform.position);
-            if(Distance <= _pStats.attackRange && Distance < dist)
+            if (Distance <= _pStats.attackRange && Distance < dist)
             {
                 dist = Distance;
                 target = col.gameObject;
             }
         }
-        
+
         return target;
     }
+
+
+    //플레이어 스텟 업데이트
+    protected override void UpdatePlayerStat()
+    {
+        //초기 세팅
+        if (_SaveHPSCool == default) { _SaveHPSCool = 0.01f; }
+
+        if (_SaveHPSCool != default)
+        {
+            _SaveHPSCool += Time.deltaTime;
+
+            if (_SaveHPSCool >= 1)
+            {
+                //피 회복
+                _pStats.nowHealth += _pStats.healthRegeneration;
+
+                //attackDelay 초기화
+                _SaveHPSCool = default;
+            }
+        }
+    }
+
 
     protected override void UpdateIdle()
     {
@@ -692,7 +725,6 @@ public class Police : BaseController
 
     protected override void UpdateDie()
     {
-        GetComponent<CapsuleCollider>().enabled = false;
         //스킬 시전 시간동안 키 입력 X
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
@@ -700,7 +732,44 @@ public class Police : BaseController
         _IsRange = false;
         _attackRange[_SaveRangeNum].SetActive(_IsRange);
 
-        this.enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
+
+        _SaveRespawnTime += Time.deltaTime;
+
+        _startDie = true;
+    }
+
+    protected override void StartDie()
+    {
+        //초기 세팅
+        if (_SaveRespawnTime == default)
+        {
+            //attack Delay start
+            _SaveRespawnTime = 0.01f;
+        }
+        
+        if (_SaveRespawnTime != default)
+        {
+            _SaveRespawnTime += Time.deltaTime;
+
+            if (_SaveRespawnTime > 6)
+            {
+                _SaveRespawnTime = default;
+                _startDie = false;
+
+                _state = Define.State.Idle;
+                //리스폰 지역
+                transform.position = respawn.position;
+                //Hp reset
+                _pStats.nowHealth = _pStats.maxHealth;
+
+                GetComponent<CapsuleCollider>().enabled = true;
+
+                Managers.Input.MouseAction += MouseDownAction;
+                Managers.Input.KeyAction += KeyDownAction;
+            }
+        }
+
     }
 
 

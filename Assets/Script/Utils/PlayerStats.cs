@@ -50,7 +50,6 @@ namespace Stat
         [SerializeField] private int _playerArea; //내 진영
         [SerializeField] private int _enemyArea; //상대방 진영
 
-
         [Header("-- 마나 --")]
         [SerializeField] private float _nowMana; //현재 마나
         [SerializeField] private float _manaRegen; //마나 회복 속도
@@ -72,7 +71,7 @@ namespace Stat
             {
                 _attackSpeed = value;
                 //공격 속도 계산식
-                attackDelay = (1 / _attackSpeed);
+                attackDelay = (1 / (1 + _attackSpeed));
             }
         }
         public float attackDelay { get { return _attackDelay; } set { _attackDelay = value; } }
@@ -111,15 +110,8 @@ namespace Stat
                 nowHealth = _maxHealth;
             }
         }
-        public float healthRegeneration
-        {
-            get { return _healthRegeneration; }
-            set
-            {
-                _healthRegeneration = value * Time.deltaTime;
-                nowHealth += _healthRegeneration;
-            }
-        }
+
+        public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
         public float death { get { return _death; } set { _death = value; } }
 
@@ -149,7 +141,7 @@ namespace Stat
             set
             {
                 _experience += value;
-                if (_experience > 50 + levelUpEx)
+                if (_experience > levelUpEx)
                 {
                     level += 1;
                     levelUpEx += 20;
@@ -195,7 +187,6 @@ namespace Stat
             }
         }
         public int enemyArea { get { return _enemyArea; } set { _enemyArea = value; } }
-
 
 
         //마나

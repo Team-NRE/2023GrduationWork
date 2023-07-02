@@ -36,15 +36,9 @@ public class RespawnManager : MonoBehaviour
             _SetRespawn -= value;
             if (_SetRespawn <= 0)
             {
-                Player.GetComponent<CapsuleCollider>().enabled = true;
                 Player.GetComponent<BaseController>().enabled = true;
+                Player.GetComponent<CapsuleCollider>().enabled = true;
 
-                Player.transform.position = default;
-                Player.transform.position = RespawnPos.localPosition;
-                Debug.Log(Player.transform.position);
-
-                pStat.nowHealth = pStat.maxHealth;
-                
                 _SetRespawn = RespawnTime;
             }
         }
@@ -52,8 +46,6 @@ public class RespawnManager : MonoBehaviour
 
     private void Start()
     {
-        HumanRespawn = transform.GetChild(0);
-        CyborgRespawn = transform.GetChild(1);
         pStatAction();
 
         RespawnTime = 6.0f;
@@ -66,29 +58,25 @@ public class RespawnManager : MonoBehaviour
             case Define.PlayerType.Police:
                 Player = GameObject.Find("Police");
                 pStat = Player.GetComponent<PlayerStats>();
-                RespawnPos = HumanRespawn;
 
                 break;
 
             case Define.PlayerType.Firefight:
-                Player =  GameObject.Find("Firefight");
+                Player = GameObject.Find("Firefight");
                 pStat = Player.GetComponent<PlayerStats>();
-                RespawnPos = HumanRespawn;
 
                 break;
 
             case Define.PlayerType.Lightsaber:
                 Player = GameObject.Find("Lightsaber");
                 pStat = Player.GetComponent<PlayerStats>();
-                RespawnPos = CyborgRespawn;
 
                 break;
 
             case Define.PlayerType.Monk:
                 Player = GameObject.Find("Monk");
                 pStat = Player.GetComponent<PlayerStats>();
-                RespawnPos = CyborgRespawn;
-                
+
                 break;
         }
     }

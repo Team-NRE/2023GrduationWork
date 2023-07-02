@@ -26,7 +26,7 @@ public abstract class BaseController : MonoBehaviour
     protected bool _stopAttack = false;
     //스킬 발동 여부
     protected bool _stopSkill = false;
-
+    protected bool _startDie = false;
 
 
     protected RespawnManager respawnManager;
@@ -90,14 +90,17 @@ public abstract class BaseController : MonoBehaviour
         }
     }
 
+    private void Awake() { awakeInit(); }
     private void Start() { Init(); }
 
     private void Update()
     {
-        //Debug.Log(State);
+        if (_startDie == true) { StartDie(); }
+        if (_startDie == false) { UpdatePlayerStat(); }
 
-        if (_stopAttack == true) { StopAttack(); }
         if (_stopSkill == true) { StopSkill(); }
+        if (_stopAttack == true) { StopAttack(); }
+        
         if (BaseCard._NowKey == "A") { RangeAttack(); }
 
         //키, 마우스 이벤트 받으면 state가 변환
@@ -129,19 +132,20 @@ public abstract class BaseController : MonoBehaviour
 
 
     //abstract = 하위 클래스에서 꼭 선언해야함.
+    public virtual void awakeInit() { }
     public abstract void Init();
-
 
     protected virtual void UpdateIdle() { }
     protected virtual void UpdateMoving() { }
     protected virtual void UpdateAttack() { }
     protected virtual void UpdateSkill() { }
     protected virtual void UpdateDie() { }
+    protected virtual void UpdatePlayerStat() { }
 
     protected virtual GameObject RangeAttack() { return null; }
-
     protected virtual void StopAttack() { }
     protected virtual void StopSkill() { }
+    protected virtual void StartDie() { }
 }
 
 
