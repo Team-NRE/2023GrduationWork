@@ -16,6 +16,7 @@ public class Police : BaseController
     //UI_Card 접근
     private UI_Card _cardStats;
     protected BaseProjectile _baseProj;
+    public GameObject bullet;
 
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
@@ -468,8 +469,12 @@ public class Police : BaseController
                         //Managers.Pool.Projectile_Pool("PoliceBullet", _Proj_Parent.position, _lockTarget.transform, 5.0f, _pStats._basicAttackPower);
                         //GameObject bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, Quaternion.identity);
                         //StartCoroutine("ShootTarget", "PoliceBullet");
-                        fp_Fire();
-                        Debug.Log("Shoot");
+                        if (_pv.IsMine)
+                        {
+                            _pv.RPC("fp_Fire", RpcTarget.All);
+                            //fp_Fire();
+                        }
+                        //Debug.Log("Shoot");
 
                         break;
 
@@ -505,7 +510,7 @@ public class Police : BaseController
 
     protected override void UpdateDie()
     {
-
+        Debug.Log("Player Death");
     }
 
     protected override void StopAttack()
@@ -567,14 +572,14 @@ public class Police : BaseController
         return target;
     }
     
+    [PunRPC]
     public void fp_Fire()
 	{
-        GameObject bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, this.gameObject.transform.rotation);
+        bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, this.gameObject.transform.rotation);
         //Debug.Log($"hit Info : {_lockTarget.gameObject.name}");
-        _baseProj.GetComponent<PlayerProjectile>().pTarget = _lockTarget;
-        _baseProj.GetComponent<PlayerProjectile>().pAttacker = this.gameObject;
-        _baseProj.GetComponent<PlayerProjectile>().Fire(_lockTarget.gameObject, this.gameObject);
+        bullet.GetComponent<PlayerProjectile>().pTarget = _lockTarget;
+        bullet.GetComponent<PlayerProjectile>().pAttacker = this.gameObject;
         //bullet.GetComponent<PlayerProjectile>().Fire(_lockTarget.gameObject, this.gameObject);
-
+        //bullet.GetComponent<PlayerProjectile>().Fire(_lockTarget.gameObject, this.gameObject);
     }
 }

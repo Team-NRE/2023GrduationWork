@@ -1207,6 +1207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Proj_Parent: {fileID: 2402309779597320292}
+  bullet: {fileID: 0}
   _attackRange: []
   _PushKeyInfo: 
   _IsRange: 0

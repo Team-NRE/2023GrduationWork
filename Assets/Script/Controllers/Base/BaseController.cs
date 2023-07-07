@@ -113,7 +113,10 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
         switch (State)
         {
             case Define.State.Idle:
-                UpdateIdle();
+                if (_pv.IsMine)
+                {
+                    UpdateIdle();
+                }
                 break;
 
             case Define.State.Die:

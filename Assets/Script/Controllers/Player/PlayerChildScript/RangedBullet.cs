@@ -14,7 +14,12 @@ public class RangedBullet : MonoBehaviour
     //외부 namespace Stat 참조
     public PlayerStats _pStats { get; set; }
 
-    public void OnEnable()
+	public void Start()
+	{
+		
+	}
+
+	public void OnEnable()
     {
         GameObject _player = GameObject.FindWithTag("PLAYER");
 
@@ -50,6 +55,7 @@ public class RangedBullet : MonoBehaviour
             {
                 ObjStats _Stats = _Target.GetComponent<ObjStats>();
                 _Stats.nowHealth -= _BulletDamage;
+                Debug.Log($"{_Stats.nowHealth}");
             }
 
             //타겟이 적 Player일 시
@@ -57,6 +63,7 @@ public class RangedBullet : MonoBehaviour
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= _BulletDamage;
+                Debug.Log($"{_Stats.nowHealth}");
             }
 
             //Managers.Pool.Push(this);

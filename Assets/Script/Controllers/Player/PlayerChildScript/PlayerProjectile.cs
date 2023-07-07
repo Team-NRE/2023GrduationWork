@@ -8,23 +8,59 @@ public class PlayerProjectile : BaseProjectile
 {
 	public GameObject pTarget;
 	public GameObject pAttacker;
+	private PhotonView _pv;
+
+	//protected GameObject _target;
+	//protected GameObject _attacker;
+	//protected float _damage;
+	public Vector3 targetVec;
+
+	//public Define.Projectile ProjType { get; set; } = Define.Projectile.Undefine;
+
+	public void Start()
+	{
+		_pv = GetComponent<PhotonView>();
+		ProjType = Define.Projectile.Attack_Proj;
+	}
 
 	public override void Init(GameObject target, GameObject attacker)
 	{
 		pTarget = target;
 		pAttacker = attacker;
-		ProjType = Define.Projectile.Attack_Proj;
+		//ProjType = Define.Projectile.Attack_Proj;
 		_damage = 5.0f;
 	}
 
 	public void Update()
 	{
-		Fire(pTarget, pAttacker);
+		if (_pv.IsMine)
+		{
+			if (pTarget != null || pAttacker != null)
+			{
+				Fire(pTarget, pAttacker);
+			}
+			else
+			{
+				Destroy(this.gameObject);
+			}
+		}
+		else
+		{
+			if (pTarget != null || pAttacker != null)
+			{
+				_pv.RPC("Fire", RpcTarget.All, pTarget, pAttacker);
+			}
+			else
+			{
+				Destroy(this.gameObject);
+			}
+		}
 	}
 
+	[PunRPC]
 	public override void Fire(GameObject target, GameObject attacker)
 	{
-		Vector3 targetVec = new Vector3(pTarget.transform.position.x, transform.position.y, pTarget.transform.position.z);
+		targetVec = new Vector3(pTarget.transform.position.x, transform.position.y, pTarget.transform.position.z);
 		//Vector3 targetVec = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
 		this.transform.position = Vector3.Lerp(this.transform.position, targetVec, Time.deltaTime * 5.0f);
 		Debug.Log($"Start : {this.gameObject.transform}, Dest : {pTarget.gameObject.transform}");
@@ -36,20 +72,39 @@ public class PlayerProjectile : BaseProjectile
 			{
 				if (pTarget.gameObject.tag != "PLAYER")
 				{
-					Stat.ObjStats _Stats = pTarget.GetComponent<Stat.ObjStats>();
-					_Stats.nowHealth -= _damage;
+					//_pv.RPC("NetObjectDamage", RpcTarget.All, pTarget);
+					NetObjectDamage(pTarget);
 				}
 				else
 				{
-					Stat.PlayerStats _Stats = pTarget.GetComponent<Stat.PlayerStats>();
-					_Stats.nowHealth -= _damage;
+					//_pv.RPC("NetPlayerDamage", RpcTarget.All, pTarget);
+					NetPlayerDamage(pTarget);
 				}
 			}
 			else
 			{
 				Debug.Log($"{this.gameObject.name} Type is not firmed");
 			}
-			PhotonNetwork.Destroy(this.gameObject);
+			//if(PhotonNetwork.IsMasterClient)
+			//	PhotonNetwork.Destroy(this.gameObject);
+			Destroy(this.gameObject, 2.0f);
+			Destroy(this.gameObject);
 		}
+	}
+
+	public void NetPlayerDamage(GameObject target)
+	{
+		Stat.PlayerStats _Stats = target.GetComponent<Stat.PlayerStats>();
+		_Stats.nowHealth -= _damage;
+
+		Debug.Log($"{_Stats.nowHealth}");
+	}
+	
+	public void NetObjectDamage(GameObject target)
+	{
+		Stat.ObjStats _Stats = target.GetComponent<Stat.ObjStats>();
+		_Stats.nowHealth -= _damage;
+
+		Debug.Log($"{_Stats.nowHealth}");
 	}
 }

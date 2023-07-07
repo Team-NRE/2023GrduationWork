@@ -47,6 +47,9 @@ MonoBehaviour:
   - UpdateAttack
   - StopAttack
   - FollowTarget
+  - NetPlayerDamage
+  - NetObjectDamage
+  - fp_Fire
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
