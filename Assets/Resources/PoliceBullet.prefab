@@ -270,6 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pTarget: {fileID: 0}
   pAttacker: {fileID: 0}
+  targetVec: {x: 0, y: 0, z: 0}
 --- !u!1001 &9190412056525620573
 PrefabInstance:
   m_ObjectHideFlags: 0

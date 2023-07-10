@@ -17,7 +17,7 @@ public class PlayerProjectile : BaseProjectile
 
 	//public Define.Projectile ProjType { get; set; } = Define.Projectile.Undefine;
 
-	public void Start()
+	public void Awake()
 	{
 		_pv = GetComponent<PhotonView>();
 		ProjType = Define.Projectile.Attack_Proj;
