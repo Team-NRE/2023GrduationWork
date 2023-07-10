@@ -13,10 +13,6 @@ public class Nexus : ObjectController
     public override void init() 
     {
         base.init();
-<<<<<<< HEAD
-       // _pv = GetComponent<PhotonView>();
-=======
->>>>>>> SinglePlayVersion
         _type = ObjectType.Nexus;
         mainCamera = Camera.main.GetComponent<CameraController>();
     }

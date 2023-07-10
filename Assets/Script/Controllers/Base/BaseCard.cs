@@ -6,115 +6,6 @@ using UnityEngine;
 
 public static class BaseCard
 {
-<<<<<<< HEAD
-    public static Action<Define.KeyboardEvent> cardAction = null;
-
-    //덱 안의 카드 변환 List
-    public static List<string> _initDeck = new List<string>();
-    //현재 덱 안의 전체 카드 -> 상점에 띄우려면 필요할거같음
-    public static List<string> _deckCards = new List<string>();
-    public static List<string> _AddOns = new List<string>();
-
-
-    //Range On이 되었을 때의 해당 키 정보
-    public static string _NowKey = null;
-    //타겟 정보
-    public static GameObject _lockTarget = null;
-
-
-    //카드 마나
-    public static float _nowMana = 0; //현재 마나
-    public static float _manaRegen = 4.0f; //마나 회복 속도
-    public static float _maxMana = 3f; //최대 마나
-
-
-    //현재 마나 get,set
-    public static float nowMana
-    {
-        get { return _nowMana; }
-        set
-        {
-            _nowMana += value;
-            if (_nowMana >= _maxMana * _manaRegen) { _nowMana = _maxMana * _manaRegen; }
-            if (_nowMana <= 0) { _nowMana = 0; }
-        }
-    }
-
-    //마나 사용
-    public static (bool, float) UseMana(string _key = null, UI_Card ui_card = null)
-    {
-        bool CanUseCard;
-
-        if (_key != null) { ui_card = GameObject.Find(_key).GetComponentInChildren<UI_Card>(); }
-        float cardValue = ui_card._cost * _manaRegen;
-
-        if (_nowMana >= cardValue) { CanUseCard = true; }
-        else { CanUseCard = false; }
-
-        return (CanUseCard, cardValue);
-    }
-
-
-    //Json으로 덱을 가져온다. 나중에 덱 숫자가 늘어나면 파라미터로 입력
-    public static List<string> LoadDeck(int deckNum = 0)
-    {
-        Dictionary<int, Data.Deck> deck = Managers.Data.DeckDict;
-        List<string> cardNames = new List<string>();
-
-        for (int i = 0; i < deck[deckNum].cards.Count; i++)
-        {
-            cardNames.Add(deck[deckNum].cards[i]);
-            //현재 카드 덱 정보
-            _deckCards.Add(deck[deckNum].cards[i]);
-            Debug.Log($"카드 {i}번 : {_deckCards[i]}");
-        }
-        return cardNames;
-    }
-
-    //가져온 이름으로 List를 채운다
-    public static List<string> ExportDeck()
-    {
-        return _initDeck = LoadDeck();
-    }
-
-    //카드 사용
-    public static string UseCard(string ReloadCard = null)
-    {
-        //카드가 남아 있다면 랜덤으로 뽑아서 처리 
-        int rand = UnityEngine.Random.Range(0, _initDeck.Count);
-        //카드 이름 저장
-        string ChoiseCard = _initDeck[rand];
-        //남은 카드 List의 랜덤하게 뽑은 카드 삭제
-        _initDeck.RemoveAt(rand);
-
-        //리필 카드가 있다면
-        if (ReloadCard != null) { _initDeck.Add(ReloadCard); }
-        Debug.Log($"덱 안에 리필된 카드 : {ReloadCard}");
-
-        //덱 안의 남은 카드
-        for (int i = 0; i < _initDeck.Count; i++)
-        {
-            Debug.Log($"남은 카드 {i}번 : {_initDeck[i]}");
-        }
-
-        Debug.Log($"다음 카드 : {ChoiseCard}");
-
-        return ChoiseCard;
-    }
-
-    //초기 4장 선정
-    //1. 선정된 카드를 리스트에서 지운다
-    //2. 초기 4장을 인스턴스 한다. 한번 사용하고 그 뒤로는 사용되지 않는다.
-    public static string StartDeck()
-    {
-        //랜덤으로 카드 뽑기
-        int rand = UnityEngine.Random.Range(0, _initDeck.Count);
-        string ChoiseCard = _initDeck[rand];
-        //뽑은 카드 덱에서 삭제
-        _initDeck.RemoveAt(rand);
-
-        Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
-=======
     public static List<string> _MyDeck = new List<string>();
     //덱 안의 카드 변환 List
     public static List<string> _initDeck = new List<string>();
@@ -194,18 +85,13 @@ public static class BaseCard
         _initDeck.RemoveAt(rand);
 
         // Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
->>>>>>> SinglePlayVersion
 
         return ChoiseCard;
     }
 
     public static string StartJobCard()
     {
-<<<<<<< HEAD
-        string ChoiseCard = _initDeck[_initDeck.Count - 1];
-=======
         string ChoiseCard = _initDeck[0];
->>>>>>> SinglePlayVersion
         //뽑은 카드 덱에서 삭제
         _initDeck.RemoveAt(_initDeck.Count - 1);
 

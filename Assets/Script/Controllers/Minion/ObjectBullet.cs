@@ -7,7 +7,6 @@ using Stat;
 
 public class ObjectBullet : MonoBehaviour
 {
-    PhotonView _pv;
     [SerializeField]
     Transform _Target;
     [SerializeField]
@@ -18,15 +17,9 @@ public class ObjectBullet : MonoBehaviour
     [SerializeField]
     float _damage;
 
-	void Start()
-	{
-        _pv = GetComponent<PhotonView>();
-	}
-
-	void Update()
+    public void Update()
     {
         FollowTarget();
-        //_pv.RPC("FollowTarget", RpcTarget.All);
         HitDetection();
     }
 
@@ -40,18 +33,10 @@ public class ObjectBullet : MonoBehaviour
 
     public void FollowTarget()
     {
-<<<<<<< HEAD
-        if (_Target == null) 
-        {
-           PhotonNetwork.Destroy(this.gameObject);
-            return;
-        }
-=======
         if (_Target == null)
             Destroy(this.gameObject);
         else
             _TargetPos = _Target.position;
->>>>>>> SinglePlayVersion
 
         transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
         transform.LookAt(_TargetPos);
@@ -78,13 +63,8 @@ public class ObjectBullet : MonoBehaviour
                 _Stats.nowHealth -= _damage;
             }
             
-<<<<<<< HEAD
-            Destroy(this.gameObject);
-            //PhotonNetwork.Destroy(this.gameObject);
-=======
             Destroy(this.gameObject, 0.5f);
             this.enabled = false;
->>>>>>> SinglePlayVersion
         }
     }
 }

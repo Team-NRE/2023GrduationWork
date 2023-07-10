@@ -25,12 +25,7 @@ public class NeutralMob : ObjectController
     public override void init() 
     {
         base.init();
-<<<<<<< HEAD
-        //_pv = GetComponent<PhotonView>();
-        bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/ObjectBullet");
-=======
         bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}MobBullet");
->>>>>>> SinglePlayVersion
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
         isMachineGun = false;

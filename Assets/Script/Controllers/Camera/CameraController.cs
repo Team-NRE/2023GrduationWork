@@ -29,28 +29,6 @@ public class CameraController : BaseController
 
     public override void Init()
     {
-<<<<<<< HEAD
-        StartCoroutine("GetPlayer");
-    }
-
-    IEnumerator GetPlayer()
-	{
-        yield return new WaitForSeconds(2.5f);
-        //Debug.Log("GetPlayer");
-        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
-        foreach(GameObject p in p_Container)
-		{
-            _pv = p.GetComponent<PhotonView>();
-            if (_pv.IsMine)
-            {
-                player = p;
-                break;
-            }
-        }
-        p_Position = player.transform;
-
-=======
->>>>>>> SinglePlayVersion
         //초기 값 세팅
         planescale_X = 80; // -80 < X < 80
         planescale_Z = -4; // -28 < Z < 20 / +24
@@ -217,12 +195,12 @@ public class CameraController : BaseController
             Renderer ObstacleRenderer = RendererGameobject.GetComponent<Renderer>();
 
             //건물 속에 있을 때
-            if (RendererGameobject.layer == (int)Define.Layer.Default)
+            if (RendererGameobject.layer == (int)Define.Layer.Default && RendererGameobject.tag != "OBJECT" && RendererGameobject.tag != "PLAYER")
             {
                 // 3. Metrial의 Aplha를 바꾼다.
                 Material Mat = ObstacleRenderer.material;
                 // Rendering Mode를 변경하고 싶은 값으로 설정합니다.
-                Mat.SetFloat("_Mode", 2); // 0: Opaque, 1: Cutout, 2: Fade, 3: Transparent
+                Mat.SetFloat("_Mode", 2); // 0: Opaque, 1: Cutout, 2: Fade, 3: Transparents
 
                 // 변경된 값을 적용합니다.
                 Mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);

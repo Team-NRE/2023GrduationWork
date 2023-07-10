@@ -29,20 +29,12 @@ public class MinionSummoner : MonoBehaviour
 
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-<<<<<<< HEAD
-            _nowSummonTime -= Time.deltaTime;
+        _nowSummonTime -= Time.deltaTime;
 
-            if (_nowSummonTime <= 0)
-            {
-                StartCoroutine(SummonLine());
-                _nowSummonTime = _summonCycle;
-            }
-=======
+        if (_nowSummonTime <= 0)
+        {
             summonCoroutine = StartCoroutine(SummonLine());
             _nowSummonTime = _summonCycle;
->>>>>>> SinglePlayVersion
         }
     }
 
