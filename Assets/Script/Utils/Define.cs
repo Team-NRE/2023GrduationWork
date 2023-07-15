@@ -5,6 +5,13 @@ using System.ComponentModel; // Enum을 string으로 받기.
 
 namespace Define
 {
+    public enum PlayerType
+    {
+        Police,
+        Firefight,
+        Lightsaber,
+        Monk,
+    }
     public enum State
     {
         Idle,

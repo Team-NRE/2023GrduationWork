@@ -11,17 +11,19 @@ public interface ILoader<Key, Value>
 public class DataManager
 {
     public Dictionary<string, Data.Stat> StatDict { get; private set; } = new Dictionary<string, Data.Stat>();
+    public Dictionary<string, Data.PlayerStat> PlayerStatDict { get; private set; } = new Dictionary<string, Data.PlayerStat>();
     public Dictionary<string, Data.ObjStat> ObjStatDict { get; private set; } = new Dictionary<string, Data.ObjStat>();
     public Dictionary<string, Data.Card> CardDict { get; private set; } = new Dictionary<string, Data.Card>();
     public Dictionary<int, Data.Deck> DeckDict { get; private set; } = new Dictionary<int, Data.Deck>();
 
     public void Init()
     {
-		StatDict = LoadJson<Data.StatData, string, Data.Stat>("StatData").MakeDict();
+        StatDict = LoadJson<Data.StatData, string, Data.Stat>("StatData").MakeDict();
+        PlayerStatDict = LoadJson<Data.PlayerStatData, string, Data.PlayerStat>("PlayerStatData").MakeDict();
         ObjStatDict = LoadJson<Data.ObjStatData, string, Data.ObjStat>("ObjStatData").MakeDict();
         CardDict = LoadJson<Data.CardData, string, Data.Card>("CardData").MakeDict();
         DeckDict = LoadJson<Data.DeckData, int, Data.Deck>("DeckData").MakeDict();
-	}
+    }
 
     Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
     {

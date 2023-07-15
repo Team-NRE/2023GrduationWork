@@ -647,6 +647,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: map
       objectReference: {fileID: 0}
+    - target: {fileID: 6804492359243832599, guid: 300c6405d2ab2de4aa99b56030851a59, type: 3}
+      propertyPath: m_Color.b
+      value: 0.40920764
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804492359243832599, guid: 300c6405d2ab2de4aa99b56030851a59, type: 3}
+      propertyPath: m_Color.g
+      value: 0.42352942
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804492359243832599, guid: 300c6405d2ab2de4aa99b56030851a59, type: 3}
+      propertyPath: m_Color.r
+      value: 0.098039225
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804492359544190830, guid: 300c6405d2ab2de4aa99b56030851a59, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804492359544190830, guid: 300c6405d2ab2de4aa99b56030851a59, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804492359544190830, guid: 300c6405d2ab2de4aa99b56030851a59, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 300c6405d2ab2de4aa99b56030851a59, type: 3}
 --- !u!1 &904774174
@@ -2676,21 +2700,29 @@ MonoBehaviour:
   _attackSpeed: 0
   _attackDelay: 0
   _attackRange: 0
-  _maxHealth: 0
+  _attackType: 
+  _kill: 0
   _nowHealth: 0
+  _maxHealth: 0
   _healthRegeneration: 0
   _defensePower: 0
-  _cardCoolTime: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
+  _death: 0
   _level: 0
   _experience: 0
+  _levelUpEX: 0
+  _levelUpAP: 0
+  _levelUpAS: 0
+  _levelUpHP: 0
+  _levelUpHR: 0
+  _levelUpDP: 0
   _speed: 0
-  _layerArea:
-    serializedVersion: 2
-    m_Bits: 128
+  _nowState: 
+  _playerArea: 0
   _enemyArea: 0
+  _nowMana: 0
+  _manaRegen: 0
+  _maxMana: 0
+  _gold: 0
 --- !u!195 &6717706014368282415
 NavMeshAgent:
   m_ObjectHideFlags: 0

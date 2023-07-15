@@ -88,6 +88,11 @@ public class UI_CardPanel : UI_Card
         CardUseable();
     }
 
+    public IEnumerator Updater()
+	{
+        yield return new WaitForSeconds(2.5f);
+	}
+
     //마우스
     public void MouseDownAction()
     {

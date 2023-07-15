@@ -1,0 +1,139 @@
+{
+    "stats": [
+      {
+        "type": "Police",
+
+        "basicAttackPower": "80",
+        "attackSpeed" : "0.625",
+        "attackRange" : "5",
+        "attackType" : "LongRange",
+
+        "maxHealth" : "680",
+        "healthRegeneration" : "0.6",
+        "defensePower" : "50",
+
+        "level" : "1",
+        "experience" : "0",
+        "levelUpEX" : "50",
+        "levelUpAP" : "3.5",
+        "levelUpAS" : "0.1",
+        "levelUpHP" : "75",
+        "levelUpHR" : "0.3",
+        "levelUpDP" : "3",
+
+        "speed" : "4",
+        
+        "nowState" : "Health",
+
+        "playerArea" : "6",
+        "enemyArea" : "7",
+
+        "manaRegen" : "4",
+        "maxMana" : "3",
+
+        "gold" : "500"
+      },
+
+      {
+        "type": "Firefight",
+
+        "basicAttackPower": "67",
+        "attackSpeed" : "0.64",
+        "attackRange" : "1.8",
+        "attackType" : "ShortRange",
+
+        "maxHealth" : "700",
+        "healthRegeneration" : "1",
+        "defensePower" : "28",
+
+        "level" : "1",
+        "experience" : "0",
+        "levelUpEx" : "0",
+        "levelUpAP" : "3",
+        "levelUpAS" : "0.12",
+        "levelUpHP" : "80",
+        "levelUpHR" : "0.2",
+        "levelUpDP" : "5",
+        
+        "speed" : "4",
+        
+        "nowState" : "Health",
+
+        "playerArea" : "6",
+        "enemyArea" : "7",
+
+        "manaRegen" : "4",
+        "maxMana" : "3",
+
+        "gold" : "500"
+      },
+
+      {
+        "type": "Lightsaber",
+
+        "basicAttackPower": "65",
+        "attackSpeed" : "0.68",
+        "attackRange" : "2",
+        "attackType" : "ShortRange",
+
+        "maxHealth" : "670",
+        "healthRegeneration" : "1",
+        "defensePower" : "33",
+
+        "level" : "1",
+        "experience" : "0",
+        "levelUpEx" : "0",
+        "levelUpAP" : "2",
+        "levelUpAS" : "0.14",
+        "levelUpHP" : "75",
+        "levelUpHR" : "0.5",
+        "levelUpDP" : "3",
+        
+        "speed" : "4",
+        
+        "nowState" : "Health",
+
+        "playerArea" : "7",
+        "enemyArea" : "6",
+
+        "manaRegen" : "4",
+        "maxMana" : "3",
+
+        "gold" : "500"
+      },
+
+      {
+        "type": "Monk",
+        
+        "basicAttackPower": "55",
+        "attackSpeed" : "0.65",
+        "attackRange" : "4",
+        "attackType" : "LongRange",
+
+        "maxHealth" : "640",
+        "healthRegeneration" : "0.6",
+        "defensePower" : "40",
+
+        "level" : "1",
+        "experience" : "0",
+        "levelUpEx" : "0",
+        "levelUpAP" : "1.5",
+        "levelUpAS" : "0.11",
+        "levelUpHP" : "80",
+        "levelUpHR" : "0.3",
+        "levelUpDP" : "4",
+        
+        "speed" : "4",
+        
+        "nowState" : "Health",
+
+        "playerArea" : "7",
+        "enemyArea" : "6",
+
+        "manaRegen" : "4",
+        "maxMana" : "3",
+
+        "gold" : "500"
+      }
+    ]
+  } 

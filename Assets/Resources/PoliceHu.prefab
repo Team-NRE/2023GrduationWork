@@ -1179,21 +1179,29 @@ MonoBehaviour:
   _attackSpeed: 0
   _attackDelay: 0
   _attackRange: 0
-  _maxHealth: 0
+  _attackType: 
+  _kill: 0
   _nowHealth: 0
+  _maxHealth: 0
   _healthRegeneration: 0
   _defensePower: 0
-  _cardCoolTime: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
+  _death: 0
   _level: 0
   _experience: 0
+  _levelUpEX: 0
+  _levelUpAP: 0
+  _levelUpAS: 0
+  _levelUpHP: 0
+  _levelUpHR: 0
+  _levelUpDP: 0
   _speed: 0
-  _layerArea:
-    serializedVersion: 2
-    m_Bits: 64
+  _nowState: 
+  _playerArea: 0
   _enemyArea: 0
+  _nowMana: 0
+  _manaRegen: 0
+  _maxMana: 0
+  _gold: 0
 --- !u!114 &1959736477568059475
 MonoBehaviour:
   m_ObjectHideFlags: 0

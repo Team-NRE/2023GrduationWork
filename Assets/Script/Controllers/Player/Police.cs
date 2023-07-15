@@ -95,6 +95,7 @@ public class Police : BaseController
     //Mouse event
     private void MouseDownAction(Define.MouseEvent evt)
     {
+        //Debug.Log("MouseDownAction");
         (Vector3, GameObject) _MousePos = Managers.Input.Get3DMousePosition((1 << 0 | 1 << 2));
         switch (evt)
         {
@@ -440,8 +441,11 @@ public class Police : BaseController
     protected override void UpdateAttack()
     {
         //적이 공격 범위 밖에 있을 때 Moving 전환
-        if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats._attackRange)
+        //if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats._attackRange)
+        if (Vector3.Distance(this.transform.position, _MovingPos) > 5)
         {
+            Debug.Log("if update attack");
+            Debug.Log($"{this.transform.position - _MovingPos}, {_pStats._attackRange}");
             //애니메이션 Moving으로 변한
             State = Define.State.Moving;
             //현재 상태는 Attack -> Moving에서 Attack으로 와야함.
@@ -453,35 +457,36 @@ public class Police : BaseController
         //적이 공격 범위 안에 있을 때
         else
         {
+            Debug.Log("else update attack");
             if (_stopAttack == false)
             {
                 //Range Off
                 _IsRange = false;
                 _attackRange[_SaveRangeNum].SetActive(_IsRange);
-
                 //플레이어 평타 타입에 따른 변환
                 //원거리일시
-                switch (_pStats.AttackType)
+                switch (_pStats.attackType)
                 {
                     //원거리
-                    case Define.PlayerAttackType.LongRange:
-                        //Shoot
-                        //Managers.Pool.Projectile_Pool("PoliceBullet", _Proj_Parent.position, _lockTarget.transform, 5.0f, _pStats._basicAttackPower);
-                        //GameObject bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, Quaternion.identity);
-                        //StartCoroutine("ShootTarget", "PoliceBullet");
+                    //case Define.PlayerAttackType.LongRange:
+                    case "LongRange":
                         if (_pv.IsMine)
                         {
                             _pv.RPC("fp_Fire", RpcTarget.All);
                             //fp_Fire();
                         }
-                        //Debug.Log("Shoot");
 
                         break;
 
                     //근거리
-                    case Define.PlayerAttackType.ShortRange:
+                    //case Define.PlayerAttackType.ShortRange:
+                    case "ShortRange":
                         Debug.Log("근접 공격");
 
+                        break;
+
+                    default:
+                        Debug.Log("평타 불가");
                         break;
 
                 }
@@ -575,6 +580,7 @@ public class Police : BaseController
     [PunRPC]
     public void fp_Fire()
 	{
+        Debug.Log("fp_Fire");
         bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, this.gameObject.transform.rotation);
         //Debug.Log($"hit Info : {_lockTarget.gameObject.name}");
         bullet.GetComponent<PlayerProjectile>().pTarget = _lockTarget;
