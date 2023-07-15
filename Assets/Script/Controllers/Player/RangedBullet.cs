@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using Stat;
+
 public class RangedBullet : MonoBehaviour
 {
     [SerializeField]
