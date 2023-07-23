@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Stat;
 using Define;
 using Photon.Pun;
-using Stat;
 using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
+public abstract class BaseController : MonoBehaviour, IPunObservable
 {
     protected PhotonView _pv;
     protected Vector3 receivePos;
@@ -18,22 +18,30 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
     private GameObject _player;
     protected int _enemyLayer;
 
-    public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
     protected Animator _anim;
     protected NavMeshAgent _agent;
-
-    protected GameObject _lockTarget;
     protected Vector3 _MovingPos;
+
     //총알 발사 여부
     protected bool _stopAttack = false;
 
+    //스킬 발동 여부
+    protected bool _stopSkill = false;
+    protected bool _startDie = false;
+
+    protected RespawnManager respawnManager;
+    public PlayerStats _pStats { get; set; }
+
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
+    public PlayerDefine _pDef { get; protected set; } = PlayerDefine.PLAYER;
+    public PlayerType _pType { get; protected set; }
     public State _state { get; protected set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.FloatCamera;
+    public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
     //State
     public virtual State State
@@ -69,7 +77,6 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
                     break;
 
                 case Define.State.Skill:
-                    //agent.ResetPath();
                     _anim.SetBool("IsThrow1", true);
                     _anim.SetBool("IsIdle", false);
                     _anim.SetBool("IsFire", false);
@@ -79,16 +86,16 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
                 case Define.State.Die:
                     _anim.SetTrigger("Die");
                     _anim.SetBool("IsIdle", false);
-                    //inputAction.Disable();
-                    //GetComponent<CapsuleCollider>().enabled = false;
-                    //this.enabled = false;
-                    //StopAllCoroutines();
 
                     break;
             }
         }
     }
 
+    private void Awake()
+    {
+        awakeInit();
+    }
 
     private void Start()
     {
@@ -108,8 +115,30 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-        //Debug.Log(State);
-        if (_stopAttack == true) { StopAttack(); }
+        if (_startDie == true)
+        {
+            StartDie();
+        }
+        if (_startDie == false)
+        {
+            UpdatePlayerStat();
+        }
+
+        if (_stopSkill == true)
+        {
+            StopSkill();
+        }
+        if (_stopAttack == true)
+        {
+            StopAttack();
+        }
+
+        if (BaseCard._NowKey == "A")
+        {
+            RangeAttack();
+        }
+
+        //키, 마우스 이벤트 받으면 state가 변환
         switch (State)
         {
             case Define.State.Idle:
@@ -120,44 +149,60 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
                 break;
 
             case Define.State.Die:
-                UpdateDie();
+                if(_pv.IsMine)
+                    UpdateDie();
                 break;
 
-            //키, 마우스 이벤트 받으면 state가 변환
             case Define.State.Moving:
                 UpdateMoving();
                 break;
 
             case Define.State.Attack:
-                //UpdateAttack();
-                if (_pv.IsMine)
-                {
-                    _pv.RPC("UpdateAttack", RpcTarget.All);
-                }
+                //if (_pv.IsMine && _stopAttack == false)
+                //{
+                //    _pv.RPC("UpdateAttack", RpcTarget.All);
+                //}
+                UpdateAttack();
                 break;
 
             case Define.State.Skill:
-                UpdateSkill();
+                if (_stopSkill == false)
+                    UpdateSkill();
                 break;
         }
     }
 
-
     //abstract = 하위 클래스에서 꼭 선언해야함.
+    public virtual void awakeInit() { }
+
     public abstract void Init();
 
-
     protected virtual void UpdateIdle() { }
+
     protected virtual void UpdateMoving() { }
+
     protected virtual void UpdateAttack() { }
+
     protected virtual void UpdateSkill() { }
+
     protected virtual void UpdateDie() { }
+
+    protected virtual void UpdatePlayerStat() { }
+
+    protected virtual GameObject RangeAttack()
+    {
+        return null;
+    }
 
     protected virtual void StopAttack() { }
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    protected virtual void StopSkill() { }
+
+    protected virtual void StartDie() { }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신 
+        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
@@ -187,4 +232,3 @@ public abstract class BaseController : MonoBehaviourPunCallbacks, IPunObservable
         return _player;
     }
 }
-

@@ -1215,10 +1215,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Proj_Parent: {fileID: 2402309779597320292}
-  bullet: {fileID: 0}
+  _localBullet: {fileID: 0}
   _attackRange: []
-  _PushKeyInfo: 
-  _IsRange: 0
+  respawn: {fileID: 0}
+  bullet: {fileID: 0}
 --- !u!136 &5173391103442544979
 CapsuleCollider:
   m_ObjectHideFlags: 0

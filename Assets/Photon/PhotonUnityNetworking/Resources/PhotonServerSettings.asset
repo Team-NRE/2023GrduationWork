@@ -50,6 +50,8 @@ MonoBehaviour:
   - NetPlayerDamage
   - NetObjectDamage
   - fp_Fire
+  - RemoteAttackWrapper
+  - SetRemoteTarget
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
