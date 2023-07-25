@@ -7,6 +7,8 @@ using UnityEngine.AI;
 using Define;
 using System.Collections;
 
+using Photon.Pun;
+
 public class MinionSummoner : MonoBehaviour
 {
     Transform _summonPos;
@@ -22,13 +24,14 @@ public class MinionSummoner : MonoBehaviour
 
     void OnDisable()
     {
-
         if (summonCoroutine != null)
             StopCoroutine(summonCoroutine);
     }
 
     void Update()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         _nowSummonTime -= Time.deltaTime;
 
         if (_nowSummonTime <= 0)

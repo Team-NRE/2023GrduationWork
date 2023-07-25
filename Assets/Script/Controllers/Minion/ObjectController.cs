@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
-using TMPro;
+
+using Photon.Pun;
 
 [RequireComponent(typeof(ObjStats))]
 
@@ -65,6 +66,8 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
         UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
