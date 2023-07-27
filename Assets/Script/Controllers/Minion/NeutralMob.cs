@@ -6,10 +6,12 @@ using UnityEngine;
 using Stat;
 using Define;
 
+using Photon.Pun;
+
 public class NeutralMob : ObjectController
 {
     [Header ("- Basic Attack")]
-    GameObject bullet;
+    string bullet;
     public Transform[] muzzles;
     private LineRenderer lineRenderer;
 
@@ -25,7 +27,7 @@ public class NeutralMob : ObjectController
     public override void init() 
     {
         base.init();
-        bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}MobBullet");
+        bullet = $"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}MobBullet";
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
         isMachineGun = false;
@@ -50,6 +52,8 @@ public class NeutralMob : ObjectController
     {
         base.Death();
 
+        if (!PhotonNetwork.IsMasterClient) return;
+
         PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
 
         for (int i=0; i<pStats.Length; i++) {
@@ -61,7 +65,7 @@ public class NeutralMob : ObjectController
         }
         
         _allObjectTransforms.Remove(this.transform);
-        Destroy(this.gameObject);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
@@ -141,11 +145,25 @@ public class NeutralMob : ObjectController
     #region 공격 함수
     private void MachineGun()
     {
-        GameObject nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
-        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[0].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        GameObject nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
+        PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
+        bulletPv.RPC("BulletSetting",
+            RpcTarget.All,
+            this.transform.position, 
+            _targetEnemyTransform.position, 
+            _oStats.attackSpeed, 
+            _oStats.basicAttackPower
+        );
 
-        nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
-        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[1].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
+        bulletPv = nowBullet.GetComponent<PhotonView>();
+        bulletPv.RPC("BulletSetting",
+            RpcTarget.All,
+            this.transform.position, 
+            _targetEnemyTransform.position, 
+            _oStats.attackSpeed, 
+            _oStats.basicAttackPower
+        );
     }
 
     private void Laser()

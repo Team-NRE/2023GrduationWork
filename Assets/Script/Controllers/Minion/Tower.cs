@@ -11,7 +11,7 @@ public class Tower : ObjectController
 {
     LineRenderer lineRenderer;
 
-    GameObject bullet;
+    string bullet;
     Transform muzzle;
 
     [Space(10.0f)]
@@ -32,7 +32,7 @@ public class Tower : ObjectController
         _type = ObjectType.Turret;
 
         lineRenderer = GetComponent<LineRenderer>();
-        bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}TowerBullet");
+        bullet = $"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}TowerBullet";
         muzzle = transform.Find("BulletPos");
     }
 
@@ -63,33 +63,45 @@ public class Tower : ObjectController
 
         if (_targetEnemyTransform == null) return;
 
-        GameObject nowBullet = Instantiate(bullet, muzzle.position, this.transform.rotation);
+        GameObject nowBullet = PhotonNetwork.InstantiateRoomObject(bullet, muzzle.position, this.transform.rotation);
+
+        float damage = 0;
 
         if (_targetEnemyTransform.tag == "OBJECT")
         {
             ObjectController targetObjController = _targetEnemyTransform.GetComponent<ObjectController>();
             ObjStats targetObjStat = _targetEnemyTransform.GetComponent<ObjStats>();
 
-
             /// 미니언들 체력 비례 데미지를 입히기 위한 if문
             if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Melee)
-                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, targetObjStat.maxHealth * meleeMinionAttackRatio);
+                damage = targetObjStat.maxHealth * meleeMinionAttackRatio;
             else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Range)
-                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, targetObjStat.maxHealth * rangeMinionAttackRatio);
+                damage =  targetObjStat.maxHealth * rangeMinionAttackRatio;
             else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Super)
-                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, targetObjStat.maxHealth * superMinionAttackRatio);
+                damage =  targetObjStat.maxHealth * superMinionAttackRatio;
             else
-                nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+                damage =  _oStats.basicAttackPower;
         }
         else
         {
-            nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzle.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+            damage = _oStats.basicAttackPower;
         }
+
+        PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
+        bulletPv.RPC("BulletSetting",
+            RpcTarget.All,
+            this.transform.position, 
+            _targetEnemyTransform.position, 
+            _oStats.attackSpeed, 
+            damage
+        );
     }
 
     public override void Death()
     {
         base.Death();
+
+        if (!PhotonNetwork.IsMasterClient) return;
 
         PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
 
@@ -101,7 +113,7 @@ public class Tower : ObjectController
             }
         }
 
-        Destroy(this.gameObject);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()

@@ -108,20 +108,20 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 공격 코드 함수
     /// </summary>
-    public virtual void Attack() { }
+    public virtual void Attack() {if (!PhotonNetwork.IsMasterClient) return; }
     /// <summary>
     /// 죽음 코드 함수
     /// </summary>
-    public virtual void Death() { }
+    public virtual void Death() {if (!PhotonNetwork.IsMasterClient) return; }
     /// <summary>
     /// 이동 코드 함수
     /// </summary>
-    public virtual void Move() { }
+    public virtual void Move() {if (!PhotonNetwork.IsMasterClient) return; }
 
     /// <summary>
     /// 오브젝트 상태 전이 코드
     /// </summary>
-    protected virtual void UpdateObjectAction() { }
+    protected virtual void UpdateObjectAction() {if (!PhotonNetwork.IsMasterClient) return; }
 
     /// <summary>
     /// 공격 타겟(가장 가까운 적)을 정하는 스크립트 

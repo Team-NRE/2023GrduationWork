@@ -67,6 +67,8 @@ public class Minion : ObjectController
     public override void Attack()
     {
         base.Attack();
+        if (!PhotonNetwork.IsMasterClient) return;
+
         transform.LookAt(_targetEnemyTransform);
 
         if (_targetEnemyTransform == null) return;
@@ -75,6 +77,8 @@ public class Minion : ObjectController
     public override void Death()
     {
         base.Death();
+
+        if (!PhotonNetwork.IsMasterClient) return;
 
         PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
 
@@ -87,7 +91,7 @@ public class Minion : ObjectController
         }
 
         _allObjectTransforms.Remove(this.transform);
-        Destroy(this.gameObject);
+        PhotonNetwork.Destroy(this.gameObject);
     }
     public override void Move()
     {

@@ -62,11 +62,11 @@ public class MinionSummoner : MonoBehaviour
 
         GameObject obj = Managers.Resource.Load<GameObject>(objName);
 
-        GameObject upperMinion = Instantiate(obj, _summonPos.position + Vector3.forward, this.transform.rotation);
+        GameObject upperMinion = PhotonNetwork.Instantiate(objName, _summonPos.position + Vector3.forward, this.transform.rotation);
         upperMinion.GetComponent<Minion>().line = ObjectLine.UpperLine;
         upperMinion.GetComponent<NavMeshAgent>().enabled = true;
 
-        GameObject lowerMinion = Instantiate(obj, _summonPos.position + Vector3.back, this.transform.rotation);
+        GameObject lowerMinion = PhotonNetwork.Instantiate(objName, _summonPos.position + Vector3.back, this.transform.rotation);
         lowerMinion.GetComponent<Minion>().line = ObjectLine.LowerLine;
         lowerMinion.GetComponent<NavMeshAgent>().enabled = true;
     }

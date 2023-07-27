@@ -34,17 +34,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 		Debug.Log("On Joined Lobby");
 		//base.OnJoinedLobby();
 	}
-
-	public override void OnJoinedRoom()
-	{
-		Debug.Log("Joined a room!");
-		//base.OnJoinedRoom();
-		//SceneManager.LoadScene("View Test Scene");
-	}
-
+	/*
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		Debug.Log("A new player has entered the room!");
 		base.OnPlayerEnteredRoom(newPlayer);
 	}
+	*/
 }

@@ -20,6 +20,7 @@ public class Nexus : ObjectController
     public override void Death()
     {
         base.Death();
+
         transform.Find("UI").gameObject.SetActive(false);
         gameFinish();
     }

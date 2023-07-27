@@ -5,7 +5,9 @@
 using UnityEngine;
 using Stat;
 
-public class ObjectBullet : MonoBehaviour
+using Photon.Pun;
+
+public class ObjectBullet : MonoBehaviourPun
 {
     [SerializeField]
     Transform _Target;
@@ -17,24 +19,50 @@ public class ObjectBullet : MonoBehaviour
     [SerializeField]
     float _damage;
 
+    Vector3 tP;
     public void Update()
     {
         FollowTarget();
         HitDetection();
     }
 
-    public void BulletSetting(Vector3 muzzle, Transform _target, float bulletSpeed, float damage)
+    [PunRPC]
+    public void BulletSetting(Vector3 muzzle, Vector3 _target, float bulletSpeed, float damage)
     {
         transform.position = muzzle;
-        _Target = _target;
+        _Target = getTarget(_target);   // **타겟 위치값 받기**
         _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
         _damage = damage;
+        tP = _target;
+    }
+
+    private Transform getTarget(Vector3 pos)
+    {
+        // Ray 생성, 타겟 위치 아래에서 위로 Ray 쏘기
+        Ray ray = new Ray(
+            pos + Vector3.down, 
+            Vector3.up * 2
+            );
+
+        RaycastHit hitData;
+
+        Debug.DrawRay(pos, Vector3.up);
+
+        Physics.Raycast(
+            ray, 
+            out hitData, 
+            2.0f, 
+            (1 << LayerMask.NameToLayer("Cyborg")) | (1 << LayerMask.NameToLayer("Human"))
+        );
+
+        return hitData.transform;
     }
 
     public void FollowTarget()
     {
         if (_Target == null)
             Destroy(this.gameObject);
+            // getTarget(tP);
         else
             _TargetPos = _Target.position;
 
@@ -44,10 +72,16 @@ public class ObjectBullet : MonoBehaviour
 
     public void HitDetection()
     {
+        
+        
         Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
 
-        if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
+        if (_Target == null) 
+        {
+            Destroy(this.gameObject);
+        }
+        else if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
             //타겟이 미니언, 타워일 시 
             if (_Target.tag != "PLAYER")
