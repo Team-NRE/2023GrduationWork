@@ -183,11 +183,7 @@ public class Police : BaseController
     }
 
     //마우스 좌표 대상에 따른 State 변환
-    private void MouseClickState(
-        Define.MouseEvent evt,
-        Vector3 mousePos = default,
-        GameObject lockTarget = null
-    )
+    private void MouseClickState(Define.MouseEvent evt, Vector3 mousePos = default, GameObject lockTarget = null)
     {
         //대상이 도로일 때 && 마우스 오른쪽 버튼 클릭 시
         if (lockTarget.layer == (int)Define.Layer.Road)
@@ -229,7 +225,7 @@ public class Police : BaseController
 
         //적 or 중앙 obj 클릭 시
         //_pStats.enemyArea가 상수반환이 안되서 if문으로 대체
-        if (lockTarget.layer == 7 || lockTarget.layer == (int)Define.Layer.Neutral)
+        if (lockTarget.layer == _pStats.enemyArea || lockTarget.layer == (int)Define.Layer.Neutral)
         {
             //좌표 설정
             _MovingPos = mousePos;
@@ -531,11 +527,7 @@ public class Police : BaseController
         float dist = 999;
         target = null;
 
-        Collider[] cols = Physics.OverlapSphere(
-            transform.position,
-            _pStats.attackRange,
-            1 << _pStats.enemyArea
-        );
+        Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
 
         foreach (Collider col in cols)
         {
@@ -589,44 +581,29 @@ public class Police : BaseController
 
     protected override void UpdateMoving()
     {
+        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+
+        _agent.SetDestination(_MovingPos);
+
+        // 조건 만족 시 상태 변환
+        if (BaseCard._lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
+        if (BaseCard._lockTarget != null && _agent.remainingDistance <= _pStats.attackRange && _stopAttack == false)
+        {
+            State = Define.State.Attack;
+        }
+        /*
         if (_pv.IsMine)
         {
-            transform.rotation = Quaternion.LookRotation(
-                Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position
-            );
-
-            _agent.SetDestination(_MovingPos);
-
-            // 조건 만족 시 상태 변환
-            if (BaseCard._lockTarget == null && _agent.remainingDistance < 0.2f)
-            {
-                State = Define.State.Idle;
-            }
-            if (
-                BaseCard._lockTarget != null
-                && _agent.remainingDistance <= _pStats.attackRange
-                && _stopAttack == false
-            )
-            {
-                State = Define.State.Attack;
-            }
         }
+
         else
         {
             // 수신된 좌표로 보간한 이동처리
-            transform.position = Vector3.Lerp(
-                transform.position,
-                receivePos,
-                Time.deltaTime * damping
-            );
+            transform.position = Vector3.Lerp(transform.position, receivePos, Time.deltaTime * damping);
 
             // 수신된 회전값으로 보간한 회전처리
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                receiveRot,
-                Time.deltaTime * damping
-            );
-        }
+            transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * damping);
+        }*/
     }
 
     [PunRPC]
@@ -665,22 +642,15 @@ public class Police : BaseController
                         {
                             /*
                             //Shoot
-                            GameObject nowBullet = Instantiate(
-                                _bullet,
-                                _Proj_Parent.position,
-                                _Proj_Parent.rotation
-                            );
+                            GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
                             nowBullet.GetComponent<RangedBullet>().BulletSetting(
                                     _Proj_Parent.position,
                                     BaseCard._lockTarget.transform,
                                     _pStats.speed,
                                     _pStats.basicAttackPower
-                                );*/
-
-                            if (_pv.IsMine)
-                            {
-                                _pv.RPC("fp_Fire", RpcTarget.All);
-                            }
+                                );
+                            */
+                            if (_pv.IsMine) { _pv.RPC("fp_Fire", RpcTarget.All); }
                         }
                         break;
 
@@ -715,15 +685,9 @@ public class Police : BaseController
     protected override void UpdateSkill()
     {
         //죽었을 때
-        if (_pStats.nowHealth <= 0)
-        {
-            State = Define.State.Die;
-        }
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
         //이동을 스킵 안함 && 적이 공격 범위 밖에 있을 때 Moving 전환
-        if (
-            _NowState != "SkipMove"
-            && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale
-        )
+        if (_NowState != "SkipMove" && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale)
         {
             //애니메이션 Moving으로 변한
             State = Define.State.Moving;
@@ -731,6 +695,7 @@ public class Police : BaseController
             _NowState = "Skill";
             return;
         }
+
         else
         {
             if (_stopSkill == false)
@@ -749,20 +714,13 @@ public class Police : BaseController
                     ground.transform.position = _MovingPos;
 
                     _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(
-                        ground.transform,
-                        this.transform,
-                        1 << 6
-                    );
+                    GameObject effectObj = _cardStats.cardEffect(ground.transform, this.transform, _pStats.playerArea);
 
                     Destroy(effectObj, _cardStats._effectTime);
                     Destroy(ground, _cardStats._effectTime);
 
                     //타겟을 향해 회전 및 멈추기
-                    transform.rotation = Quaternion.LookRotation(
-                        Managers.Input.FlattenVector(this.gameObject, _MovingPos)
-                            - transform.position
-                    );
+                    transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
                     _agent.ResetPath();
                 }
 
@@ -900,11 +858,7 @@ public class Police : BaseController
     [PunRPC]
     public void fp_Fire()
     {
-        bullet = PhotonNetwork.Instantiate(
-            "PoliceBullet",
-            _Proj_Parent.position,
-            this.gameObject.transform.rotation
-        );
+        bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, this.gameObject.transform.rotation);
         bullet.GetComponent<PlayerProjectile>().pTarget = BaseCard._lockTarget;
         bullet.GetComponent<PlayerProjectile>().pAttacker = this.gameObject;
     }

@@ -6,8 +6,6 @@ using Stat;
 public class Card_Shield : UI_Card
 {
     Transform _Player = null;
-    bool isShield = false;
-    float defenceTime;
 
     public override void Init()
     {
@@ -18,7 +16,6 @@ public class Card_Shield : UI_Card
 
         _CastingTime = 0.3f;
         _effectTime = 2.0f;
-        defenceTime = 0.01f;
     }
 
 

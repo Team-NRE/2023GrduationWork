@@ -9,7 +9,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviour, IPunObservable
+public abstract class BaseController : MonoBehaviour //, IPunObservable
 {
     protected PhotonView _pv;
     protected Vector3 receivePos;
@@ -97,6 +97,7 @@ public abstract class BaseController : MonoBehaviour, IPunObservable
 
     private void Start()
     {
+        /*
         _pv = GetComponent<PhotonView>();
         if (_pv.Owner.ActorNumber % 2 != 0)
         {
@@ -108,6 +109,7 @@ public abstract class BaseController : MonoBehaviour, IPunObservable
             this.gameObject.layer = 7;
             _enemyLayer = this.gameObject.layer - 1;
         }
+        */
         Init();
     }
 
@@ -140,10 +142,9 @@ public abstract class BaseController : MonoBehaviour, IPunObservable
         switch (State)
         {
             case Define.State.Idle:
-                if (_pv.IsMine)
-                {
-                    UpdateIdle();
-                }
+                //if (_pv.IsMine) { UpdateIdle(); }
+                UpdateIdle();
+                
                 break;
 
             case Define.State.Die:

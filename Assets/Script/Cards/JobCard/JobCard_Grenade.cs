@@ -9,7 +9,6 @@ public class JobCard_Grenade : UI_Card
     Transform _Player = null;
     LayerMask _layer = default;
     LayerMask _enemylayer = default;
-    bool isGrenade = false;
 
     public override void Init()
     {
