@@ -5,11 +5,8 @@ using Stat;
 
 public class Card_Cannon : UI_Card
 {
-    Transform _Ground = null;
-    Transform _Player = null;
     LayerMask _layer = default;
     LayerMask _enemylayer = default;
-    bool isCannon = false;
 
     public override void Init()
     {
@@ -24,60 +21,22 @@ public class Card_Cannon : UI_Card
         _effectTime = 1.0f;
     }
 
-    public override void UpdateInit()
+    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
     {
-        if (_Ground != null && _Player != default && _enemylayer != default && !isCannon)
-        {
-            CannonOn(_Ground, _Player, _enemylayer);
-            _Ground = null;
-            _Player = default;
-            _enemylayer = default;
-            isCannon = true; // 호출 상태를 true로 변경
-        }
-    }
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Cannon");
+        _effectObject.transform.position = ground;
 
-
-    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
-    {
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Cannon", Ground);
-
-        _Ground = Ground;
-        _Player = Player;
         _layer = layer;
 
-        if (_layer == 1 << 6) { _enemylayer = 1 << 7; }
-        if (_layer == 1 << 7) { _enemylayer = 1 << 6; }
+        if (_layer == 6) { _enemylayer = 7; }
+        if (_layer == 7) { _enemylayer = 6; }
+
+        _effectObject.AddComponent<CannonStart>().StartCannon(player, _damage, _enemylayer);
 
         return _effectObject;
     }
 
-    public void CannonOn(Transform Ground, Transform Player, LayerMask Enemylayer)
-    {
-        Collider[] cols = Physics.OverlapSphere(Ground.position, 2 * _rangeScale, Enemylayer);
-        foreach (Collider col in cols)
-        {
-            //타겟이 미니언, 타워일 시 
-            if (col.gameObject.tag != "PLAYER")
-            {
-                ObjStats _Stats = col.gameObject.GetComponent<ObjStats>();
-                PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
-
-                _Stats.nowHealth -= (_damage + (_pStats.basicAttackPower * 0.5f));
-            }
-
-            //타겟이 적 Player일 시
-            if (col.gameObject.tag == "PLAYER")
-            {
-                PlayerStats _EnemyStats = col.gameObject.GetComponent<PlayerStats>();
-                PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
-
-                _EnemyStats.nowHealth -= (_damage + (_pStats.basicAttackPower * 0.5f));
-            }
-        }
-    }
-
-
-    public override void DestroyCard(GameObject Particle = null, float delay = default)
+    public override void DestroyCard(float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

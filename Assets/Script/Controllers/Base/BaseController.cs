@@ -97,19 +97,25 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
 
     private void Start()
     {
-        /*
-        _pv = GetComponent<PhotonView>();
-        if (_pv.Owner.ActorNumber % 2 != 0)
+        switch (_pType)
         {
-            this.gameObject.layer = 6;
-            _enemyLayer = this.gameObject.layer + 1;
+            case Define.PlayerType.Police:
+                Debug.Log("Police");
+                break;
+
+            case Define.PlayerType.Firefight:
+                Debug.Log("ff");
+                break;
+
+            case Define.PlayerType.Lightsaber:
+                Debug.Log("LS");
+                break;
+
+            case Define.PlayerType.Monk:
+                Debug.Log("Monk");
+                break;
         }
-        else
-        {
-            this.gameObject.layer = 7;
-            _enemyLayer = this.gameObject.layer - 1;
-        }
-        */
+        
         Init();
     }
 
@@ -144,7 +150,7 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
             case Define.State.Idle:
                 //if (_pv.IsMine) { UpdateIdle(); }
                 UpdateIdle();
-                
+
                 break;
 
             case Define.State.Die:

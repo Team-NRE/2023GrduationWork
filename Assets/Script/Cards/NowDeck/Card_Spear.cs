@@ -21,26 +21,26 @@ public class Card_Spear : UI_Card
         _effectTime = 0.77f;
     }
 
-    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
     {
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Spear", Player);
+        GameObject _player = GameObject.Find(player);
 
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Spear");
+        _effectObject.transform.parent = _player.transform;
+        _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
 
         _layer = layer;
-        if (_layer == 1 << 6) { _enemylayer = 7; }
-        if (_layer == 1 << 7) { _enemylayer = 6; }
 
+        if (_layer == 6) { _enemylayer = 7; }
+        if (_layer == 7) { _enemylayer = 6; }
 
-        PlayerStats pStat = Player.gameObject.GetComponent<PlayerStats>();
-        float speed = pStat.speed;
-        _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
-        _effectObject.AddComponent<SpearStart>().Setting(Player, _enemylayer, speed, _damage);
+        _effectObject.AddComponent<SpearStart>().StartSpear(player, _enemylayer, _damage);
 
         return _effectObject;
     }
 
 
-    public override void DestroyCard(GameObject Particle = null, float delay = default)
+    public override void DestroyCard(float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

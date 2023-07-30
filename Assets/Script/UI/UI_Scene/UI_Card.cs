@@ -51,12 +51,12 @@ public class UI_Card : UI_Scene
     }
 
 
-    public virtual GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    public virtual GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
     {
         return _effectObject;
     }
 
-    public virtual void DestroyCard(GameObject Particle = null, float delay = default)
+    public virtual void DestroyCard(float delay = default)
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }

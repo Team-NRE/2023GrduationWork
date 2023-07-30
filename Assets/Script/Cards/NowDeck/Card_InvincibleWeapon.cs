@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Card_InvincibleWeapon : UI_Card
 {
-    Transform _Player;
     LayerMask _layer = default;
     int _enemylayer = default;
 
@@ -19,22 +18,27 @@ public class Card_InvincibleWeapon : UI_Card
         _effectTime = 2.0f;
     }
 
-    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
     {
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleWeapon", Player);
-        _Player = Player;
+        GameObject _player = GameObject.Find(player);
+
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleWeapon");
+        _effectObject.transform.parent = _player.transform;
+        _effectObject.transform.localPosition = Vector3.zero;
+        _effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
+
+
         _layer = layer;
 
-        if (_layer == 1 << 6) { _enemylayer = 7; }
-        if (_layer == 1 << 7) { _enemylayer = 6; }
+        if (_layer == 6) { _enemylayer = 7; }
+        if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<InvincibleWeaponStart>().StartWeapon(_Player, _damage, _enemylayer);
-
+        _effectObject.AddComponent<InvincibleWeaponStart>().StartWeapon(player, _damage, _enemylayer);
 
         return _effectObject;
     }
 
-    public override void DestroyCard(GameObject Particle = null, float delay = default)
+    public override void DestroyCard(float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

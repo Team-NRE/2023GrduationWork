@@ -1464,6 +1464,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   _attackRange: []
+  respawn: {fileID: 0}
+  bullet: {fileID: 0}
 --- !u!136 &5173391103442544979
 CapsuleCollider:
   m_ObjectHideFlags: 0

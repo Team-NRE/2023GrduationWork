@@ -5,11 +5,9 @@ using Stat;
 
 public class Card_Shield : UI_Card
 {
-    Transform _Player = null;
-
     public override void Init()
     {
-        _cardBuyCost = 300;    
+        _cardBuyCost = 300;
         _cost = 0;
         _defence = 50;
         _rangeType = "None";
@@ -18,26 +16,22 @@ public class Card_Shield : UI_Card
         _effectTime = 2.0f;
     }
 
-
-    public override void InitCard()
+    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
     {
-        Debug.Log($"방어력 증가");
-    }
+        GameObject _player = GameObject.Find(player);
+        PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Shield");
+        _effectObject.transform.parent = _player.transform;
+        _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
-    {
-        //따라다녀야함
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Shield", Player);
-        _Player = Player;
-
-        _effectObject.AddComponent<ShieldStart>().StartShield(_Player, _defence);
-        _Player.gameObject.GetComponent<PlayerStats>().defensePower += _defence;
+        _effectObject.AddComponent<ShieldStart>().StartShield(player, _defence);
+        _pStat.defensePower += _defence;
 
         return _effectObject;
     }
 
-    public override void DestroyCard(GameObject Particle = null, float delay = default)
+    public override void DestroyCard(float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

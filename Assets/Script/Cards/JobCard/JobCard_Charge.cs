@@ -22,14 +22,15 @@ public class JobCard_Charge : UI_Card
         Debug.Log($"{_rangeScale}내 적 카드 사용 불가");
     }
 
+    /*
     public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
     {
         _effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade", Ground);
 
         return _effectObject;
-    }
+    }*/
 
-    public override void DestroyCard(GameObject Particle = null, float delay = default)
+    public override void DestroyCard(float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

@@ -5,46 +5,41 @@ using Stat;
 
 public class LavaStart : MonoBehaviour
 {
-    Transform Player = null;
-    float Damage = default;
-    int Enemylayer = default;
+    GameObject player = null;
+    float damage = default;
+    int enemylayer = default;
 
 
-    public void StartLava(Transform _Player, float _damage, LayerMask _enemylayer)
+    public void StartLava(string _player, float _damage, LayerMask _enemylayer)
     {
-        Player = _Player;
-        Damage = _damage;
-        Enemylayer = _enemylayer;
+        player = GameObject.Find(_player);
+        damage = _damage;
+        enemylayer = _enemylayer;
     }
-
-    public void Start()
-    {
-        StartLava(Player, Damage, Enemylayer);
-    }
-
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == Enemylayer)
+        if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
 
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")
             {
-                ObjStats _Stats = other.gameObject.GetComponent<ObjStats>();
-                PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
+                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
+                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
+                oStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.01f));
             }
 
             //타겟이 적 Player일 시
             if (other.gameObject.tag == "PLAYER")
             {
-                PlayerStats _EnemyStats = other.gameObject.GetComponent<PlayerStats>();
-                PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
+                PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
+                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
+                enemyStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.01f));
+                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }
     }

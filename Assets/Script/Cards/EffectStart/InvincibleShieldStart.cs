@@ -6,35 +6,25 @@ using Stat;
 public class InvincibleShieldStart : MonoBehaviour
 {
     PlayerStats _pStats;
-    ObjStats _oStats;
-    Transform Player = null;
-    float Defence = default;
-    float Invincibility_Time = default;
-    float Shield_Time = default;
+
+    float defence = default;
+    float invincibility_Time = default;
+    float shield_Time = default;
     float pSave_Health;
 
     float time = 0.01f;
 
     bool stop = false;
 
-
-    public void Invincibility(Transform _Player, float _defence, float _Invincibility_Time, float _Shield_Time)
+    public void Invincibility(string player, float _defence, float _invincibility_Time, float _shield_Time)
     {
-        Player = _Player;
-        Defence = _defence;
-        Invincibility_Time = _Invincibility_Time;
-        Shield_Time = _Shield_Time;
+        _pStats = GameObject.Find(player).GetComponent<PlayerStats>();
+
+        defence = _defence;
+        invincibility_Time = _invincibility_Time;
+        shield_Time = _shield_Time;
     }
 
-
-    public void Start()
-    {
-        Invincibility(Player, Defence, Invincibility_Time, Shield_Time);
-        _pStats = Player.gameObject.GetComponent<PlayerStats>();
-    }
-
-
-    // Update is called once per frame
     void Update()
     {
         if (stop == false)
@@ -53,15 +43,16 @@ public class InvincibleShieldStart : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        if (time >= Invincibility_Time)
+        if (time >= invincibility_Time)
         {
-            _pStats.defensePower -= Defence;
+            //플레이어 방어력 빠짐
+            _pStats.defensePower -= defence;
 
             pSave_Health = _pStats.nowHealth;
 
             Debug.Log(pSave_Health);
-            _pStats.nowHealth += (_pStats.maxHealth / 100) * 10;
 
+            _pStats.nowHealth += (_pStats.maxHealth / 100) * 10;
 
             stop = true;
             time = 0;
@@ -72,7 +63,7 @@ public class InvincibleShieldStart : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        if (time >= Shield_Time)
+        if (time >= shield_Time)
         {
             _pStats.nowHealth = pSave_Health;
             stop = false;

@@ -39,7 +39,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Joined a room!");
 		//base.OnJoinedRoom();
-		//SceneManager.LoadScene("View Test Scene");
+		SceneManager.LoadScene("View Test Scene");
 	}
 
 	public override void OnPlayerEnteredRoom(Player newPlayer)
