@@ -59,7 +59,7 @@ public class UI_Login : UI_Scene
 		roomOptions.IsOpen = true;
 		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
 		if (PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default) == true)
-			SceneManager.LoadScene("View Test Scene");
+			SceneManager.LoadScene("Lobby");
 		Debug.Log($"your room code is {name}");
 	}
 }

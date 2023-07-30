@@ -28,6 +28,7 @@ public class GameScene : BaseScene
 	IEnumerator ForStupidPhoton()
 	{
 		yield return new WaitForSeconds(2.0f);
+		Debug.Log($"{UI_Lobby._name}");
 		Debug.Log("Instantiate Player");
 		PhotonNetwork.Instantiate("PoliceHu", new Vector3(-56, 0, 0), Quaternion.identity);
 		PhotonNetwork.Instantiate($"Prefabs/Reference/AI/NeutralMob/NeutralMob", new Vector3(-1.6f, 4.4f, -0.5f), Quaternion.identity);
@@ -53,12 +54,12 @@ public class GameScene : BaseScene
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		SetRoomInfo();
-		Debug.Log(newPlayer.NickName + "has joined");
+		Debug.Log(newPlayer.NickName + " has joined");
 	}
 
 	public override void OnPlayerLeftRoom(Player otherPlayer)
 	{
 		SetRoomInfo();
-		Debug.Log(otherPlayer.NickName + "has left");
+		Debug.Log(otherPlayer.NickName + " has left");
 	}
 }
