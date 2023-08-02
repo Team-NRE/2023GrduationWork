@@ -35,7 +35,6 @@ public class Minion : ObjectController
     public override void init()
     {
         base.init();
-        //_pv = GetComponent<PhotonView>();
         grid = FindObjectOfType<GridLayout>();
         tilemap = FindObjectOfType<Tilemap>();
         nav = GetComponent<NavMeshAgent>();
@@ -97,6 +96,8 @@ public class Minion : ObjectController
     {
         base.Move();
 
+        if (!PhotonNetwork.IsMasterClient) return;
+
         Vector3 moveTarget = Vector3.zero;
 
         if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
@@ -136,6 +137,8 @@ public class Minion : ObjectController
 
     protected override void UpdateObjectAction()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (_oStats.nowHealth <= 0 || _oStats.nowBattery <= 0)
         {
             _action = ObjectAction.Death;
@@ -187,6 +190,8 @@ public class Minion : ObjectController
     /// </summary>
     private void GetMilestoneTransform()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         milestoneUpper = GameObject.Find("Upper").GetComponentsInChildren<Transform>();
         milestoneLower = GameObject.Find("Lower").GetComponentsInChildren<Transform>();
 
@@ -196,6 +201,8 @@ public class Minion : ObjectController
 
     private void GetTransformArea()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
         Vector3Int pos = grid.WorldToCell(this.transform.position);
         string posName = tilemap.GetTile(pos).name;
 

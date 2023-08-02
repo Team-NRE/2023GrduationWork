@@ -29,7 +29,7 @@ public class ObjectBullet : MonoBehaviourPun
     [PunRPC]
     public void BulletSetting(Vector3 muzzle, Vector3 _target, float bulletSpeed, float damage)
     {
-        transform.position = muzzle;
+        // transform.position = muzzle;
         _Target = getTarget(_target);   // **타겟 위치값 받기**
         _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
         _damage = damage;

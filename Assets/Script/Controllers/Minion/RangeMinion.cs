@@ -23,7 +23,6 @@ public class RangeMinion : Minion
     public override void Attack()
     {
         base.Attack();
-
         if (!PhotonNetwork.IsMasterClient) return;
 
         Debug.Log("this code running");

@@ -38,7 +38,6 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Awake()
     {
-        //이게 여기서 돌아가면 안됌, 오브젝트 풀링이 사라졌기 때문
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
@@ -78,6 +77,8 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     protected void ExecuteObjectAnim()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
         switch (_action)
         {
             case ObjectAction.Attack:
@@ -128,6 +129,8 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     protected void UpdateInRangeEnemyObjectTransform()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         Transform newTargetPlayer = null, newTargetObject = null;
         float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 
@@ -170,6 +173,8 @@ public abstract class ObjectController : MonoBehaviour
 
     protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         Transform newTargetPlayer = null, newTargetObject = null;
         float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 
