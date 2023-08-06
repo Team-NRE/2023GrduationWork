@@ -52,8 +52,8 @@ public class Monk : BaseController
         _agent = GetComponent<NavMeshAgent>();
 
         //스텟 호출
-        _pType = Define.PlayerType.Monk;
-        _pStats.PlayerStatSetting(_pType);
+        _playerName = this.name;
+        _pStats.PlayerStatSetting(_playerName);
     }
 
     public void OnEnable()

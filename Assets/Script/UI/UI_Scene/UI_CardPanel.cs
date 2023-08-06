@@ -52,7 +52,7 @@ public class UI_CardPanel : UI_Card
 
     public override void Init()
     {
-        pStatAction();
+        pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
@@ -94,32 +94,6 @@ public class UI_CardPanel : UI_Card
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", Q_Btn.transform);
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", W_Btn.transform);
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
-    }
-
-    public void pStatAction()
-    {
-        switch (_pType)
-        {
-            case Define.PlayerType.Police:
-                pStat = GameObject.Find("Police").GetComponent<PlayerStats>();
-                
-                break;
-            
-            case Define.PlayerType.Firefight:
-                pStat = GameObject.Find("Firefight").GetComponent<PlayerStats>();
-                
-                break;
-
-            case Define.PlayerType.Lightsaber:
-                pStat = GameObject.Find("Lightsaber").GetComponent<PlayerStats>();
-                
-                break;
-
-            case Define.PlayerType.Monk:
-                pStat = GameObject.Find("Monk").GetComponent<PlayerStats>();
-                
-                break;
-        }
     }
 
     private void Update()

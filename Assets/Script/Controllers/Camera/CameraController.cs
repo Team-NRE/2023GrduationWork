@@ -40,37 +40,10 @@ public class CameraController : BaseController
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
         
-        pStatAction();
+        p_Position = GameObject.FindGameObjectWithTag("PLAYER").transform;
 
         ignore = LayerMask.GetMask("Human", "Cyborg");
     }
-
-    public void pStatAction()
-    {
-        switch (_pType)
-        {
-            case Define.PlayerType.Police:
-                p_Position = GameObject.Find("Police").transform;
-                
-                break;
-            
-            case Define.PlayerType.Firefight:
-                p_Position = GameObject.Find("Firefight").transform;
-                
-                break;
-
-            case Define.PlayerType.Lightsaber:
-                p_Position = GameObject.Find("Lightsaber").transform;
-                
-                break;
-
-            case Define.PlayerType.Monk:
-                p_Position = GameObject.Find("Monk").transform;
-                
-                break;
-        }
-    }
-
 
     void Update()
     {

@@ -221,10 +221,10 @@ namespace Stat
         public float gold { get { return _gold; } set { _gold = value; } }
 
 
-        public void PlayerStatSetting(PlayerType type)
+        public void PlayerStatSetting(string type)
         {
             Dictionary<string, Data.PlayerStat> dict = Managers.Data.PlayerStatDict;
-            Data.PlayerStat stat = dict[type.ToString()];
+            Data.PlayerStat stat = dict[type];
 
             //공격
             basicAttackPower = stat.basicAttackPower;

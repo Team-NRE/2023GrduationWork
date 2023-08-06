@@ -46,39 +46,10 @@ public class RespawnManager : MonoBehaviour
 
     private void Start()
     {
-        pStatAction();
+        Player = GameObject.FindGameObjectWithTag("PLAYER");
+        pStat = Player.GetComponent<PlayerStats>();
 
         RespawnTime = 6.0f;
-    }
-
-    public void pStatAction()
-    {
-        switch (pType)
-        {
-            case Define.PlayerType.Police:
-                Player = GameObject.Find("Police");
-                pStat = Player.GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Firefight:
-                Player = GameObject.Find("Firefight");
-                pStat = Player.GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Lightsaber:
-                Player = GameObject.Find("Lightsaber");
-                pStat = Player.GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Monk:
-                Player = GameObject.Find("Monk");
-                pStat = Player.GetComponent<PlayerStats>();
-
-                break;
-        }
     }
 
     //update

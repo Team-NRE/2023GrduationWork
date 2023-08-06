@@ -14,15 +14,14 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
     protected PhotonView _pv;
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
-    protected float damping = 10.0f;
     private GameObject _player;
-    protected int _enemyLayer;
 
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
     protected Animator _anim;
     protected NavMeshAgent _agent;
     protected Vector3 _MovingPos;
+    protected string _playerName;
 
     //총알 발사 여부
     protected bool _stopAttack = false;
@@ -31,7 +30,9 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
     protected bool _stopSkill = false;
     protected bool _startDie = false;
 
-    protected RespawnManager respawnManager;
+    protected RespawnManager _respawnManager;
+
+    //PlayerStats 참조
     public PlayerStats _pStats { get; set; }
 
     //외부 namespace Define의 Player State 참조
@@ -96,26 +97,7 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
     }
 
     private void Start()
-    {
-        switch (_pType)
-        {
-            case Define.PlayerType.Police:
-                Debug.Log("Police");
-                break;
-
-            case Define.PlayerType.Firefight:
-                Debug.Log("ff");
-                break;
-
-            case Define.PlayerType.Lightsaber:
-                Debug.Log("LS");
-                break;
-
-            case Define.PlayerType.Monk:
-                Debug.Log("Monk");
-                break;
-        }
-        
+    {   
         Init();
     }
 

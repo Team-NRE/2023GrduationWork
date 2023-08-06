@@ -18,7 +18,7 @@ public class SpearStart : MonoBehaviour
         playerTr = _player.transform;
 
         enemylayer = _enemylayer;
-        bulletSpeed = pStats.speed * 5f; // 공속 대비 4배 속도
+        bulletSpeed = 30f; // 공속 대비 5배 속도
         damage = _damage;
     }
 

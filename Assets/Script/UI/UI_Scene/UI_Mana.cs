@@ -29,7 +29,7 @@ public class UI_Mana : UI_Scene
 
     public override void Init()
     {
-        pStatAction();
+        pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
         
         Bind<GameObject>(typeof(Manas));
         Mana1 = Get<GameObject>((int)Manas.Mana1);
@@ -39,32 +39,6 @@ public class UI_Mana : UI_Scene
         Mana1_Img = Mana1.GetComponentInChildren<Image>();
         Mana2_Img = Mana2.GetComponentInChildren<Image>();
         Mana3_Img = Mana3.GetComponentInChildren<Image>();
-    }
-
-    public void pStatAction()
-    {
-        switch (pType)
-        {
-            case Define.PlayerType.Police:
-                pStat = GameObject.Find("Police").GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Firefight:
-                pStat = GameObject.Find("Firefight").GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Lightsaber:
-                pStat = GameObject.Find("Lightsaber").GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Monk:
-                pStat = GameObject.Find("Monk").GetComponent<PlayerStats>();
-
-                break;
-        }
     }
 
     public void Update()

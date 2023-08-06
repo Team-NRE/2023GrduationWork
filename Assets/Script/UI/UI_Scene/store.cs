@@ -40,7 +40,7 @@ public class store : UI_Store
         CardInfoText = CardText.GetComponentInChildren<TextMeshProUGUI>();
         MakeBigcardList();
 
-        pStatAction();
+        pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
     }
 
     void MakeBigcardList()
@@ -64,33 +64,6 @@ public class store : UI_Store
             BigCardList[i].SetActive(false);
         }
     }
-
-    public void pStatAction()
-    {
-        switch (pType)
-        {
-            case Define.PlayerType.Police:
-                pStat = GameObject.Find("Police").GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Firefight:
-                pStat = GameObject.Find("Firefight").GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Lightsaber:
-                pStat = GameObject.Find("Lightsaber").GetComponent<PlayerStats>();
-
-                break;
-
-            case Define.PlayerType.Monk:
-                pStat = GameObject.Find("Monk").GetComponent<PlayerStats>();
-
-                break;
-        }
-    }
-
 
     void Update()
     {
@@ -242,6 +215,7 @@ public class store : UI_Store
 
             case "Card_Enhancement":
                 CardInfoText.text = "자신에게 잠시동안 무기를 강화하여 공격력을 증가시킵니다.";
+                
                 break;
         }
     }
