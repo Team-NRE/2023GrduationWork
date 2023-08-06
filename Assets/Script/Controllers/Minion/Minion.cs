@@ -45,6 +45,8 @@ public class Minion : ObjectController
     {
         base.initOnEnable();
 
+        if (!PhotonNetwork.IsMasterClient) return;
+
         transform.Find("UI").gameObject.SetActive(true);
 
         if (gameObject.layer == LayerMask.NameToLayer("Human"))

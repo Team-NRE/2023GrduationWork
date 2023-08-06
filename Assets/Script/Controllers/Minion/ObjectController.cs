@@ -67,7 +67,7 @@ public abstract class ObjectController : MonoBehaviour
     {
         if (!PhotonNetwork.IsMasterClient) return;
         
-        UpdateInRangeEnemyObjectTransform();
+        UpdateInRangeEnemyObjectTransform_OverlapSphere();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }

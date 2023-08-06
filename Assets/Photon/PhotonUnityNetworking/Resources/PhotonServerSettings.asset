@@ -46,6 +46,8 @@ MonoBehaviour:
   - Attack
   - BulletSetting
   - photonStatSet
+  - SummonEnergyRelease
+  - SummonMissile
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

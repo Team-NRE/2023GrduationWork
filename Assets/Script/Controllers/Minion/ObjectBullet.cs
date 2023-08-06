@@ -19,21 +19,41 @@ public class ObjectBullet : MonoBehaviourPun
     [SerializeField]
     float _damage;
 
-    Vector3 tP;
     public void Update()
     {
         FollowTarget();
         HitDetection();
     }
 
-    [PunRPC]
-    public void BulletSetting(Vector3 muzzle, Vector3 _target, float bulletSpeed, float damage)
+    // [PunRPC]
+    // public void BulletSetting(Vector3 muzzle, Vector3 _target, float bulletSpeed, float damage)
+    // {
+    //     // transform.position = muzzle;
+    //     _Target = getTarget(_target);   // **타겟 위치값 받기**
+    //     _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
+    //     _damage = damage;
+    //     tP = _target;
+    // }
+
+    [PunRPC]    // v2
+    public void BulletSetting(int _shooter, int _target, float bulletSpeed, float damage)
     {
         // transform.position = muzzle;
-        _Target = getTarget(_target);   // **타겟 위치값 받기**
+        _Target = getTargetV2(_target);   // **타겟 위치값 받기**
         _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
         _damage = damage;
-        tP = _target;
+
+        if (!PhotonNetwork.IsMasterClient) 
+        {
+            getTargetV2(_shooter)
+                .GetComponent<ObjectController>()
+                ._targetEnemyTransform = _Target;
+        }
+    }
+
+    private Transform getTargetV2(int viewId)
+    {
+        return PhotonView.Find(viewId).transform;
     }
 
     private Transform getTarget(Vector3 pos)
@@ -62,7 +82,6 @@ public class ObjectBullet : MonoBehaviourPun
     {
         if (_Target == null)
             Destroy(this.gameObject);
-            // getTarget(tP);
         else
             _TargetPos = _Target.position;
 

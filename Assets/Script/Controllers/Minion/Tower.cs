@@ -88,10 +88,18 @@ public class Tower : ObjectController
         }
 
         PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
-        bulletPv.RPC("BulletSetting",
+        // bulletPv.RPC("BulletSetting",
+        //     RpcTarget.All,
+        //     this.transform.position, 
+        //     _targetEnemyTransform.position, 
+        //     _oStats.attackSpeed, 
+        //     damage
+        // );
+        
+        bulletPv.RPC("BulletSetting",   // v2
             RpcTarget.All,
-            this.transform.position, 
-            _targetEnemyTransform.position, 
+            GetComponent<PhotonView>().ViewID, 
+            _targetEnemyTransform.GetComponent<PhotonView>().ViewID, 
             _oStats.attackSpeed, 
             damage
         );

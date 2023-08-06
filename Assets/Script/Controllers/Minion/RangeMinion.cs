@@ -24,18 +24,23 @@ public class RangeMinion : Minion
     {
         base.Attack();
         if (!PhotonNetwork.IsMasterClient) return;
-
-        Debug.Log("this code running");
+        if (_targetEnemyTransform == null) return;
 
         GameObject nowBullet = PhotonNetwork.InstantiateRoomObject(bullet, this.transform.position, this.transform.rotation);
         PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
-        bulletPv.RPC("BulletSetting",
+        // bulletPv.RPC("BulletSetting",
+        //     RpcTarget.All,
+        //     this.transform.position, 
+        //     _targetEnemyTransform.position, 
+        //     _oStats.attackSpeed, 
+        //     _oStats.basicAttackPower
+        // );
+        bulletPv.RPC("BulletSetting",   // v2
             RpcTarget.All,
-            this.transform.position, 
-            _targetEnemyTransform.position, 
+            GetComponent<PhotonView>().ViewID, 
+            _targetEnemyTransform.GetComponent<PhotonView>().ViewID, 
             _oStats.attackSpeed, 
             _oStats.basicAttackPower
         );
-        // nowBullet.GetComponent<PhotonView>().BulletSetting(this.transform.position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
     }
 }
