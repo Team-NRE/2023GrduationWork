@@ -2401,20 +2401,29 @@ MonoBehaviour:
   _attackSpeed: 0
   _attackDelay: 0
   _attackRange: 0
-  _maxHealth: 0
+  _attackType: 
+  _kill: 0
   _nowHealth: 0
+  _maxHealth: 0
   _healthRegeneration: 0
   _defensePower: 0
-  _nowMana: 0
-  _manaRegenerationTime: 0
-  _maxMana: 0
+  _death: 0
   _level: 0
   _experience: 0
+  _levelUpEX: 0
+  _levelUpAP: 0
+  _levelUpAS: 0
+  _levelUpHP: 0
+  _levelUpHR: 0
+  _levelUpDP: 0
   _speed: 0
-  _layerArea:
-    serializedVersion: 2
-    m_Bits: 64
+  _nowState: 
+  _playerArea: 0
   _enemyArea: 0
+  _nowMana: 0
+  _manaRegen: 0
+  _maxMana: 0
+  _gold: 0
 --- !u!114 &8831333692963957895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2427,8 +2436,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e06b0c894ab834cb3c196d85cd39ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   _attackRange: []
-  Proj_Parent: {fileID: 0}
 --- !u!114 &216673837364405853
 MonoBehaviour:
   m_ObjectHideFlags: 0

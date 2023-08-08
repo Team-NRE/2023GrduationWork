@@ -12,6 +12,8 @@ public class GameScene : BaseScene
 		Managers.UI.ShowSceneUI<UI_Mana>();
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 		Managers.UI.ShowSceneUI<UI_Popup>();
+
+		StartCoroutine("ForStupidPhoton");
 	}
 	
 	void LoadObjects()
