@@ -9,12 +9,14 @@ using Photon.Pun;
 using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviour
+public abstract class BaseController : MonoBehaviourPun, IPunObservable
 {
     protected PhotonView _pv;
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
+
+    private GameObject _player;
 
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
@@ -112,7 +114,10 @@ public abstract class BaseController : MonoBehaviour
                 break;
 
             case Define.State.Moving:
-                UpdateMoving();
+
+                {
+                    UpdateMoving();
+                }
                 break;
 
             case Define.State.Attack:
@@ -142,6 +147,35 @@ public abstract class BaseController : MonoBehaviour
 
     protected virtual void StopAttack() { }
     protected virtual void StopSkill() { }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            receivePos = (Vector3)stream.ReceiveNext();
+            receiveRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+    protected GameObject GetPlayer()
+    {
+        //yield return new WaitForSeconds(2.5f);
+        //Debug.Log("GetPlayer");
+        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
+        foreach (GameObject p in p_Container)
+        {
+            _pv = p.GetComponent<PhotonView>();
+            if (_pv.IsMine)
+            {
+                _player = p;
+                break;
+            }
+        }
+        return _player;
+    }
 }
-
-

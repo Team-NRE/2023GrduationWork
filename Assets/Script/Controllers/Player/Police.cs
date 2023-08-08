@@ -4,7 +4,7 @@ using UnityEngine;
 using Werewolf.StatusIndicators.Components;
 using UnityEngine.AI;
 using Stat;
-
+using Photon.Pun;
 
 public class Police : BaseController
 {
@@ -55,6 +55,7 @@ public class Police : BaseController
         _pStats = GetComponent<PlayerStats>();
         _anim = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+        _pv = GetComponent<PhotonView>();
 
         //스텟 호출
         _pType = Define.PlayerType.Police;
@@ -550,30 +551,50 @@ public class Police : BaseController
 
     protected override void UpdateMoving()
     {
-        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
-        _agent.SetDestination(_MovingPos);
+        if (_pv.IsMine)
+        {
+            transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+            _agent.SetDestination(_MovingPos);
 
-        // 조건 만족 시 상태 변환
-        //Idle
-        if (_agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
-        //Attack
-        if (_NowState == "Attack" && _agent.remainingDistance <= _pStats.attackRange)
-        {
-            State = Define.State.Attack;
+            // 조건 만족 시 상태 변환
+            //Idle
+            if (_agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
+            //Attack
+            if (_NowState == "Attack" && _agent.remainingDistance <= _pStats.attackRange)
+            {
+                State = Define.State.Attack;
+            }
+            //Skill
+            if (_NowState == "Skill" && _agent.remainingDistance <= _cardStats._rangeScale)
+            {
+                Managers.Input.MouseAction = null;
+                Managers.Input.KeyAction = null;
+                State = Define.State.Skill;
+            }
+            //Die
+            if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
         }
-        //Skill
-        if (_NowState == "Skill" && _agent.remainingDistance <= _cardStats._rangeScale)
+
+        else
         {
-            Managers.Input.MouseAction = null;
-            Managers.Input.KeyAction = null;
-            State = Define.State.Skill;
+            // 수신된 좌표로 보간한 이동처리
+            transform.position = Vector3.Lerp(
+                transform.position,
+                receivePos,
+                Time.deltaTime * damping
+            );
+
+            // 수신된 회전값으로 보간한 회전처리
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                receiveRot,
+                Time.deltaTime * damping
+            );
         }
-        //Die
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
     }
 
 
-    protected override void UpdateAttack()
+	protected override void UpdateAttack()
     {
         //죽었을 때
         if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
