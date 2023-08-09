@@ -96,6 +96,8 @@ public class RespawnManager : MonoBehaviour
     //update
     public void Update()
     {
+        return;
+        
         if (pStat.nowHealth <= 0)
         {
             SetRespawn = Time.deltaTime;

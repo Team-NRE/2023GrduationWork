@@ -38,7 +38,7 @@ public class Nexus : ObjectController
         endingCamPos += Vector3.up * mainCamera.Cam_Y;
         endingCamPos += Vector3.back * mainCamera.Cam_Z;
 
-        GameManager.Instance.setGameEnd(endingCamPos);
+        Managers.game.setGameEnd(endingCamPos);
     }
 
     public void gameFinish()

@@ -1,42 +1,50 @@
+/// ksPark
+///
+/// Game Manager
+
 using UnityEngine;
 using Define;
 using UnityEngine.AI;
 
-public class GameManager : MonoBehaviour
-{
-    private static GameManager instance = null;
-    public bool isGameEnd {get; set;}
+using Photon.Pun;
 
+public class GameManager
+{
+    #region Variable
+    /// 게임 엔딩 관련
+    public bool isGameEnd {get; set;}
 
     CameraController mainCamera;
     public Vector3 endingCamPos;
+    
+    /// 플레이 타임 관련
+	public float playTime = 0;
+    #endregion
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+
     }
 
-    private void Update()
+    public void OnUpdate()
     {
         if (isGameEnd)
         {
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, endingCamPos, Time.deltaTime * 2f);
+            // 메인 카메라 이동
+            mainCamera.transform.position = 
+                Vector3.Lerp(
+                    mainCamera.transform.position, 
+                    endingCamPos, 
+                    Time.deltaTime * 2f
+                );
         }
+
+        playTime += Time.deltaTime;
     }
 
-    public static GameManager Instance
-    {
-        get { return instance; }
-    }
-
+    /// 게임 종료 스크립트
+    ///
+    /// Vector3 _endCamPos : 종료되는 화면 위치 (파괴되는 Nexus 위치)
     public void setGameEnd(Vector3 _endCamPos)
     {
         isGameEnd = true;
@@ -47,10 +55,11 @@ public class GameManager : MonoBehaviour
         mainCamera.enabled = false;
 
         /// 오브젝트 비활성화
-        ObjectController[] objects = FindObjectsOfType<ObjectController>();
+        ObjectController[] objects = GameObject.FindObjectsOfType<ObjectController>();
 
         foreach (ObjectController obj in objects)
         {
+            // 각 오브젝트 별로 컴포넌트 비활성화
             switch(obj._type)
             {
                 case ObjectType.Nexus:

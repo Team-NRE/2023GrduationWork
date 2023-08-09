@@ -13,14 +13,16 @@ public class GameScene : BaseScene
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 		Managers.UI.ShowSceneUI<UI_Popup>();
 
+		Managers.game.playTime = 0;
+
 		StartCoroutine("ForStupidPhoton");
+
 	}
 	
 	void LoadObjects()
 	{
 
 	}
-
 
 	public override void Clear()
 	{
@@ -32,5 +34,11 @@ public class GameScene : BaseScene
 		yield return new WaitForSeconds(2.0f);
 		Debug.Log("Instantiate Player");
 		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
+	}
+
+	[PunRPC]
+	public void SyncPlayTime(float time)
+	{
+		Managers.game.playTime = time;
 	}
 }

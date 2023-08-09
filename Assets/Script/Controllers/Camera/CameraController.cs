@@ -101,6 +101,12 @@ public class CameraController : BaseController
 
     private void LateUpdate()
     {
+        if (p_Position == null)
+        {
+            p_Position = GameObject.FindGameObjectWithTag("PLAYER")?.transform;
+            return;
+        }
+        
         switch (_cameraMode)
         {
             case Define.CameraMode.QuaterView:

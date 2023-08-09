@@ -7,6 +7,7 @@ public class Managers : MonoBehaviour
     static Managers s_Instance;
     public static Managers Instance { get { Init(); return s_Instance; } }
 
+    GameManager _game = new GameManager();
     InputManager _input = new InputManager();
     DataManager _data = new DataManager();
     PoolManager _pool = new PoolManager();
@@ -17,6 +18,7 @@ public class Managers : MonoBehaviour
 
     //NetworkManager _network = new NetworkManager();
 
+    public static GameManager game { get { return Instance._game; } }
     public static InputManager Input { get { return Instance._input; } }
     public static DataManager Data { get { return Instance._data; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
@@ -62,6 +64,7 @@ public class Managers : MonoBehaviour
     static void OnUpdate()
     {
         s_Instance._input.OnUpdate();
+        s_Instance._game.OnUpdate();
     }
 
     //씬넘어갈때 메모리 초기화
