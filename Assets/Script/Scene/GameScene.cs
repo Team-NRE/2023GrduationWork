@@ -1,10 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Define;
+using Stat;
 using Photon.Pun;
 
 public class GameScene : BaseScene
 {
+	public int test_attackerID;
+	public int test_deadUserID;
+	public bool test_isKillEvent = false;
+
+	private void Update()
+	{
+		if (test_isKillEvent)
+		{
+			Managers.game.killEvent(test_attackerID, test_deadUserID);
+			test_isKillEvent = false;
+		}	
+	}
+
+
 	protected override void Init()
 	{
 		Debug.Log("Inst");
@@ -40,5 +56,37 @@ public class GameScene : BaseScene
 	public void SyncPlayTime(float time)
 	{
 		Managers.game.playTime = time;
+	}
+
+	[PunRPC]
+	public void KillEvent(int attackerID, int deadUserID)
+	{
+		GameObject attacker = PhotonView.Find(attackerID)?.gameObject;
+		GameObject deadUser = PhotonView.Find(deadUserID)?.gameObject;
+
+		// 예외 처리
+		if (attacker == null) return;
+		if (deadUser == null) return;
+
+		// 가해자 처리
+		if (attacker.tag == "PLAYER")
+		{
+			if (attacker.layer == LayerMask.NameToLayer("Human")) Managers.game.humanTeamKill++;
+			if (attacker.layer == LayerMask.NameToLayer("Cyborg")) Managers.game.cyborgTeamKill++;
+
+			attacker.GetComponent<PlayerStats>().kill++;
+		}
+
+		// 피해자 처리
+		deadUser.GetComponent<PlayerStats>().death++;
+
+		Debug.Log(Managers.UI.Root.transform.Find("UI_Popup/UI_KillLog"));
+
+		/// UI Event
+		UI_KillLog killLog = Managers.UI.MakeSubItem<UI_KillLog>(Managers.UI.Root.transform.Find("UI_Popup/UI_KillLog"), "KillLog");
+		killLog.Init(
+			attacker.name,
+			deadUser.name
+		);
 	}
 }

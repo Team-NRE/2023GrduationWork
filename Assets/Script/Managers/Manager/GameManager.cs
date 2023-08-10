@@ -17,14 +17,11 @@ public class GameManager
     CameraController mainCamera;
     public Vector3 endingCamPos;
     
-    /// 플레이 타임 관련
+    /// 플레이 관련
 	public float playTime = 0;
+    public int humanTeamKill = 0;
+    public int cyborgTeamKill = 0;
     #endregion
-
-    private void Awake()
-    {
-
-    }
 
     public void OnUpdate()
     {
@@ -40,6 +37,27 @@ public class GameManager
         }
 
         playTime += Time.deltaTime;
+    }
+
+    /// 플레이어 킬 이벤트
+    ///
+    /// int attackerID : 가해자 View ID
+    /// int deadUserID : 피해자 View ID
+    public void killEvent(int attackerID, int deadUserID)
+    {
+        /// 예외 처리
+        if (PhotonView.Find(attackerID) == null) return;
+        if (PhotonView.Find(deadUserID) == null) return;
+
+        /// RPC 실행
+        PhotonView pv = PhotonView.Get(GameObject.Find("GameScene"));
+
+        pv.RPC(
+            "KillEvent",
+            RpcTarget.All,
+            attackerID,
+            deadUserID
+        );
     }
 
     /// 게임 종료 스크립트
