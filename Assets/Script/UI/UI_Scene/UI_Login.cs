@@ -10,9 +10,9 @@ using TMPro;
 
 public class UI_Login : UI_Scene
 {
-	InputField input;
+	TMP_InputField input;
 	InputField tc;
-	public InputField user;
+	public TMP_InputField user;
 	public static string _inputUser;
 	public string inputRc;
 	public static string inputTc;
@@ -41,7 +41,6 @@ public class UI_Login : UI_Scene
 		Bind<Button>(typeof(LoginButtons));
 		Bind<InputField>(typeof(InputFields));
 		GameObject go = GetButton((int)LoginButtons.Login).gameObject;
-		GameObject input = Get<InputField>((int)InputFields.UserName).gameObject;
 		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
 	}
 

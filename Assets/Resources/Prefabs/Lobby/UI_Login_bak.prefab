@@ -396,9 +396,9 @@ GameObject:
   - component: {fileID: 3091347951140816731}
   - component: {fileID: 2910663729915426805}
   - component: {fileID: 2912681032047336155}
-  - component: {fileID: 5171899089992930958}
+  - component: {fileID: 8205581183387472020}
   m_Layer: 5
-  m_Name: UI_Login
+  m_Name: UI_Login_bak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5171899089992930958
+--- !u!114 &8205581183387472020
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 2911877313585700551}
   - component: {fileID: 2912037514734219413}
   m_Layer: 5
-  m_Name: Login
+  m_Name: Btn_Login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
