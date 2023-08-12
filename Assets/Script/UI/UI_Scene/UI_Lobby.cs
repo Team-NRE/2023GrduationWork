@@ -7,12 +7,6 @@ using UnityEngine.UI;
 
 public class UI_Lobby : UI_Scene
 {
-	public enum Pages
-	{
-		ModePage,
-		SelectPage,
-	}
-
 	public enum Buttons
 	{
 		EnterSingle,
@@ -35,10 +29,7 @@ public class UI_Lobby : UI_Scene
 	{
 		Debug.Log("EnterSingle");
 		// 1. 선택한 캐릭터를 다음 씬(GameScene)으로 넘긴다.
-		//SceneManager.LoadScene("View Test Scene");
-
-		GameObject page = Get<GameObject>((int)Pages.SelectPage);
-		page.SetActive(true);
+		SceneManager.LoadScene("Select");
 	}
 
 	// Select Button 클릭시 발생할 이벤트
@@ -46,6 +37,6 @@ public class UI_Lobby : UI_Scene
 	{
 		Debug.Log("EnterMulti");
 		// 1. 선택한 캐릭터를 다음 씬(GameScene)으로 넘긴다.
-		SceneManager.LoadScene("View Test Scene");
+		SceneManager.LoadScene("Select");
 	}
 }
