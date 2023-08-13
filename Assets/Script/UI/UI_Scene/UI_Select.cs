@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UI_Select : UI_Scene
 {
@@ -21,19 +22,17 @@ public class UI_Select : UI_Scene
 		Select,
 	}
 
-	void Start()
-    {
-        
-    }
-
 	public override void Init()
 	{
 		Bind<GameObject>(typeof(Selectors));
+		Bind<Button>(typeof(Buttons));
 
 		Get<GameObject>((int)Selectors.Police).gameObject.BindEvent(SpotOnPolice);
 		Get<GameObject>((int)Selectors.FireFighter).gameObject.BindEvent(SpotOnFireFighter);
 		Get<GameObject>((int)Selectors.LightSabre).gameObject.BindEvent(SpotOnFireLightSabre);
 		Get<GameObject>((int)Selectors.Monk).gameObject.BindEvent(SpotOnFireMonk);
+
+		GetButton((int)Buttons.Select).gameObject.BindEvent(SelectButton);
 	}
 
 	// 캐릭터 선택시 스팟이 켜지는 부분

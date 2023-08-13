@@ -49,7 +49,8 @@ public class UI_Login : UI_Scene
 		_inputUser = user.text;
 		PhotonNetwork.NickName = user.text;
 		Debug.Log(user.text);
-		InitialRoom();
+		//InitialRoom();
+		SceneManager.LoadScene("Lobby");
 	}
 
 	public void InitialRoom(string name = "default")
