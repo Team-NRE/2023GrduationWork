@@ -20,7 +20,7 @@ public class ShieldStart : MonoBehaviour
         start = true;
     }
 
-    void Update()
+    public void Update()
     {
         if (start == true)
         {

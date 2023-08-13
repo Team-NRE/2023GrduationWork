@@ -96,7 +96,7 @@ public class UI_CardPanel : UI_Card
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
     }
 
-    private void Update()
+    public void Update()
     {
         if(pStat.nowHealth > 0)
         {

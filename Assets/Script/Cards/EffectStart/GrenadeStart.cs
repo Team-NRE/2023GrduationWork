@@ -34,7 +34,7 @@ public class GrenadeStart : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == enemylayer)
         {
@@ -46,7 +46,7 @@ public class GrenadeStart : MonoBehaviour
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.5f));
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
 
             //타겟이 적 Player일 시
@@ -55,7 +55,7 @@ public class GrenadeStart : MonoBehaviour
                 enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.5f));
+                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
                 
                 //HackingGrenade 카드

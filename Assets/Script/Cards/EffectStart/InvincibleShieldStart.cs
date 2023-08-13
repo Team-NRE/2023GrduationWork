@@ -25,7 +25,7 @@ public class InvincibleShieldStart : MonoBehaviour
         shield_Time = _shield_Time;
     }
 
-    void Update()
+    public void Update()
     {
         if (stop == false)
         {
@@ -52,7 +52,7 @@ public class InvincibleShieldStart : MonoBehaviour
 
             Debug.Log(pSave_Health);
 
-            _pStats.nowHealth += (_pStats.maxHealth / 100) * 10;
+            _pStats.nowHealth += _pStats.maxHealth / 100 * 10;
 
             stop = true;
             time = 0;

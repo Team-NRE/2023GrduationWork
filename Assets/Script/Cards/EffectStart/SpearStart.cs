@@ -34,7 +34,7 @@ public class SpearStart : MonoBehaviour
         transform.Rotate(new Vector3(-90, 0, Time.deltaTime));
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == enemylayer)
         {
@@ -45,7 +45,7 @@ public class SpearStart : MonoBehaviour
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
 
-                oStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.7f));
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
             }
 
             //타겟이 적 Player일 시
@@ -53,7 +53,7 @@ public class SpearStart : MonoBehaviour
             {
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.7f));
+                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
 

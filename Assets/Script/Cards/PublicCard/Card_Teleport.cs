@@ -1,12 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class Card_Teleport : UI_Card
 {
-    
+    LayerMask _layer = default;
+    LayerMask _enemylayer = default;
+
     public override void Init()
     {
         _cardBuyCost = 2200;
+        _cost = 0;
+
+        _rangeType = "Point";
+        _rangeScale = 0.95f;
+        _rangeRange = 2.0f;
+
+        _CastingTime = 1.0f;
+        _effectTime = 1.02f;
+    }
+
+    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
+    {
+        GameObject _player = GameObject.Find(player);
+        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Teleport");
+
+        _effectObject.transform.position = new Vector3(ground.x, 0.4f, ground.z);
+        _player.transform.position = new Vector3(_effectObject.transform.position.x, _player.transform.position.y, _effectObject.transform.position.z);
+
+        return _effectObject;
+    }
+
+
+    public override void DestroyCard(float delay = default)
+    {
+        Destroy(this.gameObject, delay);
     }
 }

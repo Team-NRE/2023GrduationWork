@@ -18,6 +18,7 @@ public class UI_Card : UI_Scene
      
     public float _damage;
     public float _defence;
+    public float _speed;
     public float _buff;
     public float _debuff; 
 

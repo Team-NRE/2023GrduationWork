@@ -71,7 +71,7 @@ namespace Stat
             {
                 _attackSpeed = value;
                 //공격 속도 계산식
-                attackDelay = (1 / (1 + _attackSpeed));
+                attackDelay = 1 / (1 + _attackSpeed);
             }
         }
         public float attackDelay { get { return _attackDelay; } set { _attackDelay = value; } }

@@ -5644,7 +5644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5158115252958858677}
-  - component: {fileID: 6154828404101374200}
+  - component: {fileID: 2799810937304415983}
   m_Layer: 0
   m_Name: Card_Shield
   m_TagString: Untagged
@@ -5679,7 +5679,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6154828404101374200
+--- !u!114 &2799810937304415983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5688,7 +5688,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5158115252958858676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b02ecb9d55ebdc849b138d681a0c9053, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d7c3b462e1770d40bae0c9fec8e3a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
@@ -5697,6 +5697,7 @@ MonoBehaviour:
   _effectTime: 0
   _damage: 0
   _defence: 0
+  _speed: 0
   _buff: 0
   _debuff: 0
   _rangeType: 

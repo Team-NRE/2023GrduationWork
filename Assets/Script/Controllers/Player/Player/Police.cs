@@ -419,8 +419,7 @@ public class Police : BaseController
                             _IsTarget = false;
 
                             //스킬 범위 크기
-                            _attackRange[2].GetComponent<AngleMissile>().Scale =
-                                2 * _cardStats._rangeScale;
+                            _attackRange[2].GetComponent<AngleMissile>().Scale = 2 * _cardStats._rangeScale;
                         }
 
                         break;
@@ -445,8 +444,7 @@ public class Police : BaseController
                             _IsTarget = false;
 
                             //스킬 범위 크기
-                            _attackRange[3].GetComponent<Point>().Scale =
-                                2 * _cardStats._rangeScale;
+                            _attackRange[3].GetComponent<Point>().Scale = 2 * _cardStats._rangeScale;
                             //스킬 거리
                             _attackRange[3].GetComponent<Point>().Range = _cardStats._rangeRange;
                         }
@@ -709,15 +707,14 @@ public class Police : BaseController
 
                 if (_MovingPos != default)
                 {
-                    //Skill On
-                    GameObject ground = new GameObject("Particle");
+                    GameObject ground = new GameObject();
                     ground.transform.position = _MovingPos;
-
+                    
+                    //Skill On
                     _cardStats.InitCard();
                     GameObject effectObj = _cardStats.cardEffect(ground.transform.position, this.name, _pStats.playerArea);
 
                     Destroy(effectObj, _cardStats._effectTime);
-                    Destroy(ground, _cardStats._effectTime);
 
                     //타겟을 향해 회전 및 멈추기
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);

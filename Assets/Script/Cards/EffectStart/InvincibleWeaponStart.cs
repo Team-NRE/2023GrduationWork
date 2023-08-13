@@ -18,7 +18,7 @@ public class InvincibleWeaponStart : MonoBehaviour
     }
 
 
-    private void OnTriggerStay(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == enemylayer)
         {
@@ -30,7 +30,7 @@ public class InvincibleWeaponStart : MonoBehaviour
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.01f));
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.02f);
             }
 
             //타겟이 적 Player일 시
@@ -39,7 +39,7 @@ public class InvincibleWeaponStart : MonoBehaviour
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.01f));
+                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.02f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }

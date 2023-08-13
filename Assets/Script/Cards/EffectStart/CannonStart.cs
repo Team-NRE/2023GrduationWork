@@ -17,7 +17,7 @@ public class CannonStart : MonoBehaviour
         enemylayer = _enemylayer;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == enemylayer)
         {
@@ -29,7 +29,7 @@ public class CannonStart : MonoBehaviour
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.5f));
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
 
             //타겟이 적 Player일 시
