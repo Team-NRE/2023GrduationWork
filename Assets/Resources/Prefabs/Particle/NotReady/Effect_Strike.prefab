@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4105816658782485642}
   - component: {fileID: 8654950757562601314}
   - component: {fileID: 8384582519236797193}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Strike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4922,7 +4922,7 @@ GameObject:
   - component: {fileID: 8343261303622937004}
   - component: {fileID: 3281641177550643002}
   - component: {fileID: 1252089821474885250}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StunLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9832,7 +9832,7 @@ GameObject:
   - component: {fileID: 3121150282806131351}
   - component: {fileID: 2816460133711661812}
   - component: {fileID: 6477176987155053451}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StunLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

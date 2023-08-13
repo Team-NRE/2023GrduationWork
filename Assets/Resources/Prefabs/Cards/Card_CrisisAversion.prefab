@@ -5233,7 +5233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 856928191036852765}
-  - component: {fileID: 5876658989860180117}
+  - component: {fileID: 6978495574561677122}
   m_Layer: 0
   m_Name: Card_CrisisAversion
   m_TagString: Untagged
@@ -5267,7 +5267,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5876658989860180117
+--- !u!114 &6978495574561677122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5276,16 +5276,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 856928191036852962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f052778f16a45954aa9a300722d8fbd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 92a3f5585530916439d111f37a2e1f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
+  _cardBuyCost: 0
   _CastingTime: 0
   _effectTime: 0
   _damage: 0
   _defence: 0
-  _debuff: 0
+  _speed: 0
   _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
   _rangeType: 
   _rangeScale: 0
   _rangeRange: 0

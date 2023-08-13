@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 407344}
   - component: {fileID: 19821144}
   - component: {fileID: 19990366}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_RadiantCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4765,7 +4765,7 @@ GameObject:
   - component: {fileID: 405966}
   - component: {fileID: 19876616}
   - component: {fileID: 19987346}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MiniParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9481,7 +9481,7 @@ GameObject:
   - component: {fileID: 423128}
   - component: {fileID: 19839724}
   - component: {fileID: 19998516}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VerticalGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

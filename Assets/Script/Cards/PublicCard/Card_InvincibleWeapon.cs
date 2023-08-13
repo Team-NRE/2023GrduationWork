@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Card_InvincibleWeapon : UI_Card
 {
-    LayerMask _layer = default;
+    int _layer = default;
     int _enemylayer = default;
 
     public override void Init()
@@ -18,7 +18,7 @@ public class Card_InvincibleWeapon : UI_Card
         _effectTime = 2.0f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         GameObject _player = GameObject.Find(player);
 

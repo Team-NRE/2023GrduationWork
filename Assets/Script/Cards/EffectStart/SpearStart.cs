@@ -10,7 +10,7 @@ public class SpearStart : MonoBehaviour
     Transform playerTr;
     PlayerStats pStats;
 
-    public void StartSpear(string player, LayerMask _enemylayer, float _damage)
+    public void StartSpear(string player, int _enemylayer, float _damage)
     {
         GameObject _player = GameObject.Find(player);
 

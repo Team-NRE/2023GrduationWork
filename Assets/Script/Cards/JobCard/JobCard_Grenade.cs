@@ -5,8 +5,8 @@ using Stat;
 
 public class JobCard_Grenade : UI_Card
 {
-    LayerMask _layer = default;
-    LayerMask _enemylayer = default;
+    int _layer = default;
+    int _enemylayer = default;
 
     public override void Init()
     {
@@ -22,7 +22,7 @@ public class JobCard_Grenade : UI_Card
     }
 
     
-    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         _effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
         _effectObject.transform.position = ground;

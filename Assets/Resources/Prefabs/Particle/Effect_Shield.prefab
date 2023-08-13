@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2888976325767449695}
   - component: {fileID: 2888976325749110603}
   - component: {fileID: 2888976325750006727}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4826,7 +4826,7 @@ GameObject:
   - component: {fileID: 2888976325767393539}
   - component: {fileID: 2888976325749013629}
   - component: {fileID: 2888976325749910829}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TinySparkles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

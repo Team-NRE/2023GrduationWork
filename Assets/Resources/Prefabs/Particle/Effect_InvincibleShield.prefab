@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7002477424725245787}
   - component: {fileID: 3080347729259606225}
   - component: {fileID: 4285236083267913086}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4821,7 +4821,7 @@ GameObject:
   - component: {fileID: 5107344824801633299}
   - component: {fileID: 4922567282412628497}
   - component: {fileID: 4911555544026089137}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9668,7 +9668,7 @@ GameObject:
   - component: {fileID: 4913385475665020055}
   - component: {fileID: 4911686836598865021}
   - component: {fileID: 8860771708251628951}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_InvincibleShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}

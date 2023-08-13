@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6238694106493466245}
   - component: {fileID: 6072497721392117439}
   - component: {fileID: 6072793672392341081}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DarkDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4902,7 +4902,7 @@ GameObject:
   - component: {fileID: 7601073925185274718}
   - component: {fileID: 5887130698668381325}
   - component: {fileID: 6137379929710521119}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_BloodstainedCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9832,7 +9832,7 @@ GameObject:
   - component: {fileID: 7237110925361496533}
   - component: {fileID: 5734265655558616515}
   - component: {fileID: 8043178947226294012}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

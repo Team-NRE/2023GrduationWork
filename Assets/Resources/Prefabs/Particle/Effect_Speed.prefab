@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4378636381976846}
   - component: {fileID: 198127849422511172}
   - component: {fileID: 199120550785785534}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RisingClouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4947,7 +4947,7 @@ GameObject:
   - component: {fileID: 4329936086623020}
   - component: {fileID: 198343026154692040}
   - component: {fileID: 199822437108533444}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9886,7 +9886,7 @@ GameObject:
   - component: {fileID: 4867809049896924}
   - component: {fileID: 198973911907424400}
   - component: {fileID: 199783142940952474}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ChargeParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14777,7 +14777,7 @@ GameObject:
   - component: {fileID: 4899155148507254}
   - component: {fileID: 198599103803035426}
   - component: {fileID: 199719891389815942}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rings
   m_TagString: Untagged
   m_Icon: {fileID: 0}

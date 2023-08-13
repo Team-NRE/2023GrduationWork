@@ -4,14 +4,17 @@
       "id": "0",
       "cards": [
         "JobCard_Grenade",
-        "Card_HealthPotion",
         "Card_Crystal",
         "Card_RadiantCrystal",
-        "Card_InvincibleWeapon",
-        "Card_Lava",
-        "Card_Spear",
-        "Card_Armor",
+        "Card_Enhancement",
+
         "Card_Teleport",
+        "Card_Infection",
+        "Card_HealthKit",
+        "Card_WingsOfTheBattlefield",
+        "Card_AmuletOfSteel",
+        "Card_Resurrection",
+        "Card_CrisisAversion",
         ""
       ]
     }

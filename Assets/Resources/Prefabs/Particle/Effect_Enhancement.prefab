@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 503751429033451398}
   - component: {fileID: 503751429048756752}
   - component: {fileID: 503751429049361920}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Nova
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4839,7 +4839,7 @@ GameObject:
   - component: {fileID: 503751429033522160}
   - component: {fileID: 503751429048688532}
   - component: {fileID: 503751429048643844}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Vertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9676,7 +9676,7 @@ GameObject:
   - component: {fileID: 503751429033501774}
   - component: {fileID: 503751429048721578}
   - component: {fileID: 503751429049413268}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Enhancement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14509,7 +14509,7 @@ GameObject:
   - component: {fileID: 503751429033529262}
   - component: {fileID: 503751429048733204}
   - component: {fileID: 503751429048644162}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ConeSpikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19346,7 +19346,7 @@ GameObject:
   - component: {fileID: 503751429033444912}
   - component: {fileID: 503751429048758180}
   - component: {fileID: 503751429048662228}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CenterGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24156,7 +24156,7 @@ GameObject:
   - component: {fileID: 7267647502179541708}
   - component: {fileID: 7353016934102541720}
   - component: {fileID: 7354155035307521596}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29083,7 +29083,7 @@ GameObject:
   - component: {fileID: 7261450945294158230}
   - component: {fileID: 7352723197988009842}
   - component: {fileID: 7354185047294403198}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34022,7 +34022,7 @@ GameObject:
   - component: {fileID: 7267668624276049254}
   - component: {fileID: 7352228179198013994}
   - component: {fileID: 7354233680767905056}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ChargeParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38913,7 +38913,7 @@ GameObject:
   - component: {fileID: 7261270979926348724}
   - component: {fileID: 7382909547818120958}
   - component: {fileID: 7352638981993411588}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RisingClouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}

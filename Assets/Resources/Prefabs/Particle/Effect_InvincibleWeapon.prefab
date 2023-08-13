@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6922492758430760762}
   - component: {fileID: 7124639347539845984}
   - component: {fileID: 7122721587863150420}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EndEmbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4893,7 +4893,7 @@ GameObject:
   - component: {fileID: 6921785332010861642}
   - component: {fileID: 7107240223674664904}
   - component: {fileID: 7123111316084128686}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StartEmber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9775,7 +9775,7 @@ GameObject:
   - component: {fileID: 6921490766489622482}
   - component: {fileID: 7124688509862541452}
   - component: {fileID: 7122605917623459706}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EndDebris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14747,7 +14747,7 @@ GameObject:
   - component: {fileID: 6922545549575751646}
   - component: {fileID: 7124277210780795564}
   - component: {fileID: 7123170117408092700}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19847,7 +19847,7 @@ GameObject:
   - component: {fileID: 4686794929353712723}
   - component: {fileID: 5384884864385449181}
   - component: {fileID: 5952489587380295282}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_InvincibleWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24743,7 +24743,7 @@ GameObject:
   - component: {fileID: 8617227222739579886}
   - component: {fileID: 8623902518243264424}
   - component: {fileID: 1427269671999208807}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StartDebris
   m_TagString: Untagged
   m_Icon: {fileID: 0}

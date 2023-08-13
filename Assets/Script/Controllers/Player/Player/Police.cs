@@ -26,6 +26,10 @@ public class Police : BaseController
     private bool _IsTarget = false;
     private bool _IsRange = false;
 
+    //부활 유무
+    private bool _isResurrection = false;
+    private bool _isRespawnOK = false;
+
     //범위 넘버 저장
     private int _SaveRangeNum;
 
@@ -38,8 +42,8 @@ public class Police : BaseController
     private LayerMask ignore;
 
     //리스폰
-    public Transform respawn;
-    private Transform saveRespawn;
+    //public Transform respawn;
+    //private Transform saveRespawn;
 
     protected BaseProjectile _baseProj;
     public GameObject bullet;
@@ -61,7 +65,7 @@ public class Police : BaseController
         _state = Define.State.Idle;
 
         //리스폰 지역
-        transform.position = respawn.position;
+        //transform.position = respawn.position;
 
         //액션 대리자 호출
         Managers.Input.MouseAction += MouseDownAction;
@@ -707,14 +711,21 @@ public class Police : BaseController
 
                 if (_MovingPos != default)
                 {
-                    GameObject ground = new GameObject();
-                    ground.transform.position = _MovingPos;
-                    
                     //Skill On
                     _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(ground.transform.position, this.name, _pStats.playerArea);
+                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.name, _pStats.playerArea);
 
-                    Destroy(effectObj, _cardStats._effectTime);
+                    //이펙트가 특정 시간 후에 사려진다면
+                    if (_cardStats._effectTime != default)
+                    {
+                        Destroy(effectObj, _cardStats._effectTime);
+                    }
+
+                    //부활이 켜져있으면
+                    if(_cardStats._effectTime == default)
+                    {
+                        _isResurrection = _cardStats._IsResurrection;
+                    }
 
                     //타겟을 향해 회전 및 멈추기
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
@@ -733,6 +744,8 @@ public class Police : BaseController
 
     protected override void UpdateDie()
     {
+        _startDie = true;
+        
         //스킬 시전 시간동안 키 입력 X
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
@@ -744,7 +757,6 @@ public class Police : BaseController
 
         _SaveRespawnTime += Time.deltaTime;
 
-        _startDie = true;
     }
 
     protected override void StartDie()
@@ -754,28 +766,52 @@ public class Police : BaseController
         {
             //attack Delay start
             _SaveRespawnTime = 0.01f;
+
+            _isRespawnOK = false;
         }
 
         if (_SaveRespawnTime != default)
         {
             _SaveRespawnTime += Time.deltaTime;
 
-            if (_SaveRespawnTime > 6)
+            //부활 없을 시 (6 -> 부활 시간 임의로 정함) 
+            if (_SaveRespawnTime >= 6.0f && _isResurrection == false)
             {
-                _SaveRespawnTime = default;
-                _startDie = false;
-
-                _state = Define.State.Idle;
                 //리스폰 지역
-                transform.position = respawn.position;
+                //transform.position = respawn.position;
                 //Hp reset
                 _pStats.nowHealth = _pStats.maxHealth;
+
+                _isRespawnOK = true;
+            }
+
+            //부활 있을 시
+            if (_SaveRespawnTime >= 3.0f && _isResurrection == true)
+            {
+                //HP 70% back
+                _pStats.nowHealth = _pStats.maxHealth / 100 * 70;
+
+                _isRespawnOK = true;
+                _isResurrection = false;
+
+                Destroy(transform.Find("Effect_Resurrection"));
+            }
+
+            //리스폰 가능해질 때
+            if (_isRespawnOK == true)
+            {
+                _startDie = false;
+                
+                _SaveRespawnTime = default;
+
+                _state = Define.State.Idle;
 
                 GetComponent<CapsuleCollider>().enabled = true;
 
                 Managers.Input.MouseAction += MouseDownAction;
                 Managers.Input.KeyAction += KeyDownAction;
             }
+
         }
     }
 

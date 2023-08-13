@@ -5,8 +5,8 @@ using Stat;
 
 public class Card_HackingGrenade : UI_Card
 {
-    LayerMask _layer = default;
-    LayerMask _enemylayer = default;
+    int _layer = default;
+    int _enemylayer = default;
 
     public override void Init()
     {
@@ -23,7 +23,7 @@ public class Card_HackingGrenade : UI_Card
         _effectTime = 1.02f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         _effectObject = Managers.Resource.Instantiate($"Particle/Effect_HackingGrenade");
         _effectObject.transform.position = ground;

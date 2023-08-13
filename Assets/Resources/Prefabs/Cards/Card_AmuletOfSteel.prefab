@@ -373,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1281651152594826340}
-  - component: {fileID: 5896170899784413360}
+  - component: {fileID: 1251447035456219032}
   m_Layer: 0
   m_Name: Card_AmuletOfSteel
   m_TagString: Untagged
@@ -407,7 +407,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5896170899784413360
+--- !u!114 &1251447035456219032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1281651152594826341}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83f8326b0dfee254eba479ec0c05fe0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f9466d8332b8654aa44952da2870cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
@@ -425,6 +425,7 @@ MonoBehaviour:
   _effectTime: 0
   _damage: 0
   _defence: 0
+  _speed: 0
   _buff: 0
   _debuff: 0
   _rangeType: 

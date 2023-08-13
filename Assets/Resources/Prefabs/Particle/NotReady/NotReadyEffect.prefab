@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4315332873034832}
   - component: {fileID: 198938011317282498}
   - component: {fileID: 199909395169396980}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4947,7 +4947,7 @@ GameObject:
   - component: {fileID: 4887865736454346}
   - component: {fileID: 198593215661128654}
   - component: {fileID: 199312981604402250}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Arcs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9884,7 +9884,7 @@ GameObject:
   - component: {fileID: 4469695778246850}
   - component: {fileID: 198219732045974400}
   - component: {fileID: 199071236765311902}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14768,7 +14768,7 @@ GameObject:
   - component: {fileID: 198514185076546976}
   - component: {fileID: 199263106598422604}
   - component: {fileID: 114889140343675482}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NotReadyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19671,7 +19671,7 @@ GameObject:
   - component: {fileID: 4433752640849514}
   - component: {fileID: 198733579983849728}
   - component: {fileID: 199375159658443332}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24562,7 +24562,7 @@ GameObject:
   - component: {fileID: 4192392457843564}
   - component: {fileID: 198930752445020706}
   - component: {fileID: 199153585281326714}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CenterShell
   m_TagString: Untagged
   m_Icon: {fileID: 0}

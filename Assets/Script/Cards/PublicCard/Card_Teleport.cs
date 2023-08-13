@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class Card_Teleport : UI_Card
 {
-    LayerMask _layer = default;
-    LayerMask _enemylayer = default;
-
     public override void Init()
     {
         _cardBuyCost = 2200;
@@ -21,7 +18,7 @@ public class Card_Teleport : UI_Card
         _effectTime = 1.02f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         GameObject _player = GameObject.Find(player);
         _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Teleport");

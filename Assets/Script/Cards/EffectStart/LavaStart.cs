@@ -10,7 +10,7 @@ public class LavaStart : MonoBehaviour
     int enemylayer = default;
 
 
-    public void StartLava(string _player, float _damage, LayerMask _enemylayer)
+    public void StartLava(string _player, float _damage, int _enemylayer)
     {
         player = GameObject.Find(_player);
         damage = _damage;

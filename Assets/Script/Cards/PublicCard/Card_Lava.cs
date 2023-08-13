@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Card_Lava : UI_Card
 {
-    LayerMask _layer = default;
+    int _layer = default;
     int _enemylayer = default;
 
     public override void Init()
@@ -21,7 +21,7 @@ public class Card_Lava : UI_Card
     }
 
 
-    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Lava");
         _effectObject.transform.position = ground;

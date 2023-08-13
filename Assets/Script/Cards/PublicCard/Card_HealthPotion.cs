@@ -17,7 +17,7 @@ public class Card_HealthPotion : UI_Card
         _effectTime = 1.0f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         GameObject _player = GameObject.Find(player);
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();

@@ -10,7 +10,7 @@ public class InvincibleWeaponStart : MonoBehaviour
     int enemylayer = default;
 
 
-    public void StartWeapon(string _player, float _damage, LayerMask _enemylayer)
+    public void StartWeapon(string _player, float _damage, int _enemylayer)
     {
         player = GameObject.Find(_player);
         damage = _damage;
