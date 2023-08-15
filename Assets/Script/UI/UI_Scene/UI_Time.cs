@@ -8,7 +8,7 @@ public class UI_Time : UI_Popup
 {
     string sec;
     string min;
-    float time;
+    double time;
 
     TextMeshProUGUI timeText;
 

@@ -29,10 +29,7 @@ public class GameScene : BaseScene
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 		Managers.UI.ShowSceneUI<UI_Popup>();
 
-		Managers.game.playTime = 0;
-
 		StartCoroutine("ForStupidPhoton");
-
 	}
 	
 	void LoadObjects()
@@ -48,14 +45,27 @@ public class GameScene : BaseScene
 	IEnumerator ForStupidPhoton()
 	{
 		yield return new WaitForSeconds(2.0f);
+
+		/// 시작 시간 초기화 : Master Client만
+		if (PhotonNetwork.IsMasterClient) 
+		{
+			Managers.game.startTime = PhotonNetwork.Time;
+
+			GetComponent<PhotonView>().RPC(
+				"SyncPlayTime",
+				RpcTarget.Others,
+				Managers.game.startTime
+			);
+		}
+
 		Debug.Log("Instantiate Player");
 		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
 	}
 
 	[PunRPC]
-	public void SyncPlayTime(float time)
+	public void SyncPlayTime(double time)
 	{
-		Managers.game.playTime = time;
+		Managers.game.startTime = time;
 	}
 
 	[PunRPC]

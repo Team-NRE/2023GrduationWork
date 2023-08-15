@@ -18,7 +18,9 @@ public class GameManager
     public Vector3 endingCamPos;
     
     /// 플레이 관련
-	public float playTime = 0;
+    public double startTime = 0;
+	public double playTime = 0;
+    private int lastTime = 0;
     public int humanTeamKill = 0;
     public int cyborgTeamKill = 0;
     #endregion
@@ -36,7 +38,7 @@ public class GameManager
                 );
         }
 
-        playTime += Time.deltaTime;
+        playTime = PhotonNetwork.Time - startTime;
     }
 
     /// 플레이어 킬 이벤트

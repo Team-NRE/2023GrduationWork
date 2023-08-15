@@ -48,7 +48,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 			pv.RPC(
 				"SyncPlayTime",
 				RpcTarget.Others,
-				Managers.game.playTime
+				Managers.game.startTime
 			);
 		}
 	}

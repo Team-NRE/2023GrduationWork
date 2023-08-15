@@ -34,7 +34,7 @@ public class Managers : MonoBehaviour
         Init();
     }
 
-    void Update() 
+    void FixedUpdate() 
     {
         OnUpdate();
     }
