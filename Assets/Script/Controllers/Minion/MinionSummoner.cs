@@ -45,20 +45,20 @@ public class MinionSummoner : MonoBehaviour
     {
         for (int i=0; i<3; i++)
         {
-            SummonMinion(ObjectType.Melee);
+            SummonMinion(ObjectType.MeleeMinion);
             yield return new WaitForSeconds(0.5f);
         }
 
         for (int i=0; i<3; i++)
         {
-            SummonMinion(ObjectType.Range);
+            SummonMinion(ObjectType.RangeMinion);
             yield return new WaitForSeconds(0.5f);
         }
     }
 
     void SummonMinion(ObjectType type)
     {
-        string objName = LayerMask.LayerToName(gameObject.layer) + type.ToString() + "Robot";
+        string objName = LayerMask.LayerToName(gameObject.layer) + type.ToString();
 
         GameObject obj = Managers.Resource.Load<GameObject>(objName);
 

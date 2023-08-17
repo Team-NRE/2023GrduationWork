@@ -1,7 +1,7 @@
 {
     "stats": [
       {
-        "type": "Melee",
+        "type": "MeleeMinion",
         
         "basicAttackPower": "12",
         "attackSpeed" : "10",
@@ -18,7 +18,7 @@
         "experience" : "10"
       },
       {
-        "type": "Range",
+        "type": "RangeMinion",
         
         "basicAttackPower": "22.5",
         "attackSpeed" : "5",
@@ -35,7 +35,7 @@
         "experience" : "10"
       },
       {
-        "type": "Super",
+        "type": "SuperMinion",
         
         "basicAttackPower": "39.5",
         "attackSpeed" : "7.5",
@@ -52,7 +52,7 @@
         "experience" : "10"
       },
       {
-        "type": "Turret",
+        "type": "Tower",
         
         "basicAttackPower": "187",
         "attackSpeed" : "7.5",

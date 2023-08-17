@@ -90,13 +90,13 @@ public class GameScene : BaseScene
 		// 피해자 처리
 		deadUser.GetComponent<PlayerStats>().death++;
 
-		Debug.Log(Managers.UI.Root.transform.Find("UI_Popup/UI_KillLog"));
-
 		/// UI Event
-		UI_KillLog killLog = Managers.UI.MakeSubItem<UI_KillLog>(Managers.UI.Root.transform.Find("UI_Popup/UI_KillLog"), "KillLog");
+		UI_KillLog killLog = Managers.UI.MakeSubItem<UI_KillLog>
+			(Managers.UI.Root.transform.Find("UI_Popup/UI_KillLog"), "KillLog");
+		
 		killLog.Init(
-			attacker.name,
-			deadUser.name
+			attacker,
+			deadUser
 		);
 	}
 }

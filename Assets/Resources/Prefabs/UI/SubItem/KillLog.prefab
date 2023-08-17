@@ -93,7 +93,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 1
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -251,6 +251,17 @@ MonoBehaviour:
   text: {fileID: 1980277519927404717}
   attackerIcon: {fileID: 1980277521174380186}
   deadUserIcon: {fileID: 1980277521544641949}
+  icons:
+  - {fileID: 2800000, guid: 06ca312c29ca5b24e9170afada35c3ec, type: 3}
+  - {fileID: 2800000, guid: 27ea6b549cd8a924fbf5f62c8ee6764f, type: 3}
+  - {fileID: 2800000, guid: 6ac84666911514f4f9119c5d38bb5289, type: 3}
+  - {fileID: 2800000, guid: 7467258c24965514a9082c35e89d2d13, type: 3}
+  - {fileID: 2800000, guid: 56458c77b83a56545bbc183dbf88cf53, type: 3}
+  - {fileID: 2800000, guid: 879925252929d2044aa54803ed0764e2, type: 3}
+  - {fileID: 2800000, guid: f0dd2b2c0f1adcf47bcd1f0aad48a3e2, type: 3}
+  - {fileID: 2800000, guid: e3bf8c7c24df5534290e45d049b8c8c3, type: 3}
+  - {fileID: 2800000, guid: 785e74202eb13ed408e6ae97a2c14379, type: 3}
+  - {fileID: 2800000, guid: 0c327fd055bcdbc4dbcf458ca7d20044, type: 3}
 --- !u!1 &1980277521174380184
 GameObject:
   m_ObjectHideFlags: 0

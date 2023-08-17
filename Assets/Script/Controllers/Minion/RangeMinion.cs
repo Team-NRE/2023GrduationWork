@@ -15,7 +15,7 @@ public class RangeMinion : Minion
     public override void init() 
     {
         base.init();
-        _type = ObjectType.Range;
+        _type = ObjectType.RangeMinion;
 
         bullet = $"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}MinionBullet";
     }

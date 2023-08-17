@@ -29,7 +29,7 @@ public class Tower : ObjectController
     public override void init() 
     {
         base.init();
-        _type = ObjectType.Turret;
+        _type = ObjectType.Tower;
 
         lineRenderer = GetComponent<LineRenderer>();
         bullet = $"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}TowerBullet";
@@ -73,11 +73,11 @@ public class Tower : ObjectController
             ObjStats targetObjStat = _targetEnemyTransform.GetComponent<ObjStats>();
 
             /// 미니언들 체력 비례 데미지를 입히기 위한 if문
-            if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Melee)
+            if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.MeleeMinion)
                 damage = targetObjStat.maxHealth * meleeMinionAttackRatio;
-            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Range)
+            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.RangeMinion)
                 damage =  targetObjStat.maxHealth * rangeMinionAttackRatio;
-            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.Super)
+            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.SuperMinion)
                 damage =  targetObjStat.maxHealth * superMinionAttackRatio;
             else
                 damage =  _oStats.basicAttackPower;

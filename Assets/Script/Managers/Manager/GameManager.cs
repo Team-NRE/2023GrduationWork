@@ -85,13 +85,13 @@ public class GameManager
                 case ObjectType.Nexus:
                     obj.GetComponent<MinionSummoner>().enabled = false;
                     break;
-                case ObjectType.Melee:
-                case ObjectType.Range:
-                case ObjectType.Super:
+                case ObjectType.MeleeMinion:
+                case ObjectType.RangeMinion:
+                case ObjectType.SuperMinion:
                     obj.GetComponent<NavMeshAgent>().enabled = false;
                     obj.GetComponent<Animator>().enabled = false;
                     break;
-                case ObjectType.Turret:
+                case ObjectType.Tower:
                 case ObjectType.Neutral:
                     obj.GetComponent<Animator>().enabled = false;
                     break;

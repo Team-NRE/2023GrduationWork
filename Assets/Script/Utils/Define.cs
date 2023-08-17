@@ -117,10 +117,10 @@ namespace Define
     public enum ObjectType
     {
         Undefine,
-        Melee,
-        Range,
-        Super,
-        Turret,
+        MeleeMinion,
+        RangeMinion,
+        SuperMinion,
+        Tower,
         Nexus,
         Neutral,
     }

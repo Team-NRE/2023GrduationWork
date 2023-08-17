@@ -11,7 +11,7 @@ public class MeleeMinion : Minion
     public override void init()
     {
         base.init();
-        _type = ObjectType.Melee;
+        _type = ObjectType.MeleeMinion;
     }
 
     public override void Attack()
