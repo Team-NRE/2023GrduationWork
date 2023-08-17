@@ -177,6 +177,7 @@ public class Police : BaseController
     //마우스 좌표 대상에 따른 State 변환
     private void MouseClickState(Define.MouseEvent evt, Vector3 mousePos = default, GameObject lockTarget = null)
     {
+
         //대상이 도로일 때 && 마우스 오른쪽 버튼 클릭 시
         if (lockTarget.layer == (int)Define.Layer.Road)
         {
@@ -220,10 +221,14 @@ public class Police : BaseController
         //_pStats.enemyArea가 상수반환이 안되서 if문으로 대체
         if (lockTarget.layer == 7 || lockTarget.layer == (int)Define.Layer.Neutral)
         {
+            int targetId = GetRemotePlayerId(lockTarget);
+            Debug.Log(targetId);
+            GameObject remoteTarget = GetRemotePlayer(targetId);
+            Debug.Log(remoteTarget.name);
             //좌표 설정
             _MovingPos = mousePos;
             //타겟 오브젝트 설정
-            BaseCard._lockTarget = lockTarget;
+            //BaseCard._lockTarget = lockTarget;
 
             //Attack or Skill
             switch (_proj)

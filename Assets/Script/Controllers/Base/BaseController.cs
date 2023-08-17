@@ -178,4 +178,16 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         }
         return _player;
     }
+
+    protected int GetRemotePlayerId(GameObject target)
+	{
+        int remoteId = target.GetComponent<PhotonView>().ViewID;
+        return remoteId;
+	}
+
+    protected GameObject GetRemotePlayer(int remoteId)
+	{
+        GameObject target = PhotonView.Find(remoteId)?.gameObject;
+        return target;
+	}
 }
