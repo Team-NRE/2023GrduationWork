@@ -229,6 +229,7 @@ public class Police : BaseController
             _MovingPos = mousePos;
             //타겟 오브젝트 설정
             //BaseCard._lockTarget = lockTarget;
+            BaseCard._lockTarget = remoteTarget;
 
             //Attack or Skill
             switch (_proj)
