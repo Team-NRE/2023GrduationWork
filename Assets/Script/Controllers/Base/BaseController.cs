@@ -190,4 +190,17 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         GameObject target = PhotonView.Find(remoteId)?.gameObject;
         return target;
 	}
+
+    public void MakeTeam(int playerCount, GameObject player)
+    {
+        Debug.Log(playerCount);
+        if (playerCount % 2 == 0)
+        {
+            player.gameObject.layer = 6;
+        }
+        else
+        {
+            player.gameObject.layer = 7;
+        }
+    }
 }
