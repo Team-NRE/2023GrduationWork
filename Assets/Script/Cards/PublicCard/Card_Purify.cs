@@ -22,7 +22,7 @@ public class Card_Purify : UI_Card
 
         _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Purify");
         _effectObject.transform.parent = _player.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+        _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
 
         _pStat.nowState = "Health";
 

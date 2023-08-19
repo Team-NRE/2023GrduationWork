@@ -6,7 +6,7 @@ using UnityEngine;
 public class Card_CrisisAversion : UI_Card
 {
     int _layer = default;
-
+    int _enemylayer = default;
 
     public override void Init()
     {
@@ -17,18 +17,23 @@ public class Card_CrisisAversion : UI_Card
         _rangeScale = 3.6f;
 
         _CastingTime = 0.3f;
-        _effectTime = 7.0f;
+        _effectTime = default;
+
+        _IsResurrection = false;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, string player, int layer = default) 
     {
-        GameObject _player = GameObject.Find(player);
         _layer = layer;
+        if (_layer == 6) { _enemylayer = 7; }
+        if (_layer == 7) { _enemylayer = 6; }
+        
+        GameObject _player = GameObject.Find(player);
 
-        //¶ì·Î¸µ
         _effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
+        _effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(player, _enemylayer);
 
         return _effectObject;
     }

@@ -26,7 +26,7 @@ public class ShieldStart : MonoBehaviour
         {
             shield_Time += Time.deltaTime;
 
-            if (shield_Time >= 2.0f)
+            if (shield_Time >= 1.9f)
             {
                 _pStats.defensePower -= defence;
                 start = false;

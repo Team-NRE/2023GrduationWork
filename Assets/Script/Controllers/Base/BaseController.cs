@@ -144,10 +144,9 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
                 break;
 
             case Define.State.Attack:
-                if (_pv.IsMine && _stopAttack == false)
-                {
-                    _pv.RPC("UpdateAttack", RpcTarget.All);
-                }
+                if (_stopAttack == false)
+                    UpdateAttack();
+
                 break;
 
             case Define.State.Skill:

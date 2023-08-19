@@ -6,10 +6,10 @@ using UnityEngine;
 public class HealthKitStart : MonoBehaviour
 {
     GameObject player = null;
+    PlayerStats pStats;
     float healthRegen = default;
     int teamLayer = default;
 
-    PlayerStats pStats;
     public void StartHealthKit(string _player, float _healthhRegen, int _teamLayer)
     {
         player = GameObject.Find(_player);

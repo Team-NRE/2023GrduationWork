@@ -584,7 +584,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2453389264076785649}
-  - component: {fileID: 7230570347065119278}
+  - component: {fileID: 2374432361173837144}
   m_Layer: 0
   m_Name: Card_BloodTransfusion
   m_TagString: Untagged
@@ -618,7 +618,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7230570347065119278
+--- !u!114 &2374432361173837144
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -627,16 +627,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2453389264076785648}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4a590dc72098ba4a8024ad1f778d76e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b5e04dea4aabe8438f6f2f45daaa4d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
+  _cardBuyCost: 0
   _CastingTime: 0
   _effectTime: 0
   _damage: 0
   _defence: 0
-  _debuff: 0
+  _speed: 0
   _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
   _rangeType: 
   _rangeScale: 0
   _rangeRange: 0

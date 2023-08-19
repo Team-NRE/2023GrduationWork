@@ -20,7 +20,6 @@ public static class BaseCard
     public static GameObject _lockTarget = null;
 
 
-
     //Json으로 덱을 가져온다. 나중에 덱 숫자가 늘어나면 파라미터로 입력
     public static List<string> LoadDeck(int deckNum = 0)
     {

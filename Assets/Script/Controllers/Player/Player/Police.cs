@@ -45,8 +45,8 @@ public class Police : BaseController
     //public Transform respawn;
     //private Transform saveRespawn;
 
-    protected BaseProjectile _baseProj;
-    public GameObject bullet;
+    //protected BaseProjectile _baseProj;
+    //public GameObject bullet;
 
     public override void awakeInit()
     {
@@ -75,11 +75,9 @@ public class Police : BaseController
     //start 초기화
     public override void Init()
     {
-        _baseProj = Managers.Resource.Load<BaseProjectile>("PoliceBullet");
-
         //총알 위치
-        //_Proj_Parent = this.transform.GetChild(2);
-        //_bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
+        _Proj_Parent = this.transform.GetChild(2);
+        _bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
 
         //Range List Setting
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -544,7 +542,7 @@ public class Police : BaseController
         return target;
     }
 
-    //플레이어 스텟 업데이트
+    //상시로 바뀌는 플레이어 스텟 
     protected override void UpdatePlayerStat()
     {
         //초기 세팅
@@ -566,120 +564,118 @@ public class Police : BaseController
                 _SaveHPSCool = default;
             }
         }
+
     }
 
     protected override void UpdateIdle()
     {
-        if (_agent.remainingDistance < 0.2f)
+        //죽었을 때
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
+
+        //살았을 때
+        if (_pStats.nowHealth > 0 && _agent.remainingDistance < 0.2f)
         {
             State = Define.State.Idle;
-        }
-
-        if (_pStats.nowHealth <= 0)
-        {
-            State = Define.State.Die;
         }
     }
 
     protected override void UpdateMoving()
     {
-        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+        //죽었을 때
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
 
-        _agent.SetDestination(_MovingPos);
-
-        // 조건 만족 시 상태 변환
-        if (BaseCard._lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
-        if (BaseCard._lockTarget != null && _agent.remainingDistance <= _pStats.attackRange && _stopAttack == false)
+        //살았을 때
+        if (_pStats.nowHealth > 0)
         {
-            State = Define.State.Attack;
+            transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+
+            _agent.SetDestination(_MovingPos);
+
+            // 조건 만족 시 상태 변환
+            if (BaseCard._lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
+            if (BaseCard._lockTarget != null && _agent.remainingDistance <= _pStats.attackRange && _stopAttack == false)
+            {
+                State = Define.State.Attack;
+            }
+            if (BaseCard._lockTarget != null && _agent.remainingDistance <= _cardStats._rangeScale && _stopSkill == false)
+            {
+                State = Define.State.Skill;
+            }
+
         }
-        /*
-        if (_pv.IsMine)
-        {
-        }
-
-        else
-        {
-            // 수신된 좌표로 보간한 이동처리
-            transform.position = Vector3.Lerp(transform.position, receivePos, Time.deltaTime * damping);
-
-            // 수신된 회전값으로 보간한 회전처리
-            transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * damping);
-        }*/
     }
 
     [PunRPC]
     protected override void UpdateAttack()
     {
         //죽었을 때
-        if (_pStats.nowHealth <= 0)
-        {
-            State = Define.State.Die;
-        }
-        //적이 공격 범위 밖에 있을 때 Moving 전환
-        if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats.attackRange)
-        {
-            //애니메이션 Moving으로 변한
-            State = Define.State.Moving;
-            //현재 상태는 Attack -> Moving에서 Attack으로 와야함.
-            _NowState = "Attack";
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
 
-            return;
-        }
-        //적이 공격 범위 안에 있을 때
-        else
+        //살았을 때
+        if (_pStats.nowHealth > 0)
         {
-            if (_stopAttack == false)
+            //적이 공격 범위 밖에 있을 때 Moving 전환
+            if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats.attackRange)
             {
-                //Range Off
-                _IsRange = false;
-                _attackRange[_SaveRangeNum].SetActive(_IsRange);
-
-                //플레이어 평타 타입에 따른 변환
-                //원거리일시
-                switch (_pStats.attackType)
-                {
-                    case "LongRange":
-                        if (BaseCard._lockTarget != null)
-                        {
-                            /*
-                            //Shoot
-                            GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
-                            nowBullet.GetComponent<RangedBullet>().BulletSetting(
-                                    _Proj_Parent.position,
-                                    BaseCard._lockTarget.transform,
-                                    _pStats.speed,
-                                    _pStats.basicAttackPower
-                                );
-                            */
-                            if (_pv.IsMine) { _pv.RPC("fp_Fire", RpcTarget.All); }
-                        }
-                        break;
-
-                    case "ShortRange":
-                        Debug.Log("근접 공격");
-
-                        break;
-
-                    default:
-                        Debug.Log("평타 불가");
-
-                        break;
-                }
-
-                //타겟을 향해 회전 및 멈추기
-                transform.rotation = Quaternion.LookRotation(
-                    Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position
-                );
-                _agent.ResetPath();
-
-                //평타 쿨타임
-                _stopAttack = true;
-
-                //애니메이션 Idle로 변환
-                State = Define.State.Idle;
+                //애니메이션 Moving으로 변한
+                State = Define.State.Moving;
+                //현재 상태는 Attack -> Moving에서 Attack으로 와야함.
+                _NowState = "Attack";
 
                 return;
+            }
+            //적이 공격 범위 안에 있을 때
+            else
+            {
+                if (_stopAttack == false)
+                {
+                    //Range Off
+                    _IsRange = false;
+                    _attackRange[_SaveRangeNum].SetActive(_IsRange);
+
+                    //플레이어 평타 타입에 따른 변환
+                    //원거리일시
+                    switch (_pStats.attackType)
+                    {
+                        case "LongRange":
+                            if (BaseCard._lockTarget != null)
+                            {
+                                //Shoot
+                                GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
+                                nowBullet.GetComponent<RangedBullet>().BulletSetting(
+                                        _Proj_Parent.position,
+                                        BaseCard._lockTarget.transform,
+                                        _pStats.speed,
+                                        _pStats.basicAttackPower
+                                    );
+                            }
+                            break;
+
+                        case "ShortRange":
+                            Debug.Log("근접 공격");
+
+                            break;
+
+                        default:
+                            Debug.Log("평타 불가");
+
+                            break;
+                    }
+
+                    //타겟을 향해 회전 및 멈추기
+                    transform.rotation = Quaternion.LookRotation(
+                        Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position
+                    );
+                    _agent.ResetPath();
+
+                    //평타 쿨타임
+                    _stopAttack = true;
+
+                    //애니메이션 Idle로 변환
+                    State = Define.State.Idle;
+
+                    return;
+                }
             }
         }
     }
@@ -688,56 +684,62 @@ public class Police : BaseController
     {
         //죽었을 때
         if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-        //이동을 스킵 안함 && 적이 공격 범위 밖에 있을 때 Moving 전환
-        if (_NowState != "SkipMove" && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale)
-        {
-            //애니메이션 Moving으로 변한
-            State = Define.State.Moving;
-            //현재 상태는 Skill -> Moving에서 Skill로 와야함.
-            _NowState = "Skill";
-            return;
-        }
 
-        else
+        //살았을 때
+        if (_pStats.nowHealth > 0)
         {
-            if (_stopSkill == false)
+            //이동을 스킵 안함  
+            if (_NowState != "SkipMove" && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale)
             {
-                //Range Off
-                _IsRange = false;
-                if (_cardStats._rangeType != "None")
-                {
-                    _attackRange[_SaveRangeNum].SetActive(_IsRange);
-                }
-
-                if (_MovingPos != default)
-                {
-                    //Skill On
-                    _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.name, _pStats.playerArea);
-
-                    //이펙트가 특정 시간 후에 사려진다면
-                    if (_cardStats._effectTime != default)
-                    {
-                        Destroy(effectObj, _cardStats._effectTime);
-                    }
-
-                    //부활이 켜져있으면
-                    if(_cardStats._effectTime == default)
-                    {
-                        _isResurrection = _cardStats._IsResurrection;
-                    }
-
-                    //타겟을 향해 회전 및 멈추기
-                    transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
-                    _agent.ResetPath();
-                }
-
-                //스킬 쿨타임
-                _stopSkill = true;
-
-                State = Define.State.Idle;
+                //애니메이션 Moving으로 변한
+                State = Define.State.Moving;
+                //현재 상태는 Skill -> Moving에서 Skill로 와야함.
+                _NowState = "Skill";
 
                 return;
+            }
+
+            else
+            {
+                if (_stopSkill == false)
+                {
+                    //Range Off
+                    _IsRange = false;
+                    if (_cardStats._rangeType != "None")
+                    {
+                        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+                    }
+
+                    if (_MovingPos != default)
+                    {
+                        //Skill On
+                        _cardStats.InitCard();
+                        GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.name, _pStats.playerArea);
+
+                        //이펙트가 특정 시간 후에 사라진다면
+                        if (_cardStats._effectTime != default)
+                        {
+                            Destroy(effectObj, _cardStats._effectTime);
+                        }
+
+                        //부활이 켜져있으면
+                        if (_cardStats._effectTime == default)
+                        {
+                            _isResurrection = _cardStats._IsResurrection;
+                        }
+
+                        //타겟을 향해 회전 및 멈추기
+                        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+                        _agent.ResetPath();
+                    }
+
+                    //스킬 쿨타임
+                    _stopSkill = true;
+
+                    State = Define.State.Idle;
+
+                    return;
+                }
             }
         }
     }
@@ -782,7 +784,13 @@ public class Police : BaseController
                 //Hp reset
                 _pStats.nowHealth = _pStats.maxHealth;
 
-                _isRespawnOK = true;
+                //Respawn
+                _startDie = false;
+                _SaveRespawnTime = default;
+                _state = Define.State.Idle;
+                GetComponent<CapsuleCollider>().enabled = true;
+                Managers.Input.MouseAction += MouseDownAction;
+                Managers.Input.KeyAction += KeyDownAction;
             }
 
             //부활 있을 시
@@ -791,23 +799,16 @@ public class Police : BaseController
                 //HP 70% back
                 _pStats.nowHealth = _pStats.maxHealth / 100 * 70;
 
-                _isRespawnOK = true;
+                //부활권 삭제
                 _isResurrection = false;
+                GameObject Resurrection = transform.Find("Effect_Resurrection").gameObject;
+                Destroy(Resurrection);
 
-                Destroy(transform.Find("Effect_Resurrection"));
-            }
-
-            //리스폰 가능해질 때
-            if (_isRespawnOK == true)
-            {
+                //Respawn
                 _startDie = false;
-                
                 _SaveRespawnTime = default;
-
                 _state = Define.State.Idle;
-
                 GetComponent<CapsuleCollider>().enabled = true;
-
                 Managers.Input.MouseAction += MouseDownAction;
                 Managers.Input.KeyAction += KeyDownAction;
             }
@@ -886,13 +887,5 @@ public class Police : BaseController
                 //Debug.Log("스킬 시전 완료");
             }
         }
-    }
-
-    [PunRPC]
-    public void fp_Fire()
-    {
-        bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, this.gameObject.transform.rotation);
-        bullet.GetComponent<PlayerProjectile>().pTarget = BaseCard._lockTarget;
-        bullet.GetComponent<PlayerProjectile>().pAttacker = this.gameObject;
     }
 }

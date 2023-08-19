@@ -107,7 +107,6 @@ namespace Stat
             set
             {
                 _maxHealth = value;
-                nowHealth = _maxHealth;
             }
         }
 
@@ -129,6 +128,7 @@ namespace Stat
                     basicAttackPower += _levelUpAP;
                     attackSpeed += _levelUpAS;
                     maxHealth += _levelUpHP;
+                    nowHealth += _levelUpHP;
                     healthRegeneration += _levelUpHR;
                     defensePower += _levelUpDP;
                     _nowlevel = _level;

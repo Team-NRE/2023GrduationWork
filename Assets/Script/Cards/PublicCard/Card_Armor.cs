@@ -25,7 +25,7 @@ public class Card_Armor : UI_Card
 
         _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Armor");
         _effectObject.transform.parent = _player.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+        _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
         _pStat.defensePower += _defence;
 

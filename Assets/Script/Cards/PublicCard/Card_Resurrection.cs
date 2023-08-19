@@ -22,12 +22,10 @@ public class Card_Resurrection : UI_Card
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         GameObject _player = GameObject.Find(player);
-        PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Resurrection");
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
-        //_effectObject.GetComponent<ResurrectionStart>().StartResurrection(player);
 
         return _effectObject;
     }
