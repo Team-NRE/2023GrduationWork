@@ -50,6 +50,9 @@ MonoBehaviour:
   - SummonMissile
   - SyncPlayTime
   - KillEvent
+  - SetProjectile
+  - FollowTarget
+  - HitDetection
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
