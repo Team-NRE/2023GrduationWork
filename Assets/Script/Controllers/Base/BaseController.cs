@@ -92,7 +92,11 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void Start() { Init(); }
+    private void Start() 
+    {
+        // 팀 분배
+        Init(); 
+    }
 
     private void Update()
     {
@@ -177,5 +181,38 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             }
         }
         return _player;
+    }
+
+    protected int GetRemotePlayerId(GameObject target)
+	{
+        int remoteId = target.GetComponent<PhotonView>().ViewID;
+        return remoteId;
+	}
+
+    protected GameObject GetRemotePlayer(int remoteId)
+	{
+        GameObject target = PhotonView.Find(remoteId)?.gameObject;
+        return target;
+	}
+
+    protected Vector3 GetRemoteVector(int remoteId)
+	{
+        Vector3 targetVector = GetRemotePlayer(remoteId).transform.position;
+        return targetVector;
+	}
+
+    public void MakeTeam(int playerCount, GameObject player)
+    {
+        Debug.Log(playerCount);
+        if (playerCount % 2 == 0)
+        {
+            player.gameObject.layer = LayerMask.NameToLayer("Human");
+            Debug.Log("Human");
+        }
+        else
+        {
+            player.gameObject.layer = LayerMask.NameToLayer("Cyborg");
+            Debug.Log("Cyobrg");
+        }
     }
 }

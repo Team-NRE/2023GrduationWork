@@ -12,6 +12,7 @@ public class Police : BaseController
     private Transform _Proj_Parent;
     private GameObject _bullet;
     public GameObject target;
+    private GameObject _netBullet;
     //UI_Card 접근
     private UI_Card _cardStats;
 
@@ -35,9 +36,9 @@ public class Police : BaseController
 
     private LayerMask ignore;
 
-
     public void OnEnable()
     {
+        MakeTeam(PhotonNetwork.PlayerList.Length, this.gameObject);
         _state = Define.State.Idle;
 
         //액션 대리자 호출
@@ -177,6 +178,7 @@ public class Police : BaseController
     //마우스 좌표 대상에 따른 State 변환
     private void MouseClickState(Define.MouseEvent evt, Vector3 mousePos = default, GameObject lockTarget = null)
     {
+
         //대상이 도로일 때 && 마우스 오른쪽 버튼 클릭 시
         if (lockTarget.layer == (int)Define.Layer.Road)
         {
@@ -218,12 +220,17 @@ public class Police : BaseController
 
         //적 or 중앙 obj 클릭 시
         //_pStats.enemyArea가 상수반환이 안되서 if문으로 대체
-        if (lockTarget.layer == 7 || lockTarget.layer == (int)Define.Layer.Neutral)
+        if (lockTarget.layer == 6 || lockTarget.layer == 7 || lockTarget.layer == (int)Define.Layer.Neutral)
         {
+            int targetId = GetRemotePlayerId(lockTarget);
+            //Debug.Log(targetId);
+            GameObject remoteTarget = GetRemotePlayer(targetId);
+            //Debug.Log(remoteTarget.name);
             //좌표 설정
             _MovingPos = mousePos;
             //타겟 오브젝트 설정
-            BaseCard._lockTarget = lockTarget;
+            //BaseCard._lockTarget = lockTarget;
+            BaseCard._lockTarget = remoteTarget;
 
             //Attack or Skill
             switch (_proj)
@@ -626,8 +633,12 @@ public class Police : BaseController
                         if (BaseCard._lockTarget != null)
                         {
                             //Shoot
-                            GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
-                            nowBullet.GetComponent<RangedBullet>().BulletSetting(_Proj_Parent.position, BaseCard._lockTarget.transform, _pStats.speed, _pStats.basicAttackPower);
+                            string tempName = "PoliceBullet";
+                            //GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
+                            //nowBullet.GetComponent<RangedBullet>().BulletSetting(_Proj_Parent.position, BaseCard._lockTarget.transform, _pStats.speed, _pStats.basicAttackPower);
+                            //GameObject projectileTarget = GetRemotePlayer(BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                            _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
+                            _pv.RPC("SetProjectile", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
                         }
                         break;
 
@@ -798,5 +809,10 @@ public class Police : BaseController
             }
         }
     }
-
+    [PunRPC]
+    protected void SetProjectile(int id)
+    {
+        if (_netBullet != null)
+            _netBullet.GetComponent<RangedBullet>().Init(id);
+    }
 }

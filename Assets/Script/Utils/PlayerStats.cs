@@ -191,7 +191,7 @@ namespace Stat
             set
             {
                 _playerArea = value;
-                this.gameObject.layer = _playerArea;
+                //this.gameObject.layer = _playerArea;
             }
         }
         public int enemyArea { get { return _enemyArea; } set { _enemyArea = value; } }
