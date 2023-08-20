@@ -89,6 +89,4 @@ public class GameScene : BaseScene
 			deadUser.name
 		);
 	}
-
-
 }

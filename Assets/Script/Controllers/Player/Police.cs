@@ -36,9 +36,6 @@ public class Police : BaseController
 
     private LayerMask ignore;
 
-
-
-
     public void OnEnable()
     {
         MakeTeam(PhotonNetwork.PlayerList.Length, this.gameObject);

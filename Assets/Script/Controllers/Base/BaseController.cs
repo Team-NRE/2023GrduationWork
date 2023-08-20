@@ -206,11 +206,13 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         Debug.Log(playerCount);
         if (playerCount % 2 == 0)
         {
-            player.gameObject.layer = 6;
+            player.gameObject.layer = LayerMask.NameToLayer("Human");
+            Debug.Log("Human");
         }
         else
         {
-            player.gameObject.layer = 7;
+            player.gameObject.layer = LayerMask.NameToLayer("Cyborg");
+            Debug.Log("Cyobrg");
         }
     }
 }
