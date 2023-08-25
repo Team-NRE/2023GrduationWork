@@ -52,7 +52,7 @@ public class UI_CardPanel : UI_Card
 
     public override void Init()
     {
-        pStat = GameObject.FindGameObjectWithTag("PLAYER")?.GetComponent<PlayerStats>();
+        pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
@@ -96,15 +96,9 @@ public class UI_CardPanel : UI_Card
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.StartDeck()}", E_Btn.transform);
     }
 
-    private void Update()
+    public void Update()
     {
-        if (pStat == null)
-        {
-            pStat = GameObject.FindGameObjectWithTag("PLAYER")?.GetComponent<PlayerStats>();
-            return;
-        }
-
-        if (pStat.nowHealth > 0)
+        if(pStat.nowHealth > 0)
         {
             MouseDownAction();
             KeyDownAction();
@@ -227,7 +221,7 @@ public class UI_CardPanel : UI_Card
         string _nowCard = Q_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
         //사용한 카드 파괴
-        Q_CardUI.DestroyCard(null, 0.1f);
+        Q_CardUI.DestroyCard(0.1f);
 
         //새로운 카드 덱에서 리필
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
@@ -249,7 +243,7 @@ public class UI_CardPanel : UI_Card
         string _nowCard = W_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
         //사용한 카드 파괴
-        W_CardUI.DestroyCard(null, 0.1f);
+        W_CardUI.DestroyCard(0.1f);
 
         //새로운 카드 덱에서 리필
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
@@ -270,7 +264,7 @@ public class UI_CardPanel : UI_Card
         string _nowCard = E_Btn.transform.GetChild(0).name;
         Debug.Log($"사용한 카드 : {_nowCard}");
         //사용한 카드 파괴
-        E_CardUI.DestroyCard(null, 0.1f);
+        E_CardUI.DestroyCard(0.1f);
 
         //새로운 카드 덱에서 리필
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);

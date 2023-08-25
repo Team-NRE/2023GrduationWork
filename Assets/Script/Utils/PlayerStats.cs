@@ -50,7 +50,6 @@ namespace Stat
         [SerializeField] private int _playerArea; //내 진영
         [SerializeField] private int _enemyArea; //상대방 진영
 
-
         [Header("-- 마나 --")]
         [SerializeField] private float _nowMana; //현재 마나
         [SerializeField] private float _manaRegen; //마나 회복 속도
@@ -72,7 +71,7 @@ namespace Stat
             {
                 _attackSpeed = value;
                 //공격 속도 계산식
-                attackDelay = (1 / _attackSpeed);
+                attackDelay = 1 / (1 + _attackSpeed);
             }
         }
         public float attackDelay { get { return _attackDelay; } set { _attackDelay = value; } }
@@ -108,18 +107,10 @@ namespace Stat
             set
             {
                 _maxHealth = value;
-                nowHealth = _maxHealth;
             }
         }
-        public float healthRegeneration
-        {
-            get { return _healthRegeneration; }
-            set
-            {
-                _healthRegeneration = value * Time.deltaTime;
-                nowHealth += _healthRegeneration;
-            }
-        }
+
+        public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
         public float death { get { return _death; } set { _death = value; } }
 
@@ -137,6 +128,7 @@ namespace Stat
                     basicAttackPower += _levelUpAP;
                     attackSpeed += _levelUpAS;
                     maxHealth += _levelUpHP;
+                    nowHealth += _levelUpHP;
                     healthRegeneration += _levelUpHR;
                     defensePower += _levelUpDP;
                     _nowlevel = _level;
@@ -149,7 +141,7 @@ namespace Stat
             set
             {
                 _experience += value;
-                if (_experience > 50 + levelUpEx)
+                if (_experience > levelUpEx)
                 {
                     level += 1;
                     levelUpEx += 20;
@@ -191,11 +183,10 @@ namespace Stat
             set
             {
                 _playerArea = value;
-                //this.gameObject.layer = _playerArea;
+                this.gameObject.layer = _playerArea;
             }
         }
         public int enemyArea { get { return _enemyArea; } set { _enemyArea = value; } }
-
 
 
         //마나
@@ -230,10 +221,10 @@ namespace Stat
         public float gold { get { return _gold; } set { _gold = value; } }
 
 
-        public void PlayerStatSetting(PlayerType type)
+        public void PlayerStatSetting(string type)
         {
             Dictionary<string, Data.PlayerStat> dict = Managers.Data.PlayerStatDict;
-            Data.PlayerStat stat = dict[type.ToString()];
+            Data.PlayerStat stat = dict[type];
 
             //공격
             basicAttackPower = stat.basicAttackPower;
