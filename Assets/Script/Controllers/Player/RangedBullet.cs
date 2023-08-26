@@ -20,13 +20,6 @@ public class RangedBullet : MonoBehaviour
 
     public void Update()
     {
-        //if (_target == null)
-        //{
-        //    Destroy(this.gameObject);
-        //}
-
-        //_pv.RPC("FollowTarget", RpcTarget.All);
-        //_pv.RPC("HitDetection", RpcTarget.All);
         FollowTarget();
         HitDetection();
     }
@@ -64,7 +57,7 @@ public class RangedBullet : MonoBehaviour
             {
                 ObjStats _Stats = _target.GetComponent<ObjStats>();
                 _Stats.nowHealth -= _damage;
-                Debug.Log(_Stats.nowHealth);
+                _pv.RPC("RemoteLog", RpcTarget.All, _Stats.nowHealth.ToString());
             }
 
             //타겟이 적 Player일 시
@@ -72,7 +65,7 @@ public class RangedBullet : MonoBehaviour
             {
                 PlayerStats _Stats = _target.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= _damage;
-                Debug.Log(_Stats.nowHealth);
+                _pv.RPC("RemoteLog", RpcTarget.All, _Stats.nowHealth.ToString());
             }
 
             Destroy(this.gameObject, 0.5f);
@@ -98,8 +91,9 @@ public class RangedBullet : MonoBehaviour
         return targetVector;
     }
 
-    protected void ApplyDamage()
+    [PunRPC]
+    private void RemoteLog(string log)
 	{
-
+        Debug.Log(log);
 	}
 }
