@@ -35,13 +35,13 @@ public class UI_Select : UI_Scene
 		GetButton((int)Buttons.Select).gameObject.BindEvent(SelectButton);
 	}
 
-	// Ä³¸¯ÅÍ ¼±ÅÃ½Ã ½ºÆÌÀÌ ÄÑÁö´Â ºÎºĞ
+	// ìºë¦­í„° ì„ íƒì‹œ ìŠ¤íŒŸì´ ì¼œì§€ëŠ” ë¶€ë¶„
 	public void SpotOnPolice(PointerEventData data)
 	{
 		string name = Get<GameObject>((int)Selectors.Police).gameObject.name;
-		// 1. Å¬¸¯ÇÒ ¶§ ¸¶´Ù ½ºÆÌÀ» ¶ç¿î´Ù
+		// 1. í´ë¦­í•  ë•Œ ë§ˆë‹¤ ìŠ¤íŒŸì„ ë„ìš´ë‹¤
 		Debug.Log(name);
-		// 2. Å¬¸¯ ÇÒ ¶§ ¸¶´Ù string °´Ã¼¿¡ ¹öÆ° ÀÌ¸§À» ÀúÀåÇÑ´Ù.
+		// 2. í´ë¦­ í•  ë•Œ ë§ˆë‹¤ string ê°ì²´ì— ë²„íŠ¼ ì´ë¦„ì„ ì €ì¥í•œë‹¤.
 		_name = name;
 		Debug.Log($"MemberName : {_name}");
 	}
@@ -74,7 +74,7 @@ public class UI_Select : UI_Scene
 	public void SelectButton(PointerEventData data)
 	{
 		Debug.Log("Start Game");
-		// 1. ¼±ÅÃÇÑ Ä³¸¯ÅÍ¸¦ ´ÙÀ½ ¾À(GameScene)À¸·Î ³Ñ±ä´Ù.
+		// 1. ì„ íƒí•œ ìºë¦­í„°ë¥¼ ë‹¤ìŒ ì”¬(GameScene)ìœ¼ë¡œ ë„˜ê¸´ë‹¤.
 		SceneManager.LoadScene("View Test Scene");
 	}
 }

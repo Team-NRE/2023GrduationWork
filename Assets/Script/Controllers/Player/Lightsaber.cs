@@ -4,13 +4,14 @@ using UnityEngine;
 using Werewolf.StatusIndicators.Components;
 using UnityEngine.AI;
 using Stat;
-
+using Photon.Pun;
 
 public class Lightsaber : BaseController
 {
     //총알 위치
     private Transform _Proj_Parent;
     private GameObject _bullet;
+    public GameObject target;
 
     //UI_Card 접근
     private UI_Card _cardStats;
@@ -28,22 +29,22 @@ public class Lightsaber : BaseController
     //범위 넘버 저장
     private int _SaveRangeNum;
 
-
-    //평타/스킬 쿨타임
+    //평타/스킬/스텟 쿨타임
     private float _SaveAttackSpeed = default;
     private float _SaveSkillCool = default;
+    private float _SaveHPSCool = default;
+    private float _SaveRespawnTime = default;
 
     private LayerMask ignore;
 
+    //리스폰
+    public Transform respawn;
+    private Transform saveRespawn;
 
-    public void OnEnable()
-    {
-        GetComponent<CapsuleCollider>().enabled = true;
-        _pType = Define.PlayerType.Lightsaber;
-    }
+    protected BaseProjectile _baseProj;
+    public GameObject bullet;
 
-    //start 초기화
-    public override void Init()
+    public override void awakeInit()
     {
         //초기화
         _pStats = GetComponent<PlayerStats>();
@@ -51,15 +52,38 @@ public class Lightsaber : BaseController
         _agent = GetComponent<NavMeshAgent>();
 
         //스텟 호출
-        _pStats.PlayerStatSetting(_pType);
+        _playerName = this.name;
 
+        photonView.RPC(
+            "PlayerStatSetting",
+            RpcTarget.All,
+            _playerName,
+            PhotonNetwork.NickName
+        );
+    }
+
+    public void OnEnable()
+    {
+        _state = Define.State.Idle;
+
+        //리스폰 지역
+        transform.position = respawn.position;
 
         //액션 대리자 호출
-        //Managers.Input.MouseAction += MouseDownAction;
-        //Managers.Input.KeyAction += KeyDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+    }
 
+    //start 초기화
+    public override void Init()
+    {
+        _baseProj = Managers.Resource.Load<BaseProjectile>("PoliceBullet");
 
-        //Range List Setting 
+        //총알 위치
+        //_Proj_Parent = this.transform.GetChild(2);
+        //_bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
+
+        //Range List Setting
         GetComponentInChildren<SplatManager>().enabled = false;
         GameObject[] loadAttackRange = Resources.LoadAll<GameObject>("Prefabs/AttackRange");
         foreach (GameObject attackRange in loadAttackRange)
@@ -81,7 +105,6 @@ public class Lightsaber : BaseController
         //마우스 이벤트 시 무시할 레이어
         ignore = LayerMask.GetMask("Default", "Ignore Raycast");
     }
-
 
     //Mouse event
     private void MouseDownAction(Define.MouseEvent evt)
@@ -153,7 +176,6 @@ public class Lightsaber : BaseController
                                 break;
                         }
                     }
-
                     //Range Off일 때 아무일도 없음.
                     else
                     {
@@ -164,9 +186,7 @@ public class Lightsaber : BaseController
                     break;
             }
         }
-
     }
-
 
     //마우스 좌표 대상에 따른 State 변환
     private void MouseClickState(Define.MouseEvent evt, Vector3 mousePos = default, GameObject lockTarget = null)
@@ -195,14 +215,23 @@ public class Lightsaber : BaseController
                     break;
 
                 case Define.MouseEvent.LeftButton:
+                    if (RangeAttack() != null)
+                    {
+                        //좌표 설정
+                        _MovingPos = RangeAttack().transform.position;
+                        BaseCard._lockTarget = RangeAttack();
+
+                        //State Moving 변환
+                        State = Define.State.Attack;
+                    }
+
                     break;
             }
-
         }
 
         //적 or 중앙 obj 클릭 시
         //_pStats.enemyArea가 상수반환이 안되서 if문으로 대체
-        if (lockTarget.layer == 7 || lockTarget.layer == (int)Define.Layer.Neutral)
+        if (lockTarget.layer == _pStats.enemyArea || lockTarget.layer == (int)Define.Layer.Neutral)
         {
             //좌표 설정
             _MovingPos = mousePos;
@@ -227,11 +256,10 @@ public class Lightsaber : BaseController
         }
     }
 
-
     //Key event
     private void KeyDownAction(Define.KeyboardEvent _key)
     {
-        //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기 
+        //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
 
         //키보드 입력 시
@@ -278,15 +306,13 @@ public class Lightsaber : BaseController
 
                 break;
         }
-
     }
-
 
     //키 누를시 상태 전환
     private void KeyPushState(string Keyname)
     {
         //스킬 사거리 표시 On/Off 관리
-        //이전 키와 같은 키를 눌렀을 경우 
+        //이전 키와 같은 키를 눌렀을 경우
         if (Keyname != "MouseRightButton" && Keyname == BaseCard._NowKey)
         {
             //사거리 On/Off 관리
@@ -329,7 +355,7 @@ public class Lightsaber : BaseController
                 //카드의 Range 타입에 따른 세팅 변환
                 switch (_cardStats._rangeType)
                 {
-                    //활 모양 Range 
+                    //활 모양 Range
                     case "Arrow":
                         //번호 저장
                         _SaveRangeNum = 0;
@@ -399,7 +425,8 @@ public class Lightsaber : BaseController
                             _IsTarget = false;
 
                             //스킬 범위 크기
-                            _attackRange[2].GetComponent<AngleMissile>().Scale = 2 * _cardStats._rangeScale;
+                            _attackRange[2].GetComponent<AngleMissile>().Scale =
+                                2 * _cardStats._rangeScale;
                         }
 
                         break;
@@ -424,7 +451,8 @@ public class Lightsaber : BaseController
                             _IsTarget = false;
 
                             //스킬 범위 크기
-                            _attackRange[3].GetComponent<Point>().Scale = 2 * _cardStats._rangeScale;
+                            _attackRange[3].GetComponent<Point>().Scale =
+                                2 * _cardStats._rangeScale;
                             //스킬 거리
                             _attackRange[3].GetComponent<Point>().Range = _cardStats._rangeRange;
                         }
@@ -497,11 +525,52 @@ public class Lightsaber : BaseController
                     projector.orthographicSize = _pStats.attackRange;
                 }
             }
-
         }
-
     }
 
+    protected override GameObject RangeAttack()
+    {
+        float dist = 999;
+        target = null;
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
+
+        foreach (Collider col in cols)
+        {
+            float Distance = Vector3.Distance(col.transform.position, transform.position);
+            if (Distance <= _pStats.attackRange && Distance < dist)
+            {
+                dist = Distance;
+                target = col.gameObject;
+            }
+        }
+
+        return target;
+    }
+
+    //플레이어 스텟 업데이트
+    protected override void UpdatePlayerStat()
+    {
+        //초기 세팅
+        if (_SaveHPSCool == default)
+        {
+            _SaveHPSCool = 0.01f;
+        }
+
+        if (_SaveHPSCool != default)
+        {
+            _SaveHPSCool += Time.deltaTime;
+
+            if (_SaveHPSCool >= 1)
+            {
+                //피 회복
+                _pStats.nowHealth += _pStats.healthRegeneration;
+
+                //attackDelay 초기화
+                _SaveHPSCool = default;
+            }
+        }
+    }
 
     protected override void UpdateIdle()
     {
@@ -510,39 +579,47 @@ public class Lightsaber : BaseController
             State = Define.State.Idle;
         }
 
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
+        }
     }
-
 
     protected override void UpdateMoving()
     {
         transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+
         _agent.SetDestination(_MovingPos);
 
         // 조건 만족 시 상태 변환
-        //Idle
-        if (_agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
-        //Attack
-        if (_NowState == "Attack" && _agent.remainingDistance <= _pStats.attackRange)
+        if (BaseCard._lockTarget == null && _agent.remainingDistance < 0.2f) { State = Define.State.Idle; }
+        if (BaseCard._lockTarget != null && _agent.remainingDistance <= _pStats.attackRange && _stopAttack == false)
         {
             State = Define.State.Attack;
         }
-        //Skill
-        if (_NowState == "Skill" && _agent.remainingDistance <= _cardStats._rangeScale)
+        /*
+        if (_pv.IsMine)
         {
-            Managers.Input.MouseAction = null;
-            Managers.Input.KeyAction = null;
-            State = Define.State.Skill;
         }
-        //Die
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
+
+        else
+        {
+            // 수신된 좌표로 보간한 이동처리
+            transform.position = Vector3.Lerp(transform.position, receivePos, Time.deltaTime * damping);
+
+            // 수신된 회전값으로 보간한 회전처리
+            transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * damping);
+        }*/
     }
 
-
+    [PunRPC]
     protected override void UpdateAttack()
     {
         //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
+        }
         //적이 공격 범위 밖에 있을 때 Moving 전환
         if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats.attackRange)
         {
@@ -553,7 +630,6 @@ public class Lightsaber : BaseController
 
             return;
         }
-
         //적이 공격 범위 안에 있을 때
         else
         {
@@ -570,10 +646,17 @@ public class Lightsaber : BaseController
                     case "LongRange":
                         if (BaseCard._lockTarget != null)
                         {
+                            /*
                             //Shoot
                             GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
-                            //nowBullet.GetComponent<RangedBullet>().BulletSetting(_Proj_Parent.position, BaseCard._lockTarget.transform, _pStats.speed, _pStats.basicAttackPower);
-                            //nowBullet.GetComponent<RangedBullet>().Init();
+                            nowBullet.GetComponent<RangedBullet>().BulletSetting(
+                                    _Proj_Parent.position,
+                                    BaseCard._lockTarget.transform,
+                                    _pStats.speed,
+                                    _pStats.basicAttackPower
+                                );
+                            */
+                            if (_pv.IsMine) { _pv.RPC("fp_Fire", RpcTarget.All); }
                         }
                         break;
 
@@ -589,7 +672,9 @@ public class Lightsaber : BaseController
                 }
 
                 //타겟을 향해 회전 및 멈추기
-                transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+                transform.rotation = Quaternion.LookRotation(
+                    Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position
+                );
                 _agent.ResetPath();
 
                 //평타 쿨타임
@@ -603,12 +688,11 @@ public class Lightsaber : BaseController
         }
     }
 
-
     protected override void UpdateSkill()
     {
         //죽었을 때
         if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-        //이동을 스킵 안함 && 적이 공격 범위 밖에 있을 때 Moving 전환 
+        //이동을 스킵 안함 && 적이 공격 범위 밖에 있을 때 Moving 전환
         if (_NowState != "SkipMove" && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale)
         {
             //애니메이션 Moving으로 변한
@@ -636,7 +720,7 @@ public class Lightsaber : BaseController
                     ground.transform.position = _MovingPos;
 
                     _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(ground.transform, this.transform, 1 << 6);
+                    GameObject effectObj = _cardStats.cardEffect(ground.transform.position, this.name, _pStats.playerArea);
 
                     Destroy(effectObj, _cardStats._effectTime);
                     Destroy(ground, _cardStats._effectTime);
@@ -656,15 +740,53 @@ public class Lightsaber : BaseController
         }
     }
 
-
     protected override void UpdateDie()
     {
-        GetComponent<CapsuleCollider>().enabled = false;
         //스킬 시전 시간동안 키 입력 X
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
+
+        _IsRange = false;
+        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+
+        GetComponent<CapsuleCollider>().enabled = false;
+
+        _SaveRespawnTime += Time.deltaTime;
+
+        _startDie = true;
     }
 
+    protected override void StartDie()
+    {
+        //초기 세팅
+        if (_SaveRespawnTime == default)
+        {
+            //attack Delay start
+            _SaveRespawnTime = 0.01f;
+        }
+
+        if (_SaveRespawnTime != default)
+        {
+            _SaveRespawnTime += Time.deltaTime;
+
+            if (_SaveRespawnTime > 6)
+            {
+                _SaveRespawnTime = default;
+                _startDie = false;
+
+                _state = Define.State.Idle;
+                //리스폰 지역
+                transform.position = respawn.position;
+                //Hp reset
+                _pStats.nowHealth = _pStats.maxHealth;
+
+                GetComponent<CapsuleCollider>().enabled = true;
+
+                Managers.Input.MouseAction += MouseDownAction;
+                Managers.Input.KeyAction += KeyDownAction;
+            }
+        }
+    }
 
     protected override void StopAttack()
     {
@@ -694,12 +816,9 @@ public class Lightsaber : BaseController
                 _SaveAttackSpeed = default;
                 //StopAttack() update문 stop
                 _stopAttack = false;
-
-                //Debug.Log("Attack Ready");
             }
         }
     }
-
 
     protected override void StopSkill()
     {
@@ -710,8 +829,8 @@ public class Lightsaber : BaseController
             _SaveSkillCool = 0.01f;
 
             //스킬 시전 시간동안 키 입력 X
-            Managers.Input.MouseAction = null;
-            Managers.Input.KeyAction = null;
+            Managers.Input.MouseAction -= MouseDownAction;
+            Managers.Input.KeyAction -= KeyDownAction;
         }
 
         //스킬 시전 시간 벌어주는 Delay Start
@@ -740,6 +859,14 @@ public class Lightsaber : BaseController
                 //Debug.Log("스킬 시전 완료");
             }
         }
+    }
+
+    [PunRPC]
+    public void fp_Fire()
+    {
+        bullet = PhotonNetwork.Instantiate("PoliceBullet", _Proj_Parent.position, this.gameObject.transform.rotation);
+        bullet.GetComponent<PlayerProjectile>().pTarget = BaseCard._lockTarget;
+        bullet.GetComponent<PlayerProjectile>().pAttacker = this.gameObject;
     }
 
 }

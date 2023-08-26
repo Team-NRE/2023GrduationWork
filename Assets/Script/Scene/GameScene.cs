@@ -59,13 +59,41 @@ public class GameScene : BaseScene
 		}
 
 		Debug.Log("Instantiate Player");
-		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
+
+		// player summon
+		Vector3 spawnPos = GameObject.Find("CyborgRespawn").transform.position;
+
+		Managers.game.myCharacter = PhotonNetwork.Instantiate(
+			$"Prefabs/InGame/Player/{UI_Select._name}", 
+			spawnPos, 
+			Quaternion.identity
+		);
+
+		GetComponent<PhotonView>().RPC(
+			"SetTeamCharacter",
+			RpcTarget.Others,
+			Managers.game.myCharacter.GetComponent<PhotonView>().ViewID
+		);
 	}
 
 	[PunRPC]
 	public void SyncPlayTime(double time)
 	{
 		Managers.game.startTime = time;
+	}
+
+	[PunRPC]
+	public void SyncPlayerCharacter((int, int) humanPlayerViewID, (int, int) cyborgPlayerViewID)
+	{
+		Managers.game.humanTeamCharacter = (
+			PhotonView.Find(humanPlayerViewID.Item1), 
+			PhotonView.Find(humanPlayerViewID.Item2)
+		);
+
+		Managers.game.cyborgTeamCharacter = (
+			PhotonView.Find(humanPlayerViewID.Item1), 
+			PhotonView.Find(humanPlayerViewID.Item2)
+		);
 	}
 
 	[PunRPC]

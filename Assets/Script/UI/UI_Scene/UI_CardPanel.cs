@@ -52,7 +52,7 @@ public class UI_CardPanel : UI_Card
 
     public override void Init()
     {
-        pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
+        pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
@@ -98,6 +98,12 @@ public class UI_CardPanel : UI_Card
 
     public void Update()
     {
+        if (pStat == null)
+        {
+            pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
+            return;
+        }
+
         if(pStat.nowHealth > 0)
         {
             MouseDownAction();

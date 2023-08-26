@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
+using Photon.Pun;
 
 namespace Stat
 {
     public class PlayerStats : MonoBehaviour
     {
         #region PlayerStats
+        [Header("-- 캐릭 정보 --")]
+        [SerializeField] private string _nickname; // 닉네임
+        [SerializeField] private string _character; // 캐릭터
 
         [Header("-- 공격 --")]
         [SerializeField] private float _basicAttackPower; //평타 공격력
@@ -60,6 +64,10 @@ namespace Stat
         [SerializeField] private float _gold; //돈
 
         #endregion
+
+        // 캐릭 정보
+        public string nickname { get { return _nickname; } set { _nickname = value; } }
+        public string character { get { return _character; } set { _character = value; } }
 
 
         //공격
@@ -221,10 +229,15 @@ namespace Stat
         public float gold { get { return _gold; } set { _gold = value; } }
 
 
-        public void PlayerStatSetting(string type)
+        [PunRPC]
+        public void PlayerStatSetting(string type, string name)
         {
             Dictionary<string, Data.PlayerStat> dict = Managers.Data.PlayerStatDict;
             Data.PlayerStat stat = dict[type];
+
+            // 캐릭 정보
+            nickname = name;
+            character = stat.type;
 
             //공격
             basicAttackPower = stat.basicAttackPower;

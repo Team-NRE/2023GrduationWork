@@ -17,12 +17,19 @@ public class GameManager
     CameraController mainCamera;
     public Vector3 endingCamPos;
     
-    /// 플레이 관련
+    /// 플레이 시간 관련
     public double startTime = 0;
 	public double playTime = 0;
-    private int lastTime = 0;
+
+    /// 팀 킬 수 관련
     public int humanTeamKill = 0;
     public int cyborgTeamKill = 0;
+
+    /// 플레이어 관련
+    public GameObject myCharacter;
+
+    public (PhotonView, PhotonView) humanTeamCharacter;
+    public (PhotonView, PhotonView) cyborgTeamCharacter;
     #endregion
 
     public void OnUpdate()

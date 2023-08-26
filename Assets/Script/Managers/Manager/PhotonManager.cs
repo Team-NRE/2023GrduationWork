@@ -50,6 +50,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 				RpcTarget.Others,
 				Managers.game.startTime
 			);
+
+			pv.RPC(
+				"SyncPlayerCharacter",
+				RpcTarget.Others,
+				(Managers.game.humanTeamCharacter.Item1?.ViewID, Managers.game.humanTeamCharacter.Item2?.ViewID),
+				(Managers.game.cyborgTeamCharacter.Item2?.ViewID, Managers.game.cyborgTeamCharacter.Item2?.ViewID)
+			);
 		}
 	}
 }
