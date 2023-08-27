@@ -3,42 +3,13 @@
     {
       "id": "0",
       "cards": [
-        //Job
         "JobCard_Grenade",
 
-        //0Cost
         "Card_HealthPotion",
         "Card_Enhancement",
         "Card_Speed",
         "Card_Shield",
-        "Card_Crystal",
-        "Card_Armor",
-        "Card_RadiantCrystal",
-        "Card_Purify",
-        "Card_Teleport",
-
-        //1Cost
-        "Card_Spear",
-        "Card_BloodTransfusion",
-        "Card_Infection",
-        "Card_BloodstainedCoin",
-        "Card_IcePrison",
-        "Card_HealthKit",
-        "Card_HackingGrenade",
-
-        //2Cost
-        "Card_Cannon",
-        "Card_Strike",
-        "Card_Lava",
-        "Card_WingsOfTheBattlefield",
-        "Card_AmuletOfSteel",
-
-        //3Cost
-        "Card_Resurrection",
-        "Card_CrisisAversion",
-        "Card_InvincibleShield",
-        "Card_InvincibleWeapon",
-        ""
+        "Card_Crystal"
       ]
     }
   ]

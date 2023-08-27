@@ -277,10 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453c59b45c2c2b14c833a638a04244af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   _attackRange: []
-  respawn: {fileID: 0}
-  bullet: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &7373628033558758772
 MonoBehaviour:
   m_ObjectHideFlags: 0

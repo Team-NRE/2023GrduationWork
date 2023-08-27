@@ -1462,8 +1462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e06b0c894ab834cb3c196d85cd39ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   _attackRange: []
+  target: {fileID: 0}
 --- !u!136 &5173391103442544979
 CapsuleCollider:
   m_ObjectHideFlags: 0

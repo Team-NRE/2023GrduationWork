@@ -8,11 +8,6 @@ using Photon.Pun;
 
 public class Police : BaseController
 {
-    //총알 위치
-    private Transform _Proj_Parent;
-    private GameObject _bullet;
-    public GameObject target;
-
     //UI_Card 접근
     private UI_Card _cardStats;
 
@@ -28,7 +23,6 @@ public class Police : BaseController
 
     //부활 유무
     private bool _isResurrection = false;
-    private bool _isRespawnOK = false;
 
     //범위 넘버 저장
     private int _SaveRangeNum;
@@ -39,15 +33,20 @@ public class Police : BaseController
     private float _SaveHPSCool = default;
     private float _SaveRespawnTime = default;
 
+    //마우스 이벤트 시 무시할 Layer
     private LayerMask ignore;
+
+    //Range Attack의 타겟
+    public GameObject target;
 
     //리스폰
     //public Transform respawn;
     //private Transform saveRespawn;
 
-    //protected BaseProjectile _baseProj;
-    //public GameObject bullet;
-
+    
+    //총알
+    //private Transform _Proj_Parent;
+    //private GameObject _bullet;
     public override void awakeInit()
     {
         //초기화
@@ -64,20 +63,20 @@ public class Police : BaseController
     {
         _state = Define.State.Idle;
 
-        //리스폰 지역
-        //transform.position = respawn.position;
-
         //액션 대리자 호출
         Managers.Input.MouseAction += MouseDownAction;
         Managers.Input.KeyAction += KeyDownAction;
+
+        //리스폰 지역
+        //transform.position = respawn.position;
     }
 
     //start 초기화
     public override void Init()
     {
         //총알 위치
-        _Proj_Parent = this.transform.GetChild(2);
-        _bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
+        //_Proj_Parent = this.transform.GetChild(2);
+        //_bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
 
         //Range List Setting
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -605,7 +604,6 @@ public class Police : BaseController
         }
     }
 
-    [PunRPC]
     protected override void UpdateAttack()
     {
         //죽었을 때
@@ -640,6 +638,7 @@ public class Police : BaseController
                         case "LongRange":
                             if (BaseCard._lockTarget != null)
                             {
+                                /*
                                 //Shoot
                                 GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
                                 nowBullet.GetComponent<RangedBullet>().BulletSetting(
@@ -648,6 +647,7 @@ public class Police : BaseController
                                         _pStats.speed,
                                         _pStats.basicAttackPower
                                     );
+                                */
                             }
                             break;
 
@@ -768,13 +768,12 @@ public class Police : BaseController
         {
             //attack Delay start
             _SaveRespawnTime = 0.01f;
-
-            _isRespawnOK = false;
         }
 
         if (_SaveRespawnTime != default)
         {
             _SaveRespawnTime += Time.deltaTime;
+
 
             //부활 없을 시 (6 -> 부활 시간 임의로 정함) 
             if (_SaveRespawnTime >= 6.0f && _isResurrection == false)
@@ -792,6 +791,7 @@ public class Police : BaseController
                 Managers.Input.MouseAction += MouseDownAction;
                 Managers.Input.KeyAction += KeyDownAction;
             }
+
 
             //부활 있을 시
             if (_SaveRespawnTime >= 3.0f && _isResurrection == true)

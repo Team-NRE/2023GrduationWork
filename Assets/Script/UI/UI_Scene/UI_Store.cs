@@ -11,8 +11,9 @@ public class UI_Store : UI_Popup
     public enum StoreUI
     {
         store,
+        /*
         strengthen,
-        deck,
+        deck,*/
     }
 
     public override void Init()
@@ -30,8 +31,8 @@ public class UI_Store : UI_Popup
     public void storeActive()
     {
         store.SetActive(true);
-        strengthen.SetActive(false);
-        deck.SetActive(false);
+        //strengthen.SetActive(false);
+        //deck.SetActive(false);
     }
 
     public void strengthenActive()

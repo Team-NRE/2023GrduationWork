@@ -2202,15 +2202,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6606645644615060171}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ecc8eb863f2a7b46a390da7dfc0fc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   _attackRange: []
-  respawn: {fileID: 0}
-  bullet: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &6606645644615060180
 MonoBehaviour:
   m_ObjectHideFlags: 0

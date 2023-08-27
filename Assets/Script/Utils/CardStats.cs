@@ -38,7 +38,7 @@ namespace Stat
         }
 
 
-
+        /*
         //���⼭ Dictionary�� ������ �̸��� ��ȯ
         public string FindCardName(string pickCard)
         {
@@ -61,6 +61,6 @@ namespace Stat
                 return card.cardType;
             else
                 return null;
-        }
+        }*/
     }
 }
