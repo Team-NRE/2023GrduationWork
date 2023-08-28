@@ -61,7 +61,7 @@ public class Police : BaseController
 
         //스텟 호출
         _pType = Define.PlayerType.Police;
-        _pStats.PlayerStatSetting(_pType);
+        _pStats.PlayerStatSetting(_pType.ToString());
 
         //총알 위치
         _Proj_Parent = this.transform.GetChild(2);

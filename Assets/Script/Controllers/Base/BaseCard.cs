@@ -107,7 +107,7 @@ public static class BaseCard
         string ChoiseCard = _initDeck[rand];
 
         Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
-        
+
         //뽑은 카드 덱에서 삭제
         _initDeck.RemoveAt(rand);
 
