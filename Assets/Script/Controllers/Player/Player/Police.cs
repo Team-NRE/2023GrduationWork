@@ -15,7 +15,6 @@ public class Police : BaseController
     private GameObject _netBullet;
     //UI_Card 접근
     private UI_Card _cardStats;
-    private bool _isResurrection;
 
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
@@ -27,14 +26,19 @@ public class Police : BaseController
     private bool _IsTarget = false;
     private bool _IsRange = false;
 
+    //부활 유무
+    private bool _isResurrection = false;
+
     //범위 넘버 저장
     private int _SaveRangeNum;
 
-
-    //평타/스킬 쿨타임
+    //평타/스킬/스텟 쿨타임
     private float _SaveAttackSpeed = default;
     private float _SaveSkillCool = default;
+    private float _SaveHPSCool = default;
+    private float _SaveRespawnTime = default;
 
+    //마우스 이벤트 시 무시할 Layer
     private LayerMask ignore;
 
     public void OnEnable()
@@ -43,12 +47,12 @@ public class Police : BaseController
         _state = Define.State.Idle;
 
         //액션 대리자 호출
-        Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
-    }
 
+        //리스폰 지역
+        //transform.position = respawn.position;
+    }
 
     //start 초기화
     public override void Init()
@@ -64,10 +68,10 @@ public class Police : BaseController
         _pStats.PlayerStatSetting(_pType.ToString());
 
         //총알 위치
-        _Proj_Parent = this.transform.GetChild(2);
-        _bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
+        //_Proj_Parent = this.transform.GetChild(2);
+        //_bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
 
-        //Range List Setting 
+        //Range List Setting
         GetComponentInChildren<SplatManager>().enabled = false;
         GameObject[] loadAttackRange = Resources.LoadAll<GameObject>("Prefabs/AttackRange");
         foreach (GameObject attackRange in loadAttackRange)
@@ -89,7 +93,6 @@ public class Police : BaseController
         //마우스 이벤트 시 무시할 레이어
         ignore = LayerMask.GetMask("Default", "Ignore Raycast");
     }
-
 
     //Mouse event
     private void MouseDownAction(Define.MouseEvent evt)
@@ -161,7 +164,6 @@ public class Police : BaseController
                                 break;
                         }
                     }
-
                     //Range Off일 때 아무일도 없음.
                     else
                     {
@@ -172,9 +174,7 @@ public class Police : BaseController
                     break;
             }
         }
-
     }
-
 
     //마우스 좌표 대상에 따른 State 변환
     private void MouseClickState(Define.MouseEvent evt, Vector3 mousePos = default, GameObject lockTarget = null)
@@ -204,7 +204,7 @@ public class Police : BaseController
                     break;
 
                 case Define.MouseEvent.LeftButton:
-                    if(RangeAttack() != null)
+                    if (RangeAttack() != null)
                     {
                         //좌표 설정
                         _MovingPos = RangeAttack().transform.position;
@@ -216,7 +216,6 @@ public class Police : BaseController
 
                     break;
             }
-
         }
 
         //적 or 중앙 obj 클릭 시
@@ -251,11 +250,10 @@ public class Police : BaseController
         }
     }
 
-
     //Key event
     private void KeyDownAction(Define.KeyboardEvent _key)
     {
-        //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기 
+        //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
 
         //키보드 입력 시
@@ -302,15 +300,13 @@ public class Police : BaseController
 
                 break;
         }
-
     }
-
 
     //키 누를시 상태 전환
     private void KeyPushState(string Keyname)
     {
         //스킬 사거리 표시 On/Off 관리
-        //이전 키와 같은 키를 눌렀을 경우 
+        //이전 키와 같은 키를 눌렀을 경우
         if (Keyname != "MouseRightButton" && Keyname == BaseCard._NowKey)
         {
             //사거리 On/Off 관리
@@ -353,7 +349,7 @@ public class Police : BaseController
                 //카드의 Range 타입에 따른 세팅 변환
                 switch (_cardStats._rangeType)
                 {
-                    //활 모양 Range 
+                    //활 모양 Range
                     case "Arrow":
                         //번호 저장
                         _SaveRangeNum = 0;
@@ -521,9 +517,7 @@ public class Police : BaseController
                     projector.orthographicSize = _pStats.attackRange;
                 }
             }
-
         }
-
     }
 
     protected override GameObject RangeAttack()
@@ -533,29 +527,55 @@ public class Police : BaseController
 
         Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
 
-        foreach(Collider col in cols)
+        foreach (Collider col in cols)
         {
             float Distance = Vector3.Distance(col.transform.position, transform.position);
-            if(Distance <= _pStats.attackRange && Distance < dist)
+            if (Distance <= _pStats.attackRange && Distance < dist)
             {
                 dist = Distance;
                 target = col.gameObject;
             }
         }
-        
+
         return target;
+    }
+
+    //상시로 바뀌는 플레이어 스텟 
+    protected override void UpdatePlayerStat()
+    {
+        //초기 세팅
+        if (_SaveHPSCool == default)
+        {
+            _SaveHPSCool = 0.01f;
+        }
+
+        if (_SaveHPSCool != default)
+        {
+            _SaveHPSCool += Time.deltaTime;
+
+            if (_SaveHPSCool >= 1)
+            {
+                //피 회복
+                _pStats.nowHealth += _pStats.healthRegeneration;
+
+                //attackDelay 초기화
+                _SaveHPSCool = default;
+            }
+        }
+
     }
 
     protected override void UpdateIdle()
     {
-        if (_agent.remainingDistance < 0.2f)
+        //죽었을 때
+        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
+
+        //살았을 때
+        if (_pStats.nowHealth > 0 && _agent.remainingDistance < 0.2f)
         {
             State = Define.State.Idle;
         }
-
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
     }
-
 
     protected override void UpdateMoving()
     {
@@ -606,25 +626,28 @@ public class Police : BaseController
     {
         //죽었을 때
         if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-        //적이 공격 범위 밖에 있을 때 Moving 전환
-        if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats.attackRange)
-        {
-            //애니메이션 Moving으로 변한
-            State = Define.State.Moving;
-            //현재 상태는 Attack -> Moving에서 Attack으로 와야함.
-            _NowState = "Attack";
 
-            return;
-        }
-
-        //적이 공격 범위 안에 있을 때
-        else
+        //살았을 때
+        if (_pStats.nowHealth > 0)
         {
-            if (_stopAttack == false)
+            //적이 공격 범위 밖에 있을 때 Moving 전환
+            if (Vector3.Distance(this.transform.position, _MovingPos) > _pStats.attackRange)
             {
-                //Range Off
-                _IsRange = false;
-                _attackRange[_SaveRangeNum].SetActive(_IsRange);
+                //애니메이션 Moving으로 변한
+                State = Define.State.Moving;
+                //현재 상태는 Attack -> Moving에서 Attack으로 와야함.
+                _NowState = "Attack";
+
+                return;
+            }
+            //적이 공격 범위 안에 있을 때
+            else
+            {
+                if (_stopAttack == false)
+                {
+                    //Range Off
+                    _IsRange = false;
+                    _attackRange[_SaveRangeNum].SetActive(_IsRange);
 
                 //플레이어 평타 타입에 따른 변환
                 //원거리일시
@@ -643,57 +666,64 @@ public class Police : BaseController
                         }
                         break;
 
-                    case "ShortRange":
-                        Debug.Log("근접 공격");
+                        case "ShortRange":
+                            Debug.Log("근접 공격");
 
-                        break;
+                            break;
 
-                    default:
-                        Debug.Log("평타 불가");
+                        default:
+                            Debug.Log("평타 불가");
 
-                        break;
+                            break;
+                    }
+
+                    //타겟을 향해 회전 및 멈추기
+                    transform.rotation = Quaternion.LookRotation(
+                        Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position
+                    );
+                    _agent.ResetPath();
+
+                    //평타 쿨타임
+                    _stopAttack = true;
+
+                    //애니메이션 Idle로 변환
+                    State = Define.State.Idle;
+
+                    return;
                 }
-
-                //타겟을 향해 회전 및 멈추기
-                transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
-                _agent.ResetPath();
-
-                //평타 쿨타임
-                _stopAttack = true;
-
-                //애니메이션 Idle로 변환
-                State = Define.State.Idle;
-
-                return;
             }
         }
     }
-
 
     protected override void UpdateSkill()
     {
         //죽었을 때
         if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-        //이동을 스킵 안함 && 적이 공격 범위 밖에 있을 때 Moving 전환 
-        if (_NowState != "SkipMove" && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale)
-        {
-            //애니메이션 Moving으로 변한
-            State = Define.State.Moving;
-            //현재 상태는 Skill -> Moving에서 Skill로 와야함.
-            _NowState = "Skill";
-            return;
-        }
 
-        else
+        //살았을 때
+        if (_pStats.nowHealth > 0)
         {
-            if (_stopSkill == false)
+            //이동을 스킵 안함  
+            if (_NowState != "SkipMove" && Vector3.Distance(this.transform.position, _MovingPos) > _cardStats._rangeScale)
             {
-                //Range Off
-                _IsRange = false;
-                if (_cardStats._rangeType != "None")
+                //애니메이션 Moving으로 변한
+                State = Define.State.Moving;
+                //현재 상태는 Skill -> Moving에서 Skill로 와야함.
+                _NowState = "Skill";
+
+                return;
+            }
+
+            else
+            {
+                if (_stopSkill == false)
                 {
-                    _attackRange[_SaveRangeNum].SetActive(_IsRange);
-                }
+                    //Range Off
+                    _IsRange = false;
+                    if (_cardStats._rangeType != "None")
+                    {
+                        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+                    }
 
                 if (_MovingPos != default)
                 {
@@ -720,17 +750,18 @@ public class Police : BaseController
                 //스킬 쿨타임
                 _stopSkill = true;
 
-                State = Define.State.Idle;
+                    State = Define.State.Idle;
 
-                return;
+                    return;
+                }
             }
         }
     }
 
-
     protected override void UpdateDie()
     {
-        GetComponent<CapsuleCollider>().enabled = false;
+        _startDie = true;
+        
         //스킬 시전 시간동안 키 입력 X
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
@@ -738,9 +769,66 @@ public class Police : BaseController
         _IsRange = false;
         _attackRange[_SaveRangeNum].SetActive(_IsRange);
 
-        this.enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
+
+        _SaveRespawnTime += Time.deltaTime;
+
     }
 
+    protected override void StartDie()
+    {
+        //초기 세팅
+        if (_SaveRespawnTime == default)
+        {
+            //attack Delay start
+            _SaveRespawnTime = 0.01f;
+        }
+
+        if (_SaveRespawnTime != default)
+        {
+            _SaveRespawnTime += Time.deltaTime;
+
+
+            //부활 없을 시 (6 -> 부활 시간 임의로 정함) 
+            if (_SaveRespawnTime >= 6.0f && _isResurrection == false)
+            {
+                //리스폰 지역
+                //transform.position = respawn.position;
+                //Hp reset
+                _pStats.nowHealth = _pStats.maxHealth;
+
+                //Respawn
+                _startDie = false;
+                _SaveRespawnTime = default;
+                _state = Define.State.Idle;
+                GetComponent<CapsuleCollider>().enabled = true;
+                Managers.Input.MouseAction += MouseDownAction;
+                Managers.Input.KeyAction += KeyDownAction;
+            }
+
+
+            //부활 있을 시
+            if (_SaveRespawnTime >= 3.0f && _isResurrection == true)
+            {
+                //HP 70% back
+                _pStats.nowHealth = _pStats.maxHealth / 100 * 70;
+
+                //부활권 삭제
+                _isResurrection = false;
+                GameObject Resurrection = transform.Find("Effect_Resurrection").gameObject;
+                Destroy(Resurrection);
+
+                //Respawn
+                _startDie = false;
+                _SaveRespawnTime = default;
+                _state = Define.State.Idle;
+                GetComponent<CapsuleCollider>().enabled = true;
+                Managers.Input.MouseAction += MouseDownAction;
+                Managers.Input.KeyAction += KeyDownAction;
+            }
+
+        }
+    }
 
     protected override void StopAttack()
     {
@@ -773,7 +861,6 @@ public class Police : BaseController
             }
         }
     }
-
 
     protected override void StopSkill()
     {

@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using Stat;
 using Photon.Pun;
@@ -8,6 +9,8 @@ public class RangedBullet : MonoBehaviour
     //[SerializeField]
     //Transform _Target;
     GameObject _target;
+    [SerializeField]
+    Transform _Target;
     [SerializeField]
     Vector3 _TargetPos;
 
@@ -20,6 +23,11 @@ public class RangedBullet : MonoBehaviour
 
     public void Update()
     {
+        if (_Target == null)
+        {
+            Destroy(this.gameObject);
+        }
+
         FollowTarget();
         HitDetection();
     }
