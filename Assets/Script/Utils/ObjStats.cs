@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
+using Photon.Pun;
 //using UnityEditor.Animations;
 
 namespace Stat
@@ -122,6 +123,22 @@ namespace Stat
 
             gold = stat.gold;
             experience = stat.experience;
+        }
+
+        [PunRPC]
+        public void photonStatSet(string statName, float value)
+        {
+            if (statName == "basicAttackPower")     basicAttackPower    += value;
+            if (statName == "attackSpeed")          attackSpeed         += value;
+            if (statName == "attackRange")          attackRange         += value;
+            if (statName == "recognitionRange")     recognitionRange    += value;
+            if (statName == "maxHealth")            maxHealth           += value;
+            if (statName == "nowHealth")            nowHealth           += value;
+            if (statName == "defensePower")         defensePower        += value;
+            if (statName == "nowBattery")           nowBattery          += value;
+            if (statName == "gold")                 gold                += value;
+            if (statName == "experience")           experience          += value;
+            if (statName == "speed")                speed               += value;
         }
     }
 }

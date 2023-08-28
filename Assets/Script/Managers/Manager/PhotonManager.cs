@@ -34,17 +34,22 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 		Debug.Log("On Joined Lobby");
 		//base.OnJoinedLobby();
 	}
-
-	public override void OnJoinedRoom()
-	{
-		Debug.Log("Joined a room!");
-		//base.OnJoinedRoom();
-		SceneManager.LoadScene("View Test Scene");
-	}
-
+	
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		Debug.Log("A new player has entered the room!");
 		base.OnPlayerEnteredRoom(newPlayer);
+
+		// 다른 클라이언트로 보낼 값들 처리
+		if (PhotonNetwork.IsMasterClient)
+		{
+			PhotonView pv = PhotonView.Get(GameObject.Find("GameScene"));
+
+			pv.RPC(
+				"SyncPlayTime",
+				RpcTarget.Others,
+				Managers.game.startTime
+			);
+		}
 	}
 }

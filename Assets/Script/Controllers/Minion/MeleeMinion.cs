@@ -11,12 +11,14 @@ public class MeleeMinion : Minion
     public override void init()
     {
         base.init();
-        _type = ObjectType.Melee;
+        _type = ObjectType.MeleeMinion;
     }
 
-    [PunRPC]
     public override void Attack()
     {
+        base.Attack();
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (_targetEnemyTransform == null) return;
 
         //타겟이 적 Player일 시
@@ -27,8 +29,13 @@ public class MeleeMinion : Minion
         }
         else
         {
-            ObjStats _Stats = _targetEnemyTransform.GetComponent<ObjStats>();
-            _Stats.nowHealth -= _oStats.basicAttackPower;
+            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
+            targetPV.RPC(
+                "photonStatSet",
+                RpcTarget.All,
+                "nowHealth",
+                -_oStats.basicAttackPower
+            );
         }
     }
 }

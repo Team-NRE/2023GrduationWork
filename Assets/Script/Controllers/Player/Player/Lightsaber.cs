@@ -38,15 +38,6 @@ public class Lightsaber : BaseController
 
     //Range Attack의 타겟
     public GameObject target;
-
-    //리스폰
-    //public Transform respawn;
-    //private Transform saveRespawn;
-
-
-    //총알
-    //private Transform _Proj_Parent;
-    //private GameObject _bullet;
     public override void awakeInit()
     {
         //초기화

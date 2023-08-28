@@ -44,8 +44,16 @@ MonoBehaviour:
   - BasicAttack
   - SpecialAttack
   - Attack
-  - fp_Fire
-  - UpdateAttack
+  - BulletSetting
+  - photonStatSet
+  - SummonEnergyRelease
+  - SummonMissile
+  - SyncPlayTime
+  - KillEvent
+  - SetProjectile
+  - FollowTarget
+  - HitDetection
+  - RemoteLog
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

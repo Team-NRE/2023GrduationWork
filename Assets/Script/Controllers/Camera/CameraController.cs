@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class CameraController : BaseController
     //건물 투명화
     public GameObject RendererGameobject;
     public List<GameObject> SaveRendererModel;
+    private GameObject player;
 
     //Renderer 여부
     public bool IsRenderer = true;
@@ -26,6 +28,43 @@ public class CameraController : BaseController
     public Color invisibleColor;
 
     LayerMask ignore;
+
+    public void Start()
+    {
+        StartCoroutine("GetPlayer");
+    }
+
+    IEnumerator GetPlayer()
+    {
+        yield return new WaitForSeconds(2.5f);
+        //Debug.Log("GetPlayer");
+        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
+        foreach (GameObject p in p_Container)
+        {
+            _pv = p.GetComponent<PhotonView>();
+            if (_pv.IsMine)
+            {
+                player = p;
+                break;
+            }
+        }
+        p_Position = player.transform;
+
+        //초기 값 세팅
+        planescale_X = 80; // -80 < X < 80
+        planescale_Z = -4; // -28 < Z < 20 / +24
+        Cam_Y = 9;
+        Cam_Z = 6;
+
+
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+
+        //player = GameObject.FindWithTag("PLAYER");
+        //p_Position = player.transform;
+    }
 
     public override void Init()
     {
@@ -39,14 +78,20 @@ public class CameraController : BaseController
         Managers.Input.MouseAction += MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
-        
-        p_Position = GameObject.FindGameObjectWithTag("PLAYER").transform;
+
+        p_Position = GameObject.FindGameObjectWithTag("PLAYER")?.transform;
 
         ignore = LayerMask.GetMask("Human", "Cyborg");
     }
 
     void Update()
     {
+        if (p_Position == null)
+        {
+            p_Position = GameObject.FindGameObjectWithTag("PLAYER")?.transform;
+            return;
+        }
+
         //건물 불투명화
         if (IsRenderer == true) re_Renderer();
         //건물 투명화
@@ -56,6 +101,12 @@ public class CameraController : BaseController
 
     private void LateUpdate()
     {
+        if (p_Position == null)
+        {
+            p_Position = GameObject.FindGameObjectWithTag("PLAYER")?.transform;
+            return;
+        }
+        
         switch (_cameraMode)
         {
             case Define.CameraMode.QuaterView:
@@ -121,7 +172,7 @@ public class CameraController : BaseController
     {
         for (int i = 0; i < SaveRendererModel.Count; i++)
         {
-            if(SaveRendererModel[i].tag != "OBJECT" || SaveRendererModel[i].tag != "PLAYER")
+            if (SaveRendererModel[i].tag != "OBJECT" || SaveRendererModel[i].tag != "PLAYER")
             {
                 Material Mat = SaveRendererModel[i].GetComponent<Renderer>().material;
                 Mat.SetFloat("_Mode", 0);
@@ -163,7 +214,7 @@ public class CameraController : BaseController
         if (Physics.Raycast(transform.position, Direction, out hit, Distance, layerMask))
         {
             RendererGameobject = hit.collider.gameObject;
-            
+
             // 2.맞았으면 Renderer를 얻어온다.
             Renderer ObstacleRenderer = RendererGameobject.GetComponent<Renderer>();
 

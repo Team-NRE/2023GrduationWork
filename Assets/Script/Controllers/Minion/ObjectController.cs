@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
-using TMPro;
+
+using Photon.Pun;
 
 [RequireComponent(typeof(ObjStats))]
 
@@ -37,7 +38,6 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Awake()
     {
-        //이게 여기서 돌아가면 안됌, 오브젝트 풀링이 사라졌기 때문
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
@@ -65,7 +65,9 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Update()
     {
-        UpdateInRangeEnemyObjectTransform();
+        if (!PhotonNetwork.IsMasterClient) return;
+        
+        UpdateInRangeEnemyObjectTransform_OverlapSphere();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -75,6 +77,8 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     protected void ExecuteObjectAnim()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
         switch (_action)
         {
             case ObjectAction.Attack:
@@ -105,26 +109,28 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 공격 코드 함수
     /// </summary>
-    public virtual void Attack() { }
+    public virtual void Attack() {if (!PhotonNetwork.IsMasterClient) return; }
     /// <summary>
     /// 죽음 코드 함수
     /// </summary>
-    public virtual void Death() { }
+    public virtual void Death() {if (!PhotonNetwork.IsMasterClient) return; }
     /// <summary>
     /// 이동 코드 함수
     /// </summary>
-    public virtual void Move() { }
+    public virtual void Move() {if (!PhotonNetwork.IsMasterClient) return; }
 
     /// <summary>
     /// 오브젝트 상태 전이 코드
     /// </summary>
-    protected virtual void UpdateObjectAction() { }
+    protected virtual void UpdateObjectAction() {if (!PhotonNetwork.IsMasterClient) return; }
 
     /// <summary>
     /// 공격 타겟(가장 가까운 적)을 정하는 스크립트 
     /// </summary>
     protected void UpdateInRangeEnemyObjectTransform()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         Transform newTargetPlayer = null, newTargetObject = null;
         float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 
@@ -167,6 +173,8 @@ public abstract class ObjectController : MonoBehaviour
 
     protected void UpdateInRangeEnemyObjectTransform_OverlapSphere()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         Transform newTargetPlayer = null, newTargetObject = null;
         float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 

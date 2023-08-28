@@ -6,27 +6,51 @@ using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UI_Login : UI_Scene
 {
-	public enum Logins
+	TMP_InputField input;
+	InputField tc;
+	public TMP_InputField user;
+	public static string _inputUser;
+	public string inputRc;
+	public static string inputTc;
+
+	public enum LoginText
 	{
 		Title,
 		RoomCode,
+		TeamCode,
+	}
+
+	public enum LoginButtons
+	{
 		Login,
+	}
+
+	public enum InputFields
+	{
+		UserName,
+		RoomCode,
+		TeamNumber,
 	}
 
 	public override void Init()
 	{
-		Bind<Button>(typeof(Logins));
-		GameObject go = GetButton((int)Logins.Login).gameObject;
-		GetButton((int)Logins.Login).gameObject.BindEvent(LoginClick);
-	} 
+		Bind<Button>(typeof(LoginButtons));
+		Bind<InputField>(typeof(InputFields));
+		GameObject go = GetButton((int)LoginButtons.Login).gameObject;
+		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
+	}
 
 	public void LoginClick(PointerEventData data)
 	{
-		InitialRoom();
-		//SceneManager.LoadScene("View Test Scene");
+		_inputUser = user.text;
+		PhotonNetwork.NickName = user.text;
+		Debug.Log(user.text);
+		//InitialRoom();
+		SceneManager.LoadScene("Lobby");
 	}
 
 	public void InitialRoom(string name = "default")
@@ -37,7 +61,7 @@ public class UI_Login : UI_Scene
 		roomOptions.IsOpen = true;
 		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
 		if (PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default) == true)
-			SceneManager.LoadScene("View Test Scene");
+			SceneManager.LoadScene("Lobby");
 		Debug.Log($"your room code is {name}");
 	}
 }

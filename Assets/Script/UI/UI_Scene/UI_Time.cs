@@ -6,34 +6,29 @@ using TMPro;
 
 public class UI_Time : UI_Popup
 {
-    int sec;
-    int min;
-    float time;
+    string sec;
+    string min;
+    double time;
 
     TextMeshProUGUI timeText;
 
     public override void Init()
     {
         timeText = GetComponent<TextMeshProUGUI>();
-        sec = 0;
-        min = 0;
+        sec = "00";
+        min = "00";
     }
 
     public override void UpdateInit()
     {
-        time += Time.deltaTime;
+        time = Managers.game.playTime;
 
-        min = (int)time / 60;
-        sec = ((int)time - min * 60) % 60;
+        min = ((int)time / 60).ToString();
+        sec = ((int)time % 60).ToString();
 
-        if (sec >= 60)
-        {
-            min += 1;
-            sec -= 60;
-        }
-        else
-        {
-            timeText.text = $"{min.ToString()}:{sec.ToString()}";
-        }
+        if (min.Length == 1) min = "0" + min;
+        if (sec.Length == 1) sec = "0" + sec;
+
+        timeText.text = $"{min}:{sec}";
     }
 }

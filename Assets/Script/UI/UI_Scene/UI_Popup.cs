@@ -38,7 +38,7 @@ public class UI_Popup : UI_Scene
 
 
         KDA.SetActive(true);
-        KillLog.SetActive(false);
+        KillLog.SetActive(true);
         Scoreboard.SetActive(false);
         Setting.SetActive(IsSetting);
         Store.SetActive(IsSetting);

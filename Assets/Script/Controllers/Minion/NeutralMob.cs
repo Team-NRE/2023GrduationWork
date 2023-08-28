@@ -6,16 +6,19 @@ using UnityEngine;
 using Stat;
 using Define;
 
+using Photon.Pun;
+
 public class NeutralMob : ObjectController
 {
     [Header ("- Basic Attack")]
-    GameObject bullet;
+    string bullet;
     public Transform[] muzzles;
+    [SerializeField]
     private LineRenderer lineRenderer;
 
     [Header ("- Special Attack")]
-    public GameObject missile;
-    public GameObject EnergyRelease;
+    public string missile;
+    public string energyRelease;
 
     public float _specialAttackCoolingTime = 10;
     public float _specialAttackCoolingTimeNow;
@@ -25,7 +28,9 @@ public class NeutralMob : ObjectController
     public override void init() 
     {
         base.init();
-        bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}MobBullet");
+        bullet =        $"Prefabs/Projectile/{LayerMask.LayerToName(this.gameObject.layer)}MobBullet";
+        missile =       $"Prefabs/Projectile/Missile";
+        energyRelease = $"Prefabs/Projectile/EnergyRelease";
         lineRenderer = GetComponent<LineRenderer>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
         isMachineGun = false;
@@ -34,12 +39,38 @@ public class NeutralMob : ObjectController
     }
 
     private void FixedUpdate() {
+        if (lineRenderer != null)
+        {
+            if (_targetEnemyTransform != null)
+            {
+                if (isMachineGun) lineRenderer.positionCount = 0;
+                else 
+                {
+                    lineRenderer.positionCount = 2;
+
+                    lineRenderer.startWidth = .125f;
+                    lineRenderer.endWidth = .25f;
+
+                    lineRenderer.SetPosition(0, muzzles[2].position);
+                    lineRenderer.SetPosition(1, _targetEnemyTransform.position);
+                }
+            }
+            else
+            {
+                lineRenderer.positionCount = 0;
+            }
+        }
+
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (_action == ObjectAction.Attack && _specialAttackCoolingTimeNow > 0)
             _specialAttackCoolingTimeNow -= Time.deltaTime;
     }
 
     public override void Attack()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         base.Attack();
 
         if (_specialAttackCoolingTimeNow > 0) BasicAttack();
@@ -49,6 +80,8 @@ public class NeutralMob : ObjectController
     public override void Death()
     {
         base.Death();
+
+        if (!PhotonNetwork.IsMasterClient) return;
 
         PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
 
@@ -66,6 +99,8 @@ public class NeutralMob : ObjectController
 
     protected override void UpdateObjectAction()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (_oStats.nowHealth <= 0) {
             _action = ObjectAction.Death;
             transform.Find("UI").gameObject.SetActive(false);
@@ -76,23 +111,9 @@ public class NeutralMob : ObjectController
             _action = ObjectAction.Attack;
 
             isMachineGun = (Vector3.Distance(this.transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange);
-
-            if (isMachineGun) lineRenderer.positionCount = 0;
-            else 
-            {
-                lineRenderer.positionCount = 2;
-
-                lineRenderer.startWidth = .125f;
-                lineRenderer.endWidth = .25f;
-
-                lineRenderer.SetPosition(0, muzzles[2].position);
-                lineRenderer.SetPosition(1, _targetEnemyTransform.position);
-            }
         }
         else 
         {
-            lineRenderer.positionCount = 0;
-
             transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
             _action = ObjectAction.Idle;
         }
@@ -113,6 +134,8 @@ public class NeutralMob : ObjectController
 
     private void BasicAttack()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (_targetEnemyTransform == null) return;
 
         if (isMachineGun) MachineGun();
@@ -121,6 +144,8 @@ public class NeutralMob : ObjectController
 
     private void SpecialAttack()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (_targetEnemyTransform == null) return;
 
         int type = Random.Range(0, 2);
@@ -141,15 +166,51 @@ public class NeutralMob : ObjectController
     #region 공격 함수
     private void MachineGun()
     {
-        GameObject nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
-        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[0].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        if (!PhotonNetwork.IsMasterClient) return;
 
-        nowBullet = Instantiate(bullet, this.transform.position, this.transform.rotation);
-        nowBullet.GetComponent<ObjectBullet>().BulletSetting(muzzles[1].position, _targetEnemyTransform, _oStats.attackSpeed, _oStats.basicAttackPower);
+        GameObject nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
+        PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
+        // bulletPv.RPC("BulletSetting",
+        //     RpcTarget.All,
+        //     this.transform.position, 
+        //     _targetEnemyTransform.position, 
+        //     _oStats.attackSpeed, 
+        //     _oStats.basicAttackPower
+        // );
+
+        // nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
+        // bulletPv = nowBullet.GetComponent<PhotonView>();
+        // bulletPv.RPC("BulletSetting",
+        //     RpcTarget.All,
+        //     this.transform.position, 
+        //     _targetEnemyTransform.position, 
+        //     _oStats.attackSpeed, 
+        //     _oStats.basicAttackPower
+        // );
+
+        bulletPv.RPC("BulletSetting", // v2
+            RpcTarget.All,
+            GetComponent<PhotonView>().ViewID, 
+            _targetEnemyTransform.GetComponent<PhotonView>().ViewID, 
+            _oStats.attackSpeed, 
+            _oStats.basicAttackPower
+        );
+
+        nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
+        bulletPv = nowBullet.GetComponent<PhotonView>();
+        bulletPv.RPC("BulletSetting",
+            RpcTarget.All,
+            GetComponent<PhotonView>().ViewID, 
+            _targetEnemyTransform.GetComponent<PhotonView>().ViewID, 
+            _oStats.attackSpeed, 
+            _oStats.basicAttackPower
+        );
     }
 
     private void Laser()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         //타겟이 적 Player일 시
         if (_targetEnemyTransform.tag == "PLAYER")
         {
@@ -158,21 +219,42 @@ public class NeutralMob : ObjectController
         }
         else
         {
-            ObjStats _Stats = _targetEnemyTransform.GetComponent<ObjStats>();
-            _Stats.nowHealth -= _oStats.basicAttackPower;
+            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
+            targetPV.RPC(
+                "photonStatSet",
+                RpcTarget.All,
+                "nowHealth",
+                -_oStats.basicAttackPower
+            );
         }
     }
 
     private void Missile()
     {
-        GameObject SummonedMissile = Instantiate(missile);
-        SummonedMissile.GetComponent<Missile>().SummonMissile(_allObjectTransforms, _targetEnemyTransform.position, _oStats.basicAttackPower, 3.0f);
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        GameObject SummonedMissile = PhotonNetwork.InstantiateRoomObject(missile, this.transform.position, this.transform.rotation);
+        PhotonView missilePv = SummonedMissile.GetComponent<PhotonView>();
+        missilePv.RPC("SummonMissile",
+            RpcTarget.All,
+            _targetEnemyTransform.position, 
+            _oStats.basicAttackPower, 
+            3.0f
+        );
     }
 
     private void Energy()
     {
-        GameObject SummonedEnergyRelease = Instantiate(EnergyRelease);
-        SummonedEnergyRelease.GetComponent<EnergyRelease>().SummonEnergyRelease(_allObjectTransforms, transform, _oStats.basicAttackPower, 5.0f);
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        GameObject SummonedEnergyRelease = PhotonNetwork.InstantiateRoomObject(energyRelease, this.transform.position, this.transform.rotation);
+        PhotonView energyReleasePv = SummonedEnergyRelease.GetComponent<PhotonView>();
+        energyReleasePv.RPC("SummonEnergyRelease",
+            RpcTarget.All,
+            this.transform.position, 
+            _oStats.basicAttackPower, 
+            3.0f
+        );
     }
 }
 #endregion

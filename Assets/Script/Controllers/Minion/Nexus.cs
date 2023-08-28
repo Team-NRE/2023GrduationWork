@@ -7,6 +7,7 @@ using Define;
 
 public class Nexus : ObjectController
 {
+    [SerializeField]
     CameraController mainCamera;
     public Vector3 camPos;
 
@@ -20,6 +21,7 @@ public class Nexus : ObjectController
     public override void Death()
     {
         base.Death();
+
         transform.Find("UI").gameObject.SetActive(false);
         gameFinish();
     }
@@ -32,7 +34,11 @@ public class Nexus : ObjectController
 
     public void disablePlay()
     {
-        GameManager.Instance.setGameEnd(this.transform.position + Vector3.up * mainCamera.Cam_Y + Vector3.back * mainCamera.Cam_Z);
+        Vector3 endingCamPos = this.transform.position;
+        endingCamPos += Vector3.up * mainCamera.Cam_Y;
+        endingCamPos += Vector3.back * mainCamera.Cam_Z;
+
+        Managers.game.setGameEnd(endingCamPos);
     }
 
     public void gameFinish()

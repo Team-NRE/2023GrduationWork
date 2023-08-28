@@ -9,11 +9,13 @@ using Photon.Pun;
 using Photon.Realtime;
 
 [System.Serializable]
-public abstract class BaseController : MonoBehaviour //, IPunObservable
+public abstract class BaseController : MonoBehaviourPun, IPunObservable
 {
     protected PhotonView _pv;
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
+    protected float damping = 10.0f;
+
     private GameObject _player;
 
     //SerializeField = private 변수를 인스펙터에서 설정
@@ -25,15 +27,13 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
 
     //총알 발사 여부
     protected bool _stopAttack = false;
-
     //스킬 발동 여부
     protected bool _stopSkill = false;
     protected bool _startDie = false;
 
-    protected RespawnManager _respawnManager;
-
-    //PlayerStats 참조
+    protected RespawnManager respawnManager;
     public PlayerStats _pStats { get; set; }
+
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
@@ -41,6 +41,7 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
     public State _state { get; protected set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.FloatCamera;
     public Projectile _proj { get; protected set; } = Projectile.Undefine;
+
 
     //State
     public virtual State State
@@ -91,14 +92,10 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
         }
     }
 
-    private void Awake()
+    private void Awake() 
     {
-        awakeInit();
-    }
-
-    private void Start()
-    {   
-        Init();
+        // 팀 분배
+        Init(); 
     }
 
     private void Update()
@@ -125,14 +122,13 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
         {
             RangeAttack();
         }
+        //Debug.Log(State);
 
         //키, 마우스 이벤트 받으면 state가 변환
         switch (State)
         {
             case Define.State.Idle:
-                //if (_pv.IsMine) { UpdateIdle(); }
                 UpdateIdle();
-
                 break;
 
             case Define.State.Die:
@@ -140,13 +136,15 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
                 break;
 
             case Define.State.Moving:
-                UpdateMoving();
+
+                {
+                    UpdateMoving();
+                }
                 break;
 
             case Define.State.Attack:
                 if (_stopAttack == false)
                     UpdateAttack();
-
                 break;
 
             case Define.State.Skill:
@@ -156,32 +154,20 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
         }
     }
 
-    //abstract = 하위 클래스에서 꼭 선언해야함.
-    public virtual void awakeInit() { }
 
+    //abstract = 하위 클래스에서 꼭 선언해야함.
     public abstract void Init();
 
+    public virtual void awakeInit() { }
     protected virtual void UpdateIdle() { }
-
     protected virtual void UpdateMoving() { }
-
     protected virtual void UpdateAttack() { }
-
     protected virtual void UpdateSkill() { }
-
     protected virtual void UpdateDie() { }
-
     protected virtual void UpdatePlayerStat() { }
-
-    protected virtual GameObject RangeAttack()
-    {
-        return null;
-    }
-
+    protected virtual GameObject RangeAttack() { return null; }
     protected virtual void StopAttack() { }
-
     protected virtual void StopSkill() { }
-
     protected virtual void StartDie() { }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -198,7 +184,6 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
             receiveRot = (Quaternion)stream.ReceiveNext();
         }
     }
-
     protected GameObject GetPlayer()
     {
         //yield return new WaitForSeconds(2.5f);
@@ -214,5 +199,38 @@ public abstract class BaseController : MonoBehaviour //, IPunObservable
             }
         }
         return _player;
+    }
+
+    protected int GetRemotePlayerId(GameObject target)
+	{
+        int remoteId = target.GetComponent<PhotonView>().ViewID;
+        return remoteId;
+	}
+
+    protected GameObject GetRemotePlayer(int remoteId)
+	{
+        GameObject target = PhotonView.Find(remoteId)?.gameObject;
+        return target;
+	}
+
+    protected Vector3 GetRemoteVector(int remoteId)
+	{
+        Vector3 targetVector = GetRemotePlayer(remoteId).transform.position;
+        return targetVector;
+	}
+
+    public void MakeTeam(int playerCount, GameObject player)
+    {
+        Debug.Log(playerCount);
+        if (playerCount % 2 == 0)
+        {
+            player.gameObject.layer = LayerMask.NameToLayer("Human");
+            Debug.Log("Human");
+        }
+        else
+        {
+            player.gameObject.layer = LayerMask.NameToLayer("Cyborg");
+            Debug.Log("Cyobrg");
+        }
     }
 }
