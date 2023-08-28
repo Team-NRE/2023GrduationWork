@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1551714212311861883}
   - component: {fileID: 1682145778569522355}
   - component: {fileID: 1683205408920543439}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Purify
   m_TagString: Untagged
   m_Icon: {fileID: 0}

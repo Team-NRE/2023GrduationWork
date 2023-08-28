@@ -5,33 +5,32 @@ using Stat;
 
 public class ShieldStart : MonoBehaviour
 {
-    float defenceTime = 0.01f;
-    Transform _player = null;
-    float _Defence = default;
-    bool stop = false;
+    PlayerStats _pStats;
 
-    void Update()
+    float defence = default;
+    float shield_Time = 0.01f;
+
+    bool start;
+
+    public void StartShield(string _player, float _defence)
     {
-        if (stop == false)
-        {
-            StartShield(_player, _Defence);
-        }
+        _pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        defence = _defence;
+
+        start = true;
     }
 
-    public void StartShield(Transform _Player, float _defence)
+    public void Update()
     {
-        _player = _Player;
-        _Defence = _defence;
-
-        defenceTime += Time.deltaTime;
-
-        if (defenceTime >= 2.0f)
+        if (start == true)
         {
-            PlayerStats _pStats = _player.gameObject.GetComponent<PlayerStats>();
-            _pStats.defensePower -= _Defence;
-            stop = true;
+            shield_Time += Time.deltaTime;
+
+            if (shield_Time >= 1.9f)
+            {
+                _pStats.defensePower -= defence;
+                start = false;
+            }
         }
     }
-
-
 }

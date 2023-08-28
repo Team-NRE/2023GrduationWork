@@ -23,13 +23,13 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected Animator _anim;
     protected NavMeshAgent _agent;
     protected Vector3 _MovingPos;
+    protected string _playerName;
 
     //총알 발사 여부
     protected bool _stopAttack = false;
     //스킬 발동 여부
     protected bool _stopSkill = false;
-
-
+    protected bool _startDie = false;
 
     protected RespawnManager respawnManager;
     public PlayerStats _pStats { get; set; }
@@ -92,7 +92,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void Start() 
+    private void Awake() 
     {
         // 팀 분배
         Init(); 
@@ -100,11 +100,29 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        //Debug.Log(State);
+        if (_startDie == true)
+        {
+            StartDie();
+        }
+        if (_startDie == false)
+        {
+            UpdatePlayerStat();
+        }
 
-        if (_stopAttack == true) { StopAttack(); }
-        if (_stopSkill == true) { StopSkill(); }
-        if (BaseCard._NowKey == "A") { RangeAttack(); }
+        if (_stopSkill == true)
+        {
+            StopSkill();
+        }
+        if (_stopAttack == true)
+        {
+            StopAttack();
+        }
+
+        if (BaseCard._NowKey == "A")
+        {
+            RangeAttack();
+        }
+        //Debug.Log(State);
 
         //키, 마우스 이벤트 받으면 state가 변환
         switch (State)
@@ -140,17 +158,17 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     //abstract = 하위 클래스에서 꼭 선언해야함.
     public abstract void Init();
 
-
+    public virtual void awakeInit() { }
     protected virtual void UpdateIdle() { }
     protected virtual void UpdateMoving() { }
     protected virtual void UpdateAttack() { }
     protected virtual void UpdateSkill() { }
     protected virtual void UpdateDie() { }
-
+    protected virtual void UpdatePlayerStat() { }
     protected virtual GameObject RangeAttack() { return null; }
-
     protected virtual void StopAttack() { }
     protected virtual void StopSkill() { }
+    protected virtual void StartDie() { }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

@@ -4933,7 +4933,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4492071367445813234}
-  - component: {fileID: 8727009197041379433}
+  - component: {fileID: 8780974525847806498}
   m_Layer: 0
   m_Name: Card_WingsOfTheBattlefield
   m_TagString: Untagged
@@ -4967,7 +4967,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8727009197041379433
+--- !u!114 &8780974525847806498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4976,16 +4976,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4492071367445813235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 471adb301d1652c4b9c8571169ab2c6e, type: 3}
+  m_Script: {fileID: 11500000, guid: cbb7750f66eac474daadcc84b40ee23f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
+  _cardBuyCost: 0
   _CastingTime: 0
   _effectTime: 0
   _damage: 0
   _defence: 0
-  _debuff: 0
+  _speed: 0
   _buff: 0
+  _debuff: 0
   _rangeType: 
   _rangeScale: 0
   _rangeRange: 0

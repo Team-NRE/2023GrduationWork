@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5886929291216271603}
   - component: {fileID: 6008679081983383079}
   - component: {fileID: 6009904164464984721}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FireRising
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4890,7 +4890,7 @@ GameObject:
   - component: {fileID: 6008714518470010633}
   - component: {fileID: 6009869490711771921}
   - component: {fileID: 7278869014307501343}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Lava
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9785,7 +9785,7 @@ GameObject:
   - component: {fileID: 5885269475948204275}
   - component: {fileID: 5988926054724968669}
   - component: {fileID: 6009643727902873017}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FireGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14663,7 +14663,7 @@ GameObject:
   - component: {fileID: 5887086906355758899}
   - component: {fileID: 6008688543321384945}
   - component: {fileID: 6009662240631279607}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19554,7 +19554,7 @@ GameObject:
   - component: {fileID: 5886781567574869393}
   - component: {fileID: 6008677127707760243}
   - component: {fileID: 6009826855857146177}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}

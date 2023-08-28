@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9181717081915285334}
   - component: {fileID: 2963364803641229563}
   - component: {fileID: 5907348061070901254}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}

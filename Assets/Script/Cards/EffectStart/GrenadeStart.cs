@@ -5,75 +5,68 @@ using Stat;
 
 public class GrenadeStart : MonoBehaviour
 {
-    ObjStats _Stats;
-    PlayerStats _pStats;
-    PlayerStats _EnemyStats;
+    PlayerStats enemyStats;
 
-
-    Transform Player = null;
-    float Damage = default;
-    float Debuff = default;
-    int Enemylayer = default;
-    float Save = 0;
-    bool IsDebuff = false;
+    GameObject player = null;
+    float damage = default;
+    int enemylayer = default;
+    float debuff = default;
+    
+    float saveMana = 0;
+    bool isDebuff = false;
 
     float time = 0.0f;
 
-    public void StartGrenade(Transform _Player, float _damage, LayerMask _enemylayer, float _debuff = default)
+    public void StartGrenade(string _player, float _damage, int _enemylayer, float _debuff = default)
     {
-        Player = _Player;
-        Damage = _damage;
-        Enemylayer = _enemylayer;
-        Debuff = _debuff;
-    }
-
-    public void Start()
-    {
-        StartGrenade(Player, Damage, Enemylayer, Debuff);
+        player = GameObject.Find(_player);
+        damage = _damage;
+        enemylayer = _enemylayer;
+        debuff = _debuff;
     }
 
     public void Update()
     {
-        if (IsDebuff == true)
+        if (isDebuff == true)
         {
             time += Time.deltaTime;
             ManaRegenBack();
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == Enemylayer)
+        if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
 
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")
             {
-                _Stats = other.gameObject.GetComponent<ObjStats>();
-                _pStats = Player.gameObject.GetComponent<PlayerStats>();
+                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
+                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.5f));
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
 
             //타겟이 적 Player일 시
             if (other.gameObject.tag == "PLAYER")
             {
-                _EnemyStats = other.gameObject.GetComponent<PlayerStats>();
-                _pStats = Player.gameObject.GetComponent<PlayerStats>();
+                enemyStats = other.gameObject.GetComponent<PlayerStats>();
+                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.5f));
-                if (_EnemyStats.nowHealth <= 0) { _pStats.kill += 1; }
-
-
-                if (Debuff != default)
+                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
+                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
+                
+                //HackingGrenade 카드
+                if (debuff != default)
                 {
-                    _EnemyStats.nowState = "Debuff";
+                    enemyStats.nowState = "Debuff";
 
-                    Save = _EnemyStats.manaRegen;
-                    _EnemyStats.manaRegen = 0;
+                    saveMana = enemyStats.manaRegen;
+                    enemyStats.manaRegen = 0;
 
-                    IsDebuff = true;
+                    isDebuff = true;
                 }
             }
         }
@@ -81,12 +74,12 @@ public class GrenadeStart : MonoBehaviour
 
     private void ManaRegenBack()
     {
-        if (time >= Debuff - 0.02f || _EnemyStats.nowState == "Health")
+        if (time >= debuff - 0.02f || enemyStats.nowState == "Health")
         {
-            _EnemyStats.manaRegen = Save;
-            _EnemyStats.nowState = "Health";
+            enemyStats.manaRegen = saveMana;
+            enemyStats.nowState = "Health";
             time = 0;
-            IsDebuff = false;
+            isDebuff = false;
         }
     }
 }

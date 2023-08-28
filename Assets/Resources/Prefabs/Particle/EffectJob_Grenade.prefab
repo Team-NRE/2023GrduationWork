@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 164745639296042733}
   - component: {fileID: 64743866127318087}
   - component: {fileID: 44313905026133999}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4803,7 +4803,7 @@ GameObject:
   - component: {fileID: 168850291163196211}
   - component: {fileID: 43016149435063447}
   - component: {fileID: 43437810864273669}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SmokeClouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9595,7 +9595,7 @@ GameObject:
   - component: {fileID: 168779667488439437}
   - component: {fileID: 64769245165440791}
   - component: {fileID: 44298084228270315}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FireBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14396,7 +14396,7 @@ GameObject:
   - component: {fileID: 168436573005921473}
   - component: {fileID: 43702251195020087}
   - component: {fileID: 44307383102097177}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SmokeCloudsUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19188,7 +19188,7 @@ GameObject:
   - component: {fileID: 164389870298619557}
   - component: {fileID: 43705433448521657}
   - component: {fileID: 44316848684081751}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Nova
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23957,7 +23957,7 @@ GameObject:
   - component: {fileID: 274485474994747685}
   - component: {fileID: 251094741306061337}
   - component: {fileID: 9201814837257186674}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EffectJob_Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28959,7 +28959,7 @@ GameObject:
   - component: {fileID: 164682160076889947}
   - component: {fileID: 64748594275091887}
   - component: {fileID: 44378237920060123}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33770,7 +33770,7 @@ GameObject:
   - component: {fileID: 164593591925407975}
   - component: {fileID: 42981534099021973}
   - component: {fileID: 44989799045654211}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38598,7 +38598,7 @@ GameObject:
   - component: {fileID: 168364840479677991}
   - component: {fileID: 43844240923842953}
   - component: {fileID: 44983373015877333}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

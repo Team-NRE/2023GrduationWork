@@ -373,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5198840370429442947}
-  - component: {fileID: 6859714950098690194}
+  - component: {fileID: 1567084315442344365}
   m_Layer: 0
   m_Name: Card_Resurrection
   m_TagString: Untagged
@@ -407,7 +407,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6859714950098690194
+--- !u!114 &1567084315442344365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,16 +416,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5198840370429442944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d65c127ff8edef4e9dffa6dadb0c061, type: 3}
+  m_Script: {fileID: 11500000, guid: fb8b1d6ca6109f244a8bbe77ec78a0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
+  _cardBuyCost: 0
   _CastingTime: 0
   _effectTime: 0
   _damage: 0
   _defence: 0
-  _debuff: 0
+  _speed: 0
   _buff: 0
+  _debuff: 0
   _rangeType: 
   _rangeScale: 0
   _rangeRange: 0

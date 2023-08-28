@@ -9,14 +9,23 @@ public class UI_Card : UI_Scene
     //카드 비용
     public int _cost;
     public int _cardBuyCost;
+
     //카드 시전 시간
     public float _CastingTime;
+
     //이펙트 발동 시간
-    public float _effectTime; 
+    public float _effectTime;
+
+    
+    //Stat 
     public float _damage;
     public float _defence;
+    public float _speed;
     public float _buff;
-    public float _debuff; 
+    public float _debuff;
+    //부활
+    public bool _IsResurrection;
+
 
     //스킬 범위 타입
     //Arrow = _rangeScale 고정 / Cone = _rangeScale, _rangeAngle / Line = _rangeScale 
@@ -51,12 +60,12 @@ public class UI_Card : UI_Scene
     }
 
 
-    public virtual GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    public virtual GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         return _effectObject;
     }
 
-    public virtual void DestroyCard(GameObject Particle = null, float delay = default)
+    public virtual void DestroyCard(float delay = default)
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }
