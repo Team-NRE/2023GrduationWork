@@ -1,0 +1,16 @@
+{
+  "decks": [
+    {
+      "id": "0",
+      "cards": [
+        "JobCard_Grenade",
+
+        "Card_HealthPotion",
+        "Card_Enhancement",
+        "Card_Speed",
+        "Card_Shield",
+        "Card_Crystal"
+      ]
+    }
+  ]
+}
