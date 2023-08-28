@@ -10,8 +10,6 @@ public class RangedBullet : MonoBehaviour
     //Transform _Target;
     GameObject _target;
     [SerializeField]
-    Transform _Target;
-    [SerializeField]
     Vector3 _TargetPos;
 
     [SerializeField]
@@ -23,7 +21,7 @@ public class RangedBullet : MonoBehaviour
 
     public void Update()
     {
-        if (_Target == null)
+        if (_target == null)
         {
             Destroy(this.gameObject);
         }
@@ -50,7 +48,8 @@ public class RangedBullet : MonoBehaviour
             transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
             transform.LookAt(_TargetPos);
         }
-        Destroy(this.gameObject);
+        if (_target == null)
+            Destroy(this.gameObject);
     }
 
     public void HitDetection()

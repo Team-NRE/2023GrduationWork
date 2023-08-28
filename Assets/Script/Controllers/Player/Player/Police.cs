@@ -68,7 +68,7 @@ public class Police : BaseController
         _pStats.PlayerStatSetting(_pType.ToString());
 
         //총알 위치
-        //_Proj_Parent = this.transform.GetChild(2);
+        _Proj_Parent = this.transform.GetChild(2);
         //_bullet = Managers.Resource.Load<GameObject>($"Prefabs/Projectile/{this.gameObject.name}Bullet");
 
         //Range List Setting
