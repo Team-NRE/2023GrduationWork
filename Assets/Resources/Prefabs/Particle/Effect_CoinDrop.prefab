@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 406676}
   - component: {fileID: 19851814}
   - component: {fileID: 19943898}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 6756857738689723770}
   - component: {fileID: 8232489360466830047}
   - component: {fileID: 6957296337837058355}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Effect_CoinDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5010,7 +5010,7 @@ GameObject:
   - component: {fileID: 421598}
   - component: {fileID: 19813732}
   - component: {fileID: 19921718}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9820,7 +9820,7 @@ GameObject:
   - component: {fileID: 7203602311891486674}
   - component: {fileID: 8577005137234116210}
   - component: {fileID: 1793037553604912638}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9894,7 +9894,7 @@ GameObject:
   - component: {fileID: 4917375577674558534}
   - component: {fileID: 6127487341216774640}
   - component: {fileID: 1612267647185709427}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9995,7 +9995,7 @@ GameObject:
   - component: {fileID: 5613997528367051319}
   - component: {fileID: 3400748500196203224}
   - component: {fileID: 4515247524317778139}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10130,7 +10130,7 @@ GameObject:
   - component: {fileID: 182657067770148413}
   - component: {fileID: 2077756011737188533}
   - component: {fileID: 7560237047976606458}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

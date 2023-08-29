@@ -4,7 +4,7 @@
         "type": "Police",
 
         "basicAttackPower": "80",
-        "attackSpeed" : "0.78",
+        "attackSpeed" : "0.625",
         "attackRange" : "5",
         "attackType" : "LongRange",
 
@@ -14,7 +14,7 @@
 
         "level" : "1",
         "experience" : "0",
-        "levelUpEx" : "0",
+        "levelUpEX" : "50",
         "levelUpAP" : "3.5",
         "levelUpAS" : "0.1",
         "levelUpHP" : "75",
@@ -28,7 +28,7 @@
         "manaRegen" : "4",
         "maxMana" : "3",
 
-        "gold" : "500"
+        "gold" : "9999"
       },
 
       {

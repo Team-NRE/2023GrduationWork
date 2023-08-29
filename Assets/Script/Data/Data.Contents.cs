@@ -87,9 +87,8 @@ namespace Data
     [Serializable]
     public class Card
     {
-        public string name;
-        public string cardType;
-        public float damage;
+        public string cardtype;
+        public List<string> card;
     }
 
     [Serializable]
@@ -163,7 +162,7 @@ namespace Data
             Dictionary<string, Card> dict = new Dictionary<string, Card>();
             foreach (Card card in cards)
             {
-                dict.Add(card.name, card);
+                dict.Add(card.cardtype, card);
                 //Debug.Log(card.name);
                 //Debug.Log(card.damage);
             }

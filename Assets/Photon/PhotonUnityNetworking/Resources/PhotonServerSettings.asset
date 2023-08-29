@@ -53,12 +53,7 @@ MonoBehaviour:
   - SetProjectile
   - FollowTarget
   - HitDetection
-  - fp_Fire
-  - UpdateAttack
-  - SetTeamCharacter
-  - SyncPlayerCharacter
-  - PlayerStatSetting
-  - SyncTeamCharacter
+  - RemoteLog
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -17,21 +17,16 @@ public class GameScene : BaseScene
 		{
 			Managers.game.killEvent(test_attackerID, test_deadUserID);
 			test_isKillEvent = false;
-		}
+		}	
 	}
 
 
 	protected override void Init()
 	{
-		Debug.Log("Inst");
-		
 		SceneType = Define.Scene.Game;
-
 		Managers.UI.ShowSceneUI<UI_Mana>();
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 		Managers.UI.ShowSceneUI<UI_Popup>();
-
-		Managers.game.myCharacterTeam = (PlayerTeam)PhotonNetwork.CurrentRoom.PlayerCount;
 
 		StartCoroutine("ForStupidPhoton");
 	}
@@ -63,41 +58,13 @@ public class GameScene : BaseScene
 		}
 
 		Debug.Log("Instantiate Player");
-
-		// player summon
-		Vector3 spawnPos = GameObject.Find("CyborgRespawn").transform.position;
-
-		Managers.game.myCharacter = PhotonNetwork.Instantiate(
-			$"Prefabs/InGame/Player/{UI_Select._name}", 
-			spawnPos, 
-			Quaternion.identity
-		);
+		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
 	}
 
 	[PunRPC]
 	public void SyncPlayTime(double time)
 	{
 		Managers.game.startTime = time;
-	}
-
-	[PunRPC]
-	public void SyncTeamCharacter(int team, int viewID)
-	{
-		switch ((PlayerTeam) team)
-		{
-			case PlayerTeam.HumanP1:
-				Managers.game.humanTeamCharacter.Item1 = PhotonView.Find(viewID);
-				break;
-			case PlayerTeam.CyborgP1:
-				Managers.game.cyborgTeamCharacter.Item1 = PhotonView.Find(viewID);
-				break;
-			case PlayerTeam.HumanP2:
-				Managers.game.humanTeamCharacter.Item2 = PhotonView.Find(viewID);
-				break;
-			case PlayerTeam.CyborgP2:
-				Managers.game.cyborgTeamCharacter.Item2 = PhotonView.Find(viewID);
-				break;
-		}
 	}
 
 	[PunRPC]

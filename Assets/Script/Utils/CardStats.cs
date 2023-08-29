@@ -39,28 +39,28 @@ namespace Stat
 
 
 
-        //���⼭ Dictionary�� ������ �̸��� ��ȯ
-        public string FindCardName(string pickCard)
-        {
-            Dictionary<string, Data.Card> dict = Managers.Data.CardDict;
-            Data.Card card = dict[pickCard];
+        ////���⼭ Dictionary�� ������ �̸��� ��ȯ
+        //public string FindCardName(string pickCard)
+        //{
+        //    Dictionary<string, Data.Card> dict = Managers.Data.CardDict;
+        //    Data.Card card = dict[pickCard];
 
-            if (pickCard == card.name)
-                return card.name;
-            else
-                return null;
-        }
+        //    if (pickCard == card.name)
+        //        return card.name;
+        //    else
+        //        return null;
+        //}
 
-        //Dictionary�� ������ type�� ��ȯ
-        public string FindCardType(string pickCard)
-        {
-            Dictionary<string, Data.Card> dict = Managers.Data.CardDict;
-            Data.Card card = dict[pickCard];
+        ////Dictionary�� ������ type�� ��ȯ
+        //public string FindCardType(string pickCard)
+        //{
+        //    Dictionary<string, Data.Card> dict = Managers.Data.CardDict;
+        //    Data.Card card = dict[pickCard];
 
-            if (pickCard == card.name)
-                return card.cardType;
-            else
-                return null;
-        }
+        //    if (pickCard == card.name)
+        //        return card.cardType;
+        //    else
+        //        return null;
+        //}
     }
 }

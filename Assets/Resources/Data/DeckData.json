@@ -4,14 +4,12 @@
       "id": "0",
       "cards": [
         "JobCard_Grenade",
-        "Card_Cannon",
-        "Card_HackingGrenade",
-        "Card_InvincibleShield",
-        "Card_InvincibleWeapon",
-        "Card_Lava",
+
+        "Card_HealthPotion",
+        "Card_Enhancement",
+        "Card_Speed",
         "Card_Shield",
-        "Card_Spear",
-        "Card_Purify"
+        "Card_Crystal"
       ]
     }
   ]

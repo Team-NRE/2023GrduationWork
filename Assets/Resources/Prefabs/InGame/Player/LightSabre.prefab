@@ -259,7 +259,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6609838913383328595}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &474447182135543922
 SpriteRenderer:
@@ -503,7 +503,7 @@ RectTransform:
   - {fileID: 474447182184668431}
   - {fileID: 474447182693309777}
   m_Father: {fileID: 6609838913383328595}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1273,7 +1273,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6609838913383328595}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6504105253438951139
 SkinnedMeshRenderer:
@@ -2095,9 +2095,8 @@ GameObject:
   - component: {fileID: 6606645644615060183}
   - component: {fileID: 6606645644615060181}
   - component: {fileID: 6606645644615060180}
-  - component: {fileID: -5012928655004911163}
   m_Layer: 0
-  m_Name: LightSabre
+  m_Name: Lightsaber
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2116,8 +2115,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 474447180866610591}
-  - {fileID: 6609657122729570257}
   - {fileID: 6603926910839445697}
+  - {fileID: 881199529628590093}
+  - {fileID: 6609657122729570257}
   - {fileID: 474447182972633479}
   - {fileID: 474447182135543924}
   m_Father: {fileID: 0}
@@ -2202,15 +2202,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6606645644615060171}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ecc8eb863f2a7b46a390da7dfc0fc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   _attackRange: []
-  respawn: {fileID: 0}
-  bullet: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &6606645644615060180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2223,8 +2221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nickname: 
-  _character: 
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackDelay: 0
@@ -2252,28 +2248,6 @@ MonoBehaviour:
   _manaRegen: 0
   _maxMana: 0
   _gold: 0
---- !u!114 &-5012928655004911163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6606645644615060171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &6606646366637170679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,7 +2342,7 @@ Transform:
   m_Children:
   - {fileID: 6609912041513092075}
   m_Father: {fileID: 6609838913383328595}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6606690926430477877
 GameObject:
@@ -2496,6 +2470,37 @@ Transform:
   - {fileID: 6609773386956632057}
   m_Father: {fileID: 6609912041513092075}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8058943499021682223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 881199529628590093}
+  m_Layer: 0
+  m_Name: Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &881199529628590093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058943499021682223}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.13000011, y: 1.4, z: 0.8000002}
+  m_LocalScale: {x: 0.010000001, y: 0.010000001, z: 0.010000001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6609838913383328595}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &474447181796696074
 PrefabInstance:
