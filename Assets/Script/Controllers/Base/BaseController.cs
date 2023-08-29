@@ -23,7 +23,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected Animator _anim;
     protected NavMeshAgent _agent;
     protected Vector3 _MovingPos;
-    protected string _playerName;
+    protected PlayerType _playerType;
 
     //총알 발사 여부
     protected bool _stopAttack = false;

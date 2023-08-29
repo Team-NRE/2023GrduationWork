@@ -508,7 +508,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1459980887461885285}
-  - component: {fileID: 6616434887131906295}
+  - component: {fileID: 1596665206591489380}
   m_Layer: 0
   m_Name: Card_HackingGrenade
   m_TagString: Untagged
@@ -543,7 +543,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6616434887131906295
+--- !u!114 &1596665206591489380
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1459980887461885284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72e5100c57a81e44f915c9fd1eb46077, type: 3}
+  m_Script: {fileID: 11500000, guid: d3888485a07cb2e43b6968070ada4d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
@@ -561,6 +561,7 @@ MonoBehaviour:
   _effectTime: 0
   _damage: 0
   _defence: 0
+  _speed: 0
   _buff: 0
   _debuff: 0
   _rangeType: 

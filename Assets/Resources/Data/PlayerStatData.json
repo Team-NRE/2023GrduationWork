@@ -25,9 +25,6 @@
         
         "nowState" : "Health",
 
-        "playerArea" : "6",
-        "enemyArea" : "7",
-
         "manaRegen" : "4",
         "maxMana" : "3",
 
@@ -35,7 +32,7 @@
       },
 
       {
-        "type": "Firefight",
+        "type": "Firefighter",
 
         "basicAttackPower": "67",
         "attackSpeed" : "0.64",
@@ -58,9 +55,6 @@
         "speed" : "4",
         
         "nowState" : "Health",
-
-        "playerArea" : "6",
-        "enemyArea" : "7",
 
         "manaRegen" : "4",
         "maxMana" : "3",
@@ -93,9 +87,6 @@
         
         "nowState" : "Health",
 
-        "playerArea" : "7",
-        "enemyArea" : "6",
-
         "manaRegen" : "4",
         "maxMana" : "3",
 
@@ -126,9 +117,6 @@
         "speed" : "4",
         
         "nowState" : "Health",
-
-        "playerArea" : "7",
-        "enemyArea" : "6",
 
         "manaRegen" : "4",
         "maxMana" : "3",

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Stat;
+using Photon.Pun;
 
 public class UI_Scoreboard : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class UI_Scoreboard : MonoBehaviour
     PlayerStats cyborgP1Stats, cyborgP2Stats;
     #endregion
 
-    private void Awake()
+    private void OnEnable()
     {
         GetPlayerStats();
         SetIcon();
@@ -119,7 +120,9 @@ public class UI_Scoreboard : MonoBehaviour
     {
         if (player == null) return null;
 
-        string iconName = $"{player.playerArea}Icon_{player.character}";
+        string iconName = $"Icon_{player.character}";
+
+        Debug.Log(iconName);
 
         for (int i=0; i<icons.Length; i++)
         {

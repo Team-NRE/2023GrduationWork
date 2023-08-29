@@ -11,6 +11,9 @@ using Photon.Pun;
 public class GameManager
 {
     #region Variable
+    /// 유저 정보 관련
+    public string nickname;
+
     /// 게임 엔딩 관련
     public bool isGameEnd {get; set;}
 
@@ -27,6 +30,7 @@ public class GameManager
 
     /// 플레이어 관련
     public GameObject myCharacter;
+    public PlayerTeam myCharacterTeam;
 
     public (PhotonView, PhotonView) humanTeamCharacter;
     public (PhotonView, PhotonView) cyborgTeamCharacter;

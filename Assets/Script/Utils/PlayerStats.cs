@@ -271,8 +271,8 @@ namespace Stat
             nowState = stat.nowState;
 
             //진영
-            playerArea = stat.playerArea;
-            enemyArea = stat.enemyArea;
+            playerArea = ((int)Managers.game.myCharacterTeam % 2 == 1 ? (int)Layer.Human : (int)Layer.Cyborg);
+            enemyArea  = ((int)Managers.game.myCharacterTeam % 2 == 1 ? (int)Layer.Cyborg : (int)Layer.Human);
 
             //마나
             nowMana = 0; //현재 마나

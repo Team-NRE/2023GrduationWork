@@ -70,7 +70,7 @@ public class RespawnManager : MonoBehaviour
 
                 break;
 
-            case Define.PlayerType.Firefight:
+            case Define.PlayerType.Firefighter:
                 Player =  GameObject.Find("Firefight");
                 pStat = Player.GetComponent<PlayerStats>();
                 RespawnPos = HumanRespawn;

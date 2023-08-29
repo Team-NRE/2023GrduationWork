@@ -74,7 +74,7 @@ public class store : UI_Store
 
                 break;
 
-            case Define.PlayerType.Firefight:
+            case Define.PlayerType.Firefighter:
                 pStat = GameObject.Find("Firefight").GetComponent<PlayerStats>();
 
                 break;

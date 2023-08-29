@@ -52,13 +52,20 @@ public class Firefight : BaseController
         _agent = GetComponent<NavMeshAgent>();
 
         //스텟 호출
-        _playerName = this.name;
+        _playerType = Define.PlayerType.Firefighter;
         
-        photonView.RPC(
+        GetComponent<PhotonView>().RPC(
             "PlayerStatSetting",
             RpcTarget.All,
-            _playerName,
-            PhotonNetwork.NickName
+            _playerType.ToString(),
+            Managers.game.nickname
+        );
+
+        PhotonView.Get(GameObject.Find("GameScene")).RPC(
+            "SyncTeamCharacter",
+            RpcTarget.All,
+            (int) Managers.game.myCharacterTeam,
+            photonView.ViewID
         );
     }
 
@@ -67,7 +74,14 @@ public class Firefight : BaseController
         _state = Define.State.Idle;
 
         //리스폰 지역
+        respawn = GameObject.Find(
+            (int)Managers.game.myCharacterTeam % 2 == 1 ?
+            "HumanRespawn" : "CyborgRespawn"
+        ).transform;
+        
+        GetComponent<NavMeshAgent>().enabled = false;
         transform.position = respawn.position;
+        GetComponent<NavMeshAgent>().enabled = true;
 
         //액션 대리자 호출
         Managers.Input.MouseAction += MouseDownAction;

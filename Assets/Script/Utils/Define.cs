@@ -8,9 +8,17 @@ namespace Define
     public enum PlayerType 
     {
         Police,
-        Firefight,
+        Firefighter,
         Lightsaber,
         Monk,
+    }
+
+    public enum PlayerTeam
+    {
+        HumanP1 = 1,
+        CyborgP1 = 2,
+        HumanP2 = 3,
+        CyborgP2 = 4,
     }
 
 

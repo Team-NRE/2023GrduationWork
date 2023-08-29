@@ -10217,7 +10217,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4217295805090980987}
-  - component: {fileID: 3368750428421790143}
+  - component: {fileID: 8487118576388612889}
   m_Layer: 0
   m_Name: Card_InvincibleWeapon
   m_TagString: Untagged
@@ -10252,7 +10252,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3368750428421790143
+--- !u!114 &8487118576388612889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10261,7 +10261,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4217295805090980980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce28d7e217f3e81459b5ce4a4f169c53, type: 3}
+  m_Script: {fileID: 11500000, guid: ead438646366bcc439834ed90852e992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
@@ -10270,6 +10270,7 @@ MonoBehaviour:
   _effectTime: 0
   _damage: 0
   _defence: 0
+  _speed: 0
   _buff: 0
   _debuff: 0
   _rangeType: 

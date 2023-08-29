@@ -40,6 +40,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 		Debug.Log("A new player has entered the room!");
 		base.OnPlayerEnteredRoom(newPlayer);
 
+		Debug.Log(newPlayer.NickName);
+
 		// 다른 클라이언트로 보낼 값들 처리
 		if (PhotonNetwork.IsMasterClient)
 		{
@@ -49,13 +51,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 				"SyncPlayTime",
 				RpcTarget.Others,
 				Managers.game.startTime
-			);
-
-			pv.RPC(
-				"SyncPlayerCharacter",
-				RpcTarget.Others,
-				(Managers.game.humanTeamCharacter.Item1?.ViewID, Managers.game.humanTeamCharacter.Item2?.ViewID),
-				(Managers.game.cyborgTeamCharacter.Item2?.ViewID, Managers.game.cyborgTeamCharacter.Item2?.ViewID)
 			);
 		}
 	}

@@ -297,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763172540220499098}
-  - component: {fileID: 1211837600909177418}
+  - component: {fileID: 6792150993169423422}
   m_Layer: 0
   m_Name: Card_Purify
   m_TagString: Untagged
@@ -332,7 +332,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1211837600909177418
+--- !u!114 &6792150993169423422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 763172540220499093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f5e271f118783945801c2f91d52ef3f, type: 3}
+  m_Script: {fileID: 11500000, guid: ecb2e941de2d89a4c989f9a68414e0da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
@@ -350,6 +350,7 @@ MonoBehaviour:
   _effectTime: 0
   _damage: 0
   _defence: 0
+  _speed: 0
   _buff: 0
   _debuff: 0
   _rangeType: 

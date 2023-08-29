@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Script/Controllers/Minion/EnergyRelease.cs.meta
-guid: 83f8326b0dfee254eba479ec0c05fe0d
-========
-guid: 6d1dd31978cb95848be079fe904a20bf
->>>>>>>> changjo:Assets/Script/Cards/Card_AmuletOfSteel.cs.meta
+guid: 4f9466d8332b8654aa44952da2870cf5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

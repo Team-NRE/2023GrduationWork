@@ -17,17 +17,21 @@ public class GameScene : BaseScene
 		{
 			Managers.game.killEvent(test_attackerID, test_deadUserID);
 			test_isKillEvent = false;
-		}	
+		}
 	}
 
 
 	protected override void Init()
 	{
 		Debug.Log("Inst");
+		
 		SceneType = Define.Scene.Game;
+
 		Managers.UI.ShowSceneUI<UI_Mana>();
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 		Managers.UI.ShowSceneUI<UI_Popup>();
+
+		Managers.game.myCharacterTeam = (PlayerTeam)PhotonNetwork.CurrentRoom.PlayerCount;
 
 		StartCoroutine("ForStupidPhoton");
 	}
@@ -68,12 +72,6 @@ public class GameScene : BaseScene
 			spawnPos, 
 			Quaternion.identity
 		);
-
-		GetComponent<PhotonView>().RPC(
-			"SetTeamCharacter",
-			RpcTarget.Others,
-			Managers.game.myCharacter.GetComponent<PhotonView>().ViewID
-		);
 	}
 
 	[PunRPC]
@@ -83,17 +81,23 @@ public class GameScene : BaseScene
 	}
 
 	[PunRPC]
-	public void SyncPlayerCharacter((int, int) humanPlayerViewID, (int, int) cyborgPlayerViewID)
+	public void SyncTeamCharacter(int team, int viewID)
 	{
-		Managers.game.humanTeamCharacter = (
-			PhotonView.Find(humanPlayerViewID.Item1), 
-			PhotonView.Find(humanPlayerViewID.Item2)
-		);
-
-		Managers.game.cyborgTeamCharacter = (
-			PhotonView.Find(humanPlayerViewID.Item1), 
-			PhotonView.Find(humanPlayerViewID.Item2)
-		);
+		switch ((PlayerTeam) team)
+		{
+			case PlayerTeam.HumanP1:
+				Managers.game.humanTeamCharacter.Item1 = PhotonView.Find(viewID);
+				break;
+			case PlayerTeam.CyborgP1:
+				Managers.game.cyborgTeamCharacter.Item1 = PhotonView.Find(viewID);
+				break;
+			case PlayerTeam.HumanP2:
+				Managers.game.humanTeamCharacter.Item2 = PhotonView.Find(viewID);
+				break;
+			case PlayerTeam.CyborgP2:
+				Managers.game.cyborgTeamCharacter.Item2 = PhotonView.Find(viewID);
+				break;
+		}
 	}
 
 	[PunRPC]

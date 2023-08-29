@@ -47,8 +47,9 @@ public class UI_Login : UI_Scene
 	public void LoginClick(PointerEventData data)
 	{
 		_inputUser = user.text;
-		PhotonNetwork.NickName = user.text;
+		Managers.game.nickname = user.text;
 		Debug.Log(user.text);
+
 		//InitialRoom();
 		SceneManager.LoadScene("Lobby");
 	}
