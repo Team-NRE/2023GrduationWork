@@ -184,22 +184,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             receiveRot = (Quaternion)stream.ReceiveNext();
         }
     }
-    protected GameObject GetPlayer()
-    {
-        //yield return new WaitForSeconds(2.5f);
-        //Debug.Log("GetPlayer");
-        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
-        foreach (GameObject p in p_Container)
-        {
-            _pv = p.GetComponent<PhotonView>();
-            if (_pv.IsMine)
-            {
-                _player = p;
-                break;
-            }
-        }
-        return _player;
-    }
 
     protected int GetRemotePlayerId(GameObject target)
 	{

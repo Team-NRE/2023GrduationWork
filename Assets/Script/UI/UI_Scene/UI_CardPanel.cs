@@ -52,8 +52,8 @@ public class UI_CardPanel : UI_Card
 
     public override void Init()
     {
-        pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
-
+        
+        StartCoroutine("WailtForPlayer");
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
 
@@ -98,7 +98,10 @@ public class UI_CardPanel : UI_Card
 
     public void Update()
     {
-        if(pStat.nowHealth > 0)
+        if(pStat == null)
+            pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
+
+        if (pStat.nowHealth > 0)
         {
             MouseDownAction();
             KeyDownAction();
@@ -308,5 +311,10 @@ public class UI_CardPanel : UI_Card
 
         //마우스 액션
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });
+    }
+    public IEnumerator WaitForPlayer()
+    {
+        yield return new WaitForSeconds(2.0f);
+        pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
     }
 }
