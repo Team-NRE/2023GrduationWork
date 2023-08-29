@@ -52,12 +52,12 @@ public class Monk : BaseController
         _agent = GetComponent<NavMeshAgent>();
 
         //스텟 호출
-        _playerType = Define.PlayerType.Monk;
+        _playerName = "Monk";
         
         GetComponent<PhotonView>().RPC(
             "PlayerStatSetting",
             RpcTarget.All,
-            _playerType.ToString(),
+            _playerName,
             Managers.game.nickname
         );
 

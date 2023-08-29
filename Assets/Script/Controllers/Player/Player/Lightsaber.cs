@@ -52,12 +52,12 @@ public class Lightsaber : BaseController
         _agent = GetComponent<NavMeshAgent>();
 
         //스텟 호출
-        _playerType = Define.PlayerType.Lightsaber;
+        _playerName = "Lightsaber";
 
         GetComponent<PhotonView>().RPC(
             "PlayerStatSetting",
             RpcTarget.All,
-            _playerType.ToString(),
+            _playerName,
             Managers.game.nickname
         );
 

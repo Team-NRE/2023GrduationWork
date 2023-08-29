@@ -58,7 +58,7 @@ public class GameScene : BaseScene
 		}
 
 		Debug.Log("Instantiate Player");
-		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
+		Managers.game.myCharacter = PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
 	}
 
 	[PunRPC]

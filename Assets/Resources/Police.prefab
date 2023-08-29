@@ -2397,6 +2397,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nickname: 
+  _character: 
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackDelay: 0
@@ -2438,6 +2440,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   _attackRange: []
+  respawn: {fileID: 0}
+  bullet: {fileID: 0}
 --- !u!114 &216673837364405853
 MonoBehaviour:
   m_ObjectHideFlags: 0

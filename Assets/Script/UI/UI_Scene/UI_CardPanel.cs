@@ -34,7 +34,7 @@ public class UI_CardPanel : UI_Card
     Image E_cardimg;
     Image R_cardimg;
 
-    PlayerStats pStat;
+    public PlayerStats pStat;
     PlayerType _pType;
 
     public enum CardObjects
@@ -99,7 +99,10 @@ public class UI_CardPanel : UI_Card
     public void Update()
     {
         if(pStat == null)
-            pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
+        {
+            pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
+            return;
+        }
 
         if (pStat.nowHealth > 0)
         {
