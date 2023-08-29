@@ -7,6 +7,7 @@ using Define;
 using UnityEngine.AI;
 
 using Photon.Pun;
+using System.Collections;
 
 public class GameManager
 {

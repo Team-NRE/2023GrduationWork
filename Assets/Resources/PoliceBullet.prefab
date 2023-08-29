@@ -19690,7 +19690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621ad14eaa45fd84ebaa3a0a0bedd084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Target: {fileID: 0}
   _TargetPos: {x: 0, y: 0, z: 0}
   _bulletSpeed: 0
   _damage: 0
