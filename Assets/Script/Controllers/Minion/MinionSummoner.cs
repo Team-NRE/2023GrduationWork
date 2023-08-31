@@ -31,6 +31,7 @@ public class MinionSummoner : MonoBehaviour
     void Update()
     {
         if (!PhotonNetwork.IsMasterClient) return;
+        if (!Managers.game.isGameStart) return;
 
         _nowSummonTime -= Time.deltaTime;
 

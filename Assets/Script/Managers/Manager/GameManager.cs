@@ -15,10 +15,12 @@ public class GameManager
     /// 유저 정보 관련
     public string nickname;
 
-    /// 방 정보 관련
-    public int connectGameUserNumber = 0;
+    /// 방 인원 관련
+    public int remainHuman;
+    public int remainCyborg;
 
-    /// 게임 엔딩 관련
+    /// 게임 시점 관련
+    public bool isGameStart {get; set;}
     public bool isGameEnd {get; set;}
 
     CameraController mainCamera;

@@ -8,7 +8,8 @@ using Define;
 
 public class UI_Select : UI_Scene
 {
-	public static string _name;
+	public static PlayerType _name;
+	public static PlayerTeam _team;
 	public GameMode gameMode;
 	ColorBlock disabledColorBlock, selectedColorBlock;
 
@@ -65,14 +66,16 @@ public class UI_Select : UI_Scene
 	{
 		string name = Get<GameObject>((int)Selectors.Police).name;
 		// 클릭 할 때 마다 string 객체에 버튼 이름을 저장한다.
-		_name = name;
+		_name = PlayerType.Police;
+		_team = PlayerTeam.Human;
 		Debug.Log($"MemberName : {_name}");
 	}
 
 	public void SpotOnFirefighter(PointerEventData data)
 	{
 		string name = Get<GameObject>((int)Selectors.Firefighter).name;
-		_name = name;
+		_name = PlayerType.Firefighter;
+		_team = PlayerTeam.Human;
 		Debug.Log($"MemberName : {_name}");
 
 	}
@@ -80,14 +83,16 @@ public class UI_Select : UI_Scene
 	public void SpotOnLightsabre(PointerEventData data)
 	{
 		string name = Get<GameObject>((int)Selectors.Lightsabre).name;
-		_name = name;
+		_name = PlayerType.Lightsabre;
+		_team = PlayerTeam.Cyborg;
 		Debug.Log($"MemberName : {_name}");
 	}
 
 	public void SpotOnMonk(PointerEventData data)
 	{
 		string name = Get<GameObject>((int)Selectors.Monk).name;
-		_name = name;
+		_name = PlayerType.Monk;
+		_team = PlayerTeam.Cyborg;
 		Debug.Log($"MemberName : {_name}");
 	}
 
@@ -111,28 +116,6 @@ public class UI_Select : UI_Scene
 	{
 		Debug.Log("Start Game");
 		// 1. 선택한 캐릭터를 다음 씬(GameScene)으로 넘긴다.
-		QuickMatch();
-	}
-
-	private void QuickMatch()
-	{
-		PhotonNetwork.JoinRandomRoom(null, 4);
-	}
-
-	private void CreateRoom()
-	{
-		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.MaxPlayers = 4;
-		PhotonNetwork.CreateRoom(null, roomOptions, null);
-	}
-
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        CreateRoom();
-    }
-
-    public override void OnJoinedRoom()
-    {
 		SceneManager.LoadScene("View Test Scene");
-    }
+	}
 }

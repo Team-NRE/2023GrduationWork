@@ -26,6 +26,7 @@ public class GameScene : BaseScene
 		Managers.UI.ShowSceneUI<UI_Mana>();
 		Managers.UI.ShowSceneUI<UI_CardPanel>();
 		Managers.UI.ShowSceneUI<UI_Popup>();
+		Managers.UI.ShowSceneUI<UI_LoadingPage>();
 
 		StartCoroutine("ForStupidPhoton");
 	}
@@ -58,12 +59,12 @@ public class GameScene : BaseScene
 
 		Debug.Log("Instantiate Player");
 
-		// player summon
-        Managers.game.myCharacter = PhotonNetwork.Instantiate(
-            $"Prefabs/InGame/Player/{UI_Select._name}", 
-            Vector3.zero, 
-            Quaternion.identity
-        );
+		// // player summon
+        // Managers.game.myCharacter = PhotonNetwork.Instantiate(
+        //     $"Prefabs/InGame/Player/{UI_Select._name.ToString()}", 
+        //     Vector3.zero, 
+        //     Quaternion.identity
+        // );
 	}
 
 	[PunRPC]

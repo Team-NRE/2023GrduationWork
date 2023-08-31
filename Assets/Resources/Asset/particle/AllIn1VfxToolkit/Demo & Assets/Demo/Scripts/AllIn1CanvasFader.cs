@@ -9,8 +9,8 @@ namespace AllIn1VfxToolkit.Demo.Scripts
         [SerializeField] private AllIn1DemoScaleTween hideUiButtonTween;
         
         [SerializeField] private bool isTweening = false;
-        [SerializeField] private float currentAlpha = 0f;
-        [SerializeField] private float targetAlpha = 1f;
+        private float currentAlpha = 0f;
+        private float targetAlpha = .01f;
         private CanvasGroup canvasGroup;
         private bool hideUiButtonTweenNotNull;
 

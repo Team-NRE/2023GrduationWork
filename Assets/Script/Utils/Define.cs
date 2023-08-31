@@ -5,6 +5,17 @@ using System.ComponentModel; // Enum을 string으로 받기.
 
 namespace Define
 {
+    public enum RoomProperty
+    {
+        isRemainHuman = '0',
+        isRemainCyborg = '1',
+    }
+
+    public enum PlayerProperty
+    {
+        Team = '0',
+    }
+
     public enum GameMode
 	{
 		Single,
@@ -21,10 +32,8 @@ namespace Define
 
     public enum PlayerTeam
     {
-        HumanP1 = 1,
-        CyborgP1 = 2,
-        HumanP2 = 3,
-        CyborgP2 = 4,
+        Human,
+        Cyborg,
     }
 
 

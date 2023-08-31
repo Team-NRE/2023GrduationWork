@@ -59,6 +59,7 @@ public class UI_Login : UI_Scene
 		if (string.IsNullOrWhiteSpace(user.text)) return;
 
 		_inputUser = user.text;
+		PhotonNetwork.LocalPlayer.NickName = user.text;
 		Managers.game.nickname = user.text;
 		Debug.Log(user.text);
 
