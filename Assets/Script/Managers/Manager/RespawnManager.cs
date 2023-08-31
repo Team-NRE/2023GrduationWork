@@ -46,8 +46,7 @@ public class RespawnManager : MonoBehaviour
 
     private void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("PLAYER");
-        pStat = Player.GetComponent<PlayerStats>();
+        
 
         RespawnTime = 6.0f;
     }
@@ -55,11 +54,15 @@ public class RespawnManager : MonoBehaviour
     //update
     public void Update()
     {
-        return;
-        
-        if (pStat.nowHealth <= 0)
+        if (pStat == null)
         {
-            SetRespawn = Time.deltaTime;
+            pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
+            return;
         }
+        
+        // if (pStat.nowHealth <= 0)
+        // {
+        //     SetRespawn = Time.deltaTime;
+        // }
     }
 }

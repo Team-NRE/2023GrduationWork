@@ -48,34 +48,8 @@ public class Police : BaseController
     protected BaseProjectile _baseProj;
     public GameObject bullet;
 
-    public override void awakeInit()
-    {
-        //초기화
-        _pStats = GetComponent<PlayerStats>();
-        _anim = GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
-
-        //스텟 호출
-        _playerName = "Police";
-        
-        GetComponent<PhotonView>().RPC(
-            "PlayerStatSetting",
-            RpcTarget.All,
-            _playerName,
-            Managers.game.nickname
-        );
-
-        PhotonView.Get(GameObject.Find("GameScene")).RPC(
-            "SyncTeamCharacter",
-            RpcTarget.All,
-            (int) Managers.game.myCharacterTeam,
-            photonView.ViewID
-        );
-    }
-
     public void OnEnable()
     {
-        MakeTeam(PhotonNetwork.PlayerList.Length, this.gameObject);
         _state = Define.State.Idle;
 
         //리스폰 지역
@@ -104,7 +78,14 @@ public class Police : BaseController
 
         //스텟 호출
         _pType = Define.PlayerType.Police;
-        // _pStats.PlayerStatSetting(_pType.ToString());
+        Managers.game.myCharacterTeam = (Define.PlayerTeam)(photonView.ViewID - 1000);
+
+        _pv.RPC(
+            "PlayerStatSetting",
+            RpcTarget.All,
+            _pType.ToString(),
+            Managers.game.nickname
+        );
 
         //총알 위치
         _Proj_Parent = this.transform.GetChild(2);

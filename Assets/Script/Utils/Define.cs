@@ -5,11 +5,17 @@ using System.ComponentModel; // Enum을 string으로 받기.
 
 namespace Define
 {
+    public enum GameMode
+	{
+		Single,
+		Multi,
+	}
+    
     public enum PlayerType 
     {
         Police,
         Firefighter,
-        Lightsaber,
+        Lightsabre,
         Monk,
     }
 

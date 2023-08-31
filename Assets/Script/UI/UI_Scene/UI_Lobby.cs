@@ -1,17 +1,15 @@
-using Photon.Pun;
-using Photon.Realtime;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using AllIn1VfxToolkit.Demo.Scripts;
 
 public class UI_Lobby : UI_Scene
 {
 	private string roomCode;
 	public TMP_InputField roomCodeIF;
+	public UI_Select characterSelectUI;
+	public AllIn1CanvasFader characterSelectUIFader;
 
 	public enum Buttons
 	{
@@ -21,39 +19,31 @@ public class UI_Lobby : UI_Scene
 
 	public override void Init()
 	{
-		// ¸ğµç UI °´Ã¼ ¹ÙÀÎµù
+		characterSelectUI = GameObject.FindObjectOfType<UI_Select>();
+		characterSelectUIFader = characterSelectUI.GetComponent<AllIn1CanvasFader>();
+		characterSelectUIFader.gameObject.SetActive(false);
+
+		// ëª¨ë“  UI ê°ì²´ ë°”ì¸ë”©
 		Bind<Button>(typeof(Buttons));
 
-		// Ä³¸¯ÅÍ ¹öÆ° Å¬¸¯¿¡ µû¸¥ ½ºÆÌ Ç¥½Ã
+		// ìºë¦­í„° ë²„íŠ¼ í´ë¦­ì— ë”°ë¥¸ ìŠ¤íŒŸ í‘œì‹œ
 		GetButton((int)Buttons.EnterSingle).gameObject.BindEvent(EnterSingle);
 		GetButton((int)Buttons.EnterMulti).gameObject.BindEvent(EnterMulti);
 	}
 
-	// Select Button Å¬¸¯½Ã ¹ß»ıÇÒ ÀÌº¥Æ®
+	// Select Button í´ë¦­ì‹œ ë°œìƒí•  ì´ë²¤íŠ¸
 	public void EnterSingle(PointerEventData data)
 	{
 		Debug.Log("EnterSingle");
-		// 1. ¼±ÅÃÇÑ Ä³¸¯ÅÍ¸¦ ´ÙÀ½ ¾À(GameScene)À¸·Î ³Ñ±ä´Ù.
-		SceneManager.LoadScene("Select");
+		characterSelectUI.gameMode = Define.GameMode.Single;
+		characterSelectUIFader.HideUiButtonPressed();
 	}
 
-	// Select Button Å¬¸¯½Ã ¹ß»ıÇÒ ÀÌº¥Æ®
+	// Select Button í´ë¦­ì‹œ ë°œìƒí•  ì´ë²¤íŠ¸
 	public void EnterMulti(PointerEventData data)
 	{
 		Debug.Log("EnterMulti");
-		// 1. ¼±ÅÃÇÑ Ä³¸¯ÅÍ¸¦ ´ÙÀ½ ¾À(GameScene)À¸·Î ³Ñ±ä´Ù.
-		InitialRoom();
-	}
-
-	public void InitialRoom(string name = "default")
-	{
-		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.MaxPlayers = 10;
-		roomOptions.IsVisible = true;
-		roomOptions.IsOpen = true;
-		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
-		if (PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default) == true)
-			SceneManager.LoadScene("Select");
-		Debug.Log($"your room code is {name}");
+		characterSelectUI.gameMode = Define.GameMode.Multi;
+		characterSelectUIFader.HideUiButtonPressed();
 	}
 }

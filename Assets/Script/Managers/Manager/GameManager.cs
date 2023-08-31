@@ -15,6 +15,9 @@ public class GameManager
     /// 유저 정보 관련
     public string nickname;
 
+    /// 방 정보 관련
+    public int connectGameUserNumber = 0;
+
     /// 게임 엔딩 관련
     public bool isGameEnd {get; set;}
 

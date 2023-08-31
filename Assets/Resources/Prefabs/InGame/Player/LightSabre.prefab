@@ -2091,12 +2091,13 @@ GameObject:
   - component: {fileID: 6609838913383328595}
   - component: {fileID: 6556794151921324131}
   - component: {fileID: 6606645644615060169}
-  - component: {fileID: 6606645644615060182}
   - component: {fileID: 6606645644615060183}
-  - component: {fileID: 6606645644615060181}
+  - component: {fileID: 6606645644615060182}
   - component: {fileID: 6606645644615060180}
+  - component: {fileID: 6606645644615060181}
+  - component: {fileID: -4905191433607982589}
   m_Layer: 0
-  m_Name: Lightsaber
+  m_Name: Lightsabre
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2165,20 +2166,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!136 &6606645644615060182
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6606645644615060171}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!54 &6606645644615060183
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2195,20 +2182,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &6606645644615060181
-MonoBehaviour:
+--- !u!136 &6606645644615060182
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6606645644615060171}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ecc8eb863f2a7b46a390da7dfc0fc38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackRange: []
-  target: {fileID: 0}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &6606645644615060180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2221,6 +2208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nickname: 
+  _character: 
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackDelay: 0
@@ -2248,6 +2237,45 @@ MonoBehaviour:
   _manaRegen: 0
   _maxMana: 0
   _gold: 0
+--- !u!114 &6606645644615060181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6606645644615060171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ecc8eb863f2a7b46a390da7dfc0fc38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  _attackRange: []
+  respawn: {fileID: 0}
+  bullet: {fileID: 0}
+--- !u!114 &-4905191433607982589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6606645644615060171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 6606645644615060181}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6606646366637170679
 GameObject:
   m_ObjectHideFlags: 0

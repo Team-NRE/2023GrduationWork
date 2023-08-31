@@ -23,7 +23,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected Animator _anim;
     protected NavMeshAgent _agent;
     protected Vector3 _MovingPos;
-    protected string _playerName;
 
     //총알 발사 여부
     protected bool _stopAttack = false;
@@ -202,19 +201,4 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         Vector3 targetVector = GetRemotePlayer(remoteId).transform.position;
         return targetVector;
 	}
-
-    public void MakeTeam(int playerCount, GameObject player)
-    {
-        Debug.Log(playerCount);
-        if (playerCount % 2 == 0)
-        {
-            player.gameObject.layer = LayerMask.NameToLayer("Human");
-            Debug.Log("Human");
-        }
-        else
-        {
-            player.gameObject.layer = LayerMask.NameToLayer("Cyborg");
-            Debug.Log("Cyobrg");
-        }
-    }
 }

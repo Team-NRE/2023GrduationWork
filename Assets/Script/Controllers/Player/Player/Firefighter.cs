@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using Stat;
 using Photon.Pun;
 
-public class Firefight : BaseController
+public class Firefighter : BaseController
 {
     //총알 위치
     private Transform _Proj_Parent;
@@ -44,31 +44,6 @@ public class Firefight : BaseController
     protected BaseProjectile _baseProj;
     public GameObject bullet;
 
-    public override void awakeInit()
-    {
-        //초기화
-        _pStats = GetComponent<PlayerStats>();
-        _anim = GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
-
-        //스텟 호출
-        _playerName = "Firefighter";
-        
-        GetComponent<PhotonView>().RPC(
-            "PlayerStatSetting",
-            RpcTarget.All,
-            _playerName,
-            Managers.game.nickname
-        );
-
-        PhotonView.Get(GameObject.Find("GameScene")).RPC(
-            "SyncTeamCharacter",
-            RpcTarget.All,
-            (int) Managers.game.myCharacterTeam,
-            photonView.ViewID
-        );
-    }
-
     public void OnEnable()
     {
         _state = Define.State.Idle;
@@ -91,6 +66,23 @@ public class Firefight : BaseController
     //start 초기화
     public override void Init()
     {
+        //초기화
+        _pStats = GetComponent<PlayerStats>();
+        _anim = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
+        _pv = GetComponent<PhotonView>();
+
+        //스텟 호출
+        _pType = Define.PlayerType.Firefighter;
+        Managers.game.myCharacterTeam = (Define.PlayerTeam)(photonView.ViewID - 1000);
+
+        _pv.RPC(
+            "PlayerStatSetting",
+            RpcTarget.All,
+            _pType.ToString(),
+            Managers.game.nickname
+        );
+
         _baseProj = Managers.Resource.Load<BaseProjectile>("PoliceBullet");
 
         //총알 위치

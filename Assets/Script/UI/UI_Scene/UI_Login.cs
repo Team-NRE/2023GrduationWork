@@ -42,10 +42,22 @@ public class UI_Login : UI_Scene
 		Bind<InputField>(typeof(InputFields));
 		GameObject go = GetButton((int)LoginButtons.Login).gameObject;
 		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
+
+		user.ActivateInputField();
+	}
+
+	public override void UpdateInit()
+	{
+		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			LoginClick(null);
+		}
 	}
 
 	public void LoginClick(PointerEventData data)
 	{
+		if (string.IsNullOrWhiteSpace(user.text)) return;
+
 		_inputUser = user.text;
 		Managers.game.nickname = user.text;
 		Debug.Log(user.text);

@@ -63,7 +63,7 @@
       },
 
       {
-        "type": "Lightsaber",
+        "type": "Lightsabre",
 
         "basicAttackPower": "65",
         "attackSpeed" : "0.68",

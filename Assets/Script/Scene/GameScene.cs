@@ -17,9 +17,8 @@ public class GameScene : BaseScene
 		{
 			Managers.game.killEvent(test_attackerID, test_deadUserID);
 			test_isKillEvent = false;
-		}	
+		}
 	}
-
 
 	protected override void Init()
 	{
@@ -58,7 +57,13 @@ public class GameScene : BaseScene
 		}
 
 		Debug.Log("Instantiate Player");
-		Managers.game.myCharacter = PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
+
+		// player summon
+        Managers.game.myCharacter = PhotonNetwork.Instantiate(
+            $"Prefabs/InGame/Player/{UI_Select._name}", 
+            Vector3.zero, 
+            Quaternion.identity
+        );
 	}
 
 	[PunRPC]

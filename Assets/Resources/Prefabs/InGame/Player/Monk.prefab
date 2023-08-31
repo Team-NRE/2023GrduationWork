@@ -214,11 +214,12 @@ GameObject:
   m_Component:
   - component: {fileID: 838678972171398513}
   - component: {fileID: 792012583404911279}
-  - component: {fileID: 2561985948340321808}
-  - component: {fileID: 1553076923483452111}
   - component: {fileID: 5684422671432570995}
   - component: {fileID: 2561985948340321809}
   - component: {fileID: 964861810818054315}
+  - component: {fileID: 1553076923483452111}
+  - component: {fileID: 2561985948340321808}
+  - component: {fileID: 6844562360730144354}
   m_Layer: 0
   m_Name: Monk
   m_TagString: PLAYER
@@ -255,7 +256,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 839993279312425897}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: dd2605dfd6f48a94995bbb1ee2a52958, type: 2}
   m_CullingMode: 1
@@ -267,59 +268,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2561985948340321808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839993279312425897}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5596f63f2ade5b4a879ed5a1b17c342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackRange: []
-  target: {fileID: 0}
---- !u!114 &1553076923483452111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839993279312425897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _basicAttackPower: 0
-  _attackSpeed: 0
-  _attackDelay: 0
-  _attackRange: 0
-  _attackType: 
-  _kill: 0
-  _nowHealth: 0
-  _maxHealth: 0
-  _healthRegeneration: 0
-  _defensePower: 0
-  _death: 0
-  _level: 0
-  _experience: 0
-  _levelUpEX: 0
-  _levelUpAP: 0
-  _levelUpAS: 0
-  _levelUpHP: 0
-  _levelUpHR: 0
-  _levelUpDP: 0
-  _speed: 0
-  _nowState: 
-  _playerArea: 0
-  _enemyArea: 0
-  _nowMana: 0
-  _manaRegen: 0
-  _maxMana: 0
-  _gold: 0
 --- !u!195 &5684422671432570995
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -372,6 +320,86 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &1553076923483452111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839993279312425897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nickname: 
+  _character: 
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackDelay: 0
+  _attackRange: 0
+  _attackType: 
+  _kill: 0
+  _nowHealth: 0
+  _maxHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _death: 0
+  _level: 0
+  _experience: 0
+  _levelUpEX: 0
+  _levelUpAP: 0
+  _levelUpAS: 0
+  _levelUpHP: 0
+  _levelUpHR: 0
+  _levelUpDP: 0
+  _speed: 0
+  _nowState: 
+  _playerArea: 0
+  _enemyArea: 0
+  _nowMana: 0
+  _manaRegen: 0
+  _maxMana: 0
+  _gold: 0
+--- !u!114 &2561985948340321808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839993279312425897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5596f63f2ade5b4a879ed5a1b17c342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  _attackRange: []
+  respawn: {fileID: 0}
+  bullet: {fileID: 0}
+--- !u!114 &6844562360730144354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839993279312425897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2561985948340321808}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &839999640840913387
 GameObject:
   m_ObjectHideFlags: 0

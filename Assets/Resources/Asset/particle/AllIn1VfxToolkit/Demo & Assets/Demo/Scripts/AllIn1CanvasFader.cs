@@ -8,9 +8,9 @@ namespace AllIn1VfxToolkit.Demo.Scripts
         [SerializeField] private float tweenSpeed = 1f;
         [SerializeField] private AllIn1DemoScaleTween hideUiButtonTween;
         
-        private bool isTweening = false;
-        private float currentAlpha = 1f;
-        private float targetAlpha = 1f;
+        [SerializeField] private bool isTweening = false;
+        [SerializeField] private float currentAlpha = 0f;
+        [SerializeField] private float targetAlpha = 1f;
         private CanvasGroup canvasGroup;
         private bool hideUiButtonTweenNotNull;
 
@@ -25,6 +25,7 @@ namespace AllIn1VfxToolkit.Demo.Scripts
         {
             if(Input.GetKeyDown(fadeToggleKey)) HideUiButtonPressed();
             
+            gameObject.SetActive(currentAlpha + targetAlpha != 0);
             if(!isTweening) return;
             currentAlpha = Mathf.MoveTowards(currentAlpha, targetAlpha, Time.unscaledDeltaTime * tweenSpeed);
             canvasGroup.alpha = currentAlpha;
@@ -36,6 +37,7 @@ namespace AllIn1VfxToolkit.Demo.Scripts
             if(currentAlpha < 0.01f) MakeCanvasVisibleTween();
             else MakeCanvasInvisibleTween();
             if(hideUiButtonTweenNotNull) hideUiButtonTween.ScaleUpTween();
+            gameObject.SetActive(currentAlpha + targetAlpha != 0);
         }
 
         private void MakeCanvasVisibleTween()

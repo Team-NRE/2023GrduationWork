@@ -1,19 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Define;
 
 public class UI_Select : UI_Scene
 {
 	public static string _name;
+	public GameMode gameMode;
+	ColorBlock disabledColorBlock, selectedColorBlock;
 
 	public enum Selectors
 	{
 		Police,
-		FireFighter,
-		LightSabre,
+		Firefighter,
+		Lightsabre,
 		Monk,
 	}
 
@@ -25,56 +28,111 @@ public class UI_Select : UI_Scene
 	public override void Init()
 	{
 		Bind<GameObject>(typeof(Selectors));
+		Bind<Toggle>(typeof(Selectors));
 		Bind<Button>(typeof(Buttons));
 
 		Get<GameObject>((int)Selectors.Police).gameObject.BindEvent(SpotOnPolice);
-		Get<GameObject>((int)Selectors.FireFighter).gameObject.BindEvent(SpotOnFireFighter);
-		Get<GameObject>((int)Selectors.LightSabre).gameObject.BindEvent(SpotOnFireLightSabre);
-		Get<GameObject>((int)Selectors.Monk).gameObject.BindEvent(SpotOnFireMonk);
+		Get<GameObject>((int)Selectors.Firefighter).gameObject.BindEvent(SpotOnFirefighter);
+		Get<GameObject>((int)Selectors.Lightsabre).gameObject.BindEvent(SpotOnLightsabre);
+		Get<GameObject>((int)Selectors.Monk).gameObject.BindEvent(SpotOnMonk);
+
+		Get<Toggle>((int)Selectors.Police).onValueChanged.AddListener(SpotOnCharacter);
+		Get<Toggle>((int)Selectors.Firefighter).onValueChanged.AddListener(SpotOnCharacter);
+		Get<Toggle>((int)Selectors.Lightsabre).onValueChanged.AddListener(SpotOnCharacter);
+		Get<Toggle>((int)Selectors.Monk).onValueChanged.AddListener(SpotOnCharacter);
 
 		GetButton((int)Buttons.Select).gameObject.BindEvent(SelectButton);
+
+		InitColorBlock();
+	}
+
+	public override void UpdateInit()
+    {
+		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			
+		}
+    }
+
+	private void InitColorBlock()
+	{
+		disabledColorBlock = Get<Toggle>((int)Selectors.Police).colors;
+		selectedColorBlock = ColorBlock.defaultColorBlock;
 	}
 
 	// 캐릭터 선택시 스팟이 켜지는 부분
 	public void SpotOnPolice(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Police).gameObject.name;
-		// 1. 클릭할 때 마다 스팟을 띄운다
-		Debug.Log(name);
-		// 2. 클릭 할 때 마다 string 객체에 버튼 이름을 저장한다.
+		string name = Get<GameObject>((int)Selectors.Police).name;
+		// 클릭 할 때 마다 string 객체에 버튼 이름을 저장한다.
 		_name = name;
 		Debug.Log($"MemberName : {_name}");
 	}
 
-	public void SpotOnFireFighter(PointerEventData data)
+	public void SpotOnFirefighter(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.FireFighter).gameObject.name;
-		Debug.Log(name);
+		string name = Get<GameObject>((int)Selectors.Firefighter).name;
 		_name = name;
 		Debug.Log($"MemberName : {_name}");
 
 	}
 
-	public void SpotOnFireLightSabre(PointerEventData data)
+	public void SpotOnLightsabre(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.LightSabre).gameObject.name;
-		Debug.Log(name);
+		string name = Get<GameObject>((int)Selectors.Lightsabre).name;
 		_name = name;
 		Debug.Log($"MemberName : {_name}");
 	}
 
-	public void SpotOnFireMonk(PointerEventData data)
+	public void SpotOnMonk(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Monk).gameObject.name;
-		Debug.Log(name);
+		string name = Get<GameObject>((int)Selectors.Monk).name;
 		_name = name;
 		Debug.Log($"MemberName : {_name}");
+	}
+
+	private void SpotOnCharacter(bool value)
+	{
+		Get<Toggle>((int)Selectors.Police).colors = (
+			Get<Toggle>((int)Selectors.Police).isOn ? selectedColorBlock : disabledColorBlock
+			);
+		Get<Toggle>((int)Selectors.Firefighter).colors = (
+			Get<Toggle>((int)Selectors.Firefighter).isOn ? selectedColorBlock : disabledColorBlock
+			);
+		Get<Toggle>((int)Selectors.Lightsabre).colors = (
+			Get<Toggle>((int)Selectors.Lightsabre).isOn ? selectedColorBlock : disabledColorBlock
+			);
+		Get<Toggle>((int)Selectors.Monk).colors = (
+			Get<Toggle>((int)Selectors.Monk).isOn ? selectedColorBlock : disabledColorBlock
+			);
 	}
 
 	public void SelectButton(PointerEventData data)
 	{
 		Debug.Log("Start Game");
 		// 1. 선택한 캐릭터를 다음 씬(GameScene)으로 넘긴다.
-		SceneManager.LoadScene("View Test Scene");
+		QuickMatch();
 	}
+
+	private void QuickMatch()
+	{
+		PhotonNetwork.JoinRandomRoom(null, 4);
+	}
+
+	private void CreateRoom()
+	{
+		RoomOptions roomOptions = new RoomOptions();
+		roomOptions.MaxPlayers = 4;
+		PhotonNetwork.CreateRoom(null, roomOptions, null);
+	}
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        CreateRoom();
+    }
+
+    public override void OnJoinedRoom()
+    {
+		SceneManager.LoadScene("View Test Scene");
+    }
 }

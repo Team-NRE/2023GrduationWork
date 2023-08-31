@@ -212,14 +212,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1316891248112838336}
   - component: {fileID: 1371280945490825834}
-  - component: {fileID: 7373628033558758773}
-  - component: {fileID: 7373628033558758772}
   - component: {fileID: 7373628033558758763}
   - component: {fileID: 7373628033558758762}
   - component: {fileID: 7373628033558758761}
+  - component: {fileID: 7373628033558758772}
+  - component: {fileID: 7373628033558758773}
   - component: {fileID: 1796297132842369387}
   m_Layer: 0
-  m_Name: FireFighter
+  m_Name: Firefighter
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,63 +266,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7373628033558758773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1319710158704215508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 453c59b45c2c2b14c833a638a04244af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  _attackRange: []
-  respawn: {fileID: 0}
-  bullet: {fileID: 0}
---- !u!114 &7373628033558758772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1319710158704215508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nickname: 
-  _character: 
-  _basicAttackPower: 0
-  _attackSpeed: 0
-  _attackDelay: 0
-  _attackRange: 0
-  _attackType: 
-  _kill: 0
-  _nowHealth: 0
-  _maxHealth: 0
-  _healthRegeneration: 0
-  _defensePower: 0
-  _death: 0
-  _level: 0
-  _experience: 0
-  _levelUpEX: 0
-  _levelUpAP: 0
-  _levelUpAS: 0
-  _levelUpHP: 0
-  _levelUpHR: 0
-  _levelUpDP: 0
-  _speed: 0
-  _nowState: 
-  _playerArea: 0
-  _enemyArea: 0
-  _nowMana: 0
-  _manaRegen: 0
-  _maxMana: 0
-  _gold: 0
 --- !u!195 &7373628033558758763
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -375,6 +318,63 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &7373628033558758772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319710158704215508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2413634c0cfebda44b49bc78a67659eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nickname: 
+  _character: 
+  _basicAttackPower: 0
+  _attackSpeed: 0
+  _attackDelay: 0
+  _attackRange: 0
+  _attackType: 
+  _kill: 0
+  _nowHealth: 0
+  _maxHealth: 0
+  _healthRegeneration: 0
+  _defensePower: 0
+  _death: 0
+  _level: 0
+  _experience: 0
+  _levelUpEX: 0
+  _levelUpAP: 0
+  _levelUpAS: 0
+  _levelUpHP: 0
+  _levelUpHR: 0
+  _levelUpDP: 0
+  _speed: 0
+  _nowState: 
+  _playerArea: 0
+  _enemyArea: 0
+  _nowMana: 0
+  _manaRegen: 0
+  _maxMana: 0
+  _gold: 0
+--- !u!114 &7373628033558758773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319710158704215508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453c59b45c2c2b14c833a638a04244af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  _attackRange: []
+  respawn: {fileID: 0}
+  bullet: {fileID: 0}
 --- !u!114 &1796297132842369387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,7 +393,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 7373628033558758773}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

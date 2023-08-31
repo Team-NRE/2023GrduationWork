@@ -42,6 +42,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
 		Debug.Log(newPlayer.NickName);
 
+		Debug.Log("인게임 접속 완료");
+
 		// 다른 클라이언트로 보낼 값들 처리
 		if (PhotonNetwork.IsMasterClient)
 		{

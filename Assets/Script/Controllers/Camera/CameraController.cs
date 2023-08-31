@@ -19,7 +19,6 @@ public class CameraController : BaseController
     //건물 투명화
     public GameObject RendererGameobject;
     public List<GameObject> SaveRendererModel;
-    private GameObject player;
 
     //Renderer 여부
     public bool IsRenderer = true;
@@ -29,45 +28,10 @@ public class CameraController : BaseController
 
     LayerMask ignore;
 
-    public void Start()
-    {
-        StartCoroutine("GetPlayer");
-    }
-
-    IEnumerator GetPlayer()
-    {
-        yield return new WaitForSeconds(2.5f);
-        //Debug.Log("GetPlayer");
-        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
-        foreach (GameObject p in p_Container)
-        {
-            _pv = p.GetComponent<PhotonView>();
-            if (_pv.IsMine)
-            {
-                player = p;
-                break;
-            }
-        }
-        p_Position = player.transform;
-
-        //초기 값 세팅
-        planescale_X = 80; // -80 < X < 80
-        planescale_Z = -4; // -28 < Z < 20 / +24
-        Cam_Y = 9;
-        Cam_Z = 6;
-
-
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-
-        //player = GameObject.FindWithTag("PLAYER");
-        //p_Position = player.transform;
-    }
-
     public override void Init()
     {
+        p_Position = Managers.game.myCharacter?.transform;
+
         //초기 값 세팅
         planescale_X = 80; // -80 < X < 80
         planescale_Z = -4; // -28 < Z < 20 / +24
@@ -78,8 +42,6 @@ public class CameraController : BaseController
         Managers.Input.MouseAction += MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
-
-        p_Position = GameObject.FindGameObjectWithTag("PLAYER")?.transform;
 
         ignore = LayerMask.GetMask("Human", "Cyborg");
     }
@@ -88,7 +50,17 @@ public class CameraController : BaseController
     {
         if (p_Position == null)
         {
-            p_Position = GameObject.FindGameObjectWithTag("PLAYER")?.transform;
+            p_Position = Managers.game.myCharacter?.transform;
+
+            if (p_Position != null)
+            {
+                Camera.main.transform.position = new Vector3(
+                    p_Position.position.x, 
+                    p_Position.position.y + Cam_Y, 
+                    p_Position.position.z - Cam_Z
+                );
+            }
+
             return;
         }
 
@@ -103,7 +75,17 @@ public class CameraController : BaseController
     {
         if (p_Position == null)
         {
-            p_Position = GameObject.FindGameObjectWithTag("PLAYER")?.transform;
+            p_Position = Managers.game.myCharacter?.transform;
+
+            if (p_Position != null)
+            {
+                Camera.main.transform.position = new Vector3(
+                    p_Position.position.x, 
+                    p_Position.position.y + Cam_Y, 
+                    p_Position.position.z - Cam_Z
+                );
+            }
+            
             return;
         }
         
