@@ -20,6 +20,8 @@ public class UI_LoadingPage : UI_Scene
     // player custom property
     private string team = "T";
 
+    // Remain Team Num
+    private int remainHuman, remainCyborg;
     
     public enum Images
 	{
@@ -55,7 +57,7 @@ public class UI_LoadingPage : UI_Scene
         /// 입장 조건 (그 팀이 true일 때 입장 가능)
         /// 입장 실패 시, OnJoinRandomFailed() 실행됨.
         Hashtable customRoomProperties = new Hashtable();
-        customRoomProperties.Add(UI_Select._team.ToString()[0], true);
+        customRoomProperties.Add(UI_Select._team.ToString().Substring(0, 1), true);
 
 		PhotonNetwork.JoinRandomRoom(customRoomProperties, 4);
     }
@@ -108,8 +110,8 @@ public class UI_LoadingPage : UI_Scene
 
         /// 마스터 클라이언트만 초기화
         /// 총 방의 인원의 절반씩 설정
-        Managers.game.remainHuman  = PhotonNetwork.CurrentRoom.MaxPlayers >> 1;
-        Managers.game.remainCyborg = PhotonNetwork.CurrentRoom.MaxPlayers >> 1;
+        remainHuman  = PhotonNetwork.CurrentRoom.MaxPlayers >> 1;
+        remainCyborg = PhotonNetwork.CurrentRoom.MaxPlayers >> 1;
     }
 
     /// 플레이어 프로퍼티 추가 성공 시 실행됨.
@@ -123,9 +125,9 @@ public class UI_LoadingPage : UI_Scene
         /// Human 팀일 경우
         if (newPlayerTeam == PlayerTeam.Human)
         {
-            Managers.game.remainHuman--;
+            remainHuman--;
 
-            if (Managers.game.remainHuman <= 0) 
+            if (remainHuman <= 0) 
             {
                 PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
                 {
@@ -138,9 +140,9 @@ public class UI_LoadingPage : UI_Scene
         /// Cyborg 팀일 경우
         if (newPlayerTeam == PlayerTeam.Cyborg)
         {
-            Managers.game.remainCyborg--;
+            remainCyborg--;
 
-            if (Managers.game.remainCyborg <= 0)
+            if (remainCyborg <= 0)
             {
                 PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
                 {
