@@ -42,6 +42,7 @@ public class GameManager
     public (PhotonView, PhotonView) cyborgTeamCharacter;
     #endregion
 
+
     public void OnUpdate()
     {
         if (isGameEnd)

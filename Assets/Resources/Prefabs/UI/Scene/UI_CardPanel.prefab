@@ -111,9 +111,9 @@ RectTransform:
   m_Father: {fileID: 5775402124221727980}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -960, y: -540}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -960, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5775402124221727976
@@ -190,10 +190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 1000
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -230,7 +230,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa09c835392fb234cb4d88963593dd9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initDeck: []
+  _cost: 0
+  _cardBuyCost: 0
+  _CastingTime: 0
+  _effectTime: 0
+  _damage: 0
+  _defence: 0
+  _speed: 0
+  _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
+  _rangeType: 
+  _rangeScale: 0
+  _rangeRange: 0
+  _rangeAngle: 0
+  _effectObject: {fileID: 0}
+  pStat: {fileID: 0}
 --- !u!1 &6634945510122449250
 GameObject:
   m_ObjectHideFlags: 0
