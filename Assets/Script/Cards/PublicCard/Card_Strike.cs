@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,8 @@ public class Card_Strike : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Strike");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Strike");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Strike", ground, Quaternion.identity);
         _effectObject.transform.parent = BaseCard._lockTarget.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.8f, 0);
 

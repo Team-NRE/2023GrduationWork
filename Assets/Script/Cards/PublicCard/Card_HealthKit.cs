@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,8 @@ public class Card_HealthKit : UI_Card
         GameObject _player = GameObject.Find(player);
         float _healthRegen = 0.5f;
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_HealthKit");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_HealthKit");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HealthKit", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
 

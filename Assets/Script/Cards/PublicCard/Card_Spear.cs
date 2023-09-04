@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class Card_Spear : UI_Card
 {
@@ -25,7 +26,8 @@ public class Card_Spear : UI_Card
     {
         GameObject _player = GameObject.Find(player);
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Spear");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Spear");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Spear", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
 

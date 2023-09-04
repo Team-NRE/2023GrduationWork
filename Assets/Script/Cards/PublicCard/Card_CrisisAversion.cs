@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +31,8 @@ public class Card_CrisisAversion : UI_Card
         
         GameObject _player = GameObject.Find(player);
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_CrisisAversion", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         _effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(player, _enemylayer);

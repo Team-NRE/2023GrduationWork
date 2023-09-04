@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Data;
+using Photon.Pun;
 
 public class Card_InvincibleShield : UI_Card
 {
@@ -31,7 +32,8 @@ public class Card_InvincibleShield : UI_Card
         _layer = layer;
 
         //띠로링
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
@@ -40,6 +42,7 @@ public class Card_InvincibleShield : UI_Card
         foreach (Collider col in cols)
         {
             //col.transform -> Police, 미니언
+            //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             shield.AddComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
 

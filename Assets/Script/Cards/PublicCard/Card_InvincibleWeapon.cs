@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,8 @@ public class Card_InvincibleWeapon : UI_Card
     {
         GameObject _player = GameObject.Find(player);
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleWeapon");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleWeapon");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = Vector3.zero;
         _effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);

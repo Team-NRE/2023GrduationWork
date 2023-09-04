@@ -14826,6 +14826,7 @@ GameObject:
   - component: {fileID: 2825467395207812628}
   - component: {fileID: 2731036051917516018}
   - component: {fileID: 2729894606983173070}
+  - component: {fileID: -370759351083506212}
   m_Layer: 2
   m_Name: Effect_IcePrison
   m_TagString: Untagged
@@ -19779,6 +19780,28 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-370759351083506212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2819937261731402398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2820294382566613410
 GameObject:
   m_ObjectHideFlags: 0

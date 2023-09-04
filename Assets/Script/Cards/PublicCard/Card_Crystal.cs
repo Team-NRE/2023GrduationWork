@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class Card_Crystal : UI_Card
 {
@@ -20,7 +21,8 @@ public class Card_Crystal : UI_Card
         GameObject _player = GameObject.Find(player);
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Crystal");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Crystal");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Crystal", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0, 0);
 

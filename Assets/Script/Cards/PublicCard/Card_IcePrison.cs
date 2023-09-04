@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class Card_IcePrison : UI_Card
 {
@@ -21,7 +22,8 @@ public class Card_IcePrison : UI_Card
         GameObject _player = GameObject.Find(player);
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_IcePrison");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_IcePrison");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_IcePrison", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         _effectObject.AddComponent<IcePrisonStart>().StartIcePrison(player, _effectTime);

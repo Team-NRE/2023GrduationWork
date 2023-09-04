@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class Card_Speed : UI_Card
 {
@@ -21,7 +22,8 @@ public class Card_Speed : UI_Card
         GameObject _player = GameObject.Find(player);
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Speed");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Speed");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Speed", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
         _effectObject.AddComponent<SpeedStart>().StartSpeed(player, _speed);

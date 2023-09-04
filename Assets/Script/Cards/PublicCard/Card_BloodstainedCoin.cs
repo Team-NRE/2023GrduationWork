@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class Card_BloodstainedCoin : UI_Card
 {
@@ -27,7 +28,8 @@ public class Card_BloodstainedCoin : UI_Card
     {
         GameObject _player = GameObject.Find(player);
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin2");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin2");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodstainedCoin2", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
