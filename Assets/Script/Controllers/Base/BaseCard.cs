@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -154,4 +155,6 @@ public static class BaseCard
 
         return newDeck;
     }
+
+   
 }

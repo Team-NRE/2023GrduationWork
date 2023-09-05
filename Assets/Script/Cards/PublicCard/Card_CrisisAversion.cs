@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,9 +29,11 @@ public class Card_CrisisAversion : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
         
-        GameObject _player = GameObject.Find(player);
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
 
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_CrisisAversion", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         _effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(player, _enemylayer);

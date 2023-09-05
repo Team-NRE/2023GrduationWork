@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,8 @@ public class Card_Infection : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_Infection");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Infection");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Infection", ground, Quaternion.identity);
         _effectObject.transform.position = new Vector3(ground.x, 0.5f, ground.z);
 
         _layer = layer;

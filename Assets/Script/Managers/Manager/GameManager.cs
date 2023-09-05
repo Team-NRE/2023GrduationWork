@@ -50,10 +50,10 @@ public class GameManager
         if (isGameEnd)
         {
             // 메인 카메라 이동
-            mainCamera.transform.position = 
+            mainCamera.transform.position =
                 Vector3.Lerp(
-                    mainCamera.transform.position, 
-                    endingCamPos, 
+                    mainCamera.transform.position,
+                    endingCamPos,
                     Time.deltaTime * 2f
                 );
         }
@@ -100,7 +100,7 @@ public class GameManager
         foreach (ObjectController obj in objects)
         {
             // 각 오브젝트 별로 컴포넌트 비활성화
-            switch(obj._type)
+            switch (obj._type)
             {
                 case ObjectType.Nexus:
                     obj.GetComponent<MinionSummoner>().enabled = false;

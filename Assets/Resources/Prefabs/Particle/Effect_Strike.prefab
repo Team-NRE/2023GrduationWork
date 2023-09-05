@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4105816658782485642}
   - component: {fileID: 8654950757562601314}
   - component: {fileID: 8384582519236797193}
+  - component: {fileID: -8429190277152724091}
   m_Layer: 2
   m_Name: Effect_Strike
   m_TagString: Untagged
@@ -4911,6 +4912,28 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-8429190277152724091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375242176540227830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1364244666554620783
 GameObject:
   m_ObjectHideFlags: 0

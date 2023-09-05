@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,12 +31,13 @@ public class Card_AmuletOfSteel : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        GameObject _player = GameObject.Find(player);
-
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
         _layer = layer;
 
         //띠로링
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
@@ -50,7 +52,8 @@ public class Card_AmuletOfSteel : UI_Card
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
 
                 //파티클
-                GameObject Wing = Managers.Resource.Instantiate($"Particle/Effect_AmuletOfSteel", col.transform);
+                //GameObject Wing = Managers.Resource.Instantiate($"Particle/Effect_AmuletOfSteel", col.transform);
+                GameObject Wing = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletOfSteel", col.transform.position, Quaternion.identity);
                 Wing.transform.localPosition = new Vector3(0, 1.12f, 0);
 
                 //방어막

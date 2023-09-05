@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Data;
+using Photon.Pun;
 
 public class Card_InvincibleShield : UI_Card
 {
@@ -27,19 +28,23 @@ public class Card_InvincibleShield : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        GameObject _player = GameObject.Find(player);
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
+
         _layer = layer;
 
         //띠로링
-        _effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-        //쉴드
+        //쉴드, 팀원들 찾아서 쉴드 이펙트 씌워주는 내용
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {
             //col.transform -> Police, 미니언
+            //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             shield.AddComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
 

@@ -122,7 +122,7 @@ namespace Define
         SpaceUp,
     }
 
-    
+
     public enum Projectile
     {
         Undefine,
