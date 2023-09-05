@@ -1,101 +1,116 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Define;
-using Stat;
 using Photon.Pun;
+using Stat;
+using System.Collections;
+using UnityEngine;
 
 public class GameScene : BaseScene
 {
-	public int test_attackerID;
-	public int test_deadUserID;
-	public bool test_isKillEvent = false;
+    public int test_attackerID;
+    public int test_deadUserID;
+    public bool test_isKillEvent = false;
 
-	private void Update()
-	{
-		if (test_isKillEvent)
-		{
-			Managers.game.killEvent(test_attackerID, test_deadUserID);
-			test_isKillEvent = false;
-		}	
-	}
+    private void Update()
+    {
+        if (test_isKillEvent)
+        {
+            Managers.game.killEvent(test_attackerID, test_deadUserID);
+            test_isKillEvent = false;
+        }
+    }
 
+    protected override void Init()
+    {
+        SceneType = Define.Scene.Game;
+        Managers.UI.ShowSceneUI<UI_Mana>();
+        Managers.UI.ShowSceneUI<UI_CardPanel>();
+        Managers.UI.ShowSceneUI<UI_Popup>();
+        Managers.UI.ShowSceneUI<UI_LoadingPage>();
 
-	protected override void Init()
-	{
-		SceneType = Define.Scene.Game;
-		Managers.UI.ShowSceneUI<UI_Mana>();
-		Managers.UI.ShowSceneUI<UI_CardPanel>();
-		Managers.UI.ShowSceneUI<UI_Popup>();
+        StartCoroutine("ForStupidPhoton");
+    }
 
-		StartCoroutine("ForStupidPhoton");
-	}
-	
-	void LoadObjects()
-	{
+    private void LoadObjects()
+    {
 
-	}
+    }
 
-	public override void Clear()
-	{
-		
-	}
+    public override void Clear()
+    {
 
-	IEnumerator ForStupidPhoton()
-	{
-		yield return new WaitForSeconds(2.0f);
+    }
 
-		/// 시작 시간 초기화 : Master Client만
-		if (PhotonNetwork.IsMasterClient) 
-		{
-			Managers.game.startTime = PhotonNetwork.Time;
+    private IEnumerator ForStupidPhoton()
+    {
+        yield return new WaitForSeconds(2.0f);
 
-			GetComponent<PhotonView>().RPC(
-				"SyncPlayTime",
-				RpcTarget.Others,
-				Managers.game.startTime
-			);
-		}
+        /// 시작 시간 초기화 : Master Client만
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Managers.game.startTime = PhotonNetwork.Time;
 
-		Debug.Log("Instantiate Player");
-		PhotonNetwork.Instantiate("Police", new Vector3(-56, 0, 0), Quaternion.identity);
-	}
+            GetComponent<PhotonView>().RPC(
+                "SyncPlayTime",
+                RpcTarget.Others,
+                Managers.game.startTime
+            );
+        }
 
-	[PunRPC]
-	public void SyncPlayTime(double time)
-	{
-		Managers.game.startTime = time;
-	}
+        Debug.Log("Instantiate Player");
 
-	[PunRPC]
-	public void KillEvent(int attackerID, int deadUserID)
-	{
-		GameObject attacker = PhotonView.Find(attackerID)?.gameObject;
-		GameObject deadUser = PhotonView.Find(deadUserID)?.gameObject;
+        // // player summon
+        Managers.game.myCharacter = PhotonNetwork.Instantiate($"Prefabs/InGame/Player/{Managers.game.myCharacterType.ToString()}",
+            Vector3.zero, Quaternion.identity);
+    }
 
-		// 예외 처리
-		if (attacker == null) return;
-		if (deadUser == null) return;
+    [PunRPC]
+    public void SyncPlayTime(double time)
+    {
+        Managers.game.startTime = time;
+    }
 
-		// 가해자 처리
-		if (attacker.tag == "PLAYER")
-		{
-			if (attacker.layer == LayerMask.NameToLayer("Human")) Managers.game.humanTeamKill++;
-			if (attacker.layer == LayerMask.NameToLayer("Cyborg")) Managers.game.cyborgTeamKill++;
+    [PunRPC]
+    public void KillEvent(int attackerID, int deadUserID)
+    {
+        GameObject attacker = PhotonView.Find(attackerID)?.gameObject;
+        GameObject deadUser = PhotonView.Find(deadUserID)?.gameObject;
 
-			attacker.GetComponent<PlayerStats>().kill++;
-		}
+        // 예외 처리
+        if (attacker == null)
+        {
+            return;
+        }
 
-		// 피해자 처리
-		deadUser.GetComponent<PlayerStats>().death++;
+        if (deadUser == null)
+        {
+            return;
+        }
 
-		/// UI Event
-		UI_KillLog killLog = Managers.UI.MakeSubItem<UI_KillLog>
-			(Managers.UI.Root.transform.Find("UI_Popup/UI_KillLog"), "KillLog");
-		
-		killLog.Init(
-			attacker,
-			deadUser
-		);
-	}
+        // 가해자 처리
+        if (attacker.tag == "PLAYER")
+        {
+            if (attacker.layer == LayerMask.NameToLayer("Human"))
+            {
+                Managers.game.humanTeamKill++;
+            }
+
+            if (attacker.layer == LayerMask.NameToLayer("Cyborg"))
+            {
+                Managers.game.cyborgTeamKill++;
+            }
+
+            attacker.GetComponent<PlayerStats>().kill++;
+        }
+
+        // 피해자 처리
+        deadUser.GetComponent<PlayerStats>().death++;
+
+        /// UI Event
+        UI_KillLog killLog = Managers.UI.MakeSubItem<UI_KillLog>
+            (Managers.UI.Root.transform.Find("UI_Popup/UI_KillLog"), "KillLog");
+
+        killLog.Init(
+            attacker,
+            deadUser
+        );
+    }
 }

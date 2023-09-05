@@ -12,29 +12,48 @@ using System.Collections;
 public class GameManager
 {
     #region Variable
-    /// 게임 엔딩 관련
-    public bool isGameEnd {get; set;}
+    /// 유저 정보 관련
+    public string nickname;
+
+    /// 방 인원 관련
+    public GameMode gameMode;
+    public int remainHuman;
+    public int remainCyborg;
+
+    /// 게임 시점 관련
+    public bool isGameStart { get; set; }
+    public bool isGameEnd { get; set; }
 
     CameraController mainCamera;
     public Vector3 endingCamPos;
-    
-    /// 플레이 관련
+
+    /// 플레이 시간 관련
     public double startTime = 0;
-	public double playTime = 0;
-    private int lastTime = 0;
+    public double playTime = 0;
+
+    /// 팀 킬 수 관련
     public int humanTeamKill = 0;
     public int cyborgTeamKill = 0;
+
+    /// 플레이어 관련
+    public GameObject myCharacter;
+    public PlayerType myCharacterType;
+    public PlayerTeam myCharacterTeam;
+
+    public (PhotonView, PhotonView) humanTeamCharacter;
+    public (PhotonView, PhotonView) cyborgTeamCharacter;
     #endregion
+
 
     public void OnUpdate()
     {
         if (isGameEnd)
         {
             // 메인 카메라 이동
-            mainCamera.transform.position = 
+            mainCamera.transform.position =
                 Vector3.Lerp(
-                    mainCamera.transform.position, 
-                    endingCamPos, 
+                    mainCamera.transform.position,
+                    endingCamPos,
                     Time.deltaTime * 2f
                 );
         }
@@ -81,7 +100,7 @@ public class GameManager
         foreach (ObjectController obj in objects)
         {
             // 각 오브젝트 별로 컴포넌트 비활성화
-            switch(obj._type)
+            switch (obj._type)
             {
                 case ObjectType.Nexus:
                     obj.GetComponent<MinionSummoner>().enabled = false;

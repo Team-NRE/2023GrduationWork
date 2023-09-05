@@ -26,7 +26,8 @@ public class Card_BloodstainedCoin : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        GameObject _player = GameObject.Find(player);
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin2");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodstainedCoin2", ground, Quaternion.identity);

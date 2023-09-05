@@ -156,21 +156,5 @@ public static class BaseCard
         return newDeck;
     }
 
-    public static int GetRemotePlayerId(GameObject target)
-    {
-        int remoteId = target.GetComponent<PhotonView>().ViewID;
-        return remoteId;
-    }
-
-    public static GameObject GetRemotePlayer(int remoteId)
-    {
-        GameObject target = PhotonView.Find(remoteId)?.gameObject;
-        return target;
-    }
-
-    public static Vector3 GetRemoteVector(int remoteId)
-    {
-        Vector3 targetVector = GetRemotePlayer(remoteId).transform.position;
-        return targetVector;
-    }
+   
 }

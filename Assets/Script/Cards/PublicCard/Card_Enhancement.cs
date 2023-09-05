@@ -19,7 +19,8 @@ public class Card_Enhancement : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        GameObject _player = GameObject.Find(player);
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Enhancement");

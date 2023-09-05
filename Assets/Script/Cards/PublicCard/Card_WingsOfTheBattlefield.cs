@@ -24,7 +24,8 @@ public class Card_WingsOfTheBattlefield : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        GameObject _player = GameObject.Find(player);
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
 
         _layer = layer;
            

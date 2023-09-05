@@ -19,7 +19,8 @@ public class Card_HealthKit : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        GameObject _player = GameObject.Find(player);
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
         float _healthRegen = 0.5f;
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_HealthKit");

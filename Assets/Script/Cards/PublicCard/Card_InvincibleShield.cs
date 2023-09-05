@@ -28,7 +28,9 @@ public class Card_InvincibleShield : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
-        GameObject _player = GameObject.Find(player);
+        //GameObject _player = GameObject.Find(player);
+        GameObject _player = Managers.game.myCharacter;
+
         _layer = layer;
 
         //띠로링
@@ -37,7 +39,7 @@ public class Card_InvincibleShield : UI_Card
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-        //쉴드
+        //쉴드, 팀원들 찾아서 쉴드 이펙트 씌워주는 내용
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {

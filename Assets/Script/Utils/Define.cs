@@ -5,12 +5,36 @@ using System.ComponentModel; // Enum을 string으로 받기.
 
 namespace Define
 {
-    public enum PlayerType 
+    public enum RoomProperty
+    {
+        isRemainHuman = '0',
+        isRemainCyborg = '1',
+    }
+
+    public enum PlayerProperty
+    {
+        Team = '0',
+    }
+
+    public enum GameMode
+    {
+        Single = 1,
+        Multi_1vs1 = 2,
+        Multi_2vs2 = 4,
+    }
+
+    public enum PlayerType
     {
         Police,
-        Firefight,
-        Lightsaber,
+        Firefighter,
+        Lightsabre,
         Monk,
+    }
+
+    public enum PlayerTeam
+    {
+        Human,
+        Cyborg,
     }
 
 
@@ -98,7 +122,7 @@ namespace Define
         SpaceUp,
     }
 
-    
+
     public enum Projectile
     {
         Undefine,
