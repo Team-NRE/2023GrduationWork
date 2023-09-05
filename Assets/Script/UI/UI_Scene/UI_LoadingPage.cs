@@ -57,9 +57,9 @@ public class UI_LoadingPage : UI_Scene
         /// 입장 조건 (그 팀이 true일 때 입장 가능)
         /// 입장 실패 시, OnJoinRandomFailed() 실행됨.
         Hashtable customRoomProperties = new Hashtable();
-        customRoomProperties.Add(UI_Select._team.ToString().Substring(0, 1), true);
+        customRoomProperties.Add(Managers.game.myCharacterTeam.ToString().Substring(0, 1), true);
 
-		PhotonNetwork.JoinRandomRoom(customRoomProperties, 4);
+		PhotonNetwork.JoinRandomRoom(customRoomProperties, (byte)Managers.game.gameMode);
     }
 
     private void CreateRoom()
@@ -68,7 +68,7 @@ public class UI_LoadingPage : UI_Scene
 
         /// 새로운 방 생성
 		RoomOptions roomOptions = new RoomOptions() {
-            MaxPlayers = 4,
+            MaxPlayers = (byte)Managers.game.gameMode,
             IsVisible = true,
             IsOpen = true,
             CustomRoomPropertiesForLobby = new string[] {isRemainHuman, isRemainCyborg},
@@ -89,7 +89,7 @@ public class UI_LoadingPage : UI_Scene
         /// 플레이어가 소속된 팀
         /// 추가 성공 시, OnPlayerPropertiesUpdate() 실행됨.
         Hashtable customPlayerProperties = new Hashtable();
-        customPlayerProperties.Add(team, (int)UI_Select._team);
+        customPlayerProperties.Add(team, (int)Managers.game.myCharacterTeam);
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(customPlayerProperties);
     }

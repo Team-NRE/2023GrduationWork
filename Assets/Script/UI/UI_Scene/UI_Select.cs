@@ -8,9 +8,6 @@ using Define;
 
 public class UI_Select : UI_Scene
 {
-	public static PlayerType _name;
-	public static PlayerTeam _team;
-	public GameMode gameMode;
 	ColorBlock disabledColorBlock, selectedColorBlock;
 
 	public enum Selectors
@@ -64,36 +61,31 @@ public class UI_Select : UI_Scene
 	// 캐릭터 선택시 스팟이 켜지는 부분
 	public void SpotOnPolice(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Police).name;
-		// 클릭 할 때 마다 string 객체에 버튼 이름을 저장한다.
-		_name = PlayerType.Police;
-		_team = PlayerTeam.Human;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Police;
+		Managers.game.myCharacterTeam = PlayerTeam.Human;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
 	}
 
 	public void SpotOnFirefighter(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Firefighter).name;
-		_name = PlayerType.Firefighter;
-		_team = PlayerTeam.Human;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Firefighter;
+		Managers.game.myCharacterTeam = PlayerTeam.Human;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
 
 	}
 
 	public void SpotOnLightsabre(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Lightsabre).name;
-		_name = PlayerType.Lightsabre;
-		_team = PlayerTeam.Cyborg;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Lightsabre;
+		Managers.game.myCharacterTeam = PlayerTeam.Cyborg;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
 	}
 
 	public void SpotOnMonk(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Monk).name;
-		_name = PlayerType.Monk;
-		_team = PlayerTeam.Cyborg;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Monk;
+		Managers.game.myCharacterTeam = PlayerTeam.Cyborg;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
 	}
 
 	private void SpotOnCharacter(bool value)

@@ -17,7 +17,6 @@ namespace AllIn1VfxToolkit.Demo.Scripts
         private void Start()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 1f;
             hideUiButtonTweenNotNull = hideUiButtonTween != null;
         }
 

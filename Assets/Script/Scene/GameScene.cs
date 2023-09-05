@@ -58,7 +58,7 @@ public class GameScene : BaseScene
         Debug.Log("Instantiate Player");
 
         // // player summon
-        Managers.game.myCharacter = PhotonNetwork.Instantiate($"Prefabs/InGame/Player/{UI_Select._name.ToString()}",
+        Managers.game.myCharacter = PhotonNetwork.Instantiate($"Prefabs/InGame/Player/{Managers.game.myCharacterType.ToString()}",
             Vector3.zero, Quaternion.identity);
     }
 

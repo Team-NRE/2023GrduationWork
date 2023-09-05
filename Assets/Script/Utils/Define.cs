@@ -18,8 +18,9 @@ namespace Define
 
     public enum GameMode
 	{
-		Single,
-		Multi,
+		Single = 1,
+		Multi_1vs1 = 2,
+        Multi_2vs2 = 4,
 	}
     
     public enum PlayerType 

@@ -16,6 +16,7 @@ public class GameManager
     public string nickname;
 
     /// 방 인원 관련
+	public GameMode gameMode;
     public int remainHuman;
     public int remainCyborg;
 
@@ -36,6 +37,7 @@ public class GameManager
 
     /// 플레이어 관련
     public GameObject myCharacter;
+    public PlayerType myCharacterType;
     public PlayerTeam myCharacterTeam;
 
     public (PhotonView, PhotonView) humanTeamCharacter;
