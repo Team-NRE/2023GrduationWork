@@ -29,6 +29,9 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     //스킬 발동 여부
     protected bool _stopSkill = false;
     protected bool _startDie = false;
+    //사거리 유무
+    protected bool _IsRange = false;
+
 
     protected RespawnManager respawnManager;
     public PlayerStats _pStats { get; set; }
@@ -36,6 +39,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     //외부 namespace Define의 Player State 참조
     //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
+    public CardType _cdType { get; protected set; }
     public PlayerType _pType { get; protected set; }
     public State _state { get; protected set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.FloatCamera;
@@ -117,7 +121,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             StopAttack();
         }
 
-        if (BaseCard._NowKey == "A")
+        //A키를 눌렀을 때 
+        if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
         {
             RangeAttack();
         }
@@ -135,10 +140,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
                 break;
 
             case Define.State.Moving:
-
-                {
-                    UpdateMoving();
-                }
+                UpdateMoving();
                 break;
 
             case Define.State.Attack:

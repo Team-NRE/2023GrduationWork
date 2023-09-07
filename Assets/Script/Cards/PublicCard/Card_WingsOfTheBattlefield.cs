@@ -15,7 +15,7 @@ public class Card_WingsOfTheBattlefield : UI_Card
         _cost = 2;
         _speed = 2.0f;
         _rangeScale = 3.6f;
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
         _effectTime = 1.1f;
@@ -31,7 +31,7 @@ public class Card_WingsOfTheBattlefield : UI_Card
            
         //¶ì·Î¸µ
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 

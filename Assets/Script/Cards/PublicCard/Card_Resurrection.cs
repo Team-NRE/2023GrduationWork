@@ -12,7 +12,7 @@ public class Card_Resurrection : UI_Card
         _cardBuyCost = 2300;
         _cost = 3;
 
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
         _effectTime = default;

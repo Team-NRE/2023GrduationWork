@@ -11,7 +11,7 @@ public class Card_Shield : UI_Card
         _cardBuyCost = 300;
         _cost = 0;
         _defence = 50;
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
         _effectTime = 2.0f;

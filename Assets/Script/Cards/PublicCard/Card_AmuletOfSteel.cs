@@ -20,7 +20,7 @@ public class Card_AmuletOfSteel : UI_Card
         _cost = 2;
 
         _rangeScale = 3.6f;
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
         _effectTime = 1.1f;
@@ -37,10 +37,9 @@ public class Card_AmuletOfSteel : UI_Card
 
         //띠로링
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
-
 
         //방어막 이펙트
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
@@ -48,12 +47,13 @@ public class Card_AmuletOfSteel : UI_Card
         {
             if (col.gameObject.tag == "PLAYER")
             {
-                Debug.Log(col.gameObject.name);
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
 
                 //파티클
                 //GameObject Wing = Managers.Resource.Instantiate($"Particle/Effect_AmuletOfSteel", col.transform);
-                GameObject Wing = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletOfSteel", col.transform.position, Quaternion.identity);
+
+                GameObject Wing = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletofSteel", col.transform.position, Quaternion.Euler(-90, 0, 0));
+                Wing.transform.parent = col.transform;
                 Wing.transform.localPosition = new Vector3(0, 1.12f, 0);
 
                 //방어막

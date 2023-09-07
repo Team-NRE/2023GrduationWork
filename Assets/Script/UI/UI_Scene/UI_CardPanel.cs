@@ -149,7 +149,7 @@ public class UI_CardPanel : UI_Card
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (pStat.UseMana("Q").Item1 == true
-                        && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                        && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
             {
                 UI_UseQ();
             }
@@ -158,7 +158,7 @@ public class UI_CardPanel : UI_Card
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (pStat.UseMana("W").Item1 == true
-                        && W_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                        && W_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
             {
                 UI_UseW();
             }
@@ -167,7 +167,7 @@ public class UI_CardPanel : UI_Card
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (pStat.UseMana("E").Item1 == true
-                        && E_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                        && E_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
             {
                 UI_UseE();
             }
@@ -176,7 +176,7 @@ public class UI_CardPanel : UI_Card
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (pStat.UseMana("R").Item1 == true
-                        && R_Btn.GetComponentInChildren<UI_Card>()._rangeType == "None")
+                        && R_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
             {
                 UI_UseR();
             }

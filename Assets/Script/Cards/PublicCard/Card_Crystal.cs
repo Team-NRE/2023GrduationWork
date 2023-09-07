@@ -10,10 +10,10 @@ public class Card_Crystal : UI_Card
     {
         _cardBuyCost = 400;
         _cost = 0;
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
-        _effectTime = 1.0f;
+        _effectTime = 2.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
@@ -24,7 +24,7 @@ public class Card_Crystal : UI_Card
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Crystal");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Crystal", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Crystal", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0, 0);
 

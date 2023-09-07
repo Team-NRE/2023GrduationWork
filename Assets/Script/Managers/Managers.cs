@@ -38,6 +38,12 @@ public class Managers : MonoBehaviour
     {
         OnUpdate();
     }
+
+    void Update()
+    {
+        InputUpdate();
+    }
+
     static void Init()
     {
         if (s_Instance == null)
@@ -61,9 +67,13 @@ public class Managers : MonoBehaviour
         }
     }
 
+    static void InputUpdate()
+    { 
+        s_Instance._input.InputUpdate();
+    }
+
     static void OnUpdate()
     {
-        s_Instance._input.OnUpdate();
         s_Instance._game.OnUpdate();
     }
 

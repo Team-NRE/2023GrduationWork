@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Stat;
+using Define;
 
 public class UI_Card : UI_Scene
 {
@@ -30,7 +32,7 @@ public class UI_Card : UI_Scene
     //스킬 범위 타입
     //Arrow = _rangeScale 고정 / Cone = _rangeScale, _rangeAngle / Line = _rangeScale 
     //Point = _rangeScale, _rangeRange / Range = _rangeScale
-    public string _rangeType;
+    public CardType _rangeType;
     //스킬 범위 크기
     public float _rangeScale;
     //스킬 거리

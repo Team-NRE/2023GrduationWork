@@ -37,6 +37,16 @@ namespace Define
         Cyborg,
     }
 
+    public enum CardType
+    {
+        Arrow,
+        Cone,
+        Line,
+        Point,
+        Range,
+        None,
+    }
+
 
     public enum State
     {

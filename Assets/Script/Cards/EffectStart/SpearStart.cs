@@ -53,7 +53,7 @@ public class SpearStart : MonoBehaviour
             {
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
+                enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.7f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
 

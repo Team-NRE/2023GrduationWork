@@ -11,7 +11,7 @@ public class Card_Teleport : UI_Card
         _cardBuyCost = 2200;
         _cost = 0;
 
-        _rangeType = "Point";
+        _rangeType = Define.CardType.Point;
         _rangeScale = 0.95f;
         _rangeRange = 2.0f;
 
@@ -25,7 +25,7 @@ public class Card_Teleport : UI_Card
         GameObject _player = Managers.game.myCharacter;
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Teleport");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Teleport", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Teleport", ground, Quaternion.Euler(-90, 0, 0));
 
         _effectObject.transform.position = new Vector3(ground.x, 0.4f, ground.z);
         _player.transform.position = new Vector3(_effectObject.transform.position.x, _player.transform.position.y, _effectObject.transform.position.z);

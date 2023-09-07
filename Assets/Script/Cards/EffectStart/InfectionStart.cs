@@ -37,7 +37,7 @@ public class InfectionStart : MonoBehaviour
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.05f);
+                enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.05f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }

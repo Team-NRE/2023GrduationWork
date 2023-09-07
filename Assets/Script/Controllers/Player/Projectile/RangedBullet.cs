@@ -71,7 +71,7 @@ public class RangedBullet : MonoBehaviour
             if (_target.tag == "PLAYER")
             {
                 PlayerStats _Stats = _target.GetComponent<PlayerStats>();
-                _Stats.nowHealth -= _damage;
+                _Stats.receviedDamage = _damage;
                 _pv.RPC("RemoteLog", RpcTarget.All, _Stats.nowHealth.ToString());
             }
 

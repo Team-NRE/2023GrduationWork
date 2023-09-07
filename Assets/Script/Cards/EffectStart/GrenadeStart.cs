@@ -55,7 +55,7 @@ public class GrenadeStart : MonoBehaviour
                 enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
+                enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.5f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
                 
                 //HackingGrenade 카드

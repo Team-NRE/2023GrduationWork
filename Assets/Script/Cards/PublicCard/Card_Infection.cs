@@ -13,7 +13,7 @@ public class Card_Infection : UI_Card
         _cardBuyCost = 300;
         _cost = 1;
         _damage = 0.1f;
-        _rangeType = "Point";
+        _rangeType = Define.CardType.Point;
         _rangeScale = 1.75f;
         _rangeRange = 3.0f;
 
@@ -25,7 +25,7 @@ public class Card_Infection : UI_Card
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Infection");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Infection", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Infection", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.position = new Vector3(ground.x, 0.5f, ground.z);
 
         _layer = layer;

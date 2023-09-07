@@ -7,7 +7,7 @@ public class JobCard_Charge : UI_Card
     public override void Init()
     {
         _cost = 1;
-        _rangeType = "Point";
+        _rangeType = Define.CardType.Point;
         _rangeScale = 3.0f;
         _rangeRange = 5.0f;
 

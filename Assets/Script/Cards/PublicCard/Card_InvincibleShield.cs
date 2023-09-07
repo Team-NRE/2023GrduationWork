@@ -17,7 +17,7 @@ public class Card_InvincibleShield : UI_Card
         _cost = 3;
         _defence = 10000;
 
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
         _rangeScale = 3.6f;
 
         _CastingTime = 0.3f;

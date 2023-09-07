@@ -1466,6 +1466,7 @@ MonoBehaviour:
   _maxHealth: 0
   _healthRegeneration: 0
   _defensePower: 0
+  _receviedDamage: 0
   _death: 0
   _level: 0
   _experience: 0
@@ -1497,6 +1498,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   _attackRange: []
+  _SaveAttackSpeed: 0
+  _SaveSkillCool: 0
+  _SaveHPSCool: 0
+  _SaveRespawnTime: 0
   respawn: {fileID: 0}
   bullet: {fileID: 0}
 --- !u!114 &4500046026864031059

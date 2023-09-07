@@ -14,7 +14,7 @@ public class Card_CrisisAversion : UI_Card
         _cardBuyCost = 2800;
         _cost = 3;
 
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
         _rangeScale = 3.6f;
 
         _CastingTime = 0.3f;
@@ -33,7 +33,7 @@ public class Card_CrisisAversion : UI_Card
         GameObject _player = Managers.game.myCharacter;
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_CrisisAversion", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_CrisisAversion", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         _effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(player, _enemylayer);

@@ -15,7 +15,7 @@ public class Card_Spear : UI_Card
         _cost = 1;
         _damage = 15;
 
-        _rangeType = "Line";
+        _rangeType = Define.CardType.Line;
         _rangeScale = 5.0f;
 
         _CastingTime = 0.77f;
@@ -28,7 +28,7 @@ public class Card_Spear : UI_Card
         GameObject _player = Managers.game.myCharacter;
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Spear");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Spear", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Spear", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
 

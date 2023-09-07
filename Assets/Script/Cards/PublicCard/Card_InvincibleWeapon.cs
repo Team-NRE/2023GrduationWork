@@ -13,7 +13,7 @@ public class Card_InvincibleWeapon : UI_Card
         _cardBuyCost = 3000;
         _cost = 3;
         _damage = 1;
-        _rangeType = "Arrow";
+        _rangeType = Define.CardType.Arrow;
 
         _CastingTime = 2.0f;
         _effectTime = 2.0f;
@@ -25,7 +25,7 @@ public class Card_InvincibleWeapon : UI_Card
         GameObject _player = Managers.game.myCharacter;
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleWeapon");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", ground, Quaternion.Euler(-90,-90,75));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = Vector3.zero;
         _effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);

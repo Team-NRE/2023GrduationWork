@@ -28,6 +28,7 @@ namespace Stat
         [SerializeField] private float _maxHealth; //최대 체력
         [SerializeField] private float _healthRegeneration; //체력 재생량
         [SerializeField] private float _defensePower; //방어력
+        [SerializeField] private float _receviedDamage; //계산된 입은 데미지
         [SerializeField] private float _death; //데스
 
         [Header("-- 레벨 --")]
@@ -99,11 +100,6 @@ namespace Stat
                 {
                     _nowHealth = value;
                 }
-                else if (value < 0)
-                {
-                    value *= 100 / (100 + defensePower);
-                    _nowHealth = value;
-                }
 
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
                 if (_nowHealth < 0) { death += 1; _nowHealth = 0; }
@@ -120,6 +116,15 @@ namespace Stat
 
         public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
+        public float receviedDamage
+        {
+            get { return _receviedDamage; }
+            set 
+            {
+                value *= 100 / (100 + defensePower);
+                _nowHealth -= value;
+            }
+        }
         public float death { get { return _death; } set { _death = value; } }
 
 

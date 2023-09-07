@@ -7,7 +7,9 @@ using static UnityEngine.GraphicsBuffer;
 public class BloodstainedCoinStart : MonoBehaviour
 {
     GameObject player = null;
-    
+    GameObject _effectObject;
+
+
     Transform target = null;
 
     float damage = default;
@@ -27,6 +29,12 @@ public class BloodstainedCoinStart : MonoBehaviour
 
     private void Update()
     {
+        if(target == null) 
+        {
+            Destroy(gameObject);
+            Destroy(_effectObject);
+        }
+
         if (target != null)
         {
             transform.position = Vector3.Slerp(transform.position, target.position + Vector3.up, Time.deltaTime * 4.0f);
@@ -36,7 +44,7 @@ public class BloodstainedCoinStart : MonoBehaviour
             if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
             {
                 //effect
-                GameObject _effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
+                _effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
                 _effectObject.transform.parent = target.transform;
                 _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
@@ -49,7 +57,8 @@ public class BloodstainedCoinStart : MonoBehaviour
 
                     oStats.nowHealth -= damage + (pStats.basicAttackPower);
 
-                    target = null;
+                    Destroy(gameObject, 0.1f);
+                    Destroy(_effectObject, 0.5f);
                 }
 
                 //타겟이 적 Player일 시
@@ -58,18 +67,17 @@ public class BloodstainedCoinStart : MonoBehaviour
                     enemyStats = target.GetComponent<PlayerStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                    enemyStats.nowHealth -= (damage + (pStats.basicAttackPower));
-
-                    target = null;
+                    enemyStats.receviedDamage = (damage + (pStats.basicAttackPower));
 
                     if (enemyStats.nowHealth <= 0)
                     {
                         pStats.kill += 1;
                         pStats.gold += 100;
                     }
+
+                    Destroy(gameObject, 0.1f);
+                    Destroy(_effectObject, 0.5f);
                 }
-                Destroy(gameObject, 0.1f);
-                Destroy(_effectObject, 0.5f);
             }
         }
     }

@@ -32,6 +32,7 @@ public class CrisisAversionStart : MonoBehaviour
     {
         // 만약 피가 1이 되었다면....
         // 적 투사체에 맞고 피가 1이하로 떨어지게 된다면 발동....
+        // 아직 스텟적용 미완성 
         if(pStats.nowHealth <= 0)
         {
             IsEffect = true;  

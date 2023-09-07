@@ -11,7 +11,7 @@ public class Card_Speed : UI_Card
         _cardBuyCost = 300;
         _cost = 0;
         _speed = 1.5f;
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
         _effectTime = 5.0f;
@@ -25,7 +25,7 @@ public class Card_Speed : UI_Card
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Speed");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Speed", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Speed", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
         _effectObject.AddComponent<SpeedStart>().StartSpeed(player, _speed);

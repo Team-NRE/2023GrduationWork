@@ -16,7 +16,7 @@ public class Card_HackingGrenade : UI_Card
         _damage = 25;
         _debuff = 1.02f;
 
-        _rangeType = "Point";
+        _rangeType = Define.CardType.Point;
         _rangeScale = 3.0f;
         _rangeRange = 5.0f;
 

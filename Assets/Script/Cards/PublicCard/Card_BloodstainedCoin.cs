@@ -14,7 +14,7 @@ public class Card_BloodstainedCoin : UI_Card
         _cardBuyCost = 500;
         _cost = 1;
         _damage = 10f;
-        _rangeType = "Range";
+        _rangeType = Define.CardType.Range;
         _rangeScale = 5.0f;
 
         _CastingTime = 0.3f;

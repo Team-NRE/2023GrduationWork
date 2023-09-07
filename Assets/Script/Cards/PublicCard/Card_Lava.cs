@@ -13,7 +13,7 @@ public class Card_Lava : UI_Card
         _cardBuyCost = 1400;
         _cost = 2;
         _damage = 0.1f;
-        _rangeType = "Point";
+        _rangeType = Define.CardType.Point;
         _rangeScale = 2.0f;
         _rangeRange = 4.0f;
 
@@ -25,7 +25,7 @@ public class Card_Lava : UI_Card
     public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Lava");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Lava", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Lava", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.position = ground;
 
         _layer = layer;

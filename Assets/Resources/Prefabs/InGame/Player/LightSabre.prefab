@@ -2134,7 +2134,7 @@ Animator:
   m_GameObject: {fileID: 6606645644615060171}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f13349cc09b03d447a26b54d406aaa8e, type: 3}
-  m_Controller: {fileID: 9100000, guid: dd2605dfd6f48a94995bbb1ee2a52958, type: 2}
+  m_Controller: {fileID: 9100000, guid: 125fb6c4a7ffe254d82022e26e1b0959, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2220,6 +2220,7 @@ MonoBehaviour:
   _maxHealth: 0
   _healthRegeneration: 0
   _defensePower: 0
+  _receviedDamage: 0
   _death: 0
   _level: 0
   _experience: 0
@@ -2251,6 +2252,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   _attackRange: []
+  _SaveAttackSpeed: 0
+  _SaveSkillCool: 0
+  _SaveHPSCool: 0
+  _SaveRespawnTime: 0
   respawn: {fileID: 0}
   bullet: {fileID: 0}
 --- !u!114 &-4905191433607982589

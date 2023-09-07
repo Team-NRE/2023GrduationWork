@@ -38,7 +38,7 @@ public class InputManager
     }
 
 
-    public void OnUpdate()
+    public void InputUpdate()
     {
         HitMouseEvent();
         HitKeyEvent();

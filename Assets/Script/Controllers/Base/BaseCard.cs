@@ -107,9 +107,9 @@ public static class BaseCard
         int rand = UnityEngine.Random.Range(0, _initDeck.Count);
         string ChoiseCard = _initDeck[rand];
 
-        Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
+        //Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
 
-        //뽑은 카드 덱에서 삭제
+        //뽑은 카드 덱에서 삭ca
         _initDeck.RemoveAt(rand);
 
         return ChoiseCard;

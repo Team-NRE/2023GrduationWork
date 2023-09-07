@@ -14,6 +14,9 @@ public class StrikeStart : MonoBehaviour
     float saveSpeed = default;
 
     PlayerStats enemyStats;
+    ObjStats oStats;
+
+    bool IsEffect = false;
     public void StartStrike(string _player, float _damage, float _effectTime)
     {
         player = GameObject.Find(_player);
@@ -23,48 +26,76 @@ public class StrikeStart : MonoBehaviour
         effectTime = _effectTime;
     }
 
-    private void Update()
+    public void Update()
     {
+        if (BaseCard._lockTarget == null) { Destroy(gameObject); }
         if (BaseCard._lockTarget != null)
         {
-            //타겟이 미니언, 타워일 시 
-            if (Obj.tag != "PLAYER")
+            switch (IsEffect)
             {
-                ObjStats oStats = Obj.GetComponent<ObjStats>();
-                PlayerStats pStats = player.GetComponent<PlayerStats>();
+                case false:
+                    //타겟이 미니언, 타워일 시 
+                    if (Obj.tag != "PLAYER")
+                    {
+                        oStats = Obj.GetComponent<ObjStats>();
+                        PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
+                        oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
 
-                BaseCard._lockTarget = null;
+                        saveSpeed = oStats.speed;
 
+                        oStats.speed = 0;
+
+                        IsEffect = true;
+
+                        break;
+                    }
+
+                    //타겟이 적 Player일 시
+                    if (Obj.tag == "PLAYER")
+                    {
+                        enemyStats = Obj.GetComponent<PlayerStats>();
+                        PlayerStats pStats = player.GetComponent<PlayerStats>();
+
+                        enemyStats.receviedDamage = (damage + (pStats.basicAttackPower * 0.5f));
+                        if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
+
+                        saveSpeed = enemyStats.speed;
+                        enemyStats.speed = 0;
+
+                        IsEffect = true;
+
+                        break;
+                    }
+
+                    break;
+
+                case true:
+                    StartEffect += Time.deltaTime;
+
+                    if (StartEffect > effectTime - 0.01f)
+                    {
+                        //타겟이 미니언, 타워일 시 
+                        if (Obj.tag != "PLAYER")
+                        {
+                            oStats.speed = saveSpeed;
+
+                            Destroy(gameObject);
+                        }
+
+                        //타겟이 미니언, 타워일 시 
+                        if (Obj.tag == "PLAYER")
+                        {
+                            enemyStats.speed = saveSpeed;
+
+                            Destroy(gameObject);
+                        }
+                    }
+
+
+                    break;
             }
 
-            //타겟이 적 Player일 시
-            if (Obj.tag == "PLAYER")
-            {
-                enemyStats = Obj.GetComponent<PlayerStats>();
-                PlayerStats pStats = player.GetComponent<PlayerStats>();
-
-                enemyStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.5f));
-                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
-
-                BaseCard._lockTarget = null;
-
-                saveSpeed = enemyStats.speed;
-                enemyStats.speed = 0;
-            }
         }
-
-        if (enemyStats.speed == 0)
-        {
-            StartEffect += Time.deltaTime;
-
-            if (StartEffect > effectTime - 0.01f)
-            {
-                enemyStats.speed = saveSpeed;
-                Destroy(gameObject);
-            }
-        }
-
     }
 }

@@ -12,7 +12,7 @@ public class Card_Armor : UI_Card
         _cardBuyCost = 500;
         _cost = 0;
         _defence = 0.5f;
-        _rangeType = "None";
+        _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
         _effectTime = 1.0f;

@@ -13,7 +13,7 @@ public class JobCard_Grenade : UI_Card
         _cost = 2;
         _damage = 50;
 
-        _rangeType = "Point";
+        _rangeType = Define.CardType.Point;
         _rangeScale = 3.0f;
         _rangeRange = 5.0f;
 

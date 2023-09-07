@@ -40,7 +40,7 @@ public class BloodTransfusionStart : MonoBehaviour
             PlayerStats enemyStats = Obj.GetComponent<PlayerStats>();
             PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-            enemyStats.nowHealth -= (damage + (pStats.basicAttackPower * 0.7f));
+            enemyStats.receviedDamage = (damage + (pStats.basicAttackPower * 0.7f));
             pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);
             if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 

@@ -39,7 +39,7 @@ public class InvincibleWeaponStart : MonoBehaviour
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.nowHealth -= damage + (pStats.basicAttackPower * 0.02f);
+                enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.02f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }
