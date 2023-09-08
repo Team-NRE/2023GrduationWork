@@ -12,9 +12,10 @@ public class SpeedStart : MonoBehaviour
 
     bool start = false;
 
-    public void StartSpeed(string _player, float _speed)
+    public void StartSpeed(int _player, float _speed)
     {
-        _pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
         speed = _speed;
 
         start = true;

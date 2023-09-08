@@ -16,10 +16,11 @@ public class AmuletOfSteelStart : MonoBehaviour
 
     bool start = false;
 
-    public void StartAmulet(string _player, float _effectTime, float _saveMaxhealth, float _saveNowhealth)
+    public void StartAmulet(int playerId, float _effectTime, float _saveMaxhealth, float _saveNowhealth)
     {
-        _pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
 
+        _pStats = Managers.game.RemoteTargetFinder(playerId).gameObject.GetComponent<PlayerStats>();
         effectTime = _effectTime;
         saveMaxhealth = _saveMaxhealth;
         saveNowhealth = _saveNowhealth;

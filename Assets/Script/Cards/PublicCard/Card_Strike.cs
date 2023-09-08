@@ -21,7 +21,7 @@ public class Card_Strike : UI_Card
     }
 
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Strike");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Strike", ground, Quaternion.Euler(-90, 0, 0));
@@ -33,7 +33,7 @@ public class Card_Strike : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<StrikeStart>().StartStrike(player, _damage, _effectTime);
+        _effectObject.AddComponent<StrikeStart>().StartStrike(playerId, _damage, _effectTime);
 
         return _effectObject;
     }

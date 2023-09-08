@@ -120,4 +120,10 @@ public class GameManager
             obj.enabled = false;
         }
     }
+
+    public GameObject RemoteTargetFinder(int id)
+	{
+        GameObject remoteTarget = PhotonView.Find(id).gameObject;
+        return remoteTarget;
+	}
 }

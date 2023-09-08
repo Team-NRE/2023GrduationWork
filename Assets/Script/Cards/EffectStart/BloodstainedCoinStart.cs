@@ -16,9 +16,10 @@ public class BloodstainedCoinStart : MonoBehaviour
 
     PlayerStats enemyStats;
 
-    public void StartBloodstainedCoin(string _player, float _damage)
+    public void StartBloodstainedCoin(int playerId, float _damage)
     {
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(playerId);
         target = BaseCard._lockTarget.transform;
         BaseCard._lockTarget = null;
 

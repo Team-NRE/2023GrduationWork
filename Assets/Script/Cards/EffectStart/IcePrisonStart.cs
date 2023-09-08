@@ -12,11 +12,12 @@ public class IcePrisonStart : MonoBehaviour
 
     PlayerStats pStat;
 
-    public void StartIcePrison(string _player, float _effectTime)
+    public void StartIcePrison(int _player, float _effectTime)
     {
         effectTime = _effectTime;
 
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(_player);
         pStat = player.GetComponent<PlayerStats>();
     }
 

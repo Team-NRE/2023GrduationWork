@@ -22,7 +22,7 @@ public class Card_Lava : UI_Card
     }
 
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Lava");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Lava", ground, Quaternion.Euler(-90, 0, 0));
@@ -33,7 +33,7 @@ public class Card_Lava : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<LavaStart>().StartLava(player, _damage, _enemylayer);
+        _effectObject.AddComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
 
         return _effectObject;
     }

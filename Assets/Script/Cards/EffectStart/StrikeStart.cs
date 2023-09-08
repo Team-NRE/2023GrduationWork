@@ -17,9 +17,10 @@ public class StrikeStart : MonoBehaviour
     ObjStats oStats;
 
     bool IsEffect = false;
-    public void StartStrike(string _player, float _damage, float _effectTime)
+    public void StartStrike(int _player, float _damage, float _effectTime)
     {
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(_player);
         Obj = transform.parent.gameObject;
 
         damage = _damage;

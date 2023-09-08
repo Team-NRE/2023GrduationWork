@@ -22,7 +22,7 @@ public class Card_WingsOfTheBattlefield : UI_Card
         _speedTime = 5.0f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.myCharacter;

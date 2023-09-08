@@ -19,7 +19,7 @@ public class Card_InvincibleWeapon : UI_Card
         _effectTime = 2.0f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.myCharacter;
@@ -36,7 +36,7 @@ public class Card_InvincibleWeapon : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<InvincibleWeaponStart>().StartWeapon(player, _damage, _enemylayer);
+        _effectObject.AddComponent<InvincibleWeaponStart>().StartWeapon(playerId, _damage, _enemylayer);
 
         return _effectObject;
     }

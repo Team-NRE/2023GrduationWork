@@ -22,7 +22,7 @@ public class Card_Cannon : UI_Card
         _effectTime = 1.0f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Cannon");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Cannon", ground, Quaternion.identity);
@@ -33,7 +33,7 @@ public class Card_Cannon : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<CannonStart>().StartCannon(player, _damage, _enemylayer);
+        _effectObject.AddComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
 
         return _effectObject;
     }

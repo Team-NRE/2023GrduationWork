@@ -9,9 +9,10 @@ public class InfectionStart : MonoBehaviour
     float damage = default;
     int enemylayer = default;
 
-    public void StartInfection(string _player, float _damage, int _enemylayer)
+    public void StartInfection(int _player, float _damage, int _enemylayer)
     {
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(_player);
         damage = _damage;
         enemylayer = _enemylayer;
     }

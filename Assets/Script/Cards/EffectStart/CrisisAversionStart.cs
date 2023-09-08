@@ -17,9 +17,10 @@ public class CrisisAversionStart : MonoBehaviour
     int enemyLayer; 
 
     bool IsEffect = false;
-    public void StartCrisisAversion(string _player, int _enemyLayer)
+    public void StartCrisisAversion(int _player, int _enemyLayer)
     {
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(_player);
         effectOn = transform.GetChild(3).gameObject;
 
         pStats = player.GetComponent<PlayerStats>();

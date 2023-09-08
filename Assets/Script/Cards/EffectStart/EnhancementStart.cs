@@ -12,9 +12,10 @@ public class EnhancementStart : MonoBehaviour
 
     bool start = false;
 
-    public void StartEnhancement(string _player, float _basicAttackPower)
+    public void StartEnhancement(int _player, float _basicAttackPower)
     {
-        _pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
         basicAttackPower = _basicAttackPower;
 
         start = true;

@@ -29,7 +29,7 @@ public class Card_AmuletOfSteel : UI_Card
         _armorPercent = 50;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.myCharacter;
@@ -74,7 +74,7 @@ public class Card_AmuletOfSteel : UI_Card
                     _pStat.nowHealth += _armor;
                 }
 
-                Wing.AddComponent<AmuletOfSteelStart>().StartAmulet(col.gameObject.name, _armorTime, saveMaxhealth, saveNowhealth);
+                Wing.AddComponent<AmuletOfSteelStart>().StartAmulet(col.gameObject.GetComponent<PhotonView>().ViewID, _armorTime, saveMaxhealth, saveNowhealth);
             }
 
             else continue;

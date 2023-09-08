@@ -22,7 +22,7 @@ public class JobCard_Grenade : UI_Card
     }
 
     
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         _effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
         _effectObject.transform.position = ground;
@@ -32,7 +32,7 @@ public class JobCard_Grenade : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<GrenadeStart>().StartGrenade(player, _damage, _enemylayer);
+        _effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
         
         return _effectObject;
     }

@@ -17,7 +17,7 @@ public class Card_HealthKit : UI_Card
         _effectTime = 2.5f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.myCharacter;
@@ -30,7 +30,7 @@ public class Card_HealthKit : UI_Card
 
         _layer = layer;
 
-        _effectObject.AddComponent<HealthKitStart>().StartHealthKit(player, _healthRegen, _layer);
+        _effectObject.AddComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
 
         return _effectObject;
     }

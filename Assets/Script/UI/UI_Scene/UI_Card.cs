@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using Define;
+using Photon.Pun;
 
 public class UI_Card : UI_Scene
 {
@@ -62,7 +63,7 @@ public class UI_Card : UI_Scene
     }
 
 
-    public virtual GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public virtual GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         return _effectObject;
     }
@@ -71,4 +72,10 @@ public class UI_Card : UI_Scene
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }
+
+    public virtual GameObject RemoteTargetFinder(int id)
+	{
+        GameObject remoteTarget = PhotonView.Find(id).gameObject;
+        return remoteTarget;
+	}
 }

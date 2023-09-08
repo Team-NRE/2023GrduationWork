@@ -17,9 +17,9 @@ public class GrenadeStart : MonoBehaviour
 
     float time = 0.0f;
 
-    public void StartGrenade(string _player, float _damage, int _enemylayer, float _debuff = default)
+    public void StartGrenade(int _player, float _damage, int _enemylayer, float _debuff = default)
     {
-        player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(_player);
         damage = _damage;
         enemylayer = _enemylayer;
         debuff = _debuff;

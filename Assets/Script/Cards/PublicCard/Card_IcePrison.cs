@@ -17,7 +17,7 @@ public class Card_IcePrison : UI_Card
         _effectTime = 3.0f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.myCharacter;
@@ -28,7 +28,7 @@ public class Card_IcePrison : UI_Card
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_IcePrison", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
-        _effectObject.AddComponent<IcePrisonStart>().StartIcePrison(player, _effectTime);
+        _effectObject.AddComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
 
         return _effectObject;
     }

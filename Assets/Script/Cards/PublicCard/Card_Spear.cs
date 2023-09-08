@@ -22,7 +22,7 @@ public class Card_Spear : UI_Card
         _effectTime = 0.77f;
     }
 
-    public override GameObject cardEffect(Vector3 ground, string player, int layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.myCharacter;
@@ -37,7 +37,7 @@ public class Card_Spear : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<SpearStart>().StartSpear(player, _enemylayer, _damage);
+        _effectObject.AddComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
 
         return _effectObject;
     }

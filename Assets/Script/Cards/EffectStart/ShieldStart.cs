@@ -12,9 +12,10 @@ public class ShieldStart : MonoBehaviour
 
     bool start;
 
-    public void StartShield(string _player, float _defence)
+    public void StartShield(int _player, float _defence)
     {
-        _pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
         defence = _defence;
 
         start = true;

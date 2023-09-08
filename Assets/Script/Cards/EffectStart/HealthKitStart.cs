@@ -10,9 +10,10 @@ public class HealthKitStart : MonoBehaviour
     float healthRegen = default;
     int teamLayer = default;
 
-    public void StartHealthKit(string _player, float _healthhRegen, int _teamLayer)
+    public void StartHealthKit(int _player, float _healthhRegen, int _teamLayer)
     {
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(_player);
         healthRegen = _healthhRegen;
         teamLayer = _teamLayer;
 

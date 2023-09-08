@@ -11,9 +11,10 @@ public class BloodTransfusionStart : MonoBehaviour
     float damage = default;
 
 
-    public void StartBloodTransfusion(string _player, float _damage)
+    public void StartBloodTransfusion(int playerId, float _damage)
     {
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+
         Obj = transform.parent.gameObject;
 
         damage = _damage;

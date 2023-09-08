@@ -10,9 +10,11 @@ public class CannonStart : MonoBehaviour
     int enemylayer = default;
 
 
-    public void StartCannon(string _player, float _damage, int _enemylayer)
+    public void StartCannon(int playerId, float _damage, int _enemylayer)
     {
-        player = GameObject.Find(_player);
+        //player = GameObject.Find(_player);
+        player = Managers.game.RemoteTargetFinder(playerId);
+
         damage = _damage;
         enemylayer = _enemylayer;
     }
