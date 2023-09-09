@@ -74,7 +74,6 @@ public class Monk : BaseController
 
         //스텟 호출
         _pType = Define.PlayerType.Monk;
-
         if (photonView.IsMine)
             _pv.RPC(
                 "PlayerStatSetting",

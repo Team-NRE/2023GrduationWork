@@ -74,7 +74,6 @@ public class Police : BaseController
 
         //스텟 호출
         _pType = Define.PlayerType.Police;
-
         if (photonView.IsMine)
             _pv.RPC(
                 "PlayerStatSetting",
@@ -999,6 +998,7 @@ public class Police : BaseController
     protected void SetProjectile(int id)
     {
         if (_netBullet != null)
+            Debug.Log($"{_netBullet} 발동");
             _netBullet.GetComponent<RangedBullet>().Init(id);
     }
 
