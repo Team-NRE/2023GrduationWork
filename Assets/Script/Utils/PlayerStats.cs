@@ -237,6 +237,8 @@ namespace Stat
         [PunRPC]
         public void PlayerStatSetting(string type, string name)
         {
+            Debug.Log(type + "\t" + name);
+
             Dictionary<string, Data.PlayerStat> dict = Managers.Data.PlayerStatDict;
             Data.PlayerStat stat = dict[type];
 
@@ -276,8 +278,16 @@ namespace Stat
             nowState = stat.nowState;
 
             //진영
-            playerArea = ((int)Managers.game.myCharacterTeam % 2 == 1 ? (int)Layer.Human : (int)Layer.Cyborg);
-            enemyArea  = ((int)Managers.game.myCharacterTeam % 2 == 1 ? (int)Layer.Cyborg : (int)Layer.Human);
+            if (type == "Police" || type == "Firefighter")
+            {
+                playerArea = (int)Layer.Human;
+                enemyArea  = (int)Layer.Cyborg;
+            } 
+            else 
+            {
+                playerArea = (int)Layer.Cyborg;
+                enemyArea  = (int)Layer.Human;
+            }
 
             //마나
             nowMana = 0; //현재 마나

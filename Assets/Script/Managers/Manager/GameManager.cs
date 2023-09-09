@@ -21,7 +21,20 @@ public class GameManager
     public int remainCyborg;
 
     /// 게임 시점 관련
-    public bool isGameStart {get; set;}
+    private bool isPlayingGame = false;
+
+    public bool isGameStart {
+            get { return isPlayingGame; }
+            set 
+            {
+                isPlayingGame = value;
+
+                if (isPlayingGame.Equals(false))    return;
+
+                /// RPC로 GameScene에 GameStart 함수 실행
+                GameObject.FindObjectOfType<GameScene>().StartCoroutine("InitGameSetting");
+            }
+        }
     public bool isGameEnd {get; set;}
 
     CameraController mainCamera;
