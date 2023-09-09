@@ -35,6 +35,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 		base.OnPlayerEnteredRoom(newPlayer);
 
 		Debug.Log(newPlayer);
+		Debug.Log(newPlayer.CustomProperties);
 
 		Debug.Log(newPlayer.NickName);
 

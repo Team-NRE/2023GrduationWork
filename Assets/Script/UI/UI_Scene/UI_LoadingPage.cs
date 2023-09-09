@@ -16,6 +16,7 @@ public class UI_LoadingPage : UI_Scene
     // room custom property
     private string isRemainHuman = "H";
     private string isRemainCyborg = "C";
+    private string roomStatus = "R";
 
     // player custom property
     private string team = "T";
@@ -39,6 +40,7 @@ public class UI_LoadingPage : UI_Scene
     public override void UpdateInit()
     {
         if (PhotonNetwork.CurrentRoom == null) return;
+        if (Managers.game.isGameStart) return;
         
         SetProgressBar();
         FullRoomCheck();
@@ -75,7 +77,8 @@ public class UI_LoadingPage : UI_Scene
             CustomRoomProperties = new Hashtable
             {
                 {isRemainHuman, true},  // Human 팀 참가 가능 여부
-                {isRemainCyborg, true}  // Cyborg 팀 참가 가능 여부
+                {isRemainCyborg, true},  // Cyborg 팀 참가 가능 여부
+                {roomStatus, (int)RoomStatus.Waiting}  // 방 상황
             },
         };
 		PhotonNetwork.CreateRoom(null, roomOptions, null);
@@ -129,11 +132,7 @@ public class UI_LoadingPage : UI_Scene
 
             if (remainHuman <= 0) 
             {
-                PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
-                {
-                    {isRemainHuman, false},
-                    {isRemainCyborg, PhotonNetwork.CurrentRoom.CustomProperties[isRemainCyborg]}
-                });
+                ModifyCurrentRoomCustomProperties(isRemainHuman, false);
             }
         }
 
@@ -144,13 +143,20 @@ public class UI_LoadingPage : UI_Scene
 
             if (remainCyborg <= 0)
             {
-                PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
-                {
-                    {isRemainHuman, PhotonNetwork.CurrentRoom.CustomProperties[isRemainHuman]},
-                    {isRemainCyborg, false}
-                });
+                ModifyCurrentRoomCustomProperties(isRemainCyborg, false);
             }
         }
+    }
+
+    private void ModifyCurrentRoomCustomProperties<T>(string name, T value)
+    {
+        if (!PhotonNetwork.InRoom) return;
+
+        Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        cp[name] = value;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
     }
 
     private void SetProgressBar()
@@ -158,16 +164,15 @@ public class UI_LoadingPage : UI_Scene
         progressBar.fillAmount = Mathf.MoveTowards(
             progressBar.fillAmount, 
             1.0f * PhotonNetwork.CurrentRoom.PlayerCount / PhotonNetwork.CurrentRoom.MaxPlayers, 
-            Time.unscaledDeltaTime * PhotonNetwork.CurrentRoom.PlayerCount
+            Time.unscaledDeltaTime
         );
     }
 
     private void FullRoomCheck()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
+        if (progressBar.fillAmount == 1.0f)
         {
             Managers.game.isGameStart = true;
-            gameObject.SetActive(false);
         }
     }
 }

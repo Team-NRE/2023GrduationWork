@@ -122,8 +122,6 @@ public class UI_Scoreboard : MonoBehaviour
 
         string iconName = $"Icon_{player.character}";
 
-        Debug.Log(iconName);
-
         for (int i=0; i<icons.Length; i++)
         {
             if (icons[i].name == iconName) return icons[i];

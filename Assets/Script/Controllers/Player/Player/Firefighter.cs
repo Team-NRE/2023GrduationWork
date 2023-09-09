@@ -49,10 +49,7 @@ public class Firefighter : BaseController
         _state = Define.State.Idle;
 
         //리스폰 지역
-        respawn = GameObject.Find(
-            (int)Managers.game.myCharacterTeam % 2 == 1 ?
-            "HumanRespawn" : "CyborgRespawn"
-        ).transform;
+        respawn = GameObject.Find("HumanRespawn").transform;
         
         GetComponent<NavMeshAgent>().enabled = false;
         transform.position = respawn.position;
@@ -74,14 +71,15 @@ public class Firefighter : BaseController
 
         //스텟 호출
         _pType = Define.PlayerType.Firefighter;
-        Managers.game.myCharacterTeam = (Define.PlayerTeam)(photonView.ViewID - 1000);
 
-        _pv.RPC(
-            "PlayerStatSetting",
-            RpcTarget.All,
-            _pType.ToString(),
-            Managers.game.nickname
-        );
+        if (photonView.IsMine)
+            _pv.RPC(
+                "PlayerStatSetting",
+                RpcTarget.All,
+                _pType.ToString(),
+                // Managers.game.nickname
+                PhotonNetwork.LocalPlayer.NickName
+            );
 
         _baseProj = Managers.Resource.Load<BaseProjectile>("PoliceBullet");
 

@@ -9,6 +9,7 @@ using Define;
 public class UI_Select : UI_Scene
 {
 	ColorBlock disabledColorBlock, selectedColorBlock;
+	GameObject dummyLoadingPage;
 
 	public enum Selectors
 	{
@@ -29,10 +30,13 @@ public class UI_Select : UI_Scene
 		Bind<Toggle>(typeof(Selectors));
 		Bind<Button>(typeof(Buttons));
 
-		Get<GameObject>((int)Selectors.Police).gameObject.BindEvent(SpotOnPolice);
-		Get<GameObject>((int)Selectors.Firefighter).gameObject.BindEvent(SpotOnFirefighter);
-		Get<GameObject>((int)Selectors.Lightsabre).gameObject.BindEvent(SpotOnLightsabre);
-		Get<GameObject>((int)Selectors.Monk).gameObject.BindEvent(SpotOnMonk);
+		Get<GameObject>((int)Selectors.Police).BindEvent(SpotOnPolice);
+		Get<GameObject>((int)Selectors.Firefighter).BindEvent(SpotOnFirefighter);
+		Get<GameObject>((int)Selectors.Lightsabre).BindEvent(SpotOnLightsabre);
+		Get<GameObject>((int)Selectors.Monk).BindEvent(SpotOnMonk);
+
+		dummyLoadingPage = transform.Find("DummyLoadingPage").gameObject;
+		dummyLoadingPage.SetActive(false);
 
 		Get<Toggle>((int)Selectors.Police).onValueChanged.AddListener(SpotOnCharacter);
 		Get<Toggle>((int)Selectors.Firefighter).onValueChanged.AddListener(SpotOnCharacter);
@@ -40,6 +44,7 @@ public class UI_Select : UI_Scene
 		Get<Toggle>((int)Selectors.Monk).onValueChanged.AddListener(SpotOnCharacter);
 
 		GetButton((int)Buttons.Select).gameObject.BindEvent(SelectButton);
+
 
 		InitColorBlock();
 	}
@@ -107,7 +112,7 @@ public class UI_Select : UI_Scene
 	public void SelectButton(PointerEventData data)
 	{
 		Debug.Log("Start Game");
-		// 1. 선택한 캐릭터를 다음 씬(GameScene)으로 넘긴다.
+		dummyLoadingPage.SetActive(true);
 		SceneManager.LoadScene("View Test Scene");
 	}
 }
