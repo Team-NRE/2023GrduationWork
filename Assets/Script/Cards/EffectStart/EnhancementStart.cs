@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class EnhancementStart : MonoBehaviour
 {
     PlayerStats _pStats;
+    PhotonView _pv;
 
     float basicAttackPower = default;
     float power_Time = 0.01f;
@@ -23,6 +25,12 @@ public class EnhancementStart : MonoBehaviour
 
     public void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         if (start == true)
         {
             power_Time += Time.deltaTime;

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class StrikeStart : MonoBehaviour
 {
     GameObject player = null;
     GameObject Obj = null;
+    PhotonView _pv;
 
     float damage = default;
     float effectTime = default;
@@ -29,6 +31,12 @@ public class StrikeStart : MonoBehaviour
 
     public void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         if (BaseCard._lockTarget == null) { Destroy(gameObject); }
         if (BaseCard._lockTarget != null)
         {

@@ -117,122 +117,125 @@ public class Lightsabre : BaseController
     //Mouse event
     private void MouseDownAction(Define.MouseEvent evt)
     {
-        (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition(ignore);
-
-        //클릭될 때 잡히는 오브젝트가 없다면
-        if (_mousePos.Item2 == null) return;
-
-        if (_mousePos.Item2 != null)
+        if (_pv.IsMine)
         {
-            switch (evt)
+            (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition(ignore);
+
+            //클릭될 때 잡히는 오브젝트가 없다면
+            if (_mousePos.Item2 == null) return;
+
+            if (_mousePos.Item2 != null)
             {
-                //마우스 오른쪽 버튼 클릭 시
-                case Define.MouseEvent.PointerDown:
-                    //공격 타입
-                    _proj = Define.Projectile.Attack_Proj;
+                switch (evt)
+                {
+                    //마우스 오른쪽 버튼 클릭 시
+                    case Define.MouseEvent.PointerDown:
+                        //공격 타입
+                        _proj = Define.Projectile.Attack_Proj;
 
-                    //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
-                    TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                        //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
+                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
 
-                    //사거리가 켜져있다면 Off
-                    if (_IsRange == true)
-                    {
-                        KeyPushState("MouseRightButton");
-                    }
-
-                    //일단 Move
-                    State = Define.State.Moving;
-
-                    break;
-
-
-                //마우스 오른쪽 버튼 누르고 있을 시
-                case Define.MouseEvent.Press:
-                    //공격 타입
-                    _proj = Define.Projectile.Attack_Proj;
-
-                    //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
-                    TargetSetting(_mousePos.Item1, _mousePos.Item2);
-
-                    //사거리가 켜져있다면 Off
-                    if (_IsRange == true)
-                    {
-                        KeyPushState("MouseRightButton");
-                    }
-
-                    //일단 Move
-                    State = Define.State.Moving;
-
-                    break;
-
-
-                //마우스 왼쪽 버튼 클릭 시
-                case Define.MouseEvent.LeftButton:
-                    //Range가 On일 때만 좌클릭 시
-                    if (_IsRange == true)
-                    {
-                        //스킬일 때
-                        if (_proj == Define.Projectile.Skill_Proj)
+                        //사거리가 켜져있다면 Off
+                        if (_IsRange == true)
                         {
-                            //Range 카드 = 타겟 카드
-                            if(_SaveRangeNum == (int)Define.CardType.Range)
-                            {
-                                //좌표, 타겟 설정
-                                TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                            KeyPushState("MouseRightButton");
+                        }
 
-                                State = Define.State.Moving;
+                        //일단 Move
+                        State = Define.State.Moving;
+
+                        break;
+
+
+                    //마우스 오른쪽 버튼 누르고 있을 시
+                    case Define.MouseEvent.Press:
+                        //공격 타입
+                        _proj = Define.Projectile.Attack_Proj;
+
+                        //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
+                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
+
+                        //사거리가 켜져있다면 Off
+                        if (_IsRange == true)
+                        {
+                            KeyPushState("MouseRightButton");
+                        }
+
+                        //일단 Move
+                        State = Define.State.Moving;
+
+                        break;
+
+
+                    //마우스 왼쪽 버튼 클릭 시
+                    case Define.MouseEvent.LeftButton:
+                        //Range가 On일 때만 좌클릭 시
+                        if (_IsRange == true)
+                        {
+                            //스킬일 때
+                            if (_proj == Define.Projectile.Skill_Proj)
+                            {
+                                //Range 카드 = 타겟 카드
+                                if (_SaveRangeNum == (int)Define.CardType.Range)
+                                {
+                                    //좌표, 타겟 설정
+                                    TargetSetting(_mousePos.Item1, _mousePos.Item2);
+
+                                    State = Define.State.Moving;
+                                }
+
+                                //Range 카드 = 포인트 카드
+                                if (_SaveRangeNum == (int)Define.CardType.Point)
+                                {
+                                    //Range 좌표 = Effect 위치 
+                                    _MovingPos = _attackRange[_SaveRangeNum].transform.position;
+
+                                    //스킬 상태로 전환
+                                    State = Define.State.Skill;
+                                }
+
+                                //나머지 카드 = 논타겟 카드
+                                else
+                                {
+                                    //Range 좌표 = Effect 위치 
+                                    _MovingPos = _mousePos.Item1;
+
+                                    //회전
+                                    transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+
+                                    //스킬 상태로 전환
+                                    State = Define.State.Skill;
+                                }
                             }
 
-                            //Range 카드 = 포인트 카드
-                            if (_SaveRangeNum == (int)Define.CardType.Point)
+                            //평타일 때
+                            if (_proj == Define.Projectile.Attack_Proj)
                             {
-                                //Range 좌표 = Effect 위치 
-                                _MovingPos = _attackRange[_SaveRangeNum].transform.position;
+                                if (RangeAttack() == null) return;
+                                if (RangeAttack() != null)
+                                {
+                                    //타겟 ID 찾기
+                                    int targetId = GetRemotePlayerId(RangeAttack());
+                                    GameObject remoteTarget = GetRemotePlayer(targetId);
 
-                                //스킬 상태로 전환
-                                State = Define.State.Skill;
-                            }
+                                    //좌표 설정
+                                    _MovingPos = _mousePos.Item1;
 
-                            //나머지 카드 = 논타겟 카드
-                            else
-                            {
-                                //Range 좌표 = Effect 위치 
-                                _MovingPos = _mousePos.Item1;
+                                    //타겟 오브젝트 설정
+                                    BaseCard._lockTarget = remoteTarget;
 
-                                //회전
-                                transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
-
-                                //스킬 상태로 전환
-                                State = Define.State.Skill;
+                                    //공격 상태로 전환
+                                    State = Define.State.Moving;
+                                }
                             }
                         }
 
-                        //평타일 때
-                        if(_proj == Define.Projectile.Attack_Proj)
-                        {
-                            if (RangeAttack() == null) return;
-                            if (RangeAttack() != null)
-                            {
-                                //타겟 ID 찾기
-                                int targetId = GetRemotePlayerId(RangeAttack());
-                                GameObject remoteTarget = GetRemotePlayer(targetId);
+                        //Range Off일 때 아무일도 없음.
+                        else return;
 
-                                //좌표 설정
-                                _MovingPos = _mousePos.Item1;
-
-                                //타겟 오브젝트 설정
-                                BaseCard._lockTarget = remoteTarget;
-
-                                //공격 상태로 전환
-                                State = Define.State.Moving;
-                            }
-                        }
-                    }
-
-                    //Range Off일 때 아무일도 없음.
-                    else return;
-
-                    break;
+                        break;
+                }
             }
         }
     }
@@ -273,6 +276,7 @@ public class Lightsabre : BaseController
     //Key event
     private void KeyDownAction(Define.KeyboardEvent _key)
     {
+
         //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
 
@@ -316,6 +320,7 @@ public class Lightsabre : BaseController
 
                 break;
         }
+
     }
 
 

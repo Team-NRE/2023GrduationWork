@@ -126,4 +126,9 @@ public class GameManager
         GameObject remoteTarget = PhotonView.Find(id).gameObject;
         return remoteTarget;
 	}
+
+    public int RemoteTargetIdFinder(GameObject collider)
+	{
+        return collider.GetComponent<PhotonView>().ViewID;
+	}
 }

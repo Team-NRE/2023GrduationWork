@@ -1,4 +1,5 @@
 using Data;
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 public class AmuletOfSteelStart : MonoBehaviour
 {
+    PhotonView _pv;
     PlayerStats _pStats;
 
     float armor_Time = 0.01f;
@@ -30,6 +32,12 @@ public class AmuletOfSteelStart : MonoBehaviour
 
     public void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         if (start == true)
         {
             armor_Time += Time.deltaTime;
@@ -48,16 +56,16 @@ public class AmuletOfSteelStart : MonoBehaviour
                 //기존 최대체력보다 안넘쳤다면 -> armor부터 깎고 그다음 체력 깎아야됨. 
                 if (saveMaxhealth == default && saveNowhealth != default)
                 {
-                    if(saveNowhealth <= _pStats.nowHealth)
+                    if (saveNowhealth <= _pStats.nowHealth)
                     {
                         //방어막 남아있다면 기존 현재체력으로 복귀 
-                        _pStats.nowHealth = saveNowhealth; 
+                        _pStats.nowHealth = saveNowhealth;
                     }
                 }
-              
+
                 start = false;
 
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
     }

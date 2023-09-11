@@ -59,6 +59,8 @@ MonoBehaviour:
   - UpdateAttack
   - SyncConnectGameUserNumber
   - EnemyHPLog
+  - RpcUpdate
+  - RpcTrigger
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

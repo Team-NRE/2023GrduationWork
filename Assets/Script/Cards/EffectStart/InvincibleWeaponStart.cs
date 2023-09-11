@@ -45,4 +45,9 @@ public class InvincibleWeaponStart : MonoBehaviour
             }
         }
     }
+
+    public void RpcTrigger()
+	{
+
+	}
 }

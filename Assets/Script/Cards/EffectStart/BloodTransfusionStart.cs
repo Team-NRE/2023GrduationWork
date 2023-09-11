@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class BloodTransfusionStart : MonoBehaviour
 {
     GameObject player = null;
     GameObject Obj = null;
+    PhotonView _pv;
 
     float damage = default;
 
@@ -22,6 +24,12 @@ public class BloodTransfusionStart : MonoBehaviour
 
     private void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         //타겟이 미니언, 타워일 시 
         if (Obj.tag != "PLAYER")
         {
