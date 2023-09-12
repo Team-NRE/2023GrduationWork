@@ -612,6 +612,7 @@ public class Police : BaseController
     //Moving
     protected override void UpdateMoving()
     {
+
         //Die
         if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
 

@@ -169,7 +169,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     public virtual void awakeInit() { }
     protected virtual void UpdateIdle() { }
-    protected virtual void UpdateMoving() { }
+    protected virtual void UpdateMoving() { if (!PhotonNetwork.IsMasterClient) return; }
     protected virtual void UpdateAttack() { }
     protected virtual void UpdateSkill() { }
     protected virtual void UpdateDie() { }

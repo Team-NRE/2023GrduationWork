@@ -612,6 +612,8 @@ public class Monk : BaseController
     //Moving
     protected override void UpdateMoving()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         //Die
         if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
 
