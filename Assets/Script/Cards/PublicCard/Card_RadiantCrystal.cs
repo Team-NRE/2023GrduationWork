@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// 빛나는 수정
 public class Card_RadiantCrystal : UI_Card
 {
     

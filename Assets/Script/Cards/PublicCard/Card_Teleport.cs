@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 
+// 순간이동
 public class Card_Teleport : UI_Card
 {
     public override void Init()

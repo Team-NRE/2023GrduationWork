@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 위기 모면
 public class Card_CrisisAversion : UI_Card
 {
     int _layer = default;

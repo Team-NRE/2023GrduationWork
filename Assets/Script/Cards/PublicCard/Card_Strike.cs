@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// °­Å¸
 public class Card_Strike : UI_Card
 {
     int _layer = default;

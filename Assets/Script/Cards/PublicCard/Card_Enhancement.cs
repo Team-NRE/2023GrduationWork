@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// °­È­
 public class Card_Enhancement : UI_Card
 {
     public override void Init()

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// °­Ã¶ºÎÀû
 public class Card_AmuletOfSteel : UI_Card
 {
     int _layer = default;
@@ -37,7 +38,7 @@ public class Card_AmuletOfSteel : UI_Card
 
         //¶ì·Î¸µ
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.Euler(-90, 0, 0));
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// ǥâ
 public class Card_Spear : UI_Card
 {
     LayerMask _layer = default;

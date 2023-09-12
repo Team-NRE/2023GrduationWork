@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 비장의 무기
 public class Card_InvincibleWeapon : UI_Card
 {
     int _layer = default;

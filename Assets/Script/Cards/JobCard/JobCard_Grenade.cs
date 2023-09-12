@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class JobCard_Grenade : UI_Card
 {
@@ -24,7 +25,8 @@ public class JobCard_Grenade : UI_Card
     
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        _effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
+        //_effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
+        _effectObject = PhotonNetwork.Instantiate($"Particle/EffectJob_Grenade", this.gameObject.transform.position, Quaternion.identity);
         _effectObject.transform.position = ground;
 
         _layer = layer;

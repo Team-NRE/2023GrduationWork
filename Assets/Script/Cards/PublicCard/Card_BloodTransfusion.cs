@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ¼öÇ÷
 public class Card_BloodTransfusion : UI_Card
 {
     int _layer = default;

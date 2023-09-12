@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 전장의 날개
 public class Card_WingsOfTheBattlefield : UI_Card
 {  
     int _layer = default;

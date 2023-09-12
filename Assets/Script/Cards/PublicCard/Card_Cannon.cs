@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// ´ëÆ÷
 public class Card_Cannon : UI_Card
 {
     int _layer = default;

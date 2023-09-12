@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// ¹æ¾î±¸
 public class Card_Armor : UI_Card
 {
 
@@ -26,7 +27,7 @@ public class Card_Armor : UI_Card
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Armor");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Armor", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Armor", this.gameObject.transform.position, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
