@@ -23,7 +23,6 @@ public class GameScene : BaseScene
     {
         SceneType = Scene.Game;
      
-        Managers.UI.ShowSceneUI<UI_Popup>();
         Managers.UI.ShowSceneUI<UI_LoadingPage>();
     }
 
@@ -53,6 +52,7 @@ public class GameScene : BaseScene
 
         Managers.UI.ShowSceneUI<UI_Mana>();
         Managers.UI.ShowSceneUI<UI_CardPanel>();
+        Managers.UI.ShowSceneUI<UI_Popup>();
 
         InitPlayerDefault();
 

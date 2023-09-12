@@ -66,9 +66,9 @@ public static class BaseCard
         return cardNames;
     }
 
-    public static List<string> ExportMyDeck()
+    public static List<string> ExportMyDeck(int num = 0)
     {
-        return _MyDeck = LoadDeck();
+        return _MyDeck = LoadDeck(num);
     }
 
     //가져온 이름으로 List를 채운다

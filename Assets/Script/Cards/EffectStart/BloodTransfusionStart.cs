@@ -30,7 +30,7 @@ public class BloodTransfusionStart : MonoBehaviour
     [PunRPC]
     public void RpcUpdate()
 	{
-        //Å¸°ÙÀÌ ¹Ì´Ï¾ð, Å¸¿öÀÏ ½Ã 
+        //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¾ï¿½, Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
         if (Obj.tag != "PLAYER")
         {
             ObjStats oStats = Obj.GetComponent<ObjStats>();
@@ -43,7 +43,7 @@ public class BloodTransfusionStart : MonoBehaviour
             GetComponent<BloodTransfusionStart>().enabled = false;
         }
 
-        //Å¸°ÙÀÌ Àû PlayerÀÏ ½Ã
+        //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Playerï¿½ï¿½ ï¿½ï¿½
         if (Obj.tag == "PLAYER")
         {
             PlayerStats enemyStats = Obj.GetComponent<PlayerStats>();

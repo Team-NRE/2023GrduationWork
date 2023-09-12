@@ -23,7 +23,7 @@ public class UI_Deck : UI_Popup
 
     public override void Init()
     {
-        BaseCard.ExportMyDeck();
+        BaseCard.ExportMyDeck((int)Managers.game.myCharacterType);
 
         _BigCard = transform.GetChild(2);
         _CardText = transform.GetChild(3).gameObject;

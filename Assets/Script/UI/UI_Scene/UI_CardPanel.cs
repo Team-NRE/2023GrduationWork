@@ -53,12 +53,9 @@ public class UI_CardPanel : UI_Card
     public override void Init()
     {
         pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
-        string playertype = Managers.game.myCharacter.ToString();
-        Debug.Log(playertype);
-
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
-        BaseCard.ExportDeck();
+        BaseCard.ExportDeck((int)Managers.game.myCharacterType);
 
         //Find and Bind UI object
         Bind<GameObject>(typeof(Cards));
