@@ -22,8 +22,7 @@ public class GameScene : BaseScene
     protected override void Init()
     {
         SceneType = Scene.Game;
-        Managers.UI.ShowSceneUI<UI_Mana>();
-        Managers.UI.ShowSceneUI<UI_CardPanel>();
+     
         Managers.UI.ShowSceneUI<UI_Popup>();
         Managers.UI.ShowSceneUI<UI_LoadingPage>();
     }
@@ -51,7 +50,10 @@ public class GameScene : BaseScene
         );
 
         yield return new WaitForSeconds(2.0f);
-        
+
+        Managers.UI.ShowSceneUI<UI_Mana>();
+        Managers.UI.ShowSceneUI<UI_CardPanel>();
+
         InitPlayerDefault();
 
         // 로딩 페이지 끄기

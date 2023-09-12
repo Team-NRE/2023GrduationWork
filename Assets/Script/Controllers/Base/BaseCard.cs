@@ -72,23 +72,24 @@ public static class BaseCard
     }
 
     //가져온 이름으로 List를 채운다
-    public static List<string> ExportDeck()
+    public static List<string> ExportDeck(int num = 0)
     {
-        return _initDeck = LoadDeck();
+        return _initDeck = LoadDeck(num);
     }
 
     //카드 사용
     public static string UseCard(string ReloadCard = null)
     {
         //카드가 남아 있다면 랜덤으로 뽑아서 처리 
-        int rand = UnityEngine.Random.Range(1, _initDeck.Count);
+        //int rand = UnityEngine.Random.Range(1, _initDeck.Count);
+        int rand = 0;
         //카드 이름 저장
         string ChoiseCard = _initDeck[rand];
         //남은 카드 List의 랜덤하게 뽑은 카드 삭제
         _initDeck.RemoveAt(rand);
 
         //리필 카드가 있다면
-        if (ReloadCard != null) { _initDeck.Add(ReloadCard); }
+        //if (ReloadCard != null) { _initDeck.Add(ReloadCard); }
 
         for (int i = 0; i < _initDeck.Count; i++)
         {
@@ -104,7 +105,8 @@ public static class BaseCard
     public static string StartDeck()
     {
         //랜덤으로 카드 뽑기
-        int rand = UnityEngine.Random.Range(0, _initDeck.Count);
+        //int rand = UnityEngine.Random.Range(0, _initDeck.Count);
+        int rand = 0;
         string ChoiseCard = _initDeck[rand];
 
         //Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
