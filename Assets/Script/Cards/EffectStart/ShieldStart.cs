@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class ShieldStart : MonoBehaviour
 {
     PlayerStats _pStats;
-
+    PhotonView _pv;
     float defence = default;
     float shield_Time = 0.01f;
 
@@ -23,6 +24,12 @@ public class ShieldStart : MonoBehaviour
 
     public void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         if (start == true)
         {
             shield_Time += Time.deltaTime;

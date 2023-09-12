@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class WingsOfTheBattlefieldStart : MonoBehaviour
 {
     PlayerStats _pStats;
+    PhotonView _pv;
 
     float speed = default;
     float speed_Time = 0.01f;
@@ -24,6 +26,12 @@ public class WingsOfTheBattlefieldStart : MonoBehaviour
 
     public void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         if (start == true)
         {
             speed_Time += Time.deltaTime;

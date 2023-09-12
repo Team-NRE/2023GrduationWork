@@ -1,5 +1,6 @@
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class SpearStart : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class SpearStart : MonoBehaviour
     float damage = default;
     int enemylayer = default;
 
+    PhotonView _pv;
     Transform playerTr;
     PlayerStats pStats;
 
@@ -25,9 +27,11 @@ public class SpearStart : MonoBehaviour
 
     public void Update()
     {
-        FollowTarget();
+        //FollowTarget();
+        _pv.RPC("FollowTarget", RpcTarget.All);
     }
 
+    [PunRPC]
     public void FollowTarget()
     {
         Vector3 SpearDirection = playerTr.forward;
@@ -37,6 +41,14 @@ public class SpearStart : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
+        _pv.RPC("RpcTrigger", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcTrigger(int otherId)
+	{
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
         if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
@@ -58,7 +70,7 @@ public class SpearStart : MonoBehaviour
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
 
-            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }

@@ -2097,7 +2097,7 @@ GameObject:
   - component: {fileID: 6606645644615060181}
   - component: {fileID: -4905191433607982589}
   m_Layer: 0
-  m_Name: Lightsabre
+  m_Name: LightSabre
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

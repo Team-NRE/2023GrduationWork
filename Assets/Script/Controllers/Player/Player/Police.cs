@@ -319,223 +319,227 @@ public class Police : BaseController
     //키 누르면 상태 전환
     private void KeyPushState(string Keyname)
     {
-        Debug.Log($"현재 누른 Range키: {Keyname} / 이전에 눌렀던 Range키: {BaseCard._NowKey}");
-
-        //이전 키와 다른 키를 눌렀을 때
-        if (Keyname != default && Keyname != BaseCard._NowKey)
+        if (_pv.IsMine)
         {
-            //사거리 On/Off
-            switch (_IsRange)
+            Debug.Log($"현재 누른 Range키: {Keyname} / 이전에 눌렀던 Range키: {BaseCard._NowKey}");
+
+            //이전 키와 다른 키를 눌렀을 때
+            if (Keyname != default && Keyname != BaseCard._NowKey)
             {
-                //이전 키 사거리가 켜져있을 경우
-                case true:
-                    //이전 키 사거리를 Off
-                    _attackRange[_SaveRangeNum].SetActive(false);
-                    if (Keyname == "MouseRightButton")
-                    {
-                        _IsRange = false;
-                    }
-
-                    break;
-
-                //이전 키 사거리가 꺼져있을 경우
-                case false:
-                    //현재 키 사거리 On
-                    _IsRange = true;
-                    break;
-            }
-        }
-
-        //이전과 같은 키를 눌렀을 경우
-        if (Keyname != "MouseRightButton" && Keyname == BaseCard._NowKey)
-        {
-            //사거리 On/Off
-            _IsRange = (_IsRange == true ? false : true);
-        }
-
-        //마우스 우클릭이 아니면 사거리 접근
-        if (Keyname != "MouseRightButton")
-        {
-            //누른 키가 A버튼이 아닐때
-            if (Keyname != Define.KeyboardEvent.A.ToString())
-            {
-                //해당 키 밑의 스크립트 찾아주기
-                _cardStats = GameObject.Find(Keyname).GetComponentInChildren<UI_Card>();
-
-                //카드의 Range 타입에 따른 세팅 변환
-                switch (_cardStats._rangeType)
+                //사거리 On/Off
+                switch (_IsRange)
                 {
-                    //활 모양 Range
-                    case Define.CardType.Arrow:
-                        //사거리 On/Off
-                        _attackRange[0].SetActive(_IsRange);
-
-                        //사거리가 On일 때
-                        if (_IsRange == true)
+                    //이전 키 사거리가 켜져있을 경우
+                    case true:
+                        //이전 키 사거리를 Off
+                        _attackRange[_SaveRangeNum].SetActive(false);
+                        if (Keyname == "MouseRightButton")
                         {
-                            _SaveRangeNum = (int)Define.CardType.Arrow;
-
-                            //현재 누른 키 정보를 static으로 저장
-                            BaseCard._NowKey = Keyname;
-
-                            //논타겟
-                            BaseCard._lockTarget = null;
-
-                            //스킬 타입
-                            _proj = Define.Projectile.Skill_Proj;
-
-                            //Arrow는 Scale 값 고정
-                            _attackRange[0].GetComponent<AngleMissile>().Scale = 10.0f;
+                            _IsRange = false;
                         }
 
                         break;
 
-
-                    //콘 모양 Range
-                    case Define.CardType.Cone:
-                        //사거리 On/ Off
-                        _attackRange[1].SetActive(_IsRange);
-
-                        //사거리가 On일 때
-                        if (_IsRange == true)
-                        {
-                            _SaveRangeNum = (int)Define.CardType.Cone;
-
-                            //현재 누른 키 정보를 static으로 저장
-                            BaseCard._NowKey = Keyname;
-
-                            //논타겟
-                            BaseCard._lockTarget = null;
-
-                            //스킬 타입
-                            _proj = Define.Projectile.Skill_Proj;
-
-                            //스킬 범위 크기
-                            _attackRange[1].GetComponent<Cone>().Scale = 2 * _cardStats._rangeScale;
-                            //스킬 각도
-                            _attackRange[1].GetComponent<Cone>().Angle = _cardStats._rangeAngle;
-                        }
-
-                        break;
-
-
-                    //선 모양 Range
-                    case Define.CardType.Line:
-                        //사거리 On/Off
-                        _attackRange[2].SetActive(_IsRange);
-
-                        //사거리 On 일 때
-                        if (_IsRange == true)
-                        {
-                            _SaveRangeNum = (int)Define.CardType.Line;
-
-                            //현재 누른 키 정보를 static으로 저장
-                            BaseCard._NowKey = Keyname;
-
-                            //논타겟
-                            BaseCard._lockTarget = null;
-
-                            //스킬 타입
-                            _proj = Define.Projectile.Skill_Proj;
-
-                            //스킬 범위 크기
-                            _attackRange[2].GetComponent<AngleMissile>().Scale = 2 * _cardStats._rangeScale;
-                        }
-
-                        break;
-
-
-                    //포인트 모양 Range
-                    case Define.CardType.Point:
-                        //사거리 On/Off
-                        _attackRange[3].SetActive(_IsRange);
-
-                        //사거리 On일 때
-                        if (_IsRange == true)
-                        {
-                            _SaveRangeNum = (int)Define.CardType.Point;
-
-                            //현재 누른 키 정보를 static으로 저장
-                            BaseCard._NowKey = Keyname;
-
-                            //논타겟
-                            BaseCard._lockTarget = null;
-
-                            //스킬 타입
-                            _proj = Define.Projectile.Skill_Proj;
-
-                            //스킬 범위 크기
-                            _attackRange[3].GetComponent<Point>().Scale = 2 * _cardStats._rangeScale;
-                            //스킬 거리
-                            _attackRange[3].GetComponent<Point>().Range = _cardStats._rangeRange;
-                        }
-
-                        break;
-
-
-                    //원 모양 Range
-                    case Define.CardType.Range:
-                        //사거리 On/Off
-                        _attackRange[4].SetActive(_IsRange);
-
-                        //사거리 On일 때
-                        if (_IsRange == true)
-                        {
-                            _SaveRangeNum = (int)Define.CardType.Range;
-
-                            //현재 누른 키 정보를 static으로 저장
-                            BaseCard._NowKey = Keyname;
-
-                            //스킬 범위 크기
-                            Projector projector = _attackRange[4].GetComponent<Projector>();
-
-                            //스킬 타입
-                            _proj = Define.Projectile.Skill_Proj;
-                            projector.orthographicSize = _cardStats._rangeScale;
-                        }
-
-                        break;
-
-
-                    //즉시 사용
-                    case Define.CardType.None:
-                        //현재 누른 키 정보를 static으로 저장
-                        BaseCard._NowKey = Keyname;
-
-                        //자기 자신
-                        _MovingPos = this.transform.position;
-
-                        //논타겟
-                        BaseCard._lockTarget = null;
-
-                        //스킬 상태
-                        State = Define.State.Skill;
-
+                    //이전 키 사거리가 꺼져있을 경우
+                    case false:
+                        //현재 키 사거리 On
+                        _IsRange = true;
                         break;
                 }
             }
 
-
-            //누른 키가 A버튼일때
-            if (Keyname == Define.KeyboardEvent.A.ToString())
+            //이전과 같은 키를 눌렀을 경우
+            if (Keyname != "MouseRightButton" && Keyname == BaseCard._NowKey)
             {
                 //사거리 On/Off
-                _attackRange[4].SetActive(_IsRange);
+                _IsRange = (_IsRange == true ? false : true);
+            }
 
-                //사거리 On일 때
-                if (_IsRange == true)
+            //마우스 우클릭이 아니면 사거리 접근
+            if (Keyname != "MouseRightButton")
+            {
+                //누른 키가 A버튼이 아닐때
+                if (Keyname != Define.KeyboardEvent.A.ToString())
                 {
-                    //현재 누른 키 정보를 static으로 저장
-                    BaseCard._NowKey = Keyname;
+                    //해당 키 밑의 스크립트 찾아주기
+                    _cardStats = GameObject.Find(Keyname).GetComponentInChildren<UI_Card>();
 
-                    _SaveRangeNum = (int)Define.CardType.Range;
+                    //카드의 Range 타입에 따른 세팅 변환
+                    switch (_cardStats._rangeType)
+                    {
+                        //활 모양 Range
+                        case Define.CardType.Arrow:
+                            //사거리 On/Off
+                            _attackRange[0].SetActive(_IsRange);
 
-                    //스킬 범위 크기
-                    Projector projector = _attackRange[4].GetComponent<Projector>();
+                            //사거리가 On일 때
+                            if (_IsRange == true)
+                            {
+                                _SaveRangeNum = (int)Define.CardType.Arrow;
 
-                    //평타 타입
-                    _proj = Define.Projectile.Attack_Proj;
-                    projector.orthographicSize = _pStats.attackRange;
+                                //현재 누른 키 정보를 static으로 저장
+                                BaseCard._NowKey = Keyname;
+
+                                //논타겟
+                                BaseCard._lockTarget = null;
+
+                                //스킬 타입
+                                _proj = Define.Projectile.Skill_Proj;
+
+                                //Arrow는 Scale 값 고정
+                                _attackRange[0].GetComponent<AngleMissile>().Scale = 10.0f;
+                            }
+
+                            break;
+
+
+                        //콘 모양 Range
+                        case Define.CardType.Cone:
+                            //사거리 On/ Off
+                            _attackRange[1].SetActive(_IsRange);
+
+                            //사거리가 On일 때
+                            if (_IsRange == true)
+                            {
+                                _SaveRangeNum = (int)Define.CardType.Cone;
+
+                                //현재 누른 키 정보를 static으로 저장
+                                BaseCard._NowKey = Keyname;
+
+                                //논타겟
+                                BaseCard._lockTarget = null;
+
+                                //스킬 타입
+                                _proj = Define.Projectile.Skill_Proj;
+
+                                //스킬 범위 크기
+                                _attackRange[1].GetComponent<Cone>().Scale = 2 * _cardStats._rangeScale;
+                                //스킬 각도
+                                _attackRange[1].GetComponent<Cone>().Angle = _cardStats._rangeAngle;
+                            }
+
+                            break;
+
+
+                        //선 모양 Range
+                        case Define.CardType.Line:
+                            //사거리 On/Off
+                            _attackRange[2].SetActive(_IsRange);
+
+                            //사거리 On 일 때
+                            if (_IsRange == true)
+                            {
+                                _SaveRangeNum = (int)Define.CardType.Line;
+
+                                //현재 누른 키 정보를 static으로 저장
+                                BaseCard._NowKey = Keyname;
+
+                                //논타겟
+                                BaseCard._lockTarget = null;
+
+                                //스킬 타입
+                                _proj = Define.Projectile.Skill_Proj;
+
+                                //스킬 범위 크기
+                                _attackRange[2].GetComponent<AngleMissile>().Scale = 2 * _cardStats._rangeScale;
+                            }
+
+                            break;
+
+
+                        //포인트 모양 Range
+                        case Define.CardType.Point:
+                            //사거리 On/Off
+                            _attackRange[3].SetActive(_IsRange);
+
+                            //사거리 On일 때
+                            if (_IsRange == true)
+                            {
+                                _SaveRangeNum = (int)Define.CardType.Point;
+
+                                //현재 누른 키 정보를 static으로 저장
+                                BaseCard._NowKey = Keyname;
+
+                                //논타겟
+                                BaseCard._lockTarget = null;
+
+                                //스킬 타입
+                                _proj = Define.Projectile.Skill_Proj;
+
+                                //스킬 범위 크기
+                                _attackRange[3].GetComponent<Point>().Scale = 2 * _cardStats._rangeScale;
+                                //스킬 거리
+                                _attackRange[3].GetComponent<Point>().Range = _cardStats._rangeRange;
+                            }
+
+                            break;
+
+
+                        //원 모양 Range
+                        case Define.CardType.Range:
+                            //사거리 On/Off
+                            _attackRange[4].SetActive(_IsRange);
+
+                            //사거리 On일 때
+                            if (_IsRange == true)
+                            {
+                                _SaveRangeNum = (int)Define.CardType.Range;
+
+                                //현재 누른 키 정보를 static으로 저장
+                                BaseCard._NowKey = Keyname;
+
+                                //스킬 범위 크기
+                                Projector projector = _attackRange[4].GetComponent<Projector>();
+
+                                //스킬 타입
+                                _proj = Define.Projectile.Skill_Proj;
+                                projector.orthographicSize = _cardStats._rangeScale;
+                            }
+
+                            break;
+
+
+                        //즉시 사용
+                        case Define.CardType.None:
+                            //현재 누른 키 정보를 static으로 저장
+                            BaseCard._NowKey = Keyname;
+
+                            //자기 자신
+                            _MovingPos = this.transform.position;
+
+                            //논타겟
+                            BaseCard._lockTarget = null;
+
+                            //스킬 상태
+                            State = Define.State.Skill;
+
+                            break;
+                    }
+
+                }
+
+
+                //누른 키가 A버튼일때
+                if (Keyname == Define.KeyboardEvent.A.ToString())
+                {
+                    //사거리 On/Off
+                    _attackRange[4].SetActive(_IsRange);
+
+                    //사거리 On일 때
+                    if (_IsRange == true)
+                    {
+                        //현재 누른 키 정보를 static으로 저장
+                        BaseCard._NowKey = Keyname;
+
+                        _SaveRangeNum = (int)Define.CardType.Range;
+
+                        //스킬 범위 크기
+                        Projector projector = _attackRange[4].GetComponent<Projector>();
+
+                        //평타 타입
+                        _proj = Define.Projectile.Attack_Proj;
+                        projector.orthographicSize = _pStats.attackRange;
+                    }
                 }
             }
         }

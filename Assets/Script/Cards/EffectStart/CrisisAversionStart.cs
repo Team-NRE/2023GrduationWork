@@ -1,4 +1,5 @@
 using Define;
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class CrisisAversionStart : MonoBehaviour
     
     GameObject player;
     GameObject effectOn;
+
+    PhotonView _pv;
 
     float nowEffectTime = 0.01f;
 
@@ -31,16 +34,22 @@ public class CrisisAversionStart : MonoBehaviour
 
     public void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         // 만약 피가 1이 되었다면....
         // 적 투사체에 맞고 피가 1이하로 떨어지게 된다면 발동....
         // 아직 스텟적용 미완성 
-        if(pStats.nowHealth <= 0)
+        if (pStats.nowHealth <= 0)
         {
-            IsEffect = true;  
+            IsEffect = true;
             effectOn.SetActive(IsEffect);
         }
 
-        if(IsEffect == true)
+        if (IsEffect == true)
         {
             //피 1로 고정
             pStats.nowHealth = 1;

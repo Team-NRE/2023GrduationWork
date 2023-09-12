@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class IcePrisonStart : MonoBehaviour
 {
     float effectTime;
     float startEffect = 0.01f;
-
+    PhotonView _pv;
     GameObject player = null;
 
     PlayerStats pStat;
@@ -23,9 +24,15 @@ public class IcePrisonStart : MonoBehaviour
 
     private void Update()
     {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
         startEffect += Time.deltaTime;
 
-        if(startEffect > effectTime - 0.01f)
+        if (startEffect > effectTime - 0.01f)
         {
             Destroy(gameObject);
         }

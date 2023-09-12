@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class InfectionStart : MonoBehaviour
 {
+    PhotonView _pv;
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
@@ -19,6 +21,14 @@ public class InfectionStart : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
+        int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
+        _pv.RPC("RpcTrigger", RpcTarget.All, id);   
+    }
+
+    [PunRPC]
+    public void RpcTrigger(int otherId)
+	{
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
         if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);

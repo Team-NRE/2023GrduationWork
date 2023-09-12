@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using static UnityEngine.GraphicsBuffer;
+using Photon.Pun;
 
 public class BloodstainedCoinStart : MonoBehaviour
 {
     GameObject player = null;
     GameObject _effectObject;
-
+    PhotonView _pv;
 
     Transform target = null;
 
@@ -30,10 +31,16 @@ public class BloodstainedCoinStart : MonoBehaviour
 
     private void Update()
     {
-        if(target == null) 
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+	{
+        if (target == null)
         {
-            Destroy(gameObject);
-            Destroy(_effectObject);
+            PhotonNetwork.Destroy(gameObject);
+            PhotonNetwork.Destroy(_effectObject);
         }
 
         if (target != null)

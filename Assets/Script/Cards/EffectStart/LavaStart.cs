@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class LavaStart : MonoBehaviour
 {
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
-
+    PhotonView _pv;
 
     public void StartLava(int _player, float _damage, int _enemylayer)
     {
@@ -20,6 +21,13 @@ public class LavaStart : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
+        _pv.RPC("RpcTrigger", RpcTarget.All, other);
+    }
+
+    [PunRPC]
+    public void RpcTrigger(int otherId)
+	{
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
         if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);

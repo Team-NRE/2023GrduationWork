@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Stat;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 public class HealthKitStart : MonoBehaviour
 {
+    PhotonView _pv;
     GameObject player = null;
     PlayerStats pStats;
     float healthRegen = default;
@@ -27,6 +29,14 @@ public class HealthKitStart : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
+        int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
+        _pv.RPC("RpcTrigger", RpcTarget.All, id);
+    }
+
+    [PunRPC]
+    public void RpcTrigger(int otherId)
+	{
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
         if (other.gameObject.layer == teamLayer && other.gameObject.tag != "PLAYER")
         {
             ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
