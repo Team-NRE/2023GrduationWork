@@ -27,8 +27,6 @@ public class BloodstainedCoinStart : MonoBehaviour
         damage = _damage;
     }
 
-
-
     private void Update()
     {
         _pv.RPC("RpcUpdate", RpcTarget.All);

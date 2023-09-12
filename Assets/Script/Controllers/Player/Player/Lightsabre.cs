@@ -766,7 +766,7 @@ public class Lightsabre : BaseController
                             if (BaseCard._lockTarget.tag == "PLAYER")
                             {
                                 PlayerStats _Stats = BaseCard._lockTarget.GetComponent<PlayerStats>();
-                                _Stats.receviedDamage = _pStats.basicAttackPower;
+                                _Stats.receviedDamage -= _pStats.basicAttackPower;
                                 _pv.RPC("EnemyHPLog", RpcTarget.All, _Stats.nowHealth.ToString());
                             }
                         }

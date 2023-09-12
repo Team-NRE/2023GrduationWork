@@ -38,6 +38,14 @@ public class GrenadeStart : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        int otherId = Managers.game.RemoteTargetIdFinder(other.gameObject);
+        _pv.RPC("RpcUpdate", RpcTarget.All, otherId);
+    }
+
+    [PunRPC]
+    public void RpcUpdate(int otherId)
+	{
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
         if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
@@ -59,7 +67,7 @@ public class GrenadeStart : MonoBehaviour
 
                 enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.5f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
-                
+
                 //HackingGrenade 카드
                 if (debuff != default)
                 {

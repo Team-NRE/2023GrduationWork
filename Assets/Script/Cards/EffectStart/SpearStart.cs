@@ -42,7 +42,7 @@ public class SpearStart : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
-        _pv.RPC("RpcTrigger", RpcTarget.All);
+        _pv.RPC("RpcTrigger", RpcTarget.All, id);
     }
 
     [PunRPC]
