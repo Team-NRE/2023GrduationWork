@@ -52,7 +52,7 @@ public class PlayerProjectile : BaseProjectile
 			}
 			else
 			{
-				Destroy(this.gameObject);
+				PhotonNetwork.Destroy(this.gameObject);
 			}
 		}
 	}

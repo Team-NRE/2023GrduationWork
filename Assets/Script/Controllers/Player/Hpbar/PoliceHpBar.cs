@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Stat;
+using Photon.Pun;
 
 public class PoliceHpBar : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class PoliceHpBar : MonoBehaviour
     private float maxHealth;
     private float nowHealth;
 
+    PhotonView _pv;
     private static float DELAY_TIME = 0.5f;
     
     public void Awake() 

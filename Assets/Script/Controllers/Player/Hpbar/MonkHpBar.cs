@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Stat;
+using Photon.Pun;
 
 public class MonkHpBar : MonoBehaviour
 {
@@ -26,7 +27,9 @@ public class MonkHpBar : MonoBehaviour
     private float nowHealth;
 
     private static float DELAY_TIME = 0.5f;
-    
+
+    PhotonView _pv;
+
     public void Awake() 
     {
         cam = Camera.main.transform;
