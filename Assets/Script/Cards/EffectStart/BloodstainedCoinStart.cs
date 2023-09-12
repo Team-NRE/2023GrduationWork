@@ -57,7 +57,7 @@ public class BloodstainedCoinStart : MonoBehaviour
                 _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
 
-                //Å¸°ÙÀÌ ¹Ì´Ï¾ð, Å¸¿öÀÏ ½Ã 
+                //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¾ï¿½, Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
                 if (target.tag != "PLAYER")
                 {
                     ObjStats oStats = target.GetComponent<ObjStats>();
@@ -69,7 +69,7 @@ public class BloodstainedCoinStart : MonoBehaviour
                     Destroy(_effectObject, 0.5f);
                 }
 
-                //Å¸°ÙÀÌ Àû PlayerÀÏ ½Ã
+                //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Playerï¿½ï¿½ ï¿½ï¿½
                 if (target.tag == "PLAYER")
                 {
                     enemyStats = target.GetComponent<PlayerStats>();

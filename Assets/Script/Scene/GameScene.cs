@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Stat;
+using Define;
 using System.Collections;
 using UnityEngine;
 
@@ -20,13 +21,11 @@ public class GameScene : BaseScene
 
     protected override void Init()
     {
-        SceneType = Define.Scene.Game;
+        SceneType = Scene.Game;
         Managers.UI.ShowSceneUI<UI_Mana>();
         Managers.UI.ShowSceneUI<UI_CardPanel>();
         Managers.UI.ShowSceneUI<UI_Popup>();
         Managers.UI.ShowSceneUI<UI_LoadingPage>();
-
-        StartCoroutine("ForStupidPhoton");
     }
 
     private void LoadObjects()
@@ -39,33 +38,58 @@ public class GameScene : BaseScene
 
     }
 
-    private IEnumerator ForStupidPhoton()
+    public IEnumerator InitGameSetting()
     {
+        /// 시작 시간 초기화
+        Managers.game.startTime = PhotonNetwork.Time;
+
+        // 플레이어 생성
+        Managers.game.myCharacter = PhotonNetwork.Instantiate(
+            $"Prefabs/InGame/Player/{Managers.game.myCharacterType.ToString()}",
+            Vector3.zero, 
+            Quaternion.identity
+        );
+
         yield return new WaitForSeconds(2.0f);
+        
+        InitPlayerDefault();
 
-        /// 시작 시간 초기화 : Master Client만
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Managers.game.startTime = PhotonNetwork.Time;
-
-            GetComponent<PhotonView>().RPC(
-                "SyncPlayTime",
-                RpcTarget.Others,
-                Managers.game.startTime
-            );
-        }
-
-        Debug.Log("Instantiate Player");
-
-        // // player summon
-        Managers.game.myCharacter = PhotonNetwork.Instantiate($"Prefabs/InGame/Player/{Managers.game.myCharacterType.ToString()}",
-            Vector3.zero, Quaternion.identity);
+        // 로딩 페이지 끄기
+        FindObjectOfType<UI_LoadingPage>().gameObject.SetActive(false);
     }
 
-    [PunRPC]
-    public void SyncPlayTime(double time)
+    private void InitPlayerDefault()
     {
-        Managers.game.startTime = time;
+        BaseController[] bc = FindObjectsOfType<BaseController>();
+
+        foreach (BaseController now in bc)
+        {
+            if (now._pStats == null) continue;
+
+            if (now._pStats.playerArea == (int)Layer.Human)
+            {
+                if (Managers.game.humanTeamCharacter.Item1 == null)
+                {
+                    Managers.game.humanTeamCharacter.Item1 = now.gameObject.GetPhotonView();
+                }
+                else
+                {
+                    Managers.game.humanTeamCharacter.Item2 = now.gameObject.GetPhotonView();
+                }
+            }
+
+            if (now._pStats.playerArea == (int)Layer.Cyborg)
+            {
+                if (Managers.game.cyborgTeamCharacter.Item1 == null)
+                {
+                    Managers.game.cyborgTeamCharacter.Item1 = now.gameObject.GetPhotonView();
+                }
+                else
+                {
+                    Managers.game.cyborgTeamCharacter.Item2 = now.gameObject.GetPhotonView();
+                }
+            }
+        }
     }
 
     [PunRPC]

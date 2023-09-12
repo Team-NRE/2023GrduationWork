@@ -66,16 +66,4 @@ public class UI_Login : UI_Scene
 		//InitialRoom();
 		SceneManager.LoadScene("Lobby");
 	}
-
-	public void InitialRoom(string name = "default")
-	{
-		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.MaxPlayers = 10;
-		roomOptions.IsVisible = true;
-		roomOptions.IsOpen = true;
-		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
-		if (PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default) == true)
-			SceneManager.LoadScene("Lobby");
-		Debug.Log($"your room code is {name}");
-	}
 }

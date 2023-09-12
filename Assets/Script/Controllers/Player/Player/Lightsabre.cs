@@ -51,10 +51,7 @@ public class Lightsabre : BaseController
         _state = Define.State.Idle;
 
         //리스폰 지역
-        respawn = GameObject.Find(
-            (int)Managers.game.myCharacterTeam % 2 == 1 ?
-            "HumanRespawn" : "CyborgRespawn"
-        ).transform;
+        respawn = GameObject.Find("CyborgRespawn").transform;
 
         GetComponent<NavMeshAgent>().enabled = false;
         transform.position = respawn.position;
@@ -77,14 +74,14 @@ public class Lightsabre : BaseController
 
         //스텟 호출
         _pType = Define.PlayerType.Lightsabre;
-        Managers.game.myCharacterTeam = (Define.PlayerTeam)(photonView.ViewID - 1000);
-
-        _pv.RPC(
-            "PlayerStatSetting",
-            RpcTarget.All,
-            _pType.ToString(),
-            Managers.game.nickname
-        );
+        if (photonView.IsMine)
+            _pv.RPC(
+                "PlayerStatSetting",
+                RpcTarget.All,
+                _pType.ToString(),
+                // Managers.game.nickname
+                PhotonNetwork.LocalPlayer.NickName
+            );
 
         //총알 위치
         _Proj_Parent = this.transform.GetChild(2);
@@ -515,7 +512,7 @@ public class Lightsabre : BaseController
 
                         //논타겟
                         BaseCard._lockTarget = null;
-                        
+
                         //스킬 상태
                         State = Define.State.Skill;
 
@@ -597,7 +594,7 @@ public class Lightsabre : BaseController
 
     }
 
-    
+
     //Idle
     protected override void UpdateIdle()
     {
@@ -626,12 +623,12 @@ public class Lightsabre : BaseController
                 //Attack
                 case Define.Projectile.Attack_Proj:
                     if (BaseCard._lockTarget == null)
-                    { 
-                        _agent.ResetPath(); 
-                        
-                        break; 
+                    {
+                        _agent.ResetPath();
+
+                        break;
                     }
-                    
+
                     if (BaseCard._lockTarget != null)
                     {
                         //이동
@@ -742,7 +739,7 @@ public class Lightsabre : BaseController
 
                 //플레이어 평타 타입에 따른 변환
                 //원거리일시
-                switch (_pStats.attackType) 
+                switch (_pStats.attackType)
                 {
                     case "LongRange":
                         if (BaseCard._lockTarget != null)
@@ -840,7 +837,7 @@ public class Lightsabre : BaseController
                 }
 
                 _agent.ResetPath();
-                
+
                 //스킬 쿨타임
                 _stopSkill = true;
 
@@ -999,8 +996,8 @@ public class Lightsabre : BaseController
             }
         }
     }
-    
-    
+
+
     //Projectile 설정
     [PunRPC]
     protected void SetProjectile(int id)

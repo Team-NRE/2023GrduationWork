@@ -58,6 +58,7 @@ MonoBehaviour:
   - PlayerStatSetting
   - UpdateAttack
   - SyncConnectGameUserNumber
+  - GameStart
   - EnemyHPLog
   - RpcUpdate
   - RpcTrigger
