@@ -747,11 +747,10 @@ public class Police : BaseController
                         {
                             //Shoot
                             string tempName = "PoliceBullet";
-                            //GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
-                            //nowBullet.GetComponent<RangedBullet>().BulletSetting(_Proj_Parent.position, BaseCard._lockTarget.transform, _pStats.speed, _pStats.basicAttackPower);
-                            //GameObject projectileTarget = GetRemotePlayer(BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
                             _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
-                            _pv.RPC("SetProjectile", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                            PhotonView localPv = _netBullet.GetComponent<PhotonView>();
+                            localPv.RPC("Init", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                            //_pv.RPC("SetProjectile", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
                         }
                         break;
 

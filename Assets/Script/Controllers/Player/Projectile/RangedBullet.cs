@@ -23,13 +23,17 @@ public class RangedBullet : MonoBehaviour
     {
         if (_target == null)
         {
+            Debug.Log("Ranged Bullet Target Null");
             Destroy(this.gameObject);
         }
 
+        //_pv.RPC("FollowTarget", RpcTarget.All);
+        //_pv.RPC("HitDetection", RpcTarget.All);
         FollowTarget();
         HitDetection();
     }
 
+    [PunRPC]
     public void Init(int targetId)
     {
         _pv = GetComponent<PhotonView>();

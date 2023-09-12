@@ -91,8 +91,6 @@ public class ObjectBullet : MonoBehaviourPun
 
     public void HitDetection()
     {
-        
-        
         Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
 
