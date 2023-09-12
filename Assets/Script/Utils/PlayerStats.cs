@@ -232,8 +232,6 @@ namespace Stat
         [PunRPC]
         public void PlayerStatSetting(string type, string name)
         {
-            Debug.Log(type + "\t" + name);
-
             Dictionary<string, Data.PlayerStat> dict = Managers.Data.PlayerStatDict;
             Data.PlayerStat stat = dict[type];
 
