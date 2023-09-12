@@ -16,7 +16,7 @@ public class BloodTransfusionStart : MonoBehaviour
     public void StartBloodTransfusion(int playerId, float _damage)
     {
         //player = GameObject.Find(_player);
-
+        player = Managers.game.RemoteTargetFinder(playerId);
         Obj = transform.parent.gameObject;
 
         damage = _damage;
