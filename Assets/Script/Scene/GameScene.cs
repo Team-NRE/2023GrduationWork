@@ -61,7 +61,6 @@ public class GameScene : BaseScene
     private void InitPlayerDefault()
     {
         BaseController[] bc = FindObjectsOfType<BaseController>();
-        Debug.Log("bc.Length" + bc.Length);
 
         foreach (BaseController now in bc)
         {
@@ -72,13 +71,10 @@ public class GameScene : BaseScene
                 if (Managers.game.humanTeamCharacter.Item1 == null)
                 {
                     Managers.game.humanTeamCharacter.Item1 = now.gameObject.GetPhotonView();
-                    Debug.Log("Managers.game.humanTeamCharacter.Item1.name" + Managers.game.humanTeamCharacter.Item1.name);
                 }
                 else
                 {
                     Managers.game.humanTeamCharacter.Item2 = now.gameObject.GetPhotonView();
-
-                    Debug.Log("Managers.game.humanTeamCharacter.Item2.name" + Managers.game.humanTeamCharacter.Item2.name);
                 }
             }
 
@@ -87,14 +83,10 @@ public class GameScene : BaseScene
                 if (Managers.game.cyborgTeamCharacter.Item1 == null)
                 {
                     Managers.game.cyborgTeamCharacter.Item1 = now.gameObject.GetPhotonView();
-
-                    Debug.Log("Managers.game.cyborgTeamCharacter.Item1.name" + Managers.game.cyborgTeamCharacter.Item1.name);
                 }
                 else
                 {
                     Managers.game.cyborgTeamCharacter.Item2 = now.gameObject.GetPhotonView();
-
-                    Debug.Log("Managers.game.cyborgTeamCharacter.Item2.name" + Managers.game.cyborgTeamCharacter.Item2.name);
                 }
             }
         }

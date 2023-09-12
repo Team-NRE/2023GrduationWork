@@ -9,6 +9,70 @@ using TMPro;
 using Stat;
 using Photon.Pun;
 
+class player
+{
+    public PhotonView photonView;
+    GameObject parent;
+    PlayerStats stat;
+
+    Image icon;
+    TextMeshProUGUI name;
+    TextMeshProUGUI level;
+    TextMeshProUGUI kill;
+    TextMeshProUGUI death;
+
+    public player(PhotonView playerObj, GameObject uiParent)
+    {
+        photonView = playerObj;
+        parent = uiParent;
+
+        InitContent();
+    }
+
+    private void InitContent()
+    {
+        icon    = FindObject<Image>("Icon");
+        name    = FindObject<TextMeshProUGUI>("Name");
+        level   = FindObject<TextMeshProUGUI>("LevelText");
+        kill    = FindObject<TextMeshProUGUI>("KillText");
+        death   = FindObject<TextMeshProUGUI>("DeathText");
+    }
+
+    public void UpdateContent()
+    {
+        if (stat == null) 
+        {
+            stat = photonView?.GetComponent<PlayerStats>();
+            parent.SetActive(stat != null);
+            return;
+        }
+
+        if (icon != null && icon.sprite == null) 
+            icon.sprite = Managers.Resource.Load<Sprite>($"Texture/UI/Character_Img/Icon_{stat.character}");
+        if (name != null && name.text == "null") 
+            name.text = stat.nickname;
+
+        if (level != null) level.text  = stat.level.ToString();
+        if (kill != null)  kill.text   = stat.kill.ToString();
+        if (death != null) death.text  = stat.death.ToString();
+    }
+
+    private T FindObject<T>(string name)
+    {
+        T[] nowList = parent.GetComponentsInChildren<T>();
+
+        for(int i=0; i<nowList.Length; i++)
+        {
+            if (nowList[i].ToString().Substring(0, name.Length).Equals(name))
+            {
+                return nowList[i];
+            }
+        }
+
+        return default(T);
+    }
+}
+
 public class UI_Scoreboard : MonoBehaviour
 {
     #region Variable
@@ -16,82 +80,36 @@ public class UI_Scoreboard : MonoBehaviour
     [SerializeField] private TextMeshProUGUI humanTeamKill;
     [SerializeField] private TextMeshProUGUI cyborgTeamKill;
 
-    [Header ("- Human P1")]
-    [SerializeField] private Image humanP1Icon;
-    [SerializeField] private TextMeshProUGUI humanP1Name;
-    [SerializeField] private TextMeshProUGUI humanP1Kill;
-    [SerializeField] private TextMeshProUGUI humanP1Death;
-
-    [Header ("- Human P2")]
-    [SerializeField] private Image humanP2Icon;
-    [SerializeField] private TextMeshProUGUI humanP2Name;
-    [SerializeField] private TextMeshProUGUI humanP2Kill;
-    [SerializeField] private TextMeshProUGUI humanP2Death;
-
-    [Header ("- Cyborg P1")]
-    [SerializeField] private Image cyborgP1Icon;
-    [SerializeField] private TextMeshProUGUI cyborgP1Name;
-    [SerializeField] private TextMeshProUGUI cyborgP1Kill;
-    [SerializeField] private TextMeshProUGUI cyborgP1Death;
-
-    [Header ("- Cyborg P2")]
-    [SerializeField] private Image cyborgP2Icon;
-    [SerializeField] private TextMeshProUGUI cyborgP2Name;
-    [SerializeField] private TextMeshProUGUI cyborgP2Kill;
-    [SerializeField] private TextMeshProUGUI cyborgP2Death;
-
-
-    [Space (20.0f)]
-    public Sprite[] icons;
-
-    PlayerStats humanP1Stats, humanP2Stats;
-    PlayerStats cyborgP1Stats, cyborgP2Stats;
+    player[] playerList;
     #endregion
+
+    private void Awake()
+    {
+        playerList = new player[4];
+        FindObject<HorizontalLayoutGroup>("Content").spacing = (Managers.game.gameMode == Define.GameMode.Single ? 0 : 75);
+    }
 
     private void OnEnable()
     {
-        GetPlayerStats();
-        SetIcon();
-        SetNickname();
+        if (Managers.game.humanTeamCharacter.Item1 != null && playerList[0] == null)
+            playerList[0] = new player(Managers.game.humanTeamCharacter.Item1,  FindObject<VerticalLayoutGroup>("Scoreboard_Player1").gameObject);
+        if (Managers.game.humanTeamCharacter.Item2 != null && playerList[1] == null)
+            playerList[1] = new player(Managers.game.humanTeamCharacter.Item2,  FindObject<VerticalLayoutGroup>("Scoreboard_Player2").gameObject);
+        if (Managers.game.cyborgTeamCharacter.Item1 != null && playerList[2] == null)
+            playerList[2] = new player(Managers.game.cyborgTeamCharacter.Item1, FindObject<VerticalLayoutGroup>("Scoreboard_Player3").gameObject);
+        if (Managers.game.cyborgTeamCharacter.Item2 != null && playerList[3] == null)
+            playerList[3] = new player(Managers.game.cyborgTeamCharacter.Item2, FindObject<VerticalLayoutGroup>("Scoreboard_Player4").gameObject);
     }
 
     private void Update()
     {
-        GetPlayerStats();
         SetTeamKill();
-        SetKill();
-        SetDeath();
-    }
 
-    private void GetPlayerStats()
-    {
-        if (humanP1Stats == null)
-            humanP1Stats = Managers.game.humanTeamCharacter.Item1?.GetComponent<PlayerStats>();
-
-        if (humanP2Stats == null)
-            humanP2Stats = Managers.game.humanTeamCharacter.Item2?.GetComponent<PlayerStats>();
-
-        if (cyborgP1Stats == null)
-            cyborgP1Stats = Managers.game.cyborgTeamCharacter.Item1?.GetComponent<PlayerStats>();
-
-        if (cyborgP2Stats == null)
-            cyborgP2Stats = Managers.game.cyborgTeamCharacter.Item2?.GetComponent<PlayerStats>();
-    }
-
-    private void SetIcon()
-    {
-        humanP1Icon.sprite = GetIconTexture(humanP1Stats);
-        humanP2Icon.sprite = GetIconTexture(humanP2Stats);
-        cyborgP1Icon.sprite = GetIconTexture(cyborgP1Stats);
-        cyborgP2Icon.sprite = GetIconTexture(cyborgP2Stats);
-    }
-
-    private void SetNickname()
-    {
-        humanP1Name.text = GetNickname(humanP1Stats);
-        humanP2Name.text = GetNickname(humanP2Stats);
-        cyborgP1Name.text = GetNickname(cyborgP1Stats);
-        cyborgP2Name.text = GetNickname(cyborgP2Stats);
+        for (int i=0; i<playerList.Length; i++)
+        {
+            if (playerList[i] == null) continue;
+            playerList[i].UpdateContent();
+        }
     }
 
     private void SetTeamKill()
@@ -100,51 +118,18 @@ public class UI_Scoreboard : MonoBehaviour
         cyborgTeamKill.text = Managers.game.cyborgTeamKill.ToString();
     }
 
-    private void SetKill()
+    private T FindObject<T>(string name)
     {
-        humanP1Kill.text = GetKill(humanP1Stats);
-        humanP2Kill.text = GetKill(humanP2Stats);
-        cyborgP1Kill.text = GetKill(cyborgP1Stats);
-        cyborgP2Kill.text = GetKill(cyborgP2Stats);
-    }
+        T[] nowList = this.gameObject.GetComponentsInChildren<T>(true);
 
-    private void SetDeath()
-    {
-        humanP1Death.text = GetDeath(humanP1Stats);
-        humanP2Death.text = GetDeath(humanP2Stats);
-        cyborgP1Death.text = GetDeath(cyborgP1Stats);
-        cyborgP2Death.text = GetDeath(cyborgP2Stats);
-    }
-
-    private Sprite GetIconTexture(PlayerStats player)
-    {
-        if (player == null) return null;
-
-        string iconName = $"Icon_{player.character}";
-
-        for (int i=0; i<icons.Length; i++)
+        for(int i=0; i<nowList.Length; i++)
         {
-            if (icons[i].name == iconName) return icons[i];
+            if (nowList[i].ToString().Substring(0, name.Length).Equals(name))
+            {
+                return nowList[i];
+            }
         }
 
-        return null;
-    }
-
-    private string GetNickname(PlayerStats player)
-    {
-        if (player == null) return " ";
-        return player.nickname;
-    }
-
-    private string GetKill(PlayerStats player)
-    {
-        if (player == null) return " ";
-        return player.kill.ToString();
-    }
-
-    private string GetDeath(PlayerStats player)
-    {
-        if (player == null) return " ";
-        return player.death.ToString();
+        return default(T);
     }
 }
