@@ -5,6 +5,30 @@
       "cards": [
         "JobCard_Grenade",
 
+        "Card_Cannon",
+        "Card_Enhancement",
+        "Card_BloodTransfusion",
+        "Card_Shield",
+        "Card_Crystal"
+      ]
+    },
+    {
+      "id": "1",
+      "cards": [
+        "JobCard_Charge",
+
+        "Card_Cannon",
+        "Card_Enhancement",
+        "Card_BloodTransfusion",
+        "Card_Shield",
+        "Card_Crystal"
+      ]
+    },
+    {
+      "id": "2",
+      "cards": [
+        "JobCard_Charge",
+
         "Card_HealthPotion",
         "Card_Enhancement",
         "Card_Speed",
@@ -33,18 +57,6 @@
         "Card_CrisisAversion",
         "Card_InvincibleShield",
         "Card_InvincibleWeapon"
-      ]
-    },
-    {
-      "id": "1",
-      "cards": [
-        "JobCard_Charge",
-
-        "Card_Cannon",
-        "Card_Enhancement",
-        "Card_BloodTransfusion",
-        "Card_Shield",
-        "Card_Crystal"
       ]
     }
   ]

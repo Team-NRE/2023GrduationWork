@@ -30,7 +30,7 @@ public class UI_Mana : UI_Scene
     public override void Init()
     {
         // pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
-        pStat = GameObject.FindGameObjectWithTag("PLAYER")?.GetComponent<PlayerStats>();
+        pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
 
         Bind<GameObject>(typeof(Manas));
         Mana1 = Get<GameObject>((int)Manas.Mana1);
@@ -46,7 +46,7 @@ public class UI_Mana : UI_Scene
     {
         if (pStat == null)
         {
-            pStat = GameObject.FindGameObjectWithTag("PLAYER")?.GetComponent<PlayerStats>();
+            pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
             return;
         }
 

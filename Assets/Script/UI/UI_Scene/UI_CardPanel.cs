@@ -52,6 +52,11 @@ public class UI_CardPanel : UI_Card
 
     public override void Init()
     {
+        pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
+        string playertype = Managers.game.myCharacter.ToString();
+        Debug.Log(playertype);
+
+
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck();
 
@@ -115,31 +120,30 @@ public class UI_CardPanel : UI_Card
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (BaseCard._lockTarget != null)
-            {
-                switch (BaseCard._NowKey)
-                {
-                    case "Q":
-                        UI_UseQ();
 
-                        break;
+            switch (BaseCard._NowKey)
+            { 
+                case "Q":
+                    UI_UseQ();
 
-                    case "W":
-                        UI_UseW();
+                    break;
 
-                        break;
+                case "W":
+                    UI_UseW();
 
-                    case "E":
-                        UI_UseE();
+                    break;
 
-                        break;
+                case "E":
+                    UI_UseE();
 
-                    case "R":
-                        UI_UseR();
+                    break;
 
-                        break;
-                }
+                case "R":
+                    UI_UseR();
+
+                    break;
             }
+            
         }
     }
 
@@ -216,6 +220,8 @@ public class UI_CardPanel : UI_Card
     //0번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseQ()
     {
+        Debug.Log("Q");
+
         //UI_Card 
         UI_Card Q_CardUI = Q_Btn.GetComponentInChildren<UI_Card>();
 
