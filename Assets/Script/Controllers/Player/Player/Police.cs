@@ -281,40 +281,54 @@ public class Police : BaseController
         switch (_key)
         {
             case Define.KeyboardEvent.Q:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.W:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.E:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.R:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.A:
-                KeyPushState(_key.ToString());
-
+                if (_pv.IsMine)
+                {
+                    KeyPushState(_key.ToString());
+                }
                 break;
         }
 

@@ -4,10 +4,9 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class GrenadeStart : MonoBehaviour
+public class GrenadeStart : BaseEffect
 {
     PlayerStats enemyStats;
-    PhotonView _pv;
 
     GameObject player = null;
     float damage = default;

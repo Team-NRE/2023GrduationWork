@@ -4,10 +4,9 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class EnhancementStart : MonoBehaviour
+public class EnhancementStart : BaseEffect
 {
     PlayerStats _pStats;
-    PhotonView _pv;
 
     float basicAttackPower = default;
     float power_Time = 0.01f;

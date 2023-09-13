@@ -78,4 +78,12 @@ public class UI_Card : UI_Scene
         GameObject remoteTarget = PhotonView.Find(id).gameObject;
         return remoteTarget;
 	}
+
+    [PunRPC]
+    protected GameObject RemoteAddComponent(int remoteId)
+    {
+        GameObject particle = Managers.game.RemoteTargetFinder(remoteId);
+        particle.AddComponent<BaseEffect>();
+        return particle;
+    }
 }

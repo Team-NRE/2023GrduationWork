@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 
-public class InvincibleWeaponStart : MonoBehaviour
+public class InvincibleWeaponStart : BaseEffect
 {
     GameObject player = null;
     float damage = default;

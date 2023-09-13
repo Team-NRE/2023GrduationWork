@@ -4,10 +4,9 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class ShieldStart : MonoBehaviour
+public class ShieldStart : BaseEffect
 {
     PlayerStats _pStats;
-    PhotonView _pv;
     float defence = default;
     float shield_Time = 0.01f;
 

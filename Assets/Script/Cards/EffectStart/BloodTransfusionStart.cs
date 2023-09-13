@@ -4,11 +4,10 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class BloodTransfusionStart : MonoBehaviour
+public class BloodTransfusionStart : BaseEffect
 {
     GameObject player = null;
     GameObject Obj = null;
-    PhotonView _pv;
 
     float damage = default;
 

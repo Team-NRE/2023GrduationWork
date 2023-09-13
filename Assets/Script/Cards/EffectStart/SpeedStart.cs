@@ -4,10 +4,9 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class SpeedStart : MonoBehaviour
+public class SpeedStart : BaseEffect
 {
     PlayerStats _pStats;
-    PhotonView _pv;
 
     float speed = default;
     float speed_Time = 0.01f;

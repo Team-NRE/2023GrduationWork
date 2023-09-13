@@ -4,9 +4,8 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class InfectionStart : MonoBehaviour
+public class InfectionStart : BaseEffect
 {
-    PhotonView _pv;
     GameObject player = null;
     float damage = default;
     int enemylayer = default;

@@ -4,12 +4,11 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class LavaStart : MonoBehaviour
+public class LavaStart : BaseEffect
 {
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
-    PhotonView _pv;
 
     public void StartLava(int _player, float _damage, int _enemylayer)
     {

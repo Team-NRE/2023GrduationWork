@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using UnityEngine.UIElements;
 
-public class InvincibleShieldStart : MonoBehaviour
+public class InvincibleShieldStart : BaseEffect
 {
     PlayerStats _pStats;
     ObjStats _oStats;

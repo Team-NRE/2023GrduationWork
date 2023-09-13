@@ -5,14 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrisisAversionStart : MonoBehaviour
+public class CrisisAversionStart : BaseEffect
 {
     PlayerStats pStats;
     
     GameObject player;
     GameObject effectOn;
-
-    PhotonView _pv;
 
     float nowEffectTime = 0.01f;
 
@@ -58,7 +56,7 @@ public class CrisisAversionStart : MonoBehaviour
 
             if (nowEffectTime >= effectTime)
             {
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
     }

@@ -4,11 +4,10 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class IcePrisonStart : MonoBehaviour
+public class IcePrisonStart : BaseEffect
 {
     float effectTime;
     float startEffect = 0.01f;
-    PhotonView _pv;
     GameObject player = null;
 
     PlayerStats pStat;
