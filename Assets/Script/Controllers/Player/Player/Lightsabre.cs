@@ -28,7 +28,7 @@ public class Lightsabre : BaseController
     //평타/스킬/스텟 쿨타임
     public float _SaveAttackSpeed = default;
     public float _SaveSkillCool = default;
-    public float _SaveHPSCool = default;
+    public float _SaveRegenCool = default;
     public float _SaveRespawnTime = default;
 
     //좌표에 포함안되는 레이어
@@ -588,24 +588,28 @@ public class Lightsabre : BaseController
     protected override void UpdatePlayerStat()
     {
         //초기 세팅
-        if (_SaveHPSCool == default)
+        if (_SaveRegenCool == default)
         {
-            _SaveHPSCool = 0.01f;
+            _SaveRegenCool = 0.01f;
+
         }
 
-        if (_SaveHPSCool != default)
+        if (_SaveRegenCool != default)
         {
-            _SaveHPSCool += Time.deltaTime;
+            _SaveRegenCool += Time.deltaTime;
 
-            if (_SaveHPSCool >= 1)
+            if (_SaveRegenCool >= 1)
             {
                 //피 회복
                 _pStats.nowHealth += _pStats.healthRegeneration;
+                _pStats.nowMana += _pStats.manaRegen;
 
                 //attackDelay 초기화
-                _SaveHPSCool = default;
+                _SaveRegenCool = default;
             }
         }
+
+
 
     }
 
@@ -877,6 +881,7 @@ public class Lightsabre : BaseController
         //_startDie = true;
         Managers.game.DieEvent(_pv.ViewID);
         _startDie = true;
+
 
         ////스킬 시전 시간동안 키 입력 X
         //Managers.Input.MouseAction -= MouseDownAction;

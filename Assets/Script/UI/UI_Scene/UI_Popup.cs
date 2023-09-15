@@ -6,6 +6,8 @@ public class UI_Popup : UI_Scene
 {
     GameObject KDA;
     GameObject KillLog;
+    GameObject StatBox;
+    GameObject StautsBar;
     GameObject Scoreboard;
     GameObject Setting;
     GameObject Store;
@@ -20,6 +22,8 @@ public class UI_Popup : UI_Scene
     {
         UI_KDA,
         UI_KillLog,
+        UI_StatBox,
+        UI_StautsBar,
         UI_Scoreboard,
         UI_Setting,
         UI_Store,
@@ -31,6 +35,8 @@ public class UI_Popup : UI_Scene
         Bind<GameObject>(typeof(Popup));
         KDA = Get<GameObject>((int)Popup.UI_KDA);
         KillLog = Get<GameObject>((int)Popup.UI_KillLog);
+        StatBox = Get<GameObject>((int)Popup.UI_StatBox);
+        StautsBar = Get<GameObject>((int)Popup.UI_StautsBar);
         Scoreboard = Get<GameObject>((int)Popup.UI_Scoreboard);
         Setting = Get<GameObject>((int)Popup.UI_Setting);
         Store = Get<GameObject>((int)Popup.UI_Store);
@@ -39,6 +45,8 @@ public class UI_Popup : UI_Scene
 
         KDA.SetActive(true);
         KillLog.SetActive(true);
+        StatBox.SetActive(true);
+        StautsBar.SetActive(true);
         Scoreboard.SetActive(false);
         Setting.SetActive(IsSetting);
         Store.SetActive(IsSetting);

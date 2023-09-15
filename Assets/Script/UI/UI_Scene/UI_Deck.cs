@@ -27,7 +27,7 @@ public class UI_Deck : UI_Popup
 
         _BigCard = transform.GetChild(2);
         _CardText = transform.GetChild(3).gameObject;
-        _ScrollMyCard = GameObject.Find("Content").transform;
+        _ScrollMyCard = GameObject.Find("DeckContent").transform;
 
         _CardInfoText = _CardText.GetComponentInChildren<TextMeshProUGUI>();
 
