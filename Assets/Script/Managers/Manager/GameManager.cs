@@ -144,4 +144,10 @@ public class GameManager
 	{
         return collider.GetComponent<PhotonView>().ViewID;
 	}
+
+    public int RemoteColliderId(Collider collider)
+    {
+        int colliderId = collider.gameObject.GetComponent<PhotonView>().ViewID;
+        return colliderId;
+    }
 }

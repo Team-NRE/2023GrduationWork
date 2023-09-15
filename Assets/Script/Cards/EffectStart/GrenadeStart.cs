@@ -25,6 +25,7 @@ public class GrenadeStart : BaseEffect
         damage = _damage;
         enemylayer = _enemylayer;
         debuff = _debuff;
+        _pv = GetComponent<PhotonView>();
     }
 
     public void Update()

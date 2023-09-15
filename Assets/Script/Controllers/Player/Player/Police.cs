@@ -834,12 +834,13 @@ public class Police : BaseController
                     Debug.Log($"UpdateSkill : {_MovingPos} ");
                     //Skill On
                     _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.photonView.ViewID, _pStats.playerArea);
+                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
 
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)
                     {
-                        Destroy(effectObj, _cardStats._effectTime);
+                        //Destroy(effectObj, _cardStats._effectTime);
+                        StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
                     }
 
                     //부활이 켜져있으면

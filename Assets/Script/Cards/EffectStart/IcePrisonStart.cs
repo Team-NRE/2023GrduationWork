@@ -20,6 +20,7 @@ public class IcePrisonStart : BaseEffect
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(_player);
         pStat = player.GetComponent<PlayerStats>();
+        _pv = GetComponent<PhotonView>();
     }
 
     private void Update()
@@ -34,7 +35,7 @@ public class IcePrisonStart : BaseEffect
 
         if (startEffect > effectTime - 0.01f)
         {
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }

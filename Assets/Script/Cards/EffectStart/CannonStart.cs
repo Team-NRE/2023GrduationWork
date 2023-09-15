@@ -16,6 +16,7 @@ public class CannonStart : BaseEffect
     {
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(playerId);
+        _pv = GetComponent<PhotonView>();
 
         damage = _damage;
         enemylayer = _enemylayer;

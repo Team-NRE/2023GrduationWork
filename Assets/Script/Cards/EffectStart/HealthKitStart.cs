@@ -19,6 +19,7 @@ public class HealthKitStart : BaseEffect
         player = Managers.game.RemoteTargetFinder(_player);
         healthRegen = _healthhRegen;
         teamLayer = _teamLayer;
+        _pv = GetComponent<PhotonView>();
 
         pStats = player.GetComponent<PlayerStats>();
     }

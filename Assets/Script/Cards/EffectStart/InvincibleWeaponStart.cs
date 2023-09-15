@@ -48,6 +48,7 @@ public class InvincibleWeaponStart : BaseEffect
         }
     }
 
+    [PunRPC]
     public void RpcTrigger()
 	{
 

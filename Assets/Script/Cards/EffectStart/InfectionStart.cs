@@ -17,6 +17,7 @@ public class InfectionStart : BaseEffect
         player = Managers.game.RemoteTargetFinder(_player);
         damage = _damage;
         enemylayer = _enemylayer;
+        _pv = GetComponent<PhotonView>();
     }
 
     public void OnTriggerStay(Collider other)

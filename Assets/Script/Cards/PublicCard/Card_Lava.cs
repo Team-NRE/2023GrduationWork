@@ -8,6 +8,7 @@ public class Card_Lava : UI_Card
 {
     int _layer = default;
     int _enemylayer = default;
+    protected PhotonView _pv;
 
     public override void Init()
     {

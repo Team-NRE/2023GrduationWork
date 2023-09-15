@@ -85,7 +85,7 @@ public class BloodstainedCoinStart : BaseEffect
 
                     //Destroy(gameObject, 0.1f);
                     //Destroy(_effectObject, 0.5f);
-                    DelayDestroy(gameObject, 0.1f);
+                    StartCoroutine(DelayDestroy(gameObject, 0.1f));
                     DelayDestroy(_effectObject, 0.5f);
                 }
             }

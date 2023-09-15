@@ -25,7 +25,7 @@ public class Card_BloodTransfusion : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodTransfusion");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodTransfusion", ground, Quaternion.Euler(-90, 0, 0));
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodTransfusion", BaseCard._lockTarget.transform.position, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = BaseCard._lockTarget.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
