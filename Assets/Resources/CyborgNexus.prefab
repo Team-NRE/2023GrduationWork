@@ -471,7 +471,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1054945522, guid: 3b9c6c4d4064d2b419e66da46b2f4b63, type: 3}
+  m_Sprite: {fileID: -1337099926, guid: 3b9c6c4d4064d2b419e66da46b2f4b63, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1723,6 +1723,7 @@ MonoBehaviour:
   _action: 0
   _targetEnemyTransform: {fileID: 0}
   particleCoinDrop: {fileID: 0}
+  mainCamera: {fileID: 0}
   camPos: {x: 0, y: 0, z: 0}
 --- !u!114 &6566784834773782942
 MonoBehaviour:
