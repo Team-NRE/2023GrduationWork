@@ -30,7 +30,7 @@ public class Lightsabre : BaseController
     public float _SaveSkillCool = default;
     public float _SaveHPSCool = default;
     public float _SaveRespawnTime = default;
-       
+
     //좌표에 포함안되는 레이어
     private LayerMask ignore;
 
@@ -48,7 +48,12 @@ public class Lightsabre : BaseController
     //리스폰 후 재설정
     public void OnEnable()
     {
+        //Idle
         _state = Define.State.Idle;
+
+        _pStats.nowHealth = _pStats.maxHealth;
+
+        _startDie = false;
 
         //리스폰 지역
         respawn = GameObject.Find("CyborgRespawn").transform;
@@ -57,11 +62,21 @@ public class Lightsabre : BaseController
         transform.position = respawn.position;
         GetComponent<NavMeshAgent>().enabled = true;
 
-        //액션 대리자
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        StartCoroutine(KeyInputRespawn());
     }
 
+    IEnumerator KeyInputRespawn()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        //액션 대리자
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+    }
 
     //start 초기화
     public override void Init()
@@ -598,13 +613,15 @@ public class Lightsabre : BaseController
     //Idle
     protected override void UpdateIdle()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0 && _agent.remainingDistance < 0.2f)
         {
             State = Define.State.Idle;
+        }
+
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
         }
     }
 
@@ -612,9 +629,6 @@ public class Lightsabre : BaseController
     //Moving
     protected override void UpdateMoving()
     {
-        //Die
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         if (_pv.IsMine)
         {
             //타겟 - Attack or Skill or Move
@@ -699,6 +713,11 @@ public class Lightsabre : BaseController
             {
                 State = Define.State.Idle;
             }
+
+            if (_pStats.nowHealth <= 0)
+            {
+                State = Define.State.Die;
+            }
         }
 
         else
@@ -723,9 +742,6 @@ public class Lightsabre : BaseController
     //Attack
     protected override void UpdateAttack()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0)
         {
@@ -747,7 +763,9 @@ public class Lightsabre : BaseController
                             //Shoot
                             string tempName = "PoliceBullet";
                             _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
-                            _pv.RPC("SetProjectile", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                            PhotonView localPv = _netBullet.GetComponent<PhotonView>();
+                            localPv.RPC("Init", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                            //_pv.RPC("SetProjectile", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
                         }
                         break;
 
@@ -766,7 +784,7 @@ public class Lightsabre : BaseController
                             if (BaseCard._lockTarget.tag == "PLAYER")
                             {
                                 PlayerStats _Stats = BaseCard._lockTarget.GetComponent<PlayerStats>();
-                                _Stats.receviedDamage -= _pStats.basicAttackPower;
+                                _Stats.receviedDamage = _pStats.basicAttackPower;
                                 _pv.RPC("EnemyHPLog", RpcTarget.All, _Stats.nowHealth.ToString());
                             }
                         }
@@ -790,15 +808,16 @@ public class Lightsabre : BaseController
                 return;
             }
         }
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
+        }
     }
 
 
     //Skill
     protected override void UpdateSkill()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0)
         {
@@ -843,28 +862,37 @@ public class Lightsabre : BaseController
                 return;
             }
         }
+
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
+        }
     }
+
 
 
     //Die
     protected override void UpdateDie()
     {
+        //_startDie = true;
+        Managers.game.DieEvent(_pv.ViewID);
         _startDie = true;
 
-        //스킬 시전 시간동안 키 입력 X
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
+        ////스킬 시전 시간동안 키 입력 X
+        //Managers.Input.MouseAction -= MouseDownAction;
+        //Managers.Input.KeyAction -= KeyDownAction;
 
-        _IsRange = false;
-        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+        //_IsRange = false;
+        //_attackRange[_SaveRangeNum].SetActive(_IsRange);
 
-        GetComponent<CapsuleCollider>().enabled = false;
+        //GetComponent<CapsuleCollider>().enabled = false;
 
-        _SaveRespawnTime += Time.deltaTime;
+        //_SaveRespawnTime += Time.deltaTime;
 
     }
 
 
+    /*
     //리스폰 중
     protected override void StartDie()
     {
@@ -917,10 +945,9 @@ public class Lightsabre : BaseController
                 Managers.Input.MouseAction += MouseDownAction;
                 Managers.Input.KeyAction += KeyDownAction;
             }
-
         }
     }
-
+    */
 
     //평타 후 딜레이
     protected override void StopAttack()

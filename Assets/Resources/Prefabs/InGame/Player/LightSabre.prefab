@@ -2223,6 +2223,7 @@ MonoBehaviour:
   _healthRegeneration: 0
   _defensePower: 0
   _receviedDamage: 0
+  _shield: 0
   _death: 0
   _level: 0
   _experience: 0

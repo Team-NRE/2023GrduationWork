@@ -33,7 +33,7 @@ public class InfectionStart : MonoBehaviour
         {
             Debug.Log(other.gameObject.name);
 
-            //Å¸°ÙÀÌ ¹Ì´Ï¾ð, Å¸¿öÀÏ ½Ã 
+            //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¾ï¿½, Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
             if (other.gameObject.tag != "PLAYER")
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
@@ -42,7 +42,7 @@ public class InfectionStart : MonoBehaviour
                 oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.05f);
             }
 
-            //Å¸°ÙÀÌ Àû PlayerÀÏ ½Ã
+            //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Playerï¿½ï¿½ ï¿½ï¿½
             if (other.gameObject.tag == "PLAYER")
             {
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();

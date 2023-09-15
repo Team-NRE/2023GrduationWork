@@ -103,64 +103,64 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-            if (_startDie == true)
-            {
-                StartDie();
-            }
-            if (_startDie == false)
-            {
-                UpdatePlayerStat();
-            }
+        if (_startDie == false)
+        {
+            UpdatePlayerStat();
+            Debug.Log("Alive");
+        }
 
-            if (_stopSkill == true)
-            {
-                StopSkill();
-            }
-            if (_stopAttack == true)
-            {
-                StopAttack();
-            }
+        if (_stopSkill == true)
+        {
+            StopSkill();
+        }
+        if (_stopAttack == true)
+        {
+            StopAttack();
+        }
 
-            //A키를 눌렀을 때 
-            if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
-            {
-                RangeAttack();
-            }
-            //Debug.Log(State);
+        //A키를 눌렀을 때 
+        if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
+        {
+            RangeAttack();
+        }
+        //Debug.Log(State);
 
-            //키, 마우스 이벤트 받으면 state가 변환
-            switch (State)
-            {
-                case Define.State.Idle:
-                    if(_pv.IsMine)
+        //키, 마우스 이벤트 받으면 state가 변환
+        switch (State)
+        {
+            case Define.State.Idle:
+                if (_pv.IsMine)
                     UpdateIdle();
-                    break;
+                break;
 
-                case Define.State.Die:
-                if(_pv.IsMine)
+            case Define.State.Die:
+                if (_pv.IsMine)
+                {
                     UpdateDie();
-                    break;
+                }
 
-                case Define.State.Moving:
-                    UpdateMoving();
-                    break;
+                break;
 
-                case Define.State.Attack:
-                    if (_pv.IsMine)
-                    {
-                        if (_stopAttack == false)
-                            UpdateAttack();
-                    }
-                    break;
+            case Define.State.Moving:
+                UpdateMoving();
+                break;
 
-                case Define.State.Skill:
-                    if (_pv.IsMine)
-                    {
-                        if (_stopSkill == false)
-                            UpdateSkill();
-                    }
-                    break;
-            }
+            case Define.State.Attack:
+                if (_pv.IsMine)
+                {
+                    if (_stopAttack == false)
+                        UpdateAttack();
+                }
+                break;
+
+            case Define.State.Skill:
+                if (_pv.IsMine)
+                {
+                    if (_stopSkill == false)
+                        UpdateSkill();
+                }
+                break;
+        }
     }
 
 

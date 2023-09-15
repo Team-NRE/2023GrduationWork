@@ -48,7 +48,12 @@ public class Police : BaseController
     //리스폰 후 재설정
     public void OnEnable()
     {
+        //Idle
         _state = Define.State.Idle;
+
+        _pStats.nowHealth = _pStats.maxHealth;
+
+        _startDie = false;
 
         //리스폰 지역
         respawn = GameObject.Find("HumanRespawn").transform;
@@ -57,11 +62,21 @@ public class Police : BaseController
         transform.position = respawn.position;
         GetComponent<NavMeshAgent>().enabled = true;
 
-        //액션 대리자
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        StartCoroutine(KeyInputRespawn());
     }
 
+    IEnumerator KeyInputRespawn()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        //액션 대리자
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+    }
 
     //start 초기화
     public override void Init()
@@ -598,13 +613,15 @@ public class Police : BaseController
     //Idle
     protected override void UpdateIdle()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0 && _agent.remainingDistance < 0.2f)
         {
             State = Define.State.Idle;
+        }
+
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
         }
     }
 
@@ -612,10 +629,6 @@ public class Police : BaseController
     //Moving
     protected override void UpdateMoving()
     {
-
-        //Die
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         if (_pv.IsMine)
         {
             //타겟 - Attack or Skill or Move
@@ -700,6 +713,11 @@ public class Police : BaseController
             {
                 State = Define.State.Idle;
             }
+
+            if (_pStats.nowHealth <= 0)
+            {
+                State = Define.State.Die;
+            }
         }
 
         else
@@ -724,9 +742,6 @@ public class Police : BaseController
     //Attack
     protected override void UpdateAttack()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0)
         {
@@ -793,15 +808,16 @@ public class Police : BaseController
                 return;
             }
         }
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
+        }
     }
 
 
     //Skill
     protected override void UpdateSkill()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0)
         {
@@ -846,28 +862,38 @@ public class Police : BaseController
                 return;
             }
         }
+
+        if (_pStats.nowHealth <= 0)
+        {
+            State = Define.State.Die;
+        }
     }
 
 
+    
     //Die
     protected override void UpdateDie()
     {
+        //_startDie = true;
+        Managers.game.DieEvent(_pv.ViewID);
         _startDie = true;
 
-        //스킬 시전 시간동안 키 입력 X
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
 
-        _IsRange = false;
-        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+        ////스킬 시전 시간동안 키 입력 X
+        //Managers.Input.MouseAction -= MouseDownAction;
+        //Managers.Input.KeyAction -= KeyDownAction;
 
-        GetComponent<CapsuleCollider>().enabled = false;
+        //_IsRange = false;
+        //_attackRange[_SaveRangeNum].SetActive(_IsRange);
 
-        _SaveRespawnTime += Time.deltaTime;
+        //GetComponent<CapsuleCollider>().enabled = false;
+
+        //_SaveRespawnTime += Time.deltaTime;
 
     }
+    
 
-
+    /*
     //리스폰 중
     protected override void StartDie()
     {
@@ -920,10 +946,9 @@ public class Police : BaseController
                 Managers.Input.MouseAction += MouseDownAction;
                 Managers.Input.KeyAction += KeyDownAction;
             }
-
         }
     }
-
+    */
 
     //평타 후 딜레이
     protected override void StopAttack()
