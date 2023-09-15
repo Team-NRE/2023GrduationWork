@@ -63,6 +63,7 @@ public class Managers : MonoBehaviour
             //매니저 start에서 초기화
             s_Instance._data.Init();
             s_Instance._pool.Init();
+            s_Instance._input.Init();
             s_Instance._sound.Init();
         }
     }
