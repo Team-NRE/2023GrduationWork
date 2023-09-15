@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// �ｺ ŰƮ
 public class Card_HealthKit : UI_Card
 {
     int _layer = default;

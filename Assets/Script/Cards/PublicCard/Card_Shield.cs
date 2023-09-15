@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// ¹æ¾î
 public class Card_Shield : UI_Card
 {
     public override void Init()

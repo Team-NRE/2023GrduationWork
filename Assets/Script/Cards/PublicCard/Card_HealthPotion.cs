@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// 체력 물약
 public class Card_HealthPotion : UI_Card
 {
     

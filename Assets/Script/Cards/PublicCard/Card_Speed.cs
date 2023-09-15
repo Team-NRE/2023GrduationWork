@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// ¼Óµµ
 public class Card_Speed : UI_Card
 {
     public override void Init()

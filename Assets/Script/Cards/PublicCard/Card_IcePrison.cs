@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// ¾óÀ½ °¨¿Á
 public class Card_IcePrison : UI_Card
 {
     public override void Init()

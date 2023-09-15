@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ∫Œ»∞
 public class Card_Resurrection : UI_Card
 {
 

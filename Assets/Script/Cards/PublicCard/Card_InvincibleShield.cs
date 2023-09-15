@@ -5,6 +5,7 @@ using Stat;
 using Data;
 using Photon.Pun;
 
+// 무적 방패
 public class Card_InvincibleShield : UI_Card
 {
     int _layer = default;

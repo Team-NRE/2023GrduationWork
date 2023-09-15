@@ -4,6 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
+// 해킹 수류탄
 public class Card_HackingGrenade : UI_Card
 {
     int _layer = default;
