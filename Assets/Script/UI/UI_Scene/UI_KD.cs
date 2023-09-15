@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
 using Stat;
 using Define;
@@ -15,7 +12,7 @@ public class UI_KD : UI_Popup
 
     public override void Init()
     {
-        pStat = GameObject.FindGameObjectWithTag("PLAYER")?.GetComponent<PlayerStats>();
+        pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
 
         killText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         DeathText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -25,7 +22,7 @@ public class UI_KD : UI_Popup
     {
         if (pStat == null)
         {
-            pStat = GameObject.FindGameObjectWithTag("PLAYER")?.GetComponent<PlayerStats>();
+            pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
             return;
         }
 

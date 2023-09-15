@@ -14,7 +14,14 @@ public class InputManager
     bool _MousePressed = false;
     float _pressedTime = 0.0f;
 
-
+    public void Init()
+    {
+        Cursor.SetCursor(
+            Managers.Resource.Load<Texture2D>("Texture/Cursor/cursor"), 
+            Vector2.zero, 
+            CursorMode.Auto
+        );
+    }
 
     //마우스 좌표에 따른 PlayerRotate
     public Vector3 FlattenVector(GameObject player, Vector3 mousepositon)
@@ -42,6 +49,7 @@ public class InputManager
     {
         HitMouseEvent();
         HitKeyEvent();
+        SetCursorDesign();
     }
 
     //마우스 이벤트
@@ -175,6 +183,26 @@ public class InputManager
         }
     }
 
+    public void SetCursorDesign()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Cursor.SetCursor(
+                Managers.Resource.Load<Texture2D>("Texture/Cursor/cursor_click"), 
+                Vector2.zero, 
+                CursorMode.Auto
+            );
+        }
+
+        if (Input.GetKeyUp(KeyCode.Mouse0) || Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            Cursor.SetCursor(
+                Managers.Resource.Load<Texture2D>("Texture/Cursor/cursor"), 
+                Vector2.zero, 
+                CursorMode.Auto
+            );
+        }
+    }
 
     public void Clear()
     {
