@@ -36,7 +36,8 @@ public class Card_HackingGrenade : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
+        //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
+        _effectObject.GetComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
         
         return _effectObject;
     }

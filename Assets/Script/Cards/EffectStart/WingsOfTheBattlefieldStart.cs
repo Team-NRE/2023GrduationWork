@@ -7,6 +7,7 @@ using UnityEngine;
 public class WingsOfTheBattlefieldStart : BaseEffect
 {
     PlayerStats _pStats;
+    protected PhotonView _pv;
 
     float speed = default;
     float speed_Time = 0.01f;

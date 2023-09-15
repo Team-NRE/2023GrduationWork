@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class InvincibleWeaponStart : BaseEffect
 {
@@ -9,6 +10,7 @@ public class InvincibleWeaponStart : BaseEffect
     float damage = default;
     int enemylayer = default;
 
+    protected PhotonView _pv;
 
     public void StartWeapon(int _player, float _damage, int _enemylayer)
     {

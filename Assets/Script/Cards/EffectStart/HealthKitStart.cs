@@ -7,6 +7,8 @@ using UnityEngine;
 public class HealthKitStart : BaseEffect
 {
     GameObject player = null;
+    protected PhotonView _pv;
+
     PlayerStats pStats;
     float healthRegen = default;
     int teamLayer = default;

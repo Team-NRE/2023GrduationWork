@@ -14825,6 +14825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2825467395207812628}
   - component: {fileID: 2731036051917516018}
+  - component: {fileID: 4358561106590356203}
   - component: {fileID: 2729894606983173070}
   - component: {fileID: -370759351083506212}
   m_Layer: 2
@@ -19708,6 +19709,18 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &4358561106590356203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2819937261731402398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3af59c637347374a844bbd9fa8042b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!199 &2729894606983173070
 ParticleSystemRenderer:
   serializedVersion: 6

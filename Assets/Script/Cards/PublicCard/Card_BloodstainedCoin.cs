@@ -41,7 +41,7 @@ public class Card_BloodstainedCoin : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<BloodstainedCoinStart>().StartBloodstainedCoin(_player.GetComponent<PhotonView>().ViewID, _damage);
-        _effectObject.AddComponent<BloodstainedCoinStart>().StartBloodstainedCoin(_player.GetComponent<PhotonView>().ViewID, _damage);
+        _effectObject.GetComponent<BloodstainedCoinStart>().StartBloodstainedCoin(_player.GetComponent<PhotonView>().ViewID, _damage);
 
         return _effectObject;
     }

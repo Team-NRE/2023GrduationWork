@@ -9,6 +9,7 @@ public class IcePrisonStart : BaseEffect
     float effectTime;
     float startEffect = 0.01f;
     GameObject player = null;
+    protected PhotonView _pv;
 
     PlayerStats pStat;
 

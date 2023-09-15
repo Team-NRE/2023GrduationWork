@@ -7,6 +7,7 @@ public class SpearStart : BaseEffect
     float bulletSpeed;
     float damage = default;
     int enemylayer = default;
+    protected PhotonView _pv;
 
     Transform playerTr;
     PlayerStats pStats;

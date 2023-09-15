@@ -9,6 +9,7 @@ public class BloodstainedCoinStart : BaseEffect
 {
     GameObject player = null;
     GameObject _effectObject;
+    protected PhotonView _pv;
 
     Transform target = null;
 

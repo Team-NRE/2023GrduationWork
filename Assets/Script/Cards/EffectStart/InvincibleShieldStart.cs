@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stat;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
 public class InvincibleShieldStart : BaseEffect
 {
     PlayerStats _pStats;
-    ObjStats _oStats;
+    ObjStats _oStats; 
+    protected PhotonView _pv;
+
 
     GameObject objectName;
 

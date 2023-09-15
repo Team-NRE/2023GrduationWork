@@ -19847,6 +19847,7 @@ GameObject:
   - component: {fileID: 4686794929353712723}
   - component: {fileID: 5384884864385449181}
   - component: {fileID: 5952489587380295282}
+  - component: {fileID: 2495140085588209532}
   - component: {fileID: 8128714564370591443}
   m_Layer: 2
   m_Name: Effect_InvincibleWeapon
@@ -24733,6 +24734,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 0.6, z: 0.78}
   m_Center: {x: 3, y: 0, z: 0.25}
+--- !u!114 &2495140085588209532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7870668705215844770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6e994d7ec686e45a563df816a67db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8128714564370591443
 MonoBehaviour:
   m_ObjectHideFlags: 0

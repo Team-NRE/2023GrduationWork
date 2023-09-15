@@ -11,6 +11,8 @@ public class CrisisAversionStart : BaseEffect
     
     GameObject player;
     GameObject effectOn;
+    protected PhotonView _pv;
+
 
     float nowEffectTime = 0.01f;
 

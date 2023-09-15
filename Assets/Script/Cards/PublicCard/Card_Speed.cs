@@ -29,7 +29,8 @@ public class Card_Speed : UI_Card
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Speed", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
-        _effectObject.AddComponent<SpeedStart>().StartSpeed(playerId, _speed);
+        //_effectObject.AddComponent<SpeedStart>().StartSpeed(playerId, _speed);
+        _effectObject.GetComponent<SpeedStart>().StartSpeed(playerId, _speed);
 
         _pStat.speed += _speed;
 

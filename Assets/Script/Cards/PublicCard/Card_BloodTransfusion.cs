@@ -34,7 +34,8 @@ public class Card_BloodTransfusion : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
+        //_effectObject.AddComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
+        _effectObject.GetComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
 
         return _effectObject;
     }

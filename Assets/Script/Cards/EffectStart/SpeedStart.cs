@@ -7,6 +7,7 @@ using Photon.Pun;
 public class SpeedStart : BaseEffect
 {
     PlayerStats _pStats;
+    protected PhotonView _pv;
 
     float speed = default;
     float speed_Time = 0.01f;
@@ -18,6 +19,7 @@ public class SpeedStart : BaseEffect
         //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
         _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
         speed = _speed;
+        _pv = GetComponent<PhotonView>();
 
         start = true;
     }

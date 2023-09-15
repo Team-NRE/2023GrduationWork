@@ -7,6 +7,7 @@ using Photon.Pun;
 public class EnhancementStart : BaseEffect
 {
     PlayerStats _pStats;
+    protected PhotonView _pv;
 
     float basicAttackPower = default;
     float power_Time = 0.01f;
@@ -18,6 +19,7 @@ public class EnhancementStart : BaseEffect
         //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
         _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
         basicAttackPower = _basicAttackPower;
+        _pv = GetComponent<PhotonView>();
 
         start = true;
     }

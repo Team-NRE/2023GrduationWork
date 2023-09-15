@@ -7,6 +7,7 @@ using Photon.Pun;
 public class GrenadeStart : BaseEffect
 {
     PlayerStats enemyStats;
+    protected PhotonView _pv;
 
     GameObject player = null;
     float damage = default;

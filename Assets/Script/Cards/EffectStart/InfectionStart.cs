@@ -9,6 +9,7 @@ public class InfectionStart : BaseEffect
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
+    protected PhotonView _pv;
 
     public void StartInfection(int _player, float _damage, int _enemylayer)
     {

@@ -8,6 +8,7 @@ using UnityEngine;
 public class AmuletOfSteelStart : BaseEffect
 {
     PlayerStats _pStats;
+    protected PhotonView _pv;
 
     float armor_Time = 0.01f;
     float effectTime = default;

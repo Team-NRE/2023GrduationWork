@@ -8,6 +8,7 @@ public class BloodTransfusionStart : BaseEffect
 {
     GameObject player = null;
     GameObject Obj = null;
+    protected PhotonView _pv;
 
     float damage = default;
 
@@ -17,6 +18,7 @@ public class BloodTransfusionStart : BaseEffect
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(playerId);
         Obj = transform.parent.gameObject;
+        _pv = GetComponent<PhotonView>();
 
         damage = _damage;
     }

@@ -9,6 +9,8 @@ public class CannonStart : BaseEffect
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
+    protected PhotonView _pv;
+
 
     public void StartCannon(int playerId, float _damage, int _enemylayer)
     {

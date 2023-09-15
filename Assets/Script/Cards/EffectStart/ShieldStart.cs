@@ -9,6 +9,7 @@ public class ShieldStart : BaseEffect
     PlayerStats _pStats;
     float defence = default;
     float shield_Time = 0.01f;
+    protected PhotonView _pv;
 
     bool start;
 
@@ -17,7 +18,7 @@ public class ShieldStart : BaseEffect
         //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
         _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
         defence = _defence;
-
+        _pv = GetComponent<PhotonView>();
         start = true;
     }
 

@@ -7,8 +7,6 @@ using UnityEngine;
 // AddComponent 일반화를 위한 클래스
 public class BaseEffect : MonoBehaviour
 {
-	protected PhotonView _pv;
-
 	protected IEnumerator DelayDestroy(GameObject target, float time)
 	{
 		yield return new WaitForSeconds(time);
