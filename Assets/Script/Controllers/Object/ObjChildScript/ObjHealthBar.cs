@@ -8,7 +8,8 @@ using Define;
 public class ObjHealthBar : MonoBehaviour
 {
     [Header ("- parent")]
-    GameObject parent;
+    [SerializeField]
+    private GameObject parent;
 
     [Header ("- Health Bar Images")]
     [SerializeField]
@@ -99,7 +100,7 @@ public class ObjHealthBar : MonoBehaviour
     {
         parent = gameObject;
 
-        while (parent.layer == (int)Layer.UI && parent.layer == (int)Layer.Default)
+        while (parent.layer == (int)Layer.UI || parent.layer == (int)Layer.Default)
             parent = parent.transform.parent.gameObject;
     }
 

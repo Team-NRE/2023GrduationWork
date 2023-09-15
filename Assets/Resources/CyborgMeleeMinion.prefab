@@ -703,6 +703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a0bc2ac4491354eb863b406f3c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   healthBarHeal: {fileID: 1958607471101500040}
   healthBarHit: {fileID: 1958607471254023096}
   healthBarBasic: {fileID: 1958607470628903535}
