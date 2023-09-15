@@ -35,6 +35,8 @@ public class UI_StatusBar : MonoBehaviour
     Image[] manaBarImages = new Image[0];
     string manaBarImagesName = "Mana_Fill";
 
+    float lastMana = 0f;
+
     // ExpBar
     Image expBarImage;
     string expBarImageName = "Exp_Fill";
@@ -112,6 +114,8 @@ public class UI_StatusBar : MonoBehaviour
         manaBarImages = new Image[(int)myStat.maxMana];
         for (int i=0; i<myStat.maxMana; i++)
             manaBarImages[i] = GetObject<Image>(gameObject, manaBarImagesName + i.ToString());
+
+        lastMana = 0.1f;
     }
 
     void GetExpBarImage()
@@ -158,13 +162,16 @@ public class UI_StatusBar : MonoBehaviour
 
     void UpdateManaBarImages()
     {
+        if (myStat.nowMana == lastMana) return;
+
         if (manaBarImages == null) return;
         if (manaBarImages.Length == 0) return;
+        lastMana = Mathf.Lerp(lastMana, myStat.nowMana, Time.deltaTime * 10.0f);
 
         for (int i=0; i<myStat.maxMana; i++)
         {
             if (manaBarImages[i] == null) continue;
-            manaBarImages[i].fillAmount = (myStat.nowMana-i);
+            manaBarImages[i].fillAmount = (lastMana-i);
         }
     }
 
