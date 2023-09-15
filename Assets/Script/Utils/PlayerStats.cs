@@ -215,7 +215,7 @@ namespace Stat
             set
             {
                 _nowMana = value;
-                if (_nowMana >= maxMana * manaRegen) { _nowMana = maxMana * manaRegen; }
+                if (_nowMana >= maxMana) { _nowMana = maxMana; }
                 if (_nowMana <= 0) { _nowMana = 0; }
             }
         }
@@ -227,7 +227,7 @@ namespace Stat
             bool CanUseCard;
 
             if (_key != null) { ui_card = GameObject.Find(_key).GetComponentInChildren<UI_Card>(); }
-            float cardValue = ui_card._cost * manaRegen;
+            float cardValue = ui_card._cost;
 
             if (nowMana >= cardValue) { CanUseCard = true; }
             else { CanUseCard = false; }
