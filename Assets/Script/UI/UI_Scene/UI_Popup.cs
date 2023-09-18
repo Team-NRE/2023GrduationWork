@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using AllIn1VfxToolkit.Demo.Scripts;
+
 public class UI_Popup : UI_Scene
 {
     GameObject KDA;
@@ -12,6 +14,8 @@ public class UI_Popup : UI_Scene
     GameObject Setting;
     GameObject Store;
     public GameObject Deck;
+
+    AllIn1CanvasFader te;
 
     public bool IsSetting = false;
     bool IsStore = false;
@@ -30,6 +34,11 @@ public class UI_Popup : UI_Scene
         UI_Deck,
     }
 
+    enum test
+    {
+        UI_Setting,
+    }
+
     public override void Init()
     {
         Bind<GameObject>(typeof(Popup));
@@ -38,9 +47,12 @@ public class UI_Popup : UI_Scene
         StatBox = Get<GameObject>((int)Popup.UI_StatBox);
         StautsBar = Get<GameObject>((int)Popup.UI_StautsBar);
         Scoreboard = Get<GameObject>((int)Popup.UI_Scoreboard);
-        Setting = Get<GameObject>((int)Popup.UI_Setting);
+        // Setting = Get<GameObject>((int)Popup.UI_Setting);
         Store = Get<GameObject>((int)Popup.UI_Store);
         Deck = Get<GameObject>((int)Popup.UI_Deck);
+
+        Bind<AllIn1CanvasFader>(typeof(test));
+        te =  Get<AllIn1CanvasFader>((int)test.UI_Setting);
 
 
         KDA.SetActive(true);
@@ -48,7 +60,7 @@ public class UI_Popup : UI_Scene
         StatBox.SetActive(true);
         StautsBar.SetActive(true);
         Scoreboard.SetActive(false);
-        Setting.SetActive(IsSetting);
+        // Setting.SetActive(IsSetting);
         Store.SetActive(IsSetting);
         Deck.SetActive(IsSetting);
     }
@@ -73,9 +85,10 @@ public class UI_Popup : UI_Scene
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            IsSetting = (IsSetting == false ? true : false);
+            // IsSetting = !IsSetting;
 
-            Setting.SetActive(IsSetting);
+            // Setting.SetActive(IsSetting);
+            te.HideUiButtonPressed();
         }
 
         if(Input.GetKeyDown(KeyCode.I))

@@ -18,6 +18,7 @@ public class Particle_CoinDrop : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main.transform;
+        Managers.Sound.Play("CoinDrop");
     }
 
     private void Update()

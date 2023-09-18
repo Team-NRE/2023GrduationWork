@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class SoundManager
 {
+    public float BgmVolume    {get; set;}
+    public float EffectVolume {get; set;}
+
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
     public void Init()
     {
+        BgmVolume    = 1.0f;
+        EffectVolume = 1.0f;
+
         GameObject root = GameObject.Find("@Sound");
         if (root == null)
         {
@@ -37,6 +43,15 @@ public class SoundManager
         _audioClips.Clear();    //��ųʸ� ����
     }
 
+    public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+    {
+        Play(
+            GetOrAddAudioClip(path, type),
+            type,
+            pitch
+        );
+    }
+
     //BGM, Effect�� �����ؼ� ���带 �ʿ�ø��� ��ü���ش�.
     public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
     {
@@ -53,7 +68,7 @@ public class SoundManager
             if (audioSource.isPlaying)
                 audioSource.Stop();
 
-            audioSource.pitch = pitch;
+            audioSource.pitch = pitch * BgmVolume;
             audioSource.clip = audioClip;
             audioSource.Play();
         }
@@ -61,7 +76,7 @@ public class SoundManager
         {
             AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
 
-            audioSource.pitch = pitch;
+            audioSource.pitch = pitch * EffectVolume;
             audioSource.PlayOneShot(audioClip);
         }
     }
@@ -69,7 +84,7 @@ public class SoundManager
     AudioClip GetOrAddAudioClip(string path, Define.Sound type = Define.Sound.Effect)
     {
         if (path.Contains("Sounds/") == false)
-            path = $"Sounds/{path}";
+            path = $"Sounds/{type}/{path}";
 
         AudioClip audioClip = null;
 
