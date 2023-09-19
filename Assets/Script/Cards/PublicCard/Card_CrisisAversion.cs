@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// À§±â ¸ð¸é
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 public class Card_CrisisAversion : UI_Card
 {
     int _layer = default;

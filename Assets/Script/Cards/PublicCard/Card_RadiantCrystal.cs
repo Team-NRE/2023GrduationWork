@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// ºû³ª´Â ¼öÁ¤
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 public class Card_RadiantCrystal : UI_Card
 {
     

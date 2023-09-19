@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¿ë¾Ï
+// ï¿½ï¿½ï¿½
 public class Card_Lava : UI_Card
 {
     int _layer = default;

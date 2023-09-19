@@ -191,10 +191,27 @@ public class Police : BaseController
                                 //Range 카드 = 타겟 카드
                                 if (_SaveRangeNum == (int)Define.CardType.Range)
                                 {
-                                    //좌표, 타겟 설정
-                                    TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                                    if (RangeAttack() == null)
+                                    {
+                                        BaseCard._NowKey = null;
 
-                                    State = Define.State.Moving;
+                                        return;
+                                    }
+
+                                    if (RangeAttack() != null)
+                                    {
+                                        //좌표, 타겟 설정
+                                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
+
+                                        if (BaseCard._lockTarget == null)
+                                        {
+                                            BaseCard._NowKey = null;
+
+                                            return;
+                                        }
+
+                                        State = Define.State.Moving;
+                                    }
                                 }
 
                                 //Range 카드 = 포인트 카드
@@ -292,45 +309,49 @@ public class Police : BaseController
         //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
 
-        //키보드 입력 시
-        switch (_key)
+        if(_pv.IsMine)
         {
-            case Define.KeyboardEvent.Q:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
+            //키보드 입력 시
+            switch (_key)
+            {
+                case Define.KeyboardEvent.Q:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.W:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.E:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.R:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.A:
                     KeyPushState(_key.ToString());
-                }
 
-                break;
+                    break;
+            }
 
-            case Define.KeyboardEvent.W:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.E:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.R:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.A:
-                KeyPushState(_key.ToString());
-
-                break;
         }
 
     }

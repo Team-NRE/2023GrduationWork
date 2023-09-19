@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// Á¤È­
+// ï¿½ï¿½È­
 public class Card_Purify : UI_Card
 {
     public override void Init()

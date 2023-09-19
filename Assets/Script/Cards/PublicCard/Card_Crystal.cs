@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// ¼öÁ¤
+// ï¿½ï¿½ï¿½ï¿½
 public class Card_Crystal : UI_Card
 {
     public override void Init()

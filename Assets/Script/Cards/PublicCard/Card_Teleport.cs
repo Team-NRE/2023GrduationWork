@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 
-// ¼ø°£ÀÌµ¿
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
 public class Card_Teleport : UI_Card
 {
     public override void Init()

@@ -291,48 +291,49 @@ public class Lightsabre : BaseController
 
         //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
-
-        //키보드 입력 시
-        switch (_key)
+        if (_pv.IsMine)
         {
-            case Define.KeyboardEvent.Q:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
+            //키보드 입력 시
+            switch (_key)
+            {
+                case Define.KeyboardEvent.Q:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.W:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.E:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.R:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.A:
                     KeyPushState(_key.ToString());
-                }
 
-                break;
-
-            case Define.KeyboardEvent.W:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.E:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.R:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.A:
-                KeyPushState(_key.ToString());
-
-                break;
+                    break;
+            }
         }
-
     }
 
 
