@@ -22037,6 +22037,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4391904044692565158}
+  - component: {fileID: 9132093415579707163}
+  - component: {fileID: 3802900258467413581}
   - component: {fileID: 6847302360402478742}
   m_Layer: 0
   m_Name: UI_Store
@@ -22068,6 +22070,34 @@ RectTransform:
   m_AnchoredPosition: {x: 155, y: 22}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &9132093415579707163
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927472373931989487}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3802900258467413581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927472373931989487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeToggleKey: 0
+  tweenSpeed: 6
+  hideUiButtonTween: {fileID: 0}
+  isTweening: 0
 --- !u!114 &6847302360402478742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22080,10 +22110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279463ce609c7b440b4cae5683032cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Deck: {fileID: 0}
-  IsSetting: 0
-  IsDeck: 0
-  FirstOn: 0
 --- !u!1 &1991756931366617487
 GameObject:
   m_ObjectHideFlags: 0
@@ -27690,10 +27716,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072b7431e55b587429e82a2c58543183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Deck: {fileID: 0}
-  IsSetting: 0
-  IsDeck: 0
-  FirstOn: 0
 --- !u!1 &3507519478090541658
 GameObject:
   m_ObjectHideFlags: 0
@@ -28098,6 +28120,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3576636653386559283}
+  - component: {fileID: 1392349913645294312}
+  - component: {fileID: 3444857284207859099}
   - component: {fileID: 3576636653386559181}
   - component: {fileID: 3576636653386559282}
   m_Layer: 0
@@ -28130,6 +28154,34 @@ RectTransform:
   m_AnchoredPosition: {x: -230, y: -33}
   m_SizeDelta: {x: 155, y: 23}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1392349913645294312
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3576636653386559280}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3444857284207859099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3576636653386559280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeToggleKey: 0
+  tweenSpeed: 1
+  hideUiButtonTween: {fileID: 0}
+  isTweening: 0
 --- !u!222 &3576636653386559181
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28630,10 +28682,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4221eabaea4882c4baf8c356fa879e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Deck: {fileID: 0}
-  IsSetting: 0
-  IsDeck: 0
-  FirstOn: 0
 --- !u!1 &3576636654149660266
 GameObject:
   m_ObjectHideFlags: 0
@@ -28820,10 +28868,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681c77ef87546a04a8b4053b94554671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Deck: {fileID: 0}
-  IsSetting: 0
-  IsDeck: 0
-  FirstOn: 0
 --- !u!1 &3576636654488329200
 GameObject:
   m_ObjectHideFlags: 0
@@ -28983,10 +29027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 435ed693aadcac6489b91bfc5ac9229a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Deck: {fileID: 0}
-  IsSetting: 0
-  IsDeck: 0
-  FirstOn: 0
 --- !u!1 &3577297758146728431
 GameObject:
   m_ObjectHideFlags: 0
@@ -33429,6 +33469,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4745272371259014937}
+  - component: {fileID: 1069819103716616906}
+  - component: {fileID: 5605882192087070100}
   - component: {fileID: 353119349231391663}
   m_Layer: 0
   m_Name: UI_Scoreboard
@@ -33461,6 +33503,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1069819103716616906
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4745272371259014936}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &5605882192087070100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4745272371259014936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeToggleKey: 0
+  tweenSpeed: 1
+  hideUiButtonTween: {fileID: 0}
+  isTweening: 0
 --- !u!114 &353119349231391663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45276,10 +45346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164985ebd87f311458af5cea3072f953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Deck: {fileID: 0}
-  IsSetting: 0
-  IsDeck: 0
-  FirstOn: 0
 --- !u!1 &6090138408036216867
 GameObject:
   m_ObjectHideFlags: 0
@@ -45500,9 +45566,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1271273956897404594}
-  - component: {fileID: 7562419477154893639}
   - component: {fileID: 7478708743559182337}
   - component: {fileID: 7249109351982837395}
+  - component: {fileID: 7562419477154893639}
   m_Layer: 0
   m_Name: UI_Setting
   m_TagString: Untagged
@@ -45533,18 +45599,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7562419477154893639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6118540223647265904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afed1d91b68b8b14ebcd57a23f3e1f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!225 &7478708743559182337
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -45573,6 +45627,18 @@ MonoBehaviour:
   tweenSpeed: 6
   hideUiButtonTween: {fileID: 0}
   isTweening: 0
+--- !u!114 &7562419477154893639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118540223647265904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afed1d91b68b8b14ebcd57a23f3e1f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6125040233223243031
 GameObject:
   m_ObjectHideFlags: 0
@@ -47112,6 +47178,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8754281040013452344}
+  - component: {fileID: 8115299681478042424}
+  - component: {fileID: 7932399971211682162}
   m_Layer: 0
   m_Name: UI_KillLog
   m_TagString: Untagged
@@ -47139,6 +47207,34 @@ RectTransform:
   m_AnchoredPosition: {x: -185, y: 260}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &8115299681478042424
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455534494241776050}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7932399971211682162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455534494241776050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeToggleKey: 0
+  tweenSpeed: 1
+  hideUiButtonTween: {fileID: 0}
+  isTweening: 0
 --- !u!1 &6496161674177842124
 GameObject:
   m_ObjectHideFlags: 0
@@ -48153,6 +48249,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7812621929470857543}
+  - component: {fileID: 1425811557682301511}
+  - component: {fileID: 4868618297986283135}
   m_Layer: 0
   m_Name: UI_Deck
   m_TagString: Untagged
@@ -48181,6 +48279,34 @@ RectTransform:
   m_AnchoredPosition: {x: 155, y: 22}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1425811557682301511
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787383405466152800}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4868618297986283135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787383405466152800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeToggleKey: 0
+  tweenSpeed: 6
+  hideUiButtonTween: {fileID: 0}
+  isTweening: 0
 --- !u!1 &6823478372653310139
 GameObject:
   m_ObjectHideFlags: 0
@@ -49734,7 +49860,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 5199933602425117367}
   m_HandleRect: {fileID: 5670786815881889957}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -50001,7 +50127,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 5644221899151879293}
   m_HandleRect: {fileID: 3701182266100887005}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -51123,6 +51249,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7590336367685211922}
+  - component: {fileID: 5365966858265323910}
+  - component: {fileID: 8421509683421685388}
   - component: {fileID: 7590336367685211920}
   - component: {fileID: 7590336367685211921}
   - component: {fileID: 4901484075348007869}
@@ -51156,6 +51284,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &5365966858265323910
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590336367685211923}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8421509683421685388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590336367685211923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeToggleKey: 0
+  tweenSpeed: 1
+  hideUiButtonTween: {fileID: 0}
+  isTweening: 0
 --- !u!222 &7590336367685211920
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -58226,6 +58382,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8849683899333806809}
+  - component: {fileID: 1102959391183441744}
+  - component: {fileID: 4458619076304021934}
   - component: {fileID: 2536345546793940781}
   m_Layer: 5
   m_Name: UI_StautsBar
@@ -58256,6 +58414,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1102959391183441744
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8700070427120750781}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4458619076304021934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8700070427120750781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeToggleKey: 0
+  tweenSpeed: 1
+  hideUiButtonTween: {fileID: 0}
+  isTweening: 0
 --- !u!114 &2536345546793940781
 MonoBehaviour:
   m_ObjectHideFlags: 0
