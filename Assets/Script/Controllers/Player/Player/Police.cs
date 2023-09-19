@@ -841,6 +841,7 @@ public class Police : BaseController
                     {
                         //Destroy(effectObj, _cardStats._effectTime);
                         StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
+                        Debug.Log("Delete EffectPaticle");
                     }
 
                     //부활이 켜져있으면

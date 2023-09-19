@@ -90,7 +90,7 @@ public class StrikeStart : BaseEffect
                         {
                             oStats.speed = saveSpeed;
 
-                            Destroy(gameObject);
+                            PhotonNetwork.Destroy(gameObject);
                         }
 
                         //타겟이 미니언, 타워일 시 

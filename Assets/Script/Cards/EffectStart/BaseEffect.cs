@@ -7,20 +7,29 @@ using UnityEngine;
 // AddComponent 일반화를 위한 클래스
 public class BaseEffect : MonoBehaviour
 {
-	protected IEnumerator DelayDestroy(GameObject target, float time)
+	protected IEnumerator DelayTimer(float time)
 	{
 		yield return new WaitForSeconds(time);
+	}
+
+	protected GameObject GetRemotePlayer(int remoteId)
+	{
+		GameObject target = PhotonView.Find(remoteId)?.gameObject;
+		return target;
+	}
+
+	[PunRPC]
+	protected void RpcDelayDestroy(int id, float time)
+    {
+        GameObject target = GetRemotePlayer(id);
+		StartCoroutine(DelayTimer(time));
 		PhotonNetwork.Destroy(target);
-	}
+    }
 
-	// 오버로딩 함수
-	protected void StartSpec(int id, float effectTime, float saveMaxHealth, float saveNowHealth)
-	{
-
-	}
-
-	protected void StartSpec()
-	{
-
-	}
+	[PunRPC]
+	protected void GetRemoteParent(int id)
+    {
+		GameObject parent = GetRemotePlayer(id);
+		parent.transform.parent = parent.transform;
+    }
 }

@@ -33,7 +33,7 @@ public class Card_AmuletOfSteel : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
         _layer = layer;
 
         //¶ì·Î¸µ

@@ -215,5 +215,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     {
         yield return new WaitForSeconds(time);
         PhotonNetwork.Destroy(target);
+        Debug.Log("Destroy");
     }
 }
