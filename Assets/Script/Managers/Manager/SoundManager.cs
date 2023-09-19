@@ -1,16 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager
 {
-    public float BgmVolume    {get; set;}
-    public float EffectVolume {get; set;}
+    AudioMixer mixer;
+
+    private float _BgmVolume, _EffectVolume;
+
+    public float BgmVolume
+    {
+        get { return _BgmVolume; } 
+        set 
+        {
+            _BgmVolume = value;
+            mixer.SetFloat("BgmVolume", Mathf.Log10(_BgmVolume) * 20);
+        }
+    }
+    public float EffectVolume
+    {
+        get { return _EffectVolume; } 
+        set 
+        {
+            _EffectVolume = value;
+            mixer.SetFloat("EffectVolume", Mathf.Log10(_EffectVolume) * 20);
+        }
+    }
 
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
     public void Init()
     {
+        mixer = Managers.Resource.Load<AudioMixer>("Sounds/AudioMixer");
+
         BgmVolume    = 1.0f;
         EffectVolume = 1.0f;
 
@@ -25,6 +48,7 @@ public class SoundManager
             {
                 GameObject go = new GameObject { name = "@Sound" };
                 _audioSources[i] = go.AddComponent<AudioSource>();
+                _audioSources[i].outputAudioMixerGroup = mixer.FindMatchingGroups(soundNames[i])[0];
                 go.transform.parent = root.transform;
             }
             _audioSources[(int)Define.Sound.Bgm].loop = true;
@@ -68,7 +92,8 @@ public class SoundManager
             if (audioSource.isPlaying)
                 audioSource.Stop();
 
-            audioSource.pitch = pitch * BgmVolume;
+            audioSource.volume = BgmVolume;
+            audioSource.pitch = pitch;
             audioSource.clip = audioClip;
             audioSource.Play();
         }
@@ -76,7 +101,8 @@ public class SoundManager
         {
             AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
 
-            audioSource.pitch = pitch * EffectVolume;
+            audioSource.volume = EffectVolume;
+            audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);
         }
     }
