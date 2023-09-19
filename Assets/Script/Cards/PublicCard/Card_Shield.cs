@@ -29,7 +29,8 @@ public class Card_Shield : UI_Card
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Shield", ground, Quaternion.identity);
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
-        _effectObject.AddComponent<ShieldStart>().StartShield(playerId, _defence);
+        //_effectObject.AddComponent<ShieldStart>().StartShield(playerId, _defence);
+        _effectObject.GetComponent<ShieldStart>().StartShield(playerId, _defence);
 
         _pStat.defensePower += _defence;
 

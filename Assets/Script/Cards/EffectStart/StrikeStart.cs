@@ -4,11 +4,11 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class StrikeStart : MonoBehaviour
+public class StrikeStart : BaseEffect
 {
     GameObject player = null;
     GameObject Obj = null;
-    PhotonView _pv;
+    protected PhotonView _pv;
 
     float damage = default;
     float effectTime = default;

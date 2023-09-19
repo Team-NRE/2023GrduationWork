@@ -9610,6 +9610,7 @@ GameObject:
   - component: {fileID: 198953092693864666}
   - component: {fileID: 199595943994155482}
   - component: {fileID: 2013761676}
+  - component: {fileID: 1197694012116836871}
   - component: {fileID: 4580713905480149832}
   m_Layer: 2
   m_Name: Effect_HealthKit
@@ -14426,6 +14427,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1197694012116836871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708544336482566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f55209ff7fd98f489c6877515ac9e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4580713905480149832
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -63,7 +63,7 @@ MonoBehaviour:
   - RpcUpdate
   - RpcTrigger
   - Init
-  - DieEvent
+  - RemoteAddComponent
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

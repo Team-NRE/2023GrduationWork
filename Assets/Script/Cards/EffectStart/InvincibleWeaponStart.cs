@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
-public class InvincibleWeaponStart : MonoBehaviour
+public class InvincibleWeaponStart : BaseEffect
 {
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
 
+    protected PhotonView _pv;
 
     public void StartWeapon(int _player, float _damage, int _enemylayer)
     {

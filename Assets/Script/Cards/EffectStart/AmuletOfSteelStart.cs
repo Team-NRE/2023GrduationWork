@@ -5,10 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmuletOfSteelStart : MonoBehaviour
+public class AmuletOfSteelStart : BaseEffect
 {
-    PhotonView _pv;
     PlayerStats _pStats;
+    protected PhotonView _pv;
 
     float armor_Time = 0.01f;
     float effectTime = default;

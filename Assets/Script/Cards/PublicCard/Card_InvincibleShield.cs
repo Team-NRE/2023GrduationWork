@@ -47,7 +47,8 @@ public class Card_InvincibleShield : UI_Card
             //col.transform -> Police, 미니언
             //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
-            shield.AddComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
+            //shield.AddComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
+            shield.GetComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
 
             if(col.gameObject.tag == "PLAYER")
             {

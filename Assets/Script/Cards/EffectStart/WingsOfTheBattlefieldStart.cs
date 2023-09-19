@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WingsOfTheBattlefieldStart : MonoBehaviour
+public class WingsOfTheBattlefieldStart : BaseEffect
 {
     PlayerStats _pStats;
-    PhotonView _pv;
+    protected PhotonView _pv;
 
     float speed = default;
     float speed_Time = 0.01f;

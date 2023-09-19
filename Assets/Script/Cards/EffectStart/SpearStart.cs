@@ -2,13 +2,13 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class SpearStart : MonoBehaviour
+public class SpearStart : BaseEffect
 {
     float bulletSpeed;
     float damage = default;
     int enemylayer = default;
+    protected PhotonView _pv;
 
-    PhotonView _pv;
     Transform playerTr;
     PlayerStats pStats;
 

@@ -31,7 +31,8 @@ public class Card_HealthKit : UI_Card
 
         _layer = layer;
 
-        _effectObject.AddComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
+        //_effectObject.AddComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
+        _effectObject.GetComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
 
         return _effectObject;
     }

@@ -4,10 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthKitStart : MonoBehaviour
+public class HealthKitStart : BaseEffect
 {
-    PhotonView _pv;
     GameObject player = null;
+    protected PhotonView _pv;
+
     PlayerStats pStats;
     float healthRegen = default;
     int teamLayer = default;
