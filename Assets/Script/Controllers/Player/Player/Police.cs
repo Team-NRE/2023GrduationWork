@@ -17,7 +17,7 @@ public class Police : BaseController
     private GameObject _netBullet;
 
     //UI_Card 접근
-    private UI_Card _cardStats;
+
 
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
@@ -835,6 +835,8 @@ public class Police : BaseController
                     //Skill On
                     _cardStats.InitCard();
                     GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
+                    _pv.RPC("RemoteSkillStarter", RpcTarget.All, _MovingPos, this._pv.ViewID, _pStats.playerArea);
+                    
 
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)

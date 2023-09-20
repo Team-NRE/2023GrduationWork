@@ -221,6 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1139246468966878845}
   - component: {fileID: 5800633005021572392}
+  - component: {fileID: 7323577284703235095}
   m_Layer: 0
   m_Name: Card_Strike
   m_TagString: Untagged
@@ -276,11 +277,33 @@ MonoBehaviour:
   _buff: 0
   _debuff: 0
   _IsResurrection: 0
-  _rangeType: 
+  _rangeType: 0
   _rangeScale: 0
   _rangeRange: 0
   _rangeAngle: 0
   _effectObject: {fileID: 0}
+--- !u!114 &7323577284703235095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139246468966878842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1139246469246322365
 GameObject:
   m_ObjectHideFlags: 0

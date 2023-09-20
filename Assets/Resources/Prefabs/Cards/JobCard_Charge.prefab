@@ -9811,6 +9811,7 @@ GameObject:
   m_Component:
   - component: {fileID: 613020708883482289}
   - component: {fileID: 6437962142324696708}
+  - component: {fileID: -6141194987044582149}
   m_Layer: 0
   m_Name: JobCard_Charge
   m_TagString: Untagged
@@ -9857,17 +9858,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cost: 0
+  _cardBuyCost: 0
   _CastingTime: 0
   _effectTime: 0
   _damage: 0
   _defence: 0
-  _debuff: 0
+  _speed: 0
   _buff: 0
-  _rangeType: 
+  _debuff: 0
+  _IsResurrection: 0
+  _rangeType: 0
   _rangeScale: 0
   _rangeRange: 0
   _rangeAngle: 0
   _effectObject: {fileID: 0}
+--- !u!114 &-6141194987044582149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477703817695987856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5692084533663364069
 GameObject:
   m_ObjectHideFlags: 0

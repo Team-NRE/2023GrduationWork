@@ -5,9 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmuletOfSteelStart : BaseEffect
+public class AmuletOfSteelStart : BaseEffect, IPunObservable
 {
     PlayerStats _pStats;
+    protected int _playerId;
     protected PhotonView _pv;
 
     float armor_Time = 0.01f;
@@ -15,12 +16,12 @@ public class AmuletOfSteelStart : BaseEffect
     float saveMaxhealth = default;
     float saveNowhealth = default;
 
-
     bool start = false;
 
     public void StartAmulet(int playerId, float _effectTime, float _saveMaxhealth, float _saveNowhealth)
     {
         //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
+        _playerId = playerId;
 
         _pStats = Managers.game.RemoteTargetFinder(playerId).gameObject.GetComponent<PlayerStats>();
         effectTime = _effectTime;
@@ -67,6 +68,21 @@ public class AmuletOfSteelStart : BaseEffect
 
                 PhotonNetwork.Destroy(gameObject);
             }
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            receivePos = (Vector3)stream.ReceiveNext();
+            receiveRot = (Quaternion)stream.ReceiveNext();
         }
     }
 }

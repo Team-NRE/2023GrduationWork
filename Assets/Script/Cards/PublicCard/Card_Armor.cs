@@ -7,9 +7,9 @@ using Photon.Pun;
 // ¹æ¾î±¸
 public class Card_Armor : UI_Card
 {
-
+    PhotonView _pv;
     public override void Init()
-    {
+    { 
         _cardBuyCost = 500;
         _cost = 0;
         _defence = 0.5f;
@@ -22,13 +22,17 @@ public class Card_Armor : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
+        PhotonView pv = _player.GetComponent<PhotonView>();
+        int ownerId = _player.GetComponent<PhotonView>().ViewID;
 
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Armor");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Armor", this.gameObject.transform.position, Quaternion.identity);
-        _effectObject.transform.parent = _player.transform;
+        int effectId = _effectObject.GetComponent<PhotonView>().ViewID;
+        pv.RPC("GetRemoteParent", RpcTarget.All, ownerId, effectId);
+        //_effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
         _pStat.defensePower += _defence;

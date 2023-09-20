@@ -21,13 +21,14 @@ public class Card_Speed : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Speed");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Speed", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = _player.transform;
+        //_effectObject.transform.parent = _player.transform;
+        _effectObject.transform.SetParent(_player.transform);
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
         //_effectObject.AddComponent<SpeedStart>().StartSpeed(playerId, _speed);
         _effectObject.GetComponent<SpeedStart>().StartSpeed(playerId, _speed);

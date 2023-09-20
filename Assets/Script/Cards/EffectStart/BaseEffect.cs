@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // AddComponent 일반화를 위한 클래스
-public class BaseEffect : MonoBehaviour
+public class BaseEffect : MonoBehaviourPunCallbacks
 {
+	protected Vector3 receivePos;
+	protected Quaternion receiveRot;
+
 	protected IEnumerator DelayTimer(float time)
 	{
 		yield return new WaitForSeconds(time);
@@ -27,9 +30,11 @@ public class BaseEffect : MonoBehaviour
     }
 
 	[PunRPC]
-	protected void GetRemoteParent(int id)
+	protected void GetRemoteParent(int id, int particleId)
     {
-		GameObject parent = GetRemotePlayer(id);
-		parent.transform.parent = parent.transform;
+		GameObject playerObject = GetRemotePlayer(id);
+		GameObject particleObject = GetRemotePlayer(particleId);
+
+		particleObject.transform.parent = playerObject.transform;
     }
 }

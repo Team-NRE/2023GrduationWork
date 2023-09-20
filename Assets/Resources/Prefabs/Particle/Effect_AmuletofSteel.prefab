@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 964191524692181602}
   - component: {fileID: 2701029517036557683}
   - component: {fileID: 6244775244011325556}
+  - component: {fileID: 4782037312321815618}
   m_Layer: 2
   m_Name: Effect_AmuletofSteel
   m_TagString: Untagged
@@ -4914,7 +4915,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 4782037312321815618}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -4930,6 +4932,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59538db66614beb429c7cd2489da4be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4782037312321815618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964191524692181603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &2756349167971565117
 GameObject:
   m_ObjectHideFlags: 0

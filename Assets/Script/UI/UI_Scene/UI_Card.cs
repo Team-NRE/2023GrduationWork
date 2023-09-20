@@ -86,4 +86,19 @@ public class UI_Card : UI_Scene
         particle.AddComponent<BaseEffect>();
         return particle;
     }
+
+    [PunRPC]
+    protected void GetRemoteParent(int objectId, int particleId)
+    {
+        GameObject playerObject = RemoteTargetFinder(objectId);
+        GameObject particleObject = RemoteTargetFinder(particleId);
+
+        particleObject.transform.SetParent(playerObject.transform);
+    }
+
+    [PunRPC]
+    protected void RemoteLogger(string log)
+    {
+        Debug.Log(log);
+    }
 }

@@ -10,6 +10,7 @@ public class BloodstainedCoinStart : BaseEffect
     GameObject player = null;
     GameObject _effectObject;
     protected PhotonView _pv;
+    protected int _playerId;
 
     Transform target = null;
 
@@ -20,6 +21,7 @@ public class BloodstainedCoinStart : BaseEffect
     public void StartBloodstainedCoin(int playerId, float _damage)
     {
         //player = GameObject.Find(_player);
+        _playerId = playerId;
         player = Managers.game.RemoteTargetFinder(playerId);
         target = BaseCard._lockTarget.transform;
         BaseCard._lockTarget = null;
@@ -50,7 +52,8 @@ public class BloodstainedCoinStart : BaseEffect
             if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
             {
                 //effect
-                _effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
+                //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
+                _effectObject = PhotonNetwork.Instantiate($"Particle/Effect_BloodstainedCoin", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
                 _effectObject.transform.parent = target.transform;
                 _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 

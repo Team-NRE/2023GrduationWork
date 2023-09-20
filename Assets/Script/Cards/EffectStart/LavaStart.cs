@@ -22,7 +22,8 @@ public class LavaStart : BaseEffect
 
     public void OnTriggerStay(Collider other)
     {
-        _pv.RPC("RpcTrigger", RpcTarget.All, other);
+        int otherId = Managers.game.RemoteColliderId(other);
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
