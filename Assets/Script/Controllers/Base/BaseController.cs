@@ -219,8 +219,10 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    protected void RemoteSkillStarter(Vector3 movingPosition, int id, int teamInfo)
+    protected void RemoteSkillStarter(int playerId, int particleId)
     {
-        _cardStats.cardEffect(movingPosition, id, teamInfo);
+        GameObject childObject = GetRemotePlayer(particleId);
+        GameObject parentObject = GetRemotePlayer(playerId);
+        childObject.transform.parent = parentObject.transform;
     }
 }
