@@ -119,7 +119,6 @@ public class UI_CardPanel : UI_Card
     {
         if (Input.GetMouseButtonDown(0))
         {
-
             if (BaseCard._lockTarget != null)
             {
                 targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);
@@ -131,7 +130,7 @@ public class UI_CardPanel : UI_Card
             {
                 case "Q":
                     UI_Card Q_UICard = Q_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{Q_UICard._rangeType}");
+                    Debug.Log($"{Q_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= Q_UICard._rangeScale)
                     {
@@ -141,7 +140,6 @@ public class UI_CardPanel : UI_Card
                     //Arrow, Cone, Line, Point 스킬
                     if (BaseCard._lockTarget == null && Q_UICard._rangeType != Define.CardType.Range)
                     {
-                       
                         UI_UseQ();
                     }
 
@@ -149,18 +147,16 @@ public class UI_CardPanel : UI_Card
 
                 case "W":
                     UI_Card W_UICard = W_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{W_UICard._rangeType}");
+                    Debug.Log($"{W_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= W_UICard._rangeScale)
                     {
-                
                         UI_UseW();
                     }
 
                     //Arrow, Cone, Line, Point 스킬
                     if (BaseCard._lockTarget == null && W_UICard._rangeType != Define.CardType.Range)
                     {
-                        
                         UI_UseW();
                     }
 
@@ -168,45 +164,37 @@ public class UI_CardPanel : UI_Card
 
                 case "E":
                     UI_Card E_UICard = E_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{E_UICard._rangeType}");
+                    Debug.Log($"{E_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= E_UICard._rangeScale)
                     {
-                        
                         UI_UseE();
                     }
 
                     //Arrow, Cone, Line, Point 스킬
-                    if (BaseCard._lockTarget == null && E_UICard._rangeType != Define.CardType.Range)
-                            
+                    if (BaseCard._lockTarget == null && E_UICard._rangeType != Define.CardType.Range)       
                     {
-                        
                         UI_UseE();
                     }
                     break;
 
                 case "R":
                     UI_Card R_UICard = R_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{R_UICard._rangeType}");
+                    Debug.Log($"{R_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= R_UICard._rangeScale)
                     {
-                        
                         UI_UseR();
                     }
 
                     //Arrow, Cone, Line, Point 스킬
                     if (BaseCard._lockTarget == null && R_UICard._rangeType != Define.CardType.Range)
                     {
-                        
                         UI_UseR();
                     }
 
                     break;
             }
-
-            
-            
         }
     }
 
