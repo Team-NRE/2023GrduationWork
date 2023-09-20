@@ -37,6 +37,8 @@ public class UI_CardPanel : UI_Card
     public PlayerStats pStat;
     PlayerType _pType;
 
+    float targetDis;
+
     public enum CardObjects
     {
         Panel,
@@ -112,39 +114,103 @@ public class UI_CardPanel : UI_Card
         CardUseable();
     }
 
-    //타겟팅 카드
+    //Range 후 사용 카드
     public void MouseDownAction()
     {
         if (Input.GetMouseButtonDown(0))
         {
 
+            if (BaseCard._lockTarget != null)
+            {
+                targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);
+            }
+
+            //Range -> _lockTarget 있어야 사용
+            //Arrow, Cone, Line, Point -> _lockTarget이 없어도 사용 가능
             switch (BaseCard._NowKey)
-            { 
+            {
                 case "Q":
-                    UI_UseQ();
+                    UI_Card Q_UICard = Q_Btn.GetComponentInChildren<UI_Card>();
+                    Debug.Log($"{Q_UICard._rangeType}");
+                    //Range 스킬
+                    if (BaseCard._lockTarget != null && targetDis <= Q_UICard._rangeScale)
+                    {
+                        UI_UseQ();
+                    }
+
+                    //Arrow, Cone, Line, Point 스킬
+                    if (BaseCard._lockTarget == null && Q_UICard._rangeType != Define.CardType.Range)
+                    {
+                       
+                        UI_UseQ();
+                    }
 
                     break;
 
                 case "W":
-                    UI_UseW();
+                    UI_Card W_UICard = W_Btn.GetComponentInChildren<UI_Card>();
+                    Debug.Log($"{W_UICard._rangeType}");
+                    //Range 스킬
+                    if (BaseCard._lockTarget != null && targetDis <= W_UICard._rangeScale)
+                    {
+                
+                        UI_UseW();
+                    }
+
+                    //Arrow, Cone, Line, Point 스킬
+                    if (BaseCard._lockTarget == null && W_UICard._rangeType != Define.CardType.Range)
+                    {
+                        
+                        UI_UseW();
+                    }
 
                     break;
 
                 case "E":
-                    UI_UseE();
+                    UI_Card E_UICard = E_Btn.GetComponentInChildren<UI_Card>();
+                    Debug.Log($"{E_UICard._rangeType}");
+                    //Range 스킬
+                    if (BaseCard._lockTarget != null && targetDis <= E_UICard._rangeScale)
+                    {
+                        
+                        UI_UseE();
+                    }
 
+                    //Arrow, Cone, Line, Point 스킬
+                    if (BaseCard._lockTarget == null && E_UICard._rangeType != Define.CardType.Range)
+                            
+                    {
+                        
+                        UI_UseE();
+                    }
                     break;
 
                 case "R":
-                    UI_UseR();
+                    UI_Card R_UICard = R_Btn.GetComponentInChildren<UI_Card>();
+                    Debug.Log($"{R_UICard._rangeType}");
+                    //Range 스킬
+                    if (BaseCard._lockTarget != null && targetDis <= R_UICard._rangeScale)
+                    {
+                        
+                        UI_UseR();
+                    }
+
+                    //Arrow, Cone, Line, Point 스킬
+                    if (BaseCard._lockTarget == null && R_UICard._rangeType != Define.CardType.Range)
+                    {
+                        
+                        UI_UseR();
+                    }
 
                     break;
             }
+
+            
             
         }
     }
 
-    //논타겟팅 카드
+    //바로 사용 카드
     public void KeyDownAction()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -217,8 +283,6 @@ public class UI_CardPanel : UI_Card
     //0번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseQ()
     {
-        Debug.Log("Q");
-
         //UI_Card 
         UI_Card Q_CardUI = Q_Btn.GetComponentInChildren<UI_Card>();
 

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// °­Ã¶ºÎÀû
+// ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½
 public class Card_AmuletOfSteel : UI_Card
 {
     int _layer = default;

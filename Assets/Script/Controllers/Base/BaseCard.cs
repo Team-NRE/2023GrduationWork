@@ -88,12 +88,14 @@ public static class BaseCard
         //남은 카드 List의 랜덤하게 뽑은 카드 삭제
         _initDeck.RemoveAt(rand);
 
+        //Debug.Log($"다음 카드 이름 : {ChoiseCard}");
+
         //리필 카드가 있다면
         if (ReloadCard != null) { _initDeck.Add(ReloadCard); }
 
         for (int i = 0; i < _initDeck.Count; i++)
         {
-            Debug.Log($"덱 안 카드 이름 : {_initDeck[i]}");
+            //Debug.Log($"덱 안 카드 이름 : {_initDeck[i]}");
         }
 
         return ChoiseCard;

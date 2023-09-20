@@ -191,27 +191,24 @@ public class Police : BaseController
                                 //Range 카드 = 타겟 카드
                                 if (_SaveRangeNum == (int)Define.CardType.Range)
                                 {
-                                    if (RangeAttack() == null)
+                                    Debug.Log("range 카드");
+
+                                    TargetSetting(_mousePos.Item1, _mousePos.Item2);
+
+                                    if (BaseCard._lockTarget == null) break; 
+                                    if (BaseCard._lockTarget != null)
                                     {
-                                        BaseCard._NowKey = null;
-
-                                        return;
-                                    }
-
-                                    if (RangeAttack() != null)
-                                    {
-                                        //좌표, 타겟 설정
-                                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
-
-                                        if (BaseCard._lockTarget == null)
+                                        float targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
+                                        Debug.Log(targetDis);
+                                        Debug.Log(_cardStats._rangeScale);
+                                        if (targetDis <= _cardStats._rangeScale)
                                         {
-                                            BaseCard._NowKey = null;
-
-                                            return;
+                                            State = Define.State.Moving;
+                                            Debug.Log("실행");
                                         }
-
-                                        State = Define.State.Moving;
                                     }
+
+
                                 }
 
                                 //Range 카드 = 포인트 카드
@@ -261,7 +258,7 @@ public class Police : BaseController
                         }
 
                         //Range Off일 때 아무일도 없음.
-                        else return;
+                        //else return;
 
                         break;
                 }
@@ -858,7 +855,7 @@ public class Police : BaseController
                 //이펙트 발동
                 if (_MovingPos != default)
                 {
-                    Debug.Log($"UpdateSkill : {_MovingPos} ");
+                    //Debug.Log($"UpdateSkill : {_MovingPos} ");
                     //Skill On
                     _cardStats.InitCard();
                     GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.photonView.ViewID, _pStats.playerArea);

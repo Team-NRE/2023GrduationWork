@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// ÇØÅ· ¼ö·ùÅº
+// ï¿½ï¿½Å· ï¿½ï¿½ï¿½ï¿½Åº
 public class Card_HackingGrenade : UI_Card
 {
     int _layer = default;

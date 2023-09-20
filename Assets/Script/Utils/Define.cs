@@ -52,6 +52,7 @@ namespace Define
         Card,
         Skill,
         Die,
+        None,
     }
 
     public enum Scene

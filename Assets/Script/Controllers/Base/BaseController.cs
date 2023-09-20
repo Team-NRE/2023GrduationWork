@@ -106,7 +106,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         if (_startDie == false)
         {
             UpdatePlayerStat();
-            Debug.Log("Alive");
         }
 
         if (_stopSkill == true)
