@@ -81,11 +81,11 @@ public class store : UI_Store
 
     void Update()
     {
-        _MyCoinText.text = $"{_pStat.gold.ToString()}";
+        // _MyCoinText.text = $"{_pStat.gold.ToString()}";
 
-        //카드 코스트 띄워주기
-        _BuyCost = _makeAllBigCardList[_BeforeStoreNum].GetComponent<UI_Card>()._cardBuyCost;
-        _CardCoinText.text = $"{_BuyCost.ToString()}";
+        // //카드 코스트 띄워주기
+        // _BuyCost = _makeAllBigCardList[_BeforeStoreNum].GetComponent<UI_Card>()._cardBuyCost;
+        // _CardCoinText.text = $"{_BuyCost.ToString()}";
     }
 
     //스크롤 카드 클릭 시

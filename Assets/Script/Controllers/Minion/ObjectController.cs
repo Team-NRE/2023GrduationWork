@@ -113,7 +113,22 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 죽음 코드 함수
     /// </summary>
-    public virtual void Death() {if (!PhotonNetwork.IsMasterClient) return; }
+    public virtual void Death() 
+    {
+        if (!PhotonNetwork.IsMasterClient) return; 
+        
+        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
+
+        for (int i=0; i<pStats.Length; i++) {
+            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
+            {
+                pStats[i].gold += _oStats.gold;
+                pStats[i].experience += _oStats.experience;
+            }
+        }
+        
+        PhotonNetwork.Destroy(this.gameObject);
+    }
     /// <summary>
     /// 이동 코드 함수
     /// </summary>
