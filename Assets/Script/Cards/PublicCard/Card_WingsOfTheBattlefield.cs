@@ -26,14 +26,16 @@ public class Card_WingsOfTheBattlefield : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         _layer = layer;
            
         //¶ì·Î¸µ
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = _player.transform;
+        //_effectObject.transform.parent = _player.transform;
+        _effectObject.transform.SetParent(_player.transform);
+
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
 

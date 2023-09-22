@@ -14,12 +14,16 @@ public class SpeedStart : BaseEffect
 
     bool start = false;
 
+    private void Start()
+    {
+        _pv = GetComponent<PhotonView>();
+    }
+
     public void StartSpeed(int _player, float _speed)
     {
         //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
         _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
         speed = _speed;
-        _pv = GetComponent<PhotonView>();
 
         start = true;
     }

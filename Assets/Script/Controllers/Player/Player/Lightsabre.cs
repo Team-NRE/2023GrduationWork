@@ -840,7 +840,8 @@ public class Lightsabre : BaseController
                     //Debug.Log($"UpdateSkill : {_MovingPos} ");
                     //Skill On
                     _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.photonView.ViewID, _pStats.playerArea);
+                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
+                    _pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
 
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)

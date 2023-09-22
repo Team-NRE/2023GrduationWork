@@ -15,8 +15,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
-
     private GameObject _player;
+    protected UI_Card _cardStats;
 
     //SerializeField = private 변수를 인스펙터에서 설정
     //protected = 상속 관계에 있는 클래스 내부에서만 접근
@@ -215,5 +215,13 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         yield return new WaitForSeconds(time);
         PhotonNetwork.Destroy(target);
         Debug.Log("Destroy");
+    }
+
+    [PunRPC]
+    protected void RemoteSkillStarter(int playerId, int particleId)
+    {
+        GameObject childObject = GetRemotePlayer(particleId);
+        GameObject parentObject = GetRemotePlayer(playerId);
+        childObject.transform.parent = parentObject.transform;
     }
 }

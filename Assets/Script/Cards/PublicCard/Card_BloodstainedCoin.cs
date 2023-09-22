@@ -28,11 +28,14 @@ public class Card_BloodstainedCoin : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin2");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodstainedCoin2", this.gameObject.transform.position, Quaternion.identity);
-        _effectObject.transform.parent = _player.transform;
+        //_effectObject.transform.parent = _player.transform;
+        _effectObject.transform.SetParent(_player.transform);
+
+        int effectId = _effectObject.GetComponent<PhotonView>().ViewID;
         _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
         _layer = layer;

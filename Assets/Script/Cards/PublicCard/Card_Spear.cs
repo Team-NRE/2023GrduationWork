@@ -26,11 +26,13 @@ public class Card_Spear : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Spear");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Spear", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = _player.transform;
+        //_effectObject.transform.parent = _player.transform;
+        _effectObject.transform.SetParent(_player.transform);
+
         _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
 
         _layer = layer;
