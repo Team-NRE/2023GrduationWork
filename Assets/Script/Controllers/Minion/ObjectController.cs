@@ -31,6 +31,7 @@ public abstract class ObjectController : MonoBehaviour
 
     //초기화
     protected Animator animator { get; set; }
+    protected PhotonView pv { get; set; }
 
     //처치시 코인 드랍 파티클
     [SerializeField]
@@ -41,6 +42,7 @@ public abstract class ObjectController : MonoBehaviour
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
+        pv = GetComponent<PhotonView>();
 
         init();
     }

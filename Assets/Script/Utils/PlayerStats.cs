@@ -301,5 +301,25 @@ namespace Stat
             //자원
             gold = stat.gold;
         }
+
+        [PunRPC]
+        public void photonStatSet(string statName, float value)
+        {
+            if (statName == "basicAttackPower")     basicAttackPower    += value;
+            if (statName == "attackSpeed")          attackSpeed         += value;
+            if (statName == "attackDelay")          attackDelay         += value;
+            if (statName == "attackRange")          attackRange         += value;
+            if (statName == "kill")                 kill                += value;
+            if (statName == "nowHealth")            nowHealth           += value;
+            if (statName == "maxHealth")            maxHealth           += value;
+            if (statName == "healthRegeneration")   healthRegeneration  += value;
+            if (statName == "defensePower")         defensePower        += value;
+            if (statName == "receviedDamage")       receviedDamage      += value;
+            if (statName == "death")                death               += value;
+            if (statName == "experience")           experience          += value;
+            if (statName == "speed")                speed               += value;
+            if (statName == "manaRegen")            manaRegen           += value;
+            if (statName == "maxMana")              maxMana             += value;
+        }
     }
 }
