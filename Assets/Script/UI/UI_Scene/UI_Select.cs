@@ -111,8 +111,8 @@ public class UI_Select : UI_Scene
 
 	public void SelectButton(PointerEventData data)
 	{
-		Debug.Log("Start Game");
 		dummyLoadingPage.SetActive(true);
+		Debug.Log("Start Game");
 		SceneManager.LoadScene("View Test Scene");
 	}
 }
