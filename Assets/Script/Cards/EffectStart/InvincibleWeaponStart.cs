@@ -14,6 +14,7 @@ public class InvincibleWeaponStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         damage = 1;
     }

@@ -20,10 +20,12 @@ public class BloodstainedCoinStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
-        base.CardEffectInit(userId);
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId, targetId);
         target = BaseCard._lockTarget;
         BaseCard._lockTarget = null;
         damage = 10.0f;
+        _playerId = userId;
     }
 
     private void Update()

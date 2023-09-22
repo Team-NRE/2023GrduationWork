@@ -20,7 +20,7 @@ public class EnhancementStart : BaseEffect
         base.CardEffectInit(userId);
         _pv = GetComponent<PhotonView>();
         _pStats = player.GetComponent<PlayerStats>();
-
+        this.gameObject.transform.parent = player.transform;
         _damage = 15;
         _effectTime = 5.0f;
 

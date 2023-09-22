@@ -9,7 +9,6 @@ public class CrisisAversionStart : BaseEffect
 {
     PlayerStats pStats;
     
-    GameObject player;
     GameObject effectOn;
     protected PhotonView _pv;
 

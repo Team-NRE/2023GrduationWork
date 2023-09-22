@@ -29,7 +29,6 @@ public class Card_HealthPotion : UI_Card
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_HealthPotion");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HealthPotion", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
-
         _effectObject.transform.localPosition = new Vector3(0, 0, 0);
 
         _pStat.nowHealth += 130;

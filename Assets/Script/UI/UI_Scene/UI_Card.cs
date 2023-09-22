@@ -80,20 +80,12 @@ public class UI_Card : UI_Scene
 	}
 
     [PunRPC]
-    protected GameObject RemoteAddComponent(int remoteId)
+    public void RemoteReparent(int ownerId, int particleId)
     {
-        GameObject particle = Managers.game.RemoteTargetFinder(remoteId);
-        particle.AddComponent<BaseEffect>();
-        return particle;
-    }
+        GameObject owner = RemoteTargetFinder(ownerId);
+        GameObject particle = RemoteTargetFinder(particleId);
 
-    [PunRPC]
-    protected void GetRemoteParent(int objectId, int particleId)
-    {
-        GameObject playerObject = RemoteTargetFinder(objectId);
-        GameObject particleObject = RemoteTargetFinder(particleId);
-
-        particleObject.transform.SetParent(playerObject.transform);
+        particle.transform.parent = owner.transform;
     }
 
     [PunRPC]

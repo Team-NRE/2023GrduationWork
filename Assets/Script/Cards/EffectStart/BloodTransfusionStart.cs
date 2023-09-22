@@ -6,7 +6,6 @@ using Photon.Pun;
 
 public class BloodTransfusionStart : BaseEffect
 {
-    GameObject player = null;
     GameObject Obj = null;
     protected PhotonView _pv;
     protected int _playerId;

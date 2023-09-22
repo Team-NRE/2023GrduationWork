@@ -23,17 +23,16 @@ public class Card_Armor : UI_Card
     {
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
-        PhotonView pv = _player.GetComponent<PhotonView>();
-        int ownerId = _player.GetComponent<PhotonView>().ViewID;
 
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Armor");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Armor", this.gameObject.transform.position, Quaternion.identity);
-        _effectObject.transform.parent = _player.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
+        //_effectObject.transform.parent = _player.transform;
+        //_effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
-       // _pStat.defensePower += _defence;
+        _pStat.defensePower += 0.5f;
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }
