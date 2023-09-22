@@ -41,7 +41,7 @@ public class WingsOfTheBattlefieldStart : BaseEffect
                 _pStats.speed -= speed;
                 start = false;
 
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
     }

@@ -42,6 +42,7 @@ public class SpearStart : BaseEffect
     public void OnTriggerEnter(Collider other)
     {
         int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
+        //int id = Managers.game.RemoteColliderId(other);
         _pv.RPC("RpcTrigger", RpcTarget.All, id);
     }
 

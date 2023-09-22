@@ -24,6 +24,7 @@ public class StrikeStart : BaseEffect
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(_player);
         Obj = transform.parent.gameObject;
+        _pv = GetComponent<PhotonView>();
 
         damage = _damage;
         effectTime = _effectTime;
@@ -89,7 +90,7 @@ public class StrikeStart : BaseEffect
                         {
                             oStats.speed = saveSpeed;
 
-                            Destroy(gameObject);
+                            PhotonNetwork.Destroy(gameObject);
                         }
 
                         //타겟이 미니언, 타워일 시 
@@ -97,7 +98,7 @@ public class StrikeStart : BaseEffect
                         {
                             enemyStats.speed = saveSpeed;
 
-                            Destroy(gameObject);
+                            PhotonNetwork.Destroy(gameObject);
                         }
                     }
 

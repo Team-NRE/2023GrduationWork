@@ -45,6 +45,20 @@ public class FirefightHpBar : MonoBehaviour
 
     private void FixedUpdate() 
     {
+        if (Managers.game.myCharacter != null && healthBarBasic.color == Color.white)
+        {
+            Color color;
+
+            if (Managers.game.myCharacter.layer != transform.parent.gameObject.layer)
+                ColorUtility.TryParseHtmlString("#FF5555", out color);
+            else if (Managers.game.myCharacter != transform.parent.gameObject)
+                ColorUtility.TryParseHtmlString("#5656FF", out color);
+            else
+                ColorUtility.TryParseHtmlString("#37FF37", out color);
+
+            healthBarBasic.color = color;
+        }
+
         transform.LookAt(transform.position + cam.transform.rotation * Vector3.back, cam.transform.rotation * Vector3.up);
 
         if (nowHealth < _pStats.nowHealth)

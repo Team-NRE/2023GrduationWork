@@ -63,10 +63,10 @@ public class BloodstainedCoinStart : BaseEffect
 
                     oStats.nowHealth -= damage + (pStats.basicAttackPower);
 
-                    //Destroy(gameObject, 0.1f);
-                    //Destroy(_effectObject, 0.5f);
-                    DelayDestroy(gameObject, 0.1f);
-                    DelayDestroy(_effectObject, 0.5f);
+                    Destroy(gameObject, 0.1f);
+                    Destroy(_effectObject, 0.5f);
+                    //_pv.RPC("RpcDelayDestroy", RpcTarget.All, this.gameObject, 0.1f);
+                    //DelayDestroy(_effectObject, 0.5f, );
                 }
 
                 //Ÿ���� �� Player�� ��
@@ -83,10 +83,9 @@ public class BloodstainedCoinStart : BaseEffect
                         pStats.gold += 100;
                     }
 
-                    //Destroy(gameObject, 0.1f);
-                    //Destroy(_effectObject, 0.5f);
-                    DelayDestroy(gameObject, 0.1f);
-                    DelayDestroy(_effectObject, 0.5f);
+                    Destroy(gameObject, 0.1f);
+                    Destroy(_effectObject, 0.5f);
+                    //StartCoroutine(DelayDestroy(gameObject, 0.1f));
                 }
             }
         }

@@ -88,13 +88,6 @@ public class Tower : ObjectController
         }
 
         PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
-        // bulletPv.RPC("BulletSetting",
-        //     RpcTarget.All,
-        //     this.transform.position, 
-        //     _targetEnemyTransform.position, 
-        //     _oStats.attackSpeed, 
-        //     damage
-        // );
         
         bulletPv.RPC("BulletSetting",   // v2
             RpcTarget.All,
@@ -108,20 +101,6 @@ public class Tower : ObjectController
     public override void Death()
     {
         base.Death();
-
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
-
-        for (int i=0; i<pStats.Length; i++) {
-            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
-            {
-                pStats[i].gold += _oStats.gold;
-                pStats[i].experience += _oStats.experience;
-            }
-        }
-
-        PhotonNetwork.Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()

@@ -4,23 +4,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// AddComponent ÀÏ¹ÝÈ­¸¦ À§ÇÑ Å¬·¡½º
+// AddComponent ï¿½Ï¹ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 public class BaseEffect : MonoBehaviour
 {
-	protected IEnumerator DelayDestroy(GameObject target, float time)
+	[PunRPC]
+	public virtual void CardEffectInit(int userId) { }
+
+	[PunRPC]
+	public virtual void CardEffectInit(int userId, int targetId) { }
+
+	protected IEnumerator DelayTimer(float time)
 	{
 		yield return new WaitForSeconds(time);
+	}
+
+	protected GameObject GetRemotePlayer(int remoteId)
+	{
+		GameObject target = PhotonView.Find(remoteId)?.gameObject;
+		return target;
+	}
+
+	[PunRPC]
+	protected void RpcDelayDestroy(int id, float time)
+    {
+        GameObject target = GetRemotePlayer(id);
+		StartCoroutine(DelayTimer(time));
 		PhotonNetwork.Destroy(target);
-	}
+    }
 
-	// ¿À¹ö·Îµù ÇÔ¼ö
-	protected void StartSpec(int id, float effectTime, float saveMaxHealth, float saveNowHealth)
-	{
-
-	}
-
-	protected void StartSpec()
-	{
-
-	}
+	[PunRPC]
+	protected void GetRemoteParent(int id)
+    {
+		GameObject parent = GetRemotePlayer(id);
+		parent.transform.parent = parent.transform;
+    }
 }
