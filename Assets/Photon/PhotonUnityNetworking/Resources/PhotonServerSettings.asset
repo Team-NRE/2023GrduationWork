@@ -68,6 +68,7 @@ MonoBehaviour:
   - GetRemoteParent
   - RemoteLogger
   - RemoteSkillStarter
+  - CardEffectInit
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

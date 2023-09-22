@@ -7,7 +7,7 @@ using Stat;
 using Photon.Pun;
 using static UnityEngine.GraphicsBuffer;
 
-public class Police : BaseController
+public class Police : Players
 {
     #region Variable
     //총알 위치
@@ -46,7 +46,7 @@ public class Police : BaseController
 
 
     //리스폰 후 재설정
-    public void OnEnable()
+    public override void InitOnEnable()
     {
         //Idle
         _state = Define.State.Idle;
@@ -81,22 +81,10 @@ public class Police : BaseController
     //start 초기화
     public override void Init()
     {
-        //초기화
-        _pStats = GetComponent<PlayerStats>();
-        _anim = GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
-        _pv = GetComponent<PhotonView>();
-
+        base.Init();
         //스텟 호출
         _pType = Define.PlayerType.Police;
-        if (photonView.IsMine)
-            _pv.RPC(
-                "PlayerStatSetting",
-                RpcTarget.All,
-                _pType.ToString(),
-                // Managers.game.nickname
-                PhotonNetwork.LocalPlayer.NickName
-            );
+
 
         //총알 위치
         _Proj_Parent = this.transform.GetChild(2);
@@ -152,7 +140,7 @@ public class Police : BaseController
                         }
 
                         //Move
-                        State = Define.State.Moving;
+                        _state = Define.State.Moving;
 
                         break;
 
@@ -172,7 +160,7 @@ public class Police : BaseController
                         }
 
                         //Move
-                        State = Define.State.Moving;
+                        _state = Define.State.Moving;
 
                         break;
 
@@ -193,7 +181,7 @@ public class Police : BaseController
                                 {
                                     TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
-                                    State = Define.State.Moving;
+                                    _state = Define.State.Moving;
                                 }
 
                                 //Range 카드 = 포인트 카드
@@ -203,7 +191,7 @@ public class Police : BaseController
                                     _MovingPos = _attackRange[_SaveRangeNum].transform.position;
 
                                     //스킬 상태로 전환
-                                    State = Define.State.Skill;
+                                    _state = Define.State.Skill;
                                 }
 
                                 //나머지 카드 = 논타겟 카드
@@ -217,7 +205,7 @@ public class Police : BaseController
                                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
 
                                     //스킬 상태로 전환
-                                    State = Define.State.Skill;
+                                    _state = Define.State.Skill;
                                 }
                             }
 
@@ -238,7 +226,7 @@ public class Police : BaseController
                                     BaseCard._lockTarget = remoteTarget;
 
                                     //공격 상태로 전환
-                                    State = Define.State.Moving;
+                                    _state = Define.State.Moving;
                                 }
                             }
                         }
@@ -539,7 +527,7 @@ public class Police : BaseController
                         BaseCard._lockTarget = null;
 
                         //스킬 상태
-                        State = Define.State.Skill;
+                        _state = Define.State.Skill;
 
                         break;
                 }
@@ -630,12 +618,12 @@ public class Police : BaseController
         //살았을 때
         if (_pStats.nowHealth > 0 && _agent.remainingDistance < 0.2f)
         {
-            State = Define.State.Idle;
+            _state = Define.State.Idle;
         }
 
         if (_pStats.nowHealth <= 0)
         {
-            State = Define.State.Die;
+            _state = Define.State.Die;
         }
     }
 
@@ -665,14 +653,14 @@ public class Police : BaseController
 
                         if (_agent.remainingDistance <= _pStats.attackRange)
                         {
-                            State = Define.State.Attack;
+                            _state = Define.State.Attack;
 
                             break;
                         }
 
                         else
                         {
-                            State = Define.State.Moving;
+                            _state = Define.State.Moving;
                         }
                     }
 
@@ -693,7 +681,7 @@ public class Police : BaseController
                         float targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
                         if (targetDis <= _cardStats._rangeScale)
                         {
-                            State = Define.State.Skill;
+                            _state = Define.State.Skill;
 
                             return;
                         }
@@ -707,7 +695,7 @@ public class Police : BaseController
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
                     _agent.SetDestination(_MovingPos);
 
-                    State = Define.State.Moving;
+                    _state = Define.State.Moving;
 
                     break;
             }
@@ -715,12 +703,12 @@ public class Police : BaseController
             //Idle
             if (_agent.remainingDistance < 0.2f)
             {
-                State = Define.State.Idle;
+                _state = Define.State.Idle;
             }
 
             if (_pStats.nowHealth <= 0)
             {
-                State = Define.State.Die;
+                _state = Define.State.Die;
             }
         }
 
@@ -807,14 +795,14 @@ public class Police : BaseController
                 _stopAttack = true;
 
                 //애니메이션 Idle로 변환
-                State = Define.State.Idle;
+                _state = Define.State.Idle;
 
                 return;
             }
         }
         if (_pStats.nowHealth <= 0)
         {
-            State = Define.State.Die;
+            _state = Define.State.Die;
         }
     }
 
@@ -864,7 +852,7 @@ public class Police : BaseController
                 //스킬 쿨타임
                 _stopSkill = true;
 
-                State = Define.State.Idle;
+                _state = Define.State.Idle;
 
                 return;
             }
@@ -872,7 +860,7 @@ public class Police : BaseController
 
         if (_pStats.nowHealth <= 0)
         {
-            State = Define.State.Die;
+            _state = Define.State.Die;
         }
     }
 

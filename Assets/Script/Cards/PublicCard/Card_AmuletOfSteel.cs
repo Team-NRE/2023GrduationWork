@@ -36,13 +36,13 @@ public class Card_AmuletOfSteel : UI_Card
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
         _layer = layer;
 
-        //ï¿½ï¿½Î¸ï¿?
+        //ï¿½ï¿½Î¸ï¿½?
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-        //ï¿½ï¿½î¸?ï¿½ï¿½ï¿½ï¿½Æ®
+        //ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½Æ®
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {
@@ -58,7 +58,7 @@ public class Card_AmuletOfSteel : UI_Card
                 Wing.transform.parent = remoteCol.transform;
                 Wing.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-                //ï¿½ï¿½î¸?
+                //ï¿½ï¿½ï¿½?
                 float _armor = _pStat.maxHealth / 100 * _armorPercent;
 
                 if( _pStat.nowHealth + _armor > _pStat.maxHealth )

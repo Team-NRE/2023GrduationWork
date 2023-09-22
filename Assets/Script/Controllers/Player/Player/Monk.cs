@@ -7,7 +7,7 @@ using Stat;
 using Photon.Pun;
 using static UnityEngine.GraphicsBuffer;
 
-public class Monk : BaseController
+public class Monk : Players
 {
     #region Variable
     //총알 위치
@@ -17,7 +17,7 @@ public class Monk : BaseController
     private GameObject _netBullet;
 
     //UI_Card 접근
-    private UI_Card _cardStats;
+
 
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
@@ -28,7 +28,7 @@ public class Monk : BaseController
     //평타/스킬/스텟 쿨타임
     public float _SaveAttackSpeed = default;
     public float _SaveSkillCool = default;
-    public float _SaveHPSCool = default;
+    public float _SaveRegenCool = default;
     public float _SaveRespawnTime = default;
 
     //좌표에 포함안되는 레이어
@@ -46,9 +46,16 @@ public class Monk : BaseController
 
 
     //리스폰 후 재설정
-    public void OnEnable()
+    public override void InitOnEnable()
     {
+        base.InitOnEnable();
+
+        //Idle
         _state = Define.State.Idle;
+
+        _pStats.nowHealth = _pStats.maxHealth;
+
+        _startDie = false;
 
         //리스폰 지역
         respawn = GameObject.Find("CyborgRespawn").transform;
@@ -57,23 +64,30 @@ public class Monk : BaseController
         transform.position = respawn.position;
         GetComponent<NavMeshAgent>().enabled = true;
 
-        //액션 대리자
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        StartCoroutine(KeyInputRespawn());
     }
 
+    IEnumerator KeyInputRespawn()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        //액션 대리자
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+    }
 
     //start 초기화
     public override void Init()
     {
-        //초기화
-        _pStats = GetComponent<PlayerStats>();
-        _anim = GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
-        _pv = GetComponent<PhotonView>();
-
+        base.Init();
         //스텟 호출
         _pType = Define.PlayerType.Monk;
+
+
         if (photonView.IsMine)
             _pv.RPC(
                 "PlayerStatSetting",
@@ -127,11 +141,8 @@ public class Monk : BaseController
                 {
                     //마우스 오른쪽 버튼 클릭 시
                     case Define.MouseEvent.PointerDown:
-                        //공격 타입
-                        _proj = Define.Projectile.Attack_Proj;
-
                         //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
-                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                        TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
                         //사거리가 켜져있다면 Off
                         if (_IsRange == true)
@@ -139,8 +150,8 @@ public class Monk : BaseController
                             KeyPushState("MouseRightButton");
                         }
 
-                        //일단 Move
-                        State = Define.State.Moving;
+                        //Move
+                        _state = Define.State.Moving;
 
                         break;
 
@@ -151,7 +162,7 @@ public class Monk : BaseController
                         _proj = Define.Projectile.Attack_Proj;
 
                         //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
-                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                        TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
                         //사거리가 켜져있다면 Off
                         if (_IsRange == true)
@@ -159,14 +170,17 @@ public class Monk : BaseController
                             KeyPushState("MouseRightButton");
                         }
 
-                        //일단 Move
-                        State = Define.State.Moving;
+                        //Move
+                        _state = Define.State.Moving;
 
                         break;
 
 
                     //마우스 왼쪽 버튼 클릭 시
                     case Define.MouseEvent.LeftButton:
+                        //Range Off일 때 아무일도 없음.
+                        if (_IsRange == false) return;
+
                         //Range가 On일 때만 좌클릭 시
                         if (_IsRange == true)
                         {
@@ -176,10 +190,9 @@ public class Monk : BaseController
                                 //Range 카드 = 타겟 카드
                                 if (_SaveRangeNum == (int)Define.CardType.Range)
                                 {
-                                    //좌표, 타겟 설정
-                                    TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                                    TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
-                                    State = Define.State.Moving;
+                                    _state = Define.State.Moving;
                                 }
 
                                 //Range 카드 = 포인트 카드
@@ -189,11 +202,12 @@ public class Monk : BaseController
                                     _MovingPos = _attackRange[_SaveRangeNum].transform.position;
 
                                     //스킬 상태로 전환
-                                    State = Define.State.Skill;
+                                    _state = Define.State.Skill;
                                 }
 
                                 //나머지 카드 = 논타겟 카드
-                                else
+                                if (_SaveRangeNum == (int)Define.CardType.Arrow || _SaveRangeNum == (int)Define.CardType.Cone ||
+                                        _SaveRangeNum == (int)Define.CardType.Line || _SaveRangeNum == (int)Define.CardType.None)
                                 {
                                     //Range 좌표 = Effect 위치 
                                     _MovingPos = _mousePos.Item1;
@@ -202,7 +216,7 @@ public class Monk : BaseController
                                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
 
                                     //스킬 상태로 전환
-                                    State = Define.State.Skill;
+                                    _state = Define.State.Skill;
                                 }
                             }
 
@@ -223,13 +237,10 @@ public class Monk : BaseController
                                     BaseCard._lockTarget = remoteTarget;
 
                                     //공격 상태로 전환
-                                    State = Define.State.Moving;
+                                    _state = Define.State.Moving;
                                 }
                             }
                         }
-
-                        //Range Off일 때 아무일도 없음.
-                        else return;
 
                         break;
                 }
@@ -239,7 +250,7 @@ public class Monk : BaseController
 
 
     //마우스 클릭 시 좌표, 타겟 설정
-    private void TargetSetting(Vector3 _mousePos, GameObject _lockTarget)
+    private void TargetSetting(Vector3 _mousePos, GameObject _lockTarget, Define.MouseEvent _evt = default)
     {
         //도로 클릭 시
         if (_lockTarget.layer == (int)Define.Layer.Road)
@@ -250,8 +261,11 @@ public class Monk : BaseController
             //타겟 오브젝트 설정
             BaseCard._lockTarget = null;
 
-            //공격 타입
-            _proj = Define.Projectile.Undefine;
+            //마우스 오른쪽 클릭 & 누르기
+            if (_evt != Define.MouseEvent.LeftButton)
+            {
+                _proj = Define.Projectile.Undefine;
+            }
         }
 
         //적,중앙 오브젝트 클릭 시
@@ -266,6 +280,12 @@ public class Monk : BaseController
 
             //타겟 오브젝트 설정
             BaseCard._lockTarget = remoteTarget;
+
+            //마우스 오른쪽 클릭 & 누르기
+            if (_evt != Define.MouseEvent.LeftButton)
+            {
+                _proj = Define.Projectile.Attack_Proj;
+            }
         }
     }
 
@@ -277,45 +297,49 @@ public class Monk : BaseController
         //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
 
-        //키보드 입력 시
-        switch (_key)
+        if (_pv.IsMine)
         {
-            case Define.KeyboardEvent.Q:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
+            //키보드 입력 시
+            switch (_key)
+            {
+                case Define.KeyboardEvent.Q:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.W:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.E:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.R:
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
+
+                    break;
+
+                case Define.KeyboardEvent.A:
                     KeyPushState(_key.ToString());
-                }
 
-                break;
+                    break;
+            }
 
-            case Define.KeyboardEvent.W:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.E:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.R:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
-                {
-                    KeyPushState(_key.ToString());
-                }
-
-                break;
-
-            case Define.KeyboardEvent.A:
-                KeyPushState(_key.ToString());
-
-                break;
         }
 
     }
@@ -514,7 +538,7 @@ public class Monk : BaseController
                         BaseCard._lockTarget = null;
 
                         //스킬 상태
-                        State = Define.State.Skill;
+                        _state = Define.State.Skill;
 
                         break;
                 }
@@ -573,24 +597,28 @@ public class Monk : BaseController
     protected override void UpdatePlayerStat()
     {
         //초기 세팅
-        if (_SaveHPSCool == default)
+        if (_SaveRegenCool == default)
         {
-            _SaveHPSCool = 0.01f;
+            _SaveRegenCool = 0.01f;
+
         }
 
-        if (_SaveHPSCool != default)
+        if (_SaveRegenCool != default)
         {
-            _SaveHPSCool += Time.deltaTime;
+            _SaveRegenCool += Time.deltaTime;
 
-            if (_SaveHPSCool >= 1)
+            if (_SaveRegenCool >= 1)
             {
                 //피 회복
                 _pStats.nowHealth += _pStats.healthRegeneration;
+                _pStats.nowMana += _pStats.manaRegen;
 
                 //attackDelay 초기화
-                _SaveHPSCool = default;
+                _SaveRegenCool = default;
             }
         }
+
+
 
     }
 
@@ -598,13 +626,15 @@ public class Monk : BaseController
     //Idle
     protected override void UpdateIdle()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0 && _agent.remainingDistance < 0.2f)
         {
-            State = Define.State.Idle;
+            _state = Define.State.Idle;
+        }
+
+        if (_pStats.nowHealth <= 0)
+        {
+            _state = Define.State.Die;
         }
     }
 
@@ -612,11 +642,6 @@ public class Monk : BaseController
     //Moving
     protected override void UpdateMoving()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        //Die
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         if (_pv.IsMine)
         {
             //타겟 - Attack or Skill or Move
@@ -639,14 +664,14 @@ public class Monk : BaseController
 
                         if (_agent.remainingDistance <= _pStats.attackRange)
                         {
-                            State = Define.State.Attack;
+                            _state = Define.State.Attack;
 
                             break;
                         }
 
                         else
                         {
-                            State = Define.State.Moving;
+                            _state = Define.State.Moving;
                         }
                     }
 
@@ -659,27 +684,17 @@ public class Monk : BaseController
                     if (BaseCard._lockTarget == null)
                     {
                         _agent.ResetPath();
-
-                        break;
                     }
 
                     //타겟 카드일 때
                     if (BaseCard._lockTarget != null)
                     {
-                        //이동
-                        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, BaseCard._lockTarget.transform.position) - transform.position);
-                        _agent.SetDestination(BaseCard._lockTarget.transform.position);
-
-                        if (_agent.remainingDistance <= _cardStats._rangeScale)
+                        float targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
+                        if (targetDis <= _cardStats._rangeScale)
                         {
-                            State = Define.State.Skill;
+                            _state = Define.State.Skill;
 
-                            break;
-                        }
-
-                        else
-                        {
-                            State = Define.State.Moving;
+                            return;
                         }
                     }
 
@@ -691,7 +706,7 @@ public class Monk : BaseController
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
                     _agent.SetDestination(_MovingPos);
 
-                    State = Define.State.Moving;
+                    _state = Define.State.Moving;
 
                     break;
             }
@@ -699,7 +714,12 @@ public class Monk : BaseController
             //Idle
             if (_agent.remainingDistance < 0.2f)
             {
-                State = Define.State.Idle;
+                _state = Define.State.Idle;
+            }
+
+            if (_pStats.nowHealth <= 0)
+            {
+                _state = Define.State.Die;
             }
         }
 
@@ -725,9 +745,6 @@ public class Monk : BaseController
     //Attack
     protected override void UpdateAttack()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0)
         {
@@ -748,11 +765,10 @@ public class Monk : BaseController
                         {
                             //Shoot
                             string tempName = "PoliceBullet";
-                            //GameObject nowBullet = Instantiate(_bullet, _Proj_Parent.position, _Proj_Parent.rotation);
-                            //nowBullet.GetComponent<RangedBullet>().BulletSetting(_Proj_Parent.position, BaseCard._lockTarget.transform, _pStats.speed, _pStats.basicAttackPower);
-                            //GameObject projectileTarget = GetRemotePlayer(BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
                             _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
-                            _pv.RPC("SetProjectile", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                            PhotonView localPv = _netBullet.GetComponent<PhotonView>();
+                            localPv.RPC("Init", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                            //_pv.RPC("SetProjectile", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
                         }
                         break;
 
@@ -790,10 +806,14 @@ public class Monk : BaseController
                 _stopAttack = true;
 
                 //애니메이션 Idle로 변환
-                State = Define.State.Idle;
+                _state = Define.State.Idle;
 
                 return;
             }
+        }
+        if (_pStats.nowHealth <= 0)
+        {
+            _state = Define.State.Die;
         }
     }
 
@@ -801,9 +821,6 @@ public class Monk : BaseController
     //Skill
     protected override void UpdateSkill()
     {
-        //죽었을 때
-        if (_pStats.nowHealth <= 0) { State = Define.State.Die; }
-
         //살았을 때
         if (_pStats.nowHealth > 0)
         {
@@ -819,15 +836,18 @@ public class Monk : BaseController
                 //이펙트 발동
                 if (_MovingPos != default)
                 {
-                    Debug.Log($"UpdateSkill : {_MovingPos} ");
+                    //Debug.Log($"UpdateSkill : {_MovingPos} ");
                     //Skill On
                     _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.photonView.ViewID, _pStats.playerArea);
+                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
+                    //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
 
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)
                     {
-                        Destroy(effectObj, _cardStats._effectTime);
+                        //Destroy(effectObj, _cardStats._effectTime);
+                        StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
+                        Debug.Log("Delete EffectPaticle");
                     }
 
                     //부활이 켜져있으면
@@ -843,33 +863,43 @@ public class Monk : BaseController
                 //스킬 쿨타임
                 _stopSkill = true;
 
-                State = Define.State.Idle;
+                _state = Define.State.Idle;
 
                 return;
             }
         }
+
+        if (_pStats.nowHealth <= 0)
+        {
+            _state = Define.State.Die;
+        }
     }
+
 
 
     //Die
     protected override void UpdateDie()
     {
+        //_startDie = true;
+        Managers.game.DieEvent(_pv.ViewID);
         _startDie = true;
 
-        //스킬 시전 시간동안 키 입력 X
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
 
-        _IsRange = false;
-        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+        ////스킬 시전 시간동안 키 입력 X
+        //Managers.Input.MouseAction -= MouseDownAction;
+        //Managers.Input.KeyAction -= KeyDownAction;
 
-        GetComponent<CapsuleCollider>().enabled = false;
+        //_IsRange = false;
+        //_attackRange[_SaveRangeNum].SetActive(_IsRange);
 
-        _SaveRespawnTime += Time.deltaTime;
+        //GetComponent<CapsuleCollider>().enabled = false;
+
+        //_SaveRespawnTime += Time.deltaTime;
 
     }
 
 
+    /*
     //리스폰 중
     protected override void StartDie()
     {
@@ -922,10 +952,9 @@ public class Monk : BaseController
                 Managers.Input.MouseAction += MouseDownAction;
                 Managers.Input.KeyAction += KeyDownAction;
             }
-
         }
     }
-
+    */
 
     //평타 후 딜레이
     protected override void StopAttack()
@@ -1014,4 +1043,6 @@ public class Monk : BaseController
     {
         Debug.Log(log);
     }
+
+
 }
