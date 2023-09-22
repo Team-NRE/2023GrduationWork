@@ -4,17 +4,19 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class CannonStart : MonoBehaviour
+public class CannonStart : BaseEffect
 {
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
-    PhotonView _pv;
+    protected PhotonView _pv;
+
 
     public void StartCannon(int playerId, float _damage, int _enemylayer)
     {
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(playerId);
+        _pv = GetComponent<PhotonView>();
 
         damage = _damage;
         enemylayer = _enemylayer;

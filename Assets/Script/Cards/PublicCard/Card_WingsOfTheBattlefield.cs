@@ -47,7 +47,8 @@ public class Card_WingsOfTheBattlefield : UI_Card
 
                 GameObject Wing = Managers.Resource.Instantiate($"Particle/Effect_WingsoftheBattlefield", col.transform);
                 Wing.transform.localPosition = new Vector3(0, 1.0f, 0);
-                Wing.AddComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
+                //Wing.AddComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
+                Wing.GetComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
 
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
                 _pStat.speed += _speed;

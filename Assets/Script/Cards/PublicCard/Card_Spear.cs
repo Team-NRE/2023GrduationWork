@@ -38,7 +38,8 @@ public class Card_Spear : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
+        //_effectObject.AddComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
+        _effectObject.GetComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
 
         return _effectObject;
     }

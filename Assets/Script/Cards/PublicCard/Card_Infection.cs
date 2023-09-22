@@ -34,7 +34,8 @@ public class Card_Infection : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
+        //_effectObject.AddComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
 
         return _effectObject;
     }

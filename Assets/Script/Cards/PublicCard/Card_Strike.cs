@@ -34,7 +34,7 @@ public class Card_Strike : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<StrikeStart>().StartStrike(playerId, _damage, _effectTime);
+        //_effectObject.AddComponent<StrikeStart>().StartStrike(playerId, _damage, _effectTime);
 
         return _effectObject;
     }

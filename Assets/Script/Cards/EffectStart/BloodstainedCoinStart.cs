@@ -5,11 +5,11 @@ using Stat;
 using static UnityEngine.GraphicsBuffer;
 using Photon.Pun;
 
-public class BloodstainedCoinStart : MonoBehaviour
+public class BloodstainedCoinStart : BaseEffect
 {
     GameObject player = null;
     GameObject _effectObject;
-    PhotonView _pv;
+    protected PhotonView _pv;
 
     Transform target = null;
 
@@ -65,6 +65,8 @@ public class BloodstainedCoinStart : MonoBehaviour
 
                     Destroy(gameObject, 0.1f);
                     Destroy(_effectObject, 0.5f);
+                    //_pv.RPC("RpcDelayDestroy", RpcTarget.All, this.gameObject, 0.1f);
+                    //DelayDestroy(_effectObject, 0.5f, );
                 }
 
                 //Ÿ���� �� Player�� ��
@@ -83,6 +85,7 @@ public class BloodstainedCoinStart : MonoBehaviour
 
                     Destroy(gameObject, 0.1f);
                     Destroy(_effectObject, 0.5f);
+                    //StartCoroutine(DelayDestroy(gameObject, 0.1f));
                 }
             }
         }

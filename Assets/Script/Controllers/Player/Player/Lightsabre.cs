@@ -845,7 +845,8 @@ public class Lightsabre : BaseController
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)
                     {
-                        Destroy(effectObj, _cardStats._effectTime);
+                        StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
+                        //Destroy(effectObj, _cardStats._effectTime);
                     }
 
                     //부활이 켜져있으면

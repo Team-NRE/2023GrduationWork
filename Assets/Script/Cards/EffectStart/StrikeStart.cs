@@ -4,11 +4,11 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class StrikeStart : MonoBehaviour
+public class StrikeStart : BaseEffect
 {
     GameObject player = null;
     GameObject Obj = null;
-    PhotonView _pv;
+    protected PhotonView _pv;
 
     float damage = default;
     float effectTime = default;
@@ -24,6 +24,7 @@ public class StrikeStart : MonoBehaviour
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(_player);
         Obj = transform.parent.gameObject;
+        _pv = GetComponent<PhotonView>();
 
         damage = _damage;
         effectTime = _effectTime;
@@ -89,7 +90,7 @@ public class StrikeStart : MonoBehaviour
                         {
                             oStats.speed = saveSpeed;
 
-                            Destroy(gameObject);
+                            PhotonNetwork.Destroy(gameObject);
                         }
 
                         //타겟이 미니언, 타워일 시 
@@ -97,7 +98,7 @@ public class StrikeStart : MonoBehaviour
                         {
                             enemyStats.speed = saveSpeed;
 
-                            Destroy(gameObject);
+                            PhotonNetwork.Destroy(gameObject);
                         }
                     }
 

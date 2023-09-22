@@ -210,4 +210,10 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         Vector3 targetVector = GetRemotePlayer(remoteId).transform.position;
         return targetVector;
 	}
+    protected IEnumerator DelayDestroy(GameObject target, float time)
+    {
+        yield return new WaitForSeconds(time);
+        PhotonNetwork.Destroy(target);
+        Debug.Log("Destroy");
+    }
 }

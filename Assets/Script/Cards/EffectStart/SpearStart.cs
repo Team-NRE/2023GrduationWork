@@ -2,13 +2,13 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class SpearStart : MonoBehaviour
+public class SpearStart : BaseEffect
 {
     float bulletSpeed;
     float damage = default;
     int enemylayer = default;
+    protected PhotonView _pv;
 
-    PhotonView _pv;
     Transform playerTr;
     PlayerStats pStats;
 
@@ -42,6 +42,7 @@ public class SpearStart : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
+        //int id = Managers.game.RemoteColliderId(other);
         _pv.RPC("RpcTrigger", RpcTarget.All, id);
     }
 

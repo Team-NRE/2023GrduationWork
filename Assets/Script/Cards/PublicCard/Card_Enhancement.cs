@@ -28,7 +28,8 @@ public class Card_Enhancement : UI_Card
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Enhancement", ground, Quaternion.Euler(-90,0,0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
-        _effectObject.AddComponent<EnhancementStart>().StartEnhancement(playerId, _damage);
+        //_effectObject.AddComponent<EnhancementStart>().StartEnhancement(playerId, _damage);
+        _effectObject.GetComponent<EnhancementStart>().StartEnhancement(playerId, _damage);
 
         _pStat.basicAttackPower += _damage;
 

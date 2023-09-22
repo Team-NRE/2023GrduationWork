@@ -4,12 +4,12 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class InfectionStart : MonoBehaviour
+public class InfectionStart : BaseEffect
 {
-    PhotonView _pv;
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
+    protected PhotonView _pv;
 
     public void StartInfection(int _player, float _damage, int _enemylayer)
     {
@@ -17,6 +17,7 @@ public class InfectionStart : MonoBehaviour
         player = Managers.game.RemoteTargetFinder(_player);
         damage = _damage;
         enemylayer = _enemylayer;
+        _pv = GetComponent<PhotonView>();
     }
 
     public void OnTriggerStay(Collider other)

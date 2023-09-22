@@ -8,6 +8,7 @@ public class Card_Lava : UI_Card
 {
     int _layer = default;
     int _enemylayer = default;
+    protected PhotonView _pv;
 
     public override void Init()
     {
@@ -34,7 +35,8 @@ public class Card_Lava : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
+        //_effectObject.AddComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
 
         return _effectObject;
     }

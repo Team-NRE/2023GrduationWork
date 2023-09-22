@@ -4,12 +4,12 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class LavaStart : MonoBehaviour
+public class LavaStart : BaseEffect
 {
     GameObject player = null;
     float damage = default;
     int enemylayer = default;
-    PhotonView _pv;
+    protected PhotonView _pv;
 
     public void StartLava(int _player, float _damage, int _enemylayer)
     {
@@ -17,6 +17,7 @@ public class LavaStart : MonoBehaviour
         player = Managers.game.RemoteTargetFinder(_player);
         damage = _damage;
         enemylayer = _enemylayer;
+        _pv = GetComponent<PhotonView>();
     }
 
     public void OnTriggerStay(Collider other)

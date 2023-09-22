@@ -4,12 +4,12 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-public class IcePrisonStart : MonoBehaviour
+public class IcePrisonStart : BaseEffect
 {
     float effectTime;
     float startEffect = 0.01f;
-    PhotonView _pv;
     GameObject player = null;
+    protected PhotonView _pv;
 
     PlayerStats pStat;
 
@@ -20,6 +20,7 @@ public class IcePrisonStart : MonoBehaviour
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(_player);
         pStat = player.GetComponent<PlayerStats>();
+        _pv = GetComponent<PhotonView>();
     }
 
     private void Update()
@@ -34,7 +35,7 @@ public class IcePrisonStart : MonoBehaviour
 
         if (startEffect > effectTime - 0.01f)
         {
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }

@@ -296,40 +296,54 @@ public class Police : BaseController
         switch (_key)
         {
             case Define.KeyboardEvent.Q:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.W:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.E:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.R:
-                if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                if (_pv.IsMine)
                 {
-                    KeyPushState(_key.ToString());
+                    if (_pStats.UseMana(_key.ToString()).Item1 == true)
+                    {
+                        KeyPushState(_key.ToString());
+                    }
                 }
 
                 break;
 
             case Define.KeyboardEvent.A:
-                KeyPushState(_key.ToString());
-
+                if (_pv.IsMine)
+                {
+                    KeyPushState(_key.ToString());
+                }
                 break;
         }
 
@@ -840,12 +854,14 @@ public class Police : BaseController
                     Debug.Log($"UpdateSkill : {_MovingPos} ");
                     //Skill On
                     _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this.photonView.ViewID, _pStats.playerArea);
+                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
 
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)
                     {
-                        Destroy(effectObj, _cardStats._effectTime);
+                        //Destroy(effectObj, _cardStats._effectTime);
+                        StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
+                        Debug.Log("Delete EffectPaticle");
                     }
 
                     //부활이 켜져있으면

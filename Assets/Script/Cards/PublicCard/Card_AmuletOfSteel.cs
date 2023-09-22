@@ -33,7 +33,7 @@ public class Card_AmuletOfSteel : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
         _layer = layer;
 
         //��θ�
@@ -46,15 +46,16 @@ public class Card_AmuletOfSteel : UI_Card
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {
+            GameObject remoteCol = Managers.game.RemoteTargetFinder(col.GetComponent<PhotonView>().ViewID);
             if (col.gameObject.tag == "PLAYER")
             {
-                PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
+                PlayerStats _pStat = remoteCol.gameObject.GetComponent<PlayerStats>();
 
                 //��ƼŬ
                 //GameObject Wing = Managers.Resource.Instantiate($"Particle/Effect_AmuletOfSteel", col.transform);
 
                 GameObject Wing = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletofSteel", col.transform.position, Quaternion.Euler(-90, 0, 0));
-                Wing.transform.parent = col.transform;
+                Wing.transform.parent = remoteCol.transform;
                 Wing.transform.localPosition = new Vector3(0, 1.12f, 0);
 
                 //��
@@ -75,7 +76,7 @@ public class Card_AmuletOfSteel : UI_Card
                     _pStat.nowHealth += _armor;
                 }
 
-                Wing.AddComponent<AmuletOfSteelStart>().StartAmulet(col.gameObject.GetComponent<PhotonView>().ViewID, _armorTime, saveMaxhealth, saveNowhealth);
+                Wing.GetComponent<AmuletOfSteelStart>().StartAmulet(col.gameObject.GetComponent<PhotonView>().ViewID, _armorTime, saveMaxhealth, saveNowhealth);
             }
 
             else continue;
