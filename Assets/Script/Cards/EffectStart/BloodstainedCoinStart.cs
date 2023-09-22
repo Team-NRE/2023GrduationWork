@@ -7,7 +7,6 @@ using Photon.Pun;
 
 public class BloodstainedCoinStart : BaseEffect
 {
-    GameObject player = null;
     GameObject _effectObject;
     protected PhotonView _pv;
     protected int _playerId;
@@ -27,6 +26,12 @@ public class BloodstainedCoinStart : BaseEffect
         BaseCard._lockTarget = null;
 
         damage = _damage;
+    }
+
+    public override void CardEffectInit(int userId, int targetId)
+    {
+        base.CardEffectInit(userId);
+        
     }
 
     private void Update()
