@@ -17,7 +17,7 @@ public class Lightsabre : BaseController
     private GameObject _netBullet;
 
     //UI_Card 접근
-    private UI_Card _cardStats;
+
 
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
@@ -841,13 +841,14 @@ public class Lightsabre : BaseController
                     //Skill On
                     _cardStats.InitCard();
                     GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
-                    _pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
+                    //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
 
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)
                     {
-                        StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
                         //Destroy(effectObj, _cardStats._effectTime);
+                        StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
+                        Debug.Log("Delete EffectPaticle");
                     }
 
                     //부활이 켜져있으면
@@ -1043,4 +1044,6 @@ public class Lightsabre : BaseController
     {
         Debug.Log(log);
     }
+
+
 }

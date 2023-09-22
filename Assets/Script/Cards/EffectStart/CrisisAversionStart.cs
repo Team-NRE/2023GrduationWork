@@ -24,13 +24,19 @@ public class CrisisAversionStart : BaseEffect
     {
         //player = GameObject.Find(_player);
         player = Managers.game.RemoteTargetFinder(_player);
-        effectOn = transform.GetChild(3).gameObject;
+        //effectOn = transform.GetChild(3).gameObject; // 2차 이펙트
 
         pStats = player.GetComponent<PlayerStats>();
-
-        enemyLayer = _enemyLayer;
-
     }
+
+# warning CrisisAversion은 스텟이 적용되지 않음
+    public override void CardEffectInit(int userId)
+    {
+        base.CardEffectInit(userId);
+        // 
+        pStats = player.GetComponent<PlayerStats>();
+    }
+
 
     public void Update()
     {

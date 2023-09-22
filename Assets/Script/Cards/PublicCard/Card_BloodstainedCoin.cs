@@ -14,14 +14,14 @@ public class Card_BloodstainedCoin : UI_Card
     {
         _cardBuyCost = 500;
         _cost = 1;
-        _damage = 10f;
+        //_damage = 10f;
         _rangeType = Define.CardType.Range;
         _rangeScale = 5.0f;
 
         _CastingTime = 0.3f;
         _effectTime = default;
 
-        _IsResurrection = false;
+        //_IsResurrection = false;
     }
 
 
@@ -44,7 +44,8 @@ public class Card_BloodstainedCoin : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<BloodstainedCoinStart>().StartBloodstainedCoin(_player.GetComponent<PhotonView>().ViewID, _damage);
-        _effectObject.GetComponent<BloodstainedCoinStart>().StartBloodstainedCoin(_player.GetComponent<PhotonView>().ViewID, _damage);
+        //_effectObject.GetComponent<BloodstainedCoinStart>().Card(_player.GetComponent<PhotonView>().ViewID, _damage);
+        _effectObject.GetComponent<BloodstainedCoinStart>().CardEffectInit(_player.GetComponent<PhotonView>().ViewID);
 
         return _effectObject;
     }

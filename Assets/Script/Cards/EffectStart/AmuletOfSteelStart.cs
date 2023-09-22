@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmuletOfSteelStart : BaseEffect, IPunObservable
+public class AmuletOfSteelStart : BaseEffect
 {
     PlayerStats _pStats;
     protected int _playerId;
@@ -15,6 +15,7 @@ public class AmuletOfSteelStart : BaseEffect, IPunObservable
     float effectTime = default;
     float saveMaxhealth = default;
     float saveNowhealth = default;
+    float _armorPercent = default;
 
     bool start = false;
 
@@ -29,6 +30,28 @@ public class AmuletOfSteelStart : BaseEffect, IPunObservable
         saveNowhealth = _saveNowhealth;
 
         start = true;
+    }
+
+    public override void CardEffectInit(int userId)
+    {
+        base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
+        float _armor = _pStats.maxHealth / 100 * _armorPercent;
+
+        if (_pStats.nowHealth + _armor > _pStats.maxHealth)
+        {
+            //ï¿½Ç°ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½
+            float overHealth = _pStats.nowHealth + _armor - _pStats.maxHealth;
+            saveMaxhealth = _pStats.maxHealth;
+            _pStats.maxHealth += overHealth;
+            _pStats.nowHealth = _pStats.maxHealth;
+        }
+
+        else if (_pStats.nowHealth + _armor <= _pStats.maxHealth)
+        {
+            saveNowhealth = _pStats.nowHealth;
+            _pStats.nowHealth += _armor;
+        }
     }
 
     public void Update()
@@ -54,12 +77,12 @@ public class AmuletOfSteelStart : BaseEffect, IPunObservable
                     if (saveMaxhealth <= _pStats.nowHealth) { _pStats.nowHealth = _pStats.maxHealth; }
                 }
 
-                //ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½Ã¼ï¿½Âºï¿½ï¿½ï¿½ ï¿½È³ï¿½ï¿½Æ´Ù¸ï¿½ -> armorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×´ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½Æ¾ßµï¿½. 
+                //ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½Ã¼ï¿½Âºï¿½ï¿½ï¿½ ï¿½È³ï¿½ï¿½Æ´Ù¸ï¿½ -> armorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?ï¿½×´ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½Æ¾ßµï¿? 
                 if (saveMaxhealth == default && saveNowhealth != default)
                 {
                     if (saveNowhealth <= _pStats.nowHealth)
                     {
-                        //ï¿½ï¿½î¸· ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+                        //ï¿½ï¿½î¸?ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                         _pStats.nowHealth = saveNowhealth;
                     }
                 }
@@ -68,21 +91,6 @@ public class AmuletOfSteelStart : BaseEffect, IPunObservable
 
                 PhotonNetwork.Destroy(gameObject);
             }
-        }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // ÀÚ½ÅÀÇ ·ÎÄÃ Ä³¸¯ÅÍÀÎ °æ¿ì ÀÚ½ÅÀÇ µ¥ÀÌÅÍ¸¦ ´Ù¸¥ ³×Æ®¿öÅ© À¯Àú¿¡°Ô ¼Û½Å
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            receivePos = (Vector3)stream.ReceiveNext();
-            receiveRot = (Quaternion)stream.ReceiveNext();
         }
     }
 }

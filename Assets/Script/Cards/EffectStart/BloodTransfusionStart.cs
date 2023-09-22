@@ -18,7 +18,7 @@ public class BloodTransfusionStart : BaseEffect
         _pv = GetComponent<PhotonView>();
     }
 
-    public void StartBloodTransfusion(int playerId, float _damage)
+    public override void CardEffectInit(int playerId)
     {
         //player = GameObject.Find(_player);
         _playerId = playerId;
@@ -26,7 +26,7 @@ public class BloodTransfusionStart : BaseEffect
         Obj = transform.parent.gameObject;
         //_pv = GetComponent<PhotonView>();
 
-        damage = _damage;
+        damage = 30.0f;
     }
 
     private void Update()

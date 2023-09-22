@@ -18,8 +18,15 @@ public class CannonStart : BaseEffect
         player = Managers.game.RemoteTargetFinder(playerId);
         _pv = GetComponent<PhotonView>();
 
-        damage = _damage;
-        enemylayer = _enemylayer;
+        //damage = _damage;
+        //enemylayer = _enemylayer;
+    }
+
+    public override void CardEffectInit(int userId)
+    {
+        base.CardEffectInit(userId);
+        _pv = GetComponent<PhotonView>();
+        damage = 50.0f;
     }
 
     // 여긴 백퍼 버그가 발생할 예정
