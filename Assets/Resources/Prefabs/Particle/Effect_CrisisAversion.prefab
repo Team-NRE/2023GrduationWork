@@ -9746,6 +9746,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b09de2cc42d0294e8ef31277f56f0fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectTime: 0
+  _damage: 0
+  _defence: 0
+  _speed: 0
+  _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
+  player: {fileID: 0}
+  target: {fileID: 0}
 --- !u!199 &118124905398755110
 ParticleSystemRenderer:
   serializedVersion: 6

@@ -14,7 +14,7 @@ public class Card_Cannon : UI_Card
     {
         _cardBuyCost = 1400;
         _cost = 2;
-        _damage = 50;
+        //_damage = 50;
         _rangeType = Define.CardType.Point;
         _rangeScale = 1.5f;
         _rangeRange = 4.0f;

@@ -12,7 +12,7 @@ public class Card_Armor : UI_Card
     { 
         _cardBuyCost = 500;
         _cost = 0;
-        _defence = 0.5f;
+        //_defence = 0.5f;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
@@ -30,12 +30,10 @@ public class Card_Armor : UI_Card
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Armor");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Armor", this.gameObject.transform.position, Quaternion.identity);
-        int effectId = _effectObject.GetComponent<PhotonView>().ViewID;
-        pv.RPC("GetRemoteParent", RpcTarget.All, ownerId, effectId);
-        //_effectObject.transform.parent = _player.transform;
+        _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
-        _pStat.defensePower += _defence;
+       // _pStat.defensePower += _defence;
 
         return _effectObject;
     }
