@@ -9,7 +9,7 @@ using TMPro;
 using Stat;
 using Photon.Pun;
 
-class player
+class ScoreboardPlayer
 {
     public PhotonView photonView;
     GameObject parent;
@@ -21,7 +21,7 @@ class player
     TextMeshProUGUI kill;
     TextMeshProUGUI death;
 
-    public player(PhotonView playerObj, GameObject uiParent)
+    public ScoreboardPlayer(PhotonView playerObj, GameObject uiParent)
     {
         photonView = playerObj;
         parent = uiParent;
@@ -80,25 +80,25 @@ public class UI_Scoreboard : MonoBehaviour
     [SerializeField] private TextMeshProUGUI humanTeamKill;
     [SerializeField] private TextMeshProUGUI cyborgTeamKill;
 
-    player[] playerList;
+    ScoreboardPlayer[] playerList;
     #endregion
 
     private void Awake()
     {
-        playerList = new player[4];
+        playerList = new ScoreboardPlayer[4];
         FindObject<HorizontalLayoutGroup>("Content").spacing = (Managers.game.gameMode == Define.GameMode.Single ? 0 : 75);
     }
 
     private void OnEnable()
     {
         if (Managers.game.humanTeamCharacter.Item1 != null && playerList[0] == null)
-            playerList[0] = new player(Managers.game.humanTeamCharacter.Item1,  FindObject<VerticalLayoutGroup>("Scoreboard_Player1").gameObject);
+            playerList[0] = new ScoreboardPlayer(Managers.game.humanTeamCharacter.Item1,  FindObject<VerticalLayoutGroup>("Scoreboard_Player1").gameObject);
         if (Managers.game.humanTeamCharacter.Item2 != null && playerList[1] == null)
-            playerList[1] = new player(Managers.game.humanTeamCharacter.Item2,  FindObject<VerticalLayoutGroup>("Scoreboard_Player2").gameObject);
+            playerList[1] = new ScoreboardPlayer(Managers.game.humanTeamCharacter.Item2,  FindObject<VerticalLayoutGroup>("Scoreboard_Player2").gameObject);
         if (Managers.game.cyborgTeamCharacter.Item1 != null && playerList[2] == null)
-            playerList[2] = new player(Managers.game.cyborgTeamCharacter.Item1, FindObject<VerticalLayoutGroup>("Scoreboard_Player3").gameObject);
+            playerList[2] = new ScoreboardPlayer(Managers.game.cyborgTeamCharacter.Item1, FindObject<VerticalLayoutGroup>("Scoreboard_Player3").gameObject);
         if (Managers.game.cyborgTeamCharacter.Item2 != null && playerList[3] == null)
-            playerList[3] = new player(Managers.game.cyborgTeamCharacter.Item2, FindObject<VerticalLayoutGroup>("Scoreboard_Player4").gameObject);
+            playerList[3] = new ScoreboardPlayer(Managers.game.cyborgTeamCharacter.Item2, FindObject<VerticalLayoutGroup>("Scoreboard_Player4").gameObject);
     }
 
     private void Update()

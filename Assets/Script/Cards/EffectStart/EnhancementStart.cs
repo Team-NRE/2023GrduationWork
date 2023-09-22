@@ -14,6 +14,14 @@ public class EnhancementStart : BaseEffect
 
     bool start = false;
 
+    public override void CardEffectInit(int userId)
+    {
+        base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
+        basicAttackPower = _pStats.basicAttackPower;
+        _pv = GetComponent<PhotonView>();
+    }
+
     public void StartEnhancement(int _player, float _basicAttackPower)
     {
         //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();

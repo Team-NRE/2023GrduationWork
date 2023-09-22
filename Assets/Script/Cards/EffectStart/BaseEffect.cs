@@ -7,11 +7,33 @@ using UnityEngine;
 // AddComponent �Ϲ�ȭ�� ���� Ŭ����
 public class BaseEffect : MonoBehaviour
 {
-	[PunRPC]
-	public virtual void CardEffectInit(int userId) { }
+	//이펙트 발동 시간
+    public float _effectTime;
+
+	//Stat 
+    public float _damage;
+    public float _defence;
+    public float _speed;
+    public float _buff;
+    public float _debuff;
+    //부활
+    public bool _IsResurrection;
+
+	public GameObject player = null;
+	public GameObject target = null;
 
 	[PunRPC]
-	public virtual void CardEffectInit(int userId, int targetId) { }
+	public virtual void CardEffectInit(int userId)
+	{
+		player = GetRemotePlayer(userId);
+	}
+
+	[PunRPC]
+	public virtual void CardEffectInit(int userId, int targetId)
+	{
+		player = GetRemotePlayer(userId);
+		target = GetRemotePlayer(targetId);
+	}
 
 	protected IEnumerator DelayTimer(float time)
 	{
