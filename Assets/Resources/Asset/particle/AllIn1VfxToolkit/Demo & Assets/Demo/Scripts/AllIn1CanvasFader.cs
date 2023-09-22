@@ -55,12 +55,14 @@ namespace AllIn1VfxToolkit.Demo.Scripts
 
         private void MakeCanvasVisibleTween()
         {
+            if (targetAlpha == 1f) return;
             isTweening = true;
             targetAlpha = 1f;
         }
 
         private void MakeCanvasInvisibleTween()
         {
+            if (targetAlpha == 0f) return;
             isTweening = true;
             targetAlpha = 0f;
         }

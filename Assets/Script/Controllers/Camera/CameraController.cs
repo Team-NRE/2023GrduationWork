@@ -236,6 +236,7 @@ public class CameraController : BaseController
     //카메라 이동
     public void FloatCam()
     {
+        if (Managers.UI.isOpenedPopup) return;
         //p_Position -> 플레이어의 이동해야할 위치
 
         //viewportPoint로 마우스 좌표 받기(x = 0~1/ y = 0~1)

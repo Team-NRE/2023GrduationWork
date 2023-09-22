@@ -214,7 +214,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7864776795036690574}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AllIn1VfxToolkit.Demo.Scripts.AllIn1CanvasFader,
           AllIn1VfxDemoScriptAssemblies
         m_MethodName: HideUI
@@ -5064,7 +5064,7 @@ GameObject:
   - component: {fileID: 5835148439928640507}
   - component: {fileID: 7821134164956468556}
   - component: {fileID: 4502747109976519772}
-  - component: {fileID: 7864776795036690574}
+  - component: {fileID: 8533573367375680719}
   - component: {fileID: 4072940653362548073}
   - component: {fileID: 2695551932353084360}
   m_Layer: 5
@@ -5157,7 +5157,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7864776795036690574
+--- !u!114 &8533573367375680719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5166,12 +5166,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9070842403154171350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 012bc27bc55024e439de4c5b3d88d2a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 725439eae4d2e734b97a5702b33f0175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeToggleKey: 27
+  fadeToggleKey: 0
   tweenSpeed: 6
-  hideUiButtonTween: {fileID: 0}
   isTweening: 0
 --- !u!225 &4072940653362548073
 CanvasGroup:
