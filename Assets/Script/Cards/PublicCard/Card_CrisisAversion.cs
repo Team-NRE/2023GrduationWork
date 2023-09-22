@@ -42,7 +42,7 @@ public class Card_CrisisAversion : UI_Card
 
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         //_effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(playerId, _enemylayer);
-        _effectObject.GetComponent<CrisisAversionStart>().StartCrisisAversion(playerId, _enemylayer);
+        _effectObject.GetComponent<CrisisAversionStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }

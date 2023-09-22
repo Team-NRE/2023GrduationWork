@@ -11,7 +11,7 @@ public class Card_Speed : UI_Card
     {
         _cardBuyCost = 300;
         _cost = 0;
-        _speed = 1.5f;
+        //_speed = 1.5f;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
@@ -31,9 +31,10 @@ public class Card_Speed : UI_Card
         _effectObject.transform.SetParent(_player.transform);
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
         //_effectObject.AddComponent<SpeedStart>().StartSpeed(playerId, _speed);
-        _effectObject.GetComponent<SpeedStart>().StartSpeed(playerId, _speed);
+        //_effectObject.GetComponent<SpeedStart>().StartSpeed(playerId, 1.5f);
+        _effectObject.GetComponent<SpeedStart>().CardEffectInit(playerId);
 
-        _pStat.speed += _speed;
+        _pStat.speed += 1.5f;
 
         return _effectObject;
     }

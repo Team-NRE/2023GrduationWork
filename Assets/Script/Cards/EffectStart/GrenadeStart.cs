@@ -9,23 +9,22 @@ public class GrenadeStart : BaseEffect
     PlayerStats enemyStats;
     protected PhotonView _pv;
 
-    GameObject player = null;
-    float damage = default;
+    //float damage = default;
     int enemylayer = default;
-    float debuff = default;
+    //float debuff = default;
     
     float saveMana = 0;
     bool isDebuff = false;
 
     float time = 0.0f;
 
-    public void StartGrenade(int _player, float _damage, int _enemylayer, float _debuff = default)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        player = Managers.game.RemoteTargetFinder(_player);
-        damage = _damage;
-        enemylayer = _enemylayer;
-        debuff = _debuff;
         _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        _damage = 25.0f;
+        _debuff = 1.02f;
     }
 
     public void Update()
@@ -57,7 +56,7 @@ public class GrenadeStart : BaseEffect
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
+                oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.5f);
             }
 
             //타겟이 적 Player일 시
@@ -66,11 +65,11 @@ public class GrenadeStart : BaseEffect
                 enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.5f);
+                enemyStats.receviedDamage = _damage + (pStats.basicAttackPower * 0.5f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 
                 //HackingGrenade 카드
-                if (debuff != default)
+                if (_debuff != default)
                 {
                     enemyStats.nowState = "Debuff";
 
@@ -85,7 +84,7 @@ public class GrenadeStart : BaseEffect
 
     private void ManaRegenBack()
     {
-        if (time >= debuff - 0.02f || enemyStats.nowState == "Health")
+        if (time >= _debuff - 0.02f || enemyStats.nowState == "Health")
         {
             enemyStats.manaRegen = saveMana;
             enemyStats.nowState = "Health";

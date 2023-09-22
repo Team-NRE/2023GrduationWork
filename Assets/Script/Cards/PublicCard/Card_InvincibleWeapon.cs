@@ -13,7 +13,7 @@ public class Card_InvincibleWeapon : UI_Card
     {
         _cardBuyCost = 3000;
         _cost = 3;
-        _damage = 1;
+        //_damage = 1;
         _rangeType = Define.CardType.Arrow;
 
         _CastingTime = 2.0f;
@@ -39,7 +39,8 @@ public class Card_InvincibleWeapon : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<InvincibleWeaponStart>().StartWeapon(playerId, _damage, _enemylayer);
+        //_effectObject.AddComponent<InvincibleWeaponStart>().StartWeapon(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<InvincibleWeaponStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }

@@ -21,11 +21,11 @@ public class UI_Card : UI_Scene
 
     
     ////Stat 
-    public float _damage;
-    public float _defence;
-    public float _speed;
-    public float _buff;
-    public float _debuff;
+    //public float _damage;
+    //public float _defence;
+    //public float _speed;
+    //public float _buff;
+    //public float _debuff;
     ////부활
     public bool _IsResurrection;
 

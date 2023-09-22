@@ -6,26 +6,16 @@ using Photon.Pun;
 
 public class CannonStart : BaseEffect
 {
-    GameObject player = null;
     float damage = default;
     int enemylayer = default;
     protected PhotonView _pv;
 
-
-    public void StartCannon(int playerId, float _damage, int _enemylayer)
-    {
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(playerId);
-        _pv = GetComponent<PhotonView>();
-
-        //damage = _damage;
-        //enemylayer = _enemylayer;
-    }
-
+    [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        base.CardEffectInit(userId);
         _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+
         damage = 50.0f;
     }
 

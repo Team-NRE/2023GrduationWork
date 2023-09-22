@@ -11,7 +11,7 @@ public class Card_Enhancement : UI_Card
     {
         _cardBuyCost = 300;
         _cost = 0;
-        _damage = 15;
+        //_damage = 15;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
@@ -37,7 +37,7 @@ public class Card_Enhancement : UI_Card
             playerId
         );
 
-        _pStat.basicAttackPower += _damage;
+        _pStat.basicAttackPower += 15;
 
         return _effectObject;
     }

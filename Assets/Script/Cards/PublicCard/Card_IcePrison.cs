@@ -31,8 +31,11 @@ public class Card_IcePrison : UI_Card
         _effectObject.transform.SetParent(_player.transform);
 
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
+
         //_effectObject.AddComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
-        _effectObject.GetComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
+        //_effectObject.GetComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
+        //_effectObject.GetComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
+        _effectObject.GetComponent<IcePrisonStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }

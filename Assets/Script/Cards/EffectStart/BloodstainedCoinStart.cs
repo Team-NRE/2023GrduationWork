@@ -17,17 +17,7 @@ public class BloodstainedCoinStart : BaseEffect
 
     PlayerStats enemyStats;
 
-    public void StartBloodstainedCoin(int playerId, float _damage)
-    {
-        //player = GameObject.Find(_player);
-        _playerId = playerId;
-        player = Managers.game.RemoteTargetFinder(playerId);
-        target = BaseCard._lockTarget;
-        BaseCard._lockTarget = null;
-
-        damage = _damage;
-    }
-
+    [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
         base.CardEffectInit(userId);

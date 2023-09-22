@@ -22,15 +22,12 @@ public class Card_Crystal : UI_Card
         //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
         PhotonView pv = _player.GetComponent<PhotonView>();
-        int ownerId = pv.GetComponent<PhotonView>().ViewID;
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Crystal");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Crystal", ground, Quaternion.Euler(-90, 0, 0));
-        //_effectObject.transform.parent = _player.transform;   
-        
-        int effectId = _effectObject.GetComponent<PhotonView>().ViewID;
-        pv.RPC("GetRemoteParent", RpcTarget.All, ownerId, effectId);
+        _effectObject.transform.parent = _player.transform;   
+        //pv.RPC("GetRemoteParent", RpcTarget.All, ownerId, effectId);
         _effectObject.transform.localPosition = new Vector3(0, 0, 0);
 
         _pStat.nowMana += 1*_pStat.manaRegen;

@@ -13,7 +13,7 @@ public class Card_Infection : UI_Card
     {
         _cardBuyCost = 300;
         _cost = 1;
-        _damage = 0.1f;
+        //_damage = 0.1f;
         _rangeType = Define.CardType.Point;
         _rangeScale = 1.75f;
         _rangeRange = 3.0f;
@@ -35,7 +35,8 @@ public class Card_Infection : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
+        //_effectObject.GetComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<InfectionStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }

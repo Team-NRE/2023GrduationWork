@@ -18,6 +18,7 @@ public class BloodTransfusionStart : BaseEffect
         _pv = GetComponent<PhotonView>();
     }
 
+    [PunRPC]
     public override void CardEffectInit(int playerId)
     {
         //player = GameObject.Find(_player);

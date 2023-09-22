@@ -16,15 +16,15 @@ public class ShieldStart : BaseEffect
     private void Start()
     {
         _pv = GetComponent<PhotonView>();
-
     }
 
-    public void StartShield(int _player, float _defence)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
-        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
-        defence = _defence;
-        //_pv = GetComponent<PhotonView>();
+        
+        base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
+        defence = 50.0f;
         start = true;
     }
 

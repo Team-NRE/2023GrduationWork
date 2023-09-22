@@ -14,7 +14,7 @@ public class Card_WingsOfTheBattlefield : UI_Card
     {
         _cardBuyCost = 2000;
         _cost = 2;
-        _speed = 2.0f;
+        //_speed = 2.0f;
         _rangeScale = 3.6f;
         _rangeType = Define.CardType.None;
 
@@ -50,10 +50,11 @@ public class Card_WingsOfTheBattlefield : UI_Card
                 GameObject Wing = Managers.Resource.Instantiate($"Particle/Effect_WingsoftheBattlefield", col.transform);
                 Wing.transform.localPosition = new Vector3(0, 1.0f, 0);
                 //Wing.AddComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
-                Wing.GetComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
+                //Wing.GetComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
+                Wing.GetComponent<WingsOfTheBattlefieldStart>().CardEffectInit(col.gameObject.GetComponent<PhotonView>().ViewID);
 
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
-                _pStat.speed += _speed;
+                _pStat.speed += 2.0f;
             }
 
             else continue;

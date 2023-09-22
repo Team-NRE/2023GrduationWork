@@ -24,6 +24,15 @@ public class WingsOfTheBattlefieldStart : BaseEffect
         start = true;
     }
 
+    public override void CardEffectInit(int userId)
+    {
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        speed = 2.0f;
+        effectTime = 1.1f;
+    }
+
+
     public void Update()
     {
         _pv.RPC("RpcUpdate", RpcTarget.All);

@@ -20,6 +20,13 @@ public class InfectionStart : BaseEffect
         _pv = GetComponent<PhotonView>();
     }
 
+    public override void CardEffectInit(int userId)
+    {
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        damage = 0.1f;
+    }
+
     public void OnTriggerStay(Collider other)
     {
         int id = Managers.game.RemoteTargetIdFinder(other.gameObject);

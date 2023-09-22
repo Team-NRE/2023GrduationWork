@@ -24,6 +24,15 @@ public class HealthKitStart : BaseEffect
         pStats = player.GetComponent<PlayerStats>();
     }
 
+    [PunRPC]
+    public override void CardEffectInit(int userId)
+    {
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        healthRegen = 0.5f;
+        pStats = player.GetComponent<PlayerStats>();
+    }
+
     private void Update()
     {
         pStats.nowHealth += healthRegen;

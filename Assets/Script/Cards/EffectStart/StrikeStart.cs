@@ -19,15 +19,15 @@ public class StrikeStart : BaseEffect
     ObjStats oStats;
 
     bool IsEffect = false;
-    public void StartStrike(int _player, float _damage, float _effectTime)
-    {
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(_player);
-        Obj = transform.parent.gameObject;
-        _pv = GetComponent<PhotonView>();
 
-        damage = _damage;
-        effectTime = _effectTime;
+    public override void CardEffectInit(int userId, int targetId)
+    {
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId, targetId);
+        Obj = target;
+
+        damage = 40.0f;
+        effectTime = 2.0f;
     }
 
     public void Update()

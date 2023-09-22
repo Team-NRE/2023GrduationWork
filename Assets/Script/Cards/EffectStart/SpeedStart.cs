@@ -19,11 +19,11 @@ public class SpeedStart : BaseEffect
         _pv = GetComponent<PhotonView>();
     }
 
-    public void StartSpeed(int _player, float _speed)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
-        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
-        speed = _speed;
+        base.CardEffectInit(userId);
+        speed = 1.5f;
 
         start = true;
     }

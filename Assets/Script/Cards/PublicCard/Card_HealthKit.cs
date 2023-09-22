@@ -26,15 +26,15 @@ public class Card_HealthKit : UI_Card
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_HealthKit");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HealthKit", ground, Quaternion.Euler(-90, 0, 0));
-        //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
+        _effectObject.transform.parent = _player.transform;
 
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
 
         _layer = layer;
 
         //_effectObject.AddComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
-        _effectObject.GetComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
+        //_effectObject.GetComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
+        _effectObject.GetComponent<HealthKitStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }
