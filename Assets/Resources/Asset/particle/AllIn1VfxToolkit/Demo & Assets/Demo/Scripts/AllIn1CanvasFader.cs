@@ -22,7 +22,7 @@ namespace AllIn1VfxToolkit.Demo.Scripts
 
         private void Update()
         {
-            if(Input.GetKeyDown(fadeToggleKey)) HideUiButtonPressed();
+            if(Input.GetKeyDown(fadeToggleKey)) TurnUI();
             
             gameObject.SetActive(currentAlpha + targetAlpha != 0);
             if(!isTweening) return;
@@ -31,7 +31,21 @@ namespace AllIn1VfxToolkit.Demo.Scripts
             if(targetAlpha == currentAlpha) isTweening = false;
         }
 
-        public void HideUiButtonPressed()
+        public void HideUI()
+        {
+            MakeCanvasInvisibleTween();
+            if(hideUiButtonTweenNotNull) hideUiButtonTween.ScaleUpTween();
+            gameObject.SetActive(currentAlpha + targetAlpha != 0);
+        }
+
+        public void ShowUI()
+        {
+            MakeCanvasVisibleTween();
+            if(hideUiButtonTweenNotNull) hideUiButtonTween.ScaleUpTween();
+            gameObject.SetActive(currentAlpha + targetAlpha != 0);
+        }
+
+        public void TurnUI()
         {
             if(currentAlpha < 0.01f) MakeCanvasVisibleTween();
             else MakeCanvasInvisibleTween();

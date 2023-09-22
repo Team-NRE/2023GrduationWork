@@ -50,7 +50,6 @@ public class GameScene : BaseScene
 
         yield return new WaitForSeconds(2.0f);
 
-        Managers.UI.ShowSceneUI<UI_Mana>();
         Managers.UI.ShowSceneUI<UI_CardPanel>();
         Managers.UI.ShowSceneUI<UI_Popup>();
 

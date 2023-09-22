@@ -11285,6 +11285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a0bc2ac4491354eb863b406f3c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   healthBarHeal: {fileID: 9148914318595348442}
   healthBarHit: {fileID: 9148914318566132377}
   healthBarBasic: {fileID: 9148914319775309538}
@@ -12307,7 +12308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1054945522, guid: 3b9c6c4d4064d2b419e66da46b2f4b63, type: 3}
+  m_Sprite: {fileID: -1337099926, guid: 3b9c6c4d4064d2b419e66da46b2f4b63, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1

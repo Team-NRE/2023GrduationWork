@@ -1,51 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UI_Store : UI_Popup
 {
-    GameObject store;
-    GameObject strengthen;
-    GameObject deck;
+    [SerializeField] GameObject store;
+    [SerializeField] GameObject strengthen;
+    [SerializeField] GameObject delete;
 
     public enum StoreUI
     {
         store,
-        /*
         strengthen,
-        deck,*/
+        delete,
     }
 
     public override void Init()
     {
         Bind<GameObject>(typeof(StoreUI));
-        store = Get<GameObject>((int)StoreUI.store);
-        //strengthen = Get<GameObject>((int)StoreUI.strengthen);
-        //deck = Get<GameObject>((int)StoreUI.deck);
+        store      = Get<GameObject>((int)StoreUI.store);
+        strengthen = Get<GameObject>((int)StoreUI.strengthen);
+        delete     = Get<GameObject>((int)StoreUI.delete);
 
-        store.SetActive(true);
-        //strengthen.SetActive(false);
-        //deck.SetActive(false);
+        store      .SetActive(true);
+        strengthen .SetActive(false);
+        delete     .SetActive(false);
     }
 
     public void storeActive()
     {
-        store.SetActive(true);
-        //strengthen.SetActive(false);
-        //deck.SetActive(false);
+        if (store.activeSelf) return;
+        store      .SetActive(true);
+        strengthen .SetActive(false);
+        delete     .SetActive(false);
     }
 
     public void strengthenActive()
     {
-        store.SetActive(false);
-        strengthen.SetActive(true);
-        deck.SetActive(false);
+        if (strengthen.activeSelf) return;
+        store      .SetActive(false);
+        strengthen .SetActive(true);
+        delete     .SetActive(false);
     }
 
-    public void deckActive()
+    public void deleteActive()
     {
-        store.SetActive(false);
-        strengthen.SetActive(false);
-        deck.SetActive(true);
+        if (delete.activeSelf) return;
+        store      .SetActive(false);
+        strengthen .SetActive(false);
+        delete     .SetActive(true);
     }
 }

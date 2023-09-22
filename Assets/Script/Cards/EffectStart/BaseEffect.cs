@@ -4,11 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// AddComponent ÀÏ¹ÝÈ­¸¦ À§ÇÑ Å¬·¡½º
-public class BaseEffect : MonoBehaviourPunCallbacks
+// AddComponent ï¿½Ï¹ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+public class BaseEffect : MonoBehaviour
 {
-	protected Vector3 receivePos;
-	protected Quaternion receiveRot;
+	[PunRPC]
+	public virtual void CardEffectInit(int userId) { }
+
+	[PunRPC]
+	public virtual void CardEffectInit(int userId, int targetId) { }
 
 	protected IEnumerator DelayTimer(float time)
 	{
@@ -30,11 +33,9 @@ public class BaseEffect : MonoBehaviourPunCallbacks
     }
 
 	[PunRPC]
-	protected void GetRemoteParent(int id, int particleId)
+	protected void GetRemoteParent(int id)
     {
-		GameObject playerObject = GetRemotePlayer(id);
-		GameObject particleObject = GetRemotePlayer(particleId);
-
-		particleObject.transform.parent = playerObject.transform;
+		GameObject parent = GetRemotePlayer(id);
+		parent.transform.parent = parent.transform;
     }
 }

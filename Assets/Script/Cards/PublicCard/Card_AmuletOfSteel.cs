@@ -36,13 +36,13 @@ public class Card_AmuletOfSteel : UI_Card
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
         _layer = layer;
 
-        //¶ì·Î¸µ
+        //ï¿½ï¿½Î¸ï¿½
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-        //¹æ¾î¸· ÀÌÆåÆ®
+        //ï¿½ï¿½î¸· ï¿½ï¿½ï¿½ï¿½Æ®
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {
@@ -51,19 +51,19 @@ public class Card_AmuletOfSteel : UI_Card
             {
                 PlayerStats _pStat = remoteCol.gameObject.GetComponent<PlayerStats>();
 
-                //ÆÄÆ¼Å¬
+                //ï¿½ï¿½Æ¼Å¬
                 //GameObject Wing = Managers.Resource.Instantiate($"Particle/Effect_AmuletOfSteel", col.transform);
 
                 GameObject Wing = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletofSteel", col.transform.position, Quaternion.Euler(-90, 0, 0));
                 Wing.transform.parent = remoteCol.transform;
                 Wing.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-                //¹æ¾î¸·
+                //ï¿½ï¿½î¸·
                 float _armor = _pStat.maxHealth / 100 * _armorPercent;
 
                 if( _pStat.nowHealth + _armor > _pStat.maxHealth )
                 {
-                    //ÇÇ°¡ ³ÑÄ¡¸é
+                    //ï¿½Ç°ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½
                     float overHealth = _pStat.nowHealth + _armor - _pStat.maxHealth;
                     saveMaxhealth = _pStat.maxHealth;
                     _pStat.maxHealth += overHealth;

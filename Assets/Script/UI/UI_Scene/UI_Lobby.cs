@@ -18,7 +18,7 @@ public class UI_Lobby : UI_Scene
 
 	public override void Init()
 	{
-		characterSelectUI = GameObject.FindObjectOfType<UI_Select>();
+		characterSelectUI = GameObject.FindObjectOfType<UI_Select>(true);
 		characterSelectUIFader = characterSelectUI.GetComponent<AllIn1CanvasFader>();
 		characterSelectUIFader.gameObject.SetActive(false);
 
@@ -36,7 +36,7 @@ public class UI_Lobby : UI_Scene
 	{
 		Debug.Log("EnterSingle");
 		Managers.game.gameMode = Define.GameMode.Single;
-		characterSelectUIFader.HideUiButtonPressed();
+		characterSelectUIFader.ShowUI();
 	}
 
 	// Select Button 클릭시 발생할 이벤트
@@ -44,7 +44,7 @@ public class UI_Lobby : UI_Scene
 	{
 		Debug.Log("EnterMulti_1vs1");
 		Managers.game.gameMode = Define.GameMode.Multi_1vs1;
-		characterSelectUIFader.HideUiButtonPressed();
+		characterSelectUIFader.ShowUI();
 	}
 
 	// Select Button 클릭시 발생할 이벤트
@@ -52,6 +52,6 @@ public class UI_Lobby : UI_Scene
 	{
 		Debug.Log("EnterMulti_2vs2");
 		Managers.game.gameMode = Define.GameMode.Multi_2vs2;
-		characterSelectUIFader.HideUiButtonPressed();
+		characterSelectUIFader.ShowUI();
 	}
 }

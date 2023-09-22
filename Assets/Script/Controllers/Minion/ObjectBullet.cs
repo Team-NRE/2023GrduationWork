@@ -112,6 +112,7 @@ public class ObjectBullet : MonoBehaviourPun
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= _damage;
+                Debug.Log($"{_Target.gameObject.name} 의 남은 체력 : {_Stats.nowHealth}");
             }
             
             Destroy(this.gameObject, 0.5f);

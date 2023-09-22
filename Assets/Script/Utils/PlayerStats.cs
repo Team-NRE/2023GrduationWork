@@ -29,6 +29,7 @@ namespace Stat
         [SerializeField] private float _healthRegeneration; //체력 재생량
         [SerializeField] private float _defensePower; //방어력
         [SerializeField] private float _receviedDamage; //계산된 입은 데미지
+        [SerializeField] private float _shield; //방어막
         [SerializeField] private float _death; //데스
 
         [Header("-- 레벨 --")]
@@ -101,8 +102,13 @@ namespace Stat
                     _nowHealth = value;
                 }
 
+                if (value <= 0)
+                {
+                    _nowHealth = 0;
+                }
+
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
-                if (_nowHealth < 0) { death += 1; _nowHealth = 0; }
+               
             }
         }
         public float maxHealth
@@ -209,7 +215,7 @@ namespace Stat
             set
             {
                 _nowMana = value;
-                if (_nowMana >= maxMana * manaRegen) { _nowMana = maxMana * manaRegen; }
+                if (_nowMana >= maxMana) { _nowMana = maxMana; }
                 if (_nowMana <= 0) { _nowMana = 0; }
             }
         }
@@ -221,7 +227,7 @@ namespace Stat
             bool CanUseCard;
 
             if (_key != null) { ui_card = GameObject.Find(_key).GetComponentInChildren<UI_Card>(); }
-            float cardValue = ui_card._cost * manaRegen;
+            float cardValue = ui_card._cost;
 
             if (nowMana >= cardValue) { CanUseCard = true; }
             else { CanUseCard = false; }

@@ -742,7 +742,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3452020753512043203}
   - component: {fileID: 4051508927302138096}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Mini Map Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -40,9 +40,9 @@ public class CrisisAversionStart : BaseEffect
     [PunRPC]
     public void RpcUpdate()
 	{
-        // ¸¸¾à ÇÇ°¡ 1ÀÌ µÇ¾ú´Ù¸é....
-        // Àû Åõ»çÃ¼¿¡ ¸Â°í ÇÇ°¡ 1ÀÌÇÏ·Î ¶³¾îÁö°Ô µÈ´Ù¸é ¹ßµ¿....
-        // ¾ÆÁ÷ ½ºÅÝÀû¿ë ¹Ì¿Ï¼º 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½ 1ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ù¸ï¿½....
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½Ç°ï¿½ 1ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´Ù¸ï¿½ ï¿½ßµï¿½....
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿Ï¼ï¿½ 
         if (pStats.nowHealth <= 0)
         {
             IsEffect = true;
@@ -51,7 +51,7 @@ public class CrisisAversionStart : BaseEffect
 
         if (IsEffect == true)
         {
-            //ÇÇ 1·Î °íÁ¤
+            //ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             pStats.nowHealth = 1;
 
             nowEffectTime += Time.deltaTime;

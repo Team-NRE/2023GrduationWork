@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LoginScene : BaseScene
 {
+	
 	private void Start()
 	{
 		Managers.UI.ShowSceneUI<UI_Login>();

@@ -44,6 +44,14 @@ public class GameManager
     public double startTime = 0;
 	public double playTime = 0;
 
+    /// 플레이어 리스폰 시간 관련
+    public double respawnTime = 3; //기본 Default = 3초
+    public int respawnMin = 0;
+    public int respawnTurn = 1;
+    public float startRespawn = 0.01f;
+    public bool isDie { get; set; }
+    public GameObject respawnObject;
+
     /// 팀 킬 수 관련
     public int humanTeamKill = 0;
     public int cyborgTeamKill = 0;
@@ -72,6 +80,38 @@ public class GameManager
         }
 
         playTime = PhotonNetwork.Time - startTime;
+
+        //리스폰 시간 업데이트
+        respawnMin = ((int)playTime / 60);
+        if(respawnMin == 1 * respawnTurn)
+        {
+            respawnTime += 2;
+            respawnTurn += 1;
+            Debug.Log($"전체 캐릭터 부활 시간 : {respawnTime}초");
+        }
+
+        //플레이어 사망 시
+        switch (isDie)
+        {
+            case true:
+                startRespawn += Time.deltaTime;
+                if (startRespawn >= respawnTime) 
+                {
+                    respawnEvent();
+                    isDie = false;
+                    Debug.Log($" {respawnTime}초 지나서 부활 완료");
+                }
+
+                break;
+
+
+            case false:
+                startRespawn = 0.01f;
+                respawnObject = null;
+
+                break;
+        }
+
     }
 
     /// 플레이어 킬 이벤트
@@ -93,6 +133,28 @@ public class GameManager
             attackerID,
             deadUserID
         );
+    }
+
+    /// 플레이어 죽음 이벤트
+    ///
+    /// int die ID : 죽은 플레이어 View ID
+    public void DieEvent(int diedID)
+    {
+        // 예외 처리 
+        if (PhotonView.Find(diedID) == null) return;
+
+        GameObject diedPlayer = PhotonView.Find(diedID)?.gameObject;
+        diedPlayer.GetComponent<BaseController>().enabled = false;
+        diedPlayer.GetComponent<CapsuleCollider>().enabled = false;
+
+        isDie = true;
+        respawnObject = diedPlayer;
+    }
+
+    public void respawnEvent()
+    {
+        respawnObject.GetComponent<BaseController>().enabled = true;
+        respawnObject.GetComponent<CapsuleCollider>().enabled = true;
     }
 
     /// 게임 종료 스크립트
