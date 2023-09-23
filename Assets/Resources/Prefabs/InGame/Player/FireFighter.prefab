@@ -356,6 +356,7 @@ MonoBehaviour:
   _levelUpDP: 0
   _speed: 0
   _nowState: 
+  _isResurrection: 0
   _playerArea: 0
   _enemyArea: 0
   _nowMana: 0
@@ -374,14 +375,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453c59b45c2c2b14c833a638a04244af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  _startDie: 0
   _attackRange: []
+  ignore:
+    serializedVersion: 2
+    m_Bits: 0
+  _SaveRangeNum: 0
   _SaveAttackSpeed: 0
   _SaveSkillCool: 0
-  _SaveHPSCool: 0
-  _SaveRespawnTime: 0
-  respawn: {fileID: 0}
-  bullet: {fileID: 0}
+  _SaveRegenCool: 0
 --- !u!114 &1796297132842369387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2349,7 +2351,7 @@ GameObject:
   - component: {fileID: 4851206560310495712}
   - component: {fileID: 3677719737191432949}
   - component: {fileID: 8183976402734899657}
-  - component: {fileID: 8879553708606799786}
+  - component: {fileID: 1834481695047592610}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -2456,7 +2458,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8879553708606799786
+--- !u!114 &1834481695047592610
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2465,7 +2467,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4860050769750592189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70aa8cf5847c99e4f832c8f2c502f704, type: 3}
+  m_Script: {fileID: 11500000, guid: ea0759a6f95078c4f8a44ba612e33bb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarHeal: {fileID: 0}

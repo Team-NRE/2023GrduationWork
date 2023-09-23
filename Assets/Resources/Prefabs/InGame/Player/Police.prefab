@@ -324,8 +324,8 @@ GameObject:
   - component: {fileID: 1444855329}
   - component: {fileID: 1444855328}
   - component: {fileID: 1444855327}
-  - component: {fileID: 1444855330}
   - component: {fileID: 8621877643984025223}
+  - component: {fileID: 1186460478901051123}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -418,22 +418,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1444855330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1444855324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f3a3853798278242a89ed39e9955029, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarHeal: {fileID: 0}
-  healthBarHit: {fileID: 0}
-  healthBarBasic: {fileID: 0}
-  isHealHitEffect: 1
 --- !u!136 &8621877643984025223
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -448,6 +432,22 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1186460478901051123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444855324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea0759a6f95078c4f8a44ba612e33bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarHeal: {fileID: 0}
+  healthBarHit: {fileID: 0}
+  healthBarBasic: {fileID: 0}
+  isHealHitEffect: 1
 --- !u!1 &1825130227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,6 +1557,7 @@ MonoBehaviour:
   _levelUpDP: 0
   _speed: 0
   _nowState: 
+  _isResurrection: 0
   _playerArea: 0
   _enemyArea: 0
   _nowMana: 0
@@ -1575,14 +1576,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e06b0c894ab834cb3c196d85cd39ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  _startDie: 0
   _attackRange: []
+  ignore:
+    serializedVersion: 2
+    m_Bits: 0
+  _SaveRangeNum: 0
   _SaveAttackSpeed: 0
   _SaveSkillCool: 0
   _SaveRegenCool: 0
-  _SaveRespawnTime: 0
-  respawn: {fileID: 0}
-  bullet: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &4500046026864031059
 MonoBehaviour:
   m_ObjectHideFlags: 0

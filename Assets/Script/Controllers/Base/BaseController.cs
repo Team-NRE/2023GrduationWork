@@ -11,58 +11,64 @@ using Photon.Realtime;
 [System.Serializable]
 public abstract class BaseController : MonoBehaviourPun, IPunObservable
 {
-    protected PhotonView _pv;
+    
+    protected Vector3 _MovingPos;
+
+    /// <summary>
+    /// IPunObservable
+    /// </summary>
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
-    private GameObject _player;
-    protected UI_Card _cardStats;
+    
 
-    //SerializeField = private 변수를 인스펙터에서 설정
-    //protected = 상속 관계에 있는 클래스 내부에서만 접근
+    /// <summary>
+    /// 초기화
+    /// </summary>
+    protected PhotonView _pv;
     protected Animator _anim;
     protected NavMeshAgent _agent;
-    protected Vector3 _MovingPos;
 
     //총알 발사 여부
     protected bool _stopAttack = false;
     //스킬 발동 여부
     protected bool _stopSkill = false;
-    protected bool _startDie = false;
     //사거리 유무
     protected bool _IsRange = false;
+    
+    /// <summary>
+    /// 즉음 유무
+    /// </summary>
+    public bool _startDie = false;
 
-
+    /// <summary>
+    /// Manager 참조
+    /// </summary>
     protected RespawnManager respawnManager;
+
+    /// <summary>
+    /// 플레이어 스텟
+    /// </summary>
     public PlayerStats _pStats { get; set; }
 
 
-    //외부 namespace Define의 Player State 참조
-    //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
+    /// <summary>
+    /// 외부 namespace Define 참조
+    /// </summary>
     public CardType _cdType { get; protected set; }
     public PlayerType _pType { get; protected set; }
     public State _state { get; protected set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.QuaterView;
     public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
-
     public void Awake() 
     {
         // 팀 분배
-        Init(); 
+        Init();
     }
 
     public void OnEnable()
     {
-        if (photonView.IsMine)
-            _pv.RPC(
-                "PlayerStatSetting",
-                RpcTarget.All,
-                _pType.ToString(),
-                // Managers.game.nickname
-                PhotonNetwork.LocalPlayer.NickName
-            );
-
         InitOnEnable();
     }
 
@@ -71,76 +77,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     {
         if(_pv.IsMine)
         {
-            if (_startDie == false)
-            {
-                UpdatePlayerStat();
-            }
-
-            if (_stopSkill == true)
-            {
-                StopSkill();
-            }
-            if (_stopAttack == true)
-            {
-                StopAttack();
-            }
-
-            //A키를 눌렀을 때 
-            if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
-            {
-                RangeAttack();
-            }
-            //Debug.Log(State);
-
-            //키, 마우스 이벤트 받으면 state가 변환
-            switch (_state)
-            {
-                case Define.State.Idle:
-                    _anim.SetBool("IsIdle", true);
-                    _anim.SetBool("IsWalk", false);
-                    _anim.SetBool("IsThrow1", false);
-                    _anim.SetBool("IsFire", false);
-
-                    UpdateIdle();
-
-                    break;
-
-                case Define.State.Die:
-                    _anim.SetTrigger("Die");
-                    _anim.SetBool("IsIdle", false);
-
-                    UpdateDie();
-
-                    break;
-
-                case Define.State.Moving:
-                    _anim.SetBool("IsWalk", true);
-                    _anim.SetBool("IsIdle", false);
-                    _anim.SetBool("IsThrow1", false);
-                    _anim.SetBool("IsFire", false);
-
-                    UpdateMoving();
-
-                    break;
-
-                case Define.State.Attack:
-                    _anim.SetBool("IsFire", true);
-                    _anim.SetBool("IsIdle", false);
-                    _anim.SetBool("IsThrow1", false);
-
-                    UpdateAttack();
-
-                    break;
-
-                case Define.State.Skill:
-                    _anim.SetBool("IsThrow1", true);
-                    _anim.SetBool("IsIdle", false);
-                    _anim.SetBool("IsFire", false);
-
-                    UpdateSkill();
-
-                    break;
-            }
+            UpdatePlayer_AnimationChange();
+            UpdatePlayer_StateChange();
         }    
     }
 
@@ -160,6 +98,84 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected virtual void StopAttack() { }
     protected virtual void StopSkill() { }
     protected virtual void StartDie() { }
+
+
+    protected void UpdatePlayer_AnimationChange() 
+    {
+        //키, 마우스 이벤트 받으면 state가 변환
+        switch (_state)
+        {
+            case Define.State.Idle:
+                _anim.SetBool("IsIdle", true);
+                _anim.SetBool("IsWalk", false);
+                _anim.SetBool("IsThrow1", false);
+                _anim.SetBool("IsFire", false);
+
+                UpdateIdle();
+
+                break;
+
+            case Define.State.Die:
+                _anim.SetTrigger("Die");
+                _anim.SetBool("IsIdle", false);
+
+                UpdateDie();
+
+                break;
+
+            case Define.State.Moving:
+                _anim.SetBool("IsWalk", true);
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsThrow1", false);
+                _anim.SetBool("IsFire", false);
+
+                UpdateMoving();
+
+                break;
+
+            case Define.State.Attack:
+                _anim.SetBool("IsFire", true);
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsThrow1", false);
+
+                UpdateAttack();
+
+                break;
+
+            case Define.State.Skill:
+                _anim.SetBool("IsThrow1", true);
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsFire", false);
+
+                UpdateSkill();
+
+                break;
+        }
+    }
+
+
+    protected void UpdatePlayer_StateChange()
+    {
+        if (_startDie == false)
+        {
+            UpdatePlayerStat();
+        }
+
+        if (_stopSkill == true)
+        {
+            StopSkill();
+        }
+        if (_stopAttack == true)
+        {
+            StopAttack();
+        }
+
+        //A키를 눌렀을 때 
+        if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
+        {
+            RangeAttack();
+        }
+    }
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -6,8 +6,7 @@ using Photon.Realtime;
 
 public class RangedBullet : MonoBehaviour
 {
-    //[SerializeField]
-    //Transform _Target;
+    GameObject _player;
     GameObject _target;
     [SerializeField]
     Vector3 _TargetPos;
@@ -34,17 +33,21 @@ public class RangedBullet : MonoBehaviour
     }
 
     [PunRPC]
-    public void Init(int targetId)
+    public void Init(int playerId,int targetId)
     {
         _pv = GetComponent<PhotonView>();
+        _player = GetRemotePlayer(playerId);
         _target = GetRemotePlayer(targetId);
         _bulletSpeed = 5;
-        _damage = 10;
+        _damage = _player.GetComponent<PlayerStats>().basicAttackPower;
         Debug.Log(_target.gameObject.name);
     }
 
     public void FollowTarget()
     {
+        if (_target == null)
+            Destroy(this.gameObject);
+
         if (_target != null)
         {
             _TargetPos = _target.gameObject.transform.position;
@@ -52,8 +55,6 @@ public class RangedBullet : MonoBehaviour
             transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
             transform.LookAt(_TargetPos);
         }
-        if (_target == null)
-            Destroy(this.gameObject);
     }
 
     public void HitDetection()

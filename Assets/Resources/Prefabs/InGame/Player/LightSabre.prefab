@@ -477,8 +477,8 @@ GameObject:
   - component: {fileID: 474447182972633475}
   - component: {fileID: 474447182972633474}
   - component: {fileID: 474447182972633477}
-  - component: {fileID: 474447182972633472}
   - component: {fileID: 474447182972633473}
+  - component: {fileID: 78133993182320948}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -571,22 +571,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &474447182972633472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474447182972633478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2744b6a921a91c14abc6a0d2fe0ae27b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarHeal: {fileID: 0}
-  healthBarHit: {fileID: 0}
-  healthBarBasic: {fileID: 0}
-  isHealHitEffect: 1
 --- !u!136 &474447182972633473
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -601,6 +585,22 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &78133993182320948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474447182972633478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea0759a6f95078c4f8a44ba612e33bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarHeal: {fileID: 0}
+  healthBarHit: {fileID: 0}
+  healthBarBasic: {fileID: 0}
+  isHealHitEffect: 1
 --- !u!1 &6604814501215682165
 GameObject:
   m_ObjectHideFlags: 0
@@ -2236,6 +2236,7 @@ MonoBehaviour:
   _levelUpDP: 0
   _speed: 0
   _nowState: 
+  _isResurrection: 0
   _playerArea: 0
   _enemyArea: 0
   _nowMana: 0
@@ -2254,14 +2255,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ecc8eb863f2a7b46a390da7dfc0fc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  _startDie: 0
   _attackRange: []
+  ignore:
+    serializedVersion: 2
+    m_Bits: 0
+  _SaveRangeNum: 0
   _SaveAttackSpeed: 0
   _SaveSkillCool: 0
   _SaveRegenCool: 0
-  _SaveRespawnTime: 0
-  respawn: {fileID: 0}
-  bullet: {fileID: 0}
 --- !u!114 &-4905191433607982589
 MonoBehaviour:
   m_ObjectHideFlags: 0

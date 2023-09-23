@@ -50,7 +50,7 @@ namespace Stat
 
         [Header("-- 현재 상태 --")]
         [SerializeField] private string _nowState;
-
+        [SerializeField] private bool _isResurrection;
 
         [Header("-- 진영 --")]
         [SerializeField] private int _playerArea; //내 진영
@@ -192,7 +192,7 @@ namespace Stat
 
         //현재 상태
         public string nowState { get { return _nowState; } set { _nowState = value; } }
-
+        public bool isResurrection { get { return _isResurrection; } set {  _isResurrection = value; } }
 
 
         //진영
@@ -280,6 +280,7 @@ namespace Stat
 
             //현재 상태
             nowState = stat.nowState;
+            isResurrection = false;
 
             //진영
             if (type == "Police" || type == "Firefighter")
