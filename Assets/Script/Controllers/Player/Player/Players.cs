@@ -45,7 +45,7 @@ public class Players : BaseController
         foreach (GameObject attackRange in loadAttackRange)
         {
             GameObject Prefab = Instantiate(attackRange);
-            Prefab.transform.parent = transform.GetChild(0);
+            Prefab.transform.parent = transform.Find("Range");
             Prefab.transform.localPosition = Vector3.zero;
             Prefab.SetActive(true);
 
@@ -61,6 +61,9 @@ public class Players : BaseController
 
         //마우스 이벤트 시 무시할 레이어
         ignore = LayerMask.GetMask("Default", "Ignore Raycast");
+
+        //부활 effect setting
+        transform.Find("SpawnSimplePink").gameObject.SetActive(false);
     }
 
     public override void InitOnEnable()
@@ -69,21 +72,21 @@ public class Players : BaseController
         if (_pStats.isResurrection)
         {
             _pStats.isResurrection = false;
-            Debug.Log(_pStats.isResurrection);
             GameObject Resurrection = transform.Find("Effect_Resurrection(Clone)").gameObject;
             PhotonNetwork.Destroy(Resurrection);
         }
 
         //체력 회복
-        _pStats.nowHealth = _pStats.maxHealth;
-        Debug.Log(_state);
+        _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.maxHealth);
 
-        StartCoroutine(KeyInputRespawn());
+        StartCoroutine(RespawnResetting());
     }
 
-    IEnumerator KeyInputRespawn()
+    IEnumerator RespawnResetting()
     {
         yield return new WaitForSeconds(2.5f);
+        //부활 effect On
+        transform.Find("SpawnSimplePink").gameObject.SetActive(true);
 
         //액션 대리자 재설정
         Managers.Input.MouseAction -= MouseDownAction;
@@ -93,6 +96,11 @@ public class Players : BaseController
 
         //액션 대리자 재설정 후 UpdatePlayerStat
         _startDie = false;
+
+        yield return new WaitForSeconds(0.5f);
+        //부활 effect 재설정
+        transform.Find("SpawnSimplePink").gameObject.SetActive(false);
+
     }
 
 
@@ -112,6 +120,8 @@ public class Players : BaseController
                 {
                     //마우스 오른쪽 버튼 클릭 시
                     case Define.MouseEvent.PointerDown:
+                        if (_pStats.nowHealth <= 0) return;
+
                         //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
                         TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
@@ -129,8 +139,7 @@ public class Players : BaseController
 
                     //마우스 오른쪽 버튼 누르고 있을 시
                     case Define.MouseEvent.Press:
-                        //공격 타입
-                        _proj = Define.Projectile.Attack_Proj;
+                        if (_pStats.nowHealth <= 0) return;
 
                         //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
                         TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
@@ -629,7 +638,7 @@ public class Players : BaseController
                         {
                             _state = Define.State.Attack;
 
-                            break;
+                            return;
                         }
 
                         else
@@ -680,6 +689,7 @@ public class Players : BaseController
                 _state = Define.State.Idle;
             }
 
+            //Die
             if (_pStats.nowHealth <= 0)
             {
                 _state = Define.State.Die;

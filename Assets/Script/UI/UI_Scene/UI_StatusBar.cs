@@ -29,7 +29,7 @@ public class UI_StatusBar : MonoBehaviour
 
     float lastHealth;
     public float lastDealTime = 0.0f;
-    public float yellowDelay = .01f;
+    public float yellowDelay = 0.01f;
 
     // ManaBar
     Image[] manaBarImages = new Image[0];
@@ -149,6 +149,8 @@ public class UI_StatusBar : MonoBehaviour
             lastDealTime = yellowDelay;
         }
         lastHealth = myStat.nowHealth;
+
+        if(lastHealth == 0) { hpBarYellowImage.fillAmount = 0; }
 
         if (lastDealTime > 0) 
         {

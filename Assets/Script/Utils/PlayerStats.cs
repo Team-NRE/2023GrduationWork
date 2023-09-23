@@ -108,7 +108,7 @@ namespace Stat
                 }
 
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
-               
+
             }
         }
         public float maxHealth
@@ -125,7 +125,7 @@ namespace Stat
         public float receviedDamage
         {
             get { return _receviedDamage; }
-            set 
+            set
             {
                 value *= 100 / (100 + defensePower);
                 _nowHealth -= value;
@@ -192,7 +192,7 @@ namespace Stat
 
         //현재 상태
         public string nowState { get { return _nowState; } set { _nowState = value; } }
-        public bool isResurrection { get { return _isResurrection; } set {  _isResurrection = value; } }
+        public bool isResurrection { get { return _isResurrection; } set { _isResurrection = value; } }
 
 
         //진영
@@ -286,12 +286,12 @@ namespace Stat
             if (type == "Police" || type == "Firefighter")
             {
                 playerArea = (int)Layer.Human;
-                enemyArea  = (int)Layer.Cyborg;
-            } 
-            else 
+                enemyArea = (int)Layer.Cyborg;
+            }
+            else
             {
                 playerArea = (int)Layer.Cyborg;
-                enemyArea  = (int)Layer.Human;
+                enemyArea = (int)Layer.Human;
             }
 
             //마나
@@ -301,6 +301,26 @@ namespace Stat
 
             //자원
             gold = stat.gold;
+        }
+
+        [PunRPC]
+        public void photonStatSet(string statName, float value)
+        {
+            if (statName == "basicAttackPower") basicAttackPower += value;
+            if (statName == "attackSpeed") attackSpeed += value;
+            if (statName == "attackDelay") attackDelay += value;
+            if (statName == "attackRange") attackRange += value;
+            if (statName == "kill") kill += value;
+            if (statName == "nowHealth") nowHealth += value;
+            if (statName == "maxHealth") maxHealth += value;
+            if (statName == "healthRegeneration") healthRegeneration += value;
+            if (statName == "defensePower") defensePower += value;
+            if (statName == "receviedDamage") receviedDamage += value;
+            if (statName == "death") death += value;
+            if (statName == "experience") experience += value;
+            if (statName == "speed") speed += value;
+            if (statName == "manaRegen") manaRegen += value;
+            if (statName == "maxMana") maxMana += value;
         }
     }
 }

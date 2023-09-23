@@ -118,6 +118,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             case Define.State.Die:
                 _anim.SetTrigger("Die");
                 _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsWalk", false);
 
                 UpdateDie();
 

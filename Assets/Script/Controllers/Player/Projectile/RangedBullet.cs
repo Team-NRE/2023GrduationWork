@@ -3,6 +3,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 using Photon.Realtime;
+using static UnityEngine.GraphicsBuffer;
 
 public class RangedBullet : MonoBehaviour
 {
@@ -40,7 +41,6 @@ public class RangedBullet : MonoBehaviour
         _target = GetRemotePlayer(targetId);
         _bulletSpeed = 5;
         _damage = _player.GetComponent<PlayerStats>().basicAttackPower;
-        Debug.Log(_target.gameObject.name);
     }
 
     public void FollowTarget()
@@ -64,20 +64,17 @@ public class RangedBullet : MonoBehaviour
 
         if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
+            PhotonView _targetPV = _target.GetComponent<PhotonView>();
             //타겟이 미니언, 타워일 시 
             if (_target.tag != "PLAYER")
             {
-                ObjStats _Stats = _target.GetComponent<ObjStats>();
-                _Stats.nowHealth -= _damage;
-                _pv.RPC("RemoteLog", RpcTarget.All, _Stats.nowHealth.ToString());
+                _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -_damage);
             }
 
             //타겟이 적 Player일 시
             if (_target.tag == "PLAYER")
             {
-                PlayerStats _Stats = _target.GetComponent<PlayerStats>();
-                _Stats.receviedDamage = _damage;
-                _pv.RPC("RemoteLog", RpcTarget.All, _Stats.nowHealth.ToString());
+                _targetPV.RPC("photonStatSet", RpcTarget.All, "receviedDamage", _damage);
             }
 
             Destroy(this.gameObject, 0.5f);

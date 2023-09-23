@@ -55,20 +55,18 @@ public class Firefighter : Players
                 //평타 공격
                 if (BaseCard._lockTarget != null)
                 {
+                    PhotonView _targetPV = BaseCard._lockTarget.GetComponent<PhotonView>();
+
                     //타겟이 미니언, 타워일 시 
                     if (BaseCard._lockTarget.tag != "PLAYER")
                     {
-                        ObjStats _Stats = BaseCard._lockTarget.GetComponent<ObjStats>();
-                        _Stats.nowHealth -= _pStats.basicAttackPower;
-                        _pv.RPC("EnemyHPLog", RpcTarget.All, _Stats.nowHealth.ToString());
+                        _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -_pStats.basicAttackPower);
                     }
 
                     //타겟이 적 Player일 시
                     if (BaseCard._lockTarget.tag == "PLAYER")
                     {
-                        PlayerStats _Stats = BaseCard._lockTarget.GetComponent<PlayerStats>();
-                        _Stats.receviedDamage = _pStats.basicAttackPower;
-                        _pv.RPC("EnemyHPLog", RpcTarget.All, _Stats.nowHealth.ToString());
+                        _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.basicAttackPower);
                     }
                 }
 
