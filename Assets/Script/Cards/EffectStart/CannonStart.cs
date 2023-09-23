@@ -6,20 +6,17 @@ using Photon.Pun;
 
 public class CannonStart : BaseEffect
 {
-    GameObject player = null;
     float damage = default;
     int enemylayer = default;
     protected PhotonView _pv;
 
-
-    public void StartCannon(int playerId, float _damage, int _enemylayer)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(playerId);
         _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
 
-        damage = _damage;
-        enemylayer = _enemylayer;
+        damage = 50.0f;
     }
 
     // 여긴 백퍼 버그가 발생할 예정

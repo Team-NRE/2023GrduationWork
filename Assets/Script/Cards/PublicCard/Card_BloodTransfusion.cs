@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¼öÇ÷
+// ï¿½ï¿½ï¿½ï¿½
 public class Card_BloodTransfusion : UI_Card
 {
     int _layer = default;
@@ -13,7 +13,7 @@ public class Card_BloodTransfusion : UI_Card
     {
         _cardBuyCost = 300;
         _cost = 1;
-        _damage = 30f;
+        //_damage = 30f;
         _rangeType = Define.CardType.Range;
         _rangeScale = 5.0f;
 
@@ -35,8 +35,8 @@ public class Card_BloodTransfusion : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
-        _effectObject.GetComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
-
+        //_effectObject.GetComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
+        _effectObject.GetComponent<BloodTransfusionStart>().CardEffectInit(playerId);
         return _effectObject;
     }
 

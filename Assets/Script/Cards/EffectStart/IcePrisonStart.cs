@@ -8,19 +8,17 @@ public class IcePrisonStart : BaseEffect
 {
     float effectTime;
     float startEffect = 0.01f;
-    GameObject player = null;
     protected PhotonView _pv;
 
     PlayerStats pStat;
 
-    public void StartIcePrison(int _player, float _effectTime)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        effectTime = _effectTime;
-
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(_player);
-        pStat = player.GetComponent<PlayerStats>();
         _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        effectTime = 3.0f;
+        pStat = player.GetComponent<PlayerStats>();
     }
 
     private void Update()

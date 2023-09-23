@@ -13,12 +13,18 @@ public class ShieldStart : BaseEffect
 
     bool start;
 
-    public void StartShield(int _player, float _defence)
+    private void Start()
     {
-        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
-        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
-        defence = _defence;
         _pv = GetComponent<PhotonView>();
+    }
+
+    [PunRPC]
+    public override void CardEffectInit(int userId)
+    {
+        
+        base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
+        defence = 50.0f;
         start = true;
     }
 
@@ -28,7 +34,7 @@ public class ShieldStart : BaseEffect
     }
 
     [PunRPC]
-    public void RpcUpdate()
+    public void RpcUpdate(int playerId)
 	{
         if (start == true)
         {

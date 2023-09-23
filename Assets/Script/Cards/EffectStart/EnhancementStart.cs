@@ -14,20 +14,17 @@ public class EnhancementStart : BaseEffect
 
     bool start = false;
 
+    [PunRPC]
     public override void CardEffectInit(int userId)
     {
         base.CardEffectInit(userId);
+        _pv = GetComponent<PhotonView>();
         _pStats = player.GetComponent<PlayerStats>();
-        basicAttackPower = _pStats.basicAttackPower;
-        _pv = GetComponent<PhotonView>();
-    }
+        this.gameObject.transform.parent = player.transform;
+        _damage = 15;
+        _effectTime = 5.0f;
 
-    public void StartEnhancement(int _player, float _basicAttackPower)
-    {
-        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
-        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
-        basicAttackPower = _basicAttackPower;
-        _pv = GetComponent<PhotonView>();
+        basicAttackPower = _pStats.basicAttackPower;
 
         start = true;
     }
@@ -39,7 +36,7 @@ public class EnhancementStart : BaseEffect
 
     [PunRPC]
     public void RpcUpdate()
-	{
+    {
         if (start == true)
         {
             power_Time += Time.deltaTime;

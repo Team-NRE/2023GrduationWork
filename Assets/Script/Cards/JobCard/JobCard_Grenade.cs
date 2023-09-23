@@ -12,7 +12,7 @@ public class JobCard_Grenade : UI_Card
     public override void Init()
     {
         _cost = 2;
-        _damage = 50;
+        //_damage = 50;
 
         _rangeType = Define.CardType.Point;
         _rangeScale = 3.0f;
@@ -26,7 +26,7 @@ public class JobCard_Grenade : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
-        _effectObject = PhotonNetwork.Instantiate($"Particle/EffectJob_Grenade", this.gameObject.transform.position, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Particle/Effect/JobCard_Grenade", ground, Quaternion.identity);
         _effectObject.transform.position = ground;
 
         _layer = layer;
@@ -34,7 +34,8 @@ public class JobCard_Grenade : UI_Card
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
+        //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<GrenadeStart>().CardEffectInit(playerId);
         
         return _effectObject;
     }

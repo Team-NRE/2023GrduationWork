@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 19821144}
   - component: {fileID: 19990366}
   - component: {fileID: 9093294612665141705}
+  - component: {fileID: 4472958571539657262}
   m_Layer: 2
   m_Name: Effect_Crystal
   m_TagString: Untagged
@@ -4777,6 +4778,27 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4472958571539657262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aa94318aa3d51945a573b29612c57be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectTime: 0
+  _damage: 0
+  _defence: 0
+  _speed: 0
+  _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
+  player: {fileID: 0}
+  target: {fileID: 0}
 --- !u!1 &158922
 GameObject:
   m_ObjectHideFlags: 0

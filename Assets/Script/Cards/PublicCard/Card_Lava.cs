@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¿ë¾Ï
+// ï¿½ï¿½ï¿½
 public class Card_Lava : UI_Card
 {
     int _layer = default;
@@ -14,7 +14,7 @@ public class Card_Lava : UI_Card
     {
         _cardBuyCost = 1400;
         _cost = 2;
-        _damage = 0.1f;
+        //_damage = 0.1f;
         _rangeType = Define.CardType.Point;
         _rangeScale = 2.0f;
         _rangeRange = 4.0f;
@@ -36,7 +36,8 @@ public class Card_Lava : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
+        //_effectObject.GetComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<LavaStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }

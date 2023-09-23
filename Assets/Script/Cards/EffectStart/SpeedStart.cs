@@ -14,12 +14,16 @@ public class SpeedStart : BaseEffect
 
     bool start = false;
 
-    public void StartSpeed(int _player, float _speed)
+    private void Start()
     {
-        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
-        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
-        speed = _speed;
         _pv = GetComponent<PhotonView>();
+    }
+
+    [PunRPC]
+    public override void CardEffectInit(int userId)
+    {
+        base.CardEffectInit(userId);
+        speed = 1.5f;
 
         start = true;
     }

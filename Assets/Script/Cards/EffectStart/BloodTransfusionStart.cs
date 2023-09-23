@@ -6,21 +6,27 @@ using Photon.Pun;
 
 public class BloodTransfusionStart : BaseEffect
 {
-    GameObject player = null;
     GameObject Obj = null;
     protected PhotonView _pv;
+    protected int _playerId;
 
     float damage = default;
 
+    private void Start()
+    {
+        _pv = GetComponent<PhotonView>();
+    }
 
-    public void StartBloodTransfusion(int playerId, float _damage)
+    [PunRPC]
+    public override void CardEffectInit(int playerId)
     {
         //player = GameObject.Find(_player);
+        _playerId = playerId;
         player = Managers.game.RemoteTargetFinder(playerId);
         Obj = transform.parent.gameObject;
-        _pv = GetComponent<PhotonView>();
+        //_pv = GetComponent<PhotonView>();
 
-        damage = _damage;
+        damage = 30.0f;
     }
 
     private void Update()

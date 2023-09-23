@@ -6,27 +6,30 @@ using UnityEngine;
 
 public class HealthKitStart : BaseEffect
 {
-    GameObject player = null;
     protected PhotonView _pv;
 
     PlayerStats pStats;
     float healthRegen = default;
     int teamLayer = default;
+    int _playerId;
 
-    public void StartHealthKit(int _player, float _healthhRegen, int _teamLayer)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(_player);
-        healthRegen = _healthhRegen;
-        teamLayer = _teamLayer;
         _pv = GetComponent<PhotonView>();
-
+        base.CardEffectInit(userId);
+        healthRegen = 0.5f;
         pStats = player.GetComponent<PlayerStats>();
+        teamLayer = player.GetComponent<PlayerStats>().playerArea;
+        _playerId = userId;
+
+        this.gameObject.transform.parent = player.transform;
     }
 
     private void Update()
     {
-        pStats.nowHealth += healthRegen;
+        //pStats.nowHealth += healthRegen;
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
     }
 
     public void OnTriggerStay(Collider other)
@@ -44,5 +47,13 @@ public class HealthKitStart : BaseEffect
             ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
             oStats.nowHealth += healthRegen;
         }
+    }
+
+    [PunRPC]
+    public void RpcUpdate(int id)
+    {
+        GameObject target = GetRemotePlayer(id);
+        PlayerStats stats = target.GetComponent<PlayerStats>();
+        stats.nowHealth += healthRegen;
     }
 }

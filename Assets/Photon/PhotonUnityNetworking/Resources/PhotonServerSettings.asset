@@ -66,7 +66,12 @@ MonoBehaviour:
   - RemoteAddComponent
   - RpcDelayDestroy
   - GetRemoteParent
+  - RemoteLogger
+  - RemoteSkillStarter
   - CardEffectInit
+  - CardEffectInit2
+  - RemoteReparent
+  - RemoteReParent
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

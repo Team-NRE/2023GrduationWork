@@ -6,20 +6,18 @@ using Photon.Pun;
 
 public class InvincibleWeaponStart : BaseEffect
 {
-    GameObject player = null;
     float damage = default;
     int enemylayer = default;
 
     protected PhotonView _pv;
 
-    public void StartWeapon(int _player, float _damage, int _enemylayer)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(_player);
-        damage = _damage;
-        enemylayer = _enemylayer;
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        damage = 1;
     }
-
 
     public void OnTriggerStay(Collider other)
     {

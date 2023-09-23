@@ -12,7 +12,7 @@ public class Card_HealthPotion : UI_Card
     {
         _cardBuyCost = 100;
         _cost = 0;
-        _defence = 50;
+        //_defence = 50;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
@@ -22,7 +22,7 @@ public class Card_HealthPotion : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 

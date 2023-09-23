@@ -23,16 +23,17 @@ public class InvincibleShieldStart : BaseEffect
 
     bool stop = false;
 
-    public void Invincibility(string _objectName, float _defence, float _invincibility_Time, float _shield_Time)
+    public override void CardEffectInit(int userId, int targetId)
     {
-        objectName = GameObject.Find(_objectName);
-        
+        base.CardEffectInit(userId);
+        objectName = GetRemotePlayer(targetId);
+
         if (objectName.tag == "PLAYER") { _pStats = objectName.GetComponent<PlayerStats>(); }
         if (objectName.tag != "PLAYER") { _oStats = objectName.GetComponent<ObjStats>(); }
 
-        defence = _defence;
-        invincibility_Time = _invincibility_Time;
-        shield_Time = _shield_Time;
+        defence = 10000;
+        invincibility_Time = 1.5f;
+        shield_Time = 3.0f;
     }
 
     public void Update()

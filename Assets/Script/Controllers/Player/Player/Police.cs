@@ -17,7 +17,7 @@ public class Police : BaseController
     private GameObject _netBullet;
 
     //UI_Card 접근
-    private UI_Card _cardStats;
+
 
     //PlayerAttackRange
     public List<GameObject> _attackRange = new List<GameObject>();
@@ -142,11 +142,8 @@ public class Police : BaseController
                 {
                     //마우스 오른쪽 버튼 클릭 시
                     case Define.MouseEvent.PointerDown:
-                        //공격 타입
-                        _proj = Define.Projectile.Attack_Proj;
-
                         //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
-                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                        TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
                         //사거리가 켜져있다면 Off
                         if (_IsRange == true)
@@ -154,7 +151,7 @@ public class Police : BaseController
                             KeyPushState("MouseRightButton");
                         }
 
-                        //일단 Move
+                        //Move
                         State = Define.State.Moving;
 
                         break;
@@ -166,7 +163,7 @@ public class Police : BaseController
                         _proj = Define.Projectile.Attack_Proj;
 
                         //좌표, 타겟 설정(도로 클릭 시 공격 타입 -> None 타입으로 변경)
-                        TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                        TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
                         //사거리가 켜져있다면 Off
                         if (_IsRange == true)
@@ -174,7 +171,7 @@ public class Police : BaseController
                             KeyPushState("MouseRightButton");
                         }
 
-                        //일단 Move
+                        //Move
                         State = Define.State.Moving;
 
                         break;
@@ -182,6 +179,9 @@ public class Police : BaseController
 
                     //마우스 왼쪽 버튼 클릭 시
                     case Define.MouseEvent.LeftButton:
+                        //Range Off일 때 아무일도 없음.
+                        if (_IsRange == false) return;
+
                         //Range가 On일 때만 좌클릭 시
                         if (_IsRange == true)
                         {
@@ -191,8 +191,7 @@ public class Police : BaseController
                                 //Range 카드 = 타겟 카드
                                 if (_SaveRangeNum == (int)Define.CardType.Range)
                                 {
-                                    //좌표, 타겟 설정
-                                    TargetSetting(_mousePos.Item1, _mousePos.Item2);
+                                    TargetSetting(_mousePos.Item1, _mousePos.Item2, evt);
 
                                     State = Define.State.Moving;
                                 }
@@ -208,7 +207,8 @@ public class Police : BaseController
                                 }
 
                                 //나머지 카드 = 논타겟 카드
-                                else
+                                if (_SaveRangeNum == (int)Define.CardType.Arrow || _SaveRangeNum == (int)Define.CardType.Cone ||
+                                        _SaveRangeNum == (int)Define.CardType.Line || _SaveRangeNum == (int)Define.CardType.None)
                                 {
                                     //Range 좌표 = Effect 위치 
                                     _MovingPos = _mousePos.Item1;
@@ -243,9 +243,6 @@ public class Police : BaseController
                             }
                         }
 
-                        //Range Off일 때 아무일도 없음.
-                        else return;
-
                         break;
                 }
             }
@@ -254,7 +251,7 @@ public class Police : BaseController
 
 
     //마우스 클릭 시 좌표, 타겟 설정
-    private void TargetSetting(Vector3 _mousePos, GameObject _lockTarget)
+    private void TargetSetting(Vector3 _mousePos, GameObject _lockTarget, Define.MouseEvent _evt = default)
     {
         //도로 클릭 시
         if (_lockTarget.layer == (int)Define.Layer.Road)
@@ -265,8 +262,11 @@ public class Police : BaseController
             //타겟 오브젝트 설정
             BaseCard._lockTarget = null;
 
-            //공격 타입
-            _proj = Define.Projectile.Undefine;
+            //마우스 오른쪽 클릭 & 누르기
+            if (_evt != Define.MouseEvent.LeftButton)
+            {
+                _proj = Define.Projectile.Undefine;
+            }
         }
 
         //적,중앙 오브젝트 클릭 시
@@ -281,6 +281,12 @@ public class Police : BaseController
 
             //타겟 오브젝트 설정
             BaseCard._lockTarget = remoteTarget;
+
+            //마우스 오른쪽 클릭 & 누르기
+            if (_evt != Define.MouseEvent.LeftButton)
+            {
+                _proj = Define.Projectile.Attack_Proj;
+            }
         }
     }
 
@@ -292,59 +298,49 @@ public class Police : BaseController
         //키보드 입력 시 _lockTarget 초기화 -> UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
 
-        //키보드 입력 시
-        switch (_key)
+        if(_pv.IsMine)
         {
-            case Define.KeyboardEvent.Q:
-                if (_pv.IsMine)
-                {
+            //키보드 입력 시
+            switch (_key)
+            {
+                case Define.KeyboardEvent.Q:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
                         KeyPushState(_key.ToString());
                     }
-                }
 
-                break;
+                    break;
 
-            case Define.KeyboardEvent.W:
-                if (_pv.IsMine)
-                {
+                case Define.KeyboardEvent.W:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
                         KeyPushState(_key.ToString());
                     }
-                }
 
-                break;
+                    break;
 
-            case Define.KeyboardEvent.E:
-                if (_pv.IsMine)
-                {
+                case Define.KeyboardEvent.E:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
                         KeyPushState(_key.ToString());
                     }
-                }
 
-                break;
+                    break;
 
-            case Define.KeyboardEvent.R:
-                if (_pv.IsMine)
-                {
+                case Define.KeyboardEvent.R:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
                         KeyPushState(_key.ToString());
                     }
-                }
 
-                break;
+                    break;
 
-            case Define.KeyboardEvent.A:
-                if (_pv.IsMine)
-                {
+                case Define.KeyboardEvent.A:
                     KeyPushState(_key.ToString());
-                }
-                break;
+
+                    break;
+            }
+
         }
 
     }
@@ -689,27 +685,17 @@ public class Police : BaseController
                     if (BaseCard._lockTarget == null)
                     {
                         _agent.ResetPath();
-
-                        break;
                     }
 
                     //타겟 카드일 때
                     if (BaseCard._lockTarget != null)
                     {
-                        //이동
-                        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, BaseCard._lockTarget.transform.position) - transform.position);
-                        _agent.SetDestination(BaseCard._lockTarget.transform.position);
-
-                        if (_agent.remainingDistance <= _cardStats._rangeScale)
+                        float targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
+                        if (targetDis <= _cardStats._rangeScale)
                         {
                             State = Define.State.Skill;
 
-                            break;
-                        }
-
-                        else
-                        {
-                            State = Define.State.Moving;
+                            return;
                         }
                     }
 
@@ -851,10 +837,11 @@ public class Police : BaseController
                 //이펙트 발동
                 if (_MovingPos != default)
                 {
-                    Debug.Log($"UpdateSkill : {_MovingPos} ");
+                    //Debug.Log($"UpdateSkill : {_MovingPos} ");
                     //Skill On
                     _cardStats.InitCard();
                     GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
+                    //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
 
                     //이펙트가 특정 시간 후에 사라진다면
                     if (_cardStats._effectTime != default)
@@ -1057,4 +1044,6 @@ public class Police : BaseController
     {
         Debug.Log(log);
     }
+
+
 }

@@ -20,13 +20,13 @@ public class UI_Card : UI_Scene
     public float _effectTime;
 
     
-    //Stat 
-    public float _damage;
-    public float _defence;
-    public float _speed;
-    public float _buff;
-    public float _debuff;
-    //부활
+    ////Stat 
+    //public float _damage;
+    //public float _defence;
+    //public float _speed;
+    //public float _buff;
+    //public float _debuff;
+    ////부활
     public bool _IsResurrection;
 
 
@@ -80,10 +80,17 @@ public class UI_Card : UI_Scene
 	}
 
     [PunRPC]
-    protected GameObject RemoteAddComponent(int remoteId)
+    public void RemoteReparent(int ownerId, int particleId)
     {
-        GameObject particle = Managers.game.RemoteTargetFinder(remoteId);
-        particle.AddComponent<BaseEffect>();
-        return particle;
+        GameObject owner = RemoteTargetFinder(ownerId);
+        GameObject particle = RemoteTargetFinder(particleId);
+
+        particle.transform.parent = owner.transform;
+    }
+
+    [PunRPC]
+    protected void RemoteLogger(string log)
+    {
+        Debug.Log(log);
     }
 }

@@ -22,17 +22,17 @@ public class BaseEffect : MonoBehaviour
 	public GameObject player = null;
 	public GameObject target = null;
 
-	[PunRPC]
 	public virtual void CardEffectInit(int userId)
 	{
 		player = GetRemotePlayer(userId);
+		Debug.Log("1 param");
 	}
 
-	[PunRPC]
 	public virtual void CardEffectInit(int userId, int targetId)
 	{
 		player = GetRemotePlayer(userId);
 		target = GetRemotePlayer(targetId);
+		Debug.Log("2 param");
 	}
 
 	protected IEnumerator DelayTimer(float time)

@@ -25,6 +25,16 @@ public class SpearStart : BaseEffect
         damage = _damage;
     }
 
+    [PunRPC]
+    public override void CardEffectInit(int userId)
+    {
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        playerTr = player.transform;
+        bulletSpeed = 30.0f;
+        damage = 15.0f;
+    }
+
     public void Update()
     {
         //FollowTarget();
@@ -32,7 +42,7 @@ public class SpearStart : BaseEffect
     }
 
     [PunRPC]
-    public void FollowTarget()
+    public void FollowTarget() 
     {
         Vector3 SpearDirection = playerTr.forward;
         GetComponent<Rigidbody>().AddForce(SpearDirection * bulletSpeed);

@@ -11,7 +11,7 @@ public class Card_Shield : UI_Card
     {
         _cardBuyCost = 300;
         _cost = 0;
-        _defence = 50;
+        //_defence = 50;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
@@ -21,18 +21,22 @@ public class Card_Shield : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Shield");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Shield", ground, Quaternion.identity);
-        _effectObject.transform.parent = _player.transform;
+        //_effectObject.transform.parent = _player.transform;
+        _effectObject.transform.SetParent(_player.transform);
+
+
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
         //_effectObject.AddComponent<ShieldStart>().StartShield(playerId, _defence);
-        _effectObject.GetComponent<ShieldStart>().StartShield(playerId, _defence);
+        //_effectObject.GetComponent<ShieldStart>().StartShield(playerId, _defence);
+        _effectObject.GetComponent<ShieldStart>().CardEffectInit(playerId);
 
-        _pStat.defensePower += _defence;
+        _pStat.defensePower += 50;
 
         return _effectObject;
     }

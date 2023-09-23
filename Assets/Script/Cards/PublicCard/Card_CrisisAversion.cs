@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// À§±â ¸ð¸é
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 public class Card_CrisisAversion : UI_Card
 {
     int _layer = default;
@@ -31,14 +31,18 @@ public class Card_CrisisAversion : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
         
         //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.myCharacter;
+        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_CrisisAversion", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = _player.transform;
+        //_effectObject.transform.parent = _player.transform;
+        _effectObject.transform.SetParent(_player.transform);
+
+        int effectId = _effectObject.GetComponent<PhotonView>().ViewID;
+
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         //_effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(playerId, _enemylayer);
-        _effectObject.GetComponent<CrisisAversionStart>().StartCrisisAversion(playerId, _enemylayer);
+        _effectObject.GetComponent<CrisisAversionStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }

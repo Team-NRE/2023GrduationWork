@@ -6,18 +6,17 @@ using Photon.Pun;
 
 public class InfectionStart : BaseEffect
 {
-    GameObject player = null;
     float damage = default;
     int enemylayer = default;
     protected PhotonView _pv;
 
-    public void StartInfection(int _player, float _damage, int _enemylayer)
+    public override void CardEffectInit(int userId)
     {
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(_player);
-        damage = _damage;
-        enemylayer = _enemylayer;
         _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        PlayerStats stat = player.GetComponent<PlayerStats>();
+        damage = 0.1f;
+        enemylayer = stat.enemyArea;
     }
 
     public void OnTriggerStay(Collider other)
