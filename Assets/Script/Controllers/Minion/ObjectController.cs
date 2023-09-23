@@ -118,15 +118,13 @@ public abstract class ObjectController : MonoBehaviour
     public virtual void Death() 
     {
         if (!PhotonNetwork.IsMasterClient) return; 
-        
-        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
 
-        for (int i=0; i<pStats.Length; i++) {
-            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
-            {
-                pStats[i].gold += _oStats.gold;
-                pStats[i].experience += _oStats.experience;
-            }
+        if (Managers.game.myCharacter.layer != gameObject.layer && Vector3.Distance(Managers.game.myCharacter.transform.position, transform.position) <= _oStats.recognitionRange)
+        {
+            PlayerStats stat = Managers.game.myCharacter.GetComponent<PlayerStats>();
+            stat.gold += _oStats.gold;
+            stat.experience += _oStats.experience;
+            summonCoinDrop();
         }
         
         PhotonNetwork.Destroy(this.gameObject);

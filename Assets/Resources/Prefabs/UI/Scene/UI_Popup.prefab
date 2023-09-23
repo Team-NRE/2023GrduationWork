@@ -10469,9 +10469,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -48.27362, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8479028277455434770
 CanvasRenderer:
@@ -10542,7 +10542,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8349512407764858053
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10559,10 +10559,10 @@ RectTransform:
   m_Father: {fileID: 2558126664041283489}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 60.48001, y: -152.28465}
+  m_SizeDelta: {x: 120.96002, y: 101.5231}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3139486220027362178
 CanvasRenderer:
@@ -17004,7 +17004,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 327592999810475259}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: store, Assembly-CSharp
         m_MethodName: CardBuy
         m_Mode: 1
@@ -18935,7 +18935,7 @@ RectTransform:
   m_Father: {fileID: 4391904044692565158}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: -0.06, y: 0.5}
+  m_AnchorMin: {x: -0.06, y: 0.62}
   m_AnchorMax: {x: 0.03, y: 0.87}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -25716,7 +25716,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -25818,14 +25818,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 751490588604471959}
-  - component: {fileID: 327592999810475259}
+  - component: {fileID: 7452022388289077174}
   m_Layer: 0
   m_Name: strengthen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &751490588604471959
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25851,21 +25851,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &327592999810475259
+--- !u!114 &7452022388289077174
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8931161255227731995}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 072b7431e55b587429e82a2c58543183, type: 3}
+  m_Script: {fileID: 11500000, guid: dcf45fc29350ef647ad0a3c639d22b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  store: {fileID: 0}
-  strengthen: {fileID: 0}
-  delete: {fileID: 0}
 --- !u!1 &8961413729715159899
 GameObject:
   m_ObjectHideFlags: 0
