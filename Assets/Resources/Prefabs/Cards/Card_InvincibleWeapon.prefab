@@ -10234,7 +10234,7 @@ RectTransform:
   m_GameObject: {fileID: 4217295805090980980}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4217295804326963299}
@@ -10273,7 +10273,8 @@ MonoBehaviour:
   _speed: 0
   _buff: 0
   _debuff: 0
-  _rangeType: 
+  _IsResurrection: 0
+  _rangeType: 0
   _rangeScale: 0
   _rangeRange: 0
   _rangeAngle: 0

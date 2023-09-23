@@ -8,107 +8,110 @@ using UnityEngine.UI;
 
 public class store : UI_Store
 {
-    GameObject _MyCoin;
-    GameObject _CardCoin;
-    GameObject _CardText;
-    GameObject _Buy;
+    enum GameObjects
+    {
+        Big_card,
+        toggleBasic,
+    }
 
-    Transform _BigAllCard;
-    Transform _ScrollAllCard;
+    enum ToggleGroups
+    {
+        StoreContent,
+    }
 
-    TextMeshProUGUI _MyCoinText;
-    TextMeshProUGUI _CardCoinText;
-    TextMeshProUGUI _CardInfoText;
+    enum Texts
+    {
+        Coin_Text,
+        Price_Text,
+        Card_Text,
+    }
 
-    List<GameObject> _makeAllBigCardList = new List<GameObject>();
+    enum Buttons
+    {
+        Store_Buy,
+    }
 
-    int _BeforeStoreNum;
+    Dictionary<string, GameObject> _makeAllBigCardList = new Dictionary<string, GameObject>();
 
     int _BuyCost;
 
     PlayerStats _pStat;
+
+    float lastCoin;
 
     public override void Init()
     {
         BaseCard.ExportPublicCard();
         BaseCard.ExportJobCard();
         
-        _pStat = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<PlayerStats>();
-        _ScrollAllCard = GameObject.Find("StoreContent").transform;
-        
+        _pStat = Managers.game.myCharacter.GetComponent<PlayerStats>();
 
-        _MyCoin = transform.GetChild(2).gameObject;
-        _CardCoin = transform.GetChild(3).gameObject;
-        _CardText = transform.GetChild(4).gameObject;
-        _BigAllCard = transform.GetChild(5);
-        _Buy = transform.GetChild(6).gameObject;
+        Bind<GameObject>      (typeof(GameObjects));
+        Bind<ToggleGroup>     (typeof(ToggleGroups));
+        Bind<TextMeshProUGUI> (typeof(Texts));
+        Bind<Button>          (typeof(Buttons));
 
-        _MyCoinText = _MyCoin.GetComponentInChildren<TextMeshProUGUI>();
-        _CardCoinText = _CardCoin.GetComponentInChildren<TextMeshProUGUI>();
-        _CardInfoText = _CardText.GetComponentInChildren<TextMeshProUGUI>();
-
+        Get<GameObject>((int)GameObjects.toggleBasic).SetActive(false);
 
         MakeUI_AllBigcard();
+
+        lastCoin = _pStat.gold;
+
+        Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "";
+        Get<TextMeshProUGUI>((int)Texts.Price_Text).text = "0";
+        Get<TextMeshProUGUI>((int)Texts.Coin_Text).text = $"{((int)lastCoin).ToString()}";
     }
 
     void MakeUI_AllBigcard()
     {
-        //내 덱의 카드가 없다면 return
+        // 폴더에 카드가 없다면 return
         if (BaseCard._AllPublicCard.Count == 0) { return; }
 
         for (int i = 0; i < BaseCard._AllPublicCard.Count; i++)
         {
-            //나만의 덱의 큰 카드 세팅
-            _makeAllBigCardList.Add(Managers.Resource.Instantiate($"Cards/{BaseCard._AllPublicCard[i]}", _BigAllCard));
-            _makeAllBigCardList[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 0);
-            _makeAllBigCardList[i].GetComponent<RectTransform>().localPosition = new Vector3(-225, 100, 0);
+            //상점의 큰 카드 세팅
+            _makeAllBigCardList.Add(BaseCard._AllPublicCard[i], Managers.Resource.Instantiate($"Cards/{BaseCard._AllPublicCard[i]}", Get<GameObject>((int)GameObjects.Big_card).transform));
+            _makeAllBigCardList[BaseCard._AllPublicCard[i]].GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 0);
+            _makeAllBigCardList[BaseCard._AllPublicCard[i]].SetActive(false);
 
-            //나만의 덱의 스크롤 카드 세팅
-            GameObject makeScrollCard = Managers.Resource.Instantiate($"Cards/{BaseCard._AllPublicCard[i]}", _ScrollAllCard.GetChild(i));
-            makeScrollCard.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 0);
+            //상점의 스크롤 카드 세팅
+            GameObject newToggleCard = Instantiate(Get<GameObject>((int)GameObjects.toggleBasic));
+            newToggleCard.transform.SetParent(Get<ToggleGroup>((int)ToggleGroups.StoreContent).transform);
+            newToggleCard.GetComponent<RectTransform>().localScale = Vector3.one;
+            newToggleCard.GetComponent<Toggle>().onValueChanged.AddListener(delegate { CardInfoChange(newToggleCard.GetComponent<Toggle>()); });
+            newToggleCard.name = BaseCard._AllPublicCard[i];
+            newToggleCard.SetActive(true);
 
-
-            //첫번째 카드는 항상 키기
-            if (i == 0)
-            {
-                Cardinfo(BaseCard._AllPublicCard[i]);
-                continue;
-            }
-
-            _makeAllBigCardList[i].SetActive(false);
+            GameObject makeScrollCard = Managers.Resource.Instantiate($"Cards/{BaseCard._AllPublicCard[i]}", newToggleCard.transform);
+            makeScrollCard.GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 0);
         }
     }
 
     void Update()
     {
-        // _MyCoinText.text = $"{_pStat.gold.ToString()}";
-
-        // //카드 코스트 띄워주기
-        // _BuyCost = _makeAllBigCardList[_BeforeStoreNum].GetComponent<UI_Card>()._cardBuyCost;
-        // _CardCoinText.text = $"{_BuyCost.ToString()}";
+        if (lastCoin != _pStat.gold)
+        {
+            lastCoin = Mathf.Lerp(lastCoin, (int)_pStat.gold, 10f * Time.deltaTime);
+            Get<TextMeshProUGUI>((int)Texts.Coin_Text).text = $"{((int)lastCoin).ToString()}";
+        }
+        
     }
 
-    //스크롤 카드 클릭 시
-    public void ScrollCardClick(int num = default)
+    // 스크롤 카드 선택 시
+    public void CardInfoChange(Toggle toggle)
     {
-        if (_BeforeStoreNum != num)
-        {
-            //클릭한 카드 BigCard로 띄워주기
-            _makeAllBigCardList[num].SetActive(true);
-            Cardinfo(_makeAllBigCardList[num].name);
-
-            //이전에 켜져잇던 BigCard 끄기
-            _makeAllBigCardList[_BeforeStoreNum].SetActive(false);
-            _BeforeStoreNum = num;
-        }
+        _makeAllBigCardList[toggle.name].SetActive(toggle.isOn);
+        _BuyCost = toggle.GetComponentInChildren<UI_Card>()._cardBuyCost;
+        Get<TextMeshProUGUI>((int)Texts.Price_Text).text = _BuyCost.ToString();
+        Cardinfo(toggle.name);
     }
 
     public void CardBuy()
     {
         if (_pStat.gold >= _BuyCost)
         {
-            BaseCard._initDeck.Add(_makeAllBigCardList[_BeforeStoreNum].name);
-            BaseCard._MyDeck.Add(_makeAllBigCardList[_BeforeStoreNum].name);
+            BaseCard._initDeck.Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
+            BaseCard._MyDeck  .Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
             
             _pStat.gold -= _BuyCost;
         }
@@ -124,103 +127,103 @@ public class store : UI_Store
         switch (cardname)
         {
             case "Card_AmuletOfSteel":
-                _CardInfoText.text = "팀원 전체에게 방어막을 부여합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "팀원 전체에게 방어막을 부여합니다.";
                 break;
 
             case "Card_Armor":
-                _CardInfoText.text = "방어력이 증가합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "방어력이 증가합니다.";
                 break;
 
             case "Card_BloodTransfusion":
-                _CardInfoText.text = "적의 피를 수혈합니다. 체력의 일부를 가져갑니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "적의 피를 수혈합니다. 체력의 일부를 가져갑니다.";
                 break;
 
             case "Card_Cannon":
-                _CardInfoText.text = "대포를 발사하여 적에게 피해를 줍니다";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "대포를 발사하여 적에게 피해를 줍니다";
                 break;
 
             case "Card_CrisisAversion":
-                _CardInfoText.text = "죽음을 불사하고 잠시동안 큰 버프를 얻습니다. 이후 버프는 사라집니다";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "죽음을 불사하고 잠시동안 큰 버프를 얻습니다. 이후 버프는 사라집니다";
                 break;
 
             case "Card_Crystal":
-                _CardInfoText.text = "마나 수정을 한개 회복합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "마나 수정을 한개 회복합니다.";
                 break;
 
-            case "Card_HealthPotion ":
-                _CardInfoText.text = "체력의 일부를 회복합니다.";
+            case "Card_HealthPotion":
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "체력의 일부를 회복합니다.";
                 break;
 
             case "Card_HackingGrenade":
-                _CardInfoText.text = "적에게 해킹 수류탄을 던지고 맞은 적은 잠시동안 마나수정이 회복불가합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "적에게 해킹 수류탄을 던지고 맞은 적은 잠시동안 마나수정이 회복불가합니다.";
                 break;
 
             case "Card_HealthKit":
-                _CardInfoText.text = "체력이 회복되고 최대 체력이 영구적으로 증가합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "체력이 회복되고 최대 체력이 영구적으로 증가합니다.";
                 break;
 
             case "Card_InvincibleShield":
-                _CardInfoText.text = "팀원 전체에게 무적을 부여하고 무적이 끝나면 방어막과 체력이 회복됩니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "팀원 전체에게 무적을 부여하고 무적이 끝나면 방어막과 체력이 회복됩니다.";
                 break;
 
             case "Card_InvincibleWeapon":
-                _CardInfoText.text = "비장의 얼음무기를 발사하여 얼음 주위에 있는 적이 큰 데미지를 얻습니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "비장의 얼음무기를 발사하여 얼음 주위에 있는 적이 큰 데미지를 얻습니다.";
                 break;
 
             case "Card_Lava":
-                _CardInfoText.text = "용암을 뿌려 용암 위에 있는 적이 데미지를 입습니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "용암을 뿌려 용암 위에 있는 적이 데미지를 입습니다.";
                 break;
 
             case "Card_Shield":
-                _CardInfoText.text = "자신에게 방어막을 잠시동안 부여합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "자신에게 방어막을 잠시동안 부여합니다.";
                 break;
 
             case "Card_Spear":
-                _CardInfoText.text = "표창을 던져 적에게 데미지를 입힙니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "표창을 던져 적에게 데미지를 입힙니다.";
                 break;
                 
             case "Card_Speed":
-                _CardInfoText.text = "잠시동안 이동속도가 빨라집니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "잠시동안 이동속도가 빨라집니다.";
                 break;
 
             case "Card_Strike":
-                _CardInfoText.text = "강한 무기를 던져 맞은 적은 데미지 피해와 이동속도가 느려집니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "강한 무기를 던져 맞은 적은 데미지 피해와 이동속도가 느려집니다.";
                 break;
 
             case "Card_Purify":
-                _CardInfoText.text = "디버프가 사라집니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "디버프가 사라집니다.";
                 break;
 
-            case "card_Teleport":
-                _CardInfoText.text = "짧은 거리를 빠르게 이동합니다.";
+            case "Card_Teleport":
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "짧은 거리를 빠르게 이동합니다.";
                 break;
 
             case "Card_IcePrison":
-                _CardInfoText.text = "자기 자신에게 얼음 감옥을 시전해 모든 공격을 잠시동안 피합니다";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "자기 자신에게 얼음 감옥을 시전해 모든 공격을 잠시동안 피합니다";
                 break;
 
             case "Card_Infection":
-                _CardInfoText.text = "독 장판을 깔아 장판 위에 적에게 독 디버프를 입힙니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "독 장판을 깔아 장판 위에 적에게 독 디버프를 입힙니다.";
                 break;
 
             case "Card_RadiantCrystal":
-                _CardInfoText.text = "마나 수정을 전부 회복합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "마나 수정을 전부 회복합니다.";
                 break;
 
             case "Card_Resurrection":
-                _CardInfoText.text = "죽었을 시 부활합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "죽었을 시 부활합니다.";
                 break;
 
             case "Card_WingsOfTheBattlefield":
-                _CardInfoText.text = "팀원 전체에게 이동 속도를 부여합니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "팀원 전체에게 이동 속도를 부여합니다.";
                 break;
 
             case "Card_BloodstainedCoin":
-                _CardInfoText.text = "피 뭍은 동전을 던져 적을 맞출때 마다 동전을 얻고 데미지를 입힙니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "피 뭍은 동전을 던져 적을 맞출때 마다 동전을 얻고 데미지를 입힙니다.";
                 break;
 
             case "Card_Enhancement":
-                _CardInfoText.text = "자신에게 잠시동안 무기를 강화하여 공격력을 증가시킵니다.";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "자신에게 잠시동안 무기를 강화하여 공격력을 증가시킵니다.";
                 
                 break;
         }

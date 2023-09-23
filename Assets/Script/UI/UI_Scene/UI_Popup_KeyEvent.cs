@@ -10,9 +10,9 @@ public class UI_Popup_KeyEvent : UI_Popup
         UI_KillLog,
         UI_StatBox,
         UI_StautsBar,
-        UI_Scoreboard,
         UI_Store,
         UI_Deck,
+        UI_Scoreboard,
         UI_Setting,
     }
 
@@ -25,9 +25,9 @@ public class UI_Popup_KeyEvent : UI_Popup
         Get<UI_CanvasFader>((int)Popup.UI_KillLog)   .gameObject.SetActive(true);
         Get<UI_CanvasFader>((int)Popup.UI_StatBox)   .gameObject.SetActive(true);
         Get<UI_CanvasFader>((int)Popup.UI_StautsBar) .gameObject.SetActive(true);
-        Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(false);
         Get<UI_CanvasFader>((int)Popup.UI_Store)     .gameObject.SetActive(false);
         Get<UI_CanvasFader>((int)Popup.UI_Deck)      .gameObject.SetActive(false);
+        Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(false);
         Get<UI_CanvasFader>((int)Popup.UI_Setting)   .gameObject.SetActive(false);
     }
 
