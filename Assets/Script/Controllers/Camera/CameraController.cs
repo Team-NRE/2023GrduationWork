@@ -44,6 +44,7 @@ public class CameraController : BaseController
         Managers.Input.KeyAction += KeyDownAction;
 
         ignore = LayerMask.GetMask("Human", "Cyborg");
+        Managers.UI.isOpenedPopup = false;
     }
 
     void Update()
