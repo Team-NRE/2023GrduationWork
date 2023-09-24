@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Stat;
 using Define;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 public class delete : UI_Popup
@@ -26,6 +26,11 @@ public class delete : UI_Popup
         Price_Text,
         Card_Text,
     }
+
+    enum Buttons
+    {
+        button,
+    }
     
     int _BuyCost;
 
@@ -44,6 +49,7 @@ public class delete : UI_Popup
         Bind<GameObject>      (typeof(GameObjects));
         Bind<ToggleGroup>     (typeof(ToggleGroups));
         Bind<TextMeshProUGUI> (typeof(Texts));
+        Bind<Button>          (typeof(Buttons));
 
         Get<GameObject>((int)GameObjects.toggleBasic).SetActive(false);
 
@@ -70,6 +76,8 @@ public class delete : UI_Popup
             lastCoin = Mathf.Lerp(lastCoin, (int)_pStat.gold, 10f * Time.deltaTime);
             Get<TextMeshProUGUI>((int)Texts.Coin_Text).text = $"{((int)lastCoin).ToString()}";
         }
+
+        buttonActivation();
     }
 
     //내 덱 UI로 만들어주기
@@ -118,7 +126,36 @@ public class delete : UI_Popup
         Cardinfo(toggle.name);
     }
 
-    public void CardDelete()
+    void buttonActivation()
+    {
+        if (isOnBase())
+        {
+            GetButton((int)Buttons.button).gameObject.BindEvent(CardDelete);
+            GetButton((int)Buttons.button).GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            GetButton((int)Buttons.button).gameObject.BindEvent(null);
+            GetButton((int)Buttons.button).GetComponent<Image>().color = Color.white * .3f;
+        }
+    }
+
+    bool isOnBase()
+    {
+        Ray ray = new Ray(Managers.game.myCharacter.transform.position, Vector3.down);
+        RaycastHit hitData;
+
+        string baseName = (Managers.game.myCharacter.layer == (int)Layer.Human ? "stage_03" : "stage_04");
+
+        if (Physics.Raycast(ray, out hitData, 1, 1 << (int)Layer.Road, QueryTriggerInteraction.Ignore)) {
+            if (hitData.transform.name == baseName) 
+                return true;
+        }
+
+        return false;
+    }
+
+    public void CardDelete(PointerEventData data)
     {
         if (BaseCard._MyDeck.Count < 8) return; // 최소 카드 한도
         if (_pStat.gold < _BuyCost) return; // 골드 부족

@@ -1,12 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Stat;
 using Define;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class store : UI_Store
+public class store : UI_Popup
 {
     enum GameObjects
     {
@@ -24,6 +24,11 @@ public class store : UI_Store
         Coin_Text,
         Price_Text,
         Card_Text,
+    }
+
+    enum Buttons
+    {
+        button,
     }
 
     Dictionary<string, GameObject> _makeAllBigCardList = new Dictionary<string, GameObject>();
@@ -44,6 +49,7 @@ public class store : UI_Store
         Bind<GameObject>      (typeof(GameObjects));
         Bind<ToggleGroup>     (typeof(ToggleGroups));
         Bind<TextMeshProUGUI> (typeof(Texts));
+        Bind<Button>          (typeof(Buttons));
 
         Get<GameObject>((int)GameObjects.toggleBasic).SetActive(false);
 
@@ -88,6 +94,8 @@ public class store : UI_Store
             lastCoin = Mathf.Lerp(lastCoin, (int)_pStat.gold, 10f * Time.deltaTime);
             Get<TextMeshProUGUI>((int)Texts.Coin_Text).text = $"{((int)lastCoin).ToString()}";
         }
+
+        buttonActivation();
     }
 
     // 스크롤 카드 선택 시
@@ -98,8 +106,37 @@ public class store : UI_Store
         Get<TextMeshProUGUI>((int)Texts.Price_Text).text = _BuyCost.ToString();
         Cardinfo(toggle.name);
     }
+    
+    void buttonActivation()
+    {
+        if (isOnBase())
+        {
+            GetButton((int)Buttons.button).gameObject.BindEvent(CardBuy);
+            GetButton((int)Buttons.button).GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            GetButton((int)Buttons.button).gameObject.BindEvent(null);
+            GetButton((int)Buttons.button).GetComponent<Image>().color = Color.white * .3f;
+        }
+    }
 
-    public void CardBuy()
+    bool isOnBase()
+    {
+        Ray ray = new Ray(Managers.game.myCharacter.transform.position, Vector3.down);
+        RaycastHit hitData;
+
+        string baseName = (Managers.game.myCharacter.layer == (int)Layer.Human ? "stage_03" : "stage_04");
+
+        if (Physics.Raycast(ray, out hitData, 1, 1 << (int)Layer.Road, QueryTriggerInteraction.Ignore)) {
+            if (hitData.transform.name == baseName) 
+                return true;
+        }
+
+        return false;
+    }
+
+    public void CardBuy(PointerEventData data)
     {
         if (_pStat.gold >= _BuyCost)
         {

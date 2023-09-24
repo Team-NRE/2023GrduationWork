@@ -29,10 +29,10 @@ public class UI_CardPanel : UI_Card
     UI_Card R_UI;
 
 
-    Image Q_cardimg;
-    Image W_cardimg;
-    Image E_cardimg;
-    Image R_cardimg;
+    GameObject Q_CardEffect;
+    GameObject W_CardEffect;
+    GameObject E_CardEffect;
+    GameObject R_CardEffect;
 
     BaseController bc;
     PlayerStats pStat;
@@ -78,10 +78,10 @@ public class UI_CardPanel : UI_Card
 
 
         //UI_img
-        Q_cardimg = Q_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-        W_cardimg = W_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-        E_cardimg = E_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
-        R_cardimg = R_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+        Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
+        W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
+        E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
+        R_CardEffect = R_Card.transform.Find("Card_Effect").gameObject;
 
 
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
@@ -237,29 +237,10 @@ public class UI_CardPanel : UI_Card
 
     public void CardUseable()
     {
-        //Q Image
-        if (pStat.UseMana(null, Q_UI).Item1 == false)
-            Q_cardimg.color = new Color32(61, 61, 61, 255);
-        if (pStat.UseMana(null, Q_UI).Item1 == true)
-            Q_cardimg.color = new Color32(255, 255, 255, 255);
-
-        //W Image
-        if (pStat.UseMana(null, W_UI).Item1 == false)
-            W_cardimg.color = new Color32(61, 61, 61, 255);
-        if (pStat.UseMana(null, W_UI).Item1 == true)
-            W_cardimg.color = new Color32(255, 255, 255, 255);
-
-        //E Image
-        if (pStat.UseMana(null, E_UI).Item1 == false)
-            E_cardimg.color = new Color32(61, 61, 61, 255);
-        if (pStat.UseMana(null, E_UI).Item1 == true)
-            E_cardimg.color = new Color32(255, 255, 255, 255);
-
-        //R Image
-        if (pStat.UseMana(null, R_UI).Item1 == false)
-            R_cardimg.color = new Color32(61, 61, 61, 255);
-        if (pStat.UseMana(null, R_UI).Item1 == true)
-            R_cardimg.color = new Color32(255, 255, 255, 255);
+        Q_CardEffect.SetActive(pStat.UseMana(null, Q_UI).Item1);
+        W_CardEffect.SetActive(pStat.UseMana(null, W_UI).Item1);
+        E_CardEffect.SetActive(pStat.UseMana(null, E_UI).Item1);
+        R_CardEffect.SetActive(pStat.UseMana(null, R_UI).Item1);
     }
 
 
@@ -282,7 +263,7 @@ public class UI_CardPanel : UI_Card
         //새로운 카드 덱에서 리필
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
         Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
-        Q_cardimg = Q_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+        Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
@@ -310,7 +291,7 @@ public class UI_CardPanel : UI_Card
         //새로운 카드 덱에서 리필
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
         W_UI = W_Card.GetComponentInChildren<UI_Card>();
-        W_cardimg = W_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+        W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
@@ -337,7 +318,7 @@ public class UI_CardPanel : UI_Card
         //새로운 카드 덱에서 리필
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
-        E_cardimg = E_Card.transform.GetChild(1).gameObject.GetComponent<Image>();
+        E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
