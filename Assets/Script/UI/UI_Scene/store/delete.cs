@@ -6,7 +6,8 @@ using Stat;
 using Define;
 using UnityEngine.UI;
 
-public class store : UI_Store
+
+public class delete : UI_Popup
 {
     enum GameObjects
     {
@@ -16,7 +17,7 @@ public class store : UI_Store
 
     enum ToggleGroups
     {
-        StoreContent,
+        DeleteContent,
     }
 
     enum Texts
@@ -25,19 +26,18 @@ public class store : UI_Store
         Price_Text,
         Card_Text,
     }
-
-    Dictionary<string, GameObject> _makeAllBigCardList = new Dictionary<string, GameObject>();
-
+    
     int _BuyCost;
 
     PlayerStats _pStat;
 
     float lastCoin;
 
+    Dictionary<string, List<GameObject>> _makeAllBigCardList = new Dictionary<string, List<GameObject>>();
+
     public override void Init()
     {
-        BaseCard.ExportPublicCard();
-        BaseCard.ExportJobCard();
+        BaseCard.ExportMyDeck((int)Managers.game.myCharacterType);
         
         _pStat = Managers.game.myCharacter.GetComponent<PlayerStats>();
 
@@ -47,7 +47,8 @@ public class store : UI_Store
 
         Get<GameObject>((int)GameObjects.toggleBasic).SetActive(false);
 
-        MakeUI_AllBigcard();
+        //초기 세팅
+        MakeUI_Mycard();
 
         lastCoin = _pStat.gold;
 
@@ -56,29 +57,10 @@ public class store : UI_Store
         Get<TextMeshProUGUI>((int)Texts.Coin_Text).text = $"{((int)lastCoin).ToString()}";
     }
 
-    void MakeUI_AllBigcard()
+    public override void OnEnable()
     {
-        // 폴더에 카드가 없다면 return
-        if (BaseCard._AllPublicCard.Count == 0) { return; }
-
-        for (int i = 0; i < BaseCard._AllPublicCard.Count; i++)
-        {
-            //상점의 큰 카드 세팅
-            _makeAllBigCardList.Add(BaseCard._AllPublicCard[i], Managers.Resource.Instantiate($"Cards/{BaseCard._AllPublicCard[i]}", Get<GameObject>((int)GameObjects.Big_card).transform));
-            _makeAllBigCardList[BaseCard._AllPublicCard[i]].GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 0);
-            _makeAllBigCardList[BaseCard._AllPublicCard[i]].SetActive(false);
-
-            //상점의 스크롤 카드 세팅
-            GameObject newToggleCard = Instantiate(Get<GameObject>((int)GameObjects.toggleBasic));
-            newToggleCard.transform.SetParent(Get<ToggleGroup>((int)ToggleGroups.StoreContent).transform);
-            newToggleCard.GetComponent<RectTransform>().localScale = Vector3.one;
-            newToggleCard.GetComponent<Toggle>().onValueChanged.AddListener(delegate { CardInfoChange(newToggleCard.GetComponent<Toggle>()); });
-            newToggleCard.name = BaseCard._AllPublicCard[i];
-            newToggleCard.SetActive(true);
-
-            GameObject makeScrollCard = Managers.Resource.Instantiate($"Cards/{BaseCard._AllPublicCard[i]}", newToggleCard.transform);
-            makeScrollCard.GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 0);
-        }
+        //이후 덱을 열었을 때
+        MakeUI_Mycard();
     }
 
     void Update()
@@ -90,35 +72,74 @@ public class store : UI_Store
         }
     }
 
+    //내 덱 UI로 만들어주기
+    void MakeUI_Mycard()
+    {
+        //내 덱의 카드가 없다면 return
+        if (BaseCard._MyDeck.Count == 0) { return; }
+        //나만의 덱의 큰 카드 리셋 
+        _makeAllBigCardList.Clear();
+
+        foreach (Transform t in Get<GameObject>((int)GameObjects.Big_card).transform) Destroy(t.gameObject);
+        foreach (Transform t in Get<ToggleGroup>((int)ToggleGroups.DeleteContent).transform) Destroy(t.gameObject);
+
+        for (int i = 0; i < BaseCard._MyDeck.Count; i++)
+        {
+            if (BaseCard._MyDeck[i].Substring(0, 3) == "Job") continue;
+
+            //나만의 덱의 큰 카드 세팅
+            GameObject nowCard = Managers.Resource.Instantiate($"Cards/{BaseCard._MyDeck[i]}", Get<GameObject>((int)GameObjects.Big_card).transform);
+            nowCard.GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 0);
+            nowCard.SetActive(false);
+            if (_makeAllBigCardList.ContainsKey(BaseCard._MyDeck[i]))
+                _makeAllBigCardList[BaseCard._MyDeck[i]].Add(nowCard);
+            else
+                _makeAllBigCardList.Add(BaseCard._MyDeck[i], new List<GameObject>() {nowCard});
+
+            //나만의 덱의 스크롤 카드 세팅
+            GameObject newToggleCard = Instantiate(Get<GameObject>((int)GameObjects.toggleBasic));
+            newToggleCard.transform.SetParent(Get<ToggleGroup>((int)ToggleGroups.DeleteContent).transform);
+            newToggleCard.GetComponent<RectTransform>().localScale = Vector3.one;
+            newToggleCard.GetComponent<Toggle>().onValueChanged.AddListener(delegate { CardInfoChange(newToggleCard.GetComponent<Toggle>()); });
+            newToggleCard.name = BaseCard._MyDeck[i];
+            newToggleCard.SetActive(true);
+
+            GameObject makeScrollCard = Managers.Resource.Instantiate($"Cards/{BaseCard._MyDeck[i]}", newToggleCard.transform);
+            makeScrollCard.GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 0);
+        }
+    }
+
     // 스크롤 카드 선택 시
     public void CardInfoChange(Toggle toggle)
     {
-        _makeAllBigCardList[toggle.name].SetActive(toggle.isOn);
-        _BuyCost = toggle.GetComponentInChildren<UI_Card>()._cardBuyCost;
+        _makeAllBigCardList[toggle.name][0].SetActive(toggle.isOn);
+        _BuyCost = (int)(toggle.GetComponentInChildren<UI_Card>()._cardBuyCost * 0.25f);
         Get<TextMeshProUGUI>((int)Texts.Price_Text).text = _BuyCost.ToString();
         Cardinfo(toggle.name);
     }
 
-    public void CardBuy()
+    public void CardDelete()
     {
-        if (_pStat.gold >= _BuyCost)
-        {
-            BaseCard._initDeck.Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
-            BaseCard._MyDeck  .Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
-            
-            _pStat.gold -= _BuyCost;
-        }
+        if (BaseCard._MyDeck.Count < 8) return; // 최소 카드 한도
+        if (_pStat.gold < _BuyCost) return; // 골드 부족
 
-        else
-        {
-            Debug.Log("카드 구입 실패");
-        }
+
+        BaseCard._initDeck.Remove(Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle().name);
+        BaseCard._MyDeck  .Remove(Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle().name);
+        
+        _pStat.gold -= _BuyCost;
+        MakeUI_Mycard();
     }
 
+    //카드 설명
     public void Cardinfo(string cardname)
     {
         switch (cardname)
         {
+            case "JobCard_Grenade":
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "수류탄을 던집니다. 이 카드는 고정입니다.";
+                break;
+
             case "Card_AmuletOfSteel":
                 Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "팀원 전체에게 방어막을 부여합니다.";
                 break;
@@ -174,7 +195,7 @@ public class store : UI_Store
             case "Card_Spear":
                 Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "표창을 던져 적에게 데미지를 입힙니다.";
                 break;
-                
+
             case "Card_Speed":
                 Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "잠시동안 이동속도가 빨라집니다.";
                 break;
@@ -187,7 +208,7 @@ public class store : UI_Store
                 Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "디버프가 사라집니다.";
                 break;
 
-            case "Card_Teleport":
+            case "card_Teleport":
                 Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "짧은 거리를 빠르게 이동합니다.";
                 break;
 
@@ -217,7 +238,6 @@ public class store : UI_Store
 
             case "Card_Enhancement":
                 Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "자신에게 잠시동안 무기를 강화하여 공격력을 증가시킵니다.";
-                
                 break;
         }
     }
