@@ -214,9 +214,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AllIn1VfxToolkit.Demo.Scripts.AllIn1CanvasFader,
-          AllIn1VfxDemoScriptAssemblies
+      - m_Target: {fileID: 8533573367375680719}
+        m_TargetAssemblyTypeName: UI_CanvasFader, Assembly-CSharp
         m_MethodName: HideUI
         m_Mode: 1
         m_Arguments:
