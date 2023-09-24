@@ -131,6 +131,15 @@ namespace Stat
                 _nowHealth -= value;
             }
         }
+        public float shield 
+        {
+            get { return _shield; }
+            set 
+            { 
+                _shield = value; 
+                if (_shield < 0) _shield = 0;    
+            }
+        }
         public float death { get { return _death; } set { _death = value; } }
 
 
@@ -315,6 +324,7 @@ namespace Stat
             if (statName == "healthRegeneration")   healthRegeneration  += value;
             if (statName == "defensePower")         defensePower        += value;
             if (statName == "receviedDamage")       receviedDamage      += value;
+            if (statName == "shield")               shield              += value;
             if (statName == "death")                death               += value;
             if (statName == "experience")           experience          += value;
             if (statName == "speed")                speed               += value;
