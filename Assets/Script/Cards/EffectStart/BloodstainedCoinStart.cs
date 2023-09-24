@@ -10,6 +10,7 @@ public class BloodstainedCoinStart : BaseEffect
     GameObject _effectObject;
     protected PhotonView _pv;
     protected int _playerId;
+    protected int _targetId;
 
     //Transform target = null;
 
@@ -26,6 +27,7 @@ public class BloodstainedCoinStart : BaseEffect
         BaseCard._lockTarget = null;
         damage = 10.0f;
         _playerId = userId;
+        _targetId = targetId;
 
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
@@ -33,11 +35,11 @@ public class BloodstainedCoinStart : BaseEffect
 
     private void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId, _targetId);
     }
 
     [PunRPC]
-    public void RpcUpdate()
+    public void RpcUpdate(int playerId, int targetId)
 	{
         if (target == null)
         {

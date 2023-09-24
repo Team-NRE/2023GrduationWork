@@ -1,95 +1,71 @@
+using Photon.Pun;
+using Stat;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Stat;
-using Photon.Pun;
 
 public class GrenadeStart : BaseEffect
 {
-    PlayerStats enemyStats;
     protected PhotonView _pv;
+    protected int _layer;
+    int _playerId;
 
-    //float damage = default;
-    int enemylayer = default;
-    //float debuff = default;
-    
-    float saveMana = 0;
-    bool isDebuff = false;
+    void Start()
+    {
 
-    float time = 0.0f;
+    }
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-        _damage = 25.0f;
+        PlayerStats stats = player.GetComponent<PlayerStats>();
+        _layer = stats.playerArea;
+        _playerId = userId;
+
+        _damage = 25;
         _debuff = 1.02f;
     }
 
-    public void Update()
+    // Update is called once per frame
+    void Update()
     {
-        if (isDebuff == true)
-        {
-            time += Time.deltaTime;
-            ManaRegenBack();
-        }
+
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        int otherId = Managers.game.RemoteTargetIdFinder(other.gameObject);
-        _pv.RPC("RpcUpdate", RpcTarget.All, otherId);
+        int otherId = Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return;
+        _pv.RPC("RpcUpdate", RpcTarget.All, otherId, _playerId);
     }
 
     [PunRPC]
-    public void RpcUpdate(int otherId)
-	{
+    public void RpcUpdate(int otherId, int playerId)
+    {
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        if (other.gameObject.layer == enemylayer)
+        GameObject user = Managers.game.RemoteTargetFinder(playerId);
+        if (other.gameObject.tag == "OBJECT")
         {
-            Debug.Log(other.gameObject.name);
-
-            //타겟이 미니언, 타워일 시 
-            if (other.gameObject.tag != "PLAYER")
+            if (other.gameObject.layer != _layer)
             {
-                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
-                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
+                ObjStats o_stats = other.GetComponent<ObjStats>();
+                PlayerStats p_stats = user.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.5f);
-            }
-
-            //타겟이 적 Player일 시
-            if (other.gameObject.tag == "PLAYER")
-            {
-                enemyStats = other.gameObject.GetComponent<PlayerStats>();
-                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
-
-                enemyStats.receviedDamage = _damage + (pStats.basicAttackPower * 0.5f);
-                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
-
-                //HackingGrenade 카드
-                if (_debuff != default)
-                {
-                    enemyStats.nowState = "Debuff";
-
-                    saveMana = enemyStats.manaRegen;
-                    enemyStats.manaRegen = 0;
-
-                    isDebuff = true;
-                }
+                o_stats.nowHealth -= _damage + (p_stats.basicAttackPower * 0.5f);
             }
         }
-    }
-
-    private void ManaRegenBack()
-    {
-        if (time >= _debuff - 0.02f || enemyStats.nowState == "Health")
+        else if (other.gameObject.tag == "PLAYER")
         {
-            enemyStats.manaRegen = saveMana;
-            enemyStats.nowState = "Health";
-            time = 0;
-            isDebuff = false;
+            if (other.gameObject.layer != _layer)
+            {
+                PlayerStats e_stats = other.GetComponent<PlayerStats>();
+                PlayerStats p_stats = user.GetComponent<PlayerStats>();
+
+                e_stats.receviedDamage = _damage + (p_stats.basicAttackPower * 0.5f);
+            }
         }
     }
 }

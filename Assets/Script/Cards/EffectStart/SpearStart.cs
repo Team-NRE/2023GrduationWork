@@ -13,19 +13,6 @@ public class SpearStart : BaseEffect
     Transform playerTr;
     PlayerStats pStats;
 
-    public void StartSpear(int player, int _enemylayer, float _damage)
-    {
-        //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.RemoteTargetFinder(player);
-
-        pStats = _player.GetComponent<PlayerStats>();
-        playerTr = _player.transform;
-
-        enemylayer = _enemylayer;
-        bulletSpeed = 30f; // 공속 대비 5배 속도
-        damage = _damage;
-    }
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
@@ -35,6 +22,7 @@ public class SpearStart : BaseEffect
         bulletSpeed = 30.0f;
         damage = 15.0f;
         enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+        pStats = player.GetComponent<PlayerStats>();
         _playerId = userId;
 
         this.gameObject.transform.parent = player.transform;
@@ -43,8 +31,8 @@ public class SpearStart : BaseEffect
 
     public void Update()
     {
-        //FollowTarget();
-        _pv.RPC("FollowTarget", RpcTarget.All, _playerId);
+        FollowTarget(_playerId);
+        //_pv.RPC("FollowTarget", RpcTarget.All, _playerId);
     }
 
     [PunRPC]
@@ -59,9 +47,11 @@ public class SpearStart : BaseEffect
 
     public void OnTriggerEnter(Collider other)
     {
-        int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
+        int otherId = Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return;
         //int id = Managers.game.RemoteColliderId(other);
-        _pv.RPC("RpcTrigger", RpcTarget.All, id);
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
@@ -78,6 +68,7 @@ public class SpearStart : BaseEffect
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
 
                 oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
+                Debug.Log(oStats.nowHealth);
             }
 
             //타겟이 적 Player일 시
@@ -87,6 +78,7 @@ public class SpearStart : BaseEffect
 
                 enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.7f);
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
+                Debug.Log(enemyStats.nowHealth);
             }
 
             PhotonNetwork.Destroy(this.gameObject);

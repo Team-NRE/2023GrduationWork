@@ -23958,6 +23958,7 @@ GameObject:
   - component: {fileID: 251094741306061337}
   - component: {fileID: 9201814837257186674}
   - component: {fileID: -103515482867047643}
+  - component: {fileID: -3170148746265044089}
   m_Layer: 2
   m_Name: EffectJob_Grenade
   m_TagString: Untagged
@@ -28971,6 +28972,27 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-3170148746265044089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170337825718025491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6997a9d7a327094b96e4bf5cb375c6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectTime: 0
+  _damage: 0
+  _defence: 0
+  _speed: 0
+  _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
+  player: {fileID: 0}
+  target: {fileID: 0}
 --- !u!1 &170354538246846371
 GameObject:
   m_ObjectHideFlags: 0

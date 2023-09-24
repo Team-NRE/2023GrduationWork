@@ -250,25 +250,26 @@ public class CameraController : BaseController
         Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, planescale_Z - 24);
         Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, planescale_Z + 24);
 
-        if (MousePos.x <= 0.1)
-        {
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_x_0, Time.deltaTime);
-        }
+        //마우스가 창 밖으로 갈 때
+        //if (MousePos.x <= 0.1)
+        //{
+        //    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_x_0, Time.deltaTime);
+        //}
 
-        if (MousePos.x >= 0.9)
-        {
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_x_1, Time.deltaTime);
-        }
+        //if (MousePos.x >= 0.9)
+        //{
+        //    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_x_1, Time.deltaTime);
+        //}
 
-        if (MousePos.y <= 0.1)
-        {
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_z_0, Time.deltaTime);
-        }
+        //if (MousePos.y <= 0.1)
+        //{
+        //    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_z_0, Time.deltaTime);
+        //}
 
-        if (MousePos.y >= 0.9)
-        {
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_z_1, Time.deltaTime);
-        }
+        //if (MousePos.y >= 0.9)
+        //{
+        //    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, position_z_1, Time.deltaTime);
+        //}
     }
 
 

@@ -50,7 +50,7 @@ namespace Stat
 
         [Header("-- 현재 상태 --")]
         [SerializeField] private string _nowState;
-
+        [SerializeField] private bool _isResurrection;
 
         [Header("-- 진영 --")]
         [SerializeField] private int _playerArea; //내 진영
@@ -108,7 +108,7 @@ namespace Stat
                 }
 
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
-               
+
             }
         }
         public float maxHealth
@@ -125,7 +125,7 @@ namespace Stat
         public float receviedDamage
         {
             get { return _receviedDamage; }
-            set 
+            set
             {
                 value *= 100 / (100 + defensePower);
                 _nowHealth -= value;
@@ -201,7 +201,7 @@ namespace Stat
 
         //현재 상태
         public string nowState { get { return _nowState; } set { _nowState = value; } }
-
+        public bool isResurrection { get { return _isResurrection; } set { _isResurrection = value; } }
 
 
         //진영
@@ -289,17 +289,18 @@ namespace Stat
 
             //현재 상태
             nowState = stat.nowState;
+            isResurrection = false;
 
             //진영
             if (type == "Police" || type == "Firefighter")
             {
                 playerArea = (int)Layer.Human;
-                enemyArea  = (int)Layer.Cyborg;
-            } 
-            else 
+                enemyArea = (int)Layer.Cyborg;
+            }
+            else
             {
                 playerArea = (int)Layer.Cyborg;
-                enemyArea  = (int)Layer.Human;
+                enemyArea = (int)Layer.Human;
             }
 
             //마나

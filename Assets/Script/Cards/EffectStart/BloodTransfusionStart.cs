@@ -9,6 +9,7 @@ public class BloodTransfusionStart : BaseEffect
     GameObject Obj = null;
     protected PhotonView _pv;
     protected int _playerId;
+    protected int _targetId;
 
     float damage = default;
 
@@ -18,30 +19,34 @@ public class BloodTransfusionStart : BaseEffect
     }
 
     [PunRPC]
-    public override void CardEffectInit(int playerId)
+    public override void CardEffectInit(int userId, int targetId)
     {
-        //player = GameObject.Find(_player);
-        _playerId = playerId;
-        player = Managers.game.RemoteTargetFinder(playerId);
-        Obj = transform.parent.gameObject;
-        //_pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId, targetId);
+        _playerId = userId;
+        _targetId = targetId;
+        Obj = target;
+        this.gameObject.transform.parent = target.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
         damage = 30.0f;
     }
 
     private void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId, _targetId);
     }
 
     [PunRPC]
-    public void RpcUpdate()
+    public void RpcUpdate(int playerId, int targetId)
 	{
+        Obj = Managers.game.RemoteTargetFinder(targetId);
+        GameObject user = Managers.game.RemoteTargetFinder(playerId);
+
         //Ÿ���� �̴Ͼ�, Ÿ���� �� 
         if (Obj.tag != "PLAYER")
         {
             ObjStats oStats = Obj.GetComponent<ObjStats>();
-            PlayerStats pStats = player.GetComponent<PlayerStats>();
+            PlayerStats pStats = user.GetComponent<PlayerStats>();
 
             oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
             pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);
@@ -54,7 +59,7 @@ public class BloodTransfusionStart : BaseEffect
         if (Obj.tag == "PLAYER")
         {
             PlayerStats enemyStats = Obj.GetComponent<PlayerStats>();
-            PlayerStats pStats = player.GetComponent<PlayerStats>();
+            PlayerStats pStats = user.GetComponent<PlayerStats>();
 
             enemyStats.receviedDamage = (damage + (pStats.basicAttackPower * 0.7f));
             pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);

@@ -3,11 +3,11 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 using Photon.Realtime;
+using static UnityEngine.GraphicsBuffer;
 
 public class RangedBullet : MonoBehaviour
 {
-    //[SerializeField]
-    //Transform _Target;
+    GameObject _player;
     GameObject _target;
     [SerializeField]
     Vector3 _TargetPos;
@@ -34,17 +34,20 @@ public class RangedBullet : MonoBehaviour
     }
 
     [PunRPC]
-    public void Init(int targetId)
+    public void Init(int playerId,int targetId)
     {
         _pv = GetComponent<PhotonView>();
+        _player = GetRemotePlayer(playerId);
         _target = GetRemotePlayer(targetId);
         _bulletSpeed = 5;
-        _damage = 10;
-        Debug.Log(_target.gameObject.name);
+        _damage = _player.GetComponent<PlayerStats>().basicAttackPower;
     }
 
     public void FollowTarget()
     {
+        if (_target == null)
+            Destroy(this.gameObject);
+
         if (_target != null)
         {
             _TargetPos = _target.gameObject.transform.position;
@@ -52,8 +55,6 @@ public class RangedBullet : MonoBehaviour
             transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
             transform.LookAt(_TargetPos);
         }
-        if (_target == null)
-            Destroy(this.gameObject);
     }
 
     public void HitDetection()
@@ -63,20 +64,17 @@ public class RangedBullet : MonoBehaviour
 
         if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
+            PhotonView _targetPV = _target.GetComponent<PhotonView>();
             //타겟이 미니언, 타워일 시 
             if (_target.tag != "PLAYER")
             {
-                ObjStats _Stats = _target.GetComponent<ObjStats>();
-                _Stats.nowHealth -= _damage;
-                _pv.RPC("RemoteLog", RpcTarget.All, _Stats.nowHealth.ToString());
+                _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -_damage);
             }
 
             //타겟이 적 Player일 시
             if (_target.tag == "PLAYER")
             {
-                PlayerStats _Stats = _target.GetComponent<PlayerStats>();
-                _Stats.receviedDamage = _damage;
-                _pv.RPC("RemoteLog", RpcTarget.All, _Stats.nowHealth.ToString());
+                _targetPV.RPC("photonStatSet", RpcTarget.All, "receviedDamage", _damage);
             }
 
             Destroy(this.gameObject, 0.5f);

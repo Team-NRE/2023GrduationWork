@@ -8,6 +8,7 @@ public class Card_Strike : UI_Card
 {
     int _layer = default;
     int _enemylayer = default;
+    int _targetId;
 
     public override void Init()
     {
@@ -27,17 +28,17 @@ public class Card_Strike : UI_Card
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Strike");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Strike", ground, Quaternion.Euler(-90, 0, 0));
         //_effectObject.transform.parent = BaseCard._lockTarget.transform;
-        _effectObject.transform.SetParent(BaseCard._lockTarget.transform);
+        //_effectObject.transform.SetParent(BaseCard._lockTarget.transform);
 
-        _effectObject.transform.localPosition = new Vector3(0, 1.8f, 0);
-
+        //_effectObject.transform.localPosition = new Vector3(0, 1.8f, 0);
+        _targetId = Managers.game.RemoteTargetIdFinder(BaseCard._lockTarget);
         _layer = layer;
 
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<StrikeStart>().StartStrike(playerId, _damage, _effectTime);
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, _targetId);
 
         return _effectObject;
     }

@@ -34,7 +34,8 @@ public class UI_CardPanel : UI_Card
     Image E_cardimg;
     Image R_cardimg;
 
-    public PlayerStats pStat;
+    BaseController bc;
+    PlayerStats pStat;
     PlayerType _pType;
 
     float targetDis;
@@ -55,6 +56,7 @@ public class UI_CardPanel : UI_Card
     public override void Init()
     {
         pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
+        bc = Managers.game.myCharacter?.GetComponent<BaseController>();
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportDeck((int)Managers.game.myCharacterType);
@@ -100,13 +102,7 @@ public class UI_CardPanel : UI_Card
 
     public void Update()
     {
-        if(pStat == null)
-        {
-            pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
-            return;
-        }
-
-        if (pStat.nowHealth > 0)
+        if (bc._startDie == false)
         {
             MouseDownAction();
             KeyDownAction();

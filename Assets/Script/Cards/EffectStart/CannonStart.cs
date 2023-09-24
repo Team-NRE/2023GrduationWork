@@ -22,8 +22,10 @@ public class CannonStart : BaseEffect
     // 여긴 백퍼 버그가 발생할 예정
     public void OnTriggerEnter(Collider other)
     {
-        int colliderId = other.GetComponent<PhotonView>().ViewID;
-        _pv.RPC("RpcTrigger", RpcTarget.All, colliderId);
+        int otherId = Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return;
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]

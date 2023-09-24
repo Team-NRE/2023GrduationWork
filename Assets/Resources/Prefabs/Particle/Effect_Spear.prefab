@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2963364803641229563}
   - component: {fileID: 5907348061070901254}
   - component: {fileID: -878074441915698716}
+  - component: {fileID: 7168405996565878364}
   m_Layer: 2
   m_Name: Effect_Spear
   m_TagString: Untagged
@@ -255,3 +256,24 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7168405996565878364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019771676552475519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c14ce7e65bb26429de54fbaf856d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectTime: 0
+  _damage: 0
+  _defence: 0
+  _speed: 0
+  _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
+  player: {fileID: 0}
+  target: {fileID: 0}

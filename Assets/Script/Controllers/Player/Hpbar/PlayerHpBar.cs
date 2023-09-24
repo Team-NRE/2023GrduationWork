@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using Stat;
 using Photon.Pun;
 
-public class FirefightHpBar : MonoBehaviour
+public class PlayerHpBar : MonoBehaviour
 {
-    [Header ("- Health Bar Images")]
+    [Header("- Health Bar Images")]
     [SerializeField]
     private Image healthBarHeal;
     [SerializeField]
@@ -15,8 +15,8 @@ public class FirefightHpBar : MonoBehaviour
     [SerializeField]
     private Image healthBarBasic;
 
-    [Space (10f)]
-    [Header ("- Options")]
+    [Space(10f)]
+    [Header("- Options")]
     [SerializeField]
     private bool isHealHitEffect = true;
 
@@ -25,11 +25,11 @@ public class FirefightHpBar : MonoBehaviour
 
     private float maxHealth;
     private float nowHealth;
-    PhotonView _pv;
 
+    PhotonView _pv;
     private static float DELAY_TIME = 0.5f;
-    
-    public void Awake() 
+
+    public void Awake()
     {
         cam = Camera.main.transform;
         _pStats = GetComponentInParent<PlayerStats>();
@@ -38,12 +38,12 @@ public class FirefightHpBar : MonoBehaviour
         nowHealth = _pStats.nowHealth;
 
 
-        healthBarHeal = transform.GetChild(1).gameObject.GetComponent<Image>();
-        healthBarHit = transform.GetChild(2).gameObject.GetComponent<Image>();
-        healthBarBasic = transform.GetChild(3).gameObject.GetComponent<Image>();
+        healthBarHeal = transform.Find("HealthBarHealEffect").gameObject.GetComponent<Image>();
+        healthBarHit = transform.Find("HealthBarHitEffect").gameObject.GetComponent<Image>();
+        healthBarBasic = transform.Find("HealthBar").gameObject.GetComponent<Image>();
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
         if (Managers.game.myCharacter != null && healthBarBasic.color == Color.white)
         {
@@ -113,3 +113,4 @@ public class FirefightHpBar : MonoBehaviour
         healthBarHit.fillAmount = nowHealth / maxHealth;
     }
 }
+
