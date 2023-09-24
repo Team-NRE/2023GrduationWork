@@ -1246,8 +1246,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1316898954246790906}
   - component: {fileID: 1422701497176879632}
-  m_Layer: 12
-  m_Name: Character_Cop_01
+  m_Layer: 0
+  m_Name: CharacterMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

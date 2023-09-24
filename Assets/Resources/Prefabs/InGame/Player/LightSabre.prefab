@@ -1253,8 +1253,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6603926910839445697}
   - component: {fileID: 6504105253438951139}
-  m_Layer: 12
-  m_Name: Character_CyborgNinja_01
+  m_Layer: 0
+  m_Name: CharacterMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
