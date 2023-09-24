@@ -32,7 +32,7 @@ public class Card_Speed : UI_Card
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
         //_effectObject.AddComponent<SpeedStart>().StartSpeed(playerId, _speed);
         //_effectObject.GetComponent<SpeedStart>().StartSpeed(playerId, 1.5f);
-        _effectObject.GetComponent<SpeedStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         _pStat.speed += 1.5f;
 

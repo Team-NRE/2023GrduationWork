@@ -37,7 +37,7 @@ public class Card_Lava : UI_Card
 
         //_effectObject.AddComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
         //_effectObject.GetComponent<LavaStart>().StartLava(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<LavaStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

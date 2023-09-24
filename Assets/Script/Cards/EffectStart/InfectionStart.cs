@@ -10,6 +10,7 @@ public class InfectionStart : BaseEffect
     int enemylayer = default;
     protected PhotonView _pv;
 
+    [PunRPC]
     public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
