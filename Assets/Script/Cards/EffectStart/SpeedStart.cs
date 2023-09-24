@@ -23,6 +23,7 @@ public class SpeedStart : BaseEffect
     public override void CardEffectInit(int userId)
     {
         base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
         speed = 1.5f;
 
         start = true;

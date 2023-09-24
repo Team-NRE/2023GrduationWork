@@ -25,6 +25,9 @@ public class StrikeStart : BaseEffect
         base.CardEffectInit(userId, targetId);
         Obj = target;
 
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 1.8f, 0);
+
         damage = 40.0f;
         effectTime = 2.0f;
     }
@@ -37,8 +40,8 @@ public class StrikeStart : BaseEffect
     [PunRPC]
     public void RpcUpdate()
 	{
-        if (BaseCard._lockTarget == null) { PhotonNetwork.Destroy(gameObject); }
-        if (BaseCard._lockTarget != null)
+        if (player == null) { PhotonNetwork.Destroy(gameObject); }
+        if (player != null)
         {
             switch (IsEffect)
             {
