@@ -28,11 +28,11 @@ public class Card_RadiantCrystal : UI_Card
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_RadiantCrystal");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_RadiantCrystal", ground, Quaternion.Euler(-90, 0, 0));
         //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
+        //_effectObject.transform.SetParent(_player.transform);
 
-        _effectObject.transform.localPosition = new Vector3(0, 0, 0);
+        //_effectObject.transform.localPosition = new Vector3(0, 0, 0);
 
-        _pStat.nowMana += 3*_pStat.manaRegen;
+        //_pStat.nowMana += 3*_pStat.manaRegen;
 
         return _effectObject;
     }

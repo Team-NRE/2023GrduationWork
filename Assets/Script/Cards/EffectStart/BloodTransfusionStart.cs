@@ -18,11 +18,11 @@ public class BloodTransfusionStart : BaseEffect
     }
 
     [PunRPC]
-    public override void CardEffectInit(int playerId)
+    public override void CardEffectInit(int userId, int targetId)
     {
         //player = GameObject.Find(_player);
-        _playerId = playerId;
-        player = Managers.game.RemoteTargetFinder(playerId);
+        _playerId = userId;
+        player = Managers.game.RemoteTargetFinder(userId);
         Obj = transform.parent.gameObject;
         //_pv = GetComponent<PhotonView>();
 
@@ -31,17 +31,19 @@ public class BloodTransfusionStart : BaseEffect
 
     private void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
     }
 
     [PunRPC]
-    public void RpcUpdate()
+    public void RpcUpdate(int playerId)
 	{
+        GameObject user = Managers.game.RemoteTargetFinder(playerId);
+
         //Ÿ���� �̴Ͼ�, Ÿ���� �� 
         if (Obj.tag != "PLAYER")
         {
             ObjStats oStats = Obj.GetComponent<ObjStats>();
-            PlayerStats pStats = player.GetComponent<PlayerStats>();
+            PlayerStats pStats = user.GetComponent<PlayerStats>();
 
             oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
             pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);
@@ -54,7 +56,7 @@ public class BloodTransfusionStart : BaseEffect
         if (Obj.tag == "PLAYER")
         {
             PlayerStats enemyStats = Obj.GetComponent<PlayerStats>();
-            PlayerStats pStats = player.GetComponent<PlayerStats>();
+            PlayerStats pStats = user.GetComponent<PlayerStats>();
 
             enemyStats.receviedDamage = (damage + (pStats.basicAttackPower * 0.7f));
             pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);

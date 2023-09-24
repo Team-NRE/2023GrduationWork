@@ -22,8 +22,10 @@ public class InfectionStart : BaseEffect
 
     public void OnTriggerStay(Collider other)
     {
-        int id = Managers.game.RemoteTargetIdFinder(other.gameObject);
-        _pv.RPC("RpcTrigger", RpcTarget.All, id);   
+        int otherId = Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return; 
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);   
     }
 
     [PunRPC]
