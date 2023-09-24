@@ -21,6 +21,12 @@ public class UI_StatusBar : MonoBehaviour
     TextMeshProUGUI levelText;
     string levelTextName = "Level";
 
+    // HealthBarText
+    TextMeshProUGUI nowhpText;
+    string nowHPTextName = "NowHPtext";
+    TextMeshProUGUI maxhpText;
+    string maxHPTextName = "MaxHPtext";
+
     // HealthBar
     Image hpBarImage;
     Image hpBarYellowImage;
@@ -46,6 +52,7 @@ public class UI_StatusBar : MonoBehaviour
     private void Awake()
     {
         GetLevelText();
+        GetHpBarText();
         GetHpBarImage();
         GetExpBarImage();
     }
@@ -72,6 +79,7 @@ public class UI_StatusBar : MonoBehaviour
         if (Managers.game.myCharacter == null) return;
 
         UpdateLevelText();
+        UpdateHpBarText();
         UpdateHpBarImage();
         UpdateManaBarImages();
         UpdateExpBarImage();
@@ -95,6 +103,15 @@ public class UI_StatusBar : MonoBehaviour
     {
         if (levelText != null) return;
         levelText = GetObject<TextMeshProUGUI>(gameObject, levelTextName);
+    }
+    void GetHpBarText()
+    {
+        if(nowhpText != null) return;
+        nowhpText = GetObject<TextMeshProUGUI>(gameObject, nowHPTextName);
+
+        if (maxhpText != null) return;
+        maxhpText = GetObject<TextMeshProUGUI>(gameObject, maxHPTextName);
+
     }
 
     void GetHpBarImage()
@@ -130,6 +147,15 @@ public class UI_StatusBar : MonoBehaviour
     {
         if (levelText == null) return;
         levelText.text = myStat.level.ToString();
+    }
+
+    void UpdateHpBarText()
+    {
+        if (nowhpText == null) return;
+        nowhpText.text = myStat.nowHealth.ToString("F1");
+
+        if (maxhpText == null) return;
+        maxhpText.text = myStat.maxHealth.ToString("F1");
     }
 
     void UpdateHpBarImage()

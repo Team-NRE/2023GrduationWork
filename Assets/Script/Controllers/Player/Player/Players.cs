@@ -76,8 +76,9 @@ public class Players : BaseController
             PhotonNetwork.Destroy(Resurrection);
         }
 
+        _pStats.nowHealth = _pStats.maxHealth;
         //체력 회복
-        _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.maxHealth);
+        _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.nowHealth);
 
         StartCoroutine(RespawnResetting());
     }

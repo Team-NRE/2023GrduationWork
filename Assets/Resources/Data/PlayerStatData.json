@@ -3,14 +3,14 @@
       {
         "type": "Police",
 
-        "basicAttackPower": "80",
+        "basicAttackPower": "65",
         "attackSpeed" : "0.625",
         "attackRange" : "5",
         "attackType" : "LongRange",
 
         "maxHealth" : "680",
         "healthRegeneration" : "0.6",
-        "defensePower" : "50",
+        "defensePower" : "40",
 
         "level" : "1",
         "experience" : "0",
@@ -65,14 +65,14 @@
       {
         "type": "Lightsabre",
 
-        "basicAttackPower": "65",
+        "basicAttackPower": "75",
         "attackSpeed" : "0.68",
         "attackRange" : "2",
         "attackType" : "ShortRange",
 
         "maxHealth" : "670",
         "healthRegeneration" : "1",
-        "defensePower" : "33",
+        "defensePower" : "30",
 
         "level" : "1",
         "experience" : "0",
