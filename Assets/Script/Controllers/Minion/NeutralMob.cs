@@ -214,8 +214,16 @@ public class NeutralMob : ObjectController
         //타겟이 적 Player일 시
         if (_targetEnemyTransform.tag == "PLAYER")
         {
-            PlayerStats _Stats = _targetEnemyTransform.GetComponent<PlayerStats>();
-            _Stats.nowHealth -= _oStats.basicAttackPower;
+            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
+            targetPV.RPC(
+                "photonStatSet",
+                RpcTarget.All,
+                "nowHealth",
+                -_oStats.basicAttackPower
+            );
+
+            if (targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
+                Managers.game.killEvent(pv.ViewID, targetPV.ViewID);
         }
         else
         {
@@ -237,8 +245,8 @@ public class NeutralMob : ObjectController
         PhotonView missilePv = SummonedMissile.GetComponent<PhotonView>();
         missilePv.RPC("SummonMissile",
             RpcTarget.All,
-            _targetEnemyTransform.position, 
-            _oStats.basicAttackPower, 
+            pv.ViewID,
+            _targetEnemyTransform.GetComponent<PhotonView>().ViewID,
             3.0f
         );
     }
@@ -251,8 +259,7 @@ public class NeutralMob : ObjectController
         PhotonView energyReleasePv = SummonedEnergyRelease.GetComponent<PhotonView>();
         energyReleasePv.RPC("SummonEnergyRelease",
             RpcTarget.All,
-            this.transform.position, 
-            _oStats.basicAttackPower, 
+            pv.ViewID,
             3.0f
         );
     }

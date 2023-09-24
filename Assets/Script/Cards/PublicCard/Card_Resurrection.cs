@@ -17,8 +17,6 @@ public class Card_Resurrection : UI_Card
 
         _CastingTime = 0.3f;
         _effectTime = default;
-
-        _IsResurrection = true;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
@@ -31,6 +29,8 @@ public class Card_Resurrection : UI_Card
         _effectObject.transform.SetParent(_player.transform);
 
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
+
+        _player.GetComponent<PlayerStats>().isResurrection = true;
 
         return _effectObject;
     }

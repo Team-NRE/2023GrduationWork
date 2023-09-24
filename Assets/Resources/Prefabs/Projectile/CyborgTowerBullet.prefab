@@ -60,10 +60,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc2b509fa0c63f049bb16662df88b02e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Target: {fileID: 0}
-  _TargetPos: {x: 0, y: 0, z: 0}
-  _bulletSpeed: 0
-  _damage: 0
 --- !u!114 &4241299324866953321
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -57,6 +57,8 @@ public class GameScene : BaseScene
 
         // 로딩 페이지 끄기
         FindObjectOfType<UI_LoadingPage>().gameObject.SetActive(false);
+
+        Debug.Log("Setting Finish");
     }
 
     private void InitPlayerDefault()
@@ -72,10 +74,12 @@ public class GameScene : BaseScene
                 if (Managers.game.humanTeamCharacter.Item1 == null)
                 {
                     Managers.game.humanTeamCharacter.Item1 = now.gameObject.GetPhotonView();
+                    Debug.Log($"{now.gameObject.name} , {Managers.game.humanTeamCharacter.Item1} ");
                 }
                 else
                 {
                     Managers.game.humanTeamCharacter.Item2 = now.gameObject.GetPhotonView();
+                    Debug.Log($"{now.gameObject.name} , {Managers.game.humanTeamCharacter.Item2} ");
                 }
             }
 

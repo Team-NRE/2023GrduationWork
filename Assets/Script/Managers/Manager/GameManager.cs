@@ -8,6 +8,7 @@ using UnityEngine.AI;
 
 using Photon.Pun;
 using System.Collections;
+using Data;
 
 public class GameManager
 {
@@ -50,6 +51,7 @@ public class GameManager
     public int respawnTurn = 1;
     public float startRespawn = 0.01f;
     public bool isDie { get; set; }
+    public bool isResur { get; set; }
     public GameObject respawnObject;
 
     /// 팀 킬 수 관련
@@ -94,12 +96,14 @@ public class GameManager
         switch (isDie)
         {
             case true:
+                //부활 = 3초
+                double FinishRespawn = (isResur == true) ? 3.0f : respawnTime;
                 startRespawn += Time.deltaTime;
-                if (startRespawn >= respawnTime) 
+                if (startRespawn >= FinishRespawn) 
                 {
                     respawnEvent();
                     isDie = false;
-                    Debug.Log($" {respawnTime}초 지나서 부활 완료");
+                    Debug.Log($" {FinishRespawn}초 지나서 부활 완료");
                 }
 
                 break;
@@ -144,8 +148,11 @@ public class GameManager
         if (PhotonView.Find(diedID) == null) return;
 
         GameObject diedPlayer = PhotonView.Find(diedID)?.gameObject;
-        diedPlayer.GetComponent<BaseController>().enabled = false;
+        diedPlayer.GetComponent<Players>().enabled = false;
         diedPlayer.GetComponent<CapsuleCollider>().enabled = false;
+      
+        //부활 유무
+        isResur = diedPlayer.GetComponent<Stat.PlayerStats>().isResurrection;
 
         isDie = true;
         respawnObject = diedPlayer;
@@ -153,7 +160,7 @@ public class GameManager
 
     public void respawnEvent()
     {
-        respawnObject.GetComponent<BaseController>().enabled = true;
+        respawnObject.GetComponent<Players>().enabled = true;
         respawnObject.GetComponent<CapsuleCollider>().enabled = true;
     }
 

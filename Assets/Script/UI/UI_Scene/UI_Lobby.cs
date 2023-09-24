@@ -2,12 +2,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using AllIn1VfxToolkit.Demo.Scripts;
 
 public class UI_Lobby : UI_Scene
 {
 	public UI_Select characterSelectUI;
-	public AllIn1CanvasFader characterSelectUIFader;
+	public UI_CanvasFader characterSelectUIFader;
 
 	public enum Buttons
 	{
@@ -19,7 +18,7 @@ public class UI_Lobby : UI_Scene
 	public override void Init()
 	{
 		characterSelectUI = GameObject.FindObjectOfType<UI_Select>(true);
-		characterSelectUIFader = characterSelectUI.GetComponent<AllIn1CanvasFader>();
+		characterSelectUIFader = characterSelectUI.GetComponent<UI_CanvasFader>();
 		characterSelectUIFader.gameObject.SetActive(false);
 
 		// 모든 UI 객체 바인딩
