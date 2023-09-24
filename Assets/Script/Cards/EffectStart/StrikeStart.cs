@@ -6,7 +6,6 @@ using Photon.Pun;
 
 public class StrikeStart : BaseEffect
 {
-    GameObject player = null;
     GameObject Obj = null;
     protected PhotonView _pv;
 

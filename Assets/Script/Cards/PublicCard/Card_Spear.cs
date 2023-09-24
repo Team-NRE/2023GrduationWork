@@ -42,7 +42,7 @@ public class Card_Spear : UI_Card
 
         //_effectObject.AddComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
         //_effectObject.GetComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
-        _effectObject.GetComponent<SpearStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

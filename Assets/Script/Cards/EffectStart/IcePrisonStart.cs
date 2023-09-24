@@ -19,6 +19,9 @@ public class IcePrisonStart : BaseEffect
         base.CardEffectInit(userId);
         effectTime = 3.0f;
         pStat = player.GetComponent<PlayerStats>();
+
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0.3f, 0);
     }
 
     private void Update()

@@ -34,8 +34,7 @@ public class Card_IcePrison : UI_Card
 
         //_effectObject.AddComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
         //_effectObject.GetComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
-        //_effectObject.GetComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
-        _effectObject.GetComponent<IcePrisonStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

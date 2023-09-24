@@ -23,8 +23,10 @@ public class InvincibleShieldStart : BaseEffect
 
     bool stop = false;
 
+    [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
+        _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         objectName = GetRemotePlayer(targetId);
 

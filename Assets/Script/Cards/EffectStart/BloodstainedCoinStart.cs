@@ -26,6 +26,9 @@ public class BloodstainedCoinStart : BaseEffect
         BaseCard._lockTarget = null;
         damage = 10.0f;
         _playerId = userId;
+
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
     }
 
     private void Update()

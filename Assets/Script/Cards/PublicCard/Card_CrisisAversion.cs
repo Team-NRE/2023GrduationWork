@@ -38,8 +38,6 @@ public class Card_CrisisAversion : UI_Card
         //_effectObject.transform.parent = _player.transform;
         _effectObject.transform.SetParent(_player.transform);
 
-        int effectId = _effectObject.GetComponent<PhotonView>().ViewID;
-
         _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         //_effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(playerId, _enemylayer);
         _effectObject.GetComponent<CrisisAversionStart>().CardEffectInit(playerId);

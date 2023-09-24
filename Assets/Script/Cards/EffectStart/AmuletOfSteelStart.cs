@@ -32,6 +32,7 @@ public class AmuletOfSteelStart : BaseEffect
         start = true;
     }
 
+    [PunRPC]
     public override void CardEffectInit(int userId)
     {
         base.CardEffectInit(userId);

@@ -13,6 +13,11 @@ public class HealthKitStart : BaseEffect
     int teamLayer = default;
     int _playerId;
 
+    void Start()
+    {
+        _pv = GetComponent<PhotonView>();
+    }
+
     [PunRPC]
     public override void CardEffectInit(int userId)
     {

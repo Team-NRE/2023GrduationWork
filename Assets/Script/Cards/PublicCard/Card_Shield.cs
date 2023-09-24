@@ -34,7 +34,7 @@ public class Card_Shield : UI_Card
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
         //_effectObject.AddComponent<ShieldStart>().StartShield(playerId, _defence);
         //_effectObject.GetComponent<ShieldStart>().StartShield(playerId, _defence);
-        _effectObject.GetComponent<ShieldStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         _pStat.defensePower += 50;
 
