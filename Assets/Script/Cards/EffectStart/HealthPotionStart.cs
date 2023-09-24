@@ -9,11 +9,17 @@ public class HealthPotionStart : BaseEffect
     protected PhotonView _pv;
     protected PlayerStats _stats;
 
+    private void Start()
+    {
+        _pv = GetComponent<PhotonView>();
+    }
+
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
+        _stats = player.GetComponent<PlayerStats>();
+
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
 

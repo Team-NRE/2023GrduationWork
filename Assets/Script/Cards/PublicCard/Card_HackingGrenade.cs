@@ -38,7 +38,7 @@ public class Card_HackingGrenade : UI_Card
 
         //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
         //_effectObject.GetComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
-        _effectObject.GetComponent<GrenadeStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         
         return _effectObject;
     }

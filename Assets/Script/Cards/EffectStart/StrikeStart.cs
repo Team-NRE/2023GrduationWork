@@ -37,7 +37,7 @@ public class StrikeStart : BaseEffect
     [PunRPC]
     public void RpcUpdate()
 	{
-        if (BaseCard._lockTarget == null) { Destroy(gameObject); }
+        if (BaseCard._lockTarget == null) { PhotonNetwork.Destroy(gameObject); }
         if (BaseCard._lockTarget != null)
         {
             switch (IsEffect)

@@ -26,7 +26,7 @@ public class JobCard_Grenade : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
-        _effectObject = PhotonNetwork.Instantiate($"Particle/Effect/JobCard_Grenade", ground, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_Grenade", ground, Quaternion.identity);
         _effectObject.transform.position = ground;
 
         _layer = layer;
@@ -35,7 +35,7 @@ public class JobCard_Grenade : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<GrenadeStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         
         return _effectObject;
     }
