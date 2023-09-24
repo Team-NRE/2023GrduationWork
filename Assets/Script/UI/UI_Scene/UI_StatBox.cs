@@ -1,3 +1,4 @@
+using UnityEngine;
 using Stat;
 using TMPro;
 
@@ -16,6 +17,8 @@ public class UI_StatBox : UI_Base
         Gold_Text,
 	}
 
+    float lastGold;
+
     public override void Init() 
     {
         Bind<TextMeshProUGUI>(typeof(StatText));
@@ -33,6 +36,8 @@ public class UI_StatBox : UI_Base
     {
         if (myStat != null) return;
         myStat = Managers.game.myCharacter.GetComponent<PlayerStats>();
+        lastGold = myStat.gold;
+        Get<TextMeshProUGUI>((int)StatText.Gold_Text).text  = ((int)lastGold).ToString();
     }
 
     void UpdateStat()
@@ -43,6 +48,11 @@ public class UI_StatBox : UI_Base
         Get<TextMeshProUGUI>((int)StatText.AttackSpeed_Text) .text  = myStat.attackSpeed        .ToString();
         Get<TextMeshProUGUI>((int)StatText.Speed_Text)       .text  = myStat.speed              .ToString();
         Get<TextMeshProUGUI>((int)StatText.Strength_Text)    .text  = myStat.healthRegeneration .ToString();
-        Get<TextMeshProUGUI>((int)StatText.Gold_Text)        .text  = myStat.gold               .ToString();
+
+        if (lastGold != myStat.gold)
+        {
+            lastGold = Mathf.Lerp(lastGold, myStat.gold, 10f * Time.deltaTime);
+            Get<TextMeshProUGUI>((int)StatText.Gold_Text).text  = ((int)lastGold).ToString();
+        }
     }
 }

@@ -35,7 +35,6 @@ public class Card_BloodstainedCoin : UI_Card
         //_effectObject.transform.parent = _player.transform;
         _effectObject.transform.SetParent(_player.transform);
 
-        int effectId = _effectObject.GetComponent<PhotonView>().ViewID;
         _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
         _layer = layer;
@@ -45,7 +44,7 @@ public class Card_BloodstainedCoin : UI_Card
 
         //_effectObject.AddComponent<BloodstainedCoinStart>().StartBloodstainedCoin(_player.GetComponent<PhotonView>().ViewID, _damage);
         //_effectObject.GetComponent<BloodstainedCoinStart>().Card(_player.GetComponent<PhotonView>().ViewID, _damage);
-        _effectObject.GetComponent<BloodstainedCoinStart>().CardEffectInit(_player.GetComponent<PhotonView>().ViewID);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

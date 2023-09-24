@@ -9,6 +9,8 @@ public class UIManager
 {
 	int _order = 10;    //sorting���� �ʴ� UI�� ��ġ�� ���� ����, ���� �ڷ� ����������
 
+	public bool isOpenedPopup = false;
+
 	Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
 	UI_Scene _sceneUI = null;
 

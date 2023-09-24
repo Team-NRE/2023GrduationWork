@@ -7,7 +7,7 @@ using UnityEngine;
 // 부활
 public class Card_Resurrection : UI_Card
 {
-
+# warning 이건 클라이언트 코드가 아직 완성되지 않음
     public override void Init()
     {
         _cardBuyCost = 2300;

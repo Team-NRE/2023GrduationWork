@@ -11,6 +11,8 @@ using Stat;
 
 public class Missile : MonoBehaviour
 {
+    PhotonView attackPV;
+    PhotonView targetPV;
 
     float damage;
     float distance = 5.0f;
@@ -19,10 +21,13 @@ public class Missile : MonoBehaviour
     GameObject explosionParticle;
 
     [PunRPC]
-    public void SummonMissile(Vector3 pos, float dam, float dis = 5.0f)
+    public void SummonMissile(int attackID, int targetID, float dis = 5.0f)
     {
-        transform.position = pos;
-        damage = dam * 3.5f;
+        attackPV = PhotonView.Find(attackID);
+        targetPV = PhotonView.Find(targetID);
+        transform.position = targetPV.transform.position;
+        damage = (attackPV.gameObject.layer == LayerMask.NameToLayer("Neutral") ? 
+                    attackPV.GetComponent<ObjStats>().basicAttackPower : attackPV.GetComponent<PlayerStats>().basicAttackPower) * 3.5f;
         distance = dis;
 
         this.gameObject.SetActive(true);
@@ -53,6 +58,8 @@ public class Missile : MonoBehaviour
             {
                 PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= damage;
+
+                if (_Stats.nowHealth <= 0) Managers.game.killEvent(attackPV.ViewID, nowTarget.GetComponent<PhotonView>().ViewID);
             }
         }
     }

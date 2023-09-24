@@ -131,6 +131,15 @@ namespace Stat
                 _nowHealth -= value;
             }
         }
+        public float shield 
+        {
+            get { return _shield; }
+            set 
+            { 
+                _shield = value; 
+                if (_shield < 0) _shield = 0;    
+            }
+        }
         public float death { get { return _death; } set { _death = value; } }
 
 
@@ -306,21 +315,22 @@ namespace Stat
         [PunRPC]
         public void photonStatSet(string statName, float value)
         {
-            if (statName == "basicAttackPower") basicAttackPower += value;
-            if (statName == "attackSpeed") attackSpeed += value;
-            if (statName == "attackDelay") attackDelay += value;
-            if (statName == "attackRange") attackRange += value;
-            if (statName == "kill") kill += value;
-            if (statName == "nowHealth") nowHealth += value;
-            if (statName == "maxHealth") maxHealth += value;
-            if (statName == "healthRegeneration") healthRegeneration += value;
-            if (statName == "defensePower") defensePower += value;
-            if (statName == "receviedDamage") receviedDamage += value;
-            if (statName == "death") death += value;
-            if (statName == "experience") experience += value;
-            if (statName == "speed") speed += value;
-            if (statName == "manaRegen") manaRegen += value;
-            if (statName == "maxMana") maxMana += value;
+            if (statName == "basicAttackPower")     basicAttackPower    += value;
+            if (statName == "attackSpeed")          attackSpeed         += value;
+            if (statName == "attackDelay")          attackDelay         += value;
+            if (statName == "attackRange")          attackRange         += value;
+            if (statName == "kill")                 kill                += value;
+            if (statName == "nowHealth")            nowHealth           += value;
+            if (statName == "maxHealth")            maxHealth           += value;
+            if (statName == "healthRegeneration")   healthRegeneration  += value;
+            if (statName == "defensePower")         defensePower        += value;
+            if (statName == "receviedDamage")       receviedDamage      += value;
+            if (statName == "shield")               shield              += value;
+            if (statName == "death")                death               += value;
+            if (statName == "experience")           experience          += value;
+            if (statName == "speed")                speed               += value;
+            if (statName == "manaRegen")            manaRegen           += value;
+            if (statName == "maxMana")              maxMana             += value;
         }
     }
 }

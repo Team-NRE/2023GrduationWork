@@ -10,27 +10,32 @@ public class ShieldStart : BaseEffect
     float defence = default;
     float shield_Time = 0.01f;
     protected PhotonView _pv;
+    protected int _playerId;
 
     bool start;
 
     private void Start()
     {
         _pv = GetComponent<PhotonView>();
-
     }
 
-    public void StartShield(int _player, float _defence)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        //_pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
-        _pStats = Managers.game.RemoteTargetFinder(_player).GetComponent<PlayerStats>();
-        defence = _defence;
-        //_pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
+        defence = 50.0f;
+        _playerId = userId;
+
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+
         start = true;
     }
 
     public void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
     }
 
     [PunRPC]

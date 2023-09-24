@@ -24,8 +24,16 @@ public class MeleeMinion : Minion
         //타겟이 적 Player일 시
         if (_targetEnemyTransform.tag == "PLAYER")
         {
-            PlayerStats _Stats = _targetEnemyTransform.GetComponent<PlayerStats>();
-            _Stats.nowHealth -= _oStats.basicAttackPower;
+            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
+            targetPV.RPC(
+                "photonStatSet",
+                RpcTarget.All,
+                "nowHealth",
+                -_oStats.basicAttackPower
+            );
+
+            if (targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
+                Managers.game.killEvent(pv.ViewID, targetPV.ViewID);
         }
         else
         {

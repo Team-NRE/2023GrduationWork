@@ -14,7 +14,7 @@ public class Card_Spear : UI_Card
     {
         _cardBuyCost = 100;
         _cost = 1;
-        _damage = 15;
+        //_damage = 15;
 
         _rangeType = Define.CardType.Line;
         _rangeScale = 5.0f;
@@ -41,7 +41,8 @@ public class Card_Spear : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
-        _effectObject.GetComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
+        //_effectObject.GetComponent<SpearStart>().StartSpear(playerId, _enemylayer, _damage);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

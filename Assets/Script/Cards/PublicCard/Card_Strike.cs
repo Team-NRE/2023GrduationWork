@@ -13,7 +13,7 @@ public class Card_Strike : UI_Card
     {
         _cardBuyCost = 1400;
         _cost = 2;
-        _damage = 40f;
+        //_damage = 40f;
         _rangeType = Define.CardType.Range;
         _rangeScale = 5.0f;
 
@@ -37,6 +37,7 @@ public class Card_Strike : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<StrikeStart>().StartStrike(playerId, _damage, _effectTime);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

@@ -26,8 +26,8 @@ public class Card_BloodTransfusion : UI_Card
     {
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodTransfusion");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodTransfusion", BaseCard._lockTarget.transform.position, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = BaseCard._lockTarget.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
+        //_effectObject.transform.parent = BaseCard._lockTarget.transform;
+        //_effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
         _layer = layer;
 
@@ -36,7 +36,8 @@ public class Card_BloodTransfusion : UI_Card
 
         //_effectObject.AddComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
         //_effectObject.GetComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
-        _effectObject.GetComponent<BloodTransfusionStart>().CardEffectInit(playerId);
+        //_effectObject.GetComponent<BloodTransfusionStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         return _effectObject;
     }
 

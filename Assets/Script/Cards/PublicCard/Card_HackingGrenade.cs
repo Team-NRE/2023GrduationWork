@@ -14,8 +14,8 @@ public class Card_HackingGrenade : UI_Card
     {
         _cardBuyCost = 1200;
         _cost = 1;
-        _damage = 25;
-        _debuff = 1.02f;
+        //_damage = 25;
+        //_debuff = 1.02f;
 
         _rangeType = Define.CardType.Point;
         _rangeScale = 3.0f;
@@ -37,7 +37,8 @@ public class Card_HackingGrenade : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
-        _effectObject.GetComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
+        //_effectObject.GetComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
+        _effectObject.GetComponent<GrenadeStart>().CardEffectInit(playerId);
         
         return _effectObject;
     }

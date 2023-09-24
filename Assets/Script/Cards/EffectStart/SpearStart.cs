@@ -8,6 +8,7 @@ public class SpearStart : BaseEffect
     float damage = default;
     int enemylayer = default;
     protected PhotonView _pv;
+    int _playerId;
 
     Transform playerTr;
     PlayerStats pStats;
@@ -25,16 +26,33 @@ public class SpearStart : BaseEffect
         damage = _damage;
     }
 
+    [PunRPC]
+    public override void CardEffectInit(int userId)
+    {
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        playerTr = player.transform;
+        bulletSpeed = 30.0f;
+        damage = 15.0f;
+        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+        _playerId = userId;
+
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
+    }
+
     public void Update()
     {
         //FollowTarget();
-        _pv.RPC("FollowTarget", RpcTarget.All);
+        _pv.RPC("FollowTarget", RpcTarget.All, _playerId);
     }
 
     [PunRPC]
-    public void FollowTarget()
+    public void FollowTarget(int userId) 
     {
-        Vector3 SpearDirection = playerTr.forward;
+        GameObject user = Managers.game.RemoteTargetFinder(userId);
+        //Vector3 SpearDirection = playerTr.forward;
+        Vector3 SpearDirection = user.transform.forward;
         GetComponent<Rigidbody>().AddForce(SpearDirection * bulletSpeed);
         transform.Rotate(new Vector3(-90, 0, Time.deltaTime));
     }

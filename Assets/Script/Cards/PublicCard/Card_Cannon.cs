@@ -35,7 +35,8 @@ public class Card_Cannon : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
+        //_effectObject.GetComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<CannonStart>().CardEffectInit(playerId);
 
         return _effectObject;
     }

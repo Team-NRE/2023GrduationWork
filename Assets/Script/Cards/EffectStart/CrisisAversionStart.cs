@@ -9,7 +9,6 @@ public class CrisisAversionStart : BaseEffect
 {
     PlayerStats pStats;
     
-    GameObject player;
     GameObject effectOn;
     protected PhotonView _pv;
 
@@ -20,16 +19,9 @@ public class CrisisAversionStart : BaseEffect
     int enemyLayer; 
 
     bool IsEffect = false;
-    public void StartCrisisAversion(int _player, int _enemyLayer)
-    {
-        //player = GameObject.Find(_player);
-        player = Managers.game.RemoteTargetFinder(_player);
-        //effectOn = transform.GetChild(3).gameObject; // 2차 이펙트
-
-        pStats = player.GetComponent<PlayerStats>();
-    }
 
 # warning CrisisAversion은 스텟이 적용되지 않음
+    [PunRPC]
     public override void CardEffectInit(int userId)
     {
         base.CardEffectInit(userId);

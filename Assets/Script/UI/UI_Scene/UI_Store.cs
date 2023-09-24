@@ -9,7 +9,7 @@ public class UI_Store : UI_Popup
     public enum StoreUI
     {
         store,
-        strengthen,
+        // strengthen,
         delete,
     }
 
@@ -17,11 +17,11 @@ public class UI_Store : UI_Popup
     {
         Bind<GameObject>(typeof(StoreUI));
         store      = Get<GameObject>((int)StoreUI.store);
-        strengthen = Get<GameObject>((int)StoreUI.strengthen);
+        // strengthen = Get<GameObject>((int)StoreUI.strengthen);
         delete     = Get<GameObject>((int)StoreUI.delete);
 
         store      .SetActive(true);
-        strengthen .SetActive(false);
+        // strengthen .SetActive(false);
         delete     .SetActive(false);
     }
 
@@ -29,7 +29,7 @@ public class UI_Store : UI_Popup
     {
         if (store.activeSelf) return;
         store      .SetActive(true);
-        strengthen .SetActive(false);
+        // strengthen .SetActive(false);
         delete     .SetActive(false);
     }
 
@@ -37,7 +37,7 @@ public class UI_Store : UI_Popup
     {
         if (strengthen.activeSelf) return;
         store      .SetActive(false);
-        strengthen .SetActive(true);
+        // strengthen .SetActive(true);
         delete     .SetActive(false);
     }
 
@@ -45,7 +45,7 @@ public class UI_Store : UI_Popup
     {
         if (delete.activeSelf) return;
         store      .SetActive(false);
-        strengthen .SetActive(false);
+        // strengthen .SetActive(false);
         delete     .SetActive(true);
     }
 }

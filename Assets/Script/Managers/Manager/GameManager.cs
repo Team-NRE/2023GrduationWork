@@ -216,6 +216,7 @@ public class GameManager
 
     public int RemoteColliderId(Collider collider)
     {
+        if (collider.gameObject.GetComponent<PhotonView>() == null) return default;
         int colliderId = collider.gameObject.GetComponent<PhotonView>().ViewID;
         return colliderId;
     }

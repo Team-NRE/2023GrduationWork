@@ -16,7 +16,7 @@ public class Card_InvincibleShield : UI_Card
     {
         _cardBuyCost = 3333;
         _cost = 3;
-        _defence = 10000;
+        //_defence = 10000;
 
         _rangeType = Define.CardType.None;
         _rangeScale = 3.6f;
@@ -50,18 +50,18 @@ public class Card_InvincibleShield : UI_Card
             //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             //shield.AddComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
-            shield.GetComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
+            shield.GetComponent<InvincibleShieldStart>().CardEffectInit(col.GetComponent<PhotonView>().ViewID);
 
             if(col.gameObject.tag == "PLAYER")
             {
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
-                _pStat.defensePower += _defence;
+                _pStat.defensePower += 10000;
             }
 
             else if (col.gameObject.tag != "PLAYER")
             {
                 ObjStats oStats = col.gameObject.GetComponent<ObjStats>();
-                oStats.defensePower += _defence;
+                oStats.defensePower += 10000;
             }
         }
 
