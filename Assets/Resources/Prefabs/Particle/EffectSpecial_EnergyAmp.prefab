@@ -96,9 +96,10 @@ Animation:
   m_GameObject: {fileID: 5058040512685249462}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 892c3255c82b4d246abab942f9c4c234, type: 2}
+  m_Animation: {fileID: 7400000, guid: 4faa24e75a1cb044794041b231376b8a, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 892c3255c82b4d246abab942f9c4c234, type: 2}
+  - {fileID: 7400000, guid: 4faa24e75a1cb044794041b231376b8a, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -146,7 +147,6 @@ MonoBehaviour:
   _IsResurrection: 0
   player: {fileID: 0}
   target: {fileID: 0}
-  explosionParticle: {fileID: 0}
 --- !u!1001 &2999507131260576833
 PrefabInstance:
   m_ObjectHideFlags: 0

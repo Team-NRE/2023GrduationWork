@@ -50,7 +50,7 @@ public class HackingGrenadeStart : BaseEffect
         {
             Debug.Log(other.gameObject.name);
 
-            //Å¸°ÙÀÌ ¹Ì´Ï¾ð, Å¸¿öÀÏ ½Ã 
+            //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¾ï¿½, Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
             if (other.gameObject.tag != "PLAYER")
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
@@ -59,16 +59,16 @@ public class HackingGrenadeStart : BaseEffect
                 oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.5f);
             }
 
-            //Å¸°ÙÀÌ Àû PlayerÀÏ ½Ã
+            //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Playerï¿½ï¿½ ï¿½ï¿½
             if (other.gameObject.tag == "PLAYER")
             {
                 enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = _damage + (pStats.basicAttackPower * 0.5f);
+                enemyStats.receviedDamage = (_pv.ViewID, _damage + (pStats.basicAttackPower * 0.5f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 
-                //HackingGrenade Ä«µå
+                //HackingGrenade Ä«ï¿½ï¿½
                 if (_debuff != default)
                 {
                     enemyStats.nowState = "Debuff";

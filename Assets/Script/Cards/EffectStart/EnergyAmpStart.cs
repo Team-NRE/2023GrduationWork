@@ -8,9 +8,6 @@ public class EnergyAmpStart : BaseEffect
     int attackID;
     float distance = 5.0f;
 
-    [SerializeField]
-    GameObject explosionParticle;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {

@@ -61,7 +61,7 @@ public class BloodTransfusionStart : BaseEffect
             PlayerStats enemyStats = Obj.GetComponent<PlayerStats>();
             PlayerStats pStats = user.GetComponent<PlayerStats>();
 
-            enemyStats.receviedDamage = (damage + (pStats.basicAttackPower * 0.7f));
+            enemyStats.receviedDamage = (playerId, (damage + (pStats.basicAttackPower * 0.7f)));
             pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);
             if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 

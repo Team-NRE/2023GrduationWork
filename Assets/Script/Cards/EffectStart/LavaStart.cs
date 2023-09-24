@@ -52,7 +52,7 @@ public class LavaStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = damage + (pStats.basicAttackPower * 0.01f);
+                enemyStats.receviedDamage = (_pv.ViewID, damage + (pStats.basicAttackPower * 0.01f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }

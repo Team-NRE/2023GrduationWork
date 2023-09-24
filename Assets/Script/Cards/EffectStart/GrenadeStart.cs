@@ -31,7 +31,7 @@ public class GrenadeStart : BaseEffect
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void OnTriggerEnter(Collider other)
@@ -64,7 +64,7 @@ public class GrenadeStart : BaseEffect
                 PlayerStats e_stats = other.GetComponent<PlayerStats>();
                 PlayerStats p_stats = user.GetComponent<PlayerStats>();
 
-                e_stats.receviedDamage = _damage + (p_stats.basicAttackPower * 0.5f);
+                e_stats.receviedDamage = (playerId, _damage + (p_stats.basicAttackPower * 0.5f));
             }
         }
     }

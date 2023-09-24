@@ -46,7 +46,7 @@ public class StrikeStart : BaseEffect
             switch (IsEffect)
             {
                 case false:
-                    //Å¸°ÙÀÌ ¹Ì´Ï¾ð, Å¸¿öÀÏ ½Ã 
+                    //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¾ï¿½, Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
                     if (Obj.tag != "PLAYER")
                     {
                         oStats = Obj.GetComponent<ObjStats>();
@@ -63,13 +63,13 @@ public class StrikeStart : BaseEffect
                         break;
                     }
 
-                    //Å¸°ÙÀÌ Àû PlayerÀÏ ½Ã
+                    //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Playerï¿½ï¿½ ï¿½ï¿½
                     if (Obj.tag == "PLAYER")
                     {
                         enemyStats = Obj.GetComponent<PlayerStats>();
                         PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                        enemyStats.receviedDamage = (damage + (pStats.basicAttackPower * 0.5f));
+                        enemyStats.receviedDamage = (_pv.ViewID, (damage + (pStats.basicAttackPower * 0.5f)));
                         if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 
                         saveSpeed = enemyStats.speed;
@@ -87,7 +87,7 @@ public class StrikeStart : BaseEffect
 
                     if (StartEffect > effectTime - 0.01f)
                     {
-                        //Å¸°ÙÀÌ ¹Ì´Ï¾ð, Å¸¿öÀÏ ½Ã 
+                        //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¾ï¿½, Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
                         if (Obj.tag != "PLAYER")
                         {
                             oStats.speed = saveSpeed;
@@ -95,7 +95,7 @@ public class StrikeStart : BaseEffect
                             PhotonNetwork.Destroy(gameObject);
                         }
 
-                        //Å¸°ÙÀÌ ¹Ì´Ï¾ð, Å¸¿öÀÏ ½Ã 
+                        //Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¾ï¿½, Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
                         if (Obj.tag == "PLAYER")
                         {
                             enemyStats.speed = saveSpeed;
