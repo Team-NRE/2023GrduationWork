@@ -26,7 +26,7 @@ public class CrystalStart : BaseEffect
         
     }
 
-    // ÀÌ Ä«µå´Â update ½ºÅÈÀÌ ¾øÀ½
+    // ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ update ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     [PunRPC]
     public void RpcUpdate()
     {
