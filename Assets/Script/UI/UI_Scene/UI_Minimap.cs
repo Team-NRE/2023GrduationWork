@@ -7,16 +7,16 @@ using UnityEngine.EventSystems;
 
 public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
 {
-    public float planescale_X { get; set; }
-    public float planescale_Z { get; set; }
-    public float Cam_Y { get; set; }
-    public float Cam_Z { get; set; }
+    float planescale_X { get; set; }
+    float planescale_Z { get; set; }
+    float Cam_Y { get; set; }
+    float Cam_Z { get; set; }
 
     CameraController mainCamera;
     Canvas canvas;
     RectTransform mapRectTransform;
 
-    public bool isButtonDowning { get; set; }
+    bool isButtonDowning { get; set; }
 
     private void Awake()
     {
