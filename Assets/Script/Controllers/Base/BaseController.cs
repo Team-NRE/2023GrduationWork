@@ -138,8 +138,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
                 _anim.SetBool("IsFire", true);
                 _anim.SetBool("IsIdle", false);
                 _anim.SetBool("IsThrow1", false);
-
-                UpdateAttack();
+                if (_pv.IsMine)
+                    UpdateAttack();
 
                 break;
 
