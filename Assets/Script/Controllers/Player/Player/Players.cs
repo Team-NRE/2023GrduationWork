@@ -75,10 +75,8 @@ public class Players : BaseController
             GameObject Resurrection = transform.Find("Effect_Resurrection(Clone)").gameObject;
             PhotonNetwork.Destroy(Resurrection);
         }
-
-        _pStats.nowHealth = _pStats.maxHealth;
         //체력 회복
-        _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.nowHealth);
+        _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.maxHealth);
 
         StartCoroutine(RespawnResetting());
     }
@@ -588,7 +586,7 @@ public class Players : BaseController
             if (_SaveRegenCool >= 1)
             {
                 //피 회복
-                _pStats.nowHealth += _pStats.healthRegeneration;
+                _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.healthRegeneration);
                 _pStats.nowMana += _pStats.manaRegen;
 
                 //attackDelay 초기화
@@ -774,7 +772,6 @@ public class Players : BaseController
         Managers.game.DieEvent(_pv.ViewID);
 
         _attackRange[_SaveRangeNum].SetActive(false);
-
         _startDie = true;
     }
 

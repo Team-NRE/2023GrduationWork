@@ -102,6 +102,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected void UpdatePlayer_AnimationChange() 
     {
+        Debug.Log(_state);
         //키, 마우스 이벤트 받으면 state가 변환
         switch (_state)
         {
@@ -138,8 +139,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
                 _anim.SetBool("IsFire", true);
                 _anim.SetBool("IsIdle", false);
                 _anim.SetBool("IsThrow1", false);
-
-                UpdateAttack();
+                if (_pv.IsMine)
+                    UpdateAttack();
 
                 break;
 
@@ -216,6 +217,14 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         yield return new WaitForSeconds(time);
         PhotonNetwork.Destroy(target);
         Debug.Log("Destroy");
+    }
+    
+    [PunRPC]
+    public void RemoteRespawnEnable(int viewId, bool state)
+    {
+        GetRemotePlayer(viewId).GetComponent<Players>().enabled = state;
+        GetRemotePlayer(viewId).GetComponent<Collider>().enabled = state;
+        GetRemotePlayer(viewId).GetComponent<PlayerStats>().enabled = state;
     }
 
     [PunRPC]

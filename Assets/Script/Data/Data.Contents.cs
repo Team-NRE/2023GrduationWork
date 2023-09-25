@@ -41,7 +41,7 @@ namespace Data
         public float healthRegeneration; //체력 재생량
         public float defensePower; //방어력
 
-        public int level; //레벨
+        public float level; //레벨
         public float experience; //경험치
         public float levelUpEX; //레벨업시 늘어나는 경험치 양
         public float levelUpAP; //레벨업시 늘어나는 평타 공격력

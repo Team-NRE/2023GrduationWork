@@ -47,12 +47,16 @@ public class GameManager
 
     /// 플레이어 리스폰 시간 관련
     public double respawnTime = 3; //기본 Default = 3초
+
     public int respawnMin = 0;
     public int respawnTurn = 1;
+
     public float startRespawn = 0.01f;
+
     public bool isDie { get; set; }
     public bool isResur { get; set; }
-    public GameObject respawnObject;
+
+    public PhotonView diedPlayerPV;
 
     /// 팀 킬 수 관련
     public int humanTeamKill = 0;
@@ -111,7 +115,7 @@ public class GameManager
 
             case false:
                 startRespawn = 0.01f;
-                respawnObject = null;
+                diedPlayerPV = null;
 
                 break;
         }
@@ -147,21 +151,19 @@ public class GameManager
         // 예외 처리 
         if (PhotonView.Find(diedID) == null) return;
 
-        GameObject diedPlayer = PhotonView.Find(diedID)?.gameObject;
-        diedPlayer.GetComponent<Players>().enabled = false;
-        diedPlayer.GetComponent<CapsuleCollider>().enabled = false;
-      
+        //PhotonView
+        diedPlayerPV = PhotonView.Find(diedID);
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false);
+        
         //부활 유무
-        isResur = diedPlayer.GetComponent<Stat.PlayerStats>().isResurrection;
+        isResur = diedPlayerPV.gameObject.GetComponent<Stat.PlayerStats>().isResurrection;
 
         isDie = true;
-        respawnObject = diedPlayer;
     }
 
     public void respawnEvent()
     {
-        respawnObject.GetComponent<Players>().enabled = true;
-        respawnObject.GetComponent<CapsuleCollider>().enabled = true;
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedPlayerPV.ViewID, true);
     }
 
     /// 게임 종료 스크립트

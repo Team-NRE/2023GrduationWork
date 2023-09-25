@@ -63,6 +63,7 @@ public class PlayerHpBar : MonoBehaviour
 
         if (nowHealth < _pStats.nowHealth)
         {
+
             nowHealth = _pStats.nowHealth;
             maxHealth = _pStats.maxHealth;
 

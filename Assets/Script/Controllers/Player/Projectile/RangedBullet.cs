@@ -64,6 +64,7 @@ public class RangedBullet : MonoBehaviour
 
         if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
+            PhotonView _playerPV = _player.GetComponent<PhotonView>();
             PhotonView _targetPV = _target.GetComponent<PhotonView>();
             //타겟이 미니언, 타워일 시 
             if (_target.tag != "PLAYER")
@@ -75,6 +76,8 @@ public class RangedBullet : MonoBehaviour
             if (_target.tag == "PLAYER")
             {
                 _targetPV.RPC("photonStatSet", RpcTarget.All, _player.GetComponent<PhotonView>().ViewID, "receviedDamage", _damage);
+                if (_targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
+                    Managers.game.killEvent(_playerPV.ViewID, _targetPV.ViewID);
             }
 
             Destroy(this.gameObject, 0.5f);

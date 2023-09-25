@@ -126,7 +126,6 @@ public abstract class ObjectController : MonoBehaviour
             stat.experience += _oStats.experience;
             summonCoinDrop();
         }
-        
         PhotonNetwork.Destroy(this.gameObject);
     }
     /// <summary>

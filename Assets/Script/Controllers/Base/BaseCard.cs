@@ -22,8 +22,23 @@ public static class BaseCard
 
     //Range On이 되었을 때의 해당 키 정보
     public static string _NowKey = null;
+
     //타겟 정보
-    public static GameObject _lockTarget = null;
+    public static GameObject lockTarget;
+    public static GameObject _lockTarget
+    {
+        get { return lockTarget; }
+        set 
+        {
+            lockTarget = value;
+            if (lockTarget == null) return;
+            if (lockTarget.GetComponent<CapsuleCollider>().enabled == false)
+            {
+                lockTarget = null;
+                return;
+            }
+        }
+    }
 
 
     //Json으로 모든 카드들을 불러오기
