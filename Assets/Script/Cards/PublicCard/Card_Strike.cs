@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// °­Å¸
+// ï¿½ï¿½Å¸
 public class Card_Strike : UI_Card
 {
     int _layer = default;
     int _enemylayer = default;
+    int _targetId;
 
     public override void Init()
     {
@@ -30,14 +31,14 @@ public class Card_Strike : UI_Card
         //_effectObject.transform.SetParent(BaseCard._lockTarget.transform);
 
         //_effectObject.transform.localPosition = new Vector3(0, 1.8f, 0);
-
+        _targetId = Managers.game.RemoteTargetIdFinder(BaseCard._lockTarget);
         _layer = layer;
 
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<StrikeStart>().StartStrike(playerId, _damage, _effectTime);
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, _targetId);
 
         return _effectObject;
     }

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: cardglow06_ADD
-  m_Shader: {fileID: 4800000, guid: 6eb86e4931b506a408fd1477edec61ea, type: 3}
+  m_Shader: {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _ALPHABLEND_ON
@@ -143,7 +143,7 @@ Material:
     - _DistortionStrengthScaled: 0
     - _DstBlend: 1
     - _DstMode: 10
-    - _EditorDrawers: 60
+    - _EditorDrawers: 4
     - _EmissionEnabled: 0
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 5
@@ -163,7 +163,7 @@ Material:
     - _HsvShift: 180
     - _InvFade: 1
     - _LightAmount: 0
-    - _LightingEnabled: 0
+    - _LightingEnabled: 1
     - _MaskPow: 1
     - _Metallic: 0
     - _Mode: 4
@@ -236,6 +236,11 @@ Material:
     - _SoftParticlesNearFadeDistance: 0
     - _SrcBlend: 5
     - _SrcMode: 5
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
     - _TimingSeed: 0
@@ -244,6 +249,7 @@ Material:
     - _TwistUvPosX: 0.5
     - _TwistUvPosY: 0.5
     - _TwistUvRadius: 0.75
+    - _UseUIAlphaClip: 0
     - _VertOffsetAmount: 0.5
     - _VertOffsetPower: 1
     - _VertOffsetTexXSpeed: 0.1

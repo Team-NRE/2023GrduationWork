@@ -37,8 +37,6 @@ public class Card_Enhancement : UI_Card
             playerId
         );
 
-        _pStat.basicAttackPower += 15;
-
         return _effectObject;
     }
 

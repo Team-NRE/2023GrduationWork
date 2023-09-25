@@ -66,11 +66,14 @@ public class Police : Players
                 //평타 공격
                 if (BaseCard._lockTarget != null)
                 {
-                    //Shoot
-                    string tempName = "PoliceBullet";
-                    _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
-                    PhotonView localPv = _netBullet.GetComponent<PhotonView>();
-                    localPv.RPC("Init", RpcTarget.All, _pv.ViewID ,BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                    if(_pv.IsMine)
+                    {
+                        //Shoot
+                        string tempName = "PoliceBullet";
+                        _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
+                        PhotonView localPv = _netBullet.GetComponent<PhotonView>();
+                        localPv.RPC("Init", RpcTarget.All, _pv.ViewID, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+                    }
                 }
 
                 //움직임 초기화

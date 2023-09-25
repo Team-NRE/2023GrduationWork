@@ -96,6 +96,7 @@ public class UI_StatusBar : MonoBehaviour
     {
         if (iconCamera != null) return;
         iconCamera = GetObject<Camera>(Managers.game.myCharacter, camName);
+        GetObject<SkinnedMeshRenderer>(Managers.game.myCharacter, "CharacterMesh").gameObject.layer = LayerMask.NameToLayer("CharacterMesh");
         if (iconCamera != null) iconCamera.gameObject.SetActive(true);
     }
 

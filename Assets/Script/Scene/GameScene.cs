@@ -6,9 +6,16 @@ using UnityEngine;
 
 public class GameScene : BaseScene
 {
+    [Header("Kill Log Test")]
     public int test_attackerID;
     public int test_deadUserID;
     public bool test_isKillEvent = false;
+
+    [Header("Card Inventory Test")]
+    public string test_CardName;
+    public bool test_CardAdd = false;
+    public bool test_CardDelete = false;
+    
 
     private void Update()
     {
@@ -17,12 +24,26 @@ public class GameScene : BaseScene
             Managers.game.killEvent(test_attackerID, test_deadUserID);
             test_isKillEvent = false;
         }
+
+        if (test_CardAdd)
+        {
+            BaseCard._initDeck.Add(test_CardName);
+            BaseCard._MyDeck  .Add(test_CardName);
+            test_CardAdd = false;
+        }
+
+        if (test_CardDelete)
+        {
+            BaseCard._initDeck.Remove(test_CardName);
+            BaseCard._MyDeck  .Remove(test_CardName);
+            test_CardDelete = false;
+        }
     }
 
     protected override void Init()
     {
         SceneType = Scene.Game;
-     
+        
         Managers.UI.ShowSceneUI<UI_LoadingPage>();
     }
 

@@ -5619,8 +5619,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1959736477568031514}
   - component: {fileID: 1959736477554706682}
-  m_Layer: 12
-  m_Name: Character_Male_Police
+  m_Layer: 0
+  m_Name: CharacterMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

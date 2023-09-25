@@ -82,7 +82,7 @@ public class BloodstainedCoinStart : BaseEffect
                     enemyStats = target.GetComponent<PlayerStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                    enemyStats.receviedDamage = (damage + (pStats.basicAttackPower));
+                    enemyStats.receviedDamage = (playerId, (damage + (pStats.basicAttackPower)));
 
                     if (enemyStats.nowHealth <= 0)
                     {

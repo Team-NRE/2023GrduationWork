@@ -123,13 +123,17 @@ namespace Stat
 
         public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
-        public float receviedDamage
+        public (int, float) receviedDamage
         {
-            get { return _receviedDamage; }
+            get { return default; }
             set
             {
-                value *= 100 / (100 + defensePower);
-                _nowHealth -= value;
+                value.Item2 *= 100 / (100 + defensePower);
+                _nowHealth -= value.Item2;
+                if (_nowHealth <= 0 && !GetComponent<BaseController>()._startDie) 
+                {
+                    Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
+                }
             }
         }
         public float shield 
@@ -327,13 +331,18 @@ namespace Stat
             if (statName == "maxHealth")            maxHealth           += value;
             if (statName == "healthRegeneration")   healthRegeneration  += value;
             if (statName == "defensePower")         defensePower        += value;
-            if (statName == "receviedDamage")       receviedDamage      += value;
             if (statName == "shield")               shield              += value;
             if (statName == "_nowlevel")            _nowlevel           += value;
             if (statName == "experience")           experience          += value;
             if (statName == "speed")                speed               += value;
             if (statName == "manaRegen")            manaRegen           += value;
             if (statName == "maxMana")              maxMana             += value;
+        }
+
+        [PunRPC]
+        public void photonStatSet(int attackID, string statName, float value)
+        {
+            if (statName == "receviedDamage")       receviedDamage      = (attackID, value);
         }
     }
 }

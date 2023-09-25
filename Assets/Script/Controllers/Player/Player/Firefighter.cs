@@ -66,7 +66,7 @@ public class Firefighter : Players
                     //타겟이 적 Player일 시
                     if (BaseCard._lockTarget.tag == "PLAYER")
                     {
-                        _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.basicAttackPower);
+                        _targetPV.RPC("photonStatSet", RpcTarget.All, _pv.ViewID, "receviedDamage", _pStats.basicAttackPower);
                         if (_targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
                             Managers.game.killEvent(_pv.ViewID, _targetPV.ViewID);
                     }

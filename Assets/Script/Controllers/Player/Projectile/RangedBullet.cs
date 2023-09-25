@@ -75,7 +75,7 @@ public class RangedBullet : MonoBehaviour
             //타겟이 적 Player일 시
             if (_target.tag == "PLAYER")
             {
-                _targetPV.RPC("photonStatSet", RpcTarget.All, "receviedDamage", _damage);
+                _targetPV.RPC("photonStatSet", RpcTarget.All, _player.GetComponent<PhotonView>().ViewID, "receviedDamage", _damage);
                 if (_targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
                     Managers.game.killEvent(_playerPV.ViewID, _targetPV.ViewID);
             }
