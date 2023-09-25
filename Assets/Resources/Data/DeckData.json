@@ -60,6 +60,18 @@
         "Card_Spear",
         "Card_BloodTransfusion"
       ]
+    },
+    {
+      "id": "4",
+      "cards": [
+        "JobCard_Charge",
+
+        "Card_HealthPotion",
+        "Card_HealthPotion",
+        "Card_Crystal",
+        "Card_Spear",
+        "Card_BloodTransfusion"
+      ]
     }
   ]
 }

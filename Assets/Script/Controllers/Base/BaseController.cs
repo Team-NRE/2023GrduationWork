@@ -102,7 +102,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected void UpdatePlayer_AnimationChange() 
     {
-        Debug.Log(_state);
         //키, 마우스 이벤트 받으면 state가 변환
         switch (_state)
         {
