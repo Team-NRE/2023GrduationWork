@@ -82,8 +82,8 @@
 
         "speed" : "0",
 
-        "gold" : "500",
-        "experience" : "10"
+        "gold" : "0",
+        "experience" : "0"
       },
       {
         "type": "Neutral",

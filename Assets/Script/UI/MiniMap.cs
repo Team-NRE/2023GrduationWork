@@ -34,6 +34,8 @@ public class MiniMap : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void Update()
     {
+        if (Managers.game.isGameEnd) return;
+        
         if(isButtonDowning)
         {
             mainCamera.enabled = false;

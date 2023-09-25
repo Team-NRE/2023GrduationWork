@@ -117,6 +117,8 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     public virtual void Death() 
     {
+        if (_oStats.gold == 0 && _oStats.experience == 0) return;
+
         checkGoldAndExperienceRange(Managers.game.humanTeamCharacter.Item1);
         checkGoldAndExperienceRange(Managers.game.humanTeamCharacter.Item2);
         checkGoldAndExperienceRange(Managers.game.cyborgTeamCharacter.Item1);
@@ -268,8 +270,6 @@ public abstract class ObjectController : MonoBehaviour
         stat.experience += _oStats.experience;
             
         if (stat.gameObject.GetPhotonView().IsMine) summonCoinDrop();
-
-        Debug.Log(targetId);
     }
 
     public void summonCoinDrop()
