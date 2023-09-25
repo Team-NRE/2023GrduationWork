@@ -36,8 +36,17 @@
     {
       "cardtype": "JobCard",
       "card": [
+        "JobCard_Charge",
+        "JobCard_DeadlySpeed",
         "JobCard_Grenade",
-        "JobCard_Charge"
+        "JobCard_WindBlade"
+      ]
+    },
+    {
+      "cardtype": "SpecialCard",
+      "card": [
+        "SpecialCard_EnergyAmp",
+        "SpecialCard_MissileBomb"
       ]
     }
   ]
