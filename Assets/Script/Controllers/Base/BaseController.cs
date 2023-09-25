@@ -11,146 +11,173 @@ using Photon.Realtime;
 [System.Serializable]
 public abstract class BaseController : MonoBehaviourPun, IPunObservable
 {
-    protected PhotonView _pv;
+    
+    protected Vector3 _MovingPos;
+
+    /// <summary>
+    /// IPunObservable
+    /// </summary>
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
+    
 
-    private GameObject _player;
-
-    //SerializeField = private 변수를 인스펙터에서 설정
-    //protected = 상속 관계에 있는 클래스 내부에서만 접근
+    /// <summary>
+    /// 초기화
+    /// </summary>
+    protected PhotonView _pv;
     protected Animator _anim;
     protected NavMeshAgent _agent;
-    protected Vector3 _MovingPos;
 
     //총알 발사 여부
     protected bool _stopAttack = false;
     //스킬 발동 여부
     protected bool _stopSkill = false;
+    //사거리 유무
+    protected bool _IsRange = false;
+    
+    /// <summary>
+    /// 즉음 유무
+    /// </summary>
+    public bool _startDie = false;
 
-
-
+    /// <summary>
+    /// Manager 참조
+    /// </summary>
     protected RespawnManager respawnManager;
+
+    /// <summary>
+    /// 플레이어 스텟
+    /// </summary>
     public PlayerStats _pStats { get; set; }
 
 
-    //외부 namespace Define의 Player State 참조
-    //public = 변수나 멤버의 접근 범위를 가장 넓게 설정
+    /// <summary>
+    /// 외부 namespace Define 참조
+    /// </summary>
+    public CardType _cdType { get; protected set; }
     public PlayerType _pType { get; protected set; }
     public State _state { get; protected set; } = State.Idle;
-    public CameraMode _cameraMode { get; protected set; } = CameraMode.FloatCamera;
+    public CameraMode _cameraMode { get; protected set; } = CameraMode.QuaterView;
     public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
-
-    //State
-    public virtual State State
-    {
-        get { return _state; }
-        set
-        {
-            _state = value;
-
-            switch (_state)
-            {
-                case Define.State.Idle:
-                    _anim.SetBool("IsIdle", true);
-                    _anim.SetBool("IsWalk", false);
-                    _anim.SetBool("IsThrow1", false);
-                    _anim.SetBool("IsFire", false);
-
-                    break;
-
-                case Define.State.Moving:
-                    _anim.SetBool("IsWalk", true);
-                    _anim.SetBool("IsIdle", false);
-                    _anim.SetBool("IsThrow1", false);
-                    _anim.SetBool("IsFire", false);
-
-                    break;
-
-                case Define.State.Attack:
-                    _anim.SetBool("IsFire", true);
-                    _anim.SetBool("IsIdle", false);
-                    _anim.SetBool("IsThrow1", false);
-
-                    break;
-
-                case Define.State.Skill:
-                    _anim.SetBool("IsThrow1", true);
-                    _anim.SetBool("IsIdle", false);
-                    _anim.SetBool("IsFire", false);
-
-                    break;
-
-                case Define.State.Die:
-                    _anim.SetTrigger("Die");
-                    _anim.SetBool("IsIdle", false);
-
-                    break;
-            }
-        }
-    }
-
-    private void Start() 
+    public void Awake() 
     {
         // 팀 분배
-        Init(); 
+        Init();
     }
 
-    private void Update()
+    public void OnEnable()
     {
-        //Debug.Log(State);
+        InitOnEnable();
+    }
 
-        if (_stopAttack == true) { StopAttack(); }
-        if (_stopSkill == true) { StopSkill(); }
-        if (BaseCard._NowKey == "A") { RangeAttack(); }
 
-        //키, 마우스 이벤트 받으면 state가 변환
-        switch (State)
+    public void Update()
+    {
+        if(_pv.IsMine)
         {
-            case Define.State.Idle:
-                UpdateIdle();
-                break;
-
-            case Define.State.Die:
-                UpdateDie();
-                break;
-
-            case Define.State.Moving:
-
-                {
-                    UpdateMoving();
-                }
-                break;
-
-            case Define.State.Attack:
-                if (_stopAttack == false)
-                    UpdateAttack();
-                break;
-
-            case Define.State.Skill:
-                if (_stopSkill == false)
-                    UpdateSkill();
-                break;
-        }
+            UpdatePlayer_AnimationChange();
+            UpdatePlayer_StateChange();
+        }    
     }
 
 
     //abstract = 하위 클래스에서 꼭 선언해야함.
-    public abstract void Init();
-
-
+    public virtual void Init() { }
+    public virtual void InitOnEnable() { }
     protected virtual void UpdateIdle() { }
-    protected virtual void UpdateMoving() { }
+    protected virtual void UpdateMoving() { if (!PhotonNetwork.IsMasterClient) return; }
     protected virtual void UpdateAttack() { }
     protected virtual void UpdateSkill() { }
     protected virtual void UpdateDie() { }
+    protected virtual void UpdatePlayerStat() { }
 
     protected virtual GameObject RangeAttack() { return null; }
 
     protected virtual void StopAttack() { }
     protected virtual void StopSkill() { }
+    protected virtual void StartDie() { }
+
+
+    protected void UpdatePlayer_AnimationChange() 
+    {
+        //키, 마우스 이벤트 받으면 state가 변환
+        switch (_state)
+        {
+            case Define.State.Idle:
+                _anim.SetBool("IsIdle", true);
+                _anim.SetBool("IsWalk", false);
+                _anim.SetBool("IsThrow1", false);
+                _anim.SetBool("IsFire", false);
+
+                UpdateIdle();
+
+                break;
+
+            case Define.State.Die:
+                _anim.SetTrigger("Die");
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsWalk", false);
+
+                UpdateDie();
+
+                break;
+
+            case Define.State.Moving:
+                _anim.SetBool("IsWalk", true);
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsThrow1", false);
+                _anim.SetBool("IsFire", false);
+
+                UpdateMoving();
+
+                break;
+
+            case Define.State.Attack:
+                _anim.SetBool("IsFire", true);
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsThrow1", false);
+
+                UpdateAttack();
+
+                break;
+
+            case Define.State.Skill:
+                _anim.SetBool("IsThrow1", true);
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsFire", false);
+
+                UpdateSkill();
+
+                break;
+        }
+    }
+
+
+    protected void UpdatePlayer_StateChange()
+    {
+        if (_startDie == false)
+        {
+            UpdatePlayerStat();
+        }
+
+        if (_stopSkill == true)
+        {
+            StopSkill();
+        }
+        if (_stopAttack == true)
+        {
+            StopAttack();
+        }
+
+        //A키를 눌렀을 때 
+        if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
+        {
+            RangeAttack();
+        }
+    }
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -165,22 +192,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             receivePos = (Vector3)stream.ReceiveNext();
             receiveRot = (Quaternion)stream.ReceiveNext();
         }
-    }
-    protected GameObject GetPlayer()
-    {
-        //yield return new WaitForSeconds(2.5f);
-        //Debug.Log("GetPlayer");
-        GameObject[] p_Container = GameObject.FindGameObjectsWithTag("PLAYER");
-        foreach (GameObject p in p_Container)
-        {
-            _pv = p.GetComponent<PhotonView>();
-            if (_pv.IsMine)
-            {
-                _player = p;
-                break;
-            }
-        }
-        return _player;
     }
 
     protected int GetRemotePlayerId(GameObject target)
@@ -200,19 +211,18 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         Vector3 targetVector = GetRemotePlayer(remoteId).transform.position;
         return targetVector;
 	}
-
-    public void MakeTeam(int playerCount, GameObject player)
+    protected IEnumerator DelayDestroy(GameObject target, float time)
     {
-        Debug.Log(playerCount);
-        if (playerCount % 2 == 0)
-        {
-            player.gameObject.layer = LayerMask.NameToLayer("Human");
-            Debug.Log("Human");
-        }
-        else
-        {
-            player.gameObject.layer = LayerMask.NameToLayer("Cyborg");
-            Debug.Log("Cyobrg");
-        }
+        yield return new WaitForSeconds(time);
+        PhotonNetwork.Destroy(target);
+        Debug.Log("Destroy");
+    }
+
+    [PunRPC]
+    protected void RemoteSkillStarter(int playerId, int particleId)
+    {
+        GameObject childObject = GetRemotePlayer(particleId);
+        GameObject parentObject = GetRemotePlayer(playerId);
+        childObject.transform.parent = parentObject.transform;
     }
 }

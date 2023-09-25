@@ -42,26 +42,28 @@ public class UI_Login : UI_Scene
 		Bind<InputField>(typeof(InputFields));
 		GameObject go = GetButton((int)LoginButtons.Login).gameObject;
 		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
+
+		user.ActivateInputField();
+	}
+
+	public override void UpdateInit()
+	{
+		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			LoginClick(null);
+		}
 	}
 
 	public void LoginClick(PointerEventData data)
 	{
+		if (string.IsNullOrWhiteSpace(user.text)) return;
+
 		_inputUser = user.text;
-		PhotonNetwork.NickName = user.text;
+		PhotonNetwork.LocalPlayer.NickName = user.text;
+		Managers.game.nickname = user.text;
 		Debug.Log(user.text);
+
 		//InitialRoom();
 		SceneManager.LoadScene("Lobby");
-	}
-
-	public void InitialRoom(string name = "default")
-	{
-		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.MaxPlayers = 10;
-		roomOptions.IsVisible = true;
-		roomOptions.IsOpen = true;
-		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
-		if (PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default) == true)
-			SceneManager.LoadScene("Lobby");
-		Debug.Log($"your room code is {name}");
 	}
 }

@@ -2,40 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using UnityEngine.UIElements;
+using Photon.Pun;
 
-public class InvincibleShieldStart : MonoBehaviour
+public class InvincibleShieldStart : BaseEffect
 {
     PlayerStats _pStats;
-    ObjStats _oStats;
-    Transform Player = null;
-    float Defence = default;
-    float Invincibility_Time = default;
-    float Shield_Time = default;
-    float pSave_Health;
+    ObjStats _oStats; 
+    protected PhotonView _pv;
+
+
+    GameObject objectName;
+
+    float defence = default;
+    float invincibility_Time = default;
+    float shield_Time = default;
+    float Save_Health;
 
     float time = 0.01f;
 
     bool stop = false;
 
-
-    public void Invincibility(Transform _Player, float _defence, float _Invincibility_Time, float _Shield_Time)
+    [PunRPC]
+    public override void CardEffectInit(int userId, int targetId)
     {
-        Player = _Player;
-        Defence = _defence;
-        Invincibility_Time = _Invincibility_Time;
-        Shield_Time = _Shield_Time;
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        objectName = GetRemotePlayer(targetId);
+
+        if (objectName.tag == "PLAYER") { _pStats = objectName.GetComponent<PlayerStats>(); }
+        if (objectName.tag != "PLAYER") { _oStats = objectName.GetComponent<ObjStats>(); }
+
+        defence = 10000;
+        invincibility_Time = 1.5f;
+        shield_Time = 3.0f;
     }
 
-
-    public void Start()
-    {
-        Invincibility(Player, Defence, Invincibility_Time, Shield_Time);
-        _pStats = Player.gameObject.GetComponent<PlayerStats>();
-    }
-
-
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (stop == false)
         {
@@ -53,15 +56,25 @@ public class InvincibleShieldStart : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        if (time >= Invincibility_Time)
+        if (time >= invincibility_Time)
         {
-            _pStats.defensePower -= Defence;
+            if(objectName.tag == "PLAYER")
+            { 
+                //플레이어 방어력 빠짐
+                _pStats.defensePower -= defence;
 
-            pSave_Health = _pStats.nowHealth;
+                Save_Health = _pStats.maxHealth / 100 * 25;
+                _pStats.nowHealth += Save_Health;
+            }
 
-            Debug.Log(pSave_Health);
-            _pStats.nowHealth += (_pStats.maxHealth / 100) * 10;
+            if (objectName.tag != "PLAYER")
+            {
+                //플레이어 방어력 빠짐
+                _oStats.defensePower -= defence;
 
+                Save_Health = _oStats.maxHealth / 100 * 25;
+                _oStats.nowHealth += Save_Health;
+            }
 
             stop = true;
             time = 0;
@@ -72,11 +85,12 @@ public class InvincibleShieldStart : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        if (time >= Shield_Time)
+        if (time >= shield_Time)
         {
-            _pStats.nowHealth = pSave_Health;
-            stop = false;
+            if(objectName.tag == "PLAYER") { _pStats.nowHealth -= Save_Health; }
+            if(objectName.tag != "PLAYER") { _oStats.nowHealth -= Save_Health; }
 
+            stop = false;
             time = 0;
             Destroy(this.gameObject);
         }

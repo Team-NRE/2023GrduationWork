@@ -1,92 +1,71 @@
+using Photon.Pun;
+using Stat;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Stat;
 
-public class GrenadeStart : MonoBehaviour
+public class GrenadeStart : BaseEffect
 {
-    ObjStats _Stats;
-    PlayerStats _pStats;
-    PlayerStats _EnemyStats;
+    protected PhotonView _pv;
+    protected int _layer;
+    int _playerId;
 
-
-    Transform Player = null;
-    float Damage = default;
-    float Debuff = default;
-    int Enemylayer = default;
-    float Save = 0;
-    bool IsDebuff = false;
-
-    float time = 0.0f;
-
-    public void StartGrenade(Transform _Player, float _damage, LayerMask _enemylayer, float _debuff = default)
+    void Start()
     {
-        Player = _Player;
-        Damage = _damage;
-        Enemylayer = _enemylayer;
-        Debuff = _debuff;
+
     }
 
-    public void Start()
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        StartGrenade(Player, Damage, Enemylayer, Debuff);
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        PlayerStats stats = player.GetComponent<PlayerStats>();
+        _layer = stats.playerArea;
+        _playerId = userId;
+
+        _damage = 25;
+        _debuff = 1.02f;
     }
 
-    public void Update()
+    // Update is called once per frame
+    void Update()
     {
-        if (IsDebuff == true)
+        
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        int otherId = Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return;
+        _pv.RPC("RpcUpdate", RpcTarget.All, otherId, _playerId);
+    }
+
+    [PunRPC]
+    public void RpcUpdate(int otherId, int playerId)
+    {
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        GameObject user = Managers.game.RemoteTargetFinder(playerId);
+        if (other.gameObject.tag == "OBJECT")
         {
-            time += Time.deltaTime;
-            ManaRegenBack();
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == Enemylayer)
-        {
-            Debug.Log(other.gameObject.name);
-
-            //타겟이 미니언, 타워일 시 
-            if (other.gameObject.tag != "PLAYER")
+            if (other.gameObject.layer != _layer)
             {
-                _Stats = other.gameObject.GetComponent<ObjStats>();
-                _pStats = Player.gameObject.GetComponent<PlayerStats>();
+                ObjStats o_stats = other.GetComponent<ObjStats>();
+                PlayerStats p_stats = user.gameObject.GetComponent<PlayerStats>();
 
-                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.5f));
-            }
-
-            //타겟이 적 Player일 시
-            if (other.gameObject.tag == "PLAYER")
-            {
-                _EnemyStats = other.gameObject.GetComponent<PlayerStats>();
-                _pStats = Player.gameObject.GetComponent<PlayerStats>();
-
-                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.5f));
-                if (_EnemyStats.nowHealth <= 0) { _pStats.kill += 1; }
-
-
-                if (Debuff != default)
-                {
-                    _EnemyStats.nowState = "Debuff";
-
-                    Save = _EnemyStats.manaRegen;
-                    _EnemyStats.manaRegen = 0;
-
-                    IsDebuff = true;
-                }
+                o_stats.nowHealth -= _damage + (p_stats.basicAttackPower * 0.5f);
             }
         }
-    }
-
-    private void ManaRegenBack()
-    {
-        if (time >= Debuff - 0.02f || _EnemyStats.nowState == "Health")
+        else if (other.gameObject.tag == "PLAYER")
         {
-            _EnemyStats.manaRegen = Save;
-            _EnemyStats.nowState = "Health";
-            time = 0;
-            IsDebuff = false;
+            if (other.gameObject.layer != _layer)
+            {
+                PlayerStats e_stats = other.GetComponent<PlayerStats>();
+                PlayerStats p_stats = user.GetComponent<PlayerStats>();
+
+                e_stats.receviedDamage = (playerId, _damage + (p_stats.basicAttackPower * 0.5f));
+            }
         }
     }
 }

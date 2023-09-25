@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 //두 인터페이스는 하위 항목에도 모두 적용된다.
 public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
@@ -20,6 +21,4 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 		if (OnDragHandler != null)
 			OnDragHandler.Invoke(eventData);
 	}
-
-	
 }

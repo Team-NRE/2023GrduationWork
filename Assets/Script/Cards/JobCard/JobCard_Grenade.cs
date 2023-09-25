@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
 public class JobCard_Grenade : UI_Card
 {
-    Transform _Ground = null;
-    Transform _Player = null;
-    LayerMask _layer = default;
-    LayerMask _enemylayer = default;
-    bool isGrenade = false;
+    int _layer = default;
+    int _enemylayer = default;
 
     public override void Init()
     {
         _cost = 2;
-        _damage = 50;
+        //_damage = 50;
 
-        _rangeType = "Point";
+        _rangeType = Define.CardType.Point;
         _rangeScale = 3.0f;
         _rangeRange = 5.0f;
 
@@ -24,24 +22,26 @@ public class JobCard_Grenade : UI_Card
         _effectTime = 0.7f;
     }
 
-
-    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        _effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade", Ground);
-        _Ground = Ground;   
-        _Player = Player;
+        //_effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_Grenade", ground, Quaternion.identity);
+        _effectObject.transform.position = ground;
+
         _layer = layer;
 
-        if (_layer == 1 << 6) { _enemylayer = 7; }
-        if (_layer == 1 << 7) { _enemylayer = 6; }
+        if (_layer == 6) { _enemylayer = 7; }
+        if (_layer == 7) { _enemylayer = 6; }
 
-        _effectObject.AddComponent<GrenadeStart>().StartGrenade(_Player, _damage, _enemylayer);
+        //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         
         return _effectObject;
     }
 
 
-    public override void DestroyCard(GameObject Particle = null, float delay = default)
+    public override void DestroyCard(float delay = default)
     {
         Destroy(this.gameObject, delay);
     }

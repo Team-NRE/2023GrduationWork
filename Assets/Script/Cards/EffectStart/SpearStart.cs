@@ -1,96 +1,87 @@
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
-public class SpearStart : MonoBehaviour
+public class SpearStart : BaseEffect
 {
-    int _Enemylayer = default;
-    float _bulletSpeed;
-    float _damage;
+    float bulletSpeed;
+    float damage = default;
+    int enemylayer = default;
+    protected PhotonView _pv;
+    int _playerId;
 
-    Transform _player;
-    Rigidbody _rigid;
+    Transform playerTr;
+    PlayerStats pStats;
 
-    ObjStats _Stats;
-    PlayerStats _pStats;
-    PlayerStats _EnemyStats;
-
-    public void Setting(Transform Player, LayerMask _enemylayer, float bulletSpeed, float damage)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        _player = Player;
-        _Enemylayer = _enemylayer;
-        _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
-        _damage = damage;
-    }
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        playerTr = player.transform;
+        bulletSpeed = 30.0f;
+        damage = 15.0f;
+        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+        pStats = player.GetComponent<PlayerStats>();
+        _playerId = userId;
 
-    private void Start()
-    {
-        _rigid = GetComponent<Rigidbody>();
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
     }
 
     public void Update()
     {
-        FollowTarget();
-        //HitDetection();
+        FollowTarget(_playerId);
+        //_pv.RPC("FollowTarget", RpcTarget.All, _playerId);
     }
 
-    public void FollowTarget()
+    [PunRPC]
+    public void FollowTarget(int userId) 
     {
-        Vector3 SpearDirection = _player.forward;
-        _rigid.AddForce(SpearDirection * _bulletSpeed);
+        GameObject user = Managers.game.RemoteTargetFinder(userId);
+        //Vector3 SpearDirection = playerTr.forward;
+        Vector3 SpearDirection = user.transform.forward;
+        GetComponent<Rigidbody>().AddForce(SpearDirection * bulletSpeed);
         transform.Rotate(new Vector3(-90, 0, Time.deltaTime));
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == _Enemylayer)
+        int otherId = Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return;
+        //int id = Managers.game.RemoteColliderId(other);
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+    }
+
+    [PunRPC]
+    public void RpcTrigger(int otherId)
+	{
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
 
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")
             {
-                _Stats = other.gameObject.GetComponent<ObjStats>();
-                _pStats = _player.gameObject.GetComponent<PlayerStats>();
+                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
 
-                _Stats.nowHealth -= (_damage + (_pStats.basicAttackPower * 0.7f));
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
+                Debug.Log(oStats.nowHealth);
             }
 
-            //타겟이 적 _player일 시
+            //타겟이 적 Player일 시
             if (other.gameObject.tag == "PLAYER")
             {
-                _EnemyStats = other.gameObject.GetComponent<PlayerStats>();
-                _pStats = _player.gameObject.GetComponent<PlayerStats>();
+                PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
 
-                _EnemyStats.nowHealth -= (_damage + (_pStats.basicAttackPower * 0.7f));
+                enemyStats.receviedDamage = (_pv.ViewID, damage + (pStats.basicAttackPower * 0.7f));
+                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
+                Debug.Log(enemyStats.nowHealth);
             }
 
-            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
-    /*
-    public void HitDetection()
-    {
-        Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
-        Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
-
-        if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
-        {
-            //타겟이 미니언, 타워일 시 
-            if (_Target.tag != "_player")
-            {
-                ObjStats _Stats = _Target.GetComponent<ObjStats>();
-                _Stats.nowHealth -= _damage;
-            }
-
-            //타겟이 적 _player일 시
-            if (_Target.tag == "_player")
-            {
-                _playerStats _Stats = _Target.GetComponent<_playerStats>();
-                _Stats.nowHealth -= _damage;
-            }
-            
-            Destroy(this.gameObject, 0.5f);
-            this.enabled = false;
-        }
-    }*/
 }

@@ -31,6 +31,7 @@ public abstract class ObjectController : MonoBehaviour
 
     //초기화
     protected Animator animator { get; set; }
+    protected PhotonView pv { get; set; }
 
     //처치시 코인 드랍 파티클
     [SerializeField]
@@ -41,6 +42,7 @@ public abstract class ObjectController : MonoBehaviour
         _allObjectTransforms.Add(transform);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
+        pv = GetComponent<PhotonView>();
 
         init();
     }
@@ -113,7 +115,20 @@ public abstract class ObjectController : MonoBehaviour
     /// <summary>
     /// 죽음 코드 함수
     /// </summary>
-    public virtual void Death() {if (!PhotonNetwork.IsMasterClient) return; }
+    public virtual void Death() 
+    {
+        if (!PhotonNetwork.IsMasterClient) return; 
+
+        if (Managers.game.myCharacter.layer != gameObject.layer && Vector3.Distance(Managers.game.myCharacter.transform.position, transform.position) <= _oStats.recognitionRange)
+        {
+            PlayerStats stat = Managers.game.myCharacter.GetComponent<PlayerStats>();
+            stat.gold += _oStats.gold;
+            stat.experience += _oStats.experience;
+            summonCoinDrop();
+        }
+        
+        PhotonNetwork.Destroy(this.gameObject);
+    }
     /// <summary>
     /// 이동 코드 함수
     /// </summary>

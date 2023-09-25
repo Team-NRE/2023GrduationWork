@@ -1,53 +1,44 @@
 {
-    "cards": [
-      {
-        "deck" : "0",
-        "name" : "Shield",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      },
-      {
-        "name" : "Sword",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      },
-      {
-        "name" : "Example3",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      },
-      {
-        "name" : "Example4",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      },
-      {
-        "name" : "Example5",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      },
-      {
-        "name" : "Example6",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      },
-      {
-        "name" : "Example7",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      },
-      {
-        "name" : "Example8",
-        "damage" : "10",
-        "defence" : "10",
-        "EffectTime" : "5"
-      }
-    ]
-  } 
+  "cards": [
+    {
+      "cardtype": "PublicCard",
+      "card": [
+        "Card_HealthPotion",
+        "Card_Enhancement",
+        "Card_Speed",
+        "Card_Shield",
+        "Card_Crystal",
+        "Card_Armor",
+        "Card_RadiantCrystal",
+        "Card_Purify",
+        "Card_Teleport",
+
+        "Card_Spear",
+        "Card_BloodTransfusion",
+        "Card_Infection",
+        "Card_BloodstainedCoin",
+        "Card_IcePrison",
+        "Card_HealthKit",
+        "Card_HackingGrenade",
+
+        "Card_Cannon",
+        "Card_Strike",
+        "Card_Lava",
+        "Card_WingsOfTheBattlefield",
+        "Card_AmuletOfSteel",
+
+        "Card_Resurrection",
+        "Card_CrisisAversion",
+        "Card_InvincibleShield",
+        "Card_InvincibleWeapon"
+      ]
+    },
+    {
+      "cardtype": "JobCard",
+      "card": [
+        "JobCard_Grenade",
+        "JobCard_Charge"
+      ]
+    }
+  ]
+}

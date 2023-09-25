@@ -1,16 +1,10 @@
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Define;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
-	
-	public TMP_InputField roomCodeIF;
-
 	void Start()
 	{
 		ConnectToServer();
@@ -40,16 +34,17 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 		Debug.Log("A new player has entered the room!");
 		base.OnPlayerEnteredRoom(newPlayer);
 
+		Debug.Log(newPlayer);
+		Debug.Log(newPlayer.CustomProperties);
+
+		Debug.Log(newPlayer.NickName);
+
+		Debug.Log("인게임 접속 완료");
+
 		// 다른 클라이언트로 보낼 값들 처리
 		if (PhotonNetwork.IsMasterClient)
 		{
-			PhotonView pv = PhotonView.Get(GameObject.Find("GameScene"));
-
-			pv.RPC(
-				"SyncPlayTime",
-				RpcTarget.Others,
-				Managers.game.startTime
-			);
+			
 		}
 	}
 }

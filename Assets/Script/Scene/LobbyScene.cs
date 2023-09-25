@@ -9,8 +9,8 @@ public class LobbyScene : BaseScene
 	// Start is called before the first frame update
 	void Start()
     {
+		Managers.UI.ShowSceneUI<UI_Select>();
         Managers.UI.ShowSceneUI<UI_Lobby>();
-
     }
 	public override void Clear()
 	{

@@ -1,59 +1,56 @@
-using Photon.Pun;
-using Photon.Realtime;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_Lobby : UI_Scene
 {
-	private string roomCode;
-	public TMP_InputField roomCodeIF;
+	public UI_Select characterSelectUI;
+	public UI_CanvasFader characterSelectUIFader;
 
 	public enum Buttons
 	{
 		EnterSingle,
-		EnterMulti,
+		EnterMulti_1vs1,
+		EnterMulti_2vs2
 	}
 
 	public override void Init()
 	{
-		// ¸ğµç UI °´Ã¼ ¹ÙÀÎµù
+		characterSelectUI = GameObject.FindObjectOfType<UI_Select>(true);
+		characterSelectUIFader = characterSelectUI.GetComponent<UI_CanvasFader>();
+		characterSelectUIFader.gameObject.SetActive(false);
+
+		// ëª¨ë“  UI ê°ì²´ ë°”ì¸ë”©
 		Bind<Button>(typeof(Buttons));
 
-		// Ä³¸¯ÅÍ ¹öÆ° Å¬¸¯¿¡ µû¸¥ ½ºÆÌ Ç¥½Ã
+		// ìºë¦­í„° ë²„íŠ¼ í´ë¦­ì— ë”°ë¥¸ ìŠ¤íŒŸ í‘œì‹œ
 		GetButton((int)Buttons.EnterSingle).gameObject.BindEvent(EnterSingle);
-		GetButton((int)Buttons.EnterMulti).gameObject.BindEvent(EnterMulti);
+		GetButton((int)Buttons.EnterMulti_1vs1).gameObject.BindEvent(EnterMulti_1vs1);
+		GetButton((int)Buttons.EnterMulti_2vs2).gameObject.BindEvent(EnterMulti_2vs2);
 	}
 
-	// Select Button Å¬¸¯½Ã ¹ß»ıÇÒ ÀÌº¥Æ®
+	// Select Button í´ë¦­ì‹œ ë°œìƒí•  ì´ë²¤íŠ¸
 	public void EnterSingle(PointerEventData data)
 	{
 		Debug.Log("EnterSingle");
-		// 1. ¼±ÅÃÇÑ Ä³¸¯ÅÍ¸¦ ´ÙÀ½ ¾À(GameScene)À¸·Î ³Ñ±ä´Ù.
-		SceneManager.LoadScene("Select");
+		Managers.game.gameMode = Define.GameMode.Single;
+		characterSelectUIFader.ShowUI();
 	}
 
-	// Select Button Å¬¸¯½Ã ¹ß»ıÇÒ ÀÌº¥Æ®
-	public void EnterMulti(PointerEventData data)
+	// Select Button í´ë¦­ì‹œ ë°œìƒí•  ì´ë²¤íŠ¸
+	public void EnterMulti_1vs1(PointerEventData data)
 	{
-		Debug.Log("EnterMulti");
-		// 1. ¼±ÅÃÇÑ Ä³¸¯ÅÍ¸¦ ´ÙÀ½ ¾À(GameScene)À¸·Î ³Ñ±ä´Ù.
-		InitialRoom();
+		Debug.Log("EnterMulti_1vs1");
+		Managers.game.gameMode = Define.GameMode.Multi_1vs1;
+		characterSelectUIFader.ShowUI();
 	}
 
-	public void InitialRoom(string name = "default")
+	// Select Button í´ë¦­ì‹œ ë°œìƒí•  ì´ë²¤íŠ¸
+	public void EnterMulti_2vs2(PointerEventData data)
 	{
-		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.MaxPlayers = 10;
-		roomOptions.IsVisible = true;
-		roomOptions.IsOpen = true;
-		//PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
-		if (PhotonNetwork.JoinOrCreateRoom(name, roomOptions, TypedLobby.Default) == true)
-			SceneManager.LoadScene("Select");
-		Debug.Log($"your room code is {name}");
+		Debug.Log("EnterMulti_2vs2");
+		Managers.game.gameMode = Define.GameMode.Multi_2vs2;
+		characterSelectUIFader.ShowUI();
 	}
 }

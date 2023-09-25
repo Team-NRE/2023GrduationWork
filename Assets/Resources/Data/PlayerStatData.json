@@ -3,18 +3,18 @@
       {
         "type": "Police",
 
-        "basicAttackPower": "80",
-        "attackSpeed" : "0.78",
+        "basicAttackPower": "65",
+        "attackSpeed" : "0.625",
         "attackRange" : "5",
         "attackType" : "LongRange",
 
         "maxHealth" : "680",
         "healthRegeneration" : "0.6",
-        "defensePower" : "50",
+        "defensePower" : "40",
 
         "level" : "1",
         "experience" : "0",
-        "levelUpEx" : "0",
+        "levelUpEX" : "50",
         "levelUpAP" : "3.5",
         "levelUpAS" : "0.1",
         "levelUpHP" : "75",
@@ -25,17 +25,14 @@
         
         "nowState" : "Health",
 
-        "playerArea" : "6",
-        "enemyArea" : "7",
-
-        "manaRegen" : "4",
+        "manaRegen" : "0.25",
         "maxMana" : "3",
 
-        "gold" : "500"
+        "gold" : "9999"
       },
 
       {
-        "type": "Firefight",
+        "type": "Firefighter",
 
         "basicAttackPower": "67",
         "attackSpeed" : "0.64",
@@ -59,26 +56,23 @@
         
         "nowState" : "Health",
 
-        "playerArea" : "6",
-        "enemyArea" : "7",
-
-        "manaRegen" : "4",
+        "manaRegen" : "0.25",
         "maxMana" : "3",
 
         "gold" : "500"
       },
 
       {
-        "type": "Lightsaber",
+        "type": "Lightsabre",
 
-        "basicAttackPower": "65",
+        "basicAttackPower": "75",
         "attackSpeed" : "0.68",
         "attackRange" : "2",
         "attackType" : "ShortRange",
 
         "maxHealth" : "670",
         "healthRegeneration" : "1",
-        "defensePower" : "33",
+        "defensePower" : "30",
 
         "level" : "1",
         "experience" : "0",
@@ -93,10 +87,7 @@
         
         "nowState" : "Health",
 
-        "playerArea" : "7",
-        "enemyArea" : "6",
-
-        "manaRegen" : "4",
+        "manaRegen" : "0.25",
         "maxMana" : "3",
 
         "gold" : "500"
@@ -127,10 +118,7 @@
         
         "nowState" : "Health",
 
-        "playerArea" : "7",
-        "enemyArea" : "6",
-
-        "manaRegen" : "4",
+        "manaRegen" : "0.25",
         "maxMana" : "3",
 
         "gold" : "500"

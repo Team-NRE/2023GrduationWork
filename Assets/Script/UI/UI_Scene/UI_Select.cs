@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Define;
 
 public class UI_Select : UI_Scene
 {
-	public static string _name;
+	ColorBlock disabledColorBlock, selectedColorBlock;
+	GameObject dummyLoadingPage;
 
 	public enum Selectors
 	{
 		Police,
-		FireFighter,
-		LightSabre,
+		Firefighter,
+		Lightsabre,
 		Monk,
 	}
 
@@ -25,56 +27,94 @@ public class UI_Select : UI_Scene
 	public override void Init()
 	{
 		Bind<GameObject>(typeof(Selectors));
+		Bind<Toggle>(typeof(Selectors));
 		Bind<Button>(typeof(Buttons));
 
-		Get<GameObject>((int)Selectors.Police).gameObject.BindEvent(SpotOnPolice);
-		Get<GameObject>((int)Selectors.FireFighter).gameObject.BindEvent(SpotOnFireFighter);
-		Get<GameObject>((int)Selectors.LightSabre).gameObject.BindEvent(SpotOnFireLightSabre);
-		Get<GameObject>((int)Selectors.Monk).gameObject.BindEvent(SpotOnFireMonk);
+		Get<GameObject>((int)Selectors.Police).BindEvent(SpotOnPolice);
+		Get<GameObject>((int)Selectors.Firefighter).BindEvent(SpotOnFirefighter);
+		Get<GameObject>((int)Selectors.Lightsabre).BindEvent(SpotOnLightsabre);
+		Get<GameObject>((int)Selectors.Monk).BindEvent(SpotOnMonk);
+
+		dummyLoadingPage = transform.Find("DummyLoadingPage").gameObject;
+		dummyLoadingPage.SetActive(false);
+
+		Get<Toggle>((int)Selectors.Police).onValueChanged.AddListener(SpotOnCharacter);
+		Get<Toggle>((int)Selectors.Firefighter).onValueChanged.AddListener(SpotOnCharacter);
+		Get<Toggle>((int)Selectors.Lightsabre).onValueChanged.AddListener(SpotOnCharacter);
+		Get<Toggle>((int)Selectors.Monk).onValueChanged.AddListener(SpotOnCharacter);
 
 		GetButton((int)Buttons.Select).gameObject.BindEvent(SelectButton);
+
+
+		InitColorBlock();
 	}
 
-	// ƒ≥∏Ø≈Õ º±≈√Ω√ Ω∫∆Ã¿Ã ƒ—¡ˆ¥¬ ∫Œ∫–
+	public override void UpdateInit()
+    {
+		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			
+		}
+    }
+
+	private void InitColorBlock()
+	{
+		disabledColorBlock = Get<Toggle>((int)Selectors.Police).colors;
+		selectedColorBlock = ColorBlock.defaultColorBlock;
+	}
+
+	// Ï∫êÎ¶≠ÌÑ∞ ÏÑ†ÌÉùÏãú Ïä§ÌåüÏù¥ ÏºúÏßÄÎäî Î∂ÄÎ∂Ñ
 	public void SpotOnPolice(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Police).gameObject.name;
-		// 1. ≈¨∏Ø«“ ∂ß ∏∂¥Ÿ Ω∫∆Ã¿ª ∂ÁøÓ¥Ÿ
-		Debug.Log(name);
-		// 2. ≈¨∏Ø «“ ∂ß ∏∂¥Ÿ string ∞¥√ºø° πˆ∆∞ ¿Ã∏ß¿ª ¿˙¿Â«—¥Ÿ.
-		_name = name;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Police;
+		Managers.game.myCharacterTeam = PlayerTeam.Human;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
 	}
 
-	public void SpotOnFireFighter(PointerEventData data)
+	public void SpotOnFirefighter(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.FireFighter).gameObject.name;
-		Debug.Log(name);
-		_name = name;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Firefighter;
+		Managers.game.myCharacterTeam = PlayerTeam.Human;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
 
 	}
 
-	public void SpotOnFireLightSabre(PointerEventData data)
+	public void SpotOnLightsabre(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.LightSabre).gameObject.name;
-		Debug.Log(name);
-		_name = name;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Lightsabre;
+		Managers.game.myCharacterTeam = PlayerTeam.Cyborg;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
 	}
 
-	public void SpotOnFireMonk(PointerEventData data)
+	public void SpotOnMonk(PointerEventData data)
 	{
-		string name = Get<GameObject>((int)Selectors.Monk).gameObject.name;
-		Debug.Log(name);
-		_name = name;
-		Debug.Log($"MemberName : {_name}");
+		Managers.game.myCharacterType = PlayerType.Monk;
+		Managers.game.myCharacterTeam = PlayerTeam.Cyborg;
+		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
+	}
+
+	private void SpotOnCharacter(bool value)
+	{
+		Get<Toggle>((int)Selectors.Police).colors = (
+			Get<Toggle>((int)Selectors.Police).isOn ? selectedColorBlock : disabledColorBlock
+			);
+		Get<Toggle>((int)Selectors.Firefighter).colors = (
+			Get<Toggle>((int)Selectors.Firefighter).isOn ? selectedColorBlock : disabledColorBlock
+			);
+		Get<Toggle>((int)Selectors.Lightsabre).colors = (
+			Get<Toggle>((int)Selectors.Lightsabre).isOn ? selectedColorBlock : disabledColorBlock
+			);
+		Get<Toggle>((int)Selectors.Monk).colors = (
+			Get<Toggle>((int)Selectors.Monk).isOn ? selectedColorBlock : disabledColorBlock
+			);
 	}
 
 	public void SelectButton(PointerEventData data)
 	{
+		if (Managers.game.myCharacterType == PlayerType.none) return;
+
+		dummyLoadingPage.SetActive(true);
 		Debug.Log("Start Game");
-		// 1. º±≈√«— ƒ≥∏Ø≈Õ∏¶ ¥Ÿ¿Ω æ¿(GameScene)¿∏∑Œ ≥—±‰¥Ÿ.
 		SceneManager.LoadScene("View Test Scene");
 	}
 }

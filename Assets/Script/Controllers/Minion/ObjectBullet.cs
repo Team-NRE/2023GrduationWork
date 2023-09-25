@@ -9,14 +9,11 @@ using Photon.Pun;
 
 public class ObjectBullet : MonoBehaviourPun
 {
-    [SerializeField]
+    PhotonView _Shooter;
     Transform _Target;
-    [SerializeField]
     Vector3 _TargetPos;
 
-    [SerializeField]
     float _bulletSpeed;
-    [SerializeField]
     float _damage;
 
     public void Update()
@@ -39,6 +36,7 @@ public class ObjectBullet : MonoBehaviourPun
     public void BulletSetting(int _shooter, int _target, float bulletSpeed, float damage)
     {
         // transform.position = muzzle;
+        _Shooter = getTargetV2(_shooter).GetComponent<PhotonView>();
         _Target = getTargetV2(_target);   // **타겟 위치값 받기**
         _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
         _damage = damage;
@@ -91,8 +89,6 @@ public class ObjectBullet : MonoBehaviourPun
 
     public void HitDetection()
     {
-        
-        
         Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
 
@@ -114,6 +110,9 @@ public class ObjectBullet : MonoBehaviourPun
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= _damage;
+
+                if (_Stats.nowHealth <= 0)
+                    Managers.game.killEvent(_Shooter.ViewID, _Target.GetComponent<PhotonView>().ViewID);
             }
             
             Destroy(this.gameObject, 0.5f);

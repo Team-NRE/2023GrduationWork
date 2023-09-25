@@ -19637,7 +19637,7 @@ GameObject:
   - component: {fileID: 8189593966856435038}
   - component: {fileID: 9185894979385121958}
   - component: {fileID: 8881559705570436048}
-  - component: {fileID: 7860308364486301369}
+  - component: {fileID: -3623768496009405229}
   m_Layer: 0
   m_Name: PoliceBullet
   m_TagString: Untagged
@@ -19693,7 +19693,7 @@ MonoBehaviour:
   _TargetPos: {x: 0, y: 0, z: 0}
   _bulletSpeed: 0
   _damage: 0
---- !u!114 &7860308364486301369
+--- !u!114 &-3623768496009405229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

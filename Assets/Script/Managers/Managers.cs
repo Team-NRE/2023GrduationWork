@@ -38,6 +38,12 @@ public class Managers : MonoBehaviour
     {
         OnUpdate();
     }
+
+    void Update()
+    {
+        InputUpdate();
+    }
+
     static void Init()
     {
         if (s_Instance == null)
@@ -57,13 +63,18 @@ public class Managers : MonoBehaviour
             //매니저 start에서 초기화
             s_Instance._data.Init();
             s_Instance._pool.Init();
+            s_Instance._input.Init();
             s_Instance._sound.Init();
         }
     }
 
+    static void InputUpdate()
+    { 
+        s_Instance._input.InputUpdate();
+    }
+
     static void OnUpdate()
     {
-        s_Instance._input.OnUpdate();
         s_Instance._game.OnUpdate();
     }
 

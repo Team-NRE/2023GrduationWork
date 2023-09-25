@@ -2,8 +2,6 @@
 ///
 ///
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -11,14 +9,17 @@ using Stat;
 
 public class EnergyRelease : MonoBehaviour
 {
+    PhotonView attackPV;
     float damage;
     float distance = 5.0f;
 
     [PunRPC]
-    public void SummonEnergyRelease(Vector3 pos, float dam, float dis = 5.0f)
+    public void SummonEnergyRelease(int attackID, float dis = 5.0f)
     {
-        transform.position = pos;
-        damage = dam * 3.5f;
+        attackPV = PhotonView.Find(attackID);
+        transform.position = attackPV.transform.position;
+        damage = (attackPV.gameObject.layer == LayerMask.NameToLayer("Neutral") ? 
+                    attackPV.GetComponent<ObjStats>().basicAttackPower : attackPV.GetComponent<PlayerStats>().basicAttackPower) * 3.5f;
         distance = dis;
 
         gameObject.SetActive(true);
@@ -47,6 +48,8 @@ public class EnergyRelease : MonoBehaviour
             {
                 PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
                 _Stats.nowHealth -= damage;
+
+                if (_Stats.nowHealth <= 0) Managers.game.killEvent(attackPV.ViewID, nowTarget.GetComponent<PhotonView>().ViewID);
             }
         }
     }

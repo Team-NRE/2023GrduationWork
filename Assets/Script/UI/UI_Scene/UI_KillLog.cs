@@ -30,6 +30,8 @@ public class UI_KillLog : UI_Base
 
     public void Init(GameObject attacker, GameObject deadUser)
     {
+        transform.localScale = Vector3.one;
+
         SetKillText(attacker, deadUser);
         SetIconName(attacker, deadUser);
         SetIconTexture();        
@@ -86,7 +88,7 @@ public class UI_KillLog : UI_Base
         if (attacker.tag == "PLAYER")
 		{
             BaseController attackerBaseController = attacker.GetComponent<BaseController>();
-            attackerIconName = $"{LayerMask.LayerToName(attacker.layer)}Icon_{attackerBaseController._pType}";
+            attackerIconName = $"Icon_{attackerBaseController._pType}";
         }
         else
         {
@@ -96,7 +98,7 @@ public class UI_KillLog : UI_Base
 
         // set *deadUser* icon name
         BaseController deadUserBaseController = deadUser.GetComponent<BaseController>();
-        deadUserIconName = $"{LayerMask.LayerToName(deadUser.layer)}Icon_{deadUserBaseController._pType}";
+        deadUserIconName = $"Icon_{deadUserBaseController._pType}";
     }
 
     private void SetIconTexture()

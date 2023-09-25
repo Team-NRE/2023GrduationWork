@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public abstract class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviourPunCallbacks
 {
 	Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>(); //타입별로 따로 저장되는 딕셔너리 선언
 

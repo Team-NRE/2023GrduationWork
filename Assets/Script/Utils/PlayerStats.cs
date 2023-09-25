@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Define;
+using Photon.Pun;
 
 namespace Stat
 {
     public class PlayerStats : MonoBehaviour
     {
         #region PlayerStats
+        [Header("-- 캐릭 정보 --")]
+        [SerializeField] private string _nickname; // 닉네임
+        [SerializeField] private string _character; // 캐릭터
 
         [Header("-- 공격 --")]
         [SerializeField] private float _basicAttackPower; //평타 공격력
@@ -24,6 +28,8 @@ namespace Stat
         [SerializeField] private float _maxHealth; //최대 체력
         [SerializeField] private float _healthRegeneration; //체력 재생량
         [SerializeField] private float _defensePower; //방어력
+        [SerializeField] private float _receviedDamage; //계산된 입은 데미지
+        [SerializeField] private float _shield; //방어막
         [SerializeField] private float _death; //데스
 
         [Header("-- 레벨 --")]
@@ -44,12 +50,11 @@ namespace Stat
 
         [Header("-- 현재 상태 --")]
         [SerializeField] private string _nowState;
-
+        [SerializeField] private bool _isResurrection;
 
         [Header("-- 진영 --")]
         [SerializeField] private int _playerArea; //내 진영
         [SerializeField] private int _enemyArea; //상대방 진영
-
 
         [Header("-- 마나 --")]
         [SerializeField] private float _nowMana; //현재 마나
@@ -62,6 +67,10 @@ namespace Stat
 
         #endregion
 
+        // 캐릭 정보
+        public string nickname { get { return _nickname; } set { _nickname = value; } }
+        public string character { get { return _character; } set { _character = value; } }
+
 
         //공격
         public float basicAttackPower { get { return _basicAttackPower; } set { _basicAttackPower = value; } }
@@ -72,7 +81,7 @@ namespace Stat
             {
                 _attackSpeed = value;
                 //공격 속도 계산식
-                attackDelay = (1 / _attackSpeed);
+                attackDelay = 1 / (1 + _attackSpeed);
             }
         }
         public float attackDelay { get { return _attackDelay; } set { _attackDelay = value; } }
@@ -92,14 +101,14 @@ namespace Stat
                 {
                     _nowHealth = value;
                 }
-                else if (value < 0)
+
+                if (value <= 0)
                 {
-                    value *= 100 / (100 + defensePower);
-                    _nowHealth = value;
+                    _nowHealth = 0;
                 }
 
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
-                if (_nowHealth < 0) { death += 1; _nowHealth = 0; }
+
             }
         }
         public float maxHealth
@@ -108,19 +117,33 @@ namespace Stat
             set
             {
                 _maxHealth = value;
-                nowHealth = _maxHealth;
             }
         }
-        public float healthRegeneration
+
+        public float healthRegeneration { get { return _healthRegeneration; } set { _healthRegeneration = value; } }
+        public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
+        public (int, float) receviedDamage
         {
-            get { return _healthRegeneration; }
+            get { return default; }
             set
             {
-                _healthRegeneration = value * Time.deltaTime;
-                nowHealth += _healthRegeneration;
+                value.Item2 *= 100 / (100 + defensePower);
+                _nowHealth -= value.Item2;
+                if (_nowHealth <= 0 && !GetComponent<BaseController>()._startDie) 
+                {
+                    Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
+                }
             }
         }
-        public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
+        public float shield 
+        {
+            get { return _shield; }
+            set 
+            { 
+                _shield = value; 
+                if (_shield < 0) _shield = 0;    
+            }
+        }
         public float death { get { return _death; } set { _death = value; } }
 
 
@@ -137,6 +160,7 @@ namespace Stat
                     basicAttackPower += _levelUpAP;
                     attackSpeed += _levelUpAS;
                     maxHealth += _levelUpHP;
+                    nowHealth += _levelUpHP;
                     healthRegeneration += _levelUpHR;
                     defensePower += _levelUpDP;
                     _nowlevel = _level;
@@ -149,7 +173,7 @@ namespace Stat
             set
             {
                 _experience += value;
-                if (_experience > 50 + levelUpEx)
+                if (_experience > levelUpEx)
                 {
                     level += 1;
                     levelUpEx += 20;
@@ -181,7 +205,7 @@ namespace Stat
 
         //현재 상태
         public string nowState { get { return _nowState; } set { _nowState = value; } }
-
+        public bool isResurrection { get { return _isResurrection; } set { _isResurrection = value; } }
 
 
         //진영
@@ -191,11 +215,10 @@ namespace Stat
             set
             {
                 _playerArea = value;
-                //this.gameObject.layer = _playerArea;
+                this.gameObject.layer = _playerArea;
             }
         }
         public int enemyArea { get { return _enemyArea; } set { _enemyArea = value; } }
-
 
 
         //마나
@@ -205,7 +228,7 @@ namespace Stat
             set
             {
                 _nowMana = value;
-                if (_nowMana >= maxMana * manaRegen) { _nowMana = maxMana * manaRegen; }
+                if (_nowMana >= maxMana) { _nowMana = maxMana; }
                 if (_nowMana <= 0) { _nowMana = 0; }
             }
         }
@@ -217,7 +240,7 @@ namespace Stat
             bool CanUseCard;
 
             if (_key != null) { ui_card = GameObject.Find(_key).GetComponentInChildren<UI_Card>(); }
-            float cardValue = ui_card._cost * manaRegen;
+            float cardValue = ui_card._cost;
 
             if (nowMana >= cardValue) { CanUseCard = true; }
             else { CanUseCard = false; }
@@ -230,10 +253,15 @@ namespace Stat
         public float gold { get { return _gold; } set { _gold = value; } }
 
 
-        public void PlayerStatSetting(PlayerType type)
+        [PunRPC]
+        public void PlayerStatSetting(string type, string name)
         {
             Dictionary<string, Data.PlayerStat> dict = Managers.Data.PlayerStatDict;
-            Data.PlayerStat stat = dict[type.ToString()];
+            Data.PlayerStat stat = dict[type];
+
+            // 캐릭 정보
+            nickname = name;
+            character = stat.type;
 
             //공격
             basicAttackPower = stat.basicAttackPower;
@@ -265,10 +293,19 @@ namespace Stat
 
             //현재 상태
             nowState = stat.nowState;
+            isResurrection = false;
 
             //진영
-            playerArea = stat.playerArea;
-            enemyArea = stat.enemyArea;
+            if (type == "Police" || type == "Firefighter")
+            {
+                playerArea = (int)Layer.Human;
+                enemyArea = (int)Layer.Cyborg;
+            }
+            else
+            {
+                playerArea = (int)Layer.Cyborg;
+                enemyArea = (int)Layer.Human;
+            }
 
             //마나
             nowMana = 0; //현재 마나
@@ -277,6 +314,32 @@ namespace Stat
 
             //자원
             gold = stat.gold;
+        }
+
+        [PunRPC]
+        public void photonStatSet(string statName, float value)
+        {
+            if (statName == "basicAttackPower")     basicAttackPower    += value;
+            if (statName == "attackSpeed")          attackSpeed         += value;
+            if (statName == "attackDelay")          attackDelay         += value;
+            if (statName == "attackRange")          attackRange         += value;
+            if (statName == "kill")                 kill                += value;
+            if (statName == "nowHealth")            nowHealth           += value;
+            if (statName == "maxHealth")            maxHealth           += value;
+            if (statName == "healthRegeneration")   healthRegeneration  += value;
+            if (statName == "defensePower")         defensePower        += value;
+            if (statName == "shield")               shield              += value;
+            if (statName == "death")                death               += value;
+            if (statName == "experience")           experience          += value;
+            if (statName == "speed")                speed               += value;
+            if (statName == "manaRegen")            manaRegen           += value;
+            if (statName == "maxMana")              maxMana             += value;
+        }
+
+        [PunRPC]
+        public void photonStatSet(int attackID, string statName, float value)
+        {
+            if (statName == "receviedDamage")       receviedDamage      = (attackID, value);
         }
     }
 }

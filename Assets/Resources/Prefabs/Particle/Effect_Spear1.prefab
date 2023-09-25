@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3250981665832098632}
   - component: {fileID: 6364124482684490187}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 6619764722431686016}
   - component: {fileID: 6619764722431686018}
   - component: {fileID: 6619764722431686017}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4947,7 +4947,7 @@ GameObject:
   - component: {fileID: 6619764723238967410}
   - component: {fileID: 6619764723238967412}
   - component: {fileID: 6619764723238967411}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9839,7 +9839,8 @@ GameObject:
   - component: {fileID: 6619764723332017302}
   - component: {fileID: 6619764723332017301}
   - component: {fileID: 6619764723332017299}
-  m_Layer: 0
+  - component: {fileID: -6962382220193905855}
+  m_Layer: 2
   m_Name: Effect_Spear1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14751,6 +14752,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.4, z: 4}
   m_Center: {x: 0, y: -0.1, z: 1}
+--- !u!114 &-6962382220193905855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619764723332017297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6619764723584385426
 GameObject:
   m_ObjectHideFlags: 0
@@ -14762,7 +14785,7 @@ GameObject:
   - component: {fileID: 6619764723584385427}
   - component: {fileID: 6619764723584385429}
   - component: {fileID: 6619764723584385428}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19702,7 +19725,7 @@ GameObject:
   - component: {fileID: 6619764723761638338}
   - component: {fileID: 6619764723761638340}
   - component: {fileID: 6619764723761638339}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ArrowLinger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,11 @@ using UnityEngine;
 
 public static class BaseCard
 {
+    //모든 카드
+    public static List<string> _AllPublicCard = new List<string>();
+    public static List<string> _AllJobCard = new List<string>();
+
+    //나만의 덱 카드
     public static List<string> _MyDeck = new List<string>();
     //덱 안의 카드 변환 List
     public static List<string> _initDeck = new List<string>();
@@ -20,6 +26,29 @@ public static class BaseCard
     public static GameObject _lockTarget = null;
 
 
+    //Json으로 모든 카드들을 불러오기
+    public static List<string> LoadAllCard(string cardType)
+    {
+        Dictionary<string, Data.Card> card = Managers.Data.CardDict;
+        List<string> cardNames = new List<string>();
+
+        for (int i = 0; i < card[cardType].card.Count; i++)
+        {
+            cardNames.Add(card[cardType].card[i]);
+        }
+        return cardNames;
+    }
+
+    public static List<string> ExportPublicCard()
+    {
+        return _AllPublicCard = LoadAllCard("PublicCard");
+    }
+
+    public static List<string> ExportJobCard()
+    {
+        return _AllJobCard = LoadAllCard("JobCard");
+    }
+
 
     //Json으로 덱을 가져온다. 나중에 덱 숫자가 늘어나면 파라미터로 입력
     public static List<string> LoadDeck(int deckNum = 0)
@@ -32,20 +61,20 @@ public static class BaseCard
             cardNames.Add(deck[deckNum].cards[i]);
             //현재 카드 덱 정보
             _deckCards.Add(deck[deckNum].cards[i]);
-            // Debug.Log($"카드 {i}번 : {_deckCards[i]}");
+            //Debug.Log($"카드 {i}번 : {_deckCards[i]}");
         }
         return cardNames;
     }
 
-    public static List<string> ExportMyDeck()
+    public static List<string> ExportMyDeck(int num = 0)
     {
-        return _MyDeck = LoadDeck();
+        return _MyDeck = LoadDeck(num);
     }
 
     //가져온 이름으로 List를 채운다
-    public static List<string> ExportDeck()
+    public static List<string> ExportDeck(int num = 0)
     {
-        return _initDeck = LoadDeck();
+        return _initDeck = LoadDeck(num);
     }
 
     //카드 사용
@@ -53,22 +82,21 @@ public static class BaseCard
     {
         //카드가 남아 있다면 랜덤으로 뽑아서 처리 
         int rand = UnityEngine.Random.Range(1, _initDeck.Count);
+        //int rand = 0;
         //카드 이름 저장
         string ChoiseCard = _initDeck[rand];
         //남은 카드 List의 랜덤하게 뽑은 카드 삭제
         _initDeck.RemoveAt(rand);
 
+        //Debug.Log($"다음 카드 이름 : {ChoiseCard}");
+
         //리필 카드가 있다면
         if (ReloadCard != null) { _initDeck.Add(ReloadCard); }
-        Debug.Log($"덱 안에 리필된 카드 : {ReloadCard}");
 
-        //덱 안의 남은 카드
         for (int i = 0; i < _initDeck.Count; i++)
         {
-            Debug.Log($"남은 카드 {i}번 : {_initDeck[i]}");
+            //Debug.Log($"덱 안 카드 이름 : {_initDeck[i]}");
         }
-
-        Debug.Log($"다음 카드 : {ChoiseCard}");
 
         return ChoiseCard;
     }
@@ -79,12 +107,14 @@ public static class BaseCard
     public static string StartDeck()
     {
         //랜덤으로 카드 뽑기
-        int rand = UnityEngine.Random.Range(1, _initDeck.Count);
+        int rand = UnityEngine.Random.Range(0, _initDeck.Count);
+        //int rand = 0;
         string ChoiseCard = _initDeck[rand];
-        //뽑은 카드 덱에서 삭제
-        _initDeck.RemoveAt(rand);
 
-        // Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
+        //Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
+
+        //뽑은 카드 덱에서 삭ca
+        _initDeck.RemoveAt(rand);
 
         return ChoiseCard;
     }
@@ -92,10 +122,8 @@ public static class BaseCard
     public static string StartJobCard()
     {
         string ChoiseCard = _initDeck[0];
-        //뽑은 카드 덱에서 삭제
-        _initDeck.RemoveAt(_initDeck.Count - 1);
-
-        Debug.Log($"초기 핸드 안 카드 이름 : {ChoiseCard}");
+        //Job 카드를 리필카드 제외
+        _initDeck.RemoveAt(0);
 
         return ChoiseCard;
     }
@@ -131,4 +159,6 @@ public static class BaseCard
 
         return newDeck;
     }
+
+   
 }

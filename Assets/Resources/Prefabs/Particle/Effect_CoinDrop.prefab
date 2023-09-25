@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 406676}
   - component: {fileID: 19851814}
   - component: {fileID: 19943898}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4848,8 +4848,8 @@ GameObject:
   - component: {fileID: 430288}
   - component: {fileID: 6756857738689723770}
   - component: {fileID: 8232489360466830047}
-  - component: {fileID: 6957296337837058355}
-  m_Layer: 0
+  - component: {fileID: -9106983179370852001}
+  m_Layer: 2
   m_Name: Effect_CoinDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4903,102 +4903,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 4917375577674558534}
   coinText: {fileID: 4515247524317778139}
---- !u!82 &6957296337837058355
-AudioSource:
+--- !u!114 &-9106983179370852001
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 143964}
   m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8b90592875ca06b4087e076525297d65, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 1
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &188778
 GameObject:
   m_ObjectHideFlags: 0
@@ -5010,7 +4936,7 @@ GameObject:
   - component: {fileID: 421598}
   - component: {fileID: 19813732}
   - component: {fileID: 19921718}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9820,7 +9746,7 @@ GameObject:
   - component: {fileID: 7203602311891486674}
   - component: {fileID: 8577005137234116210}
   - component: {fileID: 1793037553604912638}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9894,7 +9820,7 @@ GameObject:
   - component: {fileID: 4917375577674558534}
   - component: {fileID: 6127487341216774640}
   - component: {fileID: 1612267647185709427}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9995,7 +9921,7 @@ GameObject:
   - component: {fileID: 5613997528367051319}
   - component: {fileID: 3400748500196203224}
   - component: {fileID: 4515247524317778139}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10130,7 +10056,7 @@ GameObject:
   - component: {fileID: 182657067770148413}
   - component: {fileID: 2077756011737188533}
   - component: {fileID: 7560237047976606458}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

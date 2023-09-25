@@ -3,25 +3,37 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Stat;
+using Define;
+using Photon.Pun;
 
 public class UI_Card : UI_Scene
 {
     //카드 비용
     public int _cost;
     public int _cardBuyCost;
+
     //카드 시전 시간
     public float _CastingTime;
+
     //이펙트 발동 시간
-    public float _effectTime; 
-    public float _damage;
-    public float _defence;
-    public float _buff;
-    public float _debuff; 
+    public float _effectTime;
+
+    
+    ////Stat 
+    //public float _damage;
+    //public float _defence;
+    //public float _speed;
+    //public float _buff;
+    //public float _debuff;
+    ////부활
+    public bool _IsResurrection;
+
 
     //스킬 범위 타입
     //Arrow = _rangeScale 고정 / Cone = _rangeScale, _rangeAngle / Line = _rangeScale 
     //Point = _rangeScale, _rangeRange / Range = _rangeScale
-    public string _rangeType;
+    public CardType _rangeType;
     //스킬 범위 크기
     public float _rangeScale;
     //스킬 거리
@@ -51,13 +63,34 @@ public class UI_Card : UI_Scene
     }
 
 
-    public virtual GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    public virtual GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         return _effectObject;
     }
 
-    public virtual void DestroyCard(GameObject Particle = null, float delay = default)
+    public virtual void DestroyCard(float delay = default)
     {
         //하위 카드 컴포넌트에서 구현하여 사용 위함
+    }
+
+    public virtual GameObject RemoteTargetFinder(int id)
+	{
+        GameObject remoteTarget = PhotonView.Find(id).gameObject;
+        return remoteTarget;
+	}
+
+    [PunRPC]
+    public void RemoteReparent(int ownerId, int particleId)
+    {
+        GameObject owner = RemoteTargetFinder(ownerId);
+        GameObject particle = RemoteTargetFinder(particleId);
+
+        particle.transform.parent = owner.transform;
+    }
+
+    [PunRPC]
+    protected void RemoteLogger(string log)
+    {
+        Debug.Log(log);
     }
 }

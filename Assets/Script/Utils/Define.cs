@@ -5,12 +5,43 @@ using System.ComponentModel; // Enum을 string으로 받기.
 
 namespace Define
 {
+    public enum RoomStatus
+    {
+        Waiting = 0,
+        PlayingGame = 1,
+        EndGame = 2,
+    }
+
+    public enum GameMode
+	{
+		Single = 1,
+		Multi_1vs1 = 2,
+        Multi_2vs2 = 4,
+	}
+    
     public enum PlayerType 
     {
+        none,
         Police,
-        Firefight,
-        Lightsaber,
+        Firefighter,
+        Lightsabre,
         Monk,
+    }
+
+    public enum PlayerTeam
+    {
+        Human,
+        Cyborg,
+    }
+
+    public enum CardType
+    {
+        Arrow,
+        Cone,
+        Line,
+        Point,
+        Range,
+        None,
     }
 
 
@@ -22,6 +53,7 @@ namespace Define
         Card,
         Skill,
         Die,
+        None,
     }
 
     public enum Scene
@@ -98,7 +130,7 @@ namespace Define
         SpaceUp,
     }
 
-    
+
     public enum Projectile
     {
         Undefine,

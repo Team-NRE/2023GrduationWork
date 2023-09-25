@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 1095569309821111545}
   - component: {fileID: 892976164432205435}
   - component: {fileID: 6834242047265660811}
-  m_Layer: 0
+  - component: {fileID: 9218063065937994091}
+  - component: {fileID: 954713010691804165}
+  m_Layer: 2
   m_Name: Effect_Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4917,6 +4919,40 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.33
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9218063065937994091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005835247375216511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac7b59462a0b43b49a9634557f14b6bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &954713010691804165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005835247375216511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1005854043573021443
 GameObject:
   m_ObjectHideFlags: 0
@@ -4928,7 +4964,7 @@ GameObject:
   - component: {fileID: 1000110382048330875}
   - component: {fileID: 1095411763780197183}
   - component: {fileID: 1094956329276171537}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9810,7 +9846,7 @@ GameObject:
   - component: {fileID: 1000277025143723351}
   - component: {fileID: 1094454527311173483}
   - component: {fileID: 1095091433351678975}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14701,7 +14737,7 @@ GameObject:
   - component: {fileID: 1008406232385510629}
   - component: {fileID: 1094834396600069539}
   - component: {fileID: 1096535305314735225}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19584,7 +19620,7 @@ GameObject:
   - component: {fileID: 1008523232998499591}
   - component: {fileID: 1102900828286420123}
   - component: {fileID: 1095611297337431039}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SphereGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24466,7 +24502,7 @@ GameObject:
   - component: {fileID: 1000040283986370111}
   - component: {fileID: 1102928912206063933}
   - component: {fileID: 1095510169174739559}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TrailEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}

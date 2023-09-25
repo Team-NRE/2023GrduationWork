@@ -742,7 +742,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3452020753512043203}
   - component: {fileID: 4051508927302138096}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Mini Map Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -946,6 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a0bc2ac4491354eb863b406f3c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   healthBarHeal: {fileID: 4546255877953349592}
   healthBarHit: {fileID: 262794017302823754}
   healthBarBasic: {fileID: 8298011207457106546}

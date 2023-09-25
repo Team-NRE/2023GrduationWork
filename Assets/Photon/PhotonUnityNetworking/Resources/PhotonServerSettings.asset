@@ -54,6 +54,24 @@ MonoBehaviour:
   - FollowTarget
   - HitDetection
   - RemoteLog
+  - fp_Fire
+  - PlayerStatSetting
+  - UpdateAttack
+  - SyncConnectGameUserNumber
+  - GameStart
+  - EnemyHPLog
+  - RpcUpdate
+  - RpcTrigger
+  - Init
+  - RemoteAddComponent
+  - RpcDelayDestroy
+  - GetRemoteParent
+  - RemoteLogger
+  - RemoteSkillStarter
+  - CardEffectInit
+  - CardEffectInit2
+  - RemoteReparent
+  - RemoteReParent
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

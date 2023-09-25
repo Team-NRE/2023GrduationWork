@@ -7,38 +7,115 @@ using Define;
 using UnityEngine.AI;
 
 using Photon.Pun;
+using System.Collections;
+using Data;
 
 public class GameManager
 {
     #region Variable
-    /// 게임 엔딩 관련
+    /// 유저 정보 관련
+    public string nickname;
+
+    /// 방 인원 관련
+	public GameMode gameMode;
+    public int remainHuman;
+    public int remainCyborg;
+
+    /// 게임 시점 관련
+    private bool isPlayingGame = false;
+
+    public bool isGameStart {
+            get { return isPlayingGame; }
+            set 
+            {
+                isPlayingGame = value;
+
+                if (isPlayingGame.Equals(false))    return;
+
+                /// RPC로 GameScene에 GameStart 함수 실행
+                GameObject.FindObjectOfType<GameScene>().StartCoroutine("InitGameSetting");
+            }
+        }
     public bool isGameEnd {get; set;}
 
     CameraController mainCamera;
     public Vector3 endingCamPos;
     
-    /// 플레이 관련
+    /// 플레이 시간 관련
     public double startTime = 0;
 	public double playTime = 0;
-    private int lastTime = 0;
+
+    /// 플레이어 리스폰 시간 관련
+    public double respawnTime = 3; //기본 Default = 3초
+    public int respawnMin = 0;
+    public int respawnTurn = 1;
+    public float startRespawn = 0.01f;
+    public bool isDie { get; set; }
+    public bool isResur { get; set; }
+    public GameObject respawnObject;
+
+    /// 팀 킬 수 관련
     public int humanTeamKill = 0;
     public int cyborgTeamKill = 0;
+
+    /// 플레이어 관련
+    public GameObject myCharacter;
+    public PlayerType myCharacterType;
+    public PlayerTeam myCharacterTeam;
+
+    public (PhotonView, PhotonView) humanTeamCharacter;
+    public (PhotonView, PhotonView) cyborgTeamCharacter;
     #endregion
+
 
     public void OnUpdate()
     {
         if (isGameEnd)
         {
             // 메인 카메라 이동
-            mainCamera.transform.position = 
+            mainCamera.transform.position =
                 Vector3.Lerp(
-                    mainCamera.transform.position, 
-                    endingCamPos, 
+                    mainCamera.transform.position,
+                    endingCamPos,
                     Time.deltaTime * 2f
                 );
         }
 
         playTime = PhotonNetwork.Time - startTime;
+
+        //리스폰 시간 업데이트
+        respawnMin = ((int)playTime / 60);
+        if(respawnMin == 1 * respawnTurn)
+        {
+            respawnTime += 2;
+            respawnTurn += 1;
+            Debug.Log($"전체 캐릭터 부활 시간 : {respawnTime}초");
+        }
+
+        //플레이어 사망 시
+        switch (isDie)
+        {
+            case true:
+                //부활 = 3초
+                double FinishRespawn = (isResur == true) ? 3.0f : respawnTime;
+                startRespawn += Time.deltaTime;
+                if (startRespawn >= FinishRespawn) 
+                {
+                    respawnEvent();
+                    isDie = false;
+                    Debug.Log($" {FinishRespawn}초 지나서 부활 완료");
+                }
+
+                break;
+
+
+            case false:
+                startRespawn = 0.01f;
+                respawnObject = null;
+
+                break;
+        }
+
     }
 
     /// 플레이어 킬 이벤트
@@ -62,6 +139,31 @@ public class GameManager
         );
     }
 
+    /// 플레이어 죽음 이벤트
+    ///
+    /// int die ID : 죽은 플레이어 View ID
+    public void DieEvent(int diedID)
+    {
+        // 예외 처리 
+        if (PhotonView.Find(diedID) == null) return;
+
+        GameObject diedPlayer = PhotonView.Find(diedID)?.gameObject;
+        diedPlayer.GetComponent<Players>().enabled = false;
+        diedPlayer.GetComponent<CapsuleCollider>().enabled = false;
+      
+        //부활 유무
+        isResur = diedPlayer.GetComponent<Stat.PlayerStats>().isResurrection;
+
+        isDie = true;
+        respawnObject = diedPlayer;
+    }
+
+    public void respawnEvent()
+    {
+        respawnObject.GetComponent<Players>().enabled = true;
+        respawnObject.GetComponent<CapsuleCollider>().enabled = true;
+    }
+
     /// 게임 종료 스크립트
     ///
     /// Vector3 _endCamPos : 종료되는 화면 위치 (파괴되는 Nexus 위치)
@@ -80,7 +182,7 @@ public class GameManager
         foreach (ObjectController obj in objects)
         {
             // 각 오브젝트 별로 컴포넌트 비활성화
-            switch(obj._type)
+            switch (obj._type)
             {
                 case ObjectType.Nexus:
                     obj.GetComponent<MinionSummoner>().enabled = false;
@@ -99,5 +201,24 @@ public class GameManager
 
             obj.enabled = false;
         }
+    }
+
+    public GameObject RemoteTargetFinder(int id)
+	{
+        GameObject remoteTarget = PhotonView.Find(id).gameObject;
+        return remoteTarget;
+	}
+
+    public int RemoteTargetIdFinder(GameObject collider)
+	{
+        return collider.GetComponent<PhotonView>().ViewID;
+	}
+
+    public int RemoteColliderId(Collider collider)
+    {
+        if (collider.gameObject.GetComponent<PhotonView>() == null) 
+            return default;
+        int colliderId = collider.gameObject.GetComponent<PhotonView>().ViewID;
+        return colliderId;
     }
 }

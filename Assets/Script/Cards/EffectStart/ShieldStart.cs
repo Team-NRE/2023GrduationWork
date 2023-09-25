@@ -2,36 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
-public class ShieldStart : MonoBehaviour
+public class ShieldStart : BaseEffect
 {
-    float defenceTime = 0.01f;
-    Transform _player = null;
-    float _Defence = default;
-    bool stop = false;
+    PlayerStats _pStats;
+    float defence = default;
+    float shield_Time = 0.01f;
+    protected PhotonView _pv;
+    protected int _playerId;
 
-    void Update()
+    bool start;
+
+    private void Start()
     {
-        if (stop == false)
-        {
-            StartShield(_player, _Defence);
-        }
+        _pv = GetComponent<PhotonView>();
     }
 
-    public void StartShield(Transform _Player, float _defence)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        _player = _Player;
-        _Defence = _defence;
+        base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
+        defence = 50.0f;
+        _playerId = userId;
 
-        defenceTime += Time.deltaTime;
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
-        if (defenceTime >= 2.0f)
-        {
-            PlayerStats _pStats = _player.gameObject.GetComponent<PlayerStats>();
-            _pStats.defensePower -= _Defence;
-            stop = true;
-        }
+        start = true;
     }
 
+    public void Update()
+    {
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
+    }
 
+    [PunRPC]
+    public void RpcUpdate(int playerId)
+	{
+        if (start == true)
+        {
+            shield_Time += Time.deltaTime;
+
+            if (shield_Time >= 1.9f)
+            {
+                _pStats.defensePower -= defence;
+                start = false;
+            }
+        }
+    }
 }

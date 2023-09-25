@@ -1224,7 +1224,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3794445402211482994}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: SliderValuePass, Assembly-CSharp
         m_MethodName: UpdateProgress
         m_Mode: 0
         m_Arguments:
@@ -1247,6 +1247,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33cd2adf98f9f0e47af28f4a0c145208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingText: {fileID: 0}
+  finishText: {fileID: 0}
   b: 1
   slider: {fileID: 0}
   speed: 0.5

@@ -2,50 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stat;
+using Photon.Pun;
 
-public class InvincibleWeaponStart : MonoBehaviour
+public class InvincibleWeaponStart : BaseEffect
 {
-    Transform Player = null;
-    float Damage = default;
-    int Enemylayer = default;
+    float damage = default;
+    int enemylayer = default;
 
+    protected PhotonView _pv;
 
-    public void StartWeapon(Transform _Player, float _damage, LayerMask _enemylayer)
+    [PunRPC]
+    public override void CardEffectInit(int userId)
     {
-        Player = _Player;
-        Damage = _damage;
-        Enemylayer = _enemylayer;
+        _pv = GetComponent<PhotonView>();
+        base.CardEffectInit(userId);
+        damage = 1;
     }
 
-    public void Start()
+    public void OnTriggerStay(Collider other)
     {
-        StartWeapon(Player, Damage, Enemylayer);
-    }
-
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.layer == Enemylayer)
+        if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
 
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")
             {
-                ObjStats _Stats = other.gameObject.GetComponent<ObjStats>();
-                PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
+                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
+                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                _Stats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.02f);
             }
 
             //타겟이 적 Player일 시
             if (other.gameObject.tag == "PLAYER")
             {
-                PlayerStats _EnemyStats = other.gameObject.GetComponent<PlayerStats>();
-                PlayerStats _pStats = Player.gameObject.GetComponent<PlayerStats>();
+                PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
+                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                _EnemyStats.nowHealth -= (Damage + (_pStats.basicAttackPower * 0.01f));
+                enemyStats.receviedDamage = (_pv.ViewID, damage + (pStats.basicAttackPower * 0.02f));
+                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }
     }
+
+    [PunRPC]
+    public void RpcTrigger()
+	{
+
+	}
 }
