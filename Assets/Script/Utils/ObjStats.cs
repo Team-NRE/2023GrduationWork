@@ -73,16 +73,22 @@ namespace Stat
                 {
                     _nowHealth = value;
                 }
-                else if (value < 0) 
+                else if (value < 0)
                 {
                     value *= 100 / (100 + defensePower);
                     _nowHealth = value;
                 }
 
                 if (_nowHealth >= _maxHealth) _nowHealth = _maxHealth;
-                if (_nowHealth < 0) _nowHealth = 0;
+                if (_nowHealth < 0)
+                {
+                    _nowHealth = 0;
+                    //미니언이 늦게 죽는 현상으로 타겟 지정되지않게 CapsuleCollider -> false
+                    this.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+                }
             }
         }
+
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
         public float nowBattery { get { return _nowBattery; } set { _nowBattery = value; } }
 

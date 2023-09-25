@@ -33,8 +33,8 @@ namespace Stat
         [SerializeField] private float _death; //데스
 
         [Header("-- 레벨 --")]
-        private int _nowlevel;
-        [SerializeField] private int _level; //레벨
+        private float _nowlevel;
+        [SerializeField] private float _level; //레벨
         [SerializeField] private float _experience; //경험치
         [SerializeField] private float _levelUpEX; //레벨업시 늘어나는 경험치 양
         [SerializeField] private float _levelUpAP; //레벨업시 늘어나는 평타 공격력
@@ -97,18 +97,19 @@ namespace Stat
             get { return _nowHealth; }
             set
             {
+                if (value <= 0)
+                {
+                    _nowHealth = 0;
+                    return;
+                }
+
                 if (value > 0)
                 {
                     _nowHealth = value;
                 }
 
-                if (value <= 0)
-                {
-                    _nowHealth = 0;
-                }
 
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
-
             }
         }
         public float maxHealth
@@ -145,7 +146,7 @@ namespace Stat
 
 
         //레벨
-        public int level
+        public float level
         {
             get { return _level; }
             set
@@ -153,13 +154,14 @@ namespace Stat
                 _level = value;
                 if (_level != _nowlevel)
                 {
-                    basicAttackPower += _levelUpAP;
-                    attackSpeed += _levelUpAS;
-                    maxHealth += _levelUpHP;
-                    nowHealth += _levelUpHP;
-                    healthRegeneration += _levelUpHR;
-                    defensePower += _levelUpDP;
-                    _nowlevel = _level;
+                    PhotonView _pv = GetComponent<PhotonView>();
+                    _pv.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", _levelUpAP);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "attackSpeed", _levelUpAS);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "maxHealth", _levelUpHP);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _levelUpHP);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "healthRegeneration ", _levelUpHR);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "defensePower", _levelUpDP);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "_nowlevel", _level);
                 }
             }
         }
@@ -168,6 +170,7 @@ namespace Stat
             get { return _experience; }
             set
             {
+                if (nowHealth <= 0) return;
                 _experience += value;
                 if (_experience > levelUpEx)
                 {
@@ -326,7 +329,7 @@ namespace Stat
             if (statName == "defensePower")         defensePower        += value;
             if (statName == "receviedDamage")       receviedDamage      += value;
             if (statName == "shield")               shield              += value;
-            if (statName == "death")                death               += value;
+            if (statName == "_nowlevel")            _nowlevel           += value;
             if (statName == "experience")           experience          += value;
             if (statName == "speed")                speed               += value;
             if (statName == "manaRegen")            manaRegen           += value;
