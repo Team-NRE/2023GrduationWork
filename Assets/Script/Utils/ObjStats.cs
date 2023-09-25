@@ -73,7 +73,7 @@ namespace Stat
                 {
                     _nowHealth = value;
                 }
-                else if (value < 0) 
+                else if (value < 0)
                 {
                     value *= 100 / (100 + defensePower);
                     _nowHealth = value;
@@ -118,6 +118,7 @@ namespace Stat
                 }
             }
         }
+
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
         public float nowBattery { get { return _nowBattery; } set { _nowBattery = value; } }
 

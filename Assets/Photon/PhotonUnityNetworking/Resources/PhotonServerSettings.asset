@@ -72,6 +72,9 @@ MonoBehaviour:
   - CardEffectInit2
   - RemoteReparent
   - RemoteReParent
+  - SetRespawnState
+  - DieEvent
+  - RemoteRespawnEnable
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
