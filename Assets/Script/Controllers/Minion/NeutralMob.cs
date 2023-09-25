@@ -82,16 +82,6 @@ public class NeutralMob : ObjectController
         base.Death();
 
         if (!PhotonNetwork.IsMasterClient) return;
-
-        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
-
-        for (int i=0; i<pStats.Length; i++) {
-            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
-            {
-                pStats[i].gold += _oStats.gold;
-                pStats[i].experience += _oStats.experience;
-            }
-        }
         
         _allObjectTransforms.Remove(this.transform);
         Destroy(this.gameObject);
@@ -170,23 +160,6 @@ public class NeutralMob : ObjectController
 
         GameObject nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
         PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
-        // bulletPv.RPC("BulletSetting",
-        //     RpcTarget.All,
-        //     this.transform.position, 
-        //     _targetEnemyTransform.position, 
-        //     _oStats.attackSpeed, 
-        //     _oStats.basicAttackPower
-        // );
-
-        // nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
-        // bulletPv = nowBullet.GetComponent<PhotonView>();
-        // bulletPv.RPC("BulletSetting",
-        //     RpcTarget.All,
-        //     this.transform.position, 
-        //     _targetEnemyTransform.position, 
-        //     _oStats.attackSpeed, 
-        //     _oStats.basicAttackPower
-        // );
 
         bulletPv.RPC("BulletSetting", // v2
             RpcTarget.All,
