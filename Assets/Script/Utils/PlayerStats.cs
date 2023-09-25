@@ -129,7 +129,10 @@ namespace Stat
             {
                 value.Item2 *= 100 / (100 + defensePower);
                 _nowHealth -= value.Item2;
-                if (_nowHealth <= 0) Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
+                if (_nowHealth <= 0 && !GetComponent<BaseController>()._startDie) 
+                {
+                    Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
+                }
             }
         }
         public float shield 

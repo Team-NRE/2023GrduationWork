@@ -83,6 +83,9 @@ namespace Stat
                 if (_nowHealth <= 0) 
                 {
                     _nowHealth = 0;
+
+                    if (tag != "Neutral") return;
+
                     float minDistance = float.MaxValue;
                     Layer team = Layer.Human;
                     if (Managers.game.humanTeamCharacter.Item1 != null && minDistance > Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item1.transform.position))

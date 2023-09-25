@@ -111,6 +111,8 @@ public class UI_Select : UI_Scene
 
 	public void SelectButton(PointerEventData data)
 	{
+		if (Managers.game.myCharacterType == PlayerType.none) return;
+
 		dummyLoadingPage.SetActive(true);
 		Debug.Log("Start Game");
 		SceneManager.LoadScene("View Test Scene");

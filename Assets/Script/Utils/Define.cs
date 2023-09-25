@@ -21,6 +21,7 @@ namespace Define
     
     public enum PlayerType 
     {
+        none,
         Police,
         Firefighter,
         Lightsabre,
