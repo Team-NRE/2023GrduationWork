@@ -108,7 +108,6 @@ namespace Stat
                     _nowHealth = value;
                 }
 
-
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
             }
         }

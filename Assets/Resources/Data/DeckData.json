@@ -118,6 +118,18 @@
         "Card_InvincibleShield",
         "Card_InvincibleWeapon"
       ]
+    },
+    {
+      "id": "4",
+      "cards": [
+        "JobCard_Charge",
+
+        "Card_HealthPotion",
+        "Card_HealthPotion",
+        "Card_Crystal",
+        "Card_Spear",
+        "Card_BloodTransfusion"
+      ]
     }
   ]
 }
