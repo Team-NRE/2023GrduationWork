@@ -77,8 +77,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     {
         if(_pv.IsMine)
         {
-            UpdatePlayer_AnimationChange();
             UpdatePlayer_StateChange();
+            UpdatePlayer_AnimationChange();
         }    
     }
 
@@ -95,7 +95,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected virtual GameObject RangeAttack() { return null; }
 
-    protected virtual void StopAttack() { }
+    protected virtual IEnumerator StopAttack() { yield return null; }
     protected virtual void StopSkill() { }
     protected virtual void StartDie() { }
 
@@ -141,14 +141,19 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
                 break;
 
             case Define.State.Attack:
+                _anim.SetFloat("AttackSpeed", _pStats.attackSpeed);
                 _anim.SetBool("IsAttack", true);
 
                 _anim.SetBool("IsIdle", false);
                 _anim.SetBool("IsMoving", false);
                 _anim.SetBool("IsSkill", false);
 
-                if (_pv.IsMine)
-                    UpdateAttack();
+                StartCoroutine(StopAttack());
+                if (BaseCard._lockTarget == null)
+                {
+                    Debug.Log("평타 캔슬"); 
+                    return;
+                }
 
                 break;
 
@@ -168,6 +173,14 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected void UpdatePlayer_StateChange()
     {
+        //Die
+        if (_pStats.nowHealth <= 0)
+        {
+            _state = Define.State.Die;
+
+            return;
+        }
+
         if (_startDie == false)
         {
             UpdatePlayerStat();
@@ -176,10 +189,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         if (_stopSkill == true)
         {
             StopSkill();
-        }
-        if (_stopAttack == true)
-        {
-            StopAttack();
+
+            return;
         }
 
         //A키를 눌렀을 때 
@@ -187,6 +198,13 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         {
             RangeAttack();
         }
+    }
+
+    //퍼센트 계산
+    protected double PercentageCount(double percent, double attackDelay, int decimalplaces)
+    {
+
+        return System.Math.Round(percent / 100 * attackDelay, decimalplaces);
     }
 
 

@@ -83,7 +83,7 @@ public class Players : BaseController
 
     IEnumerator RespawnResetting()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2.8f);
         //부활 effect On
         transform.Find("SpawnSimplePink").gameObject.SetActive(true);
 
@@ -595,121 +595,82 @@ public class Players : BaseController
         }
     }
 
-    //Idle
-    protected override void UpdateIdle()
-    {
-        //
-        if (_pStats.nowHealth > 0 && _agent.remainingDistance < 0.2f)
-        {
-            _state = Define.State.Idle;
-        }
-
-        if (_pStats.nowHealth <= 0)
-        {
-            _state = Define.State.Die;
-        }
-    }
 
     //Moving
     protected override void UpdateMoving()
     {
-        if (_pv.IsMine)
+        //타겟 - Attack or Skill or Move
+        switch (_proj)
         {
-            //타겟 - Attack or Skill or Move
-            switch (_proj)
-            {
-                //Attack
-                case Define.Projectile.Attack_Proj:
-                    if (BaseCard._lockTarget == null)
-                    {
-                        _agent.ResetPath();
+            //Attack
+            case Define.Projectile.Attack_Proj:
+                if (BaseCard._lockTarget == null)
+                {
+                    _agent.ResetPath();
+                    _state = Define.State.Idle;
 
-                        break;
+                    break;
+                }
+
+                if (BaseCard._lockTarget != null)
+                {
+                    //이동
+                    transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, BaseCard._lockTarget.transform.position) - transform.position);
+                    _agent.SetDestination(BaseCard._lockTarget.transform.position);
+
+                    if (_agent.remainingDistance <= _pStats.attackRange)
+                    {
+                        _state = Define.State.Attack;
+
+                        return;
                     }
 
-                    if (BaseCard._lockTarget != null)
+                    else
                     {
-                        //이동
-                        transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, BaseCard._lockTarget.transform.position) - transform.position);
-                        _agent.SetDestination(BaseCard._lockTarget.transform.position);
-
-                        if (_agent.remainingDistance <= _pStats.attackRange)
-                        {
-                            _state = Define.State.Attack;
-
-                            return;
-                        }
-
-                        else
-                        {
-                            _state = Define.State.Moving;
-                        }
+                        _state = Define.State.Moving;
                     }
+                }
 
-                    break
+                break
 ;
 
-                //Skill
-                case Define.Projectile.Skill_Proj:
-                    //논타겟 카드일 때
-                    if (BaseCard._lockTarget == null)
+            //Skill
+            case Define.Projectile.Skill_Proj:
+                //논타겟 카드일 때
+                if (BaseCard._lockTarget == null)
+                {
+                    _agent.ResetPath();
+                }
+
+                //타겟 카드일 때
+                if (BaseCard._lockTarget != null)
+                {
+                    float targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
+                    if (targetDis <= _cardStats._rangeScale)
                     {
-                        _agent.ResetPath();
+                        _state = Define.State.Skill;
+
+                        return;
                     }
+                }
 
-                    //타겟 카드일 때
-                    if (BaseCard._lockTarget != null)
-                    {
-                        float targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
-                        if (targetDis <= _cardStats._rangeScale)
-                        {
-                            _state = Define.State.Skill;
+                break;
 
-                            return;
-                        }
-                    }
+            //Move
+            case Define.Projectile.Undefine:
+                //이동
+                transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+                _agent.SetDestination(_MovingPos);
 
-                    break;
+                _state = Define.State.Moving;
 
-                //Move
-                case Define.Projectile.Undefine:
-                    //이동
-                    transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
-                    _agent.SetDestination(_MovingPos);
+                //Idle
+                if (_agent.remainingDistance < 0.2f)
+                {
+                    _state = Define.State.Idle;
+                }
 
-                    _state = Define.State.Moving;
-
-                    break;
-            }
-
-            //Idle
-            if (_agent.remainingDistance < 0.2f)
-            {
-                _state = Define.State.Idle;
-            }
-
-            //Die
-            if (_pStats.nowHealth <= 0)
-            {
-                _state = Define.State.Die;
-            }
-        }
-
-        else
-        {
-            // 수신된 좌표로 보간한 이동처리
-            transform.position = Vector3.Lerp(
-                transform.position,
-                receivePos,
-                Time.deltaTime * damping
-            );
-
-            // 수신된 회전값으로 보간한 회전처리
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                receiveRot,
-                Time.deltaTime * damping
-            );
+                break;
         }
     }
 
@@ -777,34 +738,31 @@ public class Players : BaseController
 
 
     //평타 후 딜레이
-    protected override void StopAttack()
+    protected override IEnumerator StopAttack()
     {
-        //초기 세팅
-        if (_SaveAttackSpeed == default)
-        {
-            //attack Delay start
-            _SaveAttackSpeed = 0.01f;
+        //// 평타 딜레이 중
+        //평타 중 Key Input 안받기 
+        Managers.Input.KeyAction -= KeyDownAction;
 
-            //마우스 좌표, 타겟 초기화
-            _MovingPos = default;
-            BaseCard._lockTarget = null;
-        }
+        
+        ////attack animation에서 특정 동작에서 마우스 입력x, 데미지 작용
+        yield return new WaitForSeconds((float)PercentageCount(_pStats.attackAnimPercent, _pStats.attackDelay, 2));
+        Managers.Input.MouseAction -= MouseDownAction;
+        if (_stopAttack == false) UpdateAttack();
 
-        //attack Delay start
-        if (_SaveAttackSpeed != default)
-        {
-            //attack Delay start
-            _SaveAttackSpeed += Time.deltaTime;
 
-            //플레이어 평타 딜레이 시간 지나면,
-            if (_SaveAttackSpeed >= _pStats.attackDelay)
-            {
-                //attackDelay 초기화
-                _SaveAttackSpeed = default;
-                //StopAttack() update문 stop
-                _stopAttack = false;
-            }
-        }
+        ////attackDelay가 다 지나간 후
+        yield return new WaitForSeconds((float)PercentageCount((100 - _pStats.attackAnimPercent), _pStats.attackDelay, 2));
+        ////평타 딜레이 후
+        //Input 재설정
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
+        _MovingPos = default;
+        BaseCard._lockTarget = null;
+        _stopAttack = false;
     }
 
 
