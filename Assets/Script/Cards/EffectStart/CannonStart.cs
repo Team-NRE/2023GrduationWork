@@ -16,6 +16,7 @@ public class CannonStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
 
+        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
         damage = 50.0f;
     }
 
@@ -41,7 +42,7 @@ public class CannonStart : BaseEffect
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
-
+                //Debug.Log($"Canon Damaging : {other.gameObject.name}");
                 oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
 

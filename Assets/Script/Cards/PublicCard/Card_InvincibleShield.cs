@@ -46,11 +46,12 @@ public class Card_InvincibleShield : UI_Card
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {
+            int targetId = Managers.game.RemoteColliderId(col);
             //col.transform -> Police, 미니언
-            //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
-            //shield.AddComponent<InvincibleShieldStart>().Invincibility(col.gameObject.name, _defence, _invincibleTime, _shieldTime);
-            shield.GetComponent<InvincibleShieldStart>().CardEffectInit(col.GetComponent<PhotonView>().ViewID);
+            //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
+            //shield.GetComponent<InvincibleShieldStart>().CardEffectInit(col.GetComponent<PhotonView>().ViewID);
+            shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, targetId);
 
             if(col.gameObject.tag == "PLAYER")
             {

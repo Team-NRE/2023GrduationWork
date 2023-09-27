@@ -76,6 +76,8 @@ MonoBehaviour:
   - DieEvent
   - RemoteRespawnEnable
   - addGnE
+  - StartInvincibility
+  - StartShield
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

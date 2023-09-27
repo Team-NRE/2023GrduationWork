@@ -55,6 +55,7 @@ public class BloodstainedCoinStart : BaseEffect
 
             if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
             {
+                // 여기서 에러가 발생한다.
                 //effect
                 //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
                 _effectObject = PhotonNetwork.Instantiate($"Particle/Effect_BloodstainedCoin", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
@@ -72,7 +73,6 @@ public class BloodstainedCoinStart : BaseEffect
 
                     Destroy(gameObject, 0.1f);
                     Destroy(_effectObject, 0.5f);
-                    //_pv.RPC("RpcDelayDestroy", RpcTarget.All, this.gameObject, 0.1f);
                     //DelayDestroy(_effectObject, 0.5f, );
                 }
 
@@ -90,8 +90,10 @@ public class BloodstainedCoinStart : BaseEffect
                         pStats.gold += 100;
                     }
 
-                    Destroy(gameObject, 0.1f);
-                    Destroy(_effectObject, 0.5f);
+                    //Destroy(gameObject, 0.1f);
+                    //Destroy(_effectObject, 0.5f);
+                    RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
+                    RpcDelayDestroy(_effectObject.gameObject.GetComponent<PhotonView>().ViewID, 0.5f);
                     //StartCoroutine(DelayDestroy(gameObject, 0.1f));
                 }
             }

@@ -6,7 +6,6 @@ using Photon.Pun;
 
 public class StrikeStart : BaseEffect
 {
-    GameObject Obj = null;
     protected PhotonView _pv;
 
     float damage = default;
@@ -14,18 +13,24 @@ public class StrikeStart : BaseEffect
     float StartEffect = 0.01f;
     float saveSpeed = default;
 
+    int _targetId;
+    int _playerId;
+    int _enemyLayer;
+
     PlayerStats enemyStats;
     ObjStats oStats;
 
     bool IsEffect = false;
 
+    [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
-        Obj = target;
+        _targetId = targetId;
+        _enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
 
-        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.parent = target.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 1.8f, 0);
 
         damage = 40.0f;
@@ -34,12 +39,13 @@ public class StrikeStart : BaseEffect
 
     public void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId, _targetId);
     }
 
     [PunRPC]
-    public void RpcUpdate()
+    public void RpcUpdate(int playerId, int targetId)
 	{
+        GameObject targetObj = Managers.game.RemoteTargetFinder(targetId);
         if (player == null) { PhotonNetwork.Destroy(gameObject); }
         if (player != null)
         {
@@ -47,9 +53,9 @@ public class StrikeStart : BaseEffect
             {
                 case false:
                     //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-                    if (Obj.tag != "PLAYER")
+                    if (targetObj.tag != "PLAYER")
                     {
-                        oStats = Obj.GetComponent<ObjStats>();
+                        oStats = targetObj.GetComponent<ObjStats>();
                         PlayerStats pStats = player.GetComponent<PlayerStats>();
 
                         oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
@@ -64,12 +70,12 @@ public class StrikeStart : BaseEffect
                     }
 
                     //Ÿ���� �� Player�� ��
-                    if (Obj.tag == "PLAYER")
+                    if (targetObj.tag == "PLAYER")
                     {
-                        enemyStats = Obj.GetComponent<PlayerStats>();
+                        enemyStats = targetObj.GetComponent<PlayerStats>();
                         PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                        enemyStats.receviedDamage = (_pv.ViewID, (damage + (pStats.basicAttackPower * 0.5f)));
+                        enemyStats.receviedDamage = (_targetId, (damage + (pStats.basicAttackPower * 0.5f)));
                         if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 
                         saveSpeed = enemyStats.speed;
@@ -88,7 +94,7 @@ public class StrikeStart : BaseEffect
                     if (StartEffect > effectTime - 0.01f)
                     {
                         //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-                        if (Obj.tag != "PLAYER")
+                        if (targetObj.tag != "PLAYER")
                         {
                             oStats.speed = saveSpeed;
 
@@ -96,7 +102,7 @@ public class StrikeStart : BaseEffect
                         }
 
                         //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-                        if (Obj.tag == "PLAYER")
+                        if (targetObj.tag == "PLAYER")
                         {
                             enemyStats.speed = saveSpeed;
 

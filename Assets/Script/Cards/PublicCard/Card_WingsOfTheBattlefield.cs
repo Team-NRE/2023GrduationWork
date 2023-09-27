@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ÀüÀåÀÇ ³¯°³
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 public class Card_WingsOfTheBattlefield : UI_Card
 {  
     int _layer = default;
@@ -30,7 +30,7 @@ public class Card_WingsOfTheBattlefield : UI_Card
 
         _layer = layer;
            
-        //¶ì·Î¸µ
+        //ï¿½ï¿½Î¸ï¿½
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.Euler(-90, 0, 0));
         //_effectObject.transform.parent = _player.transform;
@@ -39,7 +39,7 @@ public class Card_WingsOfTheBattlefield : UI_Card
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
 
-        //Speed ÀÌÆåÆ®
+        //Speed ï¿½ï¿½ï¿½ï¿½Æ®
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {

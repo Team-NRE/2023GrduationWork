@@ -30,8 +30,8 @@ public class Card_InvincibleWeapon : UI_Card
         //_effectObject.transform.parent = _player.transform;
         _effectObject.transform.SetParent(_player.transform);
 
-        _effectObject.transform.localPosition = Vector3.zero;
-        _effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
+        //_effectObject.transform.localPosition = Vector3.zero;
+        //_effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
 
 
         _layer = layer;
@@ -40,7 +40,7 @@ public class Card_InvincibleWeapon : UI_Card
         if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<InvincibleWeaponStart>().StartWeapon(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<InvincibleWeaponStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

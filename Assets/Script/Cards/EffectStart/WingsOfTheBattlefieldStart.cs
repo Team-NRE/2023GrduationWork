@@ -12,22 +12,16 @@ public class WingsOfTheBattlefieldStart : BaseEffect
     float speed = default;
     float speed_Time = 0.01f;
     float effectTime = default;
+    int _playerId;
 
     bool start = false;
-
-    public void StartWings(string _player, float _speed, float _effectTime)
-    {
-        _pStats = GameObject.Find(_player).GetComponent<PlayerStats>();
-        speed = _speed;
-        effectTime = _effectTime;
-
-        start = true;
-    }
 
     public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
+        _pStats = player.GetComponent<PlayerStats>();
+        _playerId = userId;
         speed = 2.0f;
         effectTime = 1.1f;
     }

@@ -36,11 +36,11 @@ public class Card_CrisisAversion : UI_Card
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_CrisisAversion", ground, Quaternion.Euler(-90, 0, 0));
         //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
+        //_effectObject.transform.SetParent(_player.transform);
 
-        _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
+        //_effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
         //_effectObject.AddComponent<CrisisAversionStart>().StartCrisisAversion(playerId, _enemylayer);
-        _effectObject.GetComponent<CrisisAversionStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }
