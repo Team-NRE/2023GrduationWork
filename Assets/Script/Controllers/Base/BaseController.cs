@@ -107,46 +107,57 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         {
             case Define.State.Idle:
                 _anim.SetBool("IsIdle", true);
-                _anim.SetBool("IsWalk", false);
-                _anim.SetBool("IsThrow1", false);
-                _anim.SetBool("IsFire", false);
+
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsAttack", false);
+                _anim.SetBool("IsSkill", false);
+                _anim.SetBool("IsDie", false);
 
                 UpdateIdle();
 
                 break;
 
             case Define.State.Die:
-                _anim.SetTrigger("Die");
+                _anim.SetBool("IsDie", true);
+
                 _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsWalk", false);
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsAttack", false);
+                _anim.SetBool("IsSkill", false);
 
                 UpdateDie();
 
                 break;
 
             case Define.State.Moving:
-                _anim.SetBool("IsWalk", true);
+                _anim.SetBool("IsMoving", true);
+
                 _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsThrow1", false);
-                _anim.SetBool("IsFire", false);
+                _anim.SetBool("IsAttack", false);
+                _anim.SetBool("IsSkill", false);
 
                 UpdateMoving();
 
                 break;
 
             case Define.State.Attack:
-                _anim.SetBool("IsFire", true);
+                _anim.SetBool("IsAttack", true);
+
                 _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsThrow1", false);
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsSkill", false);
+
                 if (_pv.IsMine)
                     UpdateAttack();
 
                 break;
 
             case Define.State.Skill:
-                _anim.SetBool("IsThrow1", true);
+                _anim.SetBool("IsSkill", true);
+
                 _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsFire", false);
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsAttack", false);
 
                 UpdateSkill();
 

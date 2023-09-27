@@ -9788,6 +9788,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd99ea0cfc88b2748b0f6c4652f83965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectTime: 0
+  _damage: 0
+  _defence: 0
+  _speed: 0
+  _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
+  player: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &906593307364250452
 MonoBehaviour:
   m_ObjectHideFlags: 0
