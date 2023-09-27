@@ -27,8 +27,8 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
         Cam_Z = 6;
 
         mainCamera  = Camera.main.GetComponent<CameraController>();
-        canvas      = GetComponentInChildren<Canvas>();
-        mapRectTransform = canvas.transform.Find("Map").GetComponent<RectTransform>();
+        canvas      = GetComponent<Canvas>();
+        mapRectTransform = transform.Find("Map").GetComponent<RectTransform>();
     }
 
     void Update()

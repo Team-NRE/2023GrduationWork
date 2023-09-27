@@ -83,6 +83,8 @@ public class GameManager
                     endingCamPos,
                     Time.deltaTime * 2f
                 );
+            
+            return;
         }
 
         playTime = PhotonNetwork.Time - startTime;
@@ -181,27 +183,37 @@ public class GameManager
         /// 오브젝트 비활성화
         ObjectController[] objects = GameObject.FindObjectsOfType<ObjectController>();
 
-        foreach (ObjectController obj in objects)
+        for (int i=0; i<objects.Length; i++)
         {
             // 각 오브젝트 별로 컴포넌트 비활성화
-            switch (obj._type)
+            switch (objects[i]._type)
             {
                 case ObjectType.Nexus:
-                    obj.GetComponent<MinionSummoner>().enabled = false;
+                    objects[i].GetComponent<MinionSummoner>().enabled = false;
                     break;
                 case ObjectType.MeleeMinion:
                 case ObjectType.RangeMinion:
                 case ObjectType.SuperMinion:
-                    obj.GetComponent<NavMeshAgent>().enabled = false;
-                    obj.GetComponent<Animator>().enabled = false;
+                    objects[i].GetComponent<NavMeshAgent>().enabled = false;
+                    objects[i].GetComponent<Animator>().enabled = false;
                     break;
                 case ObjectType.Tower:
                 case ObjectType.Neutral:
-                    obj.GetComponent<Animator>().enabled = false;
+                    objects[i].GetComponent<Animator>().enabled = false;
                     break;
             }
 
-            obj.enabled = false;
+            objects[i].enabled = false;
+        }
+
+        /// 플레이어 비활성화
+        Players[] players = GameObject.FindObjectsOfType<Players>();
+
+        for (int i=0; i<players.Length; i++)
+        {
+            players[i].enabled = false;
+            players[i].GetComponent<NavMeshAgent>().enabled = false;
+            players[i].GetComponent<Animator>().enabled = false;
         }
     }
 
