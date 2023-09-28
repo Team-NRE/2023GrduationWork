@@ -29,16 +29,13 @@ public class Card_InvincibleShield : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         _layer = layer;
 
         //띠로링
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
         //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
         
         _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
@@ -53,6 +50,7 @@ public class Card_InvincibleShield : UI_Card
             //shield.GetComponent<InvincibleShieldStart>().CardEffectInit(col.GetComponent<PhotonView>().ViewID);
             shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, targetId);
 
+#warning 창조가 필요한 부분 2
             if(col.gameObject.tag == "PLAYER")
             {
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();

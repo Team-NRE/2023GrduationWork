@@ -18,6 +18,7 @@ public class InvincibleShieldStart : BaseEffect
     float invincibility_Time = default;
     float shield_Time = default;
     float Save_Health;
+    int _enemyLayer;
 
     float time = 0.01f;
 
@@ -28,9 +29,6 @@ public class InvincibleShieldStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
-
-        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
-        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
 
         defence = 10000;
         invincibility_Time = 1.5f;
@@ -57,6 +55,9 @@ public class InvincibleShieldStart : BaseEffect
     [PunRPC]
     public void StartInvincibility()
     {
+        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
+        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
+
         time += Time.deltaTime;
 
         if (time >= invincibility_Time)
@@ -87,6 +88,8 @@ public class InvincibleShieldStart : BaseEffect
     [PunRPC]
     public void StartShield()
     {
+        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
+        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
         time += Time.deltaTime;
 
         if (time >= shield_Time)

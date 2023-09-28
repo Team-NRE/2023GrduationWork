@@ -26,11 +26,10 @@ public class Card_CrisisAversion : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default) 
     {
-        _layer = layer;
-        if (_layer == 6) { _enemylayer = 7; }
-        if (_layer == 7) { _enemylayer = 6; }
+        //_layer = layer;
+        //if (_layer == 6) { _enemylayer = 7; }
+        //if (_layer == 7) { _enemylayer = 6; }
         
-        //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_CrisisAversion");

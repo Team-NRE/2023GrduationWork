@@ -29,11 +29,11 @@ public class WingsOfTheBattlefieldStart : BaseEffect
 
     public void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
     }
 
     [PunRPC]
-    public void RpcUpdate()
+    public void RpcUpdate(int playerId)
 	{
         if (start == true)
         {

@@ -28,7 +28,7 @@ public class Card_InvincibleWeapon : UI_Card
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_InvincibleWeapon");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", ground, Quaternion.Euler(-90,-90,75));
         //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
+        //_effectObject.transform.SetParent(_player.transform);
 
         //_effectObject.transform.localPosition = Vector3.zero;
         //_effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
