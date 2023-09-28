@@ -117,8 +117,12 @@ public class Minion : ObjectController
             }
         }
 
-        var targetRotation = Quaternion.LookRotation(new Vector3(moveTarget.x, transform.position.y, moveTarget.z) - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2.0f * Time.deltaTime);
+        var targetPos = new Vector3(moveTarget.x, transform.position.y, moveTarget.z) - transform.position;
+        if (targetPos != Vector3.zero)
+        {
+            var targetRotation = Quaternion.LookRotation(targetPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2.0f * Time.deltaTime);
+        }
 
         nav.SetDestination(moveTarget);
     }

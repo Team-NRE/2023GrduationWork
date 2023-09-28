@@ -229,10 +229,10 @@ public class Players : BaseController
 
 
     //마우스 클릭 시 좌표, 타겟 설정
-    public void TargetSetting(Vector3 _mousePos, GameObject _lockTarget, Define.MouseEvent _evt = default)
+    public void TargetSetting(Vector3 _mousePos, GameObject _lockTarget = null, Define.MouseEvent _evt = default)
     {
         //도로 클릭 시
-        if (_lockTarget.layer == (int)Define.Layer.Road)
+        if (_lockTarget == null || _lockTarget.layer == (int)Define.Layer.Road)
         {
             //좌표 설정
             _MovingPos = _mousePos;
@@ -245,6 +245,8 @@ public class Players : BaseController
             {
                 _proj = Define.Projectile.Undefine;
             }
+            
+            return;
         }
 
         //적,중앙 오브젝트 클릭 시
