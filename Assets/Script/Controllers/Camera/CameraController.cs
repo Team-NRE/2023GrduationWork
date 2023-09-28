@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class CameraController : BaseController
 {
-    public float planescale_X { get; set; }
-    public float planescale_Z { get; set; }
+    // 맵 실제 크기
+    public Vector3 mapMax;
+    public Vector3 mapMin;
     public float Cam_Y { get; set; }
     public float Cam_Z { get; set; }
+    Vector3 cameraFieldMax;
+    Vector3 cameraFieldMin;
+
+    // 화면 비율
+    float screenRatio = 1920 / 1080;
 
     //속도
     private Vector3 velocity = Vector3.zero;
@@ -33,10 +39,13 @@ public class CameraController : BaseController
         p_Position = Managers.game.myCharacter?.transform;
 
         //초기 값 세팅
-        planescale_X = 80; // -80 < X < 80
-        planescale_Z = -4; // -28 < Z < 20 / +24
         Cam_Y = 9;
-        Cam_Z = 6;
+        Cam_Z = -6;
+
+        mapMax = GameObject.Find("MapMax").transform.position;
+        mapMin = GameObject.Find("MapMin").transform.position;
+
+        InitCameraField();
 
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
@@ -45,6 +54,16 @@ public class CameraController : BaseController
 
         ignore = LayerMask.GetMask("Human", "Cyborg");
         Managers.UI.isOpenedPopup = false;
+    }
+
+    void InitCameraField()
+    {
+        cameraFieldMax = mapMax;
+        cameraFieldMin = mapMin;
+
+        cameraFieldMax.x += Cam_Z * screenRatio;
+        cameraFieldMin.x -= Cam_Z * screenRatio;
+        cameraFieldMax.z += Cam_Z * 2;
     }
 
     private void OnDisable()
@@ -63,7 +82,7 @@ public class CameraController : BaseController
                 Camera.main.transform.position = new Vector3(
                     p_Position.position.x, 
                     p_Position.position.y + Cam_Y, 
-                    p_Position.position.z - Cam_Z
+                    p_Position.position.z + Cam_Z
                 );
             }
 
@@ -88,7 +107,7 @@ public class CameraController : BaseController
                 Camera.main.transform.position = new Vector3(
                     p_Position.position.x, 
                     p_Position.position.y + Cam_Y, 
-                    p_Position.position.z - Cam_Z
+                    p_Position.position.z + Cam_Z
                 );
             }
             
@@ -249,12 +268,12 @@ public class CameraController : BaseController
         Vector3 MousePos = Camera.main.ScreenToViewportPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
 
         //x 값
-        Vector3 position_x_0 = new Vector3(-planescale_X, p_Position.position.y + Cam_Y, Camera.main.transform.position.z);
-        Vector3 position_x_1 = new Vector3(planescale_X, p_Position.position.y + Cam_Y, Camera.main.transform.position.z);
+        Vector3 position_x_0 = new Vector3(cameraFieldMin.x, p_Position.position.y + Cam_Y, Camera.main.transform.position.z);
+        Vector3 position_x_1 = new Vector3(cameraFieldMax.x, p_Position.position.y + Cam_Y, Camera.main.transform.position.z);
 
         //y 값
-        Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, planescale_Z - 24);
-        Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, planescale_Z + 24);
+        Vector3 position_z_0 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, cameraFieldMin.z);
+        Vector3 position_z_1 = new Vector3(Camera.main.transform.position.x, p_Position.position.y + Cam_Y, cameraFieldMax.z);
 
         //마우스가 창 밖으로 갈 때
         if (MousePos.x <= 0.1)
@@ -283,7 +302,7 @@ public class CameraController : BaseController
     public void QuaterviewCam()
     {
         //카메라 이동
-        Vector3 pos = new Vector3(p_Position.position.x, p_Position.position.y + Cam_Y, p_Position.position.z - Cam_Z);
+        Vector3 pos = new Vector3(p_Position.position.x, p_Position.position.y + Cam_Y, p_Position.position.z + Cam_Z);
         Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, pos, ref velocity, 0.25f);
     }
 }
