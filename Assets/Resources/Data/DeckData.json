@@ -4,14 +4,10 @@
       "id": "1",
       "cards": [
         "JobCard_Grenade",
-
-        "Card_HealthPotion",
-        "Card_HealthPotion",
-        "Card_Crystal",
-        "Card_Spear",
-        "Card_Enhancement",
-        "Card_BloodTransfusion",
-        "Card_Resurrection"
+        "Card_BloodstainedCoin",
+        "Card_BloodstainedCoin",
+        "Card_BloodstainedCoin",
+        "Card_BloodstainedCoin"
       ]
     },
     {

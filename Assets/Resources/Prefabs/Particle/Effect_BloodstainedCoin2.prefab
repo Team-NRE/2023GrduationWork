@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5814362945849723627}
   - component: {fileID: 7390261277485225080}
   - component: {fileID: 6309783412534170846}
-  - component: {fileID: 1479482575256243541}
+  - component: {fileID: 8893240499503592994}
   - component: {fileID: 14982223171896773}
   m_Layer: 0
   m_Name: Effect_BloodstainedCoin2
@@ -100,7 +100,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1479482575256243541
+--- !u!114 &8893240499503592994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7920045488927621917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e782aff85afb1d43be16ed0392b63aa, type: 3}
+  m_Script: {fileID: 11500000, guid: ea74c302772d4d84098f8252d4c4fecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _effectTime: 0
