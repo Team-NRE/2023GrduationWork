@@ -159,6 +159,7 @@ public class Minion : ObjectController
         {
             case ObjectAction.Attack:
                 nav.enabled = false;
+                nav.enabled = true;
                 break;
             case ObjectAction.Death:
                 nav.enabled = false;
