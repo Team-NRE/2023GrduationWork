@@ -12,12 +12,13 @@ public class InvincibleShieldStart : BaseEffect
     protected PhotonView _pv;
 
 
-    GameObject objectName;
+    //GameObject objectName;
 
     float defence = default;
     float invincibility_Time = default;
     float shield_Time = default;
     float Save_Health;
+    int _enemyLayer;
 
     float time = 0.01f;
 
@@ -27,11 +28,7 @@ public class InvincibleShieldStart : BaseEffect
     public override void CardEffectInit(int userId, int targetId)
     {
         _pv = GetComponent<PhotonView>();
-        base.CardEffectInit(userId);
-        objectName = GetRemotePlayer(targetId);
-
-        if (objectName.tag == "PLAYER") { _pStats = objectName.GetComponent<PlayerStats>(); }
-        if (objectName.tag != "PLAYER") { _oStats = objectName.GetComponent<ObjStats>(); }
+        base.CardEffectInit(userId, targetId);
 
         defence = 10000;
         invincibility_Time = 1.5f;
@@ -42,23 +39,30 @@ public class InvincibleShieldStart : BaseEffect
     {
         if (stop == false)
         {
-            StartInvincibility();
+            //StartInvincibility();
+            _pv.RPC("StartInvincibility", RpcTarget.All);
         }
 
         if (stop == true)
         {
-            Invoke("StartShield", 0.02f);
+            //Invoke("StartShield", 0.02f);
+            DelayTimer(0.02f);
+            _pv.RPC("StartShield", RpcTarget.All);
         }
     }
 
 
+    [PunRPC]
     public void StartInvincibility()
     {
+        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
+        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
+
         time += Time.deltaTime;
 
         if (time >= invincibility_Time)
         {
-            if(objectName.tag == "PLAYER")
+            if(target.tag == "PLAYER")
             { 
                 //플레이어 방어력 빠짐
                 _pStats.defensePower -= defence;
@@ -67,7 +71,7 @@ public class InvincibleShieldStart : BaseEffect
                 _pStats.nowHealth += Save_Health;
             }
 
-            if (objectName.tag != "PLAYER")
+            if (target.tag != "PLAYER")
             {
                 //플레이어 방어력 빠짐
                 _oStats.defensePower -= defence;
@@ -81,18 +85,21 @@ public class InvincibleShieldStart : BaseEffect
         }
     }
 
+    [PunRPC]
     public void StartShield()
     {
+        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
+        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
         time += Time.deltaTime;
 
         if (time >= shield_Time)
         {
-            if(objectName.tag == "PLAYER") { _pStats.nowHealth -= Save_Health; }
-            if(objectName.tag != "PLAYER") { _oStats.nowHealth -= Save_Health; }
+            if(target.tag == "PLAYER") { _pStats.nowHealth -= Save_Health; }
+            if(target.tag != "PLAYER") { _oStats.nowHealth -= Save_Health; }
 
             stop = false;
             time = 0;
-            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }

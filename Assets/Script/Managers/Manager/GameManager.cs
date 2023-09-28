@@ -74,6 +74,9 @@ public class GameManager
 
     public void OnUpdate()
     {
+        if (PhotonNetwork.CurrentRoom == null)
+            return;
+
         if (isGameEnd)
         {
             // 메인 카메라 이동
@@ -234,5 +237,18 @@ public class GameManager
             return default;
         int colliderId = collider.gameObject.GetComponent<PhotonView>().ViewID;
         return colliderId;
+    }
+
+    public void Clear()
+    {
+        humanTeamKill = 0;
+        cyborgTeamKill = 0;
+
+        myCharacter = null;
+        myCharacterType = default;
+        myCharacterTeam = default;
+
+        humanTeamCharacter = (null, null);
+        cyborgTeamCharacter = (null, null);
     }
 }

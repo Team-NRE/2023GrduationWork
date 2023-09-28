@@ -11,7 +11,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 		DontDestroyOnLoad(this.gameObject);
 	}
 
-	void ConnectToServer()
+	public void ConnectToServer()
 	{
 		PhotonNetwork.ConnectUsingSettings();
 		Debug.Log("Trying to connect to the server...");

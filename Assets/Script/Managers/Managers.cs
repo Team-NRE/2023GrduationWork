@@ -81,6 +81,7 @@ public class Managers : MonoBehaviour
     //씬넘어갈때 메모리 초기화
     public static void Clear()
     {
+        game.Clear();
         Sound.Clear();
         Scene.Clear();
         Pool.Clear();

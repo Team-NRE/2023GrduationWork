@@ -4,6 +4,8 @@
 
 using UnityEngine;
 using Define;
+using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class Nexus : ObjectController
 {
@@ -50,6 +52,21 @@ public class Nexus : ObjectController
 
     public void gameFinish()
     {
-        
+        Debug.Log("Return to Lobby");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.LeaveRoom();
+        }
+
+        if (PhotonNetwork.CurrentRoom == null)
+            SceneManager.LoadScene("Login");
+
+        Managers.game.isGameEnd = false;
+        Managers.game.isGameStart = false;
+        Managers.Clear();
+        PhotonNetwork.Disconnect();
+        GameObject pm = GameObject.Find("PhotonManager");
+        Destroy(pm);
     }
 }

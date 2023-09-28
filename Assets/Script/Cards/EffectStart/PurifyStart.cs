@@ -17,7 +17,7 @@ public class PurifyStart : BaseEffect
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0.2f, 0);
 
-        _stats.nowState = "Health";
+        //_stats.nowState = "Health";
     }
 
     // Update is called once per frame
