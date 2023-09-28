@@ -7,11 +7,6 @@ using UnityEngine.EventSystems;
 
 public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
 {
-    float planescale_X { get; set; }
-    float planescale_Z { get; set; }
-    float Cam_Y { get; set; }
-    float Cam_Z { get; set; }
-
     CameraController mainCamera;
     Canvas canvas;
     RectTransform mapRectTransform;
@@ -21,11 +16,6 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
     private void Awake()
     {
         //초기 값 세팅
-        planescale_X = 256f; // -80 < X < 80
-        planescale_Z = 89.6f; // -28 < Z < 20 / +24
-        Cam_Y = 9;
-        Cam_Z = 6;
-
         mainCamera  = Camera.main.GetComponent<CameraController>();
         canvas      = GetComponent<Canvas>();
         mapRectTransform = transform.Find("Map").GetComponent<RectTransform>();
@@ -69,9 +59,9 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(mapRectTransform, mousePos, canvas.worldCamera, out pos);
 
-        newPos.x = Mathf.Lerp(-mainCamera.planescale_X, mainCamera.planescale_X, normalizing(-planescale_X, planescale_X, pos.x));
+        newPos.x = Mathf.Lerp(mainCamera.mapMin.x, mainCamera.mapMax.x, normalizing(-mapRectTransform.rect.width/2, mapRectTransform.rect.width/2, pos.x));
         newPos.y = mainCamera.transform.position.y;
-        newPos.z = Mathf.Lerp(mainCamera.planescale_Z - 26, mainCamera.planescale_Z + 24, normalizing(-planescale_Z, planescale_Z, pos.y));
+        newPos.z = Mathf.Lerp(mainCamera.mapMin.z, mainCamera.mapMax.z, normalizing(-mapRectTransform.rect.height/2, mapRectTransform.rect.height/2, pos.y)) + mainCamera.Cam_Z;
 
         mainCamera.transform.position = newPos;
     }
