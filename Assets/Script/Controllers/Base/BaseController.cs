@@ -20,7 +20,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
-    
 
     /// <summary>
     /// 초기화
@@ -75,7 +74,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     public void Update()
     {
-        if(_pv.IsMine)
+        if (_pv.IsMine)
         {
             UpdatePlayer_StateChange();
             UpdatePlayer_AnimationChange();
@@ -97,7 +96,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected virtual IEnumerator StopAttack() { yield return null; }
     protected virtual void StopSkill() { }
-    protected virtual void StartDie() { }
 
 
     protected void UpdatePlayer_AnimationChange() 
@@ -148,11 +146,9 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
                 _anim.SetBool("IsMoving", false);
                 _anim.SetBool("IsSkill", false);
 
-                StartCoroutine(StopAttack());
-                if (BaseCard._lockTarget == null)
+                if (_stopAttack == false)
                 {
-                    Debug.Log("평타 캔슬"); 
-                    return;
+                    StartCoroutine(StopAttack());
                 }
 
                 break;
@@ -201,10 +197,10 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     }
 
     //퍼센트 계산
-    protected double PercentageCount(double percent, double attackDelay, int decimalplaces)
+    protected double PercentageCount(double percent, double value, int decimalplaces)
     {
 
-        return System.Math.Round(percent / 100 * attackDelay, decimalplaces);
+        return System.Math.Round(percent / 100 * value, decimalplaces);
     }
 
 
@@ -248,11 +244,17 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     }
     
     [PunRPC]
-    public void RemoteRespawnEnable(int viewId, bool state)
+    public void RemoteRespawnEnable(int viewId, bool state, int enableTime)
     {
-        GetRemotePlayer(viewId).GetComponent<Players>().enabled = state;
-        GetRemotePlayer(viewId).GetComponent<Collider>().enabled = state;
-        GetRemotePlayer(viewId).GetComponent<PlayerStats>().enabled = state;
+        if(enableTime == 1)
+        {
+            GetRemotePlayer(viewId).GetComponent<Players>().enabled = state;
+            GetRemotePlayer(viewId).GetComponent<PlayerStats>().enabled = state;
+        }
+        if(enableTime == 2)
+        {
+            GetRemotePlayer(viewId).GetComponent<Collider>().enabled = state;
+        }
     }
 
     [PunRPC]

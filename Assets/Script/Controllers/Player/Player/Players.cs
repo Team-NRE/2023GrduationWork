@@ -68,24 +68,35 @@ public class Players : BaseController
 
     public override void InitOnEnable()
     {
-        //부활 있을 시 초기화
-        if (_pStats.isResurrection)
+        //부활권 유무
+        if (_pStats.isResurrection == true)
         {
             _pStats.isResurrection = false;
             GameObject Resurrection = transform.Find("Effect_Resurrection(Clone)").gameObject;
             PhotonNetwork.Destroy(Resurrection);
+            //체력 회복
+            _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", (float)PercentageCount(70, _pStats.maxHealth, 1));
         }
-        //체력 회복
-        _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.maxHealth);
+        else if (_pStats.isResurrection == false)
+        {
+            //체력 회복
+            _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.maxHealth);
+        }
 
         StartCoroutine(RespawnResetting());
     }
 
     IEnumerator RespawnResetting()
     {
-        yield return new WaitForSeconds(2.8f);
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+
+        yield return new WaitForSeconds(2.5f);
         //부활 effect On
         transform.Find("SpawnSimplePink").gameObject.SetActive(true);
+
+        //collider On
+        _pv.RPC("RemoteRespawnEnable", RpcTarget.All, _pv.ViewID, true, 2);
 
         //액션 대리자 재설정
         Managers.Input.MouseAction -= MouseDownAction;
@@ -99,7 +110,6 @@ public class Players : BaseController
         yield return new WaitForSeconds(0.5f);
         //부활 effect 재설정
         transform.Find("SpawnSimplePink").gameObject.SetActive(false);
-
     }
 
 
@@ -326,7 +336,7 @@ public class Players : BaseController
     //키 누르면 상태 전환
     public void KeyPushState(string Keyname)
     {
-        Debug.Log($"현재 누른 Range키: {Keyname} / 이전에 눌렀던 Range키: {BaseCard._NowKey}");
+        //Debug.Log($"현재 누른 Range키: {Keyname} / 이전에 눌렀던 Range키: {BaseCard._NowKey}");
 
         //이전 키와 다른 키를 눌렀을 때
         if (Keyname != default && Keyname != BaseCard._NowKey)
@@ -727,7 +737,6 @@ public class Players : BaseController
     //Die
     protected override void UpdateDie()
     {
-        //액션 대리자, Die event
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.game.DieEvent(_pv.ViewID);
@@ -741,28 +750,34 @@ public class Players : BaseController
     protected override IEnumerator StopAttack()
     {
         //// 평타 딜레이 중
+        _stopAttack = true;
         //평타 중 Key Input 안받기 
         Managers.Input.KeyAction -= KeyDownAction;
-
-        
-        ////attack animation에서 특정 동작에서 마우스 입력x, 데미지 작용
-        yield return new WaitForSeconds((float)PercentageCount(_pStats.attackAnimPercent, _pStats.attackDelay, 2));
         Managers.Input.MouseAction -= MouseDownAction;
-        if (_stopAttack == false) UpdateAttack();
+
+
+        ////attack animation에서 특정 동작에서  데미지 작용
+        yield return new WaitForSeconds((float)PercentageCount(_pStats.attackAnimPercent, _pStats.attackDelay, 2));
+        UpdateAttack();
 
 
         ////attackDelay가 다 지나간 후
-        yield return new WaitForSeconds((float)PercentageCount((100 - _pStats.attackAnimPercent), _pStats.attackDelay, 2));
-        ////평타 딜레이 후
+        yield return new WaitForSeconds(_pStats.attackDelay);
+        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
+        _MovingPos = default;
+        BaseCard._lockTarget = null;
+        _stopAttack = false;
+
         //Input 재설정
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
-        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
-        _MovingPos = default;
-        BaseCard._lockTarget = null;
-        _stopAttack = false;
+
+        //움직임 초기화
+        _agent.ResetPath();
+        //애니메이션 Idle로 변환
+        _state = Define.State.Idle;
     }
 
 

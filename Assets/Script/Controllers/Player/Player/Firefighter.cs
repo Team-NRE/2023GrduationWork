@@ -18,7 +18,6 @@ public class Firefighter : Players
         transform.position = respawn.position;
         _agent.enabled = true;
 
-
         //_state 설정 - 여기서 Idle 처리해야 애니메이션 오류 안남.
         _state = Define.State.Idle;
 
@@ -64,15 +63,8 @@ public class Firefighter : Players
                 _targetPV.RPC("photonStatSet", RpcTarget.All, _pv.ViewID, "receviedDamage", _pStats.basicAttackPower);
             }
         }
-
-        //움직임 초기화
-        _agent.ResetPath();
-
-        //평타 쿨타임
+        //데미지 한번만 들어가기 위해
         _stopAttack = true;
-
-        //애니메이션 Idle로 변환
-        _state = Define.State.Idle;
 
         return;
     }
