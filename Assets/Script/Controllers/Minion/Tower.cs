@@ -55,12 +55,22 @@ public class Tower : ObjectController
                 lineRenderer.SetPosition(1, _targetEnemyTransform.position);
             }
         }
+
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            if (_targetEnemyTransform == null) return;
+            if (Vector3.Distance(transform.position, _targetEnemyTransform.position) > _oStats.attackRange)
+            {
+                _targetEnemyTransform = null;
+            }
+        }
     }
 
     public override void Attack()
     {
         base.Attack();
 
+        if (!PhotonNetwork.IsMasterClient) return;
         if (_targetEnemyTransform == null) return;
 
         GameObject nowBullet = PhotonNetwork.InstantiateRoomObject(bullet, muzzle.position, this.transform.rotation);
@@ -86,10 +96,8 @@ public class Tower : ObjectController
         {
             damage = _oStats.basicAttackPower;
         }
-
-        PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
         
-        bulletPv.RPC("BulletSetting",   // v2
+        nowBullet.GetComponent<PhotonView>().RPC("BulletSetting",   // v2
             RpcTarget.All,
             GetComponent<PhotonView>().ViewID, 
             _targetEnemyTransform.GetComponent<PhotonView>().ViewID, 
