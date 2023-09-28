@@ -5,7 +5,7 @@
 
         "basicAttackPower": "65",
         "attackSpeed": "0.625",
-        "attackAnimPercent": "10",
+        "attackAnimPercent": "50",
         "attackRange": "5",
         "attackType": "LongRange",
 
@@ -17,7 +17,7 @@
         "experience": "0",
         "levelUpEX": "50",
         "levelUpAP": "3.5",
-        "levelUpAS": "0.1",
+        "levelUpAS": "0.05",
         "levelUpHP": "75",
         "levelUpHR": "0.3",
         "levelUpDP": "3",
@@ -37,7 +37,7 @@
 
         "basicAttackPower": "67",
         "attackSpeed": "0.625",
-        "attackAnimPercent": "55",
+        "attackAnimPercent": "50",
         "attackRange": "1.8",
         "attackType": "ShortRange",
 
@@ -49,7 +49,7 @@
         "experience": "0",
         "levelUpEx": "0",
         "levelUpAP": "3",
-        "levelUpAS": "0.02",
+        "levelUpAS": "0.05",
         "levelUpHP": "80",
         "levelUpHR": "0.2",
         "levelUpDP": "5",
@@ -68,8 +68,8 @@
         "type": "Lightsabre",
 
         "basicAttackPower": "75",
-        "attackSpeed": "0.68",
-        "attackAnimPercent": "50",
+        "attackSpeed": "0.625",
+        "attackAnimPercent": "70",
         "attackRange": "2",
         "attackType": "ShortRange",
 
@@ -81,7 +81,7 @@
         "experience": "0",
         "levelUpEx": "0",
         "levelUpAP": "2",
-        "levelUpAS": "0.14",
+        "levelUpAS": "0.05",
         "levelUpHP": "75",
         "levelUpHR": "0.5",
         "levelUpDP": "3",
@@ -100,12 +100,12 @@
         "type": "Monk",
 
         "basicAttackPower": "55",
-        "attackSpeed": "0.65",
-        "attackAnimPercent": "30",
+        "attackSpeed": "0.625",
+        "attackAnimPercent": "50",
         "attackRange": "4",
         "attackType": "LongRange",
 
-        "maxHealth": "640",
+        "maxHealth": "680",
         "healthRegeneration": "0.6",
         "defensePower": "40",
 
@@ -113,7 +113,7 @@
         "experience": "0",
         "levelUpEx": "0",
         "levelUpAP": "1.5",
-        "levelUpAS": "0.11",
+        "levelUpAS": "0.05",
         "levelUpHP": "80",
         "levelUpHR": "0.3",
         "levelUpDP": "4",

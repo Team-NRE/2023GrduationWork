@@ -751,6 +751,10 @@ public class Players : BaseController
     {
         //// 평타 딜레이 중
         _stopAttack = true;
+
+        //움직임 초기화
+        _agent.ResetPath();
+
         //평타 중 Key Input 안받기 
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
@@ -759,10 +763,16 @@ public class Players : BaseController
         ////attack animation에서 특정 동작에서  데미지 작용
         yield return new WaitForSeconds((float)PercentageCount(_pStats.attackAnimPercent, _pStats.attackDelay, 2));
         UpdateAttack();
+        //평타 중 Key Input 안받기 
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
 
 
         ////attackDelay가 다 지나간 후
-        yield return new WaitForSeconds(_pStats.attackDelay);
+        yield return new WaitForSeconds((float)PercentageCount((100 - _pStats.attackAnimPercent), _pStats.attackDelay, 2));
+        //애니메이션 Idle로 변환
+        _state = Define.State.Idle;
+
         //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
         _MovingPos = default;
         BaseCard._lockTarget = null;
@@ -773,11 +783,6 @@ public class Players : BaseController
         Managers.Input.KeyAction += KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
-
-        //움직임 초기화
-        _agent.ResetPath();
-        //애니메이션 Idle로 변환
-        _state = Define.State.Idle;
     }
 
 

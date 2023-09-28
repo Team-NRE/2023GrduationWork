@@ -15858,7 +15858,7 @@ GameObject:
   - component: {fileID: 8681006768477332306}
   - component: {fileID: 1623752046520658004}
   m_Layer: 0
-  m_Name: Lightsabre
+  m_Name: LightSabre
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15976,6 +15976,7 @@ MonoBehaviour:
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackDelay: 0
+  _attackAnimPercent: 0
   _attackRange: 0
   _attackType: 
   _kill: 0
@@ -16099,25 +16100,7 @@ MonoBehaviour:
   m_SynchronizeParameters:
   - Type: 4
     SynchronizeType: 1
-    Name: IsWalk
-  - Type: 4
-    SynchronizeType: 1
     Name: IsIdle
-  - Type: 9
-    SynchronizeType: 1
-    Name: Die
-  - Type: 9
-    SynchronizeType: 1
-    Name: Idle
-  - Type: 4
-    SynchronizeType: 1
-    Name: IsThrow1
-  - Type: 4
-    SynchronizeType: 1
-    Name: IsFire
-  - Type: 4
-    SynchronizeType: 1
-    Name: IsThrow2
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
