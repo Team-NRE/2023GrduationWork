@@ -33,7 +33,6 @@ public class Card_InvincibleWeapon : UI_Card
         //_effectObject.transform.localPosition = Vector3.zero;
         //_effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
 
-
         _layer = layer;
 
         if (_layer == 6) { _enemylayer = 7; }
