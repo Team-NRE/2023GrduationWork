@@ -5223,6 +5223,7 @@ MonoBehaviour:
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackDelay: 0
+  _attackAnimPercent: 0
   _attackRange: 0
   _attackType: 
   _kill: 0
@@ -5347,25 +5348,22 @@ MonoBehaviour:
   m_SynchronizeParameters:
   - Type: 4
     SynchronizeType: 1
-    Name: IsWalk
-  - Type: 4
-    SynchronizeType: 1
     Name: IsIdle
-  - Type: 9
-    SynchronizeType: 1
-    Name: Die
-  - Type: 9
-    SynchronizeType: 1
-    Name: Idle
   - Type: 4
-    SynchronizeType: 1
-    Name: IsThrow1
+    SynchronizeType: 0
+    Name: IsMoving
   - Type: 4
-    SynchronizeType: 1
-    Name: IsFire
+    SynchronizeType: 0
+    Name: IsAttack
   - Type: 4
-    SynchronizeType: 1
-    Name: IsThrow2
+    SynchronizeType: 0
+    Name: IsSkill
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsDie
+  - Type: 1
+    SynchronizeType: 0
+    Name: AttackSpeed
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -7555,7 +7553,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7143501200678267315}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.13, y: 1.4, z: 0.8}
+  m_LocalPosition: {x: 0.851, y: 1.278, z: 0.513}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []

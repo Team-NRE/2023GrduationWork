@@ -34,6 +34,7 @@ namespace Data
 
         public float basicAttackPower; //평타 공격력
         public float attackSpeed; //평타 공속
+        public double attackAnimPercent; //평타 애니메이션 퍼센트
         public float attackRange; //평타 범위 
         public string attackType; //평타 타입
 
