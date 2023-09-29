@@ -671,22 +671,22 @@ public class Players : BaseController
             //Move
             case Define.Projectile.Undefine:
                 //이동
-                transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+                // transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
+                var pos = Managers.Input.FlattenVector(this.gameObject, _agent.steeringTarget) - transform.position;
+                if (pos != Vector3.zero)
+                {
+                    var targetRotation = Quaternion.LookRotation(pos);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7.5f * Time.deltaTime);
+                }
                 _agent.SetDestination(_MovingPos);
+                //Idle
+                if (_agent.remainingDistance < 0.2f)
+                {
+                    _state = Define.State.Idle;
+                }
 
-                _state = Define.State.Moving;
-
-                //Move
-                case Define.Projectile.Undefine:
-                    //이동
-                    // transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
-                    var pos = Managers.Input.FlattenVector(this.gameObject, _agent.steeringTarget) - transform.position;
-                    if (pos != Vector3.zero)
-                    {
-                        var targetRotation = Quaternion.LookRotation(pos);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7.5f * Time.deltaTime);
-                    }
-                    _agent.SetDestination(_MovingPos);
+                break;
+                _agent.SetDestination(_MovingPos);
                 //Idle
                 if (_agent.remainingDistance < 0.2f)
                 {
