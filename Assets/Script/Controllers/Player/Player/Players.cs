@@ -650,6 +650,7 @@ public class Players : BaseController
                 if (BaseCard._lockTarget == null)
                 {
                     _agent.ResetPath();
+                    _state = Define.State.Idle;
                 }
 
                 //타겟 카드일 때
@@ -687,51 +688,32 @@ public class Players : BaseController
     //Skill
     protected override void UpdateSkill()
     {
-        //살았을 때
-        if (_pStats.nowHealth > 0)
+        //Range Off
+        _IsRange = false;
+        if (_SaveRangeNum != (int)Define.CardType.None)
         {
-            if (_stopSkill == false)
+            _attackRange[_SaveRangeNum].SetActive(_IsRange);
+        }
+
+        //이펙트 발동
+        if (_MovingPos != default)
+        {
+            //Debug.Log($"UpdateSkill : {_MovingPos} ");
+            //Skill On
+            _cardStats.InitCard();
+            GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
+            //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
+
+            //이펙트가 특정 시간 후에 사라진다면
+            if (_cardStats._effectTime != default)
             {
-                //Range Off
-                _IsRange = false;
-                if (_SaveRangeNum != (int)Define.CardType.None)
-                {
-                    _attackRange[_SaveRangeNum].SetActive(_IsRange);
-                }
-
-                //이펙트 발동
-                if (_MovingPos != default)
-                {
-                    //Debug.Log($"UpdateSkill : {_MovingPos} ");
-                    //Skill On
-                    _cardStats.InitCard();
-                    GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
-                    //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
-
-                    //이펙트가 특정 시간 후에 사라진다면
-                    if (_cardStats._effectTime != default)
-                    {
-                        //Destroy(effectObj, _cardStats._effectTime);
-                        StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
-                        Debug.Log("Delete EffectPaticle");
-                    }
-                }
-
-                _agent.ResetPath();
-
-                //스킬 쿨타임
-                _stopSkill = true;
-
-                _state = Define.State.Idle;
-
-                return;
+                //Destroy(effectObj, _cardStats._effectTime);
+                StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
+                Debug.Log("Delete EffectPaticle");
             }
         }
 
-        if (_pStats.nowHealth <= 0)
-        {
-            _state = Define.State.Die;
-        }
+        return;
     }
 
     //Die
@@ -787,43 +769,39 @@ public class Players : BaseController
 
 
     //스킬 사용 후 딜레이
-    protected override void StopSkill()
+    protected override IEnumerator StopSkill()
     {
-        //초기 세팅
-        if (_SaveSkillCool == default)
-        {
-            //스킬 시전 시간 벌어주는 Delay Start
-            _SaveSkillCool = 0.01f;
+        //// 스킬 딜레이 중
+        _stopSkill = true;
 
-            //스킬 시전 시간동안 키 입력 X
-            Managers.Input.MouseAction -= MouseDownAction;
-            Managers.Input.KeyAction -= KeyDownAction;
-        }
+        //움직임 초기화
+        _agent.ResetPath();
 
-        //스킬 시전 시간 벌어주는 Delay Start
-        if (_SaveSkillCool != default)
-        {
-            //스킬 시전 시간 벌어주는 Delay Start
-            _SaveSkillCool += Time.deltaTime;
+        //평타 중 Key Input 안받기 
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
 
-            //지정해준 Delay 가 지나면,
-            if (_SaveSkillCool >= _cardStats._CastingTime)
-            {
-                //Skill Delay 초기화
-                _SaveSkillCool = default;
-                //StopSkill() Update문에서 Stop
-                _stopSkill = false;
+        UpdateSkill();
 
-                //마우스 좌표 초기화
-                _MovingPos = default;
 
-                //키 입력 재 시작
-                Managers.Input.MouseAction += MouseDownAction;
-                Managers.Input.KeyAction += KeyDownAction;
+        ////attackDelay가 다 지나간 후
+        yield return new WaitForSeconds(1.5f);
+        //애니메이션 Idle로 변환
+        _state = Define.State.Idle;
 
-                //Debug.Log("스킬 시전 완료");
-            }
-        }
+        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
+        _MovingPos = default;
+        BaseCard._lockTarget = null;
+        _stopSkill = false;
+
+        //Input 재설정
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+
+
+        yield return new WaitForSeconds(1.5f);
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
     }
 
 }

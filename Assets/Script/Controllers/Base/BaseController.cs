@@ -95,7 +95,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected virtual GameObject RangeAttack() { return null; }
 
     protected virtual IEnumerator StopAttack() { yield return null; }
-    protected virtual void StopSkill() { }
+    protected virtual IEnumerator StopSkill() { yield return null; }
 
 
     protected void UpdatePlayer_AnimationChange() 
@@ -160,7 +160,10 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
                 _anim.SetBool("IsMoving", false);
                 _anim.SetBool("IsAttack", false);
 
-                UpdateSkill();
+                if (_stopSkill == false)
+                {
+                    StartCoroutine(StopSkill());
+                }
 
                 break;
         }

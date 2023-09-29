@@ -63,8 +63,6 @@ public class Firefighter : Players
                 _targetPV.RPC("photonStatSet", RpcTarget.All, _pv.ViewID, "receviedDamage", _pStats.basicAttackPower);
             }
         }
-        //데미지 한번만 들어가기 위해
-        _stopAttack = true;
 
         return;
     }
