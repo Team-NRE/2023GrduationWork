@@ -56,7 +56,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     /// </summary>
     public CardType _cdType { get; protected set; }
     public PlayerType _pType { get; protected set; }
-    public State _state { get; protected set; } = State.Idle;
+    public State _state { get; set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.QuaterView;
     public Projectile _proj { get; protected set; } = Projectile.Undefine;
 

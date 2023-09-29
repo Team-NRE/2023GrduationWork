@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
 {
@@ -28,7 +29,7 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
         if(isButtonDowning)
         {
             mainCamera.enabled = false;
-            setFramePositionToCameraPosition();
+            SetFramePositionToCameraPosition();
         }
         else
         {
@@ -42,6 +43,11 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
         {
             isButtonDowning = true;
         }
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            MoveCharacter();
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -52,21 +58,41 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
         }
     }
 
-    private void setFramePositionToCameraPosition()
+    private void MoveCharacter()
     {
-        Vector2 pos;
-        Vector3 mousePos = Input.mousePosition, newPos;
+        Players p = Managers.game.myCharacter?.GetComponent<Players>();
+        Vector3 newPos = MapFieldPositionConverter();
+        NavMeshHit hit;
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(mapRectTransform, mousePos, canvas.worldCamera, out pos);
+        if (p == null) return;
+        if (!NavMesh.SamplePosition(newPos, out hit, 5.0f, NavMesh.AllAreas)) return;
+        
+        p.TargetSetting(hit.position);
+        p._state = Define.State.Moving;
+    }
 
-        newPos.x = Mathf.Lerp(mainCamera.mapMin.x, mainCamera.mapMax.x, normalizing(-mapRectTransform.rect.width/2, mapRectTransform.rect.width/2, pos.x));
+    private void SetFramePositionToCameraPosition()
+    {
+        Vector3 newPos = MapFieldPositionConverter();
         newPos.y = mainCamera.transform.position.y;
-        newPos.z = Mathf.Lerp(mainCamera.mapMin.z, mainCamera.mapMax.z, normalizing(-mapRectTransform.rect.height/2, mapRectTransform.rect.height/2, pos.y)) + mainCamera.Cam_Z;
-
+        newPos.z += mainCamera.Cam_Z;
         mainCamera.transform.position = newPos;
     }
 
-    private float normalizing(float min, float max, float value)
+    private Vector3 MapFieldPositionConverter()
+    {
+        Vector2 pos;
+        Vector3 mousePos = Input.mousePosition, newPos = Vector3.zero;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(mapRectTransform, mousePos, canvas.worldCamera, out pos);
+
+        newPos.x = Mathf.Lerp(mainCamera.mapMin.x, mainCamera.mapMax.x, Normalizing(-mapRectTransform.rect.width/2, mapRectTransform.rect.width/2, pos.x));
+        newPos.z = Mathf.Lerp(mainCamera.mapMin.z, mainCamera.mapMax.z, Normalizing(-mapRectTransform.rect.height/2, mapRectTransform.rect.height/2, pos.y));
+
+        return newPos;
+    }
+
+    private float Normalizing(float min, float max, float value)
     {
         return (value - min) / (max - min);
     }
