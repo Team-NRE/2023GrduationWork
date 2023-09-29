@@ -21,11 +21,9 @@ public class InvincibleWeaponStart : BaseEffect
 
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-        this.gameObject.transform.rotation = Quaternion.Euler(-90, 180, 76);
+        this.gameObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
         damage = 1;
     }
-
-
 
     public void OnTriggerStay(Collider other)
     {

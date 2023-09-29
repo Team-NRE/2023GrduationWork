@@ -158,8 +158,9 @@ public class GameManager
 
         //PhotonView
         diedPlayerPV = PhotonView.Find(diedID);
-        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false);
-        
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false, 1);
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false, 2);
+
         //부활 유무
         isResur = diedPlayerPV.gameObject.GetComponent<Stat.PlayerStats>().isResurrection;
 
@@ -168,7 +169,7 @@ public class GameManager
 
     public void respawnEvent()
     {
-        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedPlayerPV.ViewID, true);
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedPlayerPV.ViewID, true, 1);
     }
 
     /// 게임 종료 스크립트
