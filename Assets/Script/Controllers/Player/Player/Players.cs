@@ -678,8 +678,11 @@ public class Players : BaseController
                     //이동
                     // transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
                     var pos = Managers.Input.FlattenVector(this.gameObject, _agent.steeringTarget) - transform.position;
-                    var targetRotation = Quaternion.LookRotation(pos);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7.5f * Time.deltaTime);
+                    if (pos != Vector3.zero)
+                    {
+                        var targetRotation = Quaternion.LookRotation(pos);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7.5f * Time.deltaTime);
+                    }
                     _agent.SetDestination(_MovingPos);
 
                     _state = Define.State.Moving;

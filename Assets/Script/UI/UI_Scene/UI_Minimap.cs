@@ -14,16 +14,12 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
 
     bool isButtonDowning { get; set; }
 
-    GameObject cube;
-
     private void Awake()
     {
         //초기 값 세팅
         mainCamera  = Camera.main.GetComponent<CameraController>();
         canvas      = GetComponent<Canvas>();
         mapRectTransform = transform.Find("Map").GetComponent<RectTransform>();
-
-        cube = Instantiate(Managers.Resource.Load<GameObject>("Cube"));
     }
 
     void Update()
