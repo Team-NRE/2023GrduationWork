@@ -73,7 +73,7 @@ public class BloodstainedCoinStart : BaseEffect
                     //Destroy(gameObject, 0.1f);
                     //Destroy(_effectObject, 0.5f);
                     target = null;
-                    RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
+                    //RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
                     RpcDelayDestroy(_effectObject.GetComponent<PhotonView>().ViewID, 0.5f);
                 }
 
@@ -94,8 +94,8 @@ public class BloodstainedCoinStart : BaseEffect
                     target = null;
                     //Destroy(gameObject, 0.1f);
                     //Destroy(_effectObject, 0.5f);
-                    RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
-                    RpcDelayDestroy(_effectObject.gameObject.GetComponent<PhotonView>().ViewID, 0.5f);
+                    //RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
+                    //RpcDelayDestroy(_effectObject.gameObject.GetComponent<PhotonView>().ViewID, 0.5f);
                     //StartCoroutine(DelayDestroy(gameObject, 0.1f));
                 }
             }
