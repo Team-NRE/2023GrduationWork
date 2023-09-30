@@ -16017,6 +16017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ecc8eb863f2a7b46a390da7dfc0fc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stopAttack: 0
   _stopSkill: 0
   _startDie: 0
   _attackRange: []
@@ -16101,6 +16102,21 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsIdle
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsMoving
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsAttack
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsSkill
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsDie
+  - Type: 1
+    SynchronizeType: 1
+    Name: AttackSpeed
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

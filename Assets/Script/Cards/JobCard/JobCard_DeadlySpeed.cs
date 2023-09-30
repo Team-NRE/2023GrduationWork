@@ -4,30 +4,33 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-
 public class JobCard_DeadlySpeed : UI_Card
 {
     public override void Init()
     {
         _cost = 2;
 
-        _rangeType = Define.CardType.Point;
-        _rangeScale = 3.0f;
-        _rangeRange = 5.0f;
+        _rangeType = Define.CardType.None;
 
-        _CastingTime = 0.7f;
-        _effectTime = 0.7f;
+        _CastingTime = 0.3f;
+        _effectTime = 3.0f;
     }
 
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //_effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_Grenade", ground, Quaternion.identity);
-        _effectObject.transform.position = ground;
+        GameObject _player = Managers.game.myCharacter;
+        PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
-        //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_DeadlySpeed", ground, Quaternion.Euler(-90, 0, 0));
+        _effectObject.transform.parent = _player.transform;
+        _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
+
+        _effectObject.GetComponent<PhotonView>().RPC(
+            "CardEffectInit",
+            RpcTarget.All,
+            playerId
+        );
 
         return _effectObject;
     }

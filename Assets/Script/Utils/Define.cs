@@ -130,6 +130,13 @@ namespace Define
         SpaceUp,
     }
 
+    public enum UIKeyboard
+    {
+        Q,
+        W,
+        E,
+        R,
+    }
 
     public enum Projectile
     {

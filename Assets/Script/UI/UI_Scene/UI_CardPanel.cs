@@ -141,9 +141,11 @@ public class UI_CardPanel : UI_Card
 
     public void Update()
     {
+        if (bc._startDie == true) { Managers.Input.UIKeyboardAction -= UIKeyDownAction; }
         if (bc._startDie == false)
         {
             CardUseable();
+            MouseDownAction();
         }
     }
 
@@ -232,42 +234,42 @@ public class UI_CardPanel : UI_Card
     }
 
     //바로 사용 카드
-    public void KeyDownAction()
+    public void UIKeyDownAction(Define.UIKeyboard _key)
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        //키보드 입력 시
+        switch (_key)
         {
-            if (pStat.UseMana("Q").Item1 == true
-                        && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
-            {
-                UI_UseQ();
-            }
-        }
+            case Define.UIKeyboard.Q:
+                if (pStat.UseMana(_key.ToString()).Item1 == true && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                {
+                    UI_UseQ();
+                }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (pStat.UseMana("W").Item1 == true
-                        && W_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
-            {
-                UI_UseW();
-            }
-        }
+                break;
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (pStat.UseMana("E").Item1 == true
-                        && E_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
-            {
-                UI_UseE();
-            }
-        }
+            case Define.UIKeyboard.W:
+                if (pStat.UseMana(_key.ToString()).Item1 == true && W_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                {
+                    UI_UseW();
+                }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (pStat.UseMana("R").Item1 == true
-                        && R_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
-            {
-                UI_UseR();
-            }
+                break;
+
+            case Define.UIKeyboard.E:
+                if (pStat.UseMana(_key.ToString()).Item1 == true && E_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                {
+                    UI_UseE();
+                }
+
+                break;
+
+            case Define.UIKeyboard.R:
+                if (pStat.UseMana(_key.ToString()).Item1 == true && R_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                {
+                    UI_UseR();
+                }
+
+                break;
         }
     }
 
@@ -276,11 +278,9 @@ public class UI_CardPanel : UI_Card
     {
         if(bc._stopSkill == true)
         {
-            if(CountSet == 3)
+            if(CountSet != 3)
             {
-                //Input
-                MouseDownAction();
-                KeyDownAction();
+                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
             }
 
             //effect 
@@ -309,8 +309,19 @@ public class UI_CardPanel : UI_Card
             R_CardCount.text = CountSet.ToString("F0");
         }
 
-        else if(bc._stopSkill == false)
+        if(bc._stopSkill == false)
         {
+            CountSet = 3;
+            if(bc._stopAttack == false)
+            {
+                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+                Managers.Input.UIKeyboardAction += UIKeyDownAction;
+            }
+            if( bc._stopAttack == true) 
+            {
+                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+            }
+
             //effect
             Q_CardEffect.SetActive(pStat.UseMana(null, Q_UI).Item1);
             W_CardEffect.SetActive(pStat.UseMana(null, W_UI).Item1);
@@ -329,10 +340,8 @@ public class UI_CardPanel : UI_Card
             E_CardCountObject.SetActive(false);
             R_CardCountObject.SetActive(false);
 
-            CountSet = 3;
         }
     }
-
 
 
     //0번 인덱스의 리스트를 반드시 사용한다.

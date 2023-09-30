@@ -77,10 +77,10 @@ public class ObjectBullet : MonoBehaviourPun
             if (_Target.tag == "PLAYER")
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
-                _Stats.nowHealth -= _damage;
+                _Stats.receviedDamage = (_Shooter.ViewID, _damage);
 
-                if (_Stats.nowHealth <= 0)
-                    Managers.game.killEvent(_Shooter.ViewID, _Target.GetComponent<PhotonView>().ViewID);
+                //if (_Stats.nowHealth <= 0)
+                //    Managers.game.killEvent(_Shooter.ViewID, _Target.GetComponent<PhotonView>().ViewID);
             }
             
             Destroy(this.gameObject, 0.5f);

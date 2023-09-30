@@ -10,11 +10,6 @@ public class GrenadeStart : BaseEffect
     protected int _layer;
     int _playerId;
 
-    void Start()
-    {
-
-    }
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
@@ -25,13 +20,6 @@ public class GrenadeStart : BaseEffect
         _playerId = userId;
 
         _damage = 25;
-        _debuff = 1.02f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void OnTriggerEnter(Collider other)

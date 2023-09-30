@@ -18,29 +18,19 @@ public class InvincibleShieldStart : BaseEffect
     float invincibility_Time = default;
     float shield_Time = default;
     float Save_Health;
-    int _playerId;
-    int _targetId;
+    int _enemyLayer;
 
     float time = 0.01f;
 
     bool stop = false;
 
-    void Start()
-    {
-        //_pv = GetComponent<PhotonView>();
-    }
-
     [PunRPC]
-    public override void CardEffectInit(int userId)
+    public override void CardEffectInit(int userId, int targetId)
     {
         _pv = GetComponent<PhotonView>();
-        if (_pv == null)
-            return;
-        base.CardEffectInit(userId);
-        _playerId = userId;
-        this.gameObject.transform.parent = player.transform;
-        
-        defence = 10000;
+        base.CardEffectInit(userId, targetId);
+
+        defence = 9999;
         invincibility_Time = 1.5f;
         shield_Time = 3.0f;
     }
@@ -50,22 +40,21 @@ public class InvincibleShieldStart : BaseEffect
         if (stop == false)
         {
             //StartInvincibility();
-            _pv.RPC("StartInvincibility", RpcTarget.All, _playerId);
+            _pv.RPC("StartInvincibility", RpcTarget.All);
         }
 
         if (stop == true)
         {
             //Invoke("StartShield", 0.02f);
             DelayTimer(0.02f);
-            _pv.RPC("StartShield", RpcTarget.All, _playerId);
+            _pv.RPC("StartShield", RpcTarget.All);
         }
     }
 
 
     [PunRPC]
-    public void StartInvincibility(int userId)
+    public void StartInvincibility()
     {
-        GameObject target = Managers.game.RemoteTargetFinder(userId);
         if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
         if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
 
@@ -97,9 +86,8 @@ public class InvincibleShieldStart : BaseEffect
     }
 
     [PunRPC]
-    public void StartShield(int userId)
+    public void StartShield()
     {
-        GameObject target = Managers.game.RemoteTargetFinder(userId);
         if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
         if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
         time += Time.deltaTime;

@@ -6708,19 +6708,19 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsIdle
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsMoving
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsAttack
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsSkill
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsDie
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: AttackSpeed
   m_SynchronizeLayers:
   - SynchronizeType: 1

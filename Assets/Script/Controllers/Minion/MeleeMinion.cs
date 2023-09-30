@@ -28,12 +28,13 @@ public class MeleeMinion : Minion
             targetPV.RPC(
                 "photonStatSet",
                 RpcTarget.All,
-                "nowHealth",
-                -_oStats.basicAttackPower
+                GetComponent<PhotonView>().ViewID,
+                "receviedDamage",
+                _oStats.basicAttackPower
             );
 
-            if (targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
-                Managers.game.killEvent(pv.ViewID, targetPV.ViewID);
+            //if (targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
+            //    Managers.game.killEvent(pv.ViewID, targetPV.ViewID);
         }
         else
         {
