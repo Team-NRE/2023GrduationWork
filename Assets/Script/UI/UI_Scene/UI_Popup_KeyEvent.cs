@@ -13,7 +13,6 @@ public class UI_Popup_KeyEvent : UI_Popup
         UI_Store,
         UI_Deck,
         UI_Scoreboard,
-        UI_Setting,
     }
 
     public override void Init()
@@ -28,7 +27,6 @@ public class UI_Popup_KeyEvent : UI_Popup
         Get<UI_CanvasFader>((int)Popup.UI_Store)     .gameObject.SetActive(false);
         Get<UI_CanvasFader>((int)Popup.UI_Deck)      .gameObject.SetActive(false);
         Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(false);
-        Get<UI_CanvasFader>((int)Popup.UI_Setting)   .gameObject.SetActive(false);
     }
 
     public override void UpdateInit() 
@@ -41,15 +39,20 @@ public class UI_Popup_KeyEvent : UI_Popup
         if (Input.GetKeyDown(KeyCode.P))      { CloseOtherPopupAndOnPopup(Popup.UI_Store); }
         if (Input.GetKeyDown(KeyCode.Tab))    { Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(true); }
 		if (Input.GetKeyUp(KeyCode.Tab))      { Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(false); }
-        if (Input.GetKeyDown(KeyCode.Escape)) { CloseOtherPopupAndOnPopup(Popup.UI_Setting); }
         if (Input.GetKeyDown(KeyCode.I))      { CloseOtherPopupAndOnPopup(Popup.UI_Deck); }
+        if (Input.GetKeyDown(KeyCode.Escape)) { CloseOtherPopupAndOnPopup(); }
+    }
+
+    void CloseOtherPopupAndOnPopup()
+    {
+        Get<UI_CanvasFader>((int)Popup.UI_Store)   .HideUI();
+        Get<UI_CanvasFader>((int)Popup.UI_Deck)    .HideUI();
     }
 
     void CloseOtherPopupAndOnPopup(Popup p)
     {
         if(p != Popup.UI_Store)   Get<UI_CanvasFader>((int)Popup.UI_Store)   .HideUI();
         if(p != Popup.UI_Deck)    Get<UI_CanvasFader>((int)Popup.UI_Deck)    .HideUI();
-        if(p != Popup.UI_Setting) Get<UI_CanvasFader>((int)Popup.UI_Setting) .HideUI();
 
         Get<UI_CanvasFader>((int)p).TurnUI();
     }
