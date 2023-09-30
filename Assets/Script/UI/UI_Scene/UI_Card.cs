@@ -93,4 +93,17 @@ public class UI_Card : UI_Scene
     {
         Debug.Log(log);
     }
+
+    protected IEnumerator DelayTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+    }
+
+    [PunRPC]
+    protected void RpcDelayDestroy(int id, float time)
+    {
+        GameObject target = Managers.game.RemoteTargetFinder(id);
+        StartCoroutine(DelayTimer(time));
+        PhotonNetwork.Destroy(target);
+    }
 }

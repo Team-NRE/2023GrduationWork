@@ -37,20 +37,17 @@ public class Card_InvincibleShield : UI_Card
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
         //_effectObject.transform.parent = _player.transform;
         
-        _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+        //_effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
 
         //쉴드, 팀원들 찾아서 쉴드 이펙트 씌워주는 내용
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {
-            int targetId = Managers.game.RemoteColliderId(col);
+            int userId = Managers.game.RemoteColliderId(col);
             //col.transform -> Police, 미니언
-            GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
-            //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
-            //shield.GetComponent<InvincibleShieldStart>().CardEffectInit(col.GetComponent<PhotonView>().ViewID);
-            shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, targetId);
+            GameObject shield = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield_1", col.transform.position, Quaternion.identity);
+            shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, userId);
 
-#warning 창조가 필요한 부분 2
             if(col.gameObject.tag == "PLAYER")
             {
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();

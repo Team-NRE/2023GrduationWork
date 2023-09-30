@@ -24,6 +24,8 @@ public class NavMeshPathRenderer : MonoBehaviour
     void FixedUpdate()
     {
         if (!pv.IsMine) return;
+        if (!m_NavMeshAgent.enabled) return;
+        if (!m_LineRenderer.enabled) return;
         SetLine();
     }
 

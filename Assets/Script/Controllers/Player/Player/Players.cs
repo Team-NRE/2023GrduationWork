@@ -686,14 +686,6 @@ public class Players : BaseController
                 }
 
                 break;
-                _agent.SetDestination(_MovingPos);
-                //Idle
-                if (_agent.remainingDistance < 0.2f)
-                {
-                    _state = Define.State.Idle;
-                }
-
-                break;
         }
     }
 

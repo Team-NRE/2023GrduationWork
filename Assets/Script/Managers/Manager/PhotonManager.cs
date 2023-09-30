@@ -13,6 +13,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
 	public void ConnectToServer()
 	{
+		PhotonNetwork.AutomaticallySyncScene = true;
 		PhotonNetwork.ConnectUsingSettings();
 		Debug.Log("Trying to connect to the server...");
 	}
