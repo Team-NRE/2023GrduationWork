@@ -65,6 +65,8 @@ public class delete : UI_Popup
 
     public override void OnEnable()
     {
+        if (Get<TextMeshProUGUI>((int)Texts.Card_Text) == null) return;
+
         //이후 덱을 열었을 때
         MakeUI_Mycard();
     }
@@ -87,6 +89,8 @@ public class delete : UI_Popup
         if (BaseCard._MyDeck.Count == 0) { return; }
         //나만의 덱의 큰 카드 리셋 
         _makeAllBigCardList.Clear();
+        //UI 리셋
+        Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "";
 
         foreach (Transform t in Get<GameObject>((int)GameObjects.Big_card).transform) Destroy(t.gameObject);
         foreach (Transform t in Get<ToggleGroup>((int)ToggleGroups.DeleteContent).transform) Destroy(t.gameObject);
@@ -121,9 +125,18 @@ public class delete : UI_Popup
     public void CardInfoChange(Toggle toggle)
     {
         _makeAllBigCardList[toggle.name][0].SetActive(toggle.isOn);
-        _BuyCost = (int)(toggle.GetComponentInChildren<UI_Card>()._cardBuyCost * 0.25f);
-        Get<TextMeshProUGUI>((int)Texts.Price_Text).text = _BuyCost.ToString();
-        Cardinfo(toggle.name);
+        
+        if (toggle.isOn) 
+        {
+            Cardinfo(toggle.name);
+            _BuyCost = (int)(toggle.GetComponentInChildren<UI_Card>()._cardBuyCost * 0.25f);
+            Get<TextMeshProUGUI>((int)Texts.Price_Text).text = _BuyCost.ToString();
+        }
+        else 
+        {
+            Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "";
+            Get<TextMeshProUGUI>((int)Texts.Price_Text).text = "0";
+        }
     }
 
     void buttonActivation()
