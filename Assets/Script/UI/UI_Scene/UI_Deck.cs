@@ -208,7 +208,7 @@ public class UI_Deck : UI_Popup
                 break;
 
             case "JobCard_DeadlySpeed":
-                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "--------------";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "잠시동안 공격력과 공격속도와 이동속도가 증가합니다.";
                 break;
 
             case "JobCard_Grenade":
@@ -216,15 +216,15 @@ public class UI_Deck : UI_Popup
                 break;
 
             case "JobCard_WindBlade":
-                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "--------------";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "전방으로 바람 칼날을 휘두릅니다.";
                 break;
 
             case "SpecialCard_EnergyAmp":
-                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "--------------";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "플레이어 주위에 에너지를 방출합니다.";
                 break;
 
             case "SpecialCard_MissileBomb":
-                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "--------------";
+                Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "미사일을 떨어뜨려 적에게 대미지를 입힙니다.";
                 break;
         }
     }
