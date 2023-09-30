@@ -18,6 +18,8 @@ public class InvincibleShieldStart : BaseEffect
     float invincibility_Time = default;
     float shield_Time = default;
     float Save_Health;
+
+    int _userId;
     int _enemyLayer;
 
     float time = 0.01f;
@@ -25,11 +27,14 @@ public class InvincibleShieldStart : BaseEffect
     bool stop = false;
 
     [PunRPC]
-    public override void CardEffectInit(int userId, int targetId)
+    public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
-        base.CardEffectInit(userId, targetId);
+        base.CardEffectInit(userId);
 
+        _userId = userId;
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 1.12f, 0);
         defence = 9999;
         invincibility_Time = 1.5f;
         shield_Time = 3.0f;
@@ -40,21 +45,22 @@ public class InvincibleShieldStart : BaseEffect
         if (stop == false)
         {
             //StartInvincibility();
-            _pv.RPC("StartInvincibility", RpcTarget.All);
+            _pv.RPC("StartInvincibility", RpcTarget.All, _userId);
         }
 
         if (stop == true)
         {
             //Invoke("StartShield", 0.02f);
             DelayTimer(0.02f);
-            _pv.RPC("StartShield", RpcTarget.All);
+            _pv.RPC("StartShield", RpcTarget.All, _userId);
         }
     }
 
 
     [PunRPC]
-    public void StartInvincibility()
+    public void StartInvincibility(int playerId)
     {
+        GameObject target = Managers.game.RemoteTargetFinder(playerId);
         if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
         if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
 
@@ -86,8 +92,10 @@ public class InvincibleShieldStart : BaseEffect
     }
 
     [PunRPC]
-    public void StartShield()
+    public void StartShield(int playerId)
     {
+        GameObject target = Managers.game.RemoteTargetFinder(playerId);
+
         if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
         if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
         time += Time.deltaTime;
@@ -99,7 +107,7 @@ public class InvincibleShieldStart : BaseEffect
 
             stop = false;
             time = 0;
-            PhotonNetwork.Destroy(this.gameObject);
+            //PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }

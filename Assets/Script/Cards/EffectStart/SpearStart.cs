@@ -81,7 +81,7 @@ public class SpearStart : BaseEffect
                 Debug.Log(enemyStats.nowHealth);
             }
 
-            PhotonNetwork.Destroy(this.gameObject);
+            //PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }

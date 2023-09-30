@@ -25,12 +25,12 @@ public class Card_Resurrection : UI_Card
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Resurrection");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Resurrection", ground, Quaternion.identity);
-        _effectObject.transform.SetParent(_player.transform);
+        //_effectObject.transform.SetParent(_player.transform);
 
-        _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
+        //_effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
 
-        _player.GetComponent<PlayerStats>().isResurrection = true;
-
+        //_player.GetComponent<PlayerStats>().isResurrection = true;
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         return _effectObject;
     }
 
