@@ -9669,7 +9669,6 @@ GameObject:
   - component: {fileID: 4911686836598865021}
   - component: {fileID: 8860771708251628951}
   - component: {fileID: 6709003050052370881}
-  - component: {fileID: -2227931378757058821}
   m_Layer: 2
   m_Name: Effect_InvincibleShield
   m_TagString: Untagged
@@ -14705,24 +14704,3 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-2227931378757058821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5110353653821651975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baf3595473d164f41a72f0308ac837e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _effectTime: 0
-  _damage: 0
-  _defence: 0
-  _speed: 0
-  _buff: 0
-  _debuff: 0
-  _IsResurrection: 0
-  player: {fileID: 0}
-  target: {fileID: 0}

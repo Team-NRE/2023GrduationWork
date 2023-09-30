@@ -57,6 +57,7 @@ public class BloodstainedCoinStart : BaseEffect
                 // 여기서 에러가 발생한다.
                 //effect
                 _effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
+                
                 //_effectObject = PhotonNetwork.Instantiate($"Particle/Effect_BloodstainedCoin", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
                 _effectObject.transform.parent = target.transform;
                 _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
@@ -74,11 +75,11 @@ public class BloodstainedCoinStart : BaseEffect
                     //Destroy(_effectObject, 0.5f);
                     target = null;
                     //RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
-                    RpcDelayDestroy(_effectObject.GetComponent<PhotonView>().ViewID, 0.5f);
+                    //RpcDelayDestroy(_effectObject.GetComponent<PhotonView>().ViewID, 0.5f);
                 }
 
                 //Ÿ���� �� Player�� ��
-                if (target.tag == "PLAYER")
+                else if (target.tag == "PLAYER")
                 {
                     enemyStats = target.GetComponent<PlayerStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();

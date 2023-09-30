@@ -15977,6 +15977,7 @@ MonoBehaviour:
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackDelay: 0
+  _attackAnimPercent: 0
   _attackRange: 0
   _attackType: 
   _kill: 0
