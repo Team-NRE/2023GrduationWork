@@ -22,7 +22,7 @@ public class JobCard_Charge : UI_Card
         GameObject _player = Managers.game.myCharacter;
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle2/EffectJob_Charge", ground, Quaternion.Euler(-90, 0, 0));
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_Charge", ground, Quaternion.Euler(-90, 0, 0));
 
         _effectObject.GetComponent<PhotonView>().RPC(
             "CardEffectInit",
