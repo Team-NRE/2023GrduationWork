@@ -317,6 +317,7 @@ public class Players : BaseController
                 case Define.KeyboardEvent.R:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
+                        Debug.Log("On");
                         KeyPushState(_key.ToString());
                     }
 
@@ -701,10 +702,11 @@ public class Players : BaseController
         //이펙트 발동
         if (_MovingPos != default)
         {
-            //Debug.Log($"UpdateSkill : {_MovingPos} ");
+            Debug.Log($"UpdateSkill : {_MovingPos} ");
             //Skill On
             _cardStats.InitCard();
             GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
+            Debug.Log(effectObj);
             //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
 
             //이펙트가 특정 시간 후에 사라진다면

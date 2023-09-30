@@ -7,8 +7,8 @@ using Define;
 
 public class InputManager
 {
-    public Action<UIKeyboard> UIKeyboardAction = null;
     public Action<KeyboardEvent> KeyAction = null;
+    public Action<UIKeyboard> UIKeyboardAction = null;
     public Action<MouseEvent> MouseAction = null;
 
     bool _MousePressed = false;
@@ -48,8 +48,8 @@ public class InputManager
     public void InputUpdate()
     {
         HitMouseEvent();
-        HitUIKeyEvent();
         HitKeyEvent();
+        HitUIKeyEvent();
         SetCursorDesign();
     }
 
