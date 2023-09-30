@@ -43,12 +43,10 @@ public class Card_InvincibleShield : UI_Card
         Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
         foreach (Collider col in cols)
         {
-            int targetId = Managers.game.RemoteColliderId(col);
+            int userId = Managers.game.RemoteColliderId(col);
             //col.transform -> Police, 미니언
-            //GameObject shield = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield_1", col.transform);
             GameObject shield = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield_1", col.transform.position, Quaternion.identity);
-            //shield.GetComponent<InvincibleShieldStart>().CardEffectInit(col.GetComponent<PhotonView>().ViewID);
-            shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, targetId);
+            shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, userId);
 
             if(col.gameObject.tag == "PLAYER")
             {
@@ -60,7 +58,6 @@ public class Card_InvincibleShield : UI_Card
             {
                 ObjStats oStats = col.gameObject.GetComponent<ObjStats>();
                 oStats.defensePower += 10000;
-                //RpcDelayDestroy(_effectObject.GetComponent<PhotonView>().ViewID, 3.0f);
             }
         }
 

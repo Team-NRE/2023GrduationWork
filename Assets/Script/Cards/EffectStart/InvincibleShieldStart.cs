@@ -31,15 +31,15 @@ public class InvincibleShieldStart : BaseEffect
     }
 
     [PunRPC]
-    public override void CardEffectInit(int userId, int targetId)
+    public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
         if (_pv == null)
             return;
-        base.CardEffectInit(userId, targetId);
+        base.CardEffectInit(userId);
         _playerId = userId;
-        _targetId = targetId;
-
+        this.gameObject.transform.parent = player.transform;
+        
         defence = 10000;
         invincibility_Time = 1.5f;
         shield_Time = 3.0f;
@@ -50,24 +50,22 @@ public class InvincibleShieldStart : BaseEffect
         if (stop == false)
         {
             //StartInvincibility();
-            _pv.RPC("StartInvincibility", RpcTarget.All, _playerId, _targetId);
+            _pv.RPC("StartInvincibility", RpcTarget.All, _playerId);
         }
 
         if (stop == true)
         {
             //Invoke("StartShield", 0.02f);
             DelayTimer(0.02f);
-            _pv.RPC("StartShield", RpcTarget.All, _playerId, _targetId);
+            _pv.RPC("StartShield", RpcTarget.All, _playerId);
         }
     }
 
 
     [PunRPC]
-    public void StartInvincibility(int userId, int targetId)
+    public void StartInvincibility(int userId)
     {
-        GameObject player = Managers.game.RemoteTargetFinder(userId);
-        GameObject target = Managers.game.RemoteTargetFinder(targetId);
-
+        GameObject target = Managers.game.RemoteTargetFinder(userId);
         if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
         if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
 
@@ -99,11 +97,9 @@ public class InvincibleShieldStart : BaseEffect
     }
 
     [PunRPC]
-    public void StartShield(int userId, int targetId)
+    public void StartShield(int userId)
     {
-        GameObject player = Managers.game.RemoteTargetFinder(userId);
-        GameObject target = Managers.game.RemoteTargetFinder(targetId);
-
+        GameObject target = Managers.game.RemoteTargetFinder(userId);
         if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
         if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
         time += Time.deltaTime;
