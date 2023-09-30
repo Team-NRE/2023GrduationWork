@@ -120,7 +120,6 @@ public class UI_CardPanel : UI_Card
         E_CardCount = E_CardCountObject.GetComponent<TextMeshProUGUI>();
         R_CardCount = R_CardCountObject.GetComponent<TextMeshProUGUI>();
 
-        Debug.Log(Q_CardCount);
         CountSet = 3.0f;
         
 

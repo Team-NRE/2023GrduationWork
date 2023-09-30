@@ -363,7 +363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8835822918219062596
 RectTransform:
   m_ObjectHideFlags: 0
@@ -613,6 +613,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f786944f2b72f243b55a0e6b602e2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cost: 0
+  _cardBuyCost: 0
+  _CastingTime: 0
+  _effectTime: 0
+  _IsResurrection: 0
+  _rangeType: 0
+  _rangeScale: 0
+  _rangeRange: 0
+  _rangeAngle: 0
+  _effectObject: {fileID: 0}
 --- !u!1 &8444113041830191112
 GameObject:
   m_ObjectHideFlags: 0
