@@ -43,7 +43,7 @@ public class Nexus : ObjectController
     {
         Vector3 endingCamPos = this.transform.position;
         endingCamPos += 2 * Vector3.up * mainCamera.Cam_Y;
-        endingCamPos += 2 * Vector3.back * mainCamera.Cam_Z;
+        endingCamPos += 2 * Vector3.forward * mainCamera.Cam_Z;
 
         transform.Find("UI").gameObject.SetActive(false);
 
