@@ -23,8 +23,6 @@ public class JobCard_DeadlySpeed : UI_Card
         PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_DeadlySpeed", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = _player.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
 
         _effectObject.GetComponent<PhotonView>().RPC(
             "CardEffectInit",

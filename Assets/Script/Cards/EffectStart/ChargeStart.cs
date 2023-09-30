@@ -18,7 +18,8 @@ public class ChargeStart : BaseEffect
         base.CardEffectInit(userId);
         _effectTime = 3.0f;
         _pStats = player.GetComponent<PlayerStats>();
-        transform.parent = player.transform;
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0.2f, 0);
         _speed = 0.5f;
         _powerValue = 10.0f; 
         _pStats.StartCoroutine(DelayBuff());
