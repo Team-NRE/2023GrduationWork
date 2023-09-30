@@ -23,10 +23,8 @@ public class Players : BaseController
     public int _SaveRangeNum;
 
     /// <summary>
-    /// 평타/스킬/스텟 쿨타임
+    /// 스텟 쿨타임
     /// </summary>
-    public float _SaveAttackSpeed = default;
-    public float _SaveSkillCool = default;
     public float _SaveRegenCool = default;
 
     public override void Init()
@@ -796,23 +794,24 @@ public class Players : BaseController
 
         UpdateSkill();
 
-
         ////attackDelay가 다 지나간 후
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.2f);
         //애니메이션 Idle로 변환
         _state = Define.State.Idle;
 
-        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
+        //마우스 좌표, 타겟 초기화
         _MovingPos = default;
         BaseCard._lockTarget = null;
-        _stopSkill = false;
-
-        //Input 재설정
+        
+        //Input Mouse 재설정
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
 
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.8f);
+        _stopSkill = false;
+
+        //Input Key 재설정
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
     }

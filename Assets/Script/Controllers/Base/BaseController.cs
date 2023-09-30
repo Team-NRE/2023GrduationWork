@@ -31,7 +31,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     //총알 발사 여부
     protected bool _stopAttack = false;
     //스킬 발동 여부
-    protected bool _stopSkill = false;
+    public bool _stopSkill = false;
     //사거리 유무
     protected bool _IsRange = false;
     
@@ -179,24 +179,17 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
             return;
         }
+        //A키를 눌렀을 때 
+        if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
+        {
+            RangeAttack();
+        }
 
         if (_startDie == false)
         {
             UpdatePlayerStat();
         }
 
-        if (_stopSkill == true)
-        {
-            StopSkill();
-
-            return;
-        }
-
-        //A키를 눌렀을 때 
-        if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
-        {
-            RangeAttack();
-        }
     }
 
     //퍼센트 계산
