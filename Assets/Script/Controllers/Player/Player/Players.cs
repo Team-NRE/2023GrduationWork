@@ -88,6 +88,7 @@ public class Players : BaseController
     {
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
 
         yield return new WaitForSeconds(2.5f);
         //부활 effect On
@@ -97,10 +98,15 @@ public class Players : BaseController
         _pv.RPC("RemoteRespawnEnable", RpcTarget.All, _pv.ViewID, true, 2);
 
         //액션 대리자 재설정
+        //Attack
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
+
+        //Card
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+        Managers.Input.UIKeyboardAction += UIKeyDownAction;
 
         //액션 대리자 재설정 후 UpdatePlayerStat
         _startDie = false;
@@ -216,15 +222,13 @@ public class Players : BaseController
                                     //타겟 ID 찾기
                                     int targetId = GetRemotePlayerId(RangeAttack());
                                     GameObject remoteTarget = GetRemotePlayer(targetId);
-
-                                    //좌표 설정
-                                    _MovingPos = _mousePos.Item1;
+                                    Debug.Log(remoteTarget.name);
 
                                     //타겟 오브젝트 설정
                                     BaseCard._lockTarget = remoteTarget;
 
                                     //공격 상태로 전환
-                                    _state = Define.State.Moving;
+                                    _state = Define.State.Attack;
                                 }
                             }
                         }
@@ -233,6 +237,33 @@ public class Players : BaseController
                 }
             }
         }
+    }
+
+
+    //A키 공격
+    protected override GameObject RangeAttack()
+    {
+        float dist = 999;
+        GameObject target = null;
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
+
+        foreach (Collider col in cols)
+        {
+            if(col.gameObject.tag == "PLAYER")
+            {
+                return col.gameObject;
+            }
+            
+            float Distance = Vector3.Distance(col.transform.position, transform.position);
+            if (Distance <= _pStats.attackRange && Distance < dist)
+            {
+                dist = Distance;
+                target = col.gameObject;
+            }
+        }
+
+        return target;
     }
 
 
@@ -272,15 +303,14 @@ public class Players : BaseController
 
             //마우스 오른쪽 클릭 & 누르기
             if (_evt != Define.MouseEvent.LeftButton)
-            {
                 _proj = Define.Projectile.Attack_Proj;
-            }
+            
         }
     }
 
 
-    //Key event
-    public void KeyDownAction(Define.KeyboardEvent _key)
+    //Card Key event
+    public void UIKeyDownAction(Define.UIKeyboard _key)
     {
         //키보드 입력 시 _lockTarget 초기화 -> Card UI 변환 시간 벌어주기
         BaseCard._lockTarget = null;
@@ -290,7 +320,7 @@ public class Players : BaseController
             //키보드 입력 시
             switch (_key)
             {
-                case Define.KeyboardEvent.Q:
+                case Define.UIKeyboard.Q:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
                         KeyPushState(_key.ToString());
@@ -298,7 +328,7 @@ public class Players : BaseController
 
                     break;
 
-                case Define.KeyboardEvent.W:
+                case Define.UIKeyboard.W:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
                         KeyPushState(_key.ToString());
@@ -306,7 +336,7 @@ public class Players : BaseController
 
                     break;
 
-                case Define.KeyboardEvent.E:
+                case Define.UIKeyboard.E:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
                         KeyPushState(_key.ToString());
@@ -314,25 +344,29 @@ public class Players : BaseController
 
                     break;
 
-                case Define.KeyboardEvent.R:
+                case Define.UIKeyboard.R:
                     if (_pStats.UseMana(_key.ToString()).Item1 == true)
                     {
-                        Debug.Log("On");
                         KeyPushState(_key.ToString());
                     }
-
-                    break;
-
-                case Define.KeyboardEvent.A:
-                    KeyPushState(_key.ToString());
 
                     break;
             }
-
         }
 
     }
 
+    //Attack key event
+    public void KeyDownAction(Define.KeyboardEvent _key)
+    {
+        if (_pv.IsMine)
+        {
+            if (_key == Define.KeyboardEvent.A)
+            {
+                KeyPushState(_key.ToString());
+            }
+        }
+    }
 
     //키 누르면 상태 전환
     public void KeyPushState(string Keyname)
@@ -559,28 +593,6 @@ public class Players : BaseController
     }
 
 
-    //A키 공격
-    protected override GameObject RangeAttack()
-    {
-        float dist = 999;
-        GameObject target = null;
-
-        Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
-
-        foreach (Collider col in cols)
-        {
-            float Distance = Vector3.Distance(col.transform.position, transform.position);
-            if (Distance <= _pStats.attackRange && Distance < dist)
-            {
-                dist = Distance;
-                target = col.gameObject;
-            }
-        }
-
-        return target;
-    }
-
-
     //상시로 바뀌는 플레이어 스텟 
     protected override void UpdatePlayerStat()
     {
@@ -689,49 +701,6 @@ public class Players : BaseController
         }
     }
 
-    //Skill
-    protected override void UpdateSkill()
-    {
-        //Range Off
-        _IsRange = false;
-        if (_SaveRangeNum != (int)Define.CardType.None)
-        {
-            _attackRange[_SaveRangeNum].SetActive(_IsRange);
-        }
-
-        //이펙트 발동
-        if (_MovingPos != default)
-        {
-            Debug.Log($"UpdateSkill : {_MovingPos} ");
-            //Skill On
-            _cardStats.InitCard();
-            GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
-            Debug.Log(effectObj);
-            //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
-
-            //이펙트가 특정 시간 후에 사라진다면
-            if (_cardStats._effectTime != default)
-            {
-                //Destroy(effectObj, _cardStats._effectTime);
-                StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
-                Debug.Log("Delete EffectPaticle");
-            }
-        }
-
-        return;
-    }
-
-    //Die
-    protected override void UpdateDie()
-    {
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.game.DieEvent(_pv.ViewID);
-
-        _attackRange[_SaveRangeNum].SetActive(false);
-        _startDie = true;
-    }
-
 
     //평타 후 딜레이
     protected override IEnumerator StopAttack()
@@ -743,9 +712,9 @@ public class Players : BaseController
         _agent.ResetPath();
 
         //평타 중 Key Input 안받기 
-        Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
-
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
 
         ////attack animation에서 특정 동작에서  데미지 작용
         yield return new WaitForSeconds((float)PercentageCount(_pStats.attackAnimPercent, _pStats.attackDelay, 2));
@@ -755,25 +724,47 @@ public class Players : BaseController
         _agent.ResetPath();
 
         //평타 중 Key Input 안받기 
-        Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
-
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
 
         ////attackDelay가 다 지나간 후
         yield return new WaitForSeconds((float)PercentageCount((100 - _pStats.attackAnimPercent), _pStats.attackDelay, 2));
-        //애니메이션 Idle로 변환
-        _state = Define.State.Idle;
+        if(BaseCard._lockTarget != null) 
+        {
+            //Range Off
+            _IsRange = true;
+            _attackRange[4].SetActive(_IsRange);
+
+            _proj = Define.Projectile.Attack_Proj;
+            _state = Define.State.Moving;
+        }
+
+        if(BaseCard.lockTarget == null) 
+        {
+            //애니메이션 Idle로 변환
+            _state = Define.State.Idle;
+
+            //움직임 초기화
+            _agent.ResetPath();
+        }
 
         //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
-        _MovingPos = default;
-        BaseCard._lockTarget = null;
+        //_MovingPos = default;
+        //BaseCard._lockTarget = null;
         _stopAttack = false;
 
         //Input 재설정
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
+        //Attack
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+
+        //Card
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+        Managers.Input.UIKeyboardAction += UIKeyDownAction;
+        
     }
 
 
@@ -789,19 +780,23 @@ public class Players : BaseController
         //평타 중 Key Input 안받기 
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
 
         UpdateSkill();
 
+        Debug.Log(_cardStats._CastingTime);
         ////attackDelay가 다 지나간 후
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(_cardStats._CastingTime);
         //애니메이션 Idle로 변환
         _state = Define.State.Idle;
 
         //마우스 좌표, 타겟 초기화
         _MovingPos = default;
         BaseCard._lockTarget = null;
-        
-        //Input Mouse 재설정
+
+        //Attack 재설정
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
 
@@ -809,9 +804,53 @@ public class Players : BaseController
         yield return new WaitForSeconds(1.8f);
         _stopSkill = false;
 
-        //Input Key 재설정
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
+        //card 재설정
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+        Managers.Input.UIKeyboardAction += UIKeyDownAction;
     }
 
+    //Skill
+    protected override void UpdateSkill()
+    {
+        //Range Off
+        _IsRange = false;
+        if (_SaveRangeNum != (int)Define.CardType.None)
+        {
+            _attackRange[_SaveRangeNum].SetActive(_IsRange);
+        }
+
+        //이펙트 발동
+        if (_MovingPos != default)
+        {
+            //Debug.Log($"UpdateSkill : {_MovingPos} ");
+            //Skill On
+            _cardStats.InitCard();
+            GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
+            //Debug.Log(effectObj);
+            //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
+
+            //이펙트가 특정 시간 후에 사라진다면
+            if (_cardStats._effectTime != default)
+            {
+                //Destroy(effectObj, _cardStats._effectTime);
+                StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
+                Debug.Log("Delete EffectPaticle");
+            }
+        }
+
+        return;
+    }
+
+
+    //Die
+    protected override void UpdateDie()
+    {
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+        Managers.game.DieEvent(_pv.ViewID);
+
+        _attackRange[_SaveRangeNum].SetActive(false);
+        _startDie = true;
+    }
 }
