@@ -601,6 +601,7 @@ namespace Photon.Pun
         /// <param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
         public void RPC(string methodName, RpcTarget target, params object[] parameters)
         {
+            if(!IsMine) return;
             PhotonNetwork.RPC(this, methodName, target, false, parameters);
         }
 
@@ -650,6 +651,7 @@ namespace Photon.Pun
         /// <param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
         public void RPC(string methodName, Player targetPlayer, params object[] parameters)
         {
+            if(!IsMine) return;
             PhotonNetwork.RPC(this, methodName, targetPlayer, false, parameters);
         }
 
