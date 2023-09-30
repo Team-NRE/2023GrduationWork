@@ -7,9 +7,9 @@ using Define;
 
 public class InputManager
 {
+    public Action<UIKeyboard> UIKeyboardAction = null;
     public Action<KeyboardEvent> KeyAction = null;
     public Action<MouseEvent> MouseAction = null;
-
 
     bool _MousePressed = false;
     float _pressedTime = 0.0f;
@@ -48,6 +48,7 @@ public class InputManager
     public void InputUpdate()
     {
         HitMouseEvent();
+        HitUIKeyEvent();
         HitKeyEvent();
         SetCursorDesign();
     }
@@ -99,6 +100,36 @@ public class InputManager
                 }
                 _MousePressed = false;
                 _pressedTime = 0;
+            }
+        }
+    }
+
+    public void HitUIKeyEvent()
+    {
+        if(UIKeyboardAction != null)
+        {
+            //UI cardpaenl
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                UIKeyboardAction.Invoke(UIKeyboard.Q);
+            }
+
+            //UI cardpaenl
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                UIKeyboardAction.Invoke(UIKeyboard.W);
+            }
+
+            //UI cardpaenl
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                UIKeyboardAction.Invoke(UIKeyboard.E);
+            }
+
+            //UI cardpaenl
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                UIKeyboardAction.Invoke(UIKeyboard.R);
             }
         }
     }

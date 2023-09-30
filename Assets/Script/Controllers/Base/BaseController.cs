@@ -29,7 +29,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected NavMeshAgent _agent;
 
     //총알 발사 여부
-    protected bool _stopAttack = false;
+    public bool _stopAttack = false;
     //스킬 발동 여부
     public bool _stopSkill = false;
     //사거리 유무

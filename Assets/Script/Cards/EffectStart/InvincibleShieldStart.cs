@@ -30,7 +30,7 @@ public class InvincibleShieldStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
 
-        defence = 10000;
+        defence = 9999;
         invincibility_Time = 1.5f;
         shield_Time = 3.0f;
     }

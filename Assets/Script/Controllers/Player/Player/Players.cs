@@ -756,6 +756,10 @@ public class Players : BaseController
         ////attack animation에서 특정 동작에서  데미지 작용
         yield return new WaitForSeconds((float)PercentageCount(_pStats.attackAnimPercent, _pStats.attackDelay, 2));
         UpdateAttack();
+
+        //움직임 초기화
+        _agent.ResetPath();
+
         //평타 중 Key Input 안받기 
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.MouseAction -= MouseDownAction;
