@@ -12,27 +12,34 @@ public class InvincibleShieldStart : BaseEffect
     protected PhotonView _pv;
 
 
-    GameObject objectName;
+    //GameObject objectName;
 
     float defence = default;
     float invincibility_Time = default;
     float shield_Time = default;
     float Save_Health;
+    int _playerId;
+    int _targetId;
 
     float time = 0.01f;
 
     bool stop = false;
 
+    void Start()
+    {
+        //_pv = GetComponent<PhotonView>();
+    }
+
     [PunRPC]
-    public override void CardEffectInit(int userId, int targetId)
+    public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
+        if (_pv == null)
+            return;
         base.CardEffectInit(userId);
-        objectName = GetRemotePlayer(targetId);
-
-        if (objectName.tag == "PLAYER") { _pStats = objectName.GetComponent<PlayerStats>(); }
-        if (objectName.tag != "PLAYER") { _oStats = objectName.GetComponent<ObjStats>(); }
-
+        _playerId = userId;
+        this.gameObject.transform.parent = player.transform;
+        
         defence = 10000;
         invincibility_Time = 1.5f;
         shield_Time = 3.0f;
@@ -42,23 +49,31 @@ public class InvincibleShieldStart : BaseEffect
     {
         if (stop == false)
         {
-            StartInvincibility();
+            //StartInvincibility();
+            _pv.RPC("StartInvincibility", RpcTarget.All, _playerId);
         }
 
         if (stop == true)
         {
-            Invoke("StartShield", 0.02f);
+            //Invoke("StartShield", 0.02f);
+            DelayTimer(0.02f);
+            _pv.RPC("StartShield", RpcTarget.All, _playerId);
         }
     }
 
 
-    public void StartInvincibility()
+    [PunRPC]
+    public void StartInvincibility(int userId)
     {
+        GameObject target = Managers.game.RemoteTargetFinder(userId);
+        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
+        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
+
         time += Time.deltaTime;
 
         if (time >= invincibility_Time)
         {
-            if(objectName.tag == "PLAYER")
+            if(target.tag == "PLAYER")
             { 
                 //플레이어 방어력 빠짐
                 _pStats.defensePower -= defence;
@@ -67,7 +82,7 @@ public class InvincibleShieldStart : BaseEffect
                 _pStats.nowHealth += Save_Health;
             }
 
-            if (objectName.tag != "PLAYER")
+            if (target.tag != "PLAYER")
             {
                 //플레이어 방어력 빠짐
                 _oStats.defensePower -= defence;
@@ -81,18 +96,22 @@ public class InvincibleShieldStart : BaseEffect
         }
     }
 
-    public void StartShield()
+    [PunRPC]
+    public void StartShield(int userId)
     {
+        GameObject target = Managers.game.RemoteTargetFinder(userId);
+        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
+        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
         time += Time.deltaTime;
 
         if (time >= shield_Time)
         {
-            if(objectName.tag == "PLAYER") { _pStats.nowHealth -= Save_Health; }
-            if(objectName.tag != "PLAYER") { _oStats.nowHealth -= Save_Health; }
+            if(target.tag == "PLAYER") { _pStats.nowHealth -= Save_Health; }
+            if(target.tag != "PLAYER") { _oStats.nowHealth -= Save_Health; }
 
             stop = false;
             time = 0;
-            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }

@@ -23,8 +23,7 @@ public class BloodstainedCoinStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
-        target = BaseCard._lockTarget;
-        BaseCard._lockTarget = null;
+        //BaseCard._lockTarget = null;
         damage = 10.0f;
         _playerId = userId;
         _targetId = targetId;
@@ -55,9 +54,11 @@ public class BloodstainedCoinStart : BaseEffect
 
             if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
             {
+                // 여기서 에러가 발생한다.
                 //effect
-                //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
-                _effectObject = PhotonNetwork.Instantiate($"Particle/Effect_BloodstainedCoin", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
+                _effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
+                
+                //_effectObject = PhotonNetwork.Instantiate($"Particle/Effect_BloodstainedCoin", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
                 _effectObject.transform.parent = target.transform;
                 _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
@@ -70,14 +71,15 @@ public class BloodstainedCoinStart : BaseEffect
 
                     oStats.nowHealth -= damage + (pStats.basicAttackPower);
 
-                    Destroy(gameObject, 0.1f);
-                    Destroy(_effectObject, 0.5f);
-                    //_pv.RPC("RpcDelayDestroy", RpcTarget.All, this.gameObject, 0.1f);
-                    //DelayDestroy(_effectObject, 0.5f, );
+                    //Destroy(gameObject, 0.1f);
+                    //Destroy(_effectObject, 0.5f);
+                    target = null;
+                    //RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
+                    //RpcDelayDestroy(_effectObject.GetComponent<PhotonView>().ViewID, 0.5f);
                 }
 
                 //Ÿ���� �� Player�� ��
-                if (target.tag == "PLAYER")
+                else if (target.tag == "PLAYER")
                 {
                     enemyStats = target.GetComponent<PlayerStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();
@@ -90,8 +92,11 @@ public class BloodstainedCoinStart : BaseEffect
                         pStats.gold += 100;
                     }
 
-                    Destroy(gameObject, 0.1f);
-                    Destroy(_effectObject, 0.5f);
+                    target = null;
+                    //Destroy(gameObject, 0.1f);
+                    //Destroy(_effectObject, 0.5f);
+                    //RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
+                    //RpcDelayDestroy(_effectObject.gameObject.GetComponent<PhotonView>().ViewID, 0.5f);
                     //StartCoroutine(DelayDestroy(gameObject, 0.1f));
                 }
             }

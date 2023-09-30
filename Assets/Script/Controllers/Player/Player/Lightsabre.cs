@@ -42,58 +42,28 @@ public class Lightsabre : Players
     //Attack
     protected override void UpdateAttack()
     {
-        //살았을 때
-        if (_pStats.nowHealth > 0)
+        //Range Off
+        _IsRange = false;
+        _attackRange[4].SetActive(_IsRange);
+
+        //평타 공격
+        if (BaseCard._lockTarget != null)
         {
-            if (_stopAttack == false)
+            PhotonView _targetPV = BaseCard._lockTarget.GetComponent<PhotonView>();
+
+            //타겟이 미니언, 타워일 시 
+            if (BaseCard._lockTarget.tag != "PLAYER")
             {
-                //Range Off
-                _IsRange = false;
-                _attackRange[4].SetActive(_IsRange);
+                _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -_pStats.basicAttackPower);
+            }
 
-                //평타 공격
-                if (BaseCard._lockTarget != null)
-                {
-                    PhotonView _targetPV = BaseCard._lockTarget.GetComponent<PhotonView>();
-
-                    //타겟이 미니언, 타워일 시 
-                    if (BaseCard._lockTarget.tag != "PLAYER")
-                    {
-                        _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth" , -_pStats.basicAttackPower);
-                    }
-
-                    //타겟이 적 Player일 시
-                    if (BaseCard._lockTarget.tag == "PLAYER")
-                    {
-                        _targetPV.RPC("photonStatSet", RpcTarget.All, _pv.ViewID, "receviedDamage", _pStats.basicAttackPower);
-                        if (_targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
-                            Managers.game.killEvent(_pv.ViewID, _targetPV.ViewID);
-                    }
-                }
-
-                //움직임 초기화
-                _agent.ResetPath();
-
-                //평타 쿨타임
-                _stopAttack = true;
-
-                //애니메이션 Idle로 변환
-                _state = Define.State.Idle;
-
-                return;
+            //타겟이 적 Player일 시
+            if (BaseCard._lockTarget.tag == "PLAYER")
+            {
+                _targetPV.RPC("photonStatSet", RpcTarget.All, _pv.ViewID, "receviedDamage", _pStats.basicAttackPower);
             }
         }
-        if (_pStats.nowHealth <= 0)
-        {
-            _state = Define.State.Die;
-        }
+
+        return;
     }
-
-
-    //근접 공격 시 적 HP 관리
-    //[PunRPC]
-    //private void EnemyHPLog(string log)
-    //{
-    //    Debug.Log(log);
-    //}
 }

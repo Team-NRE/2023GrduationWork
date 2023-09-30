@@ -32,7 +32,7 @@ public class HealthPotionStart : BaseEffect
         
     }
 
-    // ÀÌ Ä«µå¿¡´Â update°¡ ÇÊ¿äÇÑ RPC°¡ ¾øÀ½
+    // ï¿½ï¿½ Ä«ï¿½å¿¡ï¿½ï¿½ updateï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ RPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     [PunRPC]
     public void RpcUpdate()
     {

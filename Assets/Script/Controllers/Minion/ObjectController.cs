@@ -117,15 +117,14 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     public virtual void Death() 
     {
-        if (!PhotonNetwork.IsMasterClient) return; 
+        if (_oStats.gold == 0 && _oStats.experience == 0) return;
 
-        if (Managers.game.myCharacter.layer != gameObject.layer && Vector3.Distance(Managers.game.myCharacter.transform.position, transform.position) <= _oStats.recognitionRange)
-        {
-            PlayerStats stat = Managers.game.myCharacter.GetComponent<PlayerStats>();
-            stat.gold += _oStats.gold;
-            stat.experience += _oStats.experience;
-            summonCoinDrop();
-        }
+        checkGoldAndExperienceRange(Managers.game.humanTeamCharacter.Item1);
+        checkGoldAndExperienceRange(Managers.game.humanTeamCharacter.Item2);
+        checkGoldAndExperienceRange(Managers.game.cyborgTeamCharacter.Item1);
+        checkGoldAndExperienceRange(Managers.game.cyborgTeamCharacter.Item2);
+
+        if (!PhotonNetwork.IsMasterClient) return; 
         PhotonNetwork.Destroy(this.gameObject);
     }
     /// <summary>
@@ -247,7 +246,33 @@ public abstract class ObjectController : MonoBehaviour
             icon.color = Color.blue;
     }
 
-    protected void summonCoinDrop()
+    private void checkGoldAndExperienceRange(PhotonView playerPv)
+    {
+        if (playerPv == null) return;
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        if (playerPv.gameObject.layer != gameObject.layer && 
+            Vector3.Distance(playerPv.transform.position, transform.position) <= _oStats.recognitionRange)
+        {
+            pv.RPC(
+                "addGnE",
+                RpcTarget.All,
+                playerPv.ViewID
+            );
+        }
+    }
+
+    [PunRPC]
+    public void addGnE(int targetId)
+    {
+        PlayerStats stat = Managers.game.RemoteTargetFinder(targetId).GetComponent<PlayerStats>();
+        stat.gold += _oStats.gold;
+        stat.experience += _oStats.experience;
+            
+        if (stat.gameObject.GetPhotonView().IsMine) summonCoinDrop();
+    }
+
+    public void summonCoinDrop()
     {
         GameObject coinDrop = Instantiate(particleCoinDrop, transform.position, transform.rotation);
         coinDrop.GetComponent<Particle_CoinDrop>().setInit(_oStats.gold.ToString());

@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// ÇÇ¹¯Àº ÄÚÀÎ
+// ï¿½Ç¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 public class Card_BloodstainedCoin : UI_Card
 {
     int _layer = default;
@@ -31,20 +31,15 @@ public class Card_BloodstainedCoin : UI_Card
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin2");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodstainedCoin2", this.gameObject.transform.position, Quaternion.identity);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodstainedCoin2", _player.transform.position, Quaternion.identity);
         //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
-
-        _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
         _layer = layer;
 
         if (_layer == 6) { _enemylayer = 7; }
         if (_layer == 7) { _enemylayer = 6; }
 
-        //_effectObject.AddComponent<BloodstainedCoinStart>().StartBloodstainedCoin(_player.GetComponent<PhotonView>().ViewID, _damage);
-        //_effectObject.GetComponent<BloodstainedCoinStart>().Card(_player.GetComponent<PhotonView>().ViewID, _damage);
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
 
         return _effectObject;
     }

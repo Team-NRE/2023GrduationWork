@@ -4,14 +4,15 @@
       "id": "1",
       "cards": [
         "JobCard_Grenade",
+        "Card_InvincibleShield",
+        "Card_InvincibleShield",
+        "Card_InvincibleShield",
+        "Card_InvincibleShield",
+        "Card_InvincibleShield",
+        "Card_InvincibleShield",
 
-        "Card_HealthPotion",
-        "Card_HealthPotion",
-        "Card_Crystal",
-        "Card_Spear",
-        "Card_Enhancement",
-        "Card_BloodTransfusion",
-        "Card_Resurrection"
+
+        "Card_BloodstainedCoin"
       ]
     },
     {
@@ -52,71 +53,25 @@
     {
       "id": "3",
       "cards": [
-        "JobCard_Charge",
+        "JobCard_WindBlade",
 
         "Card_HealthPotion",
-        "Card_Enhancement",
-        "Card_Speed",
-        "Card_Shield",
+        "Card_HealthPotion",
         "Card_Crystal",
-        "Card_Armor",
-        "Card_RadiantCrystal",
-        "Card_Purify",
-        "Card_Teleport",
-
         "Card_Spear",
-        "Card_BloodTransfusion",
-        "Card_Infection",
-        "Card_BloodstainedCoin",
-        "Card_IcePrison",
-        "Card_HealthKit",
-        "Card_HackingGrenade",
-
-        "Card_Cannon",
-        "Card_Strike",
-        "Card_Lava",
-        "Card_WingsOfTheBattlefield",
-        "Card_AmuletOfSteel",
-
-        "Card_Resurrection",
-        "Card_CrisisAversion",
-        "Card_InvincibleShield",
-        "Card_InvincibleWeapon"
+        "Card_BloodTransfusion"
       ]
     },
     {
       "id": "4",
       "cards": [
-        "JobCard_Charge",
+        "JobCard_DeadlySpeed",
 
         "Card_HealthPotion",
-        "Card_Enhancement",
-        "Card_Speed",
-        "Card_Shield",
+        "Card_HealthPotion",
         "Card_Crystal",
-        "Card_Armor",
-        "Card_RadiantCrystal",
-        "Card_Purify",
-        "Card_Teleport",
-
         "Card_Spear",
-        "Card_BloodTransfusion",
-        "Card_Infection",
-        "Card_BloodstainedCoin",
-        "Card_IcePrison",
-        "Card_HealthKit",
-        "Card_HackingGrenade",
-
-        "Card_Cannon",
-        "Card_Strike",
-        "Card_Lava",
-        "Card_WingsOfTheBattlefield",
-        "Card_AmuletOfSteel",
-
-        "Card_Resurrection",
-        "Card_CrisisAversion",
-        "Card_InvincibleShield",
-        "Card_InvincibleWeapon"
+        "Card_BloodTransfusion"
       ]
     }
   ]

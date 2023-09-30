@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// ´ëÆ÷
+// ï¿½ï¿½ï¿½ï¿½
 public class Card_Cannon : UI_Card
 {
     int _layer = default;
@@ -36,7 +36,7 @@ public class Card_Cannon : UI_Card
 
         //_effectObject.AddComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
         //_effectObject.GetComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<CannonStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit",RpcTarget.All, playerId);
 
         return _effectObject;
     }

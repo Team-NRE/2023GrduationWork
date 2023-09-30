@@ -18,6 +18,7 @@ namespace Stat
         [SerializeField] private float _basicAttackPower; //평타 공격력
         [SerializeField] private float _attackSpeed; //평타 공속
         [SerializeField] private float _attackDelay; //평타 딜레이
+        [SerializeField] private double _attackAnimPercent; //평타 공격 애니메이션 동작 중 데미지 발동되는 애니메이션 퍼센트 
         [SerializeField] private float _attackRange; //평타 범위 
         [SerializeField] private string _attackType; //평타 타입
         [SerializeField] private float _kill; //킬
@@ -80,11 +81,13 @@ namespace Stat
             set
             {
                 _attackSpeed = value;
-                //공격 속도 계산식
+                
+                //공격 속도 계산식 (attackDelay 초당 1회 공격)
                 attackDelay = 1 / (1 + _attackSpeed);
             }
         }
         public float attackDelay { get { return _attackDelay; } set { _attackDelay = value; } }
+        public double attackAnimPercent { get { return _attackAnimPercent; } set { _attackAnimPercent = value; } }
         public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
         public string attackType { get { return _attackType; } set { _attackType = value; } }
         public float kill { get { return _kill; } set { _kill = value; } }
@@ -107,7 +110,6 @@ namespace Stat
                 {
                     _nowHealth = value;
                 }
-
 
                 if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
             }
@@ -170,17 +172,21 @@ namespace Stat
             }
         }
         public float experience
-        {
+        { 
             get { return _experience; }
             set
             {
                 if (nowHealth <= 0) return;
+                if (level == 10) return;
+
                 _experience += value;
                 if (_experience > levelUpEx)
                 {
                     level += 1;
                     levelUpEx += 20;
+         
                     _experience = 0;
+
                 }
             }
         }
@@ -269,6 +275,7 @@ namespace Stat
             //공격
             basicAttackPower = stat.basicAttackPower;
             attackSpeed = stat.attackSpeed;
+            attackAnimPercent = stat.attackAnimPercent;
             attackRange = stat.attackRange;
             attackType = stat.attackType;
             kill = 0;

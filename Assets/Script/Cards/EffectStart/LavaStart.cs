@@ -8,14 +8,16 @@ public class LavaStart : BaseEffect
 {
     float damage = default;
     int enemylayer = default;
+    int _playerId;
     protected PhotonView _pv;
 
     [PunRPC]
-    public override void CardEffectInit(int userId, int targetId)
+    public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
-        base.CardEffectInit(userId, targetId);
-        enemylayer = target.gameObject.layer;
+        base.CardEffectInit(userId);
+        _playerId = userId;
+        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
         damage = 0.1f;
     }
 
@@ -28,10 +30,10 @@ public class LavaStart : BaseEffect
     }
 
     [PunRPC]
-    public void RpcTrigger(int otherId, int playerId)
+    public void RpcTrigger(int otherId)
 	{
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        GameObject user = Managers.game.RemoteTargetFinder(playerId);
+        GameObject user = Managers.game.RemoteTargetFinder(_playerId);
 
         if (other.gameObject.layer == enemylayer)
         {

@@ -82,16 +82,6 @@ public class NeutralMob : ObjectController
         base.Death();
 
         if (!PhotonNetwork.IsMasterClient) return;
-
-        PlayerStats[] pStats = FindObjectsOfType<PlayerStats>();
-
-        for (int i=0; i<pStats.Length; i++) {
-            if (pStats[i].gameObject.layer != gameObject.layer && Vector3.Distance(pStats[i].transform.position, transform.position) <= _oStats.recognitionRange)
-            {
-                pStats[i].gold += _oStats.gold;
-                pStats[i].experience += _oStats.experience;
-            }
-        }
         
         _allObjectTransforms.Remove(this.transform);
         Destroy(this.gameObject);
@@ -107,14 +97,14 @@ public class NeutralMob : ObjectController
         }
         else if (_targetEnemyTransform != null)
         {
-            transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
+            transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
             _action = ObjectAction.Attack;
 
             isMachineGun = (Vector3.Distance(this.transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange);
         }
         else 
         {
-            transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
             _action = ObjectAction.Idle;
         }
 
@@ -170,23 +160,6 @@ public class NeutralMob : ObjectController
 
         GameObject nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
         PhotonView bulletPv = nowBullet.GetComponent<PhotonView>();
-        // bulletPv.RPC("BulletSetting",
-        //     RpcTarget.All,
-        //     this.transform.position, 
-        //     _targetEnemyTransform.position, 
-        //     _oStats.attackSpeed, 
-        //     _oStats.basicAttackPower
-        // );
-
-        // nowBullet = PhotonNetwork.Instantiate(bullet, this.transform.position, this.transform.rotation);
-        // bulletPv = nowBullet.GetComponent<PhotonView>();
-        // bulletPv.RPC("BulletSetting",
-        //     RpcTarget.All,
-        //     this.transform.position, 
-        //     _targetEnemyTransform.position, 
-        //     _oStats.attackSpeed, 
-        //     _oStats.basicAttackPower
-        // );
 
         bulletPv.RPC("BulletSetting", // v2
             RpcTarget.All,

@@ -20,13 +20,16 @@ public class CrisisAversionStart : BaseEffect
 
     bool IsEffect = false;
 
-# warning CrisisAversion은 스텟이 적용되지 않음
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-        // 
+
+        enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
         pStats = player.GetComponent<PlayerStats>();
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0.3f, 0);
     }
 
 

@@ -50,55 +50,26 @@ public class Police : Players
         _Proj_Parent = this.transform.Find("Location");
     }
 
-
     //Attack
     protected override void UpdateAttack()
     {
-        //살았을 때
-        if (_pStats.nowHealth > 0)
+        //Range Off
+        _IsRange = false;
+        _attackRange[4].SetActive(_IsRange);
+
+        //평타 공격
+        if (BaseCard._lockTarget != null)
         {
-            if (_stopAttack == false)
+            if (_pv.IsMine)
             {
-                //Range Off
-                _IsRange = false;
-                _attackRange[4].SetActive(_IsRange);
-
-                //평타 공격
-                if (BaseCard._lockTarget != null)
-                {
-                    if(_pv.IsMine)
-                    {
-                        //Shoot
-                        string tempName = "PoliceBullet";
-                        _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
-                        PhotonView localPv = _netBullet.GetComponent<PhotonView>();
-                        localPv.RPC("Init", RpcTarget.All, _pv.ViewID, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
-                    }
-                }
-
-                //움직임 초기화
-                _agent.ResetPath();
-
-                //평타 쿨타임
-                _stopAttack = true;
-
-                //애니메이션 Idle로 변환
-                _state = Define.State.Idle;
-
-                return;
+                //Shoot
+                string tempName = "PoliceBullet";
+                _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
+                PhotonView localPv = _netBullet.GetComponent<PhotonView>();
+                localPv.RPC("Init", RpcTarget.All, _pv.ViewID, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
             }
         }
-        if (_pStats.nowHealth <= 0)
-        {
-            _state = Define.State.Die;
-        }
-    }
 
-    //Projectile 설정
-    //[PunRPC]
-    //protected void SetProjectile(int id)
-    //{
-    //    if (_netBullet != null)
-    //        _netBullet.GetComponent<RangedBullet>().Init(id);
-    //}
+        return;
+    }
 }

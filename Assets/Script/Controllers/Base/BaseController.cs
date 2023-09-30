@@ -20,7 +20,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected Vector3 receivePos;
     protected Quaternion receiveRot;
     protected float damping = 10.0f;
-    
 
     /// <summary>
     /// 초기화
@@ -32,7 +31,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     //총알 발사 여부
     protected bool _stopAttack = false;
     //스킬 발동 여부
-    protected bool _stopSkill = false;
+    public bool _stopSkill = false;
     //사거리 유무
     protected bool _IsRange = false;
     
@@ -57,7 +56,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     /// </summary>
     public CardType _cdType { get; protected set; }
     public PlayerType _pType { get; protected set; }
-    public State _state { get; protected set; } = State.Idle;
+    public State _state { get; set; } = State.Idle;
     public CameraMode _cameraMode { get; protected set; } = CameraMode.QuaterView;
     public Projectile _proj { get; protected set; } = Projectile.Undefine;
 
@@ -75,10 +74,10 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     public void Update()
     {
-        if(_pv.IsMine)
+        if (_pv.IsMine)
         {
-            UpdatePlayer_AnimationChange();
             UpdatePlayer_StateChange();
+            UpdatePlayer_AnimationChange();
         }    
     }
 
@@ -95,61 +94,76 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected virtual GameObject RangeAttack() { return null; }
 
-    protected virtual void StopAttack() { }
-    protected virtual void StopSkill() { }
-    protected virtual void StartDie() { }
+    protected virtual IEnumerator StopAttack() { yield return null; }
+    protected virtual IEnumerator StopSkill() { yield return null; }
 
 
     protected void UpdatePlayer_AnimationChange() 
     {
-        Debug.Log(_state);
         //키, 마우스 이벤트 받으면 state가 변환
         switch (_state)
         {
             case Define.State.Idle:
                 _anim.SetBool("IsIdle", true);
-                _anim.SetBool("IsWalk", false);
-                _anim.SetBool("IsThrow1", false);
-                _anim.SetBool("IsFire", false);
+
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsAttack", false);
+                _anim.SetBool("IsSkill", false);
+                _anim.SetBool("IsDie", false);
 
                 UpdateIdle();
 
                 break;
 
             case Define.State.Die:
-                _anim.SetTrigger("Die");
+                _anim.SetBool("IsDie", true);
+
                 _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsWalk", false);
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsAttack", false);
+                _anim.SetBool("IsSkill", false);
 
                 UpdateDie();
 
                 break;
 
             case Define.State.Moving:
-                _anim.SetBool("IsWalk", true);
+                _anim.SetBool("IsMoving", true);
+
                 _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsThrow1", false);
-                _anim.SetBool("IsFire", false);
+                _anim.SetBool("IsAttack", false);
+                _anim.SetBool("IsSkill", false);
 
                 UpdateMoving();
 
                 break;
 
             case Define.State.Attack:
-                _anim.SetBool("IsFire", true);
+                _anim.SetFloat("AttackSpeed", _pStats.attackSpeed);
+                _anim.SetBool("IsAttack", true);
+
                 _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsThrow1", false);
-                if (_pv.IsMine)
-                    UpdateAttack();
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsSkill", false);
+
+                if (_stopAttack == false)
+                {
+                    StartCoroutine(StopAttack());
+                }
 
                 break;
 
             case Define.State.Skill:
-                _anim.SetBool("IsThrow1", true);
-                _anim.SetBool("IsIdle", false);
-                _anim.SetBool("IsFire", false);
+                _anim.SetBool("IsSkill", true);
 
-                UpdateSkill();
+                _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsMoving", false);
+                _anim.SetBool("IsAttack", false);
+
+                if (_stopSkill == false)
+                {
+                    StartCoroutine(StopSkill());
+                }
 
                 break;
         }
@@ -158,25 +172,31 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected void UpdatePlayer_StateChange()
     {
-        if (_startDie == false)
+        //Die
+        if (_pStats.nowHealth <= 0)
         {
-            UpdatePlayerStat();
-        }
+            _state = Define.State.Die;
 
-        if (_stopSkill == true)
-        {
-            StopSkill();
+            return;
         }
-        if (_stopAttack == true)
-        {
-            StopAttack();
-        }
-
         //A키를 눌렀을 때 
         if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
         {
             RangeAttack();
         }
+
+        if (_startDie == false)
+        {
+            UpdatePlayerStat();
+        }
+
+    }
+
+    //퍼센트 계산
+    protected double PercentageCount(double percent, double value, int decimalplaces)
+    {
+
+        return System.Math.Round(percent / 100 * value, decimalplaces);
     }
 
 
@@ -220,11 +240,17 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     }
     
     [PunRPC]
-    public void RemoteRespawnEnable(int viewId, bool state)
+    public void RemoteRespawnEnable(int viewId, bool state, int enableTime)
     {
-        GetRemotePlayer(viewId).GetComponent<Players>().enabled = state;
-        GetRemotePlayer(viewId).GetComponent<Collider>().enabled = state;
-        GetRemotePlayer(viewId).GetComponent<PlayerStats>().enabled = state;
+        if(enableTime == 1)
+        {
+            GetRemotePlayer(viewId).GetComponent<Players>().enabled = state;
+            GetRemotePlayer(viewId).GetComponent<PlayerStats>().enabled = state;
+        }
+        if(enableTime == 2)
+        {
+            GetRemotePlayer(viewId).GetComponent<Collider>().enabled = state;
+        }
     }
 
     [PunRPC]

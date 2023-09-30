@@ -49,12 +49,20 @@ public class UI_StatusBar : MonoBehaviour
     
     float lastExp = 0f;
 
+    //Respawn
+    Image PlayerBackground;
+    string PlayerBackgroundName = "IconBackground";
+    TextMeshProUGUI RespawnText;
+    string RespawnTextName = "RespawnTime";
+
+    float repsawnTime;
     private void Awake()
     {
         GetLevelText();
         GetHpBarText();
         GetHpBarImage();
         GetExpBarImage();
+        GetRespawn();
     }
 
     void Update()
@@ -78,12 +86,23 @@ public class UI_StatusBar : MonoBehaviour
     {
         if (Managers.game.myCharacter == null) return;
 
+        UpdateRespawn();
         UpdateLevelText();
         UpdateHpBarText();
         UpdateHpBarImage();
         UpdateManaBarImages();
         UpdateExpBarImage();
     }
+
+    void GetRespawn()
+    {
+        if (PlayerBackground != null) return;
+        PlayerBackground = GetObject<Image>(gameObject, PlayerBackgroundName);
+
+        if (RespawnText != null) return;
+        RespawnText = GetObject<TextMeshProUGUI>(gameObject, RespawnTextName);
+    }
+
 
     void GetStat()
     {
@@ -142,6 +161,29 @@ public class UI_StatusBar : MonoBehaviour
         expBarImage = GetObject<Image>(gameObject, expBarImageName);
 
         lastExp = 0.1f;
+    }
+
+    void UpdateRespawn()
+    {
+        if (PlayerBackground == null) return;
+        if (RespawnText == null) return;
+
+        if (myStat.nowHealth > 0)
+        {
+            PlayerBackground.color = Color.white;
+
+            RespawnText.gameObject.SetActive(false);
+            repsawnTime = (myStat.isResurrection == true) ? 3.0f : (float)Managers.game.respawnTime;
+        }
+
+        if (myStat.nowHealth <= 0)
+        {
+            PlayerBackground.color = new Color32(75, 75, 75, 255);
+
+            RespawnText.gameObject.SetActive(true);
+            repsawnTime -= Time.deltaTime;
+            RespawnText.text = repsawnTime.ToString("F0");
+        }
     }
 
     void UpdateLevelText()

@@ -16,11 +16,27 @@ public class InvincibleWeaponStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
+
+        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        this.gameObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
         damage = 1;
     }
 
     public void OnTriggerStay(Collider other)
     {
+        int otherId =  Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return;
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+    }
+
+    [PunRPC]
+    public void RpcTrigger(int targetId)
+	{
+        GameObject other = GetRemotePlayer(targetId);
         if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
@@ -45,10 +61,4 @@ public class InvincibleWeaponStart : BaseEffect
             }
         }
     }
-
-    [PunRPC]
-    public void RpcTrigger()
-	{
-
-	}
 }

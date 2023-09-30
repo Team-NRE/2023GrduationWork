@@ -77,7 +77,7 @@ public class SoundManager
     }
 
     //BGM, Effect�� �����ؼ� ���带 �ʿ�ø��� ��ü���ش�.
-    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f, float volume = 1.0f)
     {
         if(audioClip == null)
         {
@@ -92,7 +92,7 @@ public class SoundManager
             if (audioSource.isPlaying)
                 audioSource.Stop();
 
-            audioSource.volume = BgmVolume;
+            audioSource.volume = BgmVolume * volume;
             audioSource.pitch = pitch;
             audioSource.clip = audioClip;
             audioSource.Play();
@@ -101,7 +101,7 @@ public class SoundManager
         {
             AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
 
-            audioSource.volume = EffectVolume;
+            audioSource.volume = EffectVolume * volume;
             audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);
         }

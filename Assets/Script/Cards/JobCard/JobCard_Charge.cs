@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Stat;
+using Photon.Pun;
 
 public class JobCard_Charge : UI_Card
 {
     public override void Init()
     {
         _cost = 1;
+
         _rangeType = Define.CardType.Point;
         _rangeScale = 3.0f;
         _rangeRange = 5.0f;
@@ -15,20 +18,19 @@ public class JobCard_Charge : UI_Card
         _effectTime = 0.7f;
     }
 
-    public override void InitCard()
-    {
-        Debug.Log($"{this.gameObject.name} is called");
-        Debug.Log($"마나 {_cost} 사용 ");
-        Debug.Log($"{_rangeScale}내 적 카드 사용 불가");
-    }
 
-    /*
-    public override GameObject cardEffect(Transform Ground = null, Transform Player = null, LayerMask layer = default)
+    public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        _effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade", Ground);
+        //_effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_Grenade", ground, Quaternion.identity);
+        _effectObject.transform.position = ground;
+
+        //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
-    }*/
+    }
+
 
     public override void DestroyCard(float delay = default)
     {

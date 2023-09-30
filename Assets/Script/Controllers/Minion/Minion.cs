@@ -69,10 +69,10 @@ public class Minion : ObjectController
     {
         base.Attack();
         if (!PhotonNetwork.IsMasterClient) return;
-
-        transform.LookAt(_targetEnemyTransform);
-
         if (_targetEnemyTransform == null) return;
+
+        var targetRotation = Quaternion.LookRotation(_targetEnemyTransform.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2.0f * Time.deltaTime);
     }
 
     public override void Death()
@@ -117,11 +117,13 @@ public class Minion : ObjectController
             }
         }
 
-        transform.LookAt(new Vector3(
-            moveTarget.x,
-            transform.position.y,
-            moveTarget.z
-        ));
+        var targetPos = new Vector3(moveTarget.x, transform.position.y, moveTarget.z) - transform.position;
+        if (targetPos != Vector3.zero)
+        {
+            var targetRotation = Quaternion.LookRotation(targetPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2.0f * Time.deltaTime);
+        }
+
         nav.SetDestination(moveTarget);
     }
 
@@ -161,6 +163,7 @@ public class Minion : ObjectController
         {
             case ObjectAction.Attack:
                 nav.enabled = false;
+                nav.enabled = true;
                 break;
             case ObjectAction.Death:
                 nav.enabled = false;

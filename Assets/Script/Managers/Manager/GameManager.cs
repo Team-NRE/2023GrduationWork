@@ -47,6 +47,7 @@ public class GameManager
 
     /// 플레이어 리스폰 시간 관련
     public double respawnTime = 3; //기본 Default = 3초
+    public double FinishRespawn;
 
     public int respawnMin = 0;
     public int respawnTurn = 1;
@@ -74,6 +75,9 @@ public class GameManager
 
     public void OnUpdate()
     {
+        if (PhotonNetwork.CurrentRoom == null)
+            return;
+
         if (isGameEnd)
         {
             // 메인 카메라 이동
@@ -83,6 +87,8 @@ public class GameManager
                     endingCamPos,
                     Time.deltaTime * 2f
                 );
+            
+            return;
         }
 
         playTime = PhotonNetwork.Time - startTime;
@@ -101,7 +107,7 @@ public class GameManager
         {
             case true:
                 //부활 = 3초
-                double FinishRespawn = (isResur == true) ? 3.0f : respawnTime;
+                FinishRespawn = (isResur == true) ? 3.0f : respawnTime;
                 startRespawn += Time.deltaTime;
                 if (startRespawn >= FinishRespawn) 
                 {
@@ -153,8 +159,9 @@ public class GameManager
 
         //PhotonView
         diedPlayerPV = PhotonView.Find(diedID);
-        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false);
-        
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false, 1);
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false, 2);
+
         //부활 유무
         isResur = diedPlayerPV.gameObject.GetComponent<Stat.PlayerStats>().isResurrection;
 
@@ -163,7 +170,7 @@ public class GameManager
 
     public void respawnEvent()
     {
-        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedPlayerPV.ViewID, true);
+        diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedPlayerPV.ViewID, true, 1);
     }
 
     /// 게임 종료 스크립트
@@ -181,27 +188,37 @@ public class GameManager
         /// 오브젝트 비활성화
         ObjectController[] objects = GameObject.FindObjectsOfType<ObjectController>();
 
-        foreach (ObjectController obj in objects)
+        for (int i=0; i<objects.Length; i++)
         {
             // 각 오브젝트 별로 컴포넌트 비활성화
-            switch (obj._type)
+            switch (objects[i]._type)
             {
                 case ObjectType.Nexus:
-                    obj.GetComponent<MinionSummoner>().enabled = false;
+                    objects[i].GetComponent<MinionSummoner>().enabled = false;
                     break;
                 case ObjectType.MeleeMinion:
                 case ObjectType.RangeMinion:
                 case ObjectType.SuperMinion:
-                    obj.GetComponent<NavMeshAgent>().enabled = false;
-                    obj.GetComponent<Animator>().enabled = false;
+                    objects[i].GetComponent<NavMeshAgent>().enabled = false;
+                    objects[i].GetComponent<Animator>().enabled = false;
                     break;
                 case ObjectType.Tower:
                 case ObjectType.Neutral:
-                    obj.GetComponent<Animator>().enabled = false;
+                    objects[i].GetComponent<Animator>().enabled = false;
                     break;
             }
 
-            obj.enabled = false;
+            objects[i].enabled = false;
+        }
+
+        /// 플레이어 비활성화
+        Players[] players = GameObject.FindObjectsOfType<Players>();
+
+        for (int i=0; i<players.Length; i++)
+        {
+            players[i].enabled = false;
+            players[i].GetComponent<NavMeshAgent>().enabled = false;
+            players[i].GetComponent<Animator>().enabled = false;
         }
     }
 
@@ -222,5 +239,18 @@ public class GameManager
             return default;
         int colliderId = collider.gameObject.GetComponent<PhotonView>().ViewID;
         return colliderId;
+    }
+
+    public void Clear()
+    {
+        humanTeamKill = 0;
+        cyborgTeamKill = 0;
+
+        myCharacter = null;
+        myCharacterType = default;
+        myCharacterTeam = default;
+
+        humanTeamCharacter = (null, null);
+        cyborgTeamCharacter = (null, null);
     }
 }

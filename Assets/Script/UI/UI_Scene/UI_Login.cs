@@ -44,6 +44,7 @@ public class UI_Login : UI_Scene
 		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
 
 		user.ActivateInputField();
+		Managers.Sound.Play("Ingame", Define.Sound.Bgm);
 	}
 
 	public override void UpdateInit()

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Stat;
 using Define;
-
+using TMPro;
 
 public class UI_CardPanel : UI_Card
 {
@@ -34,11 +34,28 @@ public class UI_CardPanel : UI_Card
     GameObject E_CardEffect;
     GameObject R_CardEffect;
 
+    Image Q_CardImage;
+    Image W_CardImage;
+    Image E_CardImage;
+    Image R_CardImage;
+
+    GameObject Q_CardCountObject;
+    GameObject W_CardCountObject;
+    GameObject E_CardCountObject;
+    GameObject R_CardCountObject;
+
+    TextMeshProUGUI Q_CardCount;
+    TextMeshProUGUI W_CardCount;
+    TextMeshProUGUI E_CardCount;
+    TextMeshProUGUI R_CardCount;
+
+
     BaseController bc;
     PlayerStats pStat;
-    PlayerType _pType;
 
     float targetDis;
+    float CountSet;
+
 
     public enum CardObjects
     {
@@ -77,12 +94,34 @@ public class UI_CardPanel : UI_Card
         R_UI = R_Card.GetComponentInChildren<UI_Card>();
 
 
-        //UI_img
+        //UI_Card Effect
         Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
         W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
         E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
         R_CardEffect = R_Card.transform.Find("Card_Effect").gameObject;
 
+
+        //UI_Card Color
+        Q_CardImage = Q_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        W_CardImage = W_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        E_CardImage = E_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        R_CardImage = R_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+
+        //UI_Card Count Gameobject
+        Q_CardCountObject = Q_Card.transform.Find("Card_Count").gameObject;
+        W_CardCountObject = W_Card.transform.Find("Card_Count").gameObject;
+        E_CardCountObject = E_Card.transform.Find("Card_Count").gameObject;
+        R_CardCountObject = R_Card.transform.Find("Card_Count").gameObject;
+
+
+        //UI_Card Count
+        Q_CardCount = Q_CardCountObject.GetComponent<TextMeshProUGUI>();
+        W_CardCount = W_CardCountObject.GetComponent<TextMeshProUGUI>();
+        E_CardCount = E_CardCountObject.GetComponent<TextMeshProUGUI>();
+        R_CardCount = R_CardCountObject.GetComponent<TextMeshProUGUI>();
+
+        CountSet = 3.0f;
+        
 
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
@@ -104,10 +143,8 @@ public class UI_CardPanel : UI_Card
     {
         if (bc._startDie == false)
         {
-            MouseDownAction();
-            KeyDownAction();
+            CardUseable();
         }
-        CardUseable();
     }
 
     //Range 후 사용 카드
@@ -126,7 +163,7 @@ public class UI_CardPanel : UI_Card
             {
                 case "Q":
                     UI_Card Q_UICard = Q_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{Q_UICard._rangeType} Cardpanel");
+                    ///Debug.Log($"{Q_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= Q_UICard._rangeScale)
                     {
@@ -143,7 +180,7 @@ public class UI_CardPanel : UI_Card
 
                 case "W":
                     UI_Card W_UICard = W_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{W_UICard._rangeType} Cardpanel");
+                    //Debug.Log($"{W_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= W_UICard._rangeScale)
                     {
@@ -160,7 +197,7 @@ public class UI_CardPanel : UI_Card
 
                 case "E":
                     UI_Card E_UICard = E_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{E_UICard._rangeType} Cardpanel");
+                    //Debug.Log($"{E_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= E_UICard._rangeScale)
                     {
@@ -176,7 +213,7 @@ public class UI_CardPanel : UI_Card
 
                 case "R":
                     UI_Card R_UICard = R_Btn.GetComponentInChildren<UI_Card>();
-                    Debug.Log($"{R_UICard._rangeType} Cardpanel");
+                    //Debug.Log($"{R_UICard._rangeType} Cardpanel");
                     //Range 스킬
                     if (BaseCard._lockTarget != null && targetDis <= R_UICard._rangeScale)
                     {
@@ -237,10 +274,63 @@ public class UI_CardPanel : UI_Card
 
     public void CardUseable()
     {
-        Q_CardEffect.SetActive(pStat.UseMana(null, Q_UI).Item1);
-        W_CardEffect.SetActive(pStat.UseMana(null, W_UI).Item1);
-        E_CardEffect.SetActive(pStat.UseMana(null, E_UI).Item1);
-        R_CardEffect.SetActive(pStat.UseMana(null, R_UI).Item1);
+        if(bc._stopSkill == true)
+        {
+            if(CountSet == 3)
+            {
+                //Input
+                MouseDownAction();
+                KeyDownAction();
+            }
+
+            //effect 
+            Q_CardEffect.SetActive(false);
+            W_CardEffect.SetActive(false);
+            E_CardEffect.SetActive(false);
+            R_CardEffect.SetActive(false);
+
+            //color
+            Q_CardImage.color = new Color32(60, 60, 60, 255);
+            W_CardImage.color = new Color32(60, 60, 60, 255);
+            E_CardImage.color = new Color32(60, 60, 60, 255);
+            R_CardImage.color = new Color32(60, 60, 60, 255);
+
+            //Count
+            Q_CardCountObject.SetActive(true);
+            W_CardCountObject.SetActive(true);
+            E_CardCountObject.SetActive(true);
+            R_CardCountObject.SetActive(true);
+
+            //Count Start
+            CountSet -= Time.deltaTime;
+            Q_CardCount.text = CountSet.ToString("F0");
+            W_CardCount.text = CountSet.ToString("F0");
+            E_CardCount.text = CountSet.ToString("F0");
+            R_CardCount.text = CountSet.ToString("F0");
+        }
+
+        else if(bc._stopSkill == false)
+        {
+            //effect
+            Q_CardEffect.SetActive(pStat.UseMana(null, Q_UI).Item1);
+            W_CardEffect.SetActive(pStat.UseMana(null, W_UI).Item1);
+            E_CardEffect.SetActive(pStat.UseMana(null, E_UI).Item1);
+            R_CardEffect.SetActive(pStat.UseMana(null, R_UI).Item1);
+
+            //Color
+            Q_CardImage.color = Q_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+            W_CardImage.color = W_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+            E_CardImage.color = E_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+            R_CardImage.color = R_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+
+            //Count
+            Q_CardCountObject.SetActive(false);
+            W_CardCountObject.SetActive(false);
+            E_CardCountObject.SetActive(false);
+            R_CardCountObject.SetActive(false);
+
+            CountSet = 3;
+        }
     }
 
 
@@ -264,6 +354,9 @@ public class UI_CardPanel : UI_Card
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
         Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
         Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
+        Q_CardImage = Q_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        Q_CardCountObject = Q_Card.transform.Find("Card_Count").gameObject;
+        Q_CardCount = Q_CardCountObject.GetComponent<TextMeshProUGUI>();
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
@@ -292,6 +385,9 @@ public class UI_CardPanel : UI_Card
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
         W_UI = W_Card.GetComponentInChildren<UI_Card>();
         W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
+        W_CardImage = W_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        W_CardCountObject = W_Card.transform.Find("Card_Count").gameObject;
+        W_CardCount = W_CardCountObject.GetComponent<TextMeshProUGUI>();
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
@@ -319,6 +415,9 @@ public class UI_CardPanel : UI_Card
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
         E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
+        E_CardImage = E_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        E_CardCountObject = E_Card.transform.Find("Card_Count").gameObject;
+        E_CardCount = E_CardCountObject.GetComponent<TextMeshProUGUI>();
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;

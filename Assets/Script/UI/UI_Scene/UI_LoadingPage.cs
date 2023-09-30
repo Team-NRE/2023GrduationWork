@@ -8,6 +8,8 @@ using Define;
 using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class UI_LoadingPage : UI_Scene
 {
@@ -24,6 +26,11 @@ public class UI_LoadingPage : UI_Scene
     // Remain Team Num
     private int remainHuman, remainCyborg;
     
+    public enum Buttons
+    {
+        Btn_ClosePopup1_White
+    }
+
     public enum Images
 	{
 		Fill,
@@ -31,8 +38,12 @@ public class UI_LoadingPage : UI_Scene
 
 	public override void Init()
 	{
+        Managers.Sound.Play("Matching", Sound.Bgm);
+
 		Bind<Image>(typeof(Images));
+        Bind<Button>(typeof(Buttons));
         progressBar = Get<Image>((int)Images.Fill);
+        GetButton((int)Buttons.Btn_ClosePopup1_White).gameObject.BindEvent(CancleMatch);
 
         QuickMatch();
     }
@@ -44,6 +55,17 @@ public class UI_LoadingPage : UI_Scene
         
         SetProgressBar();
         FullRoomCheck();
+    }
+
+    public void CancleMatch(PointerEventData data)
+    {
+        Debug.Log("Return to Lobby");
+        Managers.Clear();
+        if (PhotonNetwork.CurrentRoom != null)
+            PhotonNetwork.LeaveRoom();
+
+        if (SceneManager.GetActiveScene().name == "View Test Scene")
+            SceneManager.LoadScene("Lobby");
     }
 
     private void QuickMatch()
@@ -173,6 +195,9 @@ public class UI_LoadingPage : UI_Scene
         if (progressBar.fillAmount == 1.0f)
         {
             Managers.game.isGameStart = true;
+            Managers.Sound.Play("Ingame", Sound.Bgm);
         }
     }
+
+
 }
