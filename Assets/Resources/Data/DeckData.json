@@ -4,11 +4,12 @@
       "id": "1",
       "cards": [
         "JobCard_Grenade",
-        "Card_BloodstainedCoin",
-        "Card_BloodstainedCoin",
-        "Card_BloodstainedCoin",
-        "Card_InvincibleShield",
-        "Card_InvincibleShield",
+
+        "Card_HealthPotion",
+        "Card_HealthPotion",
+        "Card_Crystal",
+        "Card_Spear",
+        "Card_BloodTransfusion",
         "Card_BloodstainedCoin"
       ]
     },
@@ -50,7 +51,7 @@
     {
       "id": "3",
       "cards": [
-        "JobCard_Charge",
+        "JobCard_WindBlade",
 
         "Card_HealthPotion",
         "Card_HealthPotion",
@@ -62,7 +63,7 @@
     {
       "id": "4",
       "cards": [
-        "JobCard_Charge",
+        "JobCard_DeadlySpeed",
 
         "Card_HealthPotion",
         "Card_HealthPotion",

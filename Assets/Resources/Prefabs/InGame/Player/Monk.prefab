@@ -5264,14 +5264,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5596f63f2ade5b4a879ed5a1b17c342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stopSkill: 0
   _startDie: 0
   _attackRange: []
   ignore:
     serializedVersion: 2
     m_Bits: 0
   _SaveRangeNum: 0
-  _SaveAttackSpeed: 0
-  _SaveSkillCool: 0
   _SaveRegenCool: 0
   target: {fileID: 0}
 --- !u!114 &6844562360730144354

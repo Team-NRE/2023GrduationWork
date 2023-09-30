@@ -273,14 +273,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453c59b45c2c2b14c833a638a04244af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stopSkill: 0
   _startDie: 0
   _attackRange: []
   ignore:
     serializedVersion: 2
     m_Bits: 0
   _SaveRangeNum: 0
-  _SaveAttackSpeed: 0
-  _SaveSkillCool: 0
   _SaveRegenCool: 0
 --- !u!114 &3663550259128884888
 MonoBehaviour:

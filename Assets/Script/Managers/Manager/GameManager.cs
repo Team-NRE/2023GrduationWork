@@ -47,6 +47,7 @@ public class GameManager
 
     /// 플레이어 리스폰 시간 관련
     public double respawnTime = 3; //기본 Default = 3초
+    public double FinishRespawn;
 
     public int respawnMin = 0;
     public int respawnTurn = 1;
@@ -106,7 +107,7 @@ public class GameManager
         {
             case true:
                 //부활 = 3초
-                double FinishRespawn = (isResur == true) ? 3.0f : respawnTime;
+                FinishRespawn = (isResur == true) ? 3.0f : respawnTime;
                 startRespawn += Time.deltaTime;
                 if (startRespawn >= FinishRespawn) 
                 {

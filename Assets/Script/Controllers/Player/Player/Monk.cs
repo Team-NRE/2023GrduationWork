@@ -71,8 +71,6 @@ public class Monk : Players
                 localPv.RPC("Init", RpcTarget.All, _pv.ViewID, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
             }
         }
-        //평타 쿨타임
-        _stopAttack = true;
 
         return;
     }  
