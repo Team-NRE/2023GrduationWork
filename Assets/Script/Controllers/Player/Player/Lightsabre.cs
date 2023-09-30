@@ -42,28 +42,26 @@ public class Lightsabre : Players
     //Attack
     protected override void UpdateAttack()
     {
-        //Range Off
         _IsRange = false;
         _attackRange[4].SetActive(_IsRange);
 
-        //평타 공격
-        if (BaseCard._lockTarget != null)
+        int userId = GetComponent<PhotonView>().ViewID;
+        int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
+        _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+    }
+
+    [PunRPC]
+    protected void ApplyDamage(int myView, int targetId)
+    {
+        GameObject target = Managers.game.RemoteTargetFinder(targetId);
+
+        if (target.gameObject.tag == "PLAYER")
         {
-            PhotonView _targetPV = BaseCard._lockTarget.GetComponent<PhotonView>();
-
-            //타겟이 미니언, 타워일 시 
-            if (BaseCard._lockTarget.tag != "PLAYER")
-            {
-                _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -_pStats.basicAttackPower);
-            }
-
-            //타겟이 적 Player일 시
-            if (BaseCard._lockTarget.tag == "PLAYER")
-            {
-                _targetPV.RPC("photonStatSet", RpcTarget.All, _pv.ViewID, "receviedDamage", _pStats.basicAttackPower);
-            }
+            target.GetComponent<PlayerStats>().receviedDamage = (targetId, _pStats.basicAttackPower);
         }
-
-        return;
+        else
+        {
+            target.GetComponent<ObjStats>().nowHealth = _pStats.basicAttackPower;
+        }
     }
 }
