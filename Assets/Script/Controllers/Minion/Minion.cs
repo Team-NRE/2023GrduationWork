@@ -167,6 +167,7 @@ public class Minion : ObjectController
                 break;
             case ObjectAction.Death:
                 nav.enabled = false;
+                GetComponent<Collider>().enabled = false;
                 transform.Find("UI").gameObject.SetActive(false);
                 break;
             case ObjectAction.Move:

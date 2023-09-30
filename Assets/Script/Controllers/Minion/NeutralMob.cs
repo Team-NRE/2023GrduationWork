@@ -113,6 +113,7 @@ public class NeutralMob : ObjectController
             case ObjectAction.Attack:
                 break;
             case ObjectAction.Death:
+                GetComponent<Collider>().enabled = false;
                 transform.Find("UI").gameObject.SetActive(false);
                 break;
             case ObjectAction.Move:

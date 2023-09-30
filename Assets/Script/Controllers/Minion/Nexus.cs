@@ -37,6 +37,16 @@ public class Nexus : ObjectController
             animator.SetBool("isVictory", Managers.game.myCharacter.layer != gameObject.layer);
             isInitWhenPlayer = true;
         }
+
+        switch (_action)
+        {
+            case ObjectAction.Death:
+                transform.Find("UI").gameObject.SetActive(false);
+                GetComponent<Collider>().enabled = false;
+                break;
+            case ObjectAction.Idle:
+                break;
+        }
     }
 
     public void disablePlay()
@@ -44,8 +54,6 @@ public class Nexus : ObjectController
         Vector3 endingCamPos = this.transform.position;
         endingCamPos += 2 * Vector3.up * mainCamera.Cam_Y;
         endingCamPos += 2 * Vector3.forward * mainCamera.Cam_Z;
-
-        transform.Find("UI").gameObject.SetActive(false);
 
         Managers.game.setGameEnd(endingCamPos);
     }

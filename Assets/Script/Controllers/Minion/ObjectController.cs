@@ -117,7 +117,6 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     public virtual void Death() 
     {
-        GetComponent<Collider>().enabled = false;
         if (_oStats.gold == 0 && _oStats.experience == 0) return;
 
         checkGoldAndExperienceRange(Managers.game.humanTeamCharacter.Item1);
