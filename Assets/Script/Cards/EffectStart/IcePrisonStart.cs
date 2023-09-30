@@ -45,7 +45,7 @@ public class IcePrisonStart : BaseEffect
             _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", -9999f);
             _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", _speed);
 
-            PhotonNetwork.Destroy(gameObject);
+            //PhotonNetwork.Destroy(gameObject);
         }
     }
 }
