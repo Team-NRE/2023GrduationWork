@@ -8,7 +8,6 @@ public class WindBladeStart : BaseEffect
 {
     PhotonView _pv;
     float _bulletSpeed;
-
     int _playerId;
     int _enemyLayer;
 
@@ -17,13 +16,14 @@ public class WindBladeStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-        _bulletSpeed = 30.0f;
-        _damage = 15.0f;
+        _bulletSpeed =10.0f;
+        _damage = 100.0f;
         _playerId = userId;
         _enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
 
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
+        this.gameObject.transform.parent = null;
     }
 
     void OnTriggerEnter(Collider coll)
@@ -48,7 +48,7 @@ public class WindBladeStart : BaseEffect
 
         if (other.gameObject.layer == _enemyLayer)
         {
-            //Debug.Log(other.gameObject.name);
+            Debug.Log(other.gameObject.name);
 
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")
