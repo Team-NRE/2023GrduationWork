@@ -138,6 +138,7 @@ public class GameManager
         if (PhotonView.Find(attackerID) == null) return;
         if (PhotonView.Find(deadUserID) == null) return;
 
+
         /// RPC 실행
         PhotonView pv = PhotonView.Get(GameObject.Find("GameScene"));
 

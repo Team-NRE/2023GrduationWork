@@ -24,21 +24,8 @@ public static class BaseCard
     public static string _NowKey = null;
 
     //타겟 정보
-    public static GameObject lockTarget;
-    public static GameObject _lockTarget
-    {
-        get { return lockTarget; }
-        set 
-        {
-            lockTarget = value;
-            if (lockTarget == null) return;
-            if (lockTarget.GetComponent<CapsuleCollider>().enabled == false)
-            {
-                lockTarget = null;
-                return;
-            }
-        }
-    }
+    public static GameObject _lockTarget;
+    
 
 
     //Json으로 모든 카드들을 불러오기
