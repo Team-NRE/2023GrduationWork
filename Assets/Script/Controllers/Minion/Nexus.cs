@@ -19,6 +19,8 @@ public class Nexus : ObjectController
         base.init();
         _type = ObjectType.Nexus;
         mainCamera = Camera.main.GetComponent<CameraController>();
+
+        animator.SetBool("isVictory", Managers.game.myCharacterTeam.ToString() != LayerMask.LayerToName(gameObject.layer));
     }
 
     public override void Death()
@@ -31,12 +33,6 @@ public class Nexus : ObjectController
     {
         if (_oStats.nowHealth <= 0) _action = ObjectAction.Death;
         else _action = ObjectAction.Idle;
-
-        if (!isInitWhenPlayer && Managers.game.myCharacter != null)
-        {
-            animator.SetBool("isVictory", Managers.game.myCharacter.layer != gameObject.layer);
-            isInitWhenPlayer = true;
-        }
 
         switch (_action)
         {
