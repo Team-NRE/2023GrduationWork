@@ -161,7 +161,7 @@ namespace Define
         SuperMinion,
         Tower,
         Nexus,
-        Neutral,
+        Neutral = 8,
     }
 
     public enum ObjectLine

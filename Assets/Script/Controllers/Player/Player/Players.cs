@@ -75,7 +75,6 @@ public class Players : BaseController
     {
         //enemyName
         enemyName = (_pStats.playerArea == 6) ? "Cyborg" : "Human";
-        Debug.Log(enemyName);
 
         //부활권 유무
         if (_pStats.isResurrection == true)
@@ -250,6 +249,8 @@ public class Players : BaseController
                                     {
                                         LeftMouseButtontarget = _mousePos.Item2;
                                     }
+
+                                    //좌클릭이 땅, Player라면 RangeAttack
                                     if(_mousePos.Item2.tag != "OBJECT")
                                     {
                                         LeftMouseButtontarget = RangeAttack();
@@ -281,21 +282,26 @@ public class Players : BaseController
         float dist = 999;
         GameObject target = null;
 
-        Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
+        int layerMask = 1 << _pStats.enemyArea; //적
+        layerMask |= 1 << (int)Define.ObjectType.Neutral; //중앙 오브젝트  
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, layerMask);
 
         foreach (Collider col in cols)
         {
+            //플레이어 우선 감지
             if(col.gameObject.tag == "PLAYER")
             {
                 return col.gameObject;
             }
             
-            if(col.gameObject.name == $"{enemyName}Nexus")
+            //Nexus, 중앙 object 감지
+            if(col.gameObject.name == $"{enemyName}Nexus" || col.gameObject.name == "NeutralMob")
             {
-                Debug.Log(col.gameObject.name);
                 return col.gameObject;
             }
 
+            //적 타워 감지
             for(int i = 1; i <= 5; i++)
             {
                 if (col.gameObject.name == $"{enemyName}Tower" || col.gameObject.name == $"{enemyName}Tower_{i}")
@@ -304,6 +310,7 @@ public class Players : BaseController
                 }
             }
             
+            //가까운 미니언 감지
             float Distance = Vector3.Distance(col.transform.position, transform.position);
             if (Distance <= _pStats.attackRange && Distance < dist)
             {
@@ -689,9 +696,9 @@ public class Players : BaseController
                     //이동
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, BaseCard._lockTarget.transform.position) - transform.position);
                     _agent.SetDestination(BaseCard._lockTarget.transform.position);
-                    float distance = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
 
-                    if (distance <= _pStats.attackRange || BaseCard._lockTarget.name == $"{enemyName}Nexus")
+                    float distance = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
+                    if (distance <= _pStats.attackRange || BaseCard._lockTarget.name == $"{enemyName}Nexus" || BaseCard._lockTarget.name == "NeutralMob")
                     {
                         _state = Define.State.Attack;
 
@@ -833,9 +840,8 @@ public class Players : BaseController
 
         UpdateSkill();
 
-        Debug.Log(_cardStats._CastingTime);
         ////attackDelay가 다 지나간 후
-        yield return new WaitForSeconds(_cardStats._CastingTime);
+        yield return new WaitForSeconds(0.5f);
         //애니메이션 Idle로 변환
         _state = Define.State.Idle;
 
@@ -850,7 +856,7 @@ public class Players : BaseController
         Managers.Input.MouseAction += MouseDownAction;
 
 
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(2.5f);
         _stopSkill = false;
 
         //card 재설정
