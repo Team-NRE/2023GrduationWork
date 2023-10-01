@@ -57,8 +57,6 @@ public class store : UI_Popup
 
         lastCoin = _pStat.gold;
 
-        Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "";
-        Get<TextMeshProUGUI>((int)Texts.Price_Text).text = "0";
         Get<TextMeshProUGUI>((int)Texts.Coin_Text).text = $"{((int)lastCoin).ToString()}";
     }
 
@@ -78,6 +76,7 @@ public class store : UI_Popup
             GameObject newToggleCard = Instantiate(Get<GameObject>((int)GameObjects.toggleBasic));
             newToggleCard.transform.SetParent(Get<ToggleGroup>((int)ToggleGroups.StoreContent).transform);
             newToggleCard.GetComponent<RectTransform>().localScale = Vector3.one;
+            newToggleCard.GetComponent<Toggle>().isOn = false;
             newToggleCard.GetComponent<Toggle>().onValueChanged.AddListener(delegate { CardInfoChange(newToggleCard.GetComponent<Toggle>()); });
             newToggleCard.name = BaseCard._AllPublicCard[i];
             newToggleCard.SetActive(true);
@@ -103,6 +102,7 @@ public class store : UI_Popup
     {
         _makeAllBigCardList[toggle.name].SetActive(toggle.isOn);
         _BuyCost = toggle.GetComponentInChildren<UI_Card>()._cardBuyCost;
+        if (toggle.GetComponentInChildren<UI_Card>()._cardBuyCost == 0) _BuyCost = 100;
         Get<TextMeshProUGUI>((int)Texts.Price_Text).text = _BuyCost.ToString();
         Cardinfo(toggle.name);
     }
@@ -138,11 +138,13 @@ public class store : UI_Popup
 
     public void CardBuy(PointerEventData data)
     {
+        if (Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle() == null) return;
+
         if (_pStat.gold >= _BuyCost)
         {
             BaseCard._initDeck.Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
             BaseCard._MyDeck  .Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
-            
+
             _pStat.gold -= _BuyCost;
         }
 

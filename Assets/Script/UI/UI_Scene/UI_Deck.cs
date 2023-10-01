@@ -29,8 +29,6 @@ public class UI_Deck : UI_Popup
 
     public override void Init()
     {
-        BaseCard.ExportMyDeck((int)Managers.game.myCharacterType);
-
         Bind<GameObject>      (typeof(GameObjects));
         Bind<ToggleGroup>     (typeof(ToggleGroups));
         Bind<TextMeshProUGUI> (typeof(Texts));
@@ -56,16 +54,18 @@ public class UI_Deck : UI_Popup
     {
         //내 덱의 카드가 없다면 return
         if (BaseCard._MyDeck.Count == 0) { return; }
+
         //나만의 덱의 큰 카드 리셋 
         _makeAllBigCardList.Clear();
+
         //UI 리셋
         Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "";
 
-        if (Get<GameObject>((int)GameObjects.Big_card).transform.childCount > 0)
-            foreach (Transform t in Get<GameObject>((int)GameObjects.Big_card).transform) Destroy(t.gameObject);
-        if (Get<ToggleGroup>((int)ToggleGroups.DeckContent).transform.childCount > 0)
-            foreach (Transform t in Get<ToggleGroup>((int)ToggleGroups.DeckContent).transform) Destroy(t.gameObject);
+        //이전 카드 정보 초기화
+        foreach (Transform t in Get<GameObject>((int)GameObjects.Big_card).transform) Destroy(t.gameObject);
+        foreach (Transform t in Get<ToggleGroup>((int)ToggleGroups.DeckContent).transform) Destroy(t.gameObject);
 
+        //새로운 카드 정보 추가
         for (int i = 0; i < BaseCard._MyDeck.Count; i++)
         {
             //나만의 덱의 큰 카드 세팅

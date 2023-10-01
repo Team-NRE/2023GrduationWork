@@ -23,9 +23,9 @@ public class UI_CardPanel : UI_Card
     GameObject R_Card;
 
 
-    UI_Card Q_UI;
-    UI_Card W_UI;
-    UI_Card E_UI;
+    public UI_Card Q_UI;
+    public UI_Card W_UI;
+    public UI_Card E_UI;
     UI_Card R_UI;
 
 
@@ -76,6 +76,7 @@ public class UI_CardPanel : UI_Card
         bc = Managers.game.myCharacter?.GetComponent<BaseController>();
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
+        BaseCard.ExportMyDeck((int)Managers.game.myCharacterType);
         BaseCard.ExportDeck((int)Managers.game.myCharacterType);
 
         //Find and Bind UI object
@@ -360,12 +361,7 @@ public class UI_CardPanel : UI_Card
         Q_CardUI.DestroyCard(0.1f);
 
         //새로운 카드 덱에서 리필
-        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
-        Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
-        Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
-        Q_CardImage = Q_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
-        Q_CardCountObject = Q_Card.transform.Find("Card_Count").gameObject;
-        Q_CardCount = Q_CardCountObject.GetComponent<TextMeshProUGUI>();
+        Refill_Q(_nowCard);
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
@@ -373,6 +369,16 @@ public class UI_CardPanel : UI_Card
         //마우스 액션
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
 
+    }
+
+    public void Refill_Q(string _nowCard)
+    {
+        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
+        Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
+        Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
+        Q_CardImage = Q_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        Q_CardCountObject = Q_Card.transform.Find("Card_Count").gameObject;
+        Q_CardCount = Q_CardCountObject.GetComponent<TextMeshProUGUI>();
     }
 
     //1번 인덱스의 리스트를 반드시 사용한다.
@@ -391,18 +397,23 @@ public class UI_CardPanel : UI_Card
         W_CardUI.DestroyCard(0.1f);
 
         //새로운 카드 덱에서 리필
-        W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
-        W_UI = W_Card.GetComponentInChildren<UI_Card>();
-        W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
-        W_CardImage = W_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
-        W_CardCountObject = W_Card.transform.Find("Card_Count").gameObject;
-        W_CardCount = W_CardCountObject.GetComponent<TextMeshProUGUI>();
+        Refill_W(_nowCard);
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
 
         //마우스 액션
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
+    }
+
+    public void Refill_W(string _nowCard)
+    {
+        W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
+        W_UI = W_Card.GetComponentInChildren<UI_Card>();
+        W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
+        W_CardImage = W_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        W_CardCountObject = W_Card.transform.Find("Card_Count").gameObject;
+        W_CardCount = W_CardCountObject.GetComponent<TextMeshProUGUI>();
     }
 
     //2번 인덱스의 리스트를 반드시 사용한다.
@@ -421,18 +432,23 @@ public class UI_CardPanel : UI_Card
         E_CardUI.DestroyCard(0.1f);
 
         //새로운 카드 덱에서 리필
-        E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
-        E_UI = E_Card.GetComponentInChildren<UI_Card>();
-        E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
-        E_CardImage = E_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
-        E_CardCountObject = E_Card.transform.Find("Card_Count").gameObject;
-        E_CardCount = E_CardCountObject.GetComponent<TextMeshProUGUI>();
+        Refill_E(_nowCard);
 
         //현재 누른 키 리셋
         BaseCard._NowKey = null;
 
         //마우스 액션
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
+    }
+
+    public void Refill_E(string _nowCard)
+    {
+        E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
+        E_UI = E_Card.GetComponentInChildren<UI_Card>();
+        E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
+        E_CardImage = E_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        E_CardCountObject = E_Card.transform.Find("Card_Count").gameObject;
+        E_CardCount = E_CardCountObject.GetComponent<TextMeshProUGUI>();
     }
 
     //3번 인덱스의 리스트를 반드시 사용한다.

@@ -35,6 +35,7 @@ public class delete : UI_Popup
     int _BuyCost;
 
     PlayerStats _pStat;
+    UI_CardPanel cardPanel;
 
     float lastCoin;
 
@@ -42,9 +43,8 @@ public class delete : UI_Popup
 
     public override void Init()
     {
-        BaseCard.ExportMyDeck((int)Managers.game.myCharacterType);
-        
         _pStat = Managers.game.myCharacter.GetComponent<PlayerStats>();
+        cardPanel = GameObject.FindObjectOfType<UI_CardPanel>();
 
         Bind<GameObject>      (typeof(GameObjects));
         Bind<ToggleGroup>     (typeof(ToggleGroups));
@@ -168,14 +168,25 @@ public class delete : UI_Popup
         return false;
     }
 
-    public void CardDelete(PointerEventData data)
+    public async void CardDelete(PointerEventData data)
     {
+        if (Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle() == null) return;
         if (BaseCard._MyDeck.Count < 8) return; // 최소 카드 한도
         if (_pStat.gold < _BuyCost) return; // 골드 부족
 
-
-        BaseCard._initDeck.Remove(Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle().name);
-        BaseCard._MyDeck  .Remove(Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle().name);
+        string cardName = Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle().name;
+        
+        if (BaseCard._initDeck.Contains(cardName))
+        {
+            BaseCard._initDeck.Remove(cardName);
+        }
+        else
+        {
+            if (cardPanel.Q_UI.name == cardName)      cardPanel.Refill_Q(cardName);
+            else if (cardPanel.W_UI.name == cardName) cardPanel.Refill_W(cardName);
+            else if (cardPanel.E_UI.name == cardName) cardPanel.Refill_E(cardName);
+        }
+        BaseCard._MyDeck  .Remove(cardName);
         
         _pStat.gold -= _BuyCost;
         MakeUI_Mycard();

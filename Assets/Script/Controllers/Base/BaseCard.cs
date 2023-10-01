@@ -40,7 +40,6 @@ public static class BaseCard
         }
     }
 
-
     //Json으로 모든 카드들을 불러오기
     public static List<string> LoadAllCard(string cardType)
     {
