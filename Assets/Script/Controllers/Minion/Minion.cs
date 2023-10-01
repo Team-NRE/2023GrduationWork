@@ -79,8 +79,7 @@ public class Minion : ObjectController
     {
         _allObjectTransforms.Remove(this.transform);
         base.Death();
-
-        if (!PhotonNetwork.IsMasterClient) return;
+        Destroy(this.gameObject);
     }
     public override void Move()
     {
@@ -168,7 +167,6 @@ public class Minion : ObjectController
             case ObjectAction.Death:
                 nav.enabled = false;
                 GetComponent<Collider>().enabled = false;
-                transform.Find("UI").gameObject.SetActive(false);
                 break;
             case ObjectAction.Move:
                 nav.enabled = true;

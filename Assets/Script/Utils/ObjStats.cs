@@ -83,38 +83,6 @@ namespace Stat
                 if (_nowHealth <= 0) 
                 {
                     _nowHealth = 0;
-
-                    if (tag != "Neutral") return;
-
-                    float minDistance = float.MaxValue;
-                    Layer team = Layer.Human;
-                    if (Managers.game.humanTeamCharacter.Item1 != null && minDistance > Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item1.transform.position))
-                    {
-                        minDistance = Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item1.transform.position);
-                        team = Layer.Human;
-                    }
-                    if (Managers.game.humanTeamCharacter.Item2 != null && minDistance > Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item2.transform.position))
-                    {
-                        minDistance = Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item2.transform.position);
-                        team = Layer.Human;
-                    }
-                    if (Managers.game.cyborgTeamCharacter.Item1 != null && minDistance > Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item1.transform.position))
-                    {
-                        minDistance = Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item1.transform.position);
-                        team = Layer.Cyborg;
-                    }
-                    if (Managers.game.cyborgTeamCharacter.Item2 != null && minDistance > Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item2.transform.position))
-                    {
-                        minDistance = Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item2.transform.position);
-                        team = Layer.Cyborg;
-                    }
-
-                    if ((int)team == Managers.game.myCharacter.layer)
-                    {
-                        string cardName = (Random.Range(0, 2) == 0 ? "SpecialCard_EnergyAmp" : "SpecialCard_MissileBomb");
-                        BaseCard._initDeck.Add(cardName);
-                        BaseCard._MyDeck  .Add(cardName);
-                    }
                 }
             }
         }

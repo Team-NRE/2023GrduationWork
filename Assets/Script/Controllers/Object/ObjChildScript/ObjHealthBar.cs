@@ -94,6 +94,11 @@ public class ObjHealthBar : MonoBehaviour
                 UIChangeHit();
             }
         }
+
+        if (stats.nowHealth <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void GetParent()

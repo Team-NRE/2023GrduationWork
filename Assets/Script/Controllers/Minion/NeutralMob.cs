@@ -41,23 +41,22 @@ public class NeutralMob : ObjectController
     private void FixedUpdate() {
         if (lineRenderer != null)
         {
-            if (_targetEnemyTransform != null)
+            if (_targetEnemyTransform != null && 
+                Vector3.Distance(transform.position, _targetEnemyTransform.position) <= _oStats.attackRange &&
+                Vector3.Distance(transform.position, _targetEnemyTransform.position) > 0.5f * _oStats.attackRange)
             {
-                if (isMachineGun) lineRenderer.positionCount = 0;
-                else 
-                {
-                    lineRenderer.positionCount = 2;
+                lineRenderer.positionCount = 2;
 
-                    lineRenderer.startWidth = .125f;
-                    lineRenderer.endWidth = .25f;
+                lineRenderer.startWidth = .125f;
+                lineRenderer.endWidth = .25f;
 
-                    lineRenderer.SetPosition(0, muzzles[2].position);
-                    lineRenderer.SetPosition(1, _targetEnemyTransform.position);
-                }
-            }
+                lineRenderer.SetPosition(0, muzzles[2].position);
+                lineRenderer.SetPosition(1, _targetEnemyTransform.position);
+            } 
             else
             {
                 lineRenderer.positionCount = 0;
+                _targetEnemyTransform = null;
             }
         }
 
@@ -80,32 +79,63 @@ public class NeutralMob : ObjectController
     public override void Death()
     {
         base.Death();
+        Debug.Log("asdf");
 
-        if (!PhotonNetwork.IsMasterClient) return;
-        
+        float minDistance = float.MaxValue;
+        Layer team = Layer.Human;
+        if (Managers.game.humanTeamCharacter.Item1 != null && minDistance > Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item1.transform.position))
+        {
+            minDistance = Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item1.transform.position);
+            team = Layer.Human;
+        }
+        if (Managers.game.humanTeamCharacter.Item2 != null && minDistance > Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item2.transform.position))
+        {
+            minDistance = Vector3.Distance(transform.position, Managers.game.humanTeamCharacter.Item2.transform.position);
+            team = Layer.Human;
+        }
+        if (Managers.game.cyborgTeamCharacter.Item1 != null && minDistance > Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item1.transform.position))
+        {
+            minDistance = Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item1.transform.position);
+            team = Layer.Cyborg;
+        }
+        if (Managers.game.cyborgTeamCharacter.Item2 != null && minDistance > Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item2.transform.position))
+        {
+            minDistance = Vector3.Distance(transform.position, Managers.game.cyborgTeamCharacter.Item2.transform.position);
+            team = Layer.Cyborg;
+        }
+
+        if ((int)team == Managers.game.myCharacter.layer)
+        {
+            string cardName = (Random.Range(0, 2) == 0 ? "SpecialCard_EnergyAmp" : "SpecialCard_MissileBomb");
+            BaseCard._initDeck.Add(cardName);
+            BaseCard._MyDeck  .Add(cardName);
+        }
+
         _allObjectTransforms.Remove(this.transform);
+
         Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        if (_oStats.nowHealth <= 0) {
-            _action = ObjectAction.Death;
-            transform.Find("UI").gameObject.SetActive(false);
-        }
-        else if (_targetEnemyTransform != null)
+        if (PhotonNetwork.IsMasterClient)
         {
-            transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
-            _action = ObjectAction.Attack;
+            if (_oStats.nowHealth <= 0) {
+                _action = ObjectAction.Death;
+                transform.Find("Model/UI").gameObject.SetActive(false);
+            }
+            else if (_targetEnemyTransform != null)
+            {
+                transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_targetEnemyTransform.position - this.transform.position), Time.deltaTime * 2.0f);
+                _action = ObjectAction.Attack;
 
-            isMachineGun = (Vector3.Distance(this.transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange);
-        }
-        else 
-        {
-            transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
-            _action = ObjectAction.Idle;
+                isMachineGun = (Vector3.Distance(this.transform.position, _targetEnemyTransform.position) < 0.5f * _oStats.attackRange);
+            }
+            else 
+            {
+                transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0), Time.deltaTime);
+                _action = ObjectAction.Idle;
+            }   
         }
 
         switch (_action)
@@ -114,7 +144,6 @@ public class NeutralMob : ObjectController
                 break;
             case ObjectAction.Death:
                 GetComponent<Collider>().enabled = false;
-                transform.Find("UI").gameObject.SetActive(false);
                 break;
             case ObjectAction.Move:
                 break;
@@ -130,7 +159,12 @@ public class NeutralMob : ObjectController
         if (_targetEnemyTransform == null) return;
 
         if (isMachineGun) MachineGun();
-        else Laser();
+        else 
+            pv.RPC(
+                "Laser",
+                RpcTarget.All,
+                _targetEnemyTransform.GetComponent<PhotonView>().ViewID
+            );
     }
 
     private void SpecialAttack()
@@ -181,33 +215,22 @@ public class NeutralMob : ObjectController
         );
     }
 
-    private void Laser()
+    [PunRPC]
+    private void Laser(int targetId)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            _targetEnemyTransform = PhotonView.Find(targetId).transform;  
+        }
 
         //타겟이 적 Player일 시
         if (_targetEnemyTransform.tag == "PLAYER")
         {
-            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
-            targetPV.RPC(
-                "photonStatSet",
-                RpcTarget.All,
-                "nowHealth",
-                -_oStats.basicAttackPower
-            );
-
-            if (targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
-                Managers.game.killEvent(pv.ViewID, targetPV.ViewID);
+            _targetEnemyTransform.GetComponent<PlayerStats>().receviedDamage = (pv.ViewID, _oStats.basicAttackPower);
         }
         else
         {
-            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
-            targetPV.RPC(
-                "photonStatSet",
-                RpcTarget.All,
-                "nowHealth",
-                -_oStats.basicAttackPower
-            );
+            _targetEnemyTransform.GetComponent<ObjStats>().nowHealth -= _oStats.basicAttackPower;
         }
     }
 

@@ -123,9 +123,6 @@ public abstract class ObjectController : MonoBehaviour
         checkGoldAndExperienceRange(Managers.game.humanTeamCharacter.Item2);
         checkGoldAndExperienceRange(Managers.game.cyborgTeamCharacter.Item1);
         checkGoldAndExperienceRange(Managers.game.cyborgTeamCharacter.Item2);
-
-        if (!PhotonNetwork.IsMasterClient) return; 
-        PhotonNetwork.Destroy(this.gameObject);
     }
     /// <summary>
     /// 이동 코드 함수

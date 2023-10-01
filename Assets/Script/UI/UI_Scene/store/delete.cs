@@ -98,6 +98,7 @@ public class delete : UI_Popup
         for (int i = 0; i < BaseCard._MyDeck.Count; i++)
         {
             if (BaseCard._MyDeck[i].Substring(0, 3) == "Job") continue;
+            if (BaseCard._MyDeck[i].Substring(0, 7) == "Special") continue;
 
             //나만의 덱의 큰 카드 세팅
             GameObject nowCard = Managers.Resource.Instantiate($"Cards/{BaseCard._MyDeck[i]}", Get<GameObject>((int)GameObjects.Big_card).transform);

@@ -80,6 +80,7 @@ MonoBehaviour:
   - StartShield
   - ApplyDamage
   - MoveParticle
+  - Laser
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
