@@ -32,6 +32,8 @@ public class Players : BaseController
     /// </summary>
     protected GameObject LeftMouseButtontarget;
 
+    protected string enemyName;
+
     public override void Init()
     {
         base.Init();
@@ -67,6 +69,9 @@ public class Players : BaseController
 
         //부활 effect setting
         transform.Find("SpawnSimplePink").gameObject.SetActive(false);
+
+        //enemyName
+        enemyName = _pStats.enemyArea == 6 ? "Human" : "Cyborg";
     }
 
     public override void InitOnEnable()
@@ -91,6 +96,13 @@ public class Players : BaseController
 
     IEnumerator RespawnResetting()
     {
+        //되살아놨을 때 재설정
+        BaseCard._lockTarget = null;
+        _MovingPos = default;
+        _stopAttack = false;
+        _stopSkill = false;
+
+        //2.5초 뒤에 Input 받기
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
@@ -268,8 +280,6 @@ public class Players : BaseController
         float dist = 999;
         GameObject target = null;
 
-        string enemyName = _pStats.enemyArea == 6 ? "Human" : "Cyborg";
-
         Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
 
         foreach (Collider col in cols)
@@ -281,6 +291,7 @@ public class Players : BaseController
             
             if(col.gameObject.name == $"{enemyName}Nexus")
             {
+                Debug.Log(col.gameObject.name);
                 return col.gameObject;
             }
 
@@ -679,7 +690,7 @@ public class Players : BaseController
                     _agent.SetDestination(BaseCard._lockTarget.transform.position);
                     float distance = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
 
-                    if (distance <= _pStats.attackRange)
+                    if (distance <= _pStats.attackRange || BaseCard._lockTarget.name == $"{enemyName}Nexus")
                     {
                         _state = Define.State.Attack;
 
