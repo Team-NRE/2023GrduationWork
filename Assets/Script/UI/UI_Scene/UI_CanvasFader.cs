@@ -18,6 +18,8 @@ public class UI_CanvasFader : MonoBehaviour
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup.alpha == 0) HideUI();
+        else ShowUI();
     }
 
     private void Update()
