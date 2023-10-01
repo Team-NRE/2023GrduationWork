@@ -107,12 +107,12 @@ public class Minion : ObjectController
 
             if (gameObject.layer == LayerMask.NameToLayer("Human"))
             {
-                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x > 1.0f)
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.5f || transform.position.x - moveTarget.x > 1.0f)
                     lineIdx++;
             }
             else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
             {
-                if (Vector3.Distance(transform.position, moveTarget) <= 0.3f || transform.position.x - moveTarget.x < 1.0f)
+                if (Vector3.Distance(transform.position, moveTarget) <= 0.5f || transform.position.x - moveTarget.x < 1.0f)
                     lineIdx--;
             }
         }
