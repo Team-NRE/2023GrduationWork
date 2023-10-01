@@ -70,12 +70,22 @@ public class RangedBullet : MonoBehaviour
             if (_target.tag != "PLAYER")
             {
                 _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -_damage);
+
+                if (_target.GetComponent<ObjStats>().nowHealth <= 0)
+                {
+                    BaseCard._lockTarget = null;
+                }
             }
 
             //타겟이 적 Player일 시
             if (_target.tag == "PLAYER")
             {
                 _targetPV.RPC("photonStatSet", RpcTarget.All, _player.GetComponent<PhotonView>().ViewID, "receviedDamage", _damage);
+
+                if(_target.GetComponent<PlayerStats>().nowHealth <= 0)
+                {
+                    BaseCard._lockTarget = null;
+                }
             }
 
             Destroy(this.gameObject, 0.5f);

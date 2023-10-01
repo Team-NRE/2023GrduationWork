@@ -96,12 +96,6 @@ public class Players : BaseController
 
     IEnumerator RespawnResetting()
     {
-        //되살아놨을 때 재설정
-        BaseCard._lockTarget = null;
-        _MovingPos = default;
-        _stopAttack = false;
-        _stopSkill = false;
-
         //2.5초 뒤에 Input 받기
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
@@ -807,14 +801,19 @@ public class Players : BaseController
         //움직임 초기화
         _agent.ResetPath();
 
-        if (BaseCard.lockTarget == null)
+        //적이 죽었을 때
+        if (BaseCard._lockTarget == null)
         {
             _proj = Define.Projectile.Undefine;
         }
-
-        if (BaseCard.lockTarget != null)
+        
+        //적이 안죽었다면
+        if (BaseCard._lockTarget != null)
         {
             _proj = Define.Projectile.Attack_Proj;
+
+            _IsRange = true;
+            _attackRange[4].SetActive(_IsRange);
         }
 
 
@@ -904,6 +903,12 @@ public class Players : BaseController
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
         Managers.game.DieEvent(_pv.ViewID);
+
+        //죽었을 때 재설정
+        BaseCard._lockTarget = null;
+        _MovingPos = default;
+        _stopAttack = false;
+        _stopSkill = false;
 
         _attackRange[_SaveRangeNum].SetActive(false);
         _startDie = true;
