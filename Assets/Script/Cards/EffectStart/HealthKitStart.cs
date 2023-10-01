@@ -49,10 +49,22 @@ public class HealthKitStart : BaseEffect
     public void RpcTrigger(int otherId)
 	{
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        if (other.gameObject.layer == teamLayer && other.gameObject.tag != "PLAYER")
+        if (other.gameObject.layer == teamLayer)
         {
-            ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
-            oStats.nowHealth += healthRegen;
+            switch (other.gameObject.tag)
+            {
+                case "PLAYER":
+                    PlayerStats pStats = other.gameObject.GetComponent<PlayerStats>();
+                    pStats.nowHealth += healthRegen;
+
+                    break;
+
+                case "OBJECT":
+                    ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
+                    oStats.nowHealth += healthRegen;
+
+                    break;
+            }
         }
     }
 
