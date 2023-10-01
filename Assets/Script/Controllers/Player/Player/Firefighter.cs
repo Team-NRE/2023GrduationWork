@@ -42,8 +42,8 @@ public class Firefighter : Players
     //Attack
     protected override void UpdateAttack()
     {
-        _IsRange = false;
-        _attackRange[4].SetActive(_IsRange);
+        //_IsRange = false;
+        //_attackRange[4].SetActive(_IsRange);
 
         int userId = GetComponent<PhotonView>().ViewID;
         int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
