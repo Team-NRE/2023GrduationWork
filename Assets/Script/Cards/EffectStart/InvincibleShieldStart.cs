@@ -107,7 +107,7 @@ public class InvincibleShieldStart : BaseEffect
 
             stop = false;
             time = 0;
-            //PhotonNetwork.Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
