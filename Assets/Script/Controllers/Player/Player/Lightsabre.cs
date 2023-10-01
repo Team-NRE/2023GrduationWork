@@ -64,7 +64,7 @@ public class Lightsabre : Players
         }
         else
         {
-            target.GetComponent<ObjStats>().nowHealth = _pStats.basicAttackPower;
+            target.GetComponent<ObjStats>().nowHealth -= _pStats.basicAttackPower;
         }
     }
 }
