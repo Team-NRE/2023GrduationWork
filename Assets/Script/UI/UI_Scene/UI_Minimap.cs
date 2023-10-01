@@ -65,10 +65,10 @@ public class UI_Minimap : UI_Scene, IPointerDownHandler, IPointerUpHandler
         NavMeshHit hit;
 
         if (p == null) return;
-        if (!NavMesh.SamplePosition(newPos, out hit, 5.0f, NavMesh.AllAreas)) return;
+        if (!NavMesh.SamplePosition(newPos, out hit, 2.0f, NavMesh.AllAreas)) return;
         
-        p.TargetSetting(hit.position);
         p._state = Define.State.Moving;
+        p.TargetSetting(hit.position);
     }
 
     private void SetFramePositionToCameraPosition()

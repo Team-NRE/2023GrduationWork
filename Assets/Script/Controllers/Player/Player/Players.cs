@@ -742,7 +742,7 @@ public class Players : BaseController
                 }
                 _agent.SetDestination(_MovingPos);
                 //Idle
-                if (_agent.remainingDistance < 0.2f)
+                if (Vector3.Distance(transform.position, _MovingPos) < 0.2f)
                 {
                     _state = Define.State.Idle;
                 }
