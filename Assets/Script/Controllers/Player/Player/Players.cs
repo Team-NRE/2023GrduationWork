@@ -69,13 +69,14 @@ public class Players : BaseController
 
         //부활 effect setting
         transform.Find("SpawnSimplePink").gameObject.SetActive(false);
-
-        //enemyName
-        enemyName = _pStats.enemyArea == 6 ? "Human" : "Cyborg";
     }
 
     public override void InitOnEnable()
     {
+        //enemyName
+        enemyName = (_pStats.playerArea == 6) ? "Cyborg" : "Human";
+        Debug.Log(enemyName);
+
         //부활권 유무
         if (_pStats.isResurrection == true)
         {
