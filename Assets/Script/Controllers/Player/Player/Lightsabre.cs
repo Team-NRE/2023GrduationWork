@@ -45,9 +45,12 @@ public class Lightsabre : Players
         //_IsRange = false;
         //_attackRange[4].SetActive(_IsRange);
 
-        int userId = GetComponent<PhotonView>().ViewID;
-        int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
-        _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+        if (BaseCard._lockTarget != null)
+        {
+            int userId = GetComponent<PhotonView>().ViewID;
+            int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
+            _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+        }
     }
 
     [PunRPC]

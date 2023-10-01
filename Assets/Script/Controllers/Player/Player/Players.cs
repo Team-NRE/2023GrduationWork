@@ -27,6 +27,11 @@ public class Players : BaseController
     /// </summary>
     public float _SaveRegenCool = default;
 
+    /// <summary>
+    /// 평타 좌클릭 타겟 지정시
+    /// </summary>
+    protected GameObject LeftMouseButtontarget;
+
     public override void Init()
     {
         base.Init();
@@ -144,6 +149,10 @@ public class Players : BaseController
                             KeyPushState("MouseRightButton");
                         }
 
+                        //우클릭 평타 금지
+                        BaseCard._lockTarget = null;
+                        _proj = Define.Projectile.Undefine;
+
                         //Move
                         _state = Define.State.Moving;
 
@@ -162,6 +171,10 @@ public class Players : BaseController
                         {
                             KeyPushState("MouseRightButton");
                         }
+
+                        //우클릭 평타 금지
+                        BaseCard._lockTarget = null;
+                        _proj = Define.Projectile.Undefine;
 
                         //Move
                         _state = Define.State.Moving;
@@ -219,12 +232,19 @@ public class Players : BaseController
                                 if (RangeAttack() == null) return;
                                 if (RangeAttack() != null)
                                 {
-                                    //타겟 ID 찾기
-                                    int targetId = GetRemotePlayerId(RangeAttack());
-                                    GameObject remoteTarget = GetRemotePlayer(targetId);
-                                    Debug.Log(remoteTarget.name);
+                                    //좌클릭이 타워, 미니언일때 _lockTarget 변경 
+                                    if(_mousePos.Item2.tag == "OBJECT")
+                                    {
+                                        LeftMouseButtontarget = _mousePos.Item2;
+                                    }
+                                    if(_mousePos.Item2.tag != "OBJECT")
+                                    {
+                                        LeftMouseButtontarget = RangeAttack();
+                                    }
 
-                                    _MovingPos = remoteTarget.transform.position;
+                                    int targetId = GetRemotePlayerId(LeftMouseButtontarget);
+                                    //타겟 ID 찾기
+                                    GameObject remoteTarget = GetRemotePlayer(targetId);
 
                                     //타겟 오브젝트 설정
                                     BaseCard._lockTarget = remoteTarget;
@@ -248,6 +268,8 @@ public class Players : BaseController
         float dist = 999;
         GameObject target = null;
 
+        string enemyName = _pStats.enemyArea == 6 ? "Human" : "Cyborg";
+
         Collider[] cols = Physics.OverlapSphere(transform.position, _pStats.attackRange, 1 << _pStats.enemyArea);
 
         foreach (Collider col in cols)
@@ -255,6 +277,19 @@ public class Players : BaseController
             if(col.gameObject.tag == "PLAYER")
             {
                 return col.gameObject;
+            }
+            
+            if(col.gameObject.name == $"{enemyName}Nexus")
+            {
+                return col.gameObject;
+            }
+
+            for(int i = 1; i <= 5; i++)
+            {
+                if (col.gameObject.name == $"{enemyName}Tower" || col.gameObject.name == $"{enemyName}Tower_{i}")
+                {
+                    return col.gameObject;
+                }
             }
             
             float Distance = Vector3.Distance(col.transform.position, transform.position);
@@ -643,13 +678,10 @@ public class Players : BaseController
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, BaseCard._lockTarget.transform.position) - transform.position);
                     _agent.SetDestination(BaseCard._lockTarget.transform.position);
                     float distance = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
-                    Debug.Log(distance);
-                    Debug.Log(_pStats.attackRange);
 
                     if (distance <= _pStats.attackRange)
                     {
                         _state = Define.State.Attack;
-                        Debug.Log("Target attack");
 
                         return;
                     }
@@ -658,8 +690,6 @@ public class Players : BaseController
                     {
                         _state = Define.State.Moving;
                         _proj = Define.Projectile.Attack_Proj;
-
-                        Debug.Log("Target Moving");
                     }
                 }
 
