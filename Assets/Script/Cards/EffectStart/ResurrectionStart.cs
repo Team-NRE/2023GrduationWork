@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resurrection : BaseEffect
+public class ResurrectionStart : BaseEffect
 {
     PhotonView _pv;
 
