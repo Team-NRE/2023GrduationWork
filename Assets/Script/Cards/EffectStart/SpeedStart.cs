@@ -24,6 +24,7 @@ public class SpeedStart : BaseEffect
     {
         base.CardEffectInit(userId);
         _pStats = player.GetComponent<PlayerStats>();
+        this.gameObject.transform.parent = player.transform;
         speed = 1.5f;
 
         start = true;

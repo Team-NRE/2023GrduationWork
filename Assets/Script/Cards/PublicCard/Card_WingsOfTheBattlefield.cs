@@ -53,7 +53,6 @@ public class Card_WingsOfTheBattlefield : UI_Card
                 //Wing.GetComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
                 Wing.GetComponent<PhotonView>().RPC("CardEffectInit",RpcTarget.All, col.gameObject.GetComponent<PhotonView>().ViewID);
 
-#warning 창조가 필요한 부분
                 // 이거를 어디로 옮겨야 하죠?
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
                 _pStat.speed += 2.0f;

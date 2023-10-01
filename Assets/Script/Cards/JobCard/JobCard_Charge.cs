@@ -27,7 +27,8 @@ public class JobCard_Charge : UI_Card
         _effectObject.GetComponent<PhotonView>().RPC(
             "CardEffectInit",
             RpcTarget.All,
-            playerId
+            playerId,
+            3.0f
         );
 
         return _effectObject;

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// �ｺ ŰƮ
+// �ｺ ŰƮ
 public class Card_HealthKit : UI_Card
 {
     int _layer = default;
@@ -20,22 +20,10 @@ public class Card_HealthKit : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
-        //float _healthRegen = 0.5f;
-
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_HealthKit");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HealthKit", ground, Quaternion.Euler(-90, 0, 0));
-        //_effectObject.transform.parent = _player.transform;
-
-        //_effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
-
         _layer = layer;
-
-        //_effectObject.AddComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
-        //_effectObject.GetComponent<HealthKitStart>().StartHealthKit(playerId, _healthRegen, _layer);
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
-
         return _effectObject;
     }
 

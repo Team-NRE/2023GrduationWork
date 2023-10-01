@@ -9668,7 +9668,9 @@ GameObject:
   - component: {fileID: 4913385475665020055}
   - component: {fileID: 4911686836598865021}
   - component: {fileID: 8860771708251628951}
+  - component: {fileID: 8027433650236256407}
   - component: {fileID: 6709003050052370881}
+  - component: {fileID: 4084234996242760553}
   m_Layer: 2
   m_Name: Effect_InvincibleShield
   m_TagString: Untagged
@@ -14682,6 +14684,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &8027433650236256407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110353653821651975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95657a84ba08a504b9738d389d6d1a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectTime: 0
+  _damage: 0
+  _defence: 0
+  _speed: 0
+  _buff: 0
+  _debuff: 0
+  _IsResurrection: 0
+  player: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &6709003050052370881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14704,3 +14727,16 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!135 &4084234996242760553
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110353653821651975}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}

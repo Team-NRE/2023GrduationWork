@@ -5,7 +5,6 @@ using UnityEngine;
 public class ArmorStart : BaseEffect
 {
     PlayerStats _pStats;
-    float _defense = 0.5f;
 
     [PunRPC]
     public override void CardEffectInit(int userId)

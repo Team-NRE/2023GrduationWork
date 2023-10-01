@@ -25,15 +25,21 @@ public class BaseEffect : MonoBehaviour
 	public virtual void CardEffectInit(int userId)
 	{
 		player = GetRemotePlayer(userId);
-		Debug.Log("1 param");
+		//Debug.Log("1 param");
 	}
 
 	public virtual void CardEffectInit(int userId, int targetId)
 	{
 		player = GetRemotePlayer(userId);
 		target = GetRemotePlayer(targetId);
-		Debug.Log("2 param");
+		//Debug.Log("2 param");
 	}
+
+	public virtual IEnumerator CardEffectInit(int userId, float time)
+    {
+		player = GetRemotePlayer(userId);
+		yield return new WaitForSeconds(0);
+    }
 
 	protected IEnumerator DelayTimer(float time)
 	{

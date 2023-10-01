@@ -12,19 +12,15 @@ public class EnhancementStart : BaseEffect
     float powerValue = 5;
 
     [PunRPC]
-    public override void CardEffectInit(int userId)
+    public override IEnumerator CardEffectInit(int userId, float time)
     {
-        base.CardEffectInit(userId);
+        player = GetRemotePlayer(userId);
         _effectTime = 3.0f;
         _pStats = player.GetComponent<PlayerStats>();
         transform.parent = player.transform;
-        _pStats.StartCoroutine(DelayBuff());
-    }
 
-    IEnumerator DelayBuff()
-    {
         _pStats.basicAttackPower += powerValue;
-        yield return new WaitForSeconds(_effectTime);
+        yield return new WaitForSeconds(time);
         _pStats.basicAttackPower -= powerValue;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// ¼Óµµ
+// ï¿½Óµï¿½
 public class Card_Speed : UI_Card
 {
     public override void Init()
@@ -27,9 +27,6 @@ public class Card_Speed : UI_Card
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Speed");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Speed", ground, Quaternion.Euler(-90, 0, 0));
-        //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
-        _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
         //_effectObject.AddComponent<SpeedStart>().StartSpeed(playerId, _speed);
         //_effectObject.GetComponent<SpeedStart>().StartSpeed(playerId, 1.5f);
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);

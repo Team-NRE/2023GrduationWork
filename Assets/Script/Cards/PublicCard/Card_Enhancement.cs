@@ -34,7 +34,8 @@ public class Card_Enhancement : UI_Card
         _effectObject.GetComponent<PhotonView>().RPC(
             "CardEffectInit",
             RpcTarget.All,
-            playerId
+            playerId,
+            5.0f
         );
 
         return _effectObject;

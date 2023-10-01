@@ -13,16 +13,21 @@ public class ChargeStart : BaseEffect
     
 
     [PunRPC]
-    public override void CardEffectInit(int userId)
+    public override IEnumerator CardEffectInit(int userId, float time)
     {
-        base.CardEffectInit(userId);
-        _effectTime = 3.0f;
-        _pStats = player.GetComponent<PlayerStats>();
+
+        player = GetRemotePlayer(userId);
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0.2f, 0);
+        _pStats = player.GetComponent<PlayerStats>();
         _speed = 0.5f;
-        _powerValue = 10.0f; 
-        _pStats.StartCoroutine(DelayBuff());
+        _powerValue = 10.0f;
+
+        _pStats.speed += _speed;
+        _pStats.basicAttackPower += _powerValue;
+        yield return new WaitForSeconds(time);
+        _pStats.speed -= _speed;
+        _pStats.basicAttackPower -= _powerValue;
     }
 
     IEnumerator DelayBuff()
