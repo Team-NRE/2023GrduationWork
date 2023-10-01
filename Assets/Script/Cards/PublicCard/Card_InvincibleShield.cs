@@ -47,18 +47,6 @@ public class Card_InvincibleShield : UI_Card
             //col.transform -> Police, 미니언
             GameObject shield = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield_1", col.transform.position, Quaternion.identity);
             shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, userId);
-
-            if(col.gameObject.tag == "PLAYER")
-            {
-                PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
-                _pStat.defensePower += 10000;
-            }
-
-            else if (col.gameObject.tag != "PLAYER")
-            {
-                ObjStats oStats = col.gameObject.GetComponent<ObjStats>();
-                oStats.defensePower += 10000;
-            }
         }
 
         return _effectObject;

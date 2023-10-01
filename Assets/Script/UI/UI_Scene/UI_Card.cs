@@ -73,6 +73,15 @@ public class UI_Card : UI_Scene
         //하위 카드 컴포넌트에서 구현하여 사용 위함
     }
 
+    public Quaternion GetDirectionalVector(Vector3 ground, Transform playerTr)
+    {
+        Quaternion rotation = new Quaternion();
+        Vector3 targetDir = ground - playerTr.position;
+        rotation = Quaternion.Euler(targetDir);
+
+        return rotation;
+    }
+
     public virtual GameObject RemoteTargetFinder(int id)
 	{
         GameObject remoteTarget = PhotonView.Find(id).gameObject;
