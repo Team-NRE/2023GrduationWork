@@ -18,7 +18,7 @@ public class SpearStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-        playerTr = player.transform;
+        //playerTr = player.transform;
         bulletSpeed = 30.0f;
         damage = 15.0f;
         enemylayer = player.GetComponent<PlayerStats>().enemyArea;
@@ -60,7 +60,7 @@ public class SpearStart : BaseEffect
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
         if (other.gameObject.layer == enemylayer)
         {
-            Debug.Log(other.gameObject.name);
+            //Debug.Log(other.gameObject.name);
 
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")

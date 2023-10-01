@@ -60,4 +60,13 @@ public class BaseEffect : MonoBehaviour
 		GameObject parent = GetRemotePlayer(id);
 		parent.transform.parent = parent.transform;
     }
+
+	public Quaternion GetDirectionalVector(Vector3 ground, Transform playerTr)
+	{
+		Quaternion rotation = new Quaternion();
+		Vector3 targetDir = playerTr.position - ground;
+		rotation = Quaternion.Euler(targetDir);
+
+		return rotation;
+	}
 }

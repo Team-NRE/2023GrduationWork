@@ -11,22 +11,19 @@ public class JobCard_WindBlade : UI_Card
     {
         _cost = 2;
 
-        _rangeType = Define.CardType.Point;
+        _rangeType = Define.CardType.Arrow;
         _rangeScale = 3.0f;
         _rangeRange = 5.0f;
 
         _CastingTime = 0.7f;
-        _effectTime = 0.7f;
+        _effectTime = 1.0f;
     }
 
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //_effectObject = Managers.Resource.Instantiate($"Particle/EffectJob_Grenade");
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_WindBlade", ground, Quaternion.identity);
-        _effectObject.transform.position = ground;
-
-        //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer);
+        GameObject player = RemoteTargetFinder(playerId);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_WindBlade", player.transform.position, GetDirectionalVector(ground, player.transform));
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;

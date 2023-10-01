@@ -64,6 +64,8 @@ public class InvincibleShieldStart : BaseEffect
         if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
         if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
 
+        _pStats.defensePower = defence;
+        _oStats.defensePower = defence;
         time += Time.deltaTime;
 
         if (time >= invincibility_Time)
@@ -73,8 +75,8 @@ public class InvincibleShieldStart : BaseEffect
                 //플레이어 방어력 빠짐
                 _pStats.defensePower -= defence;
 
-                Save_Health = _pStats.maxHealth / 100 * 25;
-                _pStats.nowHealth += Save_Health;
+                //Save_Health = _pStats.maxHealth / 100 * 25;
+                //_pStats.nowHealth += Save_Health;
             }
 
             if (target.tag != "PLAYER")
@@ -82,8 +84,8 @@ public class InvincibleShieldStart : BaseEffect
                 //플레이어 방어력 빠짐
                 _oStats.defensePower -= defence;
 
-                Save_Health = _oStats.maxHealth / 100 * 25;
-                _oStats.nowHealth += Save_Health;
+                //Save_Health = _oStats.maxHealth / 100 * 25;
+                //_oStats.nowHealth += Save_Health;
             }
 
             stop = true;
@@ -102,12 +104,18 @@ public class InvincibleShieldStart : BaseEffect
 
         if (time >= shield_Time)
         {
-            if(target.tag == "PLAYER") { _pStats.nowHealth -= Save_Health; }
-            if(target.tag != "PLAYER") { _oStats.nowHealth -= Save_Health; }
+            if(target.tag == "PLAYER") 
+            { 
+                //_pStats.nowHealth -= Save_Health; 
+            }
+            if(target.tag != "PLAYER") 
+            { 
+                //_oStats.nowHealth -= Save_Health; 
+            }
 
             stop = false;
             time = 0;
-            //PhotonNetwork.Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
