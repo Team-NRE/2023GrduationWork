@@ -11,6 +11,7 @@ public class LobbyScene : BaseScene
     {
 		Managers.UI.ShowSceneUI<UI_Select>();
         Managers.UI.ShowSceneUI<UI_Lobby>();
+		Managers.UI.ShowSceneUI<UI_Setting>();
     }
 	public override void Clear()
 	{
