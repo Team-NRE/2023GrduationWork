@@ -224,11 +224,13 @@ public class Players : BaseController
                                     GameObject remoteTarget = GetRemotePlayer(targetId);
                                     Debug.Log(remoteTarget.name);
 
+                                    _MovingPos = remoteTarget.transform.position;
+
                                     //타겟 오브젝트 설정
                                     BaseCard._lockTarget = remoteTarget;
 
                                     //공격 상태로 전환
-                                    _state = Define.State.Attack;
+                                    _state = Define.State.Moving;
                                 }
                             }
                         }
@@ -640,21 +642,28 @@ public class Players : BaseController
                     //이동
                     transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, BaseCard._lockTarget.transform.position) - transform.position);
                     _agent.SetDestination(BaseCard._lockTarget.transform.position);
+                    float distance = Vector3.Distance(BaseCard._lockTarget.transform.position, transform.position);
+                    Debug.Log(distance);
+                    Debug.Log(_pStats.attackRange);
 
-                    if (_agent.remainingDistance <= _pStats.attackRange)
+                    if (distance <= _pStats.attackRange)
                     {
                         _state = Define.State.Attack;
+                        Debug.Log("Target attack");
 
                         return;
                     }
 
-                    else
+                    if (distance > _pStats.attackRange)
                     {
                         _state = Define.State.Moving;
+                        _proj = Define.Projectile.Attack_Proj;
+
+                        Debug.Log("Target Moving");
                     }
                 }
 
-                break
+                break;
 ;
 
             //Skill
@@ -730,30 +739,6 @@ public class Players : BaseController
 
         ////attackDelay가 다 지나간 후
         yield return new WaitForSeconds((float)PercentageCount((100 - _pStats.attackAnimPercent), _pStats.attackDelay, 2));
-        if(BaseCard._lockTarget != null) 
-        {
-            //Range Off
-            _IsRange = true;
-            _attackRange[4].SetActive(_IsRange);
-
-            _proj = Define.Projectile.Attack_Proj;
-            _state = Define.State.Moving;
-        }
-
-        if(BaseCard.lockTarget == null) 
-        {
-            //애니메이션 Idle로 변환
-            _state = Define.State.Idle;
-
-            //움직임 초기화
-            _agent.ResetPath();
-        }
-
-        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
-        //_MovingPos = default;
-        //BaseCard._lockTarget = null;
-        _stopAttack = false;
-
         //Input 재설정
         //Attack
         Managers.Input.MouseAction -= MouseDownAction;
@@ -764,7 +749,29 @@ public class Players : BaseController
         //Card
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
         Managers.Input.UIKeyboardAction += UIKeyDownAction;
-        
+
+        _stopAttack = false;
+
+        //애니메이션 Idle로 변환
+        _state = Define.State.Idle;
+
+        //움직임 초기화
+        _agent.ResetPath();
+
+        if (BaseCard.lockTarget == null)
+        {
+            _proj = Define.Projectile.Undefine;
+        }
+
+        if (BaseCard.lockTarget != null)
+        {
+            _proj = Define.Projectile.Attack_Proj;
+        }
+
+
+        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
+        //_MovingPos = default;
+        //BaseCard._lockTarget = null;
     }
 
 

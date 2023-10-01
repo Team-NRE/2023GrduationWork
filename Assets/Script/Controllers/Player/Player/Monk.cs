@@ -55,9 +55,9 @@ public class Monk : Players
     //Attack
     protected override void UpdateAttack()
     {
-        //Range Off
-        _IsRange = false;
-        _attackRange[4].SetActive(_IsRange);
+        ////Range Off
+        //_IsRange = false;
+        //_attackRange[4].SetActive(_IsRange);
 
         //평타 공격
         if (BaseCard._lockTarget != null)

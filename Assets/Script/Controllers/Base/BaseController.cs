@@ -179,6 +179,14 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
             return;
         }
+
+        if (BaseCard._lockTarget != null && _proj == Define.Projectile.Attack_Proj && _state == Define.State.Idle)
+        {
+            _state = Define.State.Moving;
+          
+            return;
+        }
+
         //A키를 눌렀을 때 
         if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
         {
