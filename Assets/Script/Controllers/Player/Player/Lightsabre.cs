@@ -42,15 +42,20 @@ public class Lightsabre : Players
     //Attack
     protected override void UpdateAttack()
     {
-        if (BaseCard._lockTarget != null)
+        if (BaseCard._lockTarget != null && oneShot == false)
         {
-            ////Range Off
-            _IsRange = false;
-            _attackRange[4].SetActive(_IsRange);
+            if (_pv.IsMine)
+            {
+                ////Range Off
+                _IsRange = false;
+                _attackRange[4].SetActive(_IsRange);
 
-            int userId = GetComponent<PhotonView>().ViewID;
-            int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
-            _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+                int userId = GetComponent<PhotonView>().ViewID;
+                int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
+                _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+
+                oneShot = true;
+            }
         }
     }
 

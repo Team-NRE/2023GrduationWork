@@ -15,6 +15,7 @@ public class Card_AmuletOfSteel : UI_Card
         _rangeScale = 3.6f;
         _rangeType = Define.CardType.None;
 
+        _effectTime = 0.9f;
         _CastingTime = 0.3f;
     }
 

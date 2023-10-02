@@ -8,15 +8,8 @@ public class AmuletOfSteel2Start : BaseEffect
 {
     protected PhotonView _pv;
 
-    PlayerStats pStats;
-    float healthRegen = default;
     int teamLayer = default;
-    int _playerId;
 
-    void Start()
-    {
-        _pv = GetComponent<PhotonView>();
-    }
 
     [PunRPC]
     public override void CardEffectInit(int userId)
@@ -24,10 +17,10 @@ public class AmuletOfSteel2Start : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
 
-        pStats = player.GetComponent<PlayerStats>();
         teamLayer = player.GetComponent<PlayerStats>().playerArea;
 
-        _playerId = userId;
+        GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_AmuletofSteel", player.transform);
+        ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -42,24 +35,19 @@ public class AmuletOfSteel2Start : BaseEffect
     public void RpcTrigger(int otherId)
     {
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        if (other.gameObject.layer == teamLayer)
+        if (other.tag != "PLAYER") return;
+        if (other.layer != teamLayer) return;
+        if (other.layer == teamLayer && other.tag == "PLAYER")
         {
-            switch (other.gameObject.tag)
-            {
-                case "PLAYER":
-                    GameObject ShieldEffect = Managers.Resource.Instantiate($"Prefabs/Particle/Effect_AmuletofSteel");
-
-                    ShieldEffect.transform.parent = player.transform;
-                    ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
-
-                    break;
-
-            }
-            //ShieldEffect.GetComponent<PhotonView>().RPC(
-            //"CardEffectInit",
-            //RpcTarget.All,
-            //other.gameObject.GetComponent<PhotonView>().ViewID
-            //);
+            GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_AmuletofSteel", other.transform);
+            ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
         }
+
+        //ShieldEffect.GetComponent<PhotonView>().RPC(
+        //"CardEffectInit",
+        //RpcTarget.All,
+        //other.gameObject.GetComponent<PhotonView>().ViewID
+        //);
+
     }
 }

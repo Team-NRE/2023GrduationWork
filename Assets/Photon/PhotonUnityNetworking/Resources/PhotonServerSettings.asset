@@ -80,6 +80,8 @@ MonoBehaviour:
   - StartShield
   - ApplyDamage
   - MoveParticle
+  - OnEnablePhotonView
+  - CardeffectInit
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -94,11 +94,12 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
     protected virtual GameObject RangeAttack() { return null; }
 
-    protected virtual IEnumerator StopAttack() { yield return null; }
+    protected virtual void StopAttack() { }
     protected virtual IEnumerator StopSkill() { yield return null; }
 
+    protected virtual void StartAttack() { }
 
-    protected void UpdatePlayer_AnimationChange() 
+        protected void UpdatePlayer_AnimationChange() 
     {
         //키, 마우스 이벤트 받으면 state가 변환
         switch (_state)
@@ -148,7 +149,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
                 if (_stopAttack == false)
                 {
-                    StartCoroutine(StopAttack());
+                    StopAttack();
                 }
 
                 break;
