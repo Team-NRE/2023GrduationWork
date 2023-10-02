@@ -5,27 +5,47 @@ using Stat;
 
 public class AmuletOfSteelStart : BaseEffect
 {
-    PlayerStats _pStats;
+    float effectTime;
+    float startEffect = 0.01f;
+
+    protected PhotonView _pv;
+    protected PhotonView _playerPV;
+
+    PlayerStats pStat;
 
     float shieldValue = default;
-    float shieldRatioPerHealth = 0.5f;
-    float shieldTime = 5.0f;
+    float shieldRatioPerHealth = 0.4f;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-        _pStats = player.GetComponent<PlayerStats>();
-        transform.parent = _pStats.transform;
-        shieldValue = _pStats.maxHealth * shieldRatioPerHealth;
+        effectTime = 5.0f;
+        pStat = player.GetComponent<PlayerStats>();
+        _playerPV = player.GetComponent<PhotonView>();
 
-        _pStats.StartCoroutine(DelayBuff());
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+
+        shieldValue = pStat.maxHealth * shieldRatioPerHealth;
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", shieldValue);
     }
 
-    IEnumerator DelayBuff()
+
+    private void Update()
     {
-        _pStats.shield += shieldValue;
-        yield return new WaitForSeconds(shieldTime);
-        _pStats.shield -= shieldValue;
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+    {
+        startEffect += Time.deltaTime;
+
+        if (startEffect > effectTime - 0.01f)
+        {
+            _playerPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -shieldValue);
+        }
     }
 }

@@ -55,14 +55,6 @@ public class UI_Card : UI_Scene
     }
 
 
-
-    
-    public virtual void OnTriggerEnter(Collider other) 
-    {
-        
-    }
-
-
     public virtual GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         return _effectObject;
