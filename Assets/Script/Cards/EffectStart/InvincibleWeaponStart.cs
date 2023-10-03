@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class InvincibleWeaponStart : BaseEffect
 {
+    int playerId;
     float damage = default;
     int enemylayer = default;
 
@@ -14,6 +15,7 @@ public class InvincibleWeaponStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
 
@@ -57,7 +59,7 @@ public class InvincibleWeaponStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_pv.ViewID, damage + (pStats.basicAttackPower * 0.02f));
+                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.02f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }

@@ -64,7 +64,7 @@ public class WindBladeStart : BaseEffect
             {
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_pv.ViewID, _damage + (pStats.basicAttackPower * 0.7f));
+                enemyStats.receviedDamage = (_playerId, _damage + (pStats.basicAttackPower * 0.7f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
                 Debug.Log(enemyStats.nowHealth);
             }

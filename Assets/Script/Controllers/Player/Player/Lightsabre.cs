@@ -62,7 +62,7 @@ public class Lightsabre : Players
         if (target.gameObject.tag == "PLAYER")
         {
             PlayerStats pt = target.GetComponent<PlayerStats>();
-            pt.receviedDamage = (targetId, _pStats.basicAttackPower);
+            pt.receviedDamage = (_pv.ViewID, _pStats.basicAttackPower);
             if(pt.nowHealth <= 0 )
             {
                 BaseCard._lockTarget = null;

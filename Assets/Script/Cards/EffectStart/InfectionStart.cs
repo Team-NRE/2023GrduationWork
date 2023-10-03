@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class InfectionStart : BaseEffect
 {
+    int playerId;
     float damage = default;
     int enemylayer = default;
     protected PhotonView _pv;
@@ -13,6 +14,7 @@ public class InfectionStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         PlayerStats stat = player.GetComponent<PlayerStats>();
@@ -51,7 +53,7 @@ public class InfectionStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_pv.ViewID, damage + (pStats.basicAttackPower * 0.05f));
+                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.05f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }
