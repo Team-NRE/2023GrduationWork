@@ -5224,7 +5224,6 @@ MonoBehaviour:
   _basicAttackPower: 0
   _attackSpeed: 0
   _attackDelay: 0
-  _attackAnimPercent: 0
   _attackRange: 0
   _attackType: 
   _kill: 0
@@ -5234,6 +5233,7 @@ MonoBehaviour:
   _defensePower: 0
   _receviedDamage: 0
   _shield: 0
+  _firstShield: 0
   _death: 0
   _level: 0
   _experience: 0

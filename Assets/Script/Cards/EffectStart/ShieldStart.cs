@@ -6,49 +6,68 @@ using Photon.Pun;
 
 public class ShieldStart : BaseEffect
 {
-    PlayerStats _pStats;
-    float defence = default;
-    float shield_Time = 0.01f;
+    float effectTime;
+    float startEffect = 0.01f;
+
     protected PhotonView _pv;
-    protected int _playerId;
+    protected PhotonView _playerPV;
 
-    bool start;
+    PlayerStats pStat;
 
-    private void Start()
-    {
-        _pv = GetComponent<PhotonView>();
-    }
+    float shieldValue = default;
+    float shieldRatioPerHealth = 0.2f;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         base.CardEffectInit(userId);
-        _pStats = player.GetComponent<PlayerStats>();
-        defence = 50.0f;
-        _playerId = userId;
 
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+        pStat = player.GetComponent<PlayerStats>();
+        _playerPV = player.GetComponent<PhotonView>();
 
-        start = true;
+        effectTime = 4.0f;
+        shieldValue = pStat.maxHealth * shieldRatioPerHealth;
+
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", shieldValue);
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", shieldValue);
+
+        //Debug.Log($"초기 방어막 생성 : {shieldValue} , {pStat.firstShield}");
+        //Debug.Log($"중첩 방어막 생성 : {pStat.shield}");
     }
 
-    public void Update()
+    private void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
-    }
+        startEffect += Time.deltaTime;
 
-    [PunRPC]
-    public void RpcUpdate(int playerId)
-	{
-        if (start == true)
+        if (startEffect > effectTime - 0.01f)
         {
-            shield_Time += Time.deltaTime;
-
-            if (shield_Time >= 1.9f)
+            //초기 쉴드와 지금의 쉴드가 같지 않다면
+            if (pStat.firstShield != pStat.shield)
             {
-                _pStats.defensePower -= defence;
-                start = false;
+                pStat.shield = 0;
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", pStat.firstShield);
+
+                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
+                //Debug.Log($"지금 방어막 : {pStat.shield}");
+
+                Destroy(gameObject);
+
+                return;
+            }
+
+            //초기 쉴드와 지금의 쉴드가 같다면
+            if (pStat.firstShield == pStat.shield)
+            {
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", -shieldValue);
+
+                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
+                //Debug.Log($"지금 방어막 : {pStat.shield}");
+
+                Destroy(gameObject);
+
+                return;
             }
         }
     }

@@ -66,9 +66,8 @@
 
         "Card_Enhancement",
         "Card_HealthPotion",
-        "Card_Crystal",
+        "Card_Shield",
         "Card_HealthKit",
-        "Card_BloodTransfusion",
         "Card_AmuletOfSteel"
       ]
     }

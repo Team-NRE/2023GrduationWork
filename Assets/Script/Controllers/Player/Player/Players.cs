@@ -84,7 +84,7 @@ public class Players : BaseController
             GameObject Resurrection = transform.Find("Effect_Resurrection(Clone)").gameObject;
             PhotonNetwork.Destroy(Resurrection);
             //체력 회복
-            _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", (float)PercentageCount(70, _pStats.maxHealth, 1));
+            _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", PercentageCount(70, _pStats.maxHealth, 1));
         }
         else if (_pStats.isResurrection == false)
         {

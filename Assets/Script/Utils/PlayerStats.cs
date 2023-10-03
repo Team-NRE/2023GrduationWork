@@ -18,7 +18,6 @@ namespace Stat
         [SerializeField] private float _basicAttackPower; //평타 공격력
         [SerializeField] private float _attackSpeed; //평타 공속
         [SerializeField] private float _attackDelay; //평타 딜레이
-        [SerializeField] private double _attackAnimPercent; //평타 공격 애니메이션 동작 중 데미지 발동되는 애니메이션 퍼센트 
         [SerializeField] private float _attackRange; //평타 범위 
         [SerializeField] private string _attackType; //평타 타입
         [SerializeField] private float _kill; //킬
@@ -31,6 +30,7 @@ namespace Stat
         [SerializeField] private float _defensePower; //방어력
         [SerializeField] private float _receviedDamage; //계산된 입은 데미지
         [SerializeField] private float _shield; //방어막
+        [SerializeField] private float _firstShield; //초기 방어막
         [SerializeField] private float _death; //데스
 
         [Header("-- 레벨 --")]
@@ -87,7 +87,6 @@ namespace Stat
             }
         }
         public float attackDelay { get { return _attackDelay; } set { _attackDelay = value; } }
-        public double attackAnimPercent { get { return _attackAnimPercent; } set { _attackAnimPercent = value; } }
         public float attackRange { get { return _attackRange; } set { _attackRange = value; } }
         public string attackType { get { return _attackType; } set { _attackType = value; } }
         public float kill { get { return _kill; } set { _kill = value; } }
@@ -131,7 +130,27 @@ namespace Stat
             set
             {
                 value.Item2 *= 100 / (100 + defensePower);
-                _nowHealth -= value.Item2;
+                if (shield == 0) { _nowHealth -= value.Item2; }
+                if (shield > 0)
+                {
+                    //Debug.Log($"방어막 : {shield}");
+                    //Debug.Log($"들어온 데미지 : {value.Item2}");
+                    float nowshield = shield - value.Item2;
+                    //Debug.Log($"남은 방어막 : {nowshield}");
+                    if(nowshield <= 0)
+                    {
+                        //Debug.Log($"남은 방어막이 없다면 현재 체력 : {nowHealth}{nowshield}");
+                        nowHealth += nowshield;
+                        //Debug.Log($"남은 방어막이 없다면 남은 체력 : {nowHealth}");
+                        shield = 0;
+                    }
+                    if(nowshield > 0)
+                    {
+                        shield = (nowshield);
+                        //Debug.Log($"남은 방어막이 있다면 남은 방어막 : {shield}");
+                    }
+                }
+
                 if (_nowHealth <= 0 && !GetComponent<BaseController>()._startDie) 
                 {
                     Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
@@ -142,10 +161,25 @@ namespace Stat
         {
             get { return _shield; }
             set 
-            { 
-                _shield = value; 
-                if (_shield < 0) _shield = 0;    
+            {
+                _shield = value;
+
+                if(_shield <= 0)
+                {
+                    _shield = 0;
+                }
             }
+        }
+        public float firstShield { get { return _firstShield; } 
+            set 
+            { 
+                _firstShield = value;
+
+                if (_firstShield <= 0)
+                {
+                    _firstShield = 0;
+                }
+            } 
         }
         public float death { get { return _death; } set { _death = value; } }
 
@@ -275,7 +309,6 @@ namespace Stat
             //공격
             basicAttackPower = stat.basicAttackPower;
             attackSpeed = stat.attackSpeed;
-            attackAnimPercent = stat.attackAnimPercent;
             attackRange = stat.attackRange;
             attackType = stat.attackType;
             kill = 0;
@@ -339,6 +372,7 @@ namespace Stat
             if (statName == "healthRegeneration")   healthRegeneration  += value;
             if (statName == "defensePower")         defensePower        += value;
             if (statName == "shield")               shield              += value;
+            if (statName == "firstShield")          firstShield         += value;
             if (statName == "_nowlevel")            _nowlevel           += value;
             if (statName == "experience")           experience          += value;
             if (statName == "speed")                speed               += value;

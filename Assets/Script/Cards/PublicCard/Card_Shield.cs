@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// ¹æ¾î
+// ï¿½ï¿½ï¿½
 public class Card_Shield : UI_Card
 {
     public override void Init()
@@ -15,7 +15,6 @@ public class Card_Shield : UI_Card
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
-        _effectTime = 2.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
