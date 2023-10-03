@@ -8,7 +8,6 @@ using Photon.Pun;
 public class Card_BloodstainedCoin : UI_Card
 {
     int _layer = default;
-    int _enemylayer = default;
 
     public override void Init()
     {
@@ -35,9 +34,6 @@ public class Card_BloodstainedCoin : UI_Card
         //_effectObject.transform.parent = _player.transform;
 
         _layer = layer;
-
-        if (_layer == 6) { _enemylayer = 7; }
-        if (_layer == 7) { _enemylayer = 6; }
 
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
 

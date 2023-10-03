@@ -8,11 +8,13 @@ using Photon.Pun;
 // 무적 방패
 public class Card_InvincibleShield : UI_Card
 {
+    int _layer = default;
 
     public override void Init()
     {
         _cardBuyCost = 3333;
         _cost = 3;
+        //_defence = 10000;
 
         _rangeType = Define.CardType.None;
         _rangeScale = 3.6f;
@@ -25,16 +27,28 @@ public class Card_InvincibleShield : UI_Card
     {
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
+        _layer = layer;
+
         //띠로링
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield", ground, Quaternion.identity);
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        //_effectObject.transform.parent = _player.transform;
+        
+        //_effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+
+        //쉴드, 팀원들 찾아서 쉴드 이펙트 씌워주는 내용
+        Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << _layer);
+        foreach (Collider col in cols)
+        {
+            int userId = Managers.game.RemoteColliderId(col);
+            //col.transform -> Police, 미니언
+            GameObject shield = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield_1", col.transform.position, Quaternion.identity);
+            shield.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, userId);
+        }
+
         return _effectObject;
     }
 
-    private void Update()
-    {
 
-    }
 
     public override void DestroyCard(float delay = default)
     {

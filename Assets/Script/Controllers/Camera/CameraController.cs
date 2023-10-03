@@ -71,7 +71,7 @@ public class CameraController : BaseController
         _cameraMode = Define.CameraMode.FloatCamera;
     }
 
-    void Update()
+    public override void Update()
     {
         if (p_Position == null)
         {
