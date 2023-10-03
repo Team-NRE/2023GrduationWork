@@ -15,6 +15,7 @@ public class NeutralMob : ObjectController
     public Transform[] muzzles;
     [SerializeField]
     private LineRenderer lineRenderer;
+    private AudioSource laserAudio;
 
     [Header ("- Special Attack")]
     public string missile;
@@ -32,6 +33,7 @@ public class NeutralMob : ObjectController
         missile =       $"Prefabs/Projectile/Missile";
         energyRelease = $"Prefabs/Projectile/EnergyRelease";
         lineRenderer = GetComponent<LineRenderer>();
+        laserAudio   = GetComponent<AudioSource>();
         _specialAttackCoolingTimeNow = _specialAttackCoolingTime;
         isMachineGun = false;
 
@@ -218,6 +220,8 @@ public class NeutralMob : ObjectController
     [PunRPC]
     private void Laser(int targetId)
     {
+        laserAudio.Play();
+        
         if (!PhotonNetwork.IsMasterClient)
         {
             _targetEnemyTransform = PhotonView.Find(targetId).transform;  
