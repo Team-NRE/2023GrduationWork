@@ -36,6 +36,7 @@ public class UI_Lobby : UI_Scene
 		Debug.Log("EnterSingle");
 		Managers.game.gameMode = Define.GameMode.Single;
 		characterSelectUIFader.ShowUI();
+		Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 	}
 
 	// Select Button 클릭시 발생할 이벤트
@@ -44,6 +45,7 @@ public class UI_Lobby : UI_Scene
 		Debug.Log("EnterMulti_1vs1");
 		Managers.game.gameMode = Define.GameMode.Multi_1vs1;
 		characterSelectUIFader.ShowUI();
+		Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 	}
 
 	// Select Button 클릭시 발생할 이벤트
@@ -52,5 +54,6 @@ public class UI_Lobby : UI_Scene
 		Debug.Log("EnterMulti_2vs2");
 		Managers.game.gameMode = Define.GameMode.Multi_2vs2;
 		characterSelectUIFader.ShowUI();
+		Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 	}
 }

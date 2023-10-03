@@ -25,7 +25,6 @@ using UnityEngine;
 namespace Kino
 {
     [RequireComponent(typeof(Camera))]
-    [AddComponentMenu("Kino Image Effects/Analog Glitch")]
     public class AnalogGlitch : MonoBehaviour
     {
         #region Public Properties

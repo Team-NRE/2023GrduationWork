@@ -44,7 +44,7 @@ public class UI_Login : UI_Scene
 		GetButton((int)LoginButtons.Login).gameObject.BindEvent(LoginClick);
 
 		user.ActivateInputField();
-		Managers.Sound.Play("Ingame", Define.Sound.Bgm);
+		Managers.Sound.Play("Matching", Define.Sound.Bgm, 1, .05f);
 	}
 
 	public override void UpdateInit()
@@ -57,7 +57,13 @@ public class UI_Login : UI_Scene
 
 	public void LoginClick(PointerEventData data)
 	{
-		if (string.IsNullOrWhiteSpace(user.text)) return;
+		if (string.IsNullOrWhiteSpace(user.text)) 
+		{
+			Managers.Sound.Play("UI_ButtonFail", Define.Sound.Effect, 1, .5f);
+			return;
+		}
+
+		Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 
 		_inputUser = user.text;
 		PhotonNetwork.LocalPlayer.NickName = user.text;

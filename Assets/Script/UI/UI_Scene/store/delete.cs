@@ -91,6 +91,7 @@ public class delete : UI_Popup
         _makeAllBigCardList.Clear();
         //UI 리셋
         Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "";
+        Get<TextMeshProUGUI>((int)Texts.Price_Text).text = "0";
 
         foreach (Transform t in Get<GameObject>((int)GameObjects.Big_card).transform) Destroy(t.gameObject);
         foreach (Transform t in Get<ToggleGroup>((int)ToggleGroups.DeleteContent).transform) Destroy(t.gameObject);
@@ -125,6 +126,7 @@ public class delete : UI_Popup
     // 스크롤 카드 선택 시
     public void CardInfoChange(Toggle toggle)
     {
+        Managers.Sound.Play($"UI_CardSelect/UI_CardSelect_{Random.Range(1,4)}", Define.Sound.Effect, 1, .5f);
         _makeAllBigCardList[toggle.name][0].SetActive(toggle.isOn);
         
         if (toggle.isOn) 
@@ -171,9 +173,23 @@ public class delete : UI_Popup
 
     public void CardDelete(PointerEventData data)
     {
-        if (Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle() == null) return;
-        if (BaseCard._MyDeck.Count < 8) return; // 최소 카드 한도
-        if (_pStat.gold < _BuyCost) return; // 골드 부족
+        if (Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle() == null) 
+        {
+            Managers.Sound.Play("UI_ButtonFail", Define.Sound.Effect, 1, .5f);
+            return;
+        }
+        if (BaseCard._MyDeck.Count < 8) 
+        {
+            Managers.Sound.Play("UI_ButtonFail", Define.Sound.Effect, 1, .5f);
+            return; // 최소 카드 한도
+        }
+        if (_pStat.gold < _BuyCost) 
+        {
+            Managers.Sound.Play("UI_ButtonFail", Define.Sound.Effect, 1, .5f);
+            return; // 골드 부족
+        }
+
+        Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 
         string cardName = Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle().name;
         
@@ -190,6 +206,7 @@ public class delete : UI_Popup
         BaseCard._MyDeck  .Remove(cardName);
         
         _pStat.gold -= _BuyCost;
+        _BuyCost = 0;
         MakeUI_Mycard();
     }
 

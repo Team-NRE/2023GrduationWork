@@ -37,10 +37,19 @@ public class UI_Popup_KeyEvent : UI_Popup
     void KeyDownAction()
     {
         if (Input.GetKeyDown(KeyCode.P))      { CloseOtherPopupAndOnPopup(Popup.UI_Store); }
-        if (Input.GetKeyDown(KeyCode.Tab))    { Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(true); }
-		if (Input.GetKeyUp(KeyCode.Tab))      { Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(false); }
         if (Input.GetKeyDown(KeyCode.I))      { CloseOtherPopupAndOnPopup(Popup.UI_Deck); }
         if (Input.GetKeyDown(KeyCode.Escape)) { CloseOtherPopupAndOnPopup(); }
+        
+        if (Input.GetKeyDown(KeyCode.Tab))
+        { 
+            Managers.Sound.Play($"UI_CardSelect/UI_CardSelect_{Random.Range(1,4)}", Define.Sound.Effect, 1, .2f);
+            Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(true);
+        }
+		if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            Managers.Sound.Play($"UI_CardSelect/UI_CardSelect_{Random.Range(1,4)}", Define.Sound.Effect, 1, .2f);
+            Get<UI_CanvasFader>((int)Popup.UI_Scoreboard).gameObject.SetActive(false);
+        }
     }
 
     void CloseOtherPopupAndOnPopup()
