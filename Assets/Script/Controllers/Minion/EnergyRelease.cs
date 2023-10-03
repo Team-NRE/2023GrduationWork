@@ -50,7 +50,7 @@ public class EnergyRelease : MonoBehaviour
                 nowTarget.GetComponent<PhotonView>().RPC(
                     "photonStatSet",
                     RpcTarget.All,
-                    attackPV,
+                    attackPV.ViewID,
                     "receviedDamage",
                     damage
                 );
