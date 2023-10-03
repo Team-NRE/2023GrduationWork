@@ -61,17 +61,11 @@ public class InvincibleShieldStart : BaseEffect
     public void StartInvincibility(int playerId)
     {
         GameObject target = Managers.game.RemoteTargetFinder(playerId);
-        if (target.tag == "PLAYER") 
-        {
-            _pStats = target.GetComponent<PlayerStats>();
-            _pStats.defensePower = defence;
-        }
-        if (target.tag != "PLAYER") 
-        { 
-            _oStats = target.GetComponent<ObjStats>();
-            _oStats.defensePower = defence;
-        }
+        if (target.tag == "PLAYER") { _pStats = target.GetComponent<PlayerStats>(); }
+        if (target.tag != "PLAYER") { _oStats = target.GetComponent<ObjStats>(); }
 
+        _pStats.defensePower = defence;
+        _oStats.defensePower = defence;
         time += Time.deltaTime;
 
         if (time >= invincibility_Time)
@@ -80,12 +74,18 @@ public class InvincibleShieldStart : BaseEffect
             { 
                 //플레이어 방어력 빠짐
                 _pStats.defensePower -= defence;
+
+                //Save_Health = _pStats.maxHealth / 100 * 25;
+                //_pStats.nowHealth += Save_Health;
             }
 
             if (target.tag != "PLAYER")
             {
                 //플레이어 방어력 빠짐
                 _oStats.defensePower -= defence;
+
+                //Save_Health = _oStats.maxHealth / 100 * 25;
+                //_oStats.nowHealth += Save_Health;
             }
 
             stop = true;
@@ -109,14 +109,13 @@ public class InvincibleShieldStart : BaseEffect
                 //_pStats.nowHealth -= Save_Health; 
             }
             if(target.tag != "PLAYER") 
-            {
+            { 
                 //_oStats.nowHealth -= Save_Health; 
-                RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 1.1f);
             }
 
             stop = false;
             time = 0;
-
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
