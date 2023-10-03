@@ -60,7 +60,7 @@ public class Missile : MonoBehaviour
                 nowTarget.GetComponent<PhotonView>().RPC(
                     "photonStatSet",
                     RpcTarget.All,
-                    attackPV,
+                    attackPV.ViewID,
                     "receviedDamage",
                     damage
                 );

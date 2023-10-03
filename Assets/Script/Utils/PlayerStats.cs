@@ -167,6 +167,7 @@ namespace Stat
                 if(_shield <= 0)
                 {
                     _shield = 0;
+                    firstShield = 0;
                 }
             }
         }
