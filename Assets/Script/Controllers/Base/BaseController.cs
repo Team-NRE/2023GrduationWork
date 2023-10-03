@@ -202,10 +202,10 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     }
 
     //퍼센트 계산
-    protected double PercentageCount(double percent, double value, int decimalplaces)
+    protected float PercentageCount(double percent, double value, int decimalplaces)
     {
 
-        return System.Math.Round(percent / 100 * value, decimalplaces);
+        return (float)System.Math.Round(percent / 100 * value, decimalplaces);
     }
 
 

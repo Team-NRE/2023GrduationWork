@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InvincibleShieldObjectStart : BaseEffect
+public class InvincibleShield2Start : BaseEffect
 {
     PhotonView _pv;
     public override void CardEffectInit(int userId, int targetId)

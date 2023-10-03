@@ -82,7 +82,7 @@ public static class BaseCard
     public static string UseCard(string ReloadCard = null)
     {
         //카드가 남아 있다면 랜덤으로 뽑아서 처리 
-        int rand = UnityEngine.Random.Range(1, _initDeck.Count);
+        int rand = UnityEngine.Random.Range(0, _initDeck.Count);
         //int rand = 0;
         //카드 이름 저장
         string ChoiseCard = _initDeck[rand];

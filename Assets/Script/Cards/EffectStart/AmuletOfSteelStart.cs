@@ -25,7 +25,12 @@ public class AmuletOfSteelStart : BaseEffect
 
         effectTime = 5.0f;
         shieldValue = pStat.maxHealth * shieldRatioPerHealth;
-        _playerPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", shieldValue);
+
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", shieldValue);
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", shieldValue);
+
+        //Debug.Log($"초기 방어막 생성 : {shieldValue} , {pStat.firstShield}");
+        //Debug.Log($"중첩 방어막 생성 : {pStat.shield}");
     }
 
     private void Update()
@@ -34,9 +39,34 @@ public class AmuletOfSteelStart : BaseEffect
 
         if (startEffect > effectTime - 0.01f)
         {
-            _playerPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -shieldValue);
+            //초기 쉴드와 지금의 쉴드가 같지 않다면
+            if (pStat.firstShield != pStat.shield)
+            {
+                pStat.shield = 0;
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", pStat.firstShield);
 
-            Destroy(gameObject);
+                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
+                //Debug.Log($"지금 방어막 : {pStat.shield}");
+
+                Destroy(gameObject);
+
+                return;
+            }
+
+            //초기 쉴드와 지금의 쉴드가 같다면
+            if (pStat.firstShield == pStat.shield)
+            {
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
+                _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", -shieldValue);
+
+                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
+                //Debug.Log($"지금 방어막 : {pStat.shield}");
+
+                Destroy(gameObject);
+
+                return;
+            }
         }
     }
 }

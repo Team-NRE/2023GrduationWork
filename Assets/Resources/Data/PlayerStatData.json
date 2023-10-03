@@ -5,7 +5,6 @@
 
         "basicAttackPower": "65",
         "attackSpeed": "0.625",
-        "attackAnimPercent": "50",
         "attackRange": "5",
         "attackType": "LongRange",
 
@@ -37,7 +36,6 @@
 
         "basicAttackPower": "67",
         "attackSpeed": "0.625",
-        "attackAnimPercent": "50",
         "attackRange": "1.8",
         "attackType": "ShortRange",
 
@@ -69,7 +67,6 @@
 
         "basicAttackPower": "75",
         "attackSpeed": "0.625",
-        "attackAnimPercent": "70",
         "attackRange": "2",
         "attackType": "ShortRange",
 
@@ -101,7 +98,6 @@
 
         "basicAttackPower": "55",
         "attackSpeed": "0.625",
-        "attackAnimPercent": "50",
         "attackRange": "4",
         "attackType": "LongRange",
 
