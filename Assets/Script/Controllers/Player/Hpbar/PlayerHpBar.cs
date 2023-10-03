@@ -9,6 +9,10 @@ public class PlayerHpBar : MonoBehaviour
 {
     [Header("- Health Bar Images")]
     [SerializeField]
+    private Image healthBarOverShield;
+    [SerializeField]
+    private Image healthBarShield;
+    [SerializeField]
     private Image healthBarHeal;
     [SerializeField]
     private Image healthBarHit;
@@ -19,12 +23,14 @@ public class PlayerHpBar : MonoBehaviour
     [Header("- Options")]
     [SerializeField]
     private bool isHealHitEffect = true;
+    private bool isShieldHitEffect = true;
 
     private PlayerStats _pStats;
     private Transform cam;
 
     private float maxHealth;
     private float nowHealth;
+    private float nowShield;
 
     PhotonView _pv;
     private static float DELAY_TIME = 0.5f;
@@ -36,8 +42,11 @@ public class PlayerHpBar : MonoBehaviour
 
         maxHealth = _pStats.maxHealth;
         nowHealth = _pStats.nowHealth;
+        nowShield = _pStats.shield;
 
 
+        healthBarOverShield = transform.Find("HealthBarOverShieldEffect").gameObject.GetComponent<Image>();
+        healthBarShield = transform.Find("HealthBarShieldEffect").gameObject.GetComponent<Image>();
         healthBarHeal = transform.Find("HealthBarHealEffect").gameObject.GetComponent<Image>();
         healthBarHit = transform.Find("HealthBarHitEffect").gameObject.GetComponent<Image>();
         healthBarBasic = transform.Find("HealthBar").gameObject.GetComponent<Image>();
@@ -61,9 +70,46 @@ public class PlayerHpBar : MonoBehaviour
 
         transform.LookAt(transform.position + cam.transform.rotation * Vector3.back, cam.transform.rotation * Vector3.up);
 
+        if(nowShield < _pStats.shield)
+        {
+            nowShield = _pStats.shield;
+            nowHealth = _pStats.nowHealth;
+            maxHealth = _pStats.maxHealth;
+
+            if (isShieldHitEffect)
+            {
+                UIChangeShield();
+                Invoke("UIChangeHit", DELAY_TIME);
+            }
+            else
+            {
+                UIChangeShield();
+                UIChangeHit();
+            }
+        }
+
+        if(nowShield > _pStats.shield)
+        {
+            nowShield = _pStats.shield;
+            nowHealth = _pStats.nowHealth;
+            maxHealth = _pStats.maxHealth;
+
+            if (isShieldHitEffect)
+            {
+                UIChangeHit();
+                Invoke("UIChangeShield", DELAY_TIME);
+            }
+            else
+            {
+                UIChangeHit();
+                UIChangeShield();
+            }
+        }
+
+
         if (nowHealth < _pStats.nowHealth)
         {
-
+            nowShield = _pStats.shield;
             nowHealth = _pStats.nowHealth;
             maxHealth = _pStats.maxHealth;
 
@@ -71,30 +117,35 @@ public class PlayerHpBar : MonoBehaviour
             {
                 UIChangeHeal();
                 Invoke("UIChangeBasic", DELAY_TIME);
+                Invoke("UIChangeShield", DELAY_TIME);
                 Invoke("UIChangeHit", DELAY_TIME);
             }
             else
             {
                 UIChangeHeal();
                 UIChangeBasic();
+                UIChangeShield();
                 UIChangeHit();
             }
         }
 
         if (nowHealth > _pStats.nowHealth)
         {
+            nowShield = _pStats.shield;
             nowHealth = _pStats.nowHealth;
             maxHealth = _pStats.maxHealth;
 
             if (isHealHitEffect)
             {
                 UIChangeBasic();
+                UIChangeShield();
                 UIChangeHeal();
                 Invoke("UIChangeHit", DELAY_TIME);
             }
             else
             {
                 UIChangeBasic();
+                UIChangeShield();
                 UIChangeHeal();
                 UIChangeHit();
             }
@@ -105,13 +156,40 @@ public class PlayerHpBar : MonoBehaviour
     {
         healthBarBasic.fillAmount = nowHealth / maxHealth;
     }
+
+    private void UIChangeShield() 
+    {
+        if((nowHealth + nowShield) > maxHealth)
+        {
+            healthBarShield.fillAmount = (nowHealth + nowShield) / maxHealth;
+            healthBarOverShield.fillAmount = (nowHealth + nowShield) / maxHealth - 1;
+        }
+
+        if((nowHealth + nowShield) <= maxHealth)
+        {
+            healthBarShield.fillAmount = (nowHealth + nowShield) / maxHealth;
+            healthBarOverShield.fillAmount = (nowHealth + nowShield) / maxHealth - 1;
+        }
+
+    }
+
     private void UIChangeHeal()
     {
         healthBarHeal.fillAmount = nowHealth / maxHealth;
     }
     private void UIChangeHit()
     {
-        healthBarHit.fillAmount = nowHealth / maxHealth;
+        if ((nowHealth + nowShield) > maxHealth)
+        {
+            healthBarOverShield.fillAmount = (nowHealth + nowShield) / maxHealth - 1;
+            healthBarHit.fillAmount = (nowHealth + nowShield) / maxHealth;
+        }
+
+        if ((nowHealth + nowShield) <= maxHealth)
+        {
+            healthBarHit.fillAmount = (nowHealth + nowShield) / maxHealth;
+            healthBarOverShield.fillAmount = 0;
+        }
     }
 }
 
