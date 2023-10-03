@@ -38,10 +38,14 @@ public class EnergyAmpStart : BaseEffect
             //타겟이 적 Player일 시
             if (nowTarget.tag == "PLAYER")
             {
-                PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
-                _Stats.nowHealth -= _damage;
-
-                if (_Stats.nowHealth <= 0) Managers.game.killEvent(attackID, nowTarget.GetComponent<PhotonView>().ViewID);
+                if (!GetComponent<PhotonView>().IsMine) return;
+                nowTarget.GetComponent<PhotonView>().RPC(
+                    "photonStatSet",
+                    RpcTarget.All,
+                    attackID,
+                    "receviedDamage",
+                    _damage
+                );
             }
         }
     }

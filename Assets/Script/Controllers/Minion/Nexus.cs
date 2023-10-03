@@ -27,6 +27,7 @@ public class Nexus : ObjectController
     {
         base.Death();
         gameFinish();
+        Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
@@ -37,7 +38,6 @@ public class Nexus : ObjectController
         switch (_action)
         {
             case ObjectAction.Death:
-                transform.Find("UI").gameObject.SetActive(false);
                 GetComponent<Collider>().enabled = false;
                 break;
             case ObjectAction.Idle:

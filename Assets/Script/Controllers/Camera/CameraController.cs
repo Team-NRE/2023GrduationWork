@@ -226,8 +226,11 @@ public class CameraController : BaseController
             Renderer ObstacleRenderer = RendererGameobject.GetComponent<Renderer>();
 
             //건물 속에 있을 때
-            if (RendererGameobject.layer == (int)Define.Layer.Default && RendererGameobject.tag != "OBJECT" && RendererGameobject.tag != "PLAYER")
+            if (RendererGameobject.layer == (int)Define.Layer.Default)
             {
+                if (RendererGameobject.tag == "OBJECT") return;
+                if (RendererGameobject.tag == "PLAYER") return;
+
                 // 3. Metrial의 Aplha를 바꾼다.
                 Material Mat = ObstacleRenderer.material;
                 // Rendering Mode를 변경하고 싶은 값으로 설정합니다.

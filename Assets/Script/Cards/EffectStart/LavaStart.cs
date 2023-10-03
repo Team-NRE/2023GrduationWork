@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class LavaStart : BaseEffect
 {
+    int playerId;
     float damage = default;
     int enemylayer = default;
     int _playerId;
@@ -14,6 +15,7 @@ public class LavaStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         _playerId = userId;
@@ -54,7 +56,7 @@ public class LavaStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_pv.ViewID, damage + (pStats.basicAttackPower * 0.01f));
+                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.01f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }

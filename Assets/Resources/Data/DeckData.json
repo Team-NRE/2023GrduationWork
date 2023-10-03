@@ -4,9 +4,9 @@
       "id": "1",
       "cards": [
         "JobCard_Grenade",
-        "Card_Speed",
-        "Card_Speed",
-        "Card_Enhancement",
+        "Card_InvincibleShield",
+        "Card_InvincibleShield",
+        "Card_InvincibleShield",
         "Card_Crystal",
         "Card_Crystal"
       ]
@@ -16,37 +16,15 @@
       "cards": [
         "JobCard_Charge",
 
-        "Card_Enhancement",
-        "Card_Enhancement",
+        "Card_HealthPotion",
         "Card_Enhancement",
         "Card_Speed",
-        "Card_Speed",
-        "Card_Speed"
-      ]
-    },
-    {
-      "id": "3",
-      "cards": [
-        "JobCard_WindBlade",
-
-        "Card_HealthPotion",
-        "Card_HealthPotion",
+        "Card_Shield",
         "Card_Crystal",
-        "Card_Spear",
-        "Card_BloodTransfusion",
-        "Card_IcePrison"
-      ]
-    },
-    {
-      "id": "4",
-      "cards": [
-        "JobCard_DeadlySpeed",
-        
-        "Card_Enhancement",
-        "Card_HealthPotion",
-        "Card_Crystal",
-        "Card_Spear",
-        "Card_BloodTransfusion",
+        "Card_Armor",
+        "Card_RadiantCrystal",
+        "Card_Purify",
+        "Card_Teleport",
 
         "Card_Spear",
         "Card_BloodTransfusion",
@@ -66,6 +44,32 @@
         "Card_CrisisAversion",
         "Card_InvincibleShield",
         "Card_InvincibleWeapon"
+      ]
+    },
+    {
+      "id": "3",
+      "cards": [
+        "JobCard_WindBlade",
+
+        "Card_HealthPotion",
+        "Card_HealthPotion",
+        "Card_Crystal",
+        "Card_Spear",
+        "Card_BloodTransfusion",
+        "Card_IcePrison"
+      ]
+    },
+    {
+      "id": "4",
+      "cards": [
+        "JobCard_DeadlySpeed",
+
+        "Card_Enhancement",
+        "Card_HealthPotion",
+        "Card_Crystal",
+        "Card_HealthKit",
+        "Card_BloodTransfusion",
+        "Card_AmuletOfSteel"
       ]
     }
   ]

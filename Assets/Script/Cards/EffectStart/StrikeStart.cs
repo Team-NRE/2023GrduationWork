@@ -25,6 +25,7 @@ public class StrikeStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
+        _playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
         _targetId = targetId;
@@ -75,7 +76,7 @@ public class StrikeStart : BaseEffect
                         enemyStats = targetObj.GetComponent<PlayerStats>();
                         PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                        enemyStats.receviedDamage = (_targetId, (damage + (pStats.basicAttackPower * 0.5f)));
+                        enemyStats.receviedDamage = (_playerId, (damage + (pStats.basicAttackPower * 0.5f)));
                         if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 
                         saveSpeed = enemyStats.speed;

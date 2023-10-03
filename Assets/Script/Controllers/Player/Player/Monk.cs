@@ -12,7 +12,6 @@ public class Monk : Players
     #region Variable
     //총알 위치
     private Transform _Proj_Parent;
-    public GameObject target;
     private GameObject _netBullet;
     #endregion
 
@@ -56,7 +55,7 @@ public class Monk : Players
     protected override void UpdateAttack()
     {
         //평타 공격
-        if (BaseCard._lockTarget != null)
+        if (BaseCard._lockTarget != null && oneShot == false)
         {
             if (_pv.IsMine)
             {
@@ -69,9 +68,11 @@ public class Monk : Players
                 _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
                 PhotonView localPv = _netBullet.GetComponent<PhotonView>();
                 localPv.RPC("Init", RpcTarget.All, _pv.ViewID, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
+
+                oneShot = true;
             }
         }
 
         return;
-    }  
+    }
 }

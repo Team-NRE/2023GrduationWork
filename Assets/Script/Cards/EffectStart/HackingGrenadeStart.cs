@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class HackingGrenadeStart : BaseEffect
 {
+    int playerId;
     PlayerStats enemyStats;
     protected PhotonView _pv;
 
@@ -21,6 +22,7 @@ public class HackingGrenadeStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         _damage = 25.0f;
@@ -65,7 +67,7 @@ public class HackingGrenadeStart : BaseEffect
                 enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_pv.ViewID, _damage + (pStats.basicAttackPower * 0.5f));
+                enemyStats.receviedDamage = (playerId, _damage + (pStats.basicAttackPower * 0.5f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 
                 //HackingGrenade ī��

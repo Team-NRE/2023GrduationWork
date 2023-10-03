@@ -43,15 +43,20 @@ public class Firefighter : Players
     protected override void UpdateAttack()
     {
         //평타 공격
-        if (BaseCard._lockTarget != null)
+        if (BaseCard._lockTarget != null && oneShot == false)
         {
-            ////Range Off
-            _IsRange = false;
-            _attackRange[4].SetActive(_IsRange);
+            if (_pv.IsMine)
+            {
+                ////Range Off
+                _IsRange = false;
+                _attackRange[4].SetActive(_IsRange);
 
-            int userId = GetComponent<PhotonView>().ViewID;
-            int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
-            _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+                int userId = GetComponent<PhotonView>().ViewID;
+                int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
+                _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+
+                oneShot = true;
+            }
         }
     }
 
@@ -63,7 +68,7 @@ public class Firefighter : Players
         if (target.gameObject.tag == "PLAYER")
         {
             PlayerStats pt = target.GetComponent<PlayerStats>();
-            pt.receviedDamage = (targetId, _pStats.basicAttackPower);
+            pt.receviedDamage = (_pv.ViewID, _pStats.basicAttackPower);
             if (pt.nowHealth <= 0)
             {
                 BaseCard._lockTarget = null;

@@ -46,10 +46,14 @@ public class EnergyRelease : MonoBehaviour
             //타겟이 적 Player일 시
             if (nowTarget.tag == "PLAYER")
             {
-                PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
-                _Stats.nowHealth -= damage;
-
-                if (_Stats.nowHealth <= 0) Managers.game.killEvent(attackPV.ViewID, nowTarget.GetComponent<PhotonView>().ViewID);
+                if (!GetComponent<PhotonView>().IsMine) return;
+                nowTarget.GetComponent<PhotonView>().RPC(
+                    "photonStatSet",
+                    RpcTarget.All,
+                    attackPV,
+                    "receviedDamage",
+                    damage
+                );
             }
         }
     }

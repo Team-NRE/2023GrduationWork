@@ -79,8 +79,7 @@ public class Minion : ObjectController
     {
         _allObjectTransforms.Remove(this.transform);
         base.Death();
-
-        if (!PhotonNetwork.IsMasterClient) return;
+        Destroy(this.gameObject);
     }
     public override void Move()
     {
@@ -107,12 +106,12 @@ public class Minion : ObjectController
 
             if (gameObject.layer == LayerMask.NameToLayer("Human"))
             {
-                if (Vector3.Distance(transform.position, moveTarget) <= 0.5f || transform.position.x - moveTarget.x > 1.0f)
+                if (Vector3.Distance(transform.position, moveTarget) <= 1f || transform.position.x - moveTarget.x > 1.0f)
                     lineIdx++;
             }
             else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
             {
-                if (Vector3.Distance(transform.position, moveTarget) <= 0.5f || transform.position.x - moveTarget.x < 1.0f)
+                if (Vector3.Distance(transform.position, moveTarget) <= 1f || transform.position.x - moveTarget.x < 1.0f)
                     lineIdx--;
             }
         }
@@ -168,7 +167,6 @@ public class Minion : ObjectController
             case ObjectAction.Death:
                 nav.enabled = false;
                 GetComponent<Collider>().enabled = false;
-                transform.Find("UI").gameObject.SetActive(false);
                 break;
             case ObjectAction.Move:
                 nav.enabled = true;

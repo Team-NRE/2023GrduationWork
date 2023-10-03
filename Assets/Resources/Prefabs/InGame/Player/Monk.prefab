@@ -5273,7 +5273,6 @@ MonoBehaviour:
     m_Bits: 0
   _SaveRangeNum: 0
   _SaveRegenCool: 0
-  target: {fileID: 0}
 --- !u!114 &6844562360730144354
 MonoBehaviour:
   m_ObjectHideFlags: 0

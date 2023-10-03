@@ -76,7 +76,7 @@ public class SpearStart : BaseEffect
             {
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_pv.ViewID, damage + (pStats.basicAttackPower * 0.7f));
+                enemyStats.receviedDamage = (_playerId, damage + (pStats.basicAttackPower * 0.7f));
                 if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
                 Debug.Log(enemyStats.nowHealth);
             }

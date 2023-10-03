@@ -7,8 +7,6 @@ using UnityEngine;
 // ��ö����
 public class Card_AmuletOfSteel : UI_Card
 {
-    float effectTime = 1.1f;
-    
     public override void Init()
     {
         _cardBuyCost = 2000;
@@ -17,6 +15,7 @@ public class Card_AmuletOfSteel : UI_Card
         _rangeScale = 3.6f;
         _rangeType = Define.CardType.None;
 
+        _effectTime = 0.9f;
         _CastingTime = 0.3f;
     }
 
@@ -24,19 +23,10 @@ public class Card_AmuletOfSteel : UI_Card
     {
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
-        Collider[] cols = Physics.OverlapSphere(_player.transform.position, _rangeScale, 1 << layer);
-        foreach (Collider col in cols)
-        {
-            if (col.gameObject.tag == "PLAYER")
-            {
-                GameObject effect = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletofSteel", col.transform.position, Quaternion.Euler(-90, 0, 0));
-                effect.GetComponent<PhotonView>().RPC(
-                    "CardEffectInit",
-                    RpcTarget.All,
-                    col.GetComponent<PhotonView>().ViewID
-                );
-            }
-        }
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletofSteel2", ground, Quaternion.Euler(-90, 0, 0));
+        _effectObject.transform.parent = _player.transform;
+        _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
     }

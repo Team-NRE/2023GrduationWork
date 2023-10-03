@@ -109,6 +109,7 @@ public class Tower : ObjectController
     public override void Death()
     {
         base.Death();
+        Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
@@ -132,7 +133,6 @@ public class Tower : ObjectController
                 break;
             case ObjectAction.Death:
                 GetComponent<Collider>().enabled = false;
-                transform.Find("UI").gameObject.SetActive(false);
                 break;
             case ObjectAction.Move:
                 break;
