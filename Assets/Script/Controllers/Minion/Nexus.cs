@@ -12,7 +12,6 @@ public class Nexus : ObjectController
     [SerializeField]
     CameraController mainCamera;
     public Vector3 camPos;
-    bool isInitWhenPlayer = false;
 
     public override void init() 
     {

@@ -8,7 +8,6 @@ using UnityEngine;
 public class Card_WingsOfTheBattlefield : UI_Card
 {  
     int _layer = default;
-    float _speedTime = default;
 
     public override void Init()
     {
@@ -20,7 +19,6 @@ public class Card_WingsOfTheBattlefield : UI_Card
 
         _CastingTime = 0.3f;
         _effectTime = 1.1f;
-        _speedTime = 5.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
@@ -53,7 +51,6 @@ public class Card_WingsOfTheBattlefield : UI_Card
                 //Wing.GetComponent<WingsOfTheBattlefieldStart>().StartWings(col.gameObject.name, _speed, _speedTime);
                 Wing.GetComponent<PhotonView>().RPC("CardEffectInit",RpcTarget.All, col.gameObject.GetComponent<PhotonView>().ViewID);
 
-#warning 창조가 필요한 부분
                 // 이거를 어디로 옮겨야 하죠?
                 PlayerStats _pStat = col.gameObject.GetComponent<PlayerStats>();
                 _pStat.speed += 2.0f;

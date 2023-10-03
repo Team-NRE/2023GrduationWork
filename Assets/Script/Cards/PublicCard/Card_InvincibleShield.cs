@@ -9,8 +9,6 @@ using Photon.Pun;
 public class Card_InvincibleShield : UI_Card
 {
     int _layer = default;
-    float _invincibleTime = default;
-    float _shieldTime = default;
 
     public override void Init()
     {
@@ -23,8 +21,6 @@ public class Card_InvincibleShield : UI_Card
 
         _CastingTime = 0.3f;
         _effectTime = 1.1f;
-        _invincibleTime = 1.5f;
-        _shieldTime = 3.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)

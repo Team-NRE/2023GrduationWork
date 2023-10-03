@@ -169,7 +169,7 @@ public class delete : UI_Popup
         return false;
     }
 
-    public async void CardDelete(PointerEventData data)
+    public void CardDelete(PointerEventData data)
     {
         if (Get<ToggleGroup>((int)ToggleGroups.DeleteContent).GetFirstActiveToggle() == null) return;
         if (BaseCard._MyDeck.Count < 8) return; // 최소 카드 한도

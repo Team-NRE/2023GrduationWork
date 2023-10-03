@@ -72,7 +72,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     }
 
 
-    public void Update()
+    public virtual void Update()
     {
         if (_pv.IsMine)
         {

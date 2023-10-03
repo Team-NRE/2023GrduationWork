@@ -8,7 +8,6 @@ using Photon.Pun;
 public class Card_HackingGrenade : UI_Card
 {
     int _layer = default;
-    int _enemylayer = default;
 
     public override void Init()
     {
@@ -32,9 +31,6 @@ public class Card_HackingGrenade : UI_Card
         _effectObject.transform.position = ground;
 
         _layer = layer;
-
-        if (_layer == 6) { _enemylayer = 7; }
-        if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);
         //_effectObject.GetComponent<GrenadeStart>().StartGrenade(playerId, _damage, _enemylayer, _debuff);

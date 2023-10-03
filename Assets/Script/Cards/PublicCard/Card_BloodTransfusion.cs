@@ -6,8 +6,6 @@ using UnityEngine;
 // ����
 public class Card_BloodTransfusion : UI_Card
 {
-    int _layer = default;
-    int _enemylayer = default;
     int _targetId;
 
     public override void Init()
@@ -25,20 +23,9 @@ public class Card_BloodTransfusion : UI_Card
     // 이건 타겟을 어떻게 가져오는지 문의
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodTransfusion");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodTransfusion", BaseCard._lockTarget.transform.position, Quaternion.Euler(-90, 0, 0));
-        //_effectObject.transform.parent = BaseCard._lockTarget.transform;
-        //_effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
         _targetId = Managers.game.RemoteTargetIdFinder(BaseCard._lockTarget);
 
-        _layer = layer;
-
-        if (_layer == 6) { _enemylayer = 7; }
-        if (_layer == 7) { _enemylayer = 6; }
-
-        //_effectObject.AddComponent<BloodTransfusionStart>().StartBloodTransfusion(playerId, _damage);
-        //_effectObject.GetComponent<BloodTransfusionStart>().StartBlodoTransfusion(playerId, _damage);
-        //_effectObject.GetComponent<BloodTransfusionStart>().CardEffectInit(playerId);
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, _targetId);
         return _effectObject;
     }

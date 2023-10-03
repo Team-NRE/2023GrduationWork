@@ -6,9 +6,6 @@ using UnityEngine;
 // ���
 public class Card_Lava : UI_Card
 {
-    int _layer = default;
-    int _enemylayer = default;
-    protected PhotonView _pv;
 
     public override void Init()
     {
@@ -29,11 +26,6 @@ public class Card_Lava : UI_Card
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Lava");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Lava", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.position = ground;
-
-        _layer = layer;
-
-        if (_layer == 6) { _enemylayer = 7; }
-        if (_layer == 7) { _enemylayer = 6; }
 
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 

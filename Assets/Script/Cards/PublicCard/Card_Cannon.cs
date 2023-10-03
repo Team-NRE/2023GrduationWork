@@ -8,7 +8,6 @@ using Photon.Pun;
 public class Card_Cannon : UI_Card
 {
     int _layer = default;
-    int _enemylayer = default;
 
     public override void Init()
     {
@@ -30,9 +29,6 @@ public class Card_Cannon : UI_Card
         _effectObject.transform.position = ground;
 
         _layer = layer;
-
-        if (_layer == 6) { _enemylayer = 7; }
-        if (_layer == 7) { _enemylayer = 6; }
 
         //_effectObject.AddComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
         //_effectObject.GetComponent<CannonStart>().StartCannon(playerId, _damage, _enemylayer);
