@@ -100,6 +100,7 @@ public class store : UI_Popup
     // 스크롤 카드 선택 시
     public void CardInfoChange(Toggle toggle)
     {
+        Managers.Sound.Play($"UI_CardSelect/UI_CardSelect_{Random.Range(1,4)}", Define.Sound.Effect, 1, .5f);
         _makeAllBigCardList[toggle.name].SetActive(toggle.isOn);
         _BuyCost = toggle.GetComponentInChildren<UI_Card>()._cardBuyCost;
         if (toggle.GetComponentInChildren<UI_Card>()._cardBuyCost == 0) _BuyCost = 100;
@@ -138,18 +139,23 @@ public class store : UI_Popup
 
     public void CardBuy(PointerEventData data)
     {
-        if (Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle() == null) return;
+        if (Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle() == null) 
+        {
+            Managers.Sound.Play("UI_ButtonFail", Define.Sound.Effect, 1, .5f);
+            return;
+        }
 
         if (_pStat.gold >= _BuyCost)
         {
+             Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
             BaseCard._initDeck.Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
             BaseCard._MyDeck  .Add(Get<ToggleGroup>((int)ToggleGroups.StoreContent).GetFirstActiveToggle().name);
 
             _pStat.gold -= _BuyCost;
         }
-
         else
         {
+            Managers.Sound.Play("UI_ButtonFail", Define.Sound.Effect, 1, .5f);
             Debug.Log("카드 구입 실패");
         }
     }

@@ -66,31 +66,39 @@ public class UI_Select : UI_Scene
 	// 캐릭터 선택시 스팟이 켜지는 부분
 	public void SpotOnPolice(PointerEventData data)
 	{
+		if (Managers.game.myCharacterType == PlayerType.Police) return;
 		Managers.game.myCharacterType = PlayerType.Police;
 		Managers.game.myCharacterTeam = PlayerTeam.Human;
 		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
+		Managers.Sound.Play($"UI_CharacterSelect/UI_CharacterSelect_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 	}
 
 	public void SpotOnFirefighter(PointerEventData data)
 	{
+		if (Managers.game.myCharacterType == PlayerType.Firefighter) return;
 		Managers.game.myCharacterType = PlayerType.Firefighter;
 		Managers.game.myCharacterTeam = PlayerTeam.Human;
 		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
+		Managers.Sound.Play($"UI_CharacterSelect/UI_CharacterSelect_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 
 	}
 
 	public void SpotOnLightsabre(PointerEventData data)
 	{
+		if (Managers.game.myCharacterType == PlayerType.Lightsabre) return;
 		Managers.game.myCharacterType = PlayerType.Lightsabre;
 		Managers.game.myCharacterTeam = PlayerTeam.Cyborg;
 		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
+		Managers.Sound.Play($"UI_CharacterSelect/UI_CharacterSelect_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 	}
 
 	public void SpotOnMonk(PointerEventData data)
 	{
+		if (Managers.game.myCharacterType == PlayerType.Monk) return;
 		Managers.game.myCharacterType = PlayerType.Monk;
 		Managers.game.myCharacterTeam = PlayerTeam.Cyborg;
 		Debug.Log($"MemberName : {Managers.game.myCharacterType}");
+		Managers.Sound.Play($"UI_CharacterSelect/UI_CharacterSelect_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 	}
 
 	private void SpotOnCharacter(bool value)
@@ -111,7 +119,12 @@ public class UI_Select : UI_Scene
 
 	public void SelectButton(PointerEventData data)
 	{
-		if (Managers.game.myCharacterType == PlayerType.none) return;
+		if (Managers.game.myCharacterType == PlayerType.none) 
+		{
+			Managers.Sound.Play("UI_ButtonFail", Define.Sound.Effect, 1, .5f);
+			return;
+		}
+		Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
 
 		dummyLoadingPage.SetActive(true);
 		Debug.Log("Start Game");

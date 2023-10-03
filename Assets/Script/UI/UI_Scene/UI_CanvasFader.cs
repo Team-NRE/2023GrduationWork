@@ -18,8 +18,11 @@ public class UI_CanvasFader : MonoBehaviour
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup.alpha == 0) HideUI();
-        else ShowUI();
+        
+        if (canvasGroup.alpha == 0) MakeCanvasInvisibleTween();
+        else MakeCanvasVisibleTween();
+
+        gameObject.SetActive(currentAlpha + targetAlpha != 0);
     }
 
     private void Update()
@@ -37,12 +40,14 @@ public class UI_CanvasFader : MonoBehaviour
     {
         MakeCanvasInvisibleTween();
         gameObject.SetActive(currentAlpha + targetAlpha != 0);
+        Managers.Sound.Play($"UI_Open/UI_Open_{Random.Range(1, 10)}_15", Define.Sound.Effect, 1, currentAlpha + targetAlpha != 0 ? .5f : .25f);
     }
 
     public void ShowUI()
     {
         MakeCanvasVisibleTween();
         gameObject.SetActive(currentAlpha + targetAlpha != 0);
+        Managers.Sound.Play($"UI_Open/UI_Open_{Random.Range(1, 10)}_15", Define.Sound.Effect, 1, currentAlpha + targetAlpha != 0 ? .5f : .25f);
     }
 
     public void TurnUI()
@@ -50,6 +55,7 @@ public class UI_CanvasFader : MonoBehaviour
         if(currentAlpha < 0.01f) MakeCanvasVisibleTween();
         else MakeCanvasInvisibleTween();
         gameObject.SetActive(currentAlpha + targetAlpha != 0);
+        Managers.Sound.Play($"UI_Open/UI_Open_{Random.Range(1, 10)}_15", Define.Sound.Effect, 1, currentAlpha + targetAlpha != 0 ? .5f : .25f);
     }
 
     private void MakeCanvasVisibleTween()

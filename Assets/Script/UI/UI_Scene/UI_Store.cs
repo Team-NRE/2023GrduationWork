@@ -31,6 +31,8 @@ public class UI_Store : UI_Popup
         store      .SetActive(true);
         // strengthen .SetActive(false);
         delete     .SetActive(false);
+
+        Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
     }
 
     public void strengthenActive()
@@ -39,6 +41,8 @@ public class UI_Store : UI_Popup
         store      .SetActive(false);
         // strengthen .SetActive(true);
         delete     .SetActive(false);
+
+        Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
     }
 
     public void deleteActive()
@@ -47,5 +51,7 @@ public class UI_Store : UI_Popup
         store      .SetActive(false);
         // strengthen .SetActive(false);
         delete     .SetActive(true);
+
+        Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
     }
 }

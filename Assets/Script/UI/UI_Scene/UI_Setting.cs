@@ -99,6 +99,7 @@ public class UI_Setting : UI_Scene
 
         Get<Image>((int)Slash.EffectSlash).gameObject
             .SetActive(Managers.Sound.EffectVolume == minVolume);
+        Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
     }
 
     void MuteBgmSound(PointerEventData data)
@@ -110,5 +111,6 @@ public class UI_Setting : UI_Scene
 
         Get<Image>((int)Slash.BgmSlash).gameObject
             .SetActive(Managers.Sound.BgmVolume == minVolume);
+        Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
     }
 }

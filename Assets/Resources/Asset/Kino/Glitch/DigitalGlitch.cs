@@ -26,7 +26,6 @@ namespace Kino
 {
     
     [RequireComponent(typeof(Camera))]
-    [AddComponentMenu("Kino Image Effects/Digital Glitch")]
     public class DigitalGlitch : MonoBehaviour
     {
         #region Public Properties

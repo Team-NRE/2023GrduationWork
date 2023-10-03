@@ -93,6 +93,7 @@ public class UI_Deck : UI_Popup
     // 스크롤 카드 선택 시
     public void CardInfoChange(Toggle toggle)
     {
+        Managers.Sound.Play($"UI_CardSelect/UI_CardSelect_{Random.Range(1,4)}", Define.Sound.Effect, 1, .5f);
         _makeAllBigCardList[toggle.name][0].SetActive(toggle.isOn);
         if (toggle.isOn) Cardinfo(toggle.name);
         else Get<TextMeshProUGUI>((int)Texts.Card_Text).text = "";

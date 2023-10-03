@@ -38,8 +38,6 @@ public class UI_LoadingPage : UI_Scene
 
 	public override void Init()
 	{
-        Managers.Sound.Play("Matching", Sound.Bgm);
-
 		Bind<Image>(typeof(Images));
         Bind<Button>(typeof(Buttons));
         progressBar = Get<Image>((int)Images.Fill);
@@ -195,7 +193,7 @@ public class UI_LoadingPage : UI_Scene
         if (progressBar.fillAmount == 1.0f)
         {
             Managers.game.isGameStart = true;
-            Managers.Sound.Play("Ingame", Sound.Bgm);
+            Managers.Sound.Play("Ingame", Sound.Bgm, 1, .15f);
         }
     }
 
