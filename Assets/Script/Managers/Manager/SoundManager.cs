@@ -67,12 +67,13 @@ public class SoundManager
         _audioClips.Clear();    //��ųʸ� ����
     }
 
-    public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+    public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f, float volume = 1.0f)
     {
         Play(
             GetOrAddAudioClip(path, type),
             type,
-            pitch
+            pitch,
+            volume
         );
     }
 
