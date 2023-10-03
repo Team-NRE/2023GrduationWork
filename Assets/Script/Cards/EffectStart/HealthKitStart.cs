@@ -8,14 +8,13 @@ public class HealthKitStart : BaseEffect
 {
     protected PhotonView _pv;
 
-    PlayerStats pStats;
     float healthRegen = default;
     int teamLayer = default;
     int _playerId;
 
     void Start()
     {
-        _pv = GetComponent<PhotonView>();
+        //_pv = GetComponent<PhotonView>();
     }
 
     [PunRPC]
@@ -24,7 +23,6 @@ public class HealthKitStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         healthRegen = 0.5f;
-        pStats = player.GetComponent<PlayerStats>();
         teamLayer = player.GetComponent<PlayerStats>().playerArea;
         _playerId = userId;
 
@@ -34,7 +32,7 @@ public class HealthKitStart : BaseEffect
     private void Update()
     {
         //pStats.nowHealth += healthRegen;
-        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
+        //_pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
     }
 
     public void OnTriggerStay(Collider other)
@@ -42,13 +40,15 @@ public class HealthKitStart : BaseEffect
         int otherId = Managers.game.RemoteColliderId(other);
         if (otherId == default)
             return;
-        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+        _pv.RPC("RpcTrigger", RpcTarget.All, _playerId, otherId);
     }
 
     [PunRPC]
-    public void RpcTrigger(int otherId)
+    public void RpcTrigger(int playerId, int otherId)
 	{
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        GameObject playerObject = Managers.game.RemoteTargetFinder(playerId);
+
         if (other == null)
             return;
 

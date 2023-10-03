@@ -6,46 +6,45 @@ using UnityEngine;
 
 public class WingsOfTheBattlefieldStart : BaseEffect
 {
-    PlayerStats _pStats;
     protected PhotonView _pv;
-
+    PlayerStats _stats;
     float speed = default;
-    float speed_Time = 0.01f;
     float effectTime = default;
     int _playerId;
 
     bool start = false;
 
-    public override void CardEffectInit(int userId)
+    [PunRPC]
+    public override IEnumerator CardEffectInit(int userId, float time)
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-        _pStats = player.GetComponent<PlayerStats>();
+        _stats = Managers.game.RemoteTargetFinder(userId).GetComponent<PlayerStats>();
         _playerId = userId;
         speed = 2.0f;
         effectTime = 1.1f;
+
+        _stats.speed += speed;
+        yield return new WaitForSeconds(effectTime);
+        _stats.speed -= speed;
     }
 
 
     public void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
+
     }
 
-    [PunRPC]
-    public void RpcUpdate(int playerId)
-	{
-        if (start == true)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "PLAYER" && other.gameObject.layer == _stats.playerArea)
         {
-            speed_Time += Time.deltaTime;
+            Debug.Log(other.gameObject.name);
 
-            if (speed_Time >= effectTime - 0.01f)
-            {
-                _pStats.speed -= speed;
-                start = false;
+            GameObject Wing = PhotonNetwork.Instantiate($"Particle/Effect_WingsoftheBattlefield", other.transform.position, Quaternion.Euler(-90, 0, 0));
+            //Wing.transform.localPosition = new Vector3(0, 1.0f, 0);
+            Wing.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, other.gameObject.GetComponent<PhotonView>().ViewID);
 
-                PhotonNetwork.Destroy(gameObject);
-            }
         }
     }
 }
