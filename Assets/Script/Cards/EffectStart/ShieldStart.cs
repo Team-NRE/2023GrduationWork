@@ -25,7 +25,7 @@ public class ShieldStart : BaseEffect
         pStat = player.GetComponent<PlayerStats>();
         _playerPV = player.GetComponent<PhotonView>();
 
-        effectTime = 4.0f;
+        effectTime = 3.0f;
         shieldValue = pStat.maxHealth * shieldRatioPerHealth;
 
         _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", shieldValue);

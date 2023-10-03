@@ -42,12 +42,5 @@ public class AmuletOfSteel2Start : BaseEffect
             GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_AmuletofSteel", other.transform);
             ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
         }
-
-        //ShieldEffect.GetComponent<PhotonView>().RPC(
-        //"CardEffectInit",
-        //RpcTarget.All,
-        //other.gameObject.GetComponent<PhotonView>().ViewID
-        //);
-
     }
 }
