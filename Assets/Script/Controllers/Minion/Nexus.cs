@@ -26,7 +26,6 @@ public class Nexus : ObjectController
     {
         base.Death();
         gameFinish();
-        Destroy(this.gameObject);
     }
 
     protected override void UpdateObjectAction()
