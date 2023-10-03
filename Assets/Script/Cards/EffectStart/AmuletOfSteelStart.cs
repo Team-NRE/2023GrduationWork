@@ -5,27 +5,38 @@ using Stat;
 
 public class AmuletOfSteelStart : BaseEffect
 {
-    PlayerStats _pStats;
+    float effectTime;
+    float startEffect = 0.01f;
+
+    protected PhotonView _pv;
+    protected PhotonView _playerPV;
+
+    PlayerStats pStat;
 
     float shieldValue = default;
-    float shieldRatioPerHealth = 0.5f;
-    float shieldTime = 5.0f;
+    float shieldRatioPerHealth = 0.4f;
 
-    [PunRPC]
-    public override void CardEffectInit(int userId)
+
+    void Start()
     {
-        base.CardEffectInit(userId);
-        _pStats = player.GetComponent<PlayerStats>();
-        transform.parent = _pStats.transform;
-        shieldValue = _pStats.maxHealth * shieldRatioPerHealth;
+        player = transform.parent.gameObject; 
+        pStat = player.GetComponent<PlayerStats>();
+        _playerPV = player.GetComponent<PhotonView>();
 
-        _pStats.StartCoroutine(DelayBuff());
+        effectTime = 5.0f;
+        shieldValue = pStat.maxHealth * shieldRatioPerHealth;
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", shieldValue);
     }
 
-    IEnumerator DelayBuff()
+    private void Update()
     {
-        _pStats.shield += shieldValue;
-        yield return new WaitForSeconds(shieldTime);
-        _pStats.shield -= shieldValue;
+        startEffect += Time.deltaTime;
+
+        if (startEffect > effectTime - 0.01f)
+        {
+            _playerPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -shieldValue);
+
+            Destroy(gameObject);
+        }
     }
 }

@@ -9669,6 +9669,7 @@ GameObject:
   - component: {fileID: 4911686836598865021}
   - component: {fileID: 8860771708251628951}
   - component: {fileID: 6709003050052370881}
+  - component: {fileID: 9078215388800210469}
   m_Layer: 2
   m_Name: Effect_InvincibleShield
   m_TagString: Untagged
@@ -9909,7 +9910,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 7.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -14595,7 +14596,7 @@ AudioSource:
   m_GameObject: {fileID: 5110353653821651975}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7134176806285260153, guid: 16b09c9ab97b48c4db25f06f5c526e0a, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1f7bdf2a80fb8194f8520a3525f321bd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -14704,3 +14705,16 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!135 &9078215388800210469
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110353653821651975}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.6
+  m_Center: {x: 0, y: 0, z: 0}

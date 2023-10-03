@@ -31,8 +31,9 @@ public class Players : BaseController
     /// 평타 좌클릭 타겟 지정시
     /// </summary>
     protected GameObject LeftMouseButtontarget;
-
     protected string enemyName;
+    //한발만 쏘기 체크
+    protected bool oneShot = false;
 
     public override void Init()
     {
@@ -238,16 +239,30 @@ public class Players : BaseController
                                 if (RangeAttack() == null) return;
                                 if (RangeAttack() != null)
                                 {
-                                    //좌클릭이 타워, 미니언일때 _lockTarget 변경 
+                                    //좌클릭이 적 타워, 미니언일때 _lockTarget 변경 
                                     if(_mousePos.Item2.tag == "OBJECT")
                                     {
+                                        //같은편 플레이어 공격 시 return
+                                        if (_mousePos.Item2.layer == _pStats.playerArea) return;
                                         LeftMouseButtontarget = _mousePos.Item2;
                                     }
 
                                     //좌클릭이 땅, Player라면 RangeAttack
                                     if(_mousePos.Item2.tag != "OBJECT")
                                     {
-                                        LeftMouseButtontarget = RangeAttack();
+                                        //같은편 플레이어 공격 시 return
+                                        if (_mousePos.Item2.layer == _pStats.playerArea) return;
+                                        //적 플레이어를 공격햇다면
+                                        if (_mousePos.Item2.tag == "PLAYER")
+                                        {
+                                            LeftMouseButtontarget = _mousePos.Item2;
+                                        }
+                                        //땅을 클릭햇다면
+                                        if (_mousePos.Item2.tag != "PLAYER")
+                                        {
+                                            LeftMouseButtontarget = RangeAttack();
+                                        }
+
                                     }
 
                                     int targetId = GetRemotePlayerId(LeftMouseButtontarget);
@@ -755,7 +770,7 @@ public class Players : BaseController
 
 
     //평타 후 딜레이
-    protected override IEnumerator StopAttack()
+    protected override void StopAttack()
     {
         //// 평타 딜레이 중
         _stopAttack = true;
@@ -767,21 +782,11 @@ public class Players : BaseController
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+    }
 
-        ////attack animation에서 특정 동작에서  데미지 작용
-        yield return new WaitForSeconds((float)PercentageCount(_pStats.attackAnimPercent, _pStats.attackDelay, 2));
-        UpdateAttack();
-
-        //움직임 초기화
-        _agent.ResetPath();
-
-        //평타 중 Key Input 안받기 
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-
-        ////attackDelay가 다 지나간 후
-        yield return new WaitForSeconds((float)PercentageCount((100 - _pStats.attackAnimPercent), _pStats.attackDelay, 2));
+    //Attack 초기화
+    protected override void StartAttack()
+    {
         //Input 재설정
         //Attack
         Managers.Input.MouseAction -= MouseDownAction;
@@ -793,7 +798,6 @@ public class Players : BaseController
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
         Managers.Input.UIKeyboardAction += UIKeyDownAction;
 
-        _stopAttack = false;
 
         //애니메이션 Idle로 변환
         _state = Define.State.Idle;
@@ -801,12 +805,16 @@ public class Players : BaseController
         //움직임 초기화
         _agent.ResetPath();
 
+        //한발만 쏘기 초기화 / Attack 초기화
+        oneShot = false;
+        _stopAttack = false;
+
         //적이 죽었을 때
         if (BaseCard._lockTarget == null)
         {
             _proj = Define.Projectile.Undefine;
         }
-        
+
         //적이 안죽었다면
         if (BaseCard._lockTarget != null)
         {
@@ -815,11 +823,6 @@ public class Players : BaseController
             _IsRange = true;
             _attackRange[4].SetActive(_IsRange);
         }
-
-
-        //마우스 좌표, 타겟 초기화, StopAttack() update문 stop
-        //_MovingPos = default;
-        //BaseCard._lockTarget = null;
     }
 
 
@@ -909,7 +912,7 @@ public class Players : BaseController
         _MovingPos = default;
         _stopAttack = false;
         _stopSkill = false;
-
+        oneShot = false;
         _attackRange[_SaveRangeNum].SetActive(false);
         _startDie = true;
     }
