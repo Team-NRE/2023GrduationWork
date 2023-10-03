@@ -7,18 +7,13 @@ using UnityEngine;
 
 public class CrisisAversionStart : BaseEffect
 {
-    PlayerStats pStats;
-    
-    GameObject effectOn;
-    protected PhotonView _pv;
+    PhotonView _pv;
+    PhotonView _playerPV;
 
+    float effectTime;
+    float startEffect = 0.01f;
 
-    float nowEffectTime = 0.01f;
-
-    int effectTime = 7;
-    int enemyLayer; 
-
-    bool IsEffect = false;
+    bool invincibleTime;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
@@ -26,40 +21,57 @@ public class CrisisAversionStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
 
-        enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
-        pStats = player.GetComponent<PlayerStats>();
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0.3f, 0);
+        _playerPV = player.GetComponent<PhotonView>();
+
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 0.3f, 0);
+
+        effectTime = 1.5f;
+        
+        invincibleTime = true;
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", 9999f);
     }
 
-
-    public void Update()
+    private void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
-    }
+        startEffect += Time.deltaTime;
 
-    [PunRPC]
-    public void RpcUpdate()
-	{
-        // ���� �ǰ� 1�� �Ǿ��ٸ�....
-        // �� ����ü�� �°� �ǰ� 1���Ϸ� �������� �ȴٸ� �ߵ�....
-        // ���� �������� �̿ϼ� 
-        if (pStats.nowHealth <= 0)
+        if (startEffect > effectTime - 0.01f)
         {
-            IsEffect = true;
-            effectOn.SetActive(IsEffect);
-        }
-
-        if (IsEffect == true)
-        {
-            //�� 1�� ����
-            pStats.nowHealth = 1;
-
-            nowEffectTime += Time.deltaTime;
-
-            if (nowEffectTime >= effectTime)
+            switch (invincibleTime)
             {
-                PhotonNetwork.Destroy(gameObject);
+                case true:
+                    //무적 끝
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", -9999f);
+
+                    //체력 회복량 상승 (1초당 hp+75)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "healthRegeneration", 75f);
+                    //이동속도 상승 (+1.5)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", 1.5f);
+                    //공속 상승 (+0.2)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "attackSpeed", 0.2f);
+                    //공격력 상승 (+30)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", 30f);
+
+                    invincibleTime = false;
+                    startEffect = 0.01f;
+                    effectTime = 5.5f;
+
+                    return;
+
+                case false:
+                    //체력 회복량 상승 (1초당 hp+75)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "healthRegeneration", -75f);
+                    //이동속도 상승 (+1.5)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -1.5f);
+                    //공속 상승 (+0.2)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "attackSpeed", -0.2f);
+                    //공격력 상승 (+30)
+                    _playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", -30f);
+
+                    Destroy(gameObject);
+
+                    return;
             }
         }
     }

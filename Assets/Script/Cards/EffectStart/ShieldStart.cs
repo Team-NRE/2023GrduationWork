@@ -25,6 +25,9 @@ public class ShieldStart : BaseEffect
         pStat = player.GetComponent<PlayerStats>();
         _playerPV = player.GetComponent<PhotonView>();
 
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 1.12f, 0);
+
         effectTime = 3.0f;
         shieldValue = pStat.maxHealth * shieldRatioPerHealth;
 

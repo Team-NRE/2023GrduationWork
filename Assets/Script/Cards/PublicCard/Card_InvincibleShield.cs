@@ -28,8 +28,6 @@ public class Card_InvincibleShield : UI_Card
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleShield2", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = _player.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 1.12f, 0);
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;

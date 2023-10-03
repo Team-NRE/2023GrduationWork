@@ -64,8 +64,8 @@
       "cards": [
         "JobCard_DeadlySpeed",
 
-        "Card_Enhancement",
-        "Card_IcePrison",
+        "Card_Resurrection",
+        "Card_CrisisAversion",
         "Card_Shield",
         "Card_InvincibleShield",
         "Card_AmuletOfSteel"

@@ -19,6 +19,9 @@ public class AmuletOfSteel2Start : BaseEffect
 
         teamLayer = player.GetComponent<PlayerStats>().playerArea;
 
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 1.12f, 0);
+
         GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_AmuletofSteel", player.transform);
         ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
     }

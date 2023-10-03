@@ -19,9 +19,4 @@ public class ResurrectionStart : BaseEffect
 
         player.GetComponent<PlayerStats>().isResurrection = true;
     }
-
-    void Update()
-    {
-        
-    }
 }
