@@ -64,7 +64,7 @@ public class UI_LoadingPage : UI_Scene
         if (PhotonNetwork.CurrentRoom != null)
             PhotonNetwork.LeaveRoom();
 
-        if (SceneManager.GetActiveScene().name == "View Test Scene")
+        if (SceneManager.GetActiveScene().name == "View Test Scene" && PhotonNetwork.CurrentRoom == null)
             SceneManager.LoadScene("Lobby");
     }
 
