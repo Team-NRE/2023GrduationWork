@@ -34,6 +34,8 @@ public class InfectionStart : BaseEffect
     public void RpcTrigger(int otherId)
 	{
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        if (other == null)
+            return;
         if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);
