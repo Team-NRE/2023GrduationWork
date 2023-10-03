@@ -49,6 +49,9 @@ public class HealthKitStart : BaseEffect
     public void RpcTrigger(int otherId)
 	{
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        if (other == null)
+            return;
+
         if (other.gameObject.layer == teamLayer)
         {
             switch (other.gameObject.tag)
