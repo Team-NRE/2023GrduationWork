@@ -7745,6 +7745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea0759a6f95078c4f8a44ba612e33bb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarOverShield: {fileID: 0}
   healthBarShield: {fileID: 0}
   healthBarHeal: {fileID: 0}
   healthBarHit: {fileID: 0}
