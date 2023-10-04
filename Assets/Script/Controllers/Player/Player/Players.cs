@@ -819,9 +819,11 @@ public class Players : BaseController
         if (BaseCard._lockTarget != null)
         {
             _proj = Define.Projectile.Attack_Proj;
-
-            _IsRange = true;
-            _attackRange[4].SetActive(_IsRange);
+            if (_pv.IsMine)
+            {
+                _IsRange = true;
+                _attackRange[4].SetActive(_IsRange);
+            }
         }
     }
 

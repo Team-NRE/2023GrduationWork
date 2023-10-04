@@ -155,6 +155,7 @@ public class UI_CardPanel : UI_Card
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (bc._IsRange == false) return;
             if (BaseCard._lockTarget != null)
             {
                 targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);

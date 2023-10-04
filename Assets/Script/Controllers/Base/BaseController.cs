@@ -33,7 +33,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     //스킬 발동 여부
     public bool _stopSkill = false;
     //사거리 유무
-    protected bool _IsRange = false;
+    public bool _IsRange = false;
     
     /// <summary>
     /// 즉음 유무
