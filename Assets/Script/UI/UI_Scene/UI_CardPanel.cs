@@ -277,7 +277,7 @@ public class UI_CardPanel : UI_Card
     {
         if(bc._stopSkill == true)
         {
-            if(CountSet != 3)
+            if(CountSet != 2)
             {
                 Managers.Input.UIKeyboardAction -= UIKeyDownAction;
             }
@@ -310,7 +310,7 @@ public class UI_CardPanel : UI_Card
 
         if(bc._stopSkill == false)
         {
-            CountSet = 3;
+            CountSet = 2;
             if(bc._stopAttack == false)
             {
                 Managers.Input.UIKeyboardAction -= UIKeyDownAction;
