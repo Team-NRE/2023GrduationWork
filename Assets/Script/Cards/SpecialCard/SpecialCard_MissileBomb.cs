@@ -3,8 +3,6 @@ using Photon.Pun;
 
 public class SpecialCard_MissileBomb : UI_Card
 {
-    int _layer = default;
-
     public override void Init()
     {
         _cost = 3;
@@ -21,9 +19,6 @@ public class SpecialCard_MissileBomb : UI_Card
     {
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectSpecial_MissileBomb", ground, Quaternion.identity);
         _effectObject.transform.position = ground;
-
-        _layer = layer;
-
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         
         return _effectObject;

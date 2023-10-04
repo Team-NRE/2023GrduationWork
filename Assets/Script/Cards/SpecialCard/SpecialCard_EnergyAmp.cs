@@ -20,9 +20,6 @@ public class SpecialCard_EnergyAmp : UI_Card
     {
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectSpecial_EnergyAmp", ground, Quaternion.identity);
         _effectObject.transform.position = ground;
-
-        _layer = layer;
-
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         
         return _effectObject;
