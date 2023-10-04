@@ -27,6 +27,7 @@ public class SpearStart : BaseEffect
 
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
+        this.gameObject.transform.parent = null;
     }
 
     public void Update()
