@@ -251,27 +251,14 @@ public abstract class ObjectController : MonoBehaviour
         if (playerPv.gameObject.layer != gameObject.layer && 
             Vector3.Distance(playerPv.transform.position, transform.position) <= _oStats.recognitionRange)
         {
-            pv.RPC(
+            PhotonView.Get(GameObject.Find("GameScene")).RPC(
                 "addGnE",
                 RpcTarget.All,
-                playerPv.ViewID
+                playerPv.ViewID,
+                transform.position,
+                _oStats.gold,
+                _oStats.experience
             );
         }
-    }
-
-    [PunRPC]
-    public void addGnE(int targetId)
-    {
-        PlayerStats stat = Managers.game.RemoteTargetFinder(targetId).GetComponent<PlayerStats>();
-        stat.gold += _oStats.gold;
-        stat.experience += _oStats.experience;
-            
-        if (stat.gameObject.GetPhotonView().IsMine) summonCoinDrop();
-    }
-
-    public void summonCoinDrop()
-    {
-        GameObject coinDrop = Instantiate(particleCoinDrop, transform.position, transform.rotation);
-        coinDrop.GetComponent<Particle_CoinDrop>().setInit(_oStats.gold.ToString());
     }
 }

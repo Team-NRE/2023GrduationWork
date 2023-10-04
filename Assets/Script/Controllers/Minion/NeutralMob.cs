@@ -81,7 +81,6 @@ public class NeutralMob : ObjectController
     public override void Death()
     {
         base.Death();
-        Debug.Log("asdf");
 
         float minDistance = float.MaxValue;
         Layer team = Layer.Human;
