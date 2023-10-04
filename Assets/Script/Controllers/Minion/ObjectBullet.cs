@@ -16,6 +16,9 @@ public class ObjectBullet : MonoBehaviourPun
     float _bulletSpeed;
     float _damage;
 
+    PlayerStats _pStat;
+    ObjStats _oStat;
+
     public void Update()
     {
         FollowTarget();
@@ -30,6 +33,13 @@ public class ObjectBullet : MonoBehaviourPun
         _Target = getTargetV2(_target);   // **타겟 위치값 받기**
         _bulletSpeed = bulletSpeed * 2f; // 공속 대비 2배 속도
         _damage = damage;
+
+        if (_Target.tag == "PLAYER")
+            _pStat = _Target.GetComponent<PlayerStats>();
+        else if (_Target.tag == "OBJECT")
+            _oStat = _Target.GetComponent<ObjStats>();
+        else
+            Destroy(gameObject);
 
         if (!PhotonNetwork.IsMasterClient) 
         {
@@ -46,10 +56,11 @@ public class ObjectBullet : MonoBehaviourPun
 
     public void FollowTarget()
     {
-        if (_Target == null)
-            Destroy(this.gameObject);
-        else
-            _TargetPos = _Target.position;
+        if (_Target == null)                                    Destroy(this.gameObject);
+        if (_Target.tag == "PLAYER" && _pStat.nowHealth <= 0)   Destroy(this.gameObject);
+        if (_Target.tag == "OBJECT" && _oStat.nowHealth <= 0)   Destroy(this.gameObject);
+    
+        _TargetPos = _Target.position;
 
         transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
         transform.LookAt(_TargetPos);
@@ -78,9 +89,6 @@ public class ObjectBullet : MonoBehaviourPun
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.receviedDamage = (_Shooter.ViewID, _damage);
-
-                //if (_Stats.nowHealth <= 0)
-                //    Managers.game.killEvent(_Shooter.ViewID, _Target.GetComponent<PhotonView>().ViewID);
             }
             
             Destroy(this.gameObject, 0.5f);
