@@ -24,7 +24,6 @@ public class Nexus : ObjectController
 
     public override void Death()
     {
-        base.Death();
         gameFinish();
     }
 

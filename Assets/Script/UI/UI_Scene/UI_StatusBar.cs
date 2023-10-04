@@ -208,6 +208,12 @@ public class UI_StatusBar : MonoBehaviour
         if (hpBarImage == null) return;
         hpBarImage.fillAmount = myStat.nowHealth / myStat.maxHealth;
 
+        if (hpBarImage.fillAmount == 0)
+        {
+            hpBarYellowImage.fillAmount = hpBarImage.fillAmount;
+            return;
+        }
+
         if (myStat.nowHealth < lastHealth)
         {
             if (lastDealTime > 0)
