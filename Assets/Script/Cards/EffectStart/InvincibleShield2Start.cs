@@ -9,7 +9,7 @@ public class InvincibleShield2Start : BaseEffect
     protected PhotonView _pv;
 
     int teamLayer = default;
-
+    int _otherId;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
@@ -29,9 +29,10 @@ public class InvincibleShield2Start : BaseEffect
     public void OnTriggerEnter(Collider other)
     {
         int otherId = Managers.game.RemoteColliderId(other);
-        if (otherId == default)
+        _otherId = otherId;
+        if (_otherId == default)
             return;
-        _pv.GetComponent<PhotonView>().RPC("RpcTrigger", RpcTarget.All, otherId);
+        _pv.GetComponent<PhotonView>().RPC("RpcTrigger", RpcTarget.All, _otherId);
     }
 
     [PunRPC]

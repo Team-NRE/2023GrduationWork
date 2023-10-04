@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class InfectionStart : BaseEffect
 {
-    int playerId;
+    int _playerId;
     float damage = default;
     int enemylayer = default;
     protected PhotonView _pv;
@@ -14,9 +14,9 @@ public class InfectionStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
+        _playerId = userId;
         PlayerStats stat = player.GetComponent<PlayerStats>();
         damage = 0.1f;
         enemylayer = stat.enemyArea;
@@ -27,15 +27,18 @@ public class InfectionStart : BaseEffect
         int otherId = Managers.game.RemoteColliderId(other);
         if (otherId == default)
             return; 
-        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);   
+        _pv.RPC("RpcTrigger", RpcTarget.All, _playerId, otherId);   
     }
 
     [PunRPC]
-    public void RpcTrigger(int otherId)
+    public void RpcTrigger(int playerId, int otherId)
 	{
-        GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        if (other == null)
+        if (otherId == default)
             return;
+
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        GameObject player = Managers.game.RemoteTargetFinder(playerId);
+
         if (other.gameObject.layer == enemylayer)
         {
             Debug.Log(other.gameObject.name);

@@ -27,13 +27,6 @@ public class Card_IcePrison : UI_Card
 
         //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_IcePrison");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_IcePrison", ground, Quaternion.Euler(-90, 0, 0));
-        //_effectObject.transform.parent = _player.transform;
-        _effectObject.transform.SetParent(_player.transform);
-
-        _effectObject.transform.localPosition = new Vector3(0, 0.3f, 0);
-
-        //_effectObject.AddComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
-        //_effectObject.GetComponent<IcePrisonStart>().StartIcePrison(playerId, _effectTime);
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, 3.0f);
 
         return _effectObject;

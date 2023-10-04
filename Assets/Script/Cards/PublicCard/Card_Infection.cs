@@ -32,7 +32,7 @@ public class Card_Infection : UI_Card
 
         //_effectObject.AddComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
         //_effectObject.GetComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
-        _effectObject.GetComponent<InfectionStart>().CardEffectInit(playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit",RpcTarget.All, playerId);
 
         return _effectObject;
     }
