@@ -830,6 +830,27 @@ public class Players : BaseController
     }
 
 
+    //Skill 초기화
+    protected override void StartSkill()
+    {
+        _IsRange = false;
+        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+
+        //애니메이션 Idle로 변환
+        _state = Define.State.Idle;
+
+        //마우스 좌표, 타겟 초기화
+        _MovingPos = default;
+        BaseCard._lockTarget = null;
+
+        //Attack 재설정
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+    }
+
+
     //스킬 사용 후 딜레이
     protected override IEnumerator StopSkill()
     {
@@ -846,26 +867,7 @@ public class Players : BaseController
 
         UpdateSkill();
 
-        ////attackDelay가 다 지나간 후
-        yield return new WaitForSeconds(0.5f);
-        _IsRange = false;
-        _attackRange[_SaveRangeNum].SetActive(_IsRange);
-
-        //애니메이션 Idle로 변환
-        _state = Define.State.Idle;
-
-        //마우스 좌표, 타겟 초기화
-        _MovingPos = default;
-        BaseCard._lockTarget = null;
-
-        //Attack 재설정
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
-
-
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2.0f);
         _stopSkill = false;
 
         //card 재설정

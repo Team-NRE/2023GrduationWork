@@ -171,7 +171,6 @@ public class GameScene : BaseScene
     [PunRPC]
     public void addGnE(int targetId, Vector3 pos, float gold, float experience)
     {
-        Debug.Log(targetId + "\t" + gold + "\t" + experience);
         PlayerStats stat = Managers.game.RemoteTargetFinder(targetId).GetComponent<PlayerStats>();
         stat.gold += gold;
         stat.experience += experience;
