@@ -6704,6 +6704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stopAttack: 0
   _stopSkill: 0
+  _IsRange: 0
   _startDie: 0
   _attackRange: []
   ignore:

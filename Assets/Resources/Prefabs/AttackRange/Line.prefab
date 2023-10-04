@@ -50,7 +50,7 @@ Projector:
   m_Material: {fileID: 2100000, guid: f96f98a7d8c014143a1563c44fca2484, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 7671
 --- !u!1 &9198782966460212911
 GameObject:
   m_ObjectHideFlags: 0
