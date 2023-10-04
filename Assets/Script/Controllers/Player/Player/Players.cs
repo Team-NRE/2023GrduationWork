@@ -639,6 +639,8 @@ public class Players : BaseController
 
                     //즉시 사용
                     case Define.CardType.None:
+                        _SaveRangeNum = (int)Define.CardType.None;
+
                         //현재 누른 키 정보를 static으로 저장
                         BaseCard._NowKey = Keyname;
 
@@ -846,6 +848,9 @@ public class Players : BaseController
 
         ////attackDelay가 다 지나간 후
         yield return new WaitForSeconds(0.5f);
+        _IsRange = false;
+        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+
         //애니메이션 Idle로 변환
         _state = Define.State.Idle;
 
@@ -871,13 +876,6 @@ public class Players : BaseController
     //Skill
     protected override void UpdateSkill()
     {
-        //Range Off
-        _IsRange = false;
-        if (_SaveRangeNum != (int)Define.CardType.None)
-        {
-            _attackRange[_SaveRangeNum].SetActive(_IsRange);
-        }
-
         //이펙트 발동
         if (_MovingPos != default)
         {
