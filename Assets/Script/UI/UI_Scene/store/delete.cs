@@ -199,9 +199,9 @@ public class delete : UI_Popup
         }
         else
         {
-            if (cardPanel.Q_UI.name == cardName)      cardPanel.Refill_Q(cardName);
-            else if (cardPanel.W_UI.name == cardName) cardPanel.Refill_W(cardName);
-            else if (cardPanel.E_UI.name == cardName) cardPanel.Refill_E(cardName);
+            if (cardPanel.Q_UI.name == cardName)      cardPanel.Refill_Q();
+            else if (cardPanel.W_UI.name == cardName) cardPanel.Refill_W();
+            else if (cardPanel.E_UI.name == cardName) cardPanel.Refill_E();
         }
         BaseCard._MyDeck.Remove(cardName);
         

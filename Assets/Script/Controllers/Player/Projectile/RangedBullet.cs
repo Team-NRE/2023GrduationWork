@@ -16,7 +16,6 @@ public class RangedBullet : MonoBehaviour
     float _bulletSpeed;
     [SerializeField]
     float _damage;
-
     PhotonView _pv;
 
     public void Update()
@@ -64,29 +63,7 @@ public class RangedBullet : MonoBehaviour
 
         if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
-            PhotonView _playerPV = _player.GetComponent<PhotonView>();
-            PhotonView _targetPV = _target.GetComponent<PhotonView>();
-            //타겟이 미니언, 타워일 시 
-            if (_target.tag != "PLAYER")
-            {
-                _targetPV.RPC("photonStatSet", RpcTarget.All, "nowHealth", -_damage);
-
-                if (_target.GetComponent<ObjStats>().nowHealth <= 0)
-                {
-                    BaseCard._lockTarget = null;
-                }
-            }
-
-            //타겟이 적 Player일 시
-            if (_target.tag == "PLAYER")
-            {
-                _targetPV.RPC("photonStatSet", RpcTarget.All, _player.GetComponent<PhotonView>().ViewID, "receviedDamage", _damage);
-
-                if(_target.GetComponent<PlayerStats>().nowHealth <= 0)
-                {
-                    BaseCard._lockTarget = null;
-                }
-            }
+            _pv.RPC("ApplyDamage", RpcTarget.All, _player.GetComponent<PhotonView>().ViewID, _target.GetComponent<PhotonView>().ViewID);
 
             Destroy(this.gameObject, 0.5f);
             this.enabled = false;
@@ -105,10 +82,30 @@ public class RangedBullet : MonoBehaviour
         return target;
     }
 
-    protected Vector3 GetRemoteVector(int remoteId)
+    [PunRPC]
+    protected void ApplyDamage(int myView, int targetId)
     {
-        Vector3 targetVector = GetRemotePlayer(remoteId).transform.position;
-        return targetVector;
+        GameObject target = Managers.game.RemoteTargetFinder(targetId);
+        PlayerStats pStats = Managers.game.RemoteTargetFinder(myView).GetComponent<PlayerStats>();
+
+        if (target.gameObject.tag == "PLAYER")
+        {
+            PlayerStats pt = target.GetComponent<PlayerStats>();
+            pt.receviedDamage = (_player.GetComponent<PhotonView>().ViewID, pStats.basicAttackPower);
+            if (pt.nowHealth <= 0)
+            {
+                BaseCard._lockTarget = null;
+            }
+        }
+        else
+        {
+            ObjStats pt = target.GetComponent<ObjStats>();  
+            pt.nowHealth -= pStats.basicAttackPower;
+            if (pt.nowHealth <= 0)
+            {
+                BaseCard._lockTarget = null;
+            }
+        }
     }
 
     [PunRPC]

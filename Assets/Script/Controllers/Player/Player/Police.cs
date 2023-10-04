@@ -64,7 +64,7 @@ public class Police : Players
                 _attackRange[4].SetActive(_IsRange);
 
                 //Shoot
-                string tempName = "PoliceBullet";
+                string tempName = "MonkBullet";
                 _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
                 PhotonView localPv = _netBullet.GetComponent<PhotonView>();
                 localPv.RPC("Init", RpcTarget.All, _pv.ViewID, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);

@@ -6,22 +6,21 @@ using Define;
 public class MissileBombStart : BaseEffect
 {
     int attackID;
-    float distance = 5.0f;
+    float distance;
 
     [SerializeField]
     GameObject explosionParticle;
 
-    PhotonView _pv;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         attackID = userId;
 
         PlayerStats stats = player.GetComponent<PlayerStats>();
-        
+
+        distance = 2.5f;
+
         _damage = stats.basicAttackPower * 3.5f;
     }
 
