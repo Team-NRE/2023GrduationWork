@@ -20,12 +20,13 @@ public class EnergyAmpStart : BaseEffect
     public void TakeDamage()
     {
         Collider[] colls = Physics.OverlapSphere(
-            transform.position, 
+            transform.position,
             distance,
-            1 << (int)(player.layer == (int)Layer.Human ? Layer.Cyborg : Layer.Human) 
+            1 << (int)(player.layer == (int)Layer.Human ? Layer.Cyborg : Layer.Human)
         );
 
-        for (int i=0; i<colls.Length; i++) {
+        for (int i = 0; i < colls.Length; i++)
+        {
             Transform nowTarget = colls[i].transform;
 
             //타겟이 미니언, 타워일 시 
@@ -38,14 +39,8 @@ public class EnergyAmpStart : BaseEffect
             //타겟이 적 Player일 시
             if (nowTarget.tag == "PLAYER")
             {
-                if (!GetComponent<PhotonView>().IsMine) return;
-                nowTarget.GetComponent<PhotonView>().RPC(
-                    "photonStatSet",
-                    RpcTarget.All,
-                    attackID,
-                    "receviedDamage",
-                    _damage
-                );
+                PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
+                _Stats.receviedDamage = (attackID, _damage);
             }
         }
     }

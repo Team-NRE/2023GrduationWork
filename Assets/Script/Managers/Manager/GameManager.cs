@@ -97,11 +97,12 @@ public class GameManager
         respawnMin = ((int)playTime / 60);
         if(respawnMin == 1 * respawnTurn)
         {
+            if (respawnTime >= 20) { respawnTime = 20; }
+
             respawnTime += 2;
             respawnTurn += 1;
             Debug.Log($"전체 캐릭터 부활 시간 : {respawnTime}초");
 
-            if (respawnTime >= 20) { respawnTime = 20; }
         }
 
         //플레이어 사망 시
