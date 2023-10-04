@@ -167,4 +167,21 @@ public class GameScene : BaseScene
             deadUser
         );
     }
+
+    [PunRPC]
+    public void addGnE(int targetId, Vector3 pos, float gold, float experience)
+    {
+        Debug.Log(targetId + "\t" + gold + "\t" + experience);
+        PlayerStats stat = Managers.game.RemoteTargetFinder(targetId).GetComponent<PlayerStats>();
+        stat.gold += gold;
+        stat.experience += experience;
+            
+        if (stat.gameObject.GetPhotonView().IsMine) summonCoinDrop(pos, gold);
+    }
+
+    public void summonCoinDrop(Vector3 pos, float gold)
+    {
+        GameObject coinDrop = Instantiate(Managers.Resource.Load<GameObject>("Prefabs/Particle/Effect_CoinDrop"), pos, transform.rotation);
+        coinDrop.GetComponent<Particle_CoinDrop>().setInit(gold.ToString());
+    }
 }
