@@ -46,7 +46,7 @@ public class GameManager
 	public double playTime = 0;
 
     /// 플레이어 리스폰 시간 관련
-    public double respawnTime = 3; //기본 Default = 3초
+    public double respawnTime; //기본 Default = 3초
     public double FinishRespawn;
 
     public int respawnMin = 0;
@@ -100,6 +100,8 @@ public class GameManager
             respawnTime += 2;
             respawnTurn += 1;
             Debug.Log($"전체 캐릭터 부활 시간 : {respawnTime}초");
+
+            if (respawnTime >= 20) { respawnTime = 20; }
         }
 
         //플레이어 사망 시

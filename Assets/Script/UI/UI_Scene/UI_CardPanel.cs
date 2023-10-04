@@ -28,7 +28,6 @@ public class UI_CardPanel : UI_Card
     public UI_Card E_UI;
     UI_Card R_UI;
 
-
     GameObject Q_CardEffect;
     GameObject W_CardEffect;
     GameObject E_CardEffect;
@@ -55,7 +54,6 @@ public class UI_CardPanel : UI_Card
 
     float targetDis;
     float CountSet;
-
 
     public enum CardObjects
     {
@@ -358,9 +356,6 @@ public class UI_CardPanel : UI_Card
         //사용한 카드
         string _nowCard = Q_Btn.transform.GetChild(0).name;
 
-        //사용한 카드 파괴
-        Q_CardUI.DestroyCard(0.1f);
-
         //새로운 카드 덱에서 리필
         Refill_Q(_nowCard);
 
@@ -374,7 +369,12 @@ public class UI_CardPanel : UI_Card
 
     public void Refill_Q(string _nowCard)
     {
-        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
+        //UI_Card 
+        UI_Card Refill_Q_card = Q_Btn.GetComponentInChildren<UI_Card>();
+        //사용한 카드 파괴
+        Refill_Q_card.DestroyCard(0.1f);
+
+        Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard()}", Q_Btn.transform);
         Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
         Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
         Q_CardImage = Q_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
@@ -394,9 +394,6 @@ public class UI_CardPanel : UI_Card
         //사용한 카드
         string _nowCard = W_Btn.transform.GetChild(0).name;
 
-        //사용한 카드 파괴
-        W_CardUI.DestroyCard(0.1f);
-
         //새로운 카드 덱에서 리필
         Refill_W(_nowCard);
 
@@ -409,6 +406,11 @@ public class UI_CardPanel : UI_Card
 
     public void Refill_W(string _nowCard)
     {
+        //UI_Card 
+        UI_Card Refill_W_card = W_Btn.GetComponentInChildren<UI_Card>();
+        //사용한 카드 파괴
+        Refill_W_card.DestroyCard(0.1f);
+
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
         W_UI = W_Card.GetComponentInChildren<UI_Card>();
         W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
@@ -429,9 +431,6 @@ public class UI_CardPanel : UI_Card
         // 사용한 카드
         string _nowCard = E_Btn.transform.GetChild(0).name;
 
-        //사용한 카드 파괴
-        E_CardUI.DestroyCard(0.1f);
-
         //새로운 카드 덱에서 리필
         Refill_E(_nowCard);
 
@@ -444,6 +443,11 @@ public class UI_CardPanel : UI_Card
 
     public void Refill_E(string _nowCard)
     {
+        //UI_Card 
+        UI_Card Refill_E_card = E_Btn.GetComponentInChildren<UI_Card>();
+        //사용한 카드 파괴
+        Refill_E_card.DestroyCard(0.1f);
+
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
         E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;

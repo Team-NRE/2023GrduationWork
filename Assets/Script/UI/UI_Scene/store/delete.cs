@@ -203,7 +203,7 @@ public class delete : UI_Popup
             else if (cardPanel.W_UI.name == cardName) cardPanel.Refill_W(cardName);
             else if (cardPanel.E_UI.name == cardName) cardPanel.Refill_E(cardName);
         }
-        BaseCard._MyDeck  .Remove(cardName);
+        BaseCard._MyDeck.Remove(cardName);
         
         _pStat.gold -= _BuyCost;
         _BuyCost = 0;
