@@ -25,7 +25,6 @@ public class Monk : Players
         transform.position = respawn.position;
         _agent.enabled = true;
 
-
         //_state 설정 - 여기서 Idle 처리해야 애니메이션 오류 안남.
         _state = Define.State.Idle;
 

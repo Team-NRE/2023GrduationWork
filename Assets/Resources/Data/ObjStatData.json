@@ -94,7 +94,7 @@
         "recognitionRange" : "8.5",
 
         "maxHealth" : "3600",
-        "defensePower" : "3600",
+        "defensePower" : "20",
         "nowBattery" : "-1",
 
         "speed" : "0",
