@@ -2725,8 +2725,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ca36892c15995fe48ab5e683f22484c1, type: 2}
-  m_sharedMaterial: {fileID: -3335968933177883897, guid: ca36892c15995fe48ab5e683f22484c1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b1ace6c98016da4793e1d656fd8af19, type: 2}
+  m_sharedMaterial: {fileID: -2026896150757490384, guid: 4b1ace6c98016da4793e1d656fd8af19, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11990,8 +11990,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ca36892c15995fe48ab5e683f22484c1, type: 2}
-  m_sharedMaterial: {fileID: -3335968933177883897, guid: ca36892c15995fe48ab5e683f22484c1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b1ace6c98016da4793e1d656fd8af19, type: 2}
+  m_sharedMaterial: {fileID: -2026896150757490384, guid: 4b1ace6c98016da4793e1d656fd8af19, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13824,11 +13824,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC6A9\uC554\uC744 \uBFCC\uB824 \uC6A9\uC554 \uC704\uC5D0 \uC788\uB294
-    \uC801\uC774 \uB370\uBBF8\uC9C0\uB97C \uC785\uC2B5\uB2C8\uB2E4."
+  m_text: ' '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ca36892c15995fe48ab5e683f22484c1, type: 2}
-  m_sharedMaterial: {fileID: -3335968933177883897, guid: ca36892c15995fe48ab5e683f22484c1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b1ace6c98016da4793e1d656fd8af19, type: 2}
+  m_sharedMaterial: {fileID: -2026896150757490384, guid: 4b1ace6c98016da4793e1d656fd8af19, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
