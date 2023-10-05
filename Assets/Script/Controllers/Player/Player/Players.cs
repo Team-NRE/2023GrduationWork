@@ -63,7 +63,7 @@ public class Players : BaseController
 
 
         //Object Target 정하는 리스트
-        ObjectController._allObjectTransforms.Add(transform);
+        ObjectController._allObjectTransforms.Add(gameObject);
 
 
         //마우스 이벤트 시 무시할 레이어

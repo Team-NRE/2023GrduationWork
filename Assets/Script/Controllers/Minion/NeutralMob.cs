@@ -112,8 +112,6 @@ public class NeutralMob : ObjectController
             BaseCard._MyDeck  .Add(cardName);
         }
 
-        _allObjectTransforms.Remove(this.transform);
-
         Destroy(this.gameObject);
     }
 
@@ -227,7 +225,7 @@ public class NeutralMob : ObjectController
         }
 
         //타겟이 적 Player일 시
-        if (_targetEnemyTransform.tag == "PLAYER")
+        if (_targetEnemyTransform.CompareTag("PLAYER"))
         {
             _targetEnemyTransform.GetComponent<PlayerStats>().receviedDamage = (pv.ViewID, _oStats.basicAttackPower);
         }

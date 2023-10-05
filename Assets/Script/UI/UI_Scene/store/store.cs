@@ -124,6 +124,11 @@ public class store : UI_Popup
 
     bool isOnBase()
     {
+        /// player가 죽은 상태이면 구매 가능
+        if (Managers.game.myCharacter.GetComponent<BaseController>()._startDie)
+            return true;
+
+        /// player가 기지이면 구매 가능
         Ray ray = new Ray(Managers.game.myCharacter.transform.position, Vector3.down);
         RaycastHit hitData;
 
