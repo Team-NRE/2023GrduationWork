@@ -12644,7 +12644,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _action: 0
   _targetEnemyTransform: {fileID: 0}
-  particleCoinDrop: {fileID: 143964, guid: 33538499c33356a46a313c40c1c95fd6, type: 3}
   line: 0
   grid: {fileID: 0}
   tilemap: {fileID: 0}
