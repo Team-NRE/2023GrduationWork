@@ -22,8 +22,11 @@ public class Card_Resurrection : UI_Card
     {
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Resurrection", ground, Quaternion.identity);
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        if (_player.GetComponent<PlayerStats>().isResurrection == false ) 
+        { 
+            _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Resurrection", ground, Quaternion.identity);
+            _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        }
 
         return _effectObject;
     }

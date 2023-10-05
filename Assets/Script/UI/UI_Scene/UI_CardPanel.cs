@@ -48,7 +48,6 @@ public class UI_CardPanel : UI_Card
     TextMeshProUGUI E_CardCount;
     TextMeshProUGUI R_CardCount;
 
-
     BaseController bc;
     PlayerStats pStat;
 
@@ -106,6 +105,7 @@ public class UI_CardPanel : UI_Card
         E_CardImage = E_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
         R_CardImage = R_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
 
+
         //UI_Card Count Gameobject
         Q_CardCountObject = Q_Card.transform.Find("Card_Count").gameObject;
         W_CardCountObject = W_Card.transform.Find("Card_Count").gameObject;
@@ -120,7 +120,6 @@ public class UI_CardPanel : UI_Card
         R_CardCount = R_CardCountObject.GetComponent<TextMeshProUGUI>();
 
         CountSet = 3.0f;
-        
 
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
@@ -143,8 +142,24 @@ public class UI_CardPanel : UI_Card
         if (bc._startDie == true) { Managers.Input.UIKeyboardAction -= UIKeyDownAction; }
         if (bc._startDie == false)
         {
-            CardUseable();
-            MouseDownAction();
+            //카드 사용 불가능
+            if(bc._stopSkill == true) 
+            { 
+                Card_Cant_Use();
+                
+                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+
+                return; 
+            }
+            //카드 사용 가능
+            if(bc._stopSkill == false)  
+            { 
+                Card_Can_Use();
+
+                MouseDownAction();
+                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+                Managers.Input.UIKeyboardAction += UIKeyDownAction;
+            }
         }
     }
 
@@ -271,76 +286,63 @@ public class UI_CardPanel : UI_Card
                 break;
         }
     }
-
-
-    public void CardUseable()
+    
+    //카드 사용 가능
+    public void Card_Can_Use()
     {
-        if(bc._stopSkill == true)
+        CountSet = 2;
+        //effect
+        Q_CardEffect.SetActive(pStat.UseMana(null, Q_UI).Item1);
+        W_CardEffect.SetActive(pStat.UseMana(null, W_UI).Item1);
+        E_CardEffect.SetActive(pStat.UseMana(null, E_UI).Item1);
+        R_CardEffect.SetActive(pStat.UseMana(null, R_UI).Item1);
+
+        //Color
+        Q_CardImage.color = Q_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+        W_CardImage.color = W_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+        E_CardImage.color = E_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+        R_CardImage.color = R_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+
+        //Count
+        Q_CardCountObject.SetActive(false);
+        W_CardCountObject.SetActive(false);
+        E_CardCountObject.SetActive(false);
+        R_CardCountObject.SetActive(false);
+    }
+
+    //카드 사용 못함
+    public void Card_Cant_Use()
+    {
+        if (CountSet <= 0) { CountSet = 2; }
+        if (CountSet != 2)
         {
-            if (CountSet <= 0) { CountSet = 2; }
-            if (CountSet != 2)
-            {
-                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-            }
-
-            //effect 
-            Q_CardEffect.SetActive(false);
-            W_CardEffect.SetActive(false);
-            E_CardEffect.SetActive(false);
-            R_CardEffect.SetActive(false);
-
-            //color
-            Q_CardImage.color = new Color32(60, 60, 60, 255);
-            W_CardImage.color = new Color32(60, 60, 60, 255);
-            E_CardImage.color = new Color32(60, 60, 60, 255);
-            R_CardImage.color = new Color32(60, 60, 60, 255);
-
-            //Count
-            Q_CardCountObject.SetActive(true);
-            W_CardCountObject.SetActive(true);
-            E_CardCountObject.SetActive(true);
-            R_CardCountObject.SetActive(true);
-
-            //Count Start
-            CountSet -= Time.deltaTime;
-            Q_CardCount.text = CountSet.ToString("F0");
-            W_CardCount.text = CountSet.ToString("F0");
-            E_CardCount.text = CountSet.ToString("F0");
-            R_CardCount.text = CountSet.ToString("F0");
+            Managers.Input.UIKeyboardAction -= UIKeyDownAction;
         }
 
-        if(bc._stopSkill == false)
-        {
-            CountSet = 2;
-            if(bc._stopAttack == false)
-            {
-                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-                Managers.Input.UIKeyboardAction += UIKeyDownAction;
-            }
-            if( bc._stopAttack == true) 
-            {
-                Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-            }
+        //effect 
+        Q_CardEffect.SetActive(false);
+        W_CardEffect.SetActive(false);
+        E_CardEffect.SetActive(false);
+        R_CardEffect.SetActive(false);
 
-            //effect
-            Q_CardEffect.SetActive(pStat.UseMana(null, Q_UI).Item1);
-            W_CardEffect.SetActive(pStat.UseMana(null, W_UI).Item1);
-            E_CardEffect.SetActive(pStat.UseMana(null, E_UI).Item1);
-            R_CardEffect.SetActive(pStat.UseMana(null, R_UI).Item1);
+        //color
+        Q_CardImage.color = new Color32(60, 60, 60, 255);
+        W_CardImage.color = new Color32(60, 60, 60, 255);
+        E_CardImage.color = new Color32(60, 60, 60, 255);
+        R_CardImage.color = new Color32(60, 60, 60, 255);
 
-            //Color
-            Q_CardImage.color = Q_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
-            W_CardImage.color = W_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
-            E_CardImage.color = E_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
-            R_CardImage.color = R_CardEffect.activeSelf == true ? Color.white : new Color32(60, 60, 60, 255);
+        //Count
+        Q_CardCountObject.SetActive(true);
+        W_CardCountObject.SetActive(true);
+        E_CardCountObject.SetActive(true);
+        R_CardCountObject.SetActive(true);
 
-            //Count
-            Q_CardCountObject.SetActive(false);
-            W_CardCountObject.SetActive(false);
-            E_CardCountObject.SetActive(false);
-            R_CardCountObject.SetActive(false);
-
-        }
+        //Count Start
+        CountSet -= Time.deltaTime;
+        Q_CardCount.text = CountSet.ToString("F0");
+        W_CardCount.text = CountSet.ToString("F0");
+        E_CardCount.text = CountSet.ToString("F0");
+        R_CardCount.text = CountSet.ToString("F0");
     }
 
 
