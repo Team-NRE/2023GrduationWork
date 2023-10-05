@@ -753,7 +753,6 @@ public class Players : BaseController
             //Move
             case Define.Projectile.Undefine:
                 //이동
-                // transform.rotation = Quaternion.LookRotation(Managers.Input.FlattenVector(this.gameObject, _MovingPos) - transform.position);
                 var pos = Managers.Input.FlattenVector(this.gameObject, _agent.steeringTarget) - transform.position;
                 if (pos != Vector3.zero)
                 {
@@ -778,9 +777,6 @@ public class Players : BaseController
         //마우스 오른쪽
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.MouseAction += MouseDownAction;
-        //Card
-        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-        Managers.Input.UIKeyboardAction += UIKeyDownAction;
     }
 
     protected override void StartUIAttack() 
@@ -800,11 +796,11 @@ public class Players : BaseController
         //애니메이션 Idle로 변환
         _state = Define.State.Idle;
 
-        ///Attack 초기화
+        ///bool 초기화
         oneShot = false;
         _stopAttack = false;
 
-        //attack
+        //attack 재설정
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.KeyAction += KeyDownAction;
     }
@@ -819,11 +815,9 @@ public class Players : BaseController
         //움직임 초기화
         _agent.ResetPath();
 
-        //평타 중 Key Input 안받기 
+        //평타 중 공격, 마우스 키 못받기 
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
-        //스킬 잠깐 못쓰기
-        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
 
         if (_pv.IsMine)
         {
@@ -847,10 +841,11 @@ public class Players : BaseController
         BaseCard._lockTarget = null;
 
         //Attack 재설정
-        //Managers.Input.KeyAction -= KeyDownAction;
-        //Managers.Input.KeyAction += KeyDownAction;
-        //Managers.Input.MouseAction -= MouseDownAction;
-        //Managers.Input.MouseAction += MouseDownAction;
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+        //마우스 오른쪽
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
     }
 
 
@@ -863,19 +858,17 @@ public class Players : BaseController
         //움직임 초기화
         _agent.ResetPath();
 
-        //평타 중 Key Input 안받기 
-        //Managers.Input.KeyAction -= KeyDownAction;
-        //Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-
         UpdateSkill();
 
         yield return new WaitForSeconds(2.0f);
         _stopSkill = false;
 
-        //card 재설정
-        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-        Managers.Input.UIKeyboardAction += UIKeyDownAction;
+        //Attack 재설정
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+        //마우스 오른쪽
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
     }
 
     //Skill
@@ -884,19 +877,14 @@ public class Players : BaseController
         //이펙트 발동
         if (_MovingPos != default)
         {
-            //Debug.Log($"UpdateSkill : {_MovingPos} ");
             //Skill On
             _cardStats.InitCard();
             GameObject effectObj = _cardStats.cardEffect(_MovingPos, this._pv.ViewID, _pStats.playerArea);
-            //Debug.Log(effectObj);
-            //_pv.RPC("RemoteSkillStarter", RpcTarget.All, this.GetComponent<PhotonView>().ViewID, effectObj.GetComponent<PhotonView>().ViewID);
 
             //이펙트가 특정 시간 후에 사라진다면
             if (_cardStats._effectTime != default)
             {
-                //Destroy(effectObj, _cardStats._effectTime);
                 StartCoroutine(DelayDestroy(effectObj, _cardStats._effectTime));
-                Debug.Log("Delete EffectPaticle");
             }
         }
 
@@ -915,10 +903,13 @@ public class Players : BaseController
         //죽었을 때 재설정
         BaseCard._lockTarget = null;
         _MovingPos = default;
+
         _stopAttack = false;
-        _stopSkill = false;
         oneShot = false;
         _attackRange[_SaveRangeNum].SetActive(false);
+
+        _stopSkill = false;
+        
         _startDie = true;
     }
 }
