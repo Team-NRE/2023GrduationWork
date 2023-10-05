@@ -179,6 +179,7 @@ public class CameraController : BaseController
     {
         for (int i = 0; i < SaveRendererModel.Count; i++)
         {
+            if (SaveRendererModel[i] == null) continue;
             if (SaveRendererModel[i].tag == "OBJECT") continue;
             if (SaveRendererModel[i].tag == "PLAYER") continue;
 
