@@ -35,7 +35,6 @@ public class NavMeshPathRenderer : MonoBehaviour
         {
             if (m_LineRenderer.positionCount <= 0) return;
             m_LineRenderer.positionCount = 0;
-            Debug.Log("!!");
         }
         else
         {
@@ -45,13 +44,15 @@ public class NavMeshPathRenderer : MonoBehaviour
 
     void DrawPath()
     {
-        if (m_NavMeshAgent.path.corners.Length.Equals(0)) return;
+        Vector3[] corners = m_NavMeshAgent.path.corners;
 
-        m_LineRenderer.positionCount = m_NavMeshAgent.path.corners.Length;
+        if (corners.Length.Equals(0)) return;
+
+        m_LineRenderer.positionCount = corners.Length;
 
         for (int i=0; i<m_LineRenderer.positionCount; i++)
         {
-            m_LineRenderer.SetPosition(i, m_NavMeshAgent.path.corners[i] + Vector3.up * 11);
+            m_LineRenderer.SetPosition(i, corners[i] + Vector3.up * 11);
         }
     }
 }
