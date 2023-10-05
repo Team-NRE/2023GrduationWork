@@ -77,17 +77,17 @@ public class Tower : ObjectController
 
         float damage = 0;
 
-        if (_targetEnemyTransform.tag == "OBJECT")
+        if (_targetEnemyTransform.CompareTag("OBJECT"))
         {
             ObjectController targetObjController = _targetEnemyTransform.GetComponent<ObjectController>();
             ObjStats targetObjStat = _targetEnemyTransform.GetComponent<ObjStats>();
 
             /// 미니언들 체력 비례 데미지를 입히기 위한 if문
-            if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.MeleeMinion)
+            if (targetObjController._type == ObjectType.MeleeMinion)
                 damage = targetObjStat.maxHealth * meleeMinionAttackRatio;
-            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.RangeMinion)
+            else if (targetObjController._type == ObjectType.RangeMinion)
                 damage =  targetObjStat.maxHealth * rangeMinionAttackRatio;
-            else if (_targetEnemyTransform.GetComponent<ObjectController>()._type == ObjectType.SuperMinion)
+            else if (targetObjController._type == ObjectType.SuperMinion)
                 damage =  targetObjStat.maxHealth * superMinionAttackRatio;
             else
                 damage =  _oStats.basicAttackPower;

@@ -76,7 +76,6 @@ public class Minion : ObjectController
 
     public override void Death()
     {
-        _allObjectTransforms.Remove(this.transform);
         base.Death();
         Destroy(this.gameObject);
     }
@@ -155,9 +154,9 @@ public class Minion : ObjectController
 
         if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
         {
-            if (_targetEnemyTransform.tag == "PLAYER" && _targetEnemyTransform.GetComponent<BaseController>()._area == ObjectPosArea.Road)
+            if (_targetEnemyTransform.CompareTag("PLAYER") && _targetEnemyTransform.GetComponent<BaseController>()._area == ObjectPosArea.Road)
                 return _targetEnemyTransform.position;
-            if (_targetEnemyTransform.tag == "OBJECT")
+            if (_targetEnemyTransform.CompareTag("OBJECT"))
                 return _targetEnemyTransform.position;
         }
 

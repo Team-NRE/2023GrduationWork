@@ -26,7 +26,7 @@ public abstract class ObjectController : MonoBehaviour
     public ObjectType _type { get; set; }
 
     //모든 오브젝트의 Transform이 담긴 배열
-    public static List<Transform> _allObjectTransforms = new List<Transform>();
+    public static List<GameObject> _allObjectTransforms = new List<GameObject>();
     public Transform _targetEnemyTransform;
 
     //초기화
@@ -35,7 +35,7 @@ public abstract class ObjectController : MonoBehaviour
 
     public void Awake()
     {
-        _allObjectTransforms.Add(transform);
+        _allObjectTransforms.Add(gameObject);
         _oStats = GetComponent<ObjStats>();
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
@@ -65,7 +65,7 @@ public abstract class ObjectController : MonoBehaviour
     {
         if (!PhotonNetwork.IsMasterClient) return;
         
-        UpdateInRangeEnemyObjectTransform_OverlapSphere();
+        UpdateInRangeEnemyObjectTransform();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -113,6 +113,8 @@ public abstract class ObjectController : MonoBehaviour
     /// </summary>
     public virtual void Death() 
     {
+        _allObjectTransforms.Remove(this.gameObject);
+        
         if (_oStats.gold == 0 && _oStats.experience == 0) return;
 
         checkGoldAndExperienceRange(Managers.game.humanTeamCharacter.Item1);
@@ -142,30 +144,23 @@ public abstract class ObjectController : MonoBehaviour
 
         for (int i=0; i<_allObjectTransforms.Count; i++)
         {
-            if (_allObjectTransforms[i].gameObject.activeSelf == false) continue; 
-            if (_allObjectTransforms[i].gameObject.layer == gameObject.layer) continue;
+            if (_allObjectTransforms[i].activeSelf.Equals(false))       continue;
+            if (_allObjectTransforms[i].layer.Equals(gameObject.layer)) continue;
 
-            if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
+            float nowRange = Vector3.Distance(transform.position, _allObjectTransforms[i].transform.position);
+
+            if (_allObjectTransforms[i].CompareTag("PLAYER"))
             {
                 if (_allObjectTransforms[i].GetComponent<BaseController>()._state == State.Die) continue;
-            }
-            else
-            {
-                if (_allObjectTransforms[i].GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
-            }
-
-            float nowRange = Vector3.Distance(transform.position, _allObjectTransforms[i].position);
-
-            if (_allObjectTransforms[i].gameObject.tag == "PLAYER")
-            {
                 if (minRangePlayer >= nowRange)
                 {
                     minRangePlayer = nowRange;
                     newTargetPlayer = _allObjectTransforms[i].transform;
                 }
             }
-            else if (_allObjectTransforms[i].gameObject.tag == "OBJECT")
+            else if (_allObjectTransforms[i].CompareTag("OBJECT"))
             {
+                if (_allObjectTransforms[i].GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
                 if (minRangeObject >= nowRange)
                 {
                     minRangeObject = nowRange;
