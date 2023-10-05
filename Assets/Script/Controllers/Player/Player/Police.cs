@@ -59,9 +59,9 @@ public class Police : Players
         {
             if (_pv.IsMine)
             {
-                ////Range Off
-                _IsRange = false;
-                _attackRange[4].SetActive(_IsRange);
+                //////Range Off
+                //_IsRange = false;
+                //_attackRange[4].SetActive(_IsRange);
 
                 //Shoot
                 string tempName = "MonkBullet";

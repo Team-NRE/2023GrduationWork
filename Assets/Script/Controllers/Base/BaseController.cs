@@ -108,11 +108,11 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected virtual IEnumerator StopSkill() { yield return null; }
 
     protected virtual void StartAttack() { }
+    protected virtual void StartUIAttack() { }
     protected virtual void StartSkill() { }
 
     protected void UpdatePlayer_AnimationChange() 
     {
-        Debug.Log(_state);
         //키, 마우스 이벤트 받으면 state가 변환
         switch (_state)
         {
@@ -152,12 +152,12 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
                 break;
 
             case Define.State.Attack:
-                _anim.SetFloat("AttackSpeed", _pStats.attackSpeed);
                 _anim.SetBool("IsAttack", true);
 
                 _anim.SetBool("IsIdle", false);
                 _anim.SetBool("IsMoving", false);
                 _anim.SetBool("IsSkill", false);
+                _anim.SetFloat("AttackSpeed", _pStats.attackSpeed);
 
                 if (_stopAttack == false)
                 {

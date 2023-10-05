@@ -277,7 +277,8 @@ public class UI_CardPanel : UI_Card
     {
         if(bc._stopSkill == true)
         {
-            if(CountSet != 2)
+            if (CountSet <= 0) { CountSet = 2; }
+            if (CountSet != 2)
             {
                 Managers.Input.UIKeyboardAction -= UIKeyDownAction;
             }

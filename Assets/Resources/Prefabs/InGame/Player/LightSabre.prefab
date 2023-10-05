@@ -16040,6 +16040,7 @@ MonoBehaviour:
   _stopSkill: 0
   _IsRange: 0
   _startDie: 0
+  _area: 0
   _attackRange: []
   ignore:
     serializedVersion: 2

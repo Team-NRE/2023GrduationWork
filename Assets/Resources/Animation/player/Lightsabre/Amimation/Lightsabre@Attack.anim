@@ -41188,8 +41188,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.95
+  - time: 0.6166667
     functionName: StartAttack
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 6ff1bcce94b07a143a039d12c6665d3b, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
+    functionName: StartUIAttack
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 6ff1bcce94b07a143a039d12c6665d3b, type: 3}
     floatParameter: 0

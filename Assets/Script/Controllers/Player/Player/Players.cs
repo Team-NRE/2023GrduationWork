@@ -771,6 +771,44 @@ public class Players : BaseController
         }
     }
 
+    //Attack 초기화
+    protected override void StartAttack()
+    {
+        //Input 재설정
+        //마우스 오른쪽
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+        //Card
+        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+        Managers.Input.UIKeyboardAction += UIKeyDownAction;
+    }
+
+    protected override void StartUIAttack() 
+    {
+        //적이 죽었을 때
+        if (BaseCard._lockTarget == null)
+        {
+            _proj = Define.Projectile.Undefine;
+        }
+
+        //적이 안죽었다면
+        if (BaseCard._lockTarget != null)
+        {
+            _proj = Define.Projectile.Attack_Proj;
+        }
+
+        //애니메이션 Idle로 변환
+        _state = Define.State.Idle;
+
+        ///Attack 초기화
+        oneShot = false;
+        _stopAttack = false;
+
+        //attack
+        Managers.Input.KeyAction -= KeyDownAction;
+        Managers.Input.KeyAction += KeyDownAction;
+    }
+
 
     //평타 후 딜레이
     protected override void StopAttack()
@@ -784,52 +822,16 @@ public class Players : BaseController
         //평타 중 Key Input 안받기 
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
+        //스킬 잠깐 못쓰기
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-    }
 
-    //Attack 초기화
-    protected override void StartAttack()
-    {
-        //Input 재설정
-        //Attack
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-
-        //Card
-        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-        Managers.Input.UIKeyboardAction += UIKeyDownAction;
-
-
-        //애니메이션 Idle로 변환
-        _state = Define.State.Idle;
-
-        //움직임 초기화
-        _agent.ResetPath();
-
-        //한발만 쏘기 초기화 / Attack 초기화
-        oneShot = false;
-        _stopAttack = false;
-
-        //적이 죽었을 때
-        if (BaseCard._lockTarget == null)
+        if (_pv.IsMine)
         {
-            _proj = Define.Projectile.Undefine;
-        }
-
-        //적이 안죽었다면
-        if (BaseCard._lockTarget != null)
-        {
-            _proj = Define.Projectile.Attack_Proj;
-            if (_pv.IsMine)
-            {
-                _IsRange = true;
-                _attackRange[4].SetActive(_IsRange);
-            }
+            ////Range Off
+            _IsRange = false;
+            _attackRange[4].SetActive(_IsRange);
         }
     }
-
 
     //Skill 초기화
     protected override void StartSkill()
@@ -845,10 +847,10 @@ public class Players : BaseController
         BaseCard._lockTarget = null;
 
         //Attack 재설정
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
+        //Managers.Input.KeyAction -= KeyDownAction;
+        //Managers.Input.KeyAction += KeyDownAction;
+        //Managers.Input.MouseAction -= MouseDownAction;
+        //Managers.Input.MouseAction += MouseDownAction;
     }
 
 
@@ -862,8 +864,8 @@ public class Players : BaseController
         _agent.ResetPath();
 
         //평타 중 Key Input 안받기 
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.MouseAction -= MouseDownAction;
+        //Managers.Input.KeyAction -= KeyDownAction;
+        //Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
 
         UpdateSkill();
