@@ -3,7 +3,9 @@ guid: 0fa3ba20d123c8041bad70f5861a2180
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _targetEnemyTransform: {instanceID: 0}
+  - tb: {fileID: 11400000, guid: d83b0a9274b7f294084a303dddb6c81a, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -3,6 +3,7 @@ using Stat;
 using Define;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameScene : BaseScene
 {
@@ -61,6 +62,9 @@ public class GameScene : BaseScene
         /// 시작 시간 초기화
         Managers.game.startTime = PhotonNetwork.Time;
 
+        // 타일맵 초기화
+        InitTileMap();
+
         // 플레이어 생성
         Managers.game.myCharacter = PhotonNetwork.Instantiate(
             $"Prefabs/InGame/Player/{Managers.game.myCharacterType.ToString()}",
@@ -84,6 +88,17 @@ public class GameScene : BaseScene
         Managers.game.respawnTime = 3.0f;
 
         Debug.Log("Setting Finish");
+    }
+
+    private void InitTileMap()
+    {
+        Managers.game.grid    = FindObjectOfType<Grid>();
+        Managers.game.tilemap = FindObjectOfType<Tilemap>();
+
+        Managers.game.tileRoad       = Managers.Resource.Load<TileBase>("Texture/AI_Tile/tilePalette_9");
+        Managers.game.tileBuilding   = Managers.Resource.Load<TileBase>("Texture/AI_Tile/tilePalette_1");
+        Managers.game.tileMidWay     = Managers.Resource.Load<TileBase>("Texture/AI_Tile/tilePalette_10");
+        Managers.game.tileCenterArea = Managers.Resource.Load<TileBase>("Texture/AI_Tile/tilePalette_2");
     }
 
     private void InitPlayerDefault()

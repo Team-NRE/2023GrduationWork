@@ -285,15 +285,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     private void GetTransformArea()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        
-        Vector3Int pos = _grid.WorldToCell(this.transform.position);
-        string posName = _tilemap.GetTile(pos).name;
-
-        _area = ObjectPosArea.Undefine;
-
-        if (posName.Equals("tilePalette_9"))  _area = ObjectPosArea.Road;
-        if (posName.Equals("tilePalette_1"))  _area = ObjectPosArea.Building;
-        if (posName.Equals("tilePalette_10")) _area = ObjectPosArea.MidWay;
-        if (posName.Equals("tilePalette_2"))  _area = ObjectPosArea.CenterArea;
+        _area = Managers.game.GetPosAreaInMap(transform.position);
     }
 }

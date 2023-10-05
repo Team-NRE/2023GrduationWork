@@ -5,10 +5,9 @@
 using UnityEngine;
 using Define;
 using UnityEngine.AI;
+using UnityEngine.Tilemaps;
 
 using Photon.Pun;
-using System.Collections;
-using Data;
 
 public class GameManager
 {
@@ -70,6 +69,12 @@ public class GameManager
 
     public (PhotonView, PhotonView) humanTeamCharacter;
     public (PhotonView, PhotonView) cyborgTeamCharacter;
+
+    /// 타일맵 관련
+    public GridLayout grid;
+    public Tilemap tilemap;
+    public TileBase tileRoad, tileBuilding, tileMidWay, tileCenterArea;
+
     #endregion
 
 
@@ -243,6 +248,21 @@ public class GameManager
             return default;
         int colliderId = collider.gameObject.GetComponent<PhotonView>().ViewID;
         return colliderId;
+    }
+
+    public ObjectPosArea GetPosAreaInMap(Vector3 pos)
+    {
+        if (!PhotonNetwork.IsMasterClient) return ObjectPosArea.Undefine;
+        
+        Vector3Int gridPos = grid.WorldToCell(pos);
+        TileBase nowTileBase = tilemap.GetTile(gridPos);
+
+        if (nowTileBase.Equals(tileRoad))       return ObjectPosArea.Road;
+        if (nowTileBase.Equals(tileBuilding))   return ObjectPosArea.Building;
+        if (nowTileBase.Equals(tileMidWay))     return ObjectPosArea.MidWay;
+        if (nowTileBase.Equals(tileCenterArea)) return ObjectPosArea.CenterArea;
+
+        return ObjectPosArea.Undefine;
     }
 
     public void Clear()

@@ -24,18 +24,12 @@ public class Minion : ObjectController
     /// <summary>이동한 인덱스</summary>
     private int lineIdx = 1;
 
-    /// <summary>타일 그리드</summary>
-    public GridLayout grid;
-    /// <summary>타일 맵</summary>
-    public Tilemap tilemap;
     /// <summary>현재 서 있는 지역</summary>
     public ObjectPosArea area;
     
     public override void init()
     {
         base.init();
-        grid = FindObjectOfType<GridLayout>();
-        tilemap = FindObjectOfType<Tilemap>();
         nav = GetComponent<NavMeshAgent>();
         GetMilestoneTransform();
     }
@@ -194,15 +188,6 @@ public class Minion : ObjectController
     private void GetTransformArea()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        
-        Vector3Int pos = grid.WorldToCell(this.transform.position);
-        string posName = tilemap.GetTile(pos).name;
-
-        area = ObjectPosArea.Undefine;
-
-        if (posName.Equals("tilePalette_9"))  area = ObjectPosArea.Road;
-        if (posName.Equals("tilePalette_1"))  area = ObjectPosArea.Building;
-        if (posName.Equals("tilePalette_10")) area = ObjectPosArea.MidWay;
-        if (posName.Equals("tilePalette_2"))  area = ObjectPosArea.CenterArea;
+        area = Managers.game.GetPosAreaInMap(transform.position);
     }
 }
