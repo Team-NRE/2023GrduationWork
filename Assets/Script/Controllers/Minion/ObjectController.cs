@@ -28,6 +28,7 @@ public abstract class ObjectController : MonoBehaviour
     //모든 오브젝트의 Transform이 담긴 배열
     public static List<GameObject> _allObjectTransforms = new List<GameObject>();
     public Transform _targetEnemyTransform;
+    Collider[] inRangeObject = new Collider[10];
 
     //초기화
     protected Animator animator { get; set; }
@@ -65,7 +66,7 @@ public abstract class ObjectController : MonoBehaviour
     {
         if (!PhotonNetwork.IsMasterClient) return;
         
-        UpdateInRangeEnemyObjectTransform();
+        UpdateInRangeEnemyObjectTransform_OverlapSphereNonAlloc();
         UpdateObjectAction();
         ExecuteObjectAnim();
     }
@@ -179,38 +180,78 @@ public abstract class ObjectController : MonoBehaviour
         Transform newTargetPlayer = null, newTargetObject = null;
         float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
 
-        Collider[] inRangeObject = Physics.OverlapSphere(this.transform.position, minRangePlayer);
+        inRangeObject = Physics.OverlapSphere(this.transform.position, minRangePlayer);
 
         for (int i=0; i<inRangeObject.Length; i++)
         {
             if (inRangeObject[i].gameObject.activeSelf == false) continue; 
             if (inRangeObject[i].gameObject.layer == gameObject.layer) continue;
 
-            if (inRangeObject[i].gameObject.tag == "PLAYER")
-            {
-                if (inRangeObject[i].GetComponent<BaseController>()._state == State.Die) continue;
-            }
-            else if (inRangeObject[i].gameObject.tag == "OBJECT")
-            {
-                if (inRangeObject[i].GetComponent<ObjectController>()._action == ObjectAction.Death) continue;
-            }
-            else
-            {
-                continue;
-            }
-
             float nowRange = Vector3.Distance(transform.position, inRangeObject[i].transform.position);
 
-            if (inRangeObject[i].gameObject.tag == "PLAYER")
+            if (inRangeObject[i].CompareTag("PLAYER"))
             {
+                BaseController nowBaseController;
+                inRangeObject[i].TryGetComponent<BaseController>(out nowBaseController);
+                if (nowBaseController._state == State.Die) continue;
                 if (minRangePlayer >= nowRange)
                 {
                     minRangePlayer = nowRange;
                     newTargetPlayer = inRangeObject[i].transform;
                 }
             }
-            else if (inRangeObject[i].gameObject.tag == "OBJECT")
+            else if (inRangeObject[i].CompareTag("OBJECT"))
             {
+                ObjectController nowObjectController;
+                inRangeObject[i].TryGetComponent<ObjectController>(out nowObjectController);
+                if (nowObjectController._action == ObjectAction.Death) continue;
+                if (minRangeObject >= nowRange)
+                {
+                    minRangeObject = nowRange;
+                    newTargetObject = inRangeObject[i].transform;
+                }
+            }
+        }
+
+        _targetEnemyTransform = (newTargetObject != null) ? newTargetObject : newTargetPlayer;
+    }
+
+    protected void UpdateInRangeEnemyObjectTransform_OverlapSphereNonAlloc()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        Transform newTargetPlayer = null, newTargetObject = null;
+        float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
+
+        Physics.OverlapSphereNonAlloc(
+            this.transform.position, 
+            minRangePlayer, 
+            inRangeObject,
+            gameObject.layer == (int)Layer.Human ? 1 << (int)Layer.Cyborg : 1 << (int)Layer.Human
+        );
+
+        for (int i=0; i<inRangeObject.Length; i++)
+        {
+            if (inRangeObject[i] == default) break;
+
+            float nowRange = Vector3.Distance(transform.position, inRangeObject[i].transform.position);
+
+            if (inRangeObject[i].CompareTag("PLAYER"))
+            {
+                BaseController nowBaseController;
+                inRangeObject[i].TryGetComponent<BaseController>(out nowBaseController);
+                if (nowBaseController._state == State.Die) continue;
+                if (minRangePlayer >= nowRange)
+                {
+                    minRangePlayer = nowRange;
+                    newTargetPlayer = inRangeObject[i].transform;
+                }
+            }
+            else if (inRangeObject[i].CompareTag("OBJECT"))
+            {
+                ObjectController nowObjectController;
+                inRangeObject[i].TryGetComponent<ObjectController>(out nowObjectController);
+                if (nowObjectController._action == ObjectAction.Death) continue;
                 if (minRangeObject >= nowRange)
                 {
                     minRangeObject = nowRange;
