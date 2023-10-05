@@ -218,7 +218,7 @@ namespace Stat
                 if (_experience > levelUpEx)
                 {
                     level += 1;
-                    levelUpEx += 20;
+                    levelUpEx += 60;
          
                     _experience = 0;
 
