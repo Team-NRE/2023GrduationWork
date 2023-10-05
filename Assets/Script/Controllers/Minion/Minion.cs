@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 using Define;
-using Stat;
 using Photon.Pun;
 
 public class Minion : ObjectController
@@ -87,34 +86,7 @@ public class Minion : ObjectController
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        Vector3 moveTarget = Vector3.zero;
-
-        if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
-        {
-            moveTarget = _targetEnemyTransform.position;
-        }
-        else
-        {
-            if (line == ObjectLine.UpperLine)
-            {
-                moveTarget = milestoneUpper[lineIdx].position;
-            }
-            else if (line == ObjectLine.LowerLine)
-            {
-                moveTarget = milestoneLower[lineIdx].position;
-            }
-
-            if (gameObject.layer == LayerMask.NameToLayer("Human"))
-            {
-                if (Vector3.Distance(transform.position, moveTarget) <= 1f || transform.position.x - moveTarget.x > 1.0f)
-                    lineIdx++;
-            }
-            else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
-            {
-                if (Vector3.Distance(transform.position, moveTarget) <= 1f || transform.position.x - moveTarget.x < 1.0f)
-                    lineIdx--;
-            }
-        }
+        Vector3 moveTarget = GetMoveTarget();
 
         var targetPos = new Vector3(moveTarget.x, transform.position.y, moveTarget.z) - transform.position;
         if (targetPos != Vector3.zero)
@@ -175,6 +147,35 @@ public class Minion : ObjectController
                 nav.enabled = false;
                 break;
         }
+    }
+
+    private Vector3 GetMoveTarget()
+    {
+        Vector3 result = Vector3.zero;
+
+        if (_targetEnemyTransform != null && area == ObjectPosArea.Road)
+        {
+            if (_targetEnemyTransform.tag == "PLAYER" && _targetEnemyTransform.GetComponent<BaseController>()._area == ObjectPosArea.Road)
+                return _targetEnemyTransform.position;
+            if (_targetEnemyTransform.tag == "OBJECT")
+                return _targetEnemyTransform.position;
+        }
+
+        if (line == ObjectLine.UpperLine) result = milestoneUpper[lineIdx].position;
+        if (line == ObjectLine.LowerLine) result = milestoneLower[lineIdx].position;
+
+        if (gameObject.layer == LayerMask.NameToLayer("Human"))
+        {
+            if (Vector3.Distance(transform.position, result) <= 1f || transform.position.x - result.x > 1.0f)
+                lineIdx++;
+        }
+        else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
+        {
+            if (Vector3.Distance(transform.position, result) <= 1f || transform.position.x - result.x < 1.0f)
+                lineIdx--;
+        }
+
+        return result;
     }
 
     /// <summary>

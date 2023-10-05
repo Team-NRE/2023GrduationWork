@@ -352,9 +352,9 @@ namespace Stat
             }
 
             //마나
-            nowMana = 0; //현재 마나
             manaRegen = stat.manaRegen; //마나 회복 속도
             maxMana = stat.maxMana; //최대 마나
+            nowMana = maxMana; //현재 마나
 
             //자원
             gold = stat.gold;

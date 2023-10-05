@@ -1,7 +1,6 @@
 using Photon.Pun;
 using Stat;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WingsOfTheBattlefieldStart : BaseEffect
@@ -11,8 +10,6 @@ public class WingsOfTheBattlefieldStart : BaseEffect
     float speed = default;
     float effectTime = default;
     int _playerId;
-
-    bool start = false;
 
     [PunRPC]
     public override IEnumerator CardEffectInit(int userId, float time)
@@ -27,12 +24,6 @@ public class WingsOfTheBattlefieldStart : BaseEffect
         _stats.speed += speed;
         yield return new WaitForSeconds(effectTime);
         _stats.speed -= speed;
-    }
-
-
-    public void Update()
-    {
-
     }
 
     private void OnTriggerEnter(Collider other)

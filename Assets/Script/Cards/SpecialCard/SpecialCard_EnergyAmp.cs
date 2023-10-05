@@ -3,8 +3,6 @@ using Photon.Pun;
 
 public class SpecialCard_EnergyAmp : UI_Card
 {
-    int _layer = default;
-
     public override void Init()
     {
         _cost = 3;

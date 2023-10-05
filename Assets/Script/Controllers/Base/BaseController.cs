@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Tilemaps;
 using Stat;
 using Define;
 using Photon.Pun;
@@ -50,6 +51,13 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     /// </summary>
     public PlayerStats _pStats { get; set; }
 
+    /// <summary>타일 그리드</summary>
+    protected GridLayout _grid;
+    /// <summary>타일 맵</summary>
+    protected Tilemap _tilemap;
+    /// <summary>현재 서 있는 지역</summary>
+    public ObjectPosArea _area;
+
 
     /// <summary>
     /// 외부 namespace Define 참조
@@ -78,7 +86,9 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         {
             UpdatePlayer_StateChange();
             UpdatePlayer_AnimationChange();
-        }    
+        }
+
+        GetTransformArea();
     }
 
 
@@ -270,5 +280,20 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         GameObject childObject = GetRemotePlayer(particleId);
         GameObject parentObject = GetRemotePlayer(playerId);
         childObject.transform.parent = parentObject.transform;
+    }
+
+    private void GetTransformArea()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
+        Vector3Int pos = _grid.WorldToCell(this.transform.position);
+        string posName = _tilemap.GetTile(pos).name;
+
+        _area = ObjectPosArea.Undefine;
+
+        if (posName.Equals("tilePalette_9"))  _area = ObjectPosArea.Road;
+        if (posName.Equals("tilePalette_1"))  _area = ObjectPosArea.Building;
+        if (posName.Equals("tilePalette_10")) _area = ObjectPosArea.MidWay;
+        if (posName.Equals("tilePalette_2"))  _area = ObjectPosArea.CenterArea;
     }
 }

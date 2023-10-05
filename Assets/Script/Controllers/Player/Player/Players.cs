@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Werewolf.StatusIndicators.Components;
 using UnityEngine.AI;
+using UnityEngine.Tilemaps;
 using Stat;
 using Photon.Pun;
-using static UnityEngine.GraphicsBuffer;
-using UnityEngine.SocialPlatforms;
 
 public class Players : BaseController
 {
@@ -44,6 +43,8 @@ public class Players : BaseController
         _anim = GetComponent<Animator>();
         _agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         _pv = GetComponent<PhotonView>();
+        _grid = FindObjectOfType<GridLayout>();
+        _tilemap = FindObjectOfType<Tilemap>();
 
         //Range List Setting
         GetComponentInChildren<SplatManager>().enabled = false;

@@ -33,10 +33,6 @@ public abstract class ObjectController : MonoBehaviour
     protected Animator animator { get; set; }
     protected PhotonView pv { get; set; }
 
-    //처치시 코인 드랍 파티클
-    [SerializeField]
-    GameObject particleCoinDrop;
-
     public void Awake()
     {
         _allObjectTransforms.Add(transform);
