@@ -26,8 +26,8 @@ public class CrisisAversionStart : BaseEffect
         transform.parent = player.transform;
         transform.localPosition = new Vector3(0, 0.3f, 0);
 
+        //처음 무적 시간 1.5초
         effectTime = 1.5f;
-        
         invincibleTime = true;
         _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", 9999f);
     }
@@ -40,6 +40,7 @@ public class CrisisAversionStart : BaseEffect
         {
             switch (invincibleTime)
             {
+                //1.5초 동안 무적
                 case true:
                     //무적 끝
                     _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", -9999f);
@@ -59,6 +60,7 @@ public class CrisisAversionStart : BaseEffect
 
                     return;
 
+                //5.5초동안 체력 회복량, 이동속도, 공속, 공격력 상승
                 case false:
                     //체력 회복량 상승 (1초당 hp+75)
                     _playerPV.RPC("photonStatSet", RpcTarget.All, "healthRegeneration", -75f);

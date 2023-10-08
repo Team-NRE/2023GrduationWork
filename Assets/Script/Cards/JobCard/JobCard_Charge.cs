@@ -13,7 +13,6 @@ public class JobCard_Charge : UI_Card
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
-        _effectTime = 3.0f;
     }
 
 
@@ -27,8 +26,7 @@ public class JobCard_Charge : UI_Card
         _effectObject.GetComponent<PhotonView>().RPC(
             "CardEffectInit",
             RpcTarget.All,
-            playerId,
-            3.0f
+            playerId
         );
 
         return _effectObject;

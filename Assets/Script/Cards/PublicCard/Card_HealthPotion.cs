@@ -4,7 +4,7 @@ using UnityEngine;
 using Stat;
 using Photon.Pun;
 
-// Ã¼·Â ¹°¾à
+// Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 public class Card_HealthPotion : UI_Card
 {
     

@@ -14,18 +14,21 @@ public class AmuletOfSteel2Start : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        _pv = GetComponent<PhotonView>();
+        ///초기화
         base.CardEffectInit(userId);
-
+        _pv = GetComponent<PhotonView>();
         teamLayer = player.GetComponent<PlayerStats>().playerArea;
 
+        ///effect 위치
         transform.parent = player.transform;
         transform.localPosition = new Vector3(0, 1.12f, 0);
 
+        ///자기 자신에게 새로운 effect 인스턴스화 
         GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_AmuletofSteel", player.transform);
         ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
     }
 
+    ///현재 effect의 collider Enter된 Object 판별 
     public void OnTriggerEnter(Collider other)
     {
         int otherId = Managers.game.RemoteColliderId(other);
@@ -42,6 +45,7 @@ public class AmuletOfSteel2Start : BaseEffect
         if (other.layer != teamLayer) return;
         if (other.layer == teamLayer && other.tag == "PLAYER")
         {
+            ///같은 팀원에게 새로운 effect 인스턴스 화
             GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_AmuletofSteel", other.transform);
             ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
         }

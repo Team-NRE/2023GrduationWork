@@ -63,7 +63,6 @@ public class BloodTransfusionStart : BaseEffect
 
             enemyStats.receviedDamage = (playerId, (damage + (pStats.basicAttackPower * 0.7f)));
             pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);
-            if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
 
             BaseCard._lockTarget = null;
             GetComponent<BloodTransfusionStart>().enabled = false;

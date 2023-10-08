@@ -23,7 +23,7 @@ public class BloodstainedCoinStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
-        //BaseCard._lockTarget = null;
+
         damage = 10.0f;
         _playerId = userId;
         _targetId = targetId;
@@ -54,16 +54,14 @@ public class BloodstainedCoinStart : BaseEffect
 
             if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
             {
-                // 여기서 에러가 발생한다.
                 //effect
                 _effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin");
-                
-                //_effectObject = PhotonNetwork.Instantiate($"Particle/Effect_BloodstainedCoin", this.gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
+
                 _effectObject.transform.parent = target.transform;
                 _effectObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
 
-                //Ÿ���� �̴Ͼ�, Ÿ���� �� 
+                //object
                 if (target.tag != "PLAYER")
                 {
                     ObjStats oStats = target.GetComponent<ObjStats>();
@@ -71,14 +69,10 @@ public class BloodstainedCoinStart : BaseEffect
 
                     oStats.nowHealth -= damage + (pStats.basicAttackPower);
 
-                    //Destroy(gameObject, 0.1f);
-                    //Destroy(_effectObject, 0.5f);
                     target = null;
-                    //RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
-                    //RpcDelayDestroy(_effectObject.GetComponent<PhotonView>().ViewID, 0.5f);
                 }
 
-                //Ÿ���� �� Player�� ��
+                //player
                 else if (target.tag == "PLAYER")
                 {
                     enemyStats = target.GetComponent<PlayerStats>();
@@ -88,16 +82,10 @@ public class BloodstainedCoinStart : BaseEffect
 
                     if (enemyStats.nowHealth <= 0)
                     {
-                        pStats.kill += 1;
                         pStats.gold += 100;
                     }
 
                     target = null;
-                    //Destroy(gameObject, 0.1f);
-                    //Destroy(_effectObject, 0.5f);
-                    //RpcDelayDestroy(this.gameObject.GetComponent<PhotonView>().ViewID, 0.1f);
-                    //RpcDelayDestroy(_effectObject.gameObject.GetComponent<PhotonView>().ViewID, 0.5f);
-                    //StartCoroutine(DelayDestroy(gameObject, 0.1f));
                 }
             }
         }

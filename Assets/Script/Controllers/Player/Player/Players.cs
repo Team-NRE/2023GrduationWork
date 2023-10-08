@@ -209,7 +209,7 @@ public class Players : BaseController
                                     _state = Define.State.Moving;
                                 }
 
-                                //Range 카드 = 포인트 카드
+                                //Point 카드 = 논타겟 카드
                                 if (_SaveRangeNum == (int)Define.CardType.Point)
                                 {
                                     //Range 좌표 = Effect 위치 
@@ -369,8 +369,9 @@ public class Players : BaseController
 
             //마우스 오른쪽 클릭 & 누르기
             if (_evt != Define.MouseEvent.LeftButton)
+            {
                 _proj = Define.Projectile.Attack_Proj;
-            
+            }
         }
     }
 
@@ -670,6 +671,7 @@ public class Players : BaseController
             _SaveRegenCool = 0.01f;
         }
 
+        //1초에 HealthRegen만큼 회복
         if (_SaveRegenCool != default)
         {
             _SaveRegenCool += Time.deltaTime;
@@ -680,7 +682,7 @@ public class Players : BaseController
                 _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _pStats.healthRegeneration);
                 _pStats.nowMana += _pStats.manaRegen;
 
-                //attackDelay 초기화
+                //Regen 초기화
                 _SaveRegenCool = default;
             }
         }
@@ -895,6 +897,7 @@ public class Players : BaseController
     //Die
     protected override void UpdateDie()
     {
+        //Manager
         Managers.Input.MouseAction -= MouseDownAction;
         Managers.Input.KeyAction -= KeyDownAction;
         Managers.Input.UIKeyboardAction -= UIKeyDownAction;
@@ -904,12 +907,15 @@ public class Players : BaseController
         BaseCard._lockTarget = null;
         _MovingPos = default;
 
+        //attack
         _stopAttack = false;
         oneShot = false;
         _attackRange[_SaveRangeNum].SetActive(false);
 
+        //skill
         _stopSkill = false;
         
+        //die
         _startDie = true;
     }
 }

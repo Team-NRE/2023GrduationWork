@@ -115,19 +115,19 @@ public class InputManager
             }
 
             //UI cardpaenl
-            else if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 UIKeyboardAction.Invoke(UIKeyboard.W);
             }
 
             //UI cardpaenl
-            else if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 UIKeyboardAction.Invoke(UIKeyboard.E);
             }
 
             //UI cardpaenl
-            else if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 UIKeyboardAction.Invoke(UIKeyboard.R);
             }
@@ -140,74 +140,50 @@ public class InputManager
         //키보드만 입력 시
         if (KeyAction != null)
         {
-            //스킬
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                KeyAction.Invoke(KeyboardEvent.Q);
-            }
-
-            //스킬
-            else if (Input.GetKeyDown(KeyCode.W))
-            {
-                KeyAction.Invoke(KeyboardEvent.W);
-            }
-
-            //스킬
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                KeyAction.Invoke(KeyboardEvent.E);
-            }
-
-            //스킬
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                KeyAction.Invoke(KeyboardEvent.R);
-            }
-
             //공격 사거리
-            else if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A))
             {
                 KeyAction.Invoke(KeyboardEvent.A);
             }
 
             //카메라 고정
-            else if (Input.GetKeyDown(KeyCode.U))
+            if (Input.GetKeyDown(KeyCode.U))
             {
                 KeyAction.Invoke(KeyboardEvent.U);
             }
 
             //상점
-            else if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 KeyAction.Invoke(KeyboardEvent.P);
             }
 
             //설정
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 KeyAction.Invoke(KeyboardEvent.Escape);
             }
 
             //누르고 있을 때 상태창 On
-            else if (Input.GetKey(KeyCode.Tab))
+            if (Input.GetKey(KeyCode.Tab))
             {
                 KeyAction.Invoke(KeyboardEvent.Tab);
             }
 
             //땠을 때 상태창 Off
-            else if (Input.GetKeyUp(KeyCode.Tab))
+            if (Input.GetKeyUp(KeyCode.Tab))
             {
                 KeyAction.Invoke(KeyboardEvent.TabUp);
             }     
 
             //누르고 있을 때 카메라 따라가기
-            else if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
                 KeyAction.Invoke(KeyboardEvent.Space);
             }
 
             //땠을 때 카메라 이동
-            else if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
                 KeyAction.Invoke(KeyboardEvent.SpaceUp);
             }

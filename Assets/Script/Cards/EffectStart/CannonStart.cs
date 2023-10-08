@@ -55,7 +55,6 @@ public class CannonStart : BaseEffect
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
                 enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.5f));
-                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }
     }

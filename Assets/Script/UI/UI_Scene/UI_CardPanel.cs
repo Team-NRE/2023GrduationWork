@@ -121,6 +121,9 @@ public class UI_CardPanel : UI_Card
 
         CountSet = 3.0f;
 
+        Managers.Input.MouseAction -= MouseDownAction;
+        Managers.Input.MouseAction += MouseDownAction;
+
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
@@ -146,7 +149,7 @@ public class UI_CardPanel : UI_Card
             if(bc._stopSkill == true) 
             { 
                 Card_Cant_Use();
-                
+
                 Managers.Input.UIKeyboardAction -= UIKeyDownAction;
 
                 return; 
@@ -156,7 +159,6 @@ public class UI_CardPanel : UI_Card
             { 
                 Card_Can_Use();
 
-                MouseDownAction();
                 Managers.Input.UIKeyboardAction -= UIKeyDownAction;
                 Managers.Input.UIKeyboardAction += UIKeyDownAction;
             }
@@ -164,96 +166,117 @@ public class UI_CardPanel : UI_Card
     }
 
     //Range 후 사용 카드
-    public void MouseDownAction()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (BaseCard._lockTarget != null)
-            {
-                targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);
-            }
+    //public void MouseDownAction()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        if (BaseCard._lockTarget != null)
+    //        {
+    //            targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);
+    //        }
 
-            //Range -> _lockTarget 있어야 사용
-            //Arrow, Cone, Line, Point -> _lockTarget이 없어도 사용 가능
+    //        //Range -> _lockTarget 있어야 사용
+    //        //Arrow, Cone, Line, Point -> _lockTarget이 없어도 사용 가능
+    //        switch (BaseCard._NowKey)
+    //        {
+    //            case "Q":
+    //                UI_Card Q_UICard = Q_Btn.GetComponentInChildren<UI_Card>();
+    //                //Debug.Log($"{Q_UICard._rangeType} Cardpanel");
+    //                //Range 스킬
+    //                if (BaseCard._lockTarget != null && targetDis <= Q_UICard._rangeScale)
+    //                {
+                        
+    //                    UI_UseQ();
+    //                }
+
+    //                //Arrow, Cone, Line, Point 스킬
+    //                if (BaseCard._lockTarget == null && Q_UICard._rangeType != Define.CardType.Range)
+    //                {
+    //                    UI_UseQ();
+    //                }
+
+    //                break;
+
+    //            case "W":
+    //                UI_Card W_UICard = W_Btn.GetComponentInChildren<UI_Card>();
+    //                //Debug.Log($"{W_UICard._rangeType} Cardpanel");
+    //                //Range 스킬
+    //                if (BaseCard._lockTarget != null && targetDis <= W_UICard._rangeScale)
+    //                {
+    //                    UI_UseW();
+    //                }
+
+    //                //Arrow, Cone, Line, Point 스킬
+    //                if (BaseCard._lockTarget == null && W_UICard._rangeType != Define.CardType.Range)
+    //                {
+    //                    UI_UseW();
+    //                }
+
+    //                break;
+
+    //            case "E":
+    //                UI_Card E_UICard = E_Btn.GetComponentInChildren<UI_Card>();
+    //                //Debug.Log($"{E_UICard._rangeType} Cardpanel");
+    //                //Range 스킬
+    //                if (BaseCard._lockTarget != null && targetDis <= E_UICard._rangeScale)
+    //                {
+    //                    UI_UseE();
+    //                }
+
+    //                //Arrow, Cone, Line, Point 스킬
+    //                if (BaseCard._lockTarget == null && E_UICard._rangeType != Define.CardType.Range)       
+    //                {
+    //                    UI_UseE();
+    //                }
+    //                break;
+
+    //            case "R":
+    //                UI_Card R_UICard = R_Btn.GetComponentInChildren<UI_Card>();
+    //                //Debug.Log($"{R_UICard._rangeType} Cardpanel");
+    //                //Range 스킬
+    //                if (BaseCard._lockTarget != null && targetDis <= R_UICard._rangeScale)
+    //                {
+    //                    UI_UseR();
+    //                }
+
+    //                //Arrow, Cone, Line, Point 스킬
+    //                if (BaseCard._lockTarget == null && R_UICard._rangeType != Define.CardType.Range)
+    //                {
+    //                    UI_UseR();
+    //                }
+
+    //                break;
+    //        }
+    //    }
+    //}
+
+    //바로 사용 카드
+    
+    
+    public void MouseDownAction(Define.MouseEvent _evt)
+    {
+        if(_evt == Define.MouseEvent.LeftButton)
+        {
+            if (bc._IsRange == false) return;
+            
             switch (BaseCard._NowKey)
             {
-                case "Q":
-                    UI_Card Q_UICard = Q_Btn.GetComponentInChildren<UI_Card>();
-                    //Debug.Log($"{Q_UICard._rangeType} Cardpanel");
-                    //Range 스킬
-                    if (BaseCard._lockTarget != null && targetDis <= Q_UICard._rangeScale)
-                    {
-                        UI_UseQ();
-                    }
 
-                    //Arrow, Cone, Line, Point 스킬
-                    if (BaseCard._lockTarget == null && Q_UICard._rangeType != Define.CardType.Range && bc._IsRange == true)
-                    {
-                        UI_UseQ();
-                    }
-
-                    break;
-
-                case "W":
-                    UI_Card W_UICard = W_Btn.GetComponentInChildren<UI_Card>();
-                    //Debug.Log($"{W_UICard._rangeType} Cardpanel");
-                    //Range 스킬
-                    if (BaseCard._lockTarget != null && targetDis <= W_UICard._rangeScale)
-                    {
-                        UI_UseW();
-                    }
-
-                    //Arrow, Cone, Line, Point 스킬
-                    if (BaseCard._lockTarget == null && W_UICard._rangeType != Define.CardType.Range && bc._IsRange == true)
-                    {
-                        UI_UseW();
-                    }
-
-                    break;
-
-                case "E":
-                    UI_Card E_UICard = E_Btn.GetComponentInChildren<UI_Card>();
-                    //Debug.Log($"{E_UICard._rangeType} Cardpanel");
-                    //Range 스킬
-                    if (BaseCard._lockTarget != null && targetDis <= E_UICard._rangeScale)
-                    {
-                        UI_UseE();
-                    }
-
-                    //Arrow, Cone, Line, Point 스킬
-                    if (BaseCard._lockTarget == null && E_UICard._rangeType != Define.CardType.Range && bc._IsRange == true)       
-                    {
-                        UI_UseE();
-                    }
-                    break;
-
-                case "R":
-                    UI_Card R_UICard = R_Btn.GetComponentInChildren<UI_Card>();
-                    //Debug.Log($"{R_UICard._rangeType} Cardpanel");
-                    //Range 스킬
-                    if (BaseCard._lockTarget != null && targetDis <= R_UICard._rangeScale)
-                    {
-                        UI_UseR();
-                    }
-
-                    //Arrow, Cone, Line, Point 스킬
-                    if (BaseCard._lockTarget == null && R_UICard._rangeType != Define.CardType.Range && bc._IsRange == true)
-                    {
-                        UI_UseR();
-                    }
-
-                    break;
             }
         }
     }
 
-    //바로 사용 카드
+
+
+
+
     public void UIKeyDownAction(Define.UIKeyboard _key)
     {
         //키보드 입력 시
         switch (_key)
         {
             case Define.UIKeyboard.Q:
+                //바로 사용 카드
                 if (pStat.UseMana(_key.ToString()).Item1 == true && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
                 {
                     UI_UseQ();

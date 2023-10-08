@@ -6,36 +6,46 @@ using Photon.Pun;
 
 public class ChargeStart : BaseEffect
 {
-    PlayerStats _pStats;
-    protected PhotonView _pv;
+    PhotonView _playerPV;
 
     float _powerValue;
-    
+    float effectTime;
+    float startEffect = 0.01f;
 
     [PunRPC]
-    public override IEnumerator CardEffectInit(int userId, float time)
+    public override void CardEffectInit(int userId)
     {
-
-        player = GetRemotePlayer(userId);
+        ///초기화
+        base.CardEffectInit(userId);
+        _playerPV = player.GetComponent<PhotonView>();
+        
+        ///effect 위치
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0.2f, 0);
-        _pStats = player.GetComponent<PlayerStats>();
+
+        ///스텟 적용 시간
+        effectTime = 2.0f;
+
+        ///스텟 적용
         _speed = 0.5f;
         _powerValue = 10.0f;
-
-        _pStats.speed += _speed;
-        _pStats.basicAttackPower += _powerValue;
-        yield return new WaitForSeconds(time);
-        _pStats.speed -= _speed;
-        _pStats.basicAttackPower -= _powerValue;
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", _speed);
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", _powerValue);
     }
 
-    IEnumerator DelayBuff()
+    private void Update()
     {
-        _pStats.speed += _speed;
-        _pStats.basicAttackPower += _powerValue;
-        yield return new WaitForSeconds(_effectTime);
-        _pStats.speed -= _speed;
-        _pStats.basicAttackPower -= _powerValue;
+        startEffect += Time.deltaTime;
+
+        ///스텟 적용 종료
+        if (startEffect > effectTime - 0.01f)
+        {
+            _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -_speed);
+            _playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", -_powerValue);
+
+            Destroy(gameObject);
+
+            return;
+        }
     }
 }

@@ -19,50 +19,54 @@ public class AmuletOfSteelStart : BaseEffect
 
     void Start()
     {
+        ///초기화
         player = transform.parent.gameObject; 
         pStat = player.GetComponent<PlayerStats>();
         _playerPV = player.GetComponent<PhotonView>();
 
+        ///스텟 적용 시간
         effectTime = 5.0f;
+
+        ///스텟 적용 (방어막)
         shieldValue = pStat.maxHealth * shieldRatioPerHealth;
-
+        ///현재 카드의 Max 방어막
         _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", shieldValue);
+        ///현재 Player의 방어막
         _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", shieldValue);
-
-        //Debug.Log($"초기 방어막 생성 : {shieldValue} , {pStat.firstShield}");
-        //Debug.Log($"중첩 방어막 생성 : {pStat.shield}");
     }
 
     private void Update()
     {
         startEffect += Time.deltaTime;
 
+        ///스텟 적용 종료
         if (startEffect > effectTime - 0.01f)
         {
-            //초기 쉴드와 지금의 쉴드가 같지 않다면
+            ///방어막 카드의 Max 방어막 != 현재 Player의 방어막
             if (pStat.firstShield != pStat.shield)
             {
+                ///방어막 수치 잠시 초기화
                 pStat.shield = 0;
+                ///방어막 카드의 총 Max 방어막 - 현재 카드의 Max 방어막
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
+                ///현재 Player의 방어막 += 남은 카드의 Max 방어막
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", pStat.firstShield);
 
-                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
-                //Debug.Log($"지금 방어막 : {pStat.shield}");
-
+                //현재 카드 삭제
                 Destroy(gameObject);
 
                 return;
             }
 
-            //초기 쉴드와 지금의 쉴드가 같다면
+            ///방어막 카드의 Max 방어막 == 현재 Player의 방어막
             if (pStat.firstShield == pStat.shield)
             {
+                ///방어막 카드의 총 Max 방어막 - 현재 카드의 Max 방어막
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
+                ///현재 Player의 방어막 - 현재 카드의 Max 방어막
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", -shieldValue);
 
-                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
-                //Debug.Log($"지금 방어막 : {pStat.shield}");
-
+                ///현재 카드 삭제
                 Destroy(gameObject);
 
                 return;
