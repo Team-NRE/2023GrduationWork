@@ -26,7 +26,7 @@ public class UI_CardPanel : UI_Card
     public UI_Card Q_UI;
     public UI_Card W_UI;
     public UI_Card E_UI;
-    UI_Card R_UI;
+    public UI_Card R_UI;
 
     GameObject Q_CardEffect;
     GameObject W_CardEffect;
@@ -49,6 +49,7 @@ public class UI_CardPanel : UI_Card
     TextMeshProUGUI R_CardCount;
 
     BaseController bc;
+    Players p; 
     PlayerStats pStat;
 
     float targetDis;
@@ -70,6 +71,7 @@ public class UI_CardPanel : UI_Card
     public override void Init()
     {
         pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
+        p = Managers.game.myCharacter?.GetComponent<Players>();
         bc = Managers.game.myCharacter?.GetComponent<BaseController>();
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
@@ -161,115 +163,89 @@ public class UI_CardPanel : UI_Card
 
                 Managers.Input.UIKeyboardAction -= UIKeyDownAction;
                 Managers.Input.UIKeyboardAction += UIKeyDownAction;
+
+                if (BaseCard._lockTarget == null) { targetDis = 0; }
+                if (BaseCard._lockTarget != null)
+                {
+                    targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);
+
+                    NowKey();
+                }
             }
         }
     }
 
-    //Range 후 사용 카드
-    //public void MouseDownAction()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        if (BaseCard._lockTarget != null)
-    //        {
-    //            targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);
-    //        }
 
-    //        //Range -> _lockTarget 있어야 사용
-    //        //Arrow, Cone, Line, Point -> _lockTarget이 없어도 사용 가능
-    //        switch (BaseCard._NowKey)
-    //        {
-    //            case "Q":
-    //                UI_Card Q_UICard = Q_Btn.GetComponentInChildren<UI_Card>();
-    //                //Debug.Log($"{Q_UICard._rangeType} Cardpanel");
-    //                //Range 스킬
-    //                if (BaseCard._lockTarget != null && targetDis <= Q_UICard._rangeScale)
-    //                {
-                        
-    //                    UI_UseQ();
-    //                }
-
-    //                //Arrow, Cone, Line, Point 스킬
-    //                if (BaseCard._lockTarget == null && Q_UICard._rangeType != Define.CardType.Range)
-    //                {
-    //                    UI_UseQ();
-    //                }
-
-    //                break;
-
-    //            case "W":
-    //                UI_Card W_UICard = W_Btn.GetComponentInChildren<UI_Card>();
-    //                //Debug.Log($"{W_UICard._rangeType} Cardpanel");
-    //                //Range 스킬
-    //                if (BaseCard._lockTarget != null && targetDis <= W_UICard._rangeScale)
-    //                {
-    //                    UI_UseW();
-    //                }
-
-    //                //Arrow, Cone, Line, Point 스킬
-    //                if (BaseCard._lockTarget == null && W_UICard._rangeType != Define.CardType.Range)
-    //                {
-    //                    UI_UseW();
-    //                }
-
-    //                break;
-
-    //            case "E":
-    //                UI_Card E_UICard = E_Btn.GetComponentInChildren<UI_Card>();
-    //                //Debug.Log($"{E_UICard._rangeType} Cardpanel");
-    //                //Range 스킬
-    //                if (BaseCard._lockTarget != null && targetDis <= E_UICard._rangeScale)
-    //                {
-    //                    UI_UseE();
-    //                }
-
-    //                //Arrow, Cone, Line, Point 스킬
-    //                if (BaseCard._lockTarget == null && E_UICard._rangeType != Define.CardType.Range)       
-    //                {
-    //                    UI_UseE();
-    //                }
-    //                break;
-
-    //            case "R":
-    //                UI_Card R_UICard = R_Btn.GetComponentInChildren<UI_Card>();
-    //                //Debug.Log($"{R_UICard._rangeType} Cardpanel");
-    //                //Range 스킬
-    //                if (BaseCard._lockTarget != null && targetDis <= R_UICard._rangeScale)
-    //                {
-    //                    UI_UseR();
-    //                }
-
-    //                //Arrow, Cone, Line, Point 스킬
-    //                if (BaseCard._lockTarget == null && R_UICard._rangeType != Define.CardType.Range)
-    //                {
-    //                    UI_UseR();
-    //                }
-
-    //                break;
-    //        }
-    //    }
-    //}
-
-    //바로 사용 카드
-    
-    
+    //Range 이후 사용하는 카드
     public void MouseDownAction(Define.MouseEvent _evt)
     {
-        if(_evt == Define.MouseEvent.LeftButton)
+        if (_evt == Define.MouseEvent.LeftButton)
         {
-            if (bc._IsRange == false) return;
-            
-            switch (BaseCard._NowKey)
-            {
+            NowKey();
+        }
+    }
 
-            }
+    public void NowKey()
+    {
+        if (p._IsRange == false) return;
+        switch (BaseCard._NowKey)
+        {
+            case "Q":
+                //거리 짧으면
+                if (Q_UI._rangeScale < targetDis) return;
+                //Range 카드가 땅을 클릭 했다면
+                if (Q_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;
+                //카드 타입이 None이면
+                if (Q_UI._rangeType == Define.CardType.None) return;
+                
+                UI_UseQ();
+
+                break;
+
+
+            case "W":
+                //거리 짧으면
+                if (W_UI._rangeScale < targetDis) return;
+                //Range 카드가 땅을 클릭 했다면
+                if (W_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;
+                //카드 타입이 None이면
+                if (W_UI._rangeType == Define.CardType.None) return;
+
+                UI_UseW();
+
+                break;
+
+
+            case "E":
+                //거리 짧으면
+                if (E_UI._rangeScale < targetDis) return;
+                //Range 카드가 땅을 클릭 했다면
+                if (E_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;
+                //카드 타입이 None이면
+                if (E_UI._rangeType == Define.CardType.None) return;
+
+                UI_UseE();
+
+                break;
+
+
+            case "R":
+                //거리 짧으면
+                if (R_UI._rangeScale < targetDis) return;
+                //Range 카드가 땅을 클릭 했다면
+                if (R_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;
+                //카드 타입이 None이면
+                if (R_UI._rangeType == Define.CardType.None) return;
+
+                UI_UseR();
+
+                break;
         }
     }
 
 
 
-
-
+    // 바로 사용 하는 카드
     public void UIKeyDownAction(Define.UIKeyboard _key)
     {
         //키보드 입력 시
@@ -277,7 +253,7 @@ public class UI_CardPanel : UI_Card
         {
             case Define.UIKeyboard.Q:
                 //바로 사용 카드
-                if (pStat.UseMana(_key.ToString()).Item1 == true && Q_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                if (pStat.UseMana(_key.ToString()).Item1 == true && Q_UI._rangeType == Define.CardType.None)
                 {
                     UI_UseQ();
                 }
@@ -285,7 +261,7 @@ public class UI_CardPanel : UI_Card
                 break;
 
             case Define.UIKeyboard.W:
-                if (pStat.UseMana(_key.ToString()).Item1 == true && W_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                if (pStat.UseMana(_key.ToString()).Item1 == true && W_UI._rangeType == Define.CardType.None)
                 {
                     UI_UseW();
                 }
@@ -293,7 +269,7 @@ public class UI_CardPanel : UI_Card
                 break;
 
             case Define.UIKeyboard.E:
-                if (pStat.UseMana(_key.ToString()).Item1 == true && E_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                if (pStat.UseMana(_key.ToString()).Item1 == true && E_UI._rangeType == Define.CardType.None)
                 {
                     UI_UseE();
                 }
@@ -301,7 +277,7 @@ public class UI_CardPanel : UI_Card
                 break;
 
             case Define.UIKeyboard.R:
-                if (pStat.UseMana(_key.ToString()).Item1 == true && R_Btn.GetComponentInChildren<UI_Card>()._rangeType == Define.CardType.None)
+                if (pStat.UseMana(_key.ToString()).Item1 == true && R_UI._rangeType == Define.CardType.None)
                 {
                     UI_UseR();
                 }
@@ -372,129 +348,107 @@ public class UI_CardPanel : UI_Card
     //0번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseQ()
     {
-        //UI_Card 
-        UI_Card Q_CardUI = Q_Btn.GetComponentInChildren<UI_Card>();
-
         //마나 사용
-        pStat.nowMana -= pStat.UseMana(null, Q_CardUI).Item2;
-
-        //사용한 카드
-        string _nowCard = Q_Btn.transform.GetChild(0).name;
+        pStat.nowMana -= pStat.UseMana(null, Q_UI).Item2;
 
         //새로운 카드 덱에서 리필
-        Refill_Q(_nowCard);
-
-        //현재 누른 키 리셋
-        BaseCard._NowKey = null;
+        Refill_Q(Q_Card.name);
 
         //마우스 액션
         //BindEvent(Q_Card, (PointerEventData data) => { UI_UseQ(data); });
 
     }
-
     public void Refill_Q(string _nowCard = null)
     {
-        //UI_Card 
-        UI_Card Refill_Q_card = Q_Btn.GetComponentInChildren<UI_Card>();
         //사용한 카드 파괴
-        Refill_Q_card.DestroyCard(0.1f);
+        Q_UI.DestroyCard(0.1f);
 
+        //카드 생성
         Q_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", Q_Btn.transform);
+
+        //해당 카드 정보 초기화
         Q_UI = Q_Card.GetComponentInChildren<UI_Card>();
-        Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
+
+        //해당 카드 자식 객체 초기화
         Q_CardImage = Q_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        Q_CardEffect = Q_Card.transform.Find("Card_Effect").gameObject;
         Q_CardCountObject = Q_Card.transform.Find("Card_Count").gameObject;
         Q_CardCount = Q_CardCountObject.GetComponent<TextMeshProUGUI>();
     }
 
+
+
     //1번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseW()
     {
-        //UI_Card 
-        UI_Card W_CardUI = W_Btn.GetComponentInChildren<UI_Card>();
-
         //마나 사용
-        pStat.nowMana -= pStat.UseMana(null, W_CardUI).Item2;
-
-        //사용한 카드
-        string _nowCard = W_Btn.transform.GetChild(0).name;
+        pStat.nowMana -= pStat.UseMana(null, W_UI).Item2;
 
         //새로운 카드 덱에서 리필
-        Refill_W(_nowCard);
-
-        //현재 누른 키 리셋
-        BaseCard._NowKey = null;
+        Refill_W(W_Card.name);
 
         //마우스 액션
         //BindEvent(W_Card, (PointerEventData data) => { UI_UseW(data); });
-    }
 
+    }
     public void Refill_W(string _nowCard = null)
     {
-        //UI_Card 
-        UI_Card Refill_W_card = W_Btn.GetComponentInChildren<UI_Card>();
         //사용한 카드 파괴
-        Refill_W_card.DestroyCard(0.1f);
+        W_UI.DestroyCard(0.1f);
 
+        //카드 생성
         W_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", W_Btn.transform);
+
+        //해당 카드 정보 초기화
         W_UI = W_Card.GetComponentInChildren<UI_Card>();
-        W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
+
+        //해당 카드 자식 객체 초기화
         W_CardImage = W_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        W_CardEffect = W_Card.transform.Find("Card_Effect").gameObject;
         W_CardCountObject = W_Card.transform.Find("Card_Count").gameObject;
         W_CardCount = W_CardCountObject.GetComponent<TextMeshProUGUI>();
     }
 
+
+
     //2번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseE()
     {
-        //UI_Card 
-        UI_Card E_CardUI = E_Btn.GetComponentInChildren<UI_Card>();
-
         //마나 사용
-        pStat.nowMana -= pStat.UseMana(null, E_CardUI).Item2;
-
-        // 사용한 카드
-        string _nowCard = E_Btn.transform.GetChild(0).name;
+        pStat.nowMana -= pStat.UseMana(null, E_UI).Item2;
 
         //새로운 카드 덱에서 리필
-        Refill_E(_nowCard);
-
-        //현재 누른 키 리셋
-        BaseCard._NowKey = null;
+        Refill_E(E_Card.name);
 
         //마우스 액션
         //BindEvent(E_Card, (PointerEventData data) => { UI_UseE(data); });
+
     }
 
     public void Refill_E(string _nowCard = null)
     {
-        //UI_Card 
-        UI_Card Refill_E_card = E_Btn.GetComponentInChildren<UI_Card>();
         //사용한 카드 파괴
-        Refill_E_card.DestroyCard(0.1f);
+        E_UI.DestroyCard(0.1f);
 
+        //카드 생성
         E_Card = Managers.Resource.Instantiate($"Cards/{BaseCard.UseCard(_nowCard)}", E_Btn.transform);
+
+        //해당 카드 정보 초기화
         E_UI = E_Card.GetComponentInChildren<UI_Card>();
-        E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
+
+        //해당 카드 자식 객체 초기화
         E_CardImage = E_Card.transform.Find("Card_img").gameObject.GetComponent<Image>();
+        E_CardEffect = E_Card.transform.Find("Card_Effect").gameObject;
         E_CardCountObject = E_Card.transform.Find("Card_Count").gameObject;
         E_CardCount = E_CardCountObject.GetComponent<TextMeshProUGUI>();
     }
 
+
     //3번 인덱스의 리스트를 반드시 사용한다.
     public void UI_UseR()
     {
-        //UI_Card 
-        UI_Card R_CardUI = R_Btn.GetComponentInChildren<UI_Card>();
-
         //마나 사용
-        pStat.nowMana -= pStat.UseMana(null, R_CardUI).Item2;
-
-        //사용한 카드
-        string _nowCard = R_Btn.transform.GetChild(0).name;
-        
-        //현재 누른 키 리셋
-        BaseCard._NowKey = null;
+        pStat.nowMana -= pStat.UseMana(null, R_UI).Item2;
 
         //마우스 액션
         //BindEvent(R_Card, (PointerEventData data) => { UI_UseR(data); });

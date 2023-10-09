@@ -46,10 +46,6 @@ public class Lightsabre : Players
         {
             if (_pv.IsMine)
             {
-                //////Range Off
-                //_IsRange = false;
-                //_attackRange[4].SetActive(_IsRange);
-
                 int userId = GetComponent<PhotonView>().ViewID;
                 int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
                 _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
@@ -64,7 +60,7 @@ public class Lightsabre : Players
     {
         GameObject target = Managers.game.RemoteTargetFinder(targetId);
 
-        if (target.gameObject.tag == "PLAYER")
+        if (target.gameObject.CompareTag("PLAYER"))
         {
             PlayerStats pt = target.GetComponent<PlayerStats>();
             pt.receviedDamage = (_pv.ViewID, _pStats.basicAttackPower);

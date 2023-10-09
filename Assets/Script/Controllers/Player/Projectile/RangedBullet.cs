@@ -88,7 +88,7 @@ public class RangedBullet : MonoBehaviour
         GameObject target = Managers.game.RemoteTargetFinder(targetId);
         PlayerStats pStats = Managers.game.RemoteTargetFinder(myView).GetComponent<PlayerStats>();
 
-        if (target.gameObject.tag == "PLAYER")
+        if (target.gameObject.CompareTag("PLAYER"))
         {
             PlayerStats pt = target.GetComponent<PlayerStats>();
             pt.receviedDamage = (_player.GetComponent<PhotonView>().ViewID, pStats.basicAttackPower);

@@ -58,10 +58,6 @@ public class Monk : Players
         {
             if (_pv.IsMine)
             {
-                //////Range Off
-                //_IsRange = false;
-                //_attackRange[4].SetActive(_IsRange);
-
                 //Shoot
                 string tempName = "MonkBullet";
                 _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);

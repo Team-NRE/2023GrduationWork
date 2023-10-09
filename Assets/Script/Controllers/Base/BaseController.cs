@@ -33,8 +33,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     public bool _stopAttack = false;
     //스킬 발동 여부
     public bool _stopSkill = false;
-    //사거리 유무
-    public bool _IsRange = false;
     
     /// <summary>
     /// 즉음 유무
@@ -193,6 +191,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             return;
         }
 
+        //자동 공격
         if (BaseCard._lockTarget != null && _proj == Define.Projectile.Attack_Proj && _state == Define.State.Idle)
         {
             _state = Define.State.Moving;
@@ -200,17 +199,7 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             return;
         }
 
-        //A키를 눌렀을 때 
-        if (_IsRange == true && BaseCard._NowKey == KeyboardEvent.A.ToString())
-        {
-            RangeAttack();
-        }
-
-        if (_startDie == false)
-        {
-            UpdatePlayerStat();
-        }
-
+        if (_startDie == false) { UpdatePlayerStat(); }
     }
 
     //퍼센트 계산
