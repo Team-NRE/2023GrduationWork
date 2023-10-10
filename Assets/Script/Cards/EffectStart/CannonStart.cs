@@ -35,24 +35,22 @@ public class CannonStart : BaseEffect
     public void RpcTrigger(int otherId)
 	{
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        if (other.gameObject.layer == enemylayer)
+        if (other.layer == enemylayer)
         {
-            Debug.Log(other.gameObject.name);
-
             //타겟이 미니언, 타워일 시 
-            if (other.gameObject.tag != "PLAYER")
+            if (!other.CompareTag("PLAYER"))
             {
-                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
-                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
-                //Debug.Log($"Canon Damaging : {other.gameObject.name}");
+                ObjStats oStats = other.GetComponent<ObjStats>();
+                PlayerStats pStats = player.GetComponent<PlayerStats>();
+
                 oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
 
             //타겟이 적 Player일 시
-            if (other.gameObject.tag == "PLAYER")
+            if (other.CompareTag("PLAYER"))
             {
-                PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
-                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
+                PlayerStats enemyStats = other.GetComponent<PlayerStats>();
+                PlayerStats pStats = player.GetComponent<PlayerStats>();
 
                 enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.5f));
             }

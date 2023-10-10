@@ -26,15 +26,9 @@ public class Card_BloodstainedCoin : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.RemoteTargetFinder(playerId);
 
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_BloodstainedCoin2");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_BloodstainedCoin2", _player.transform.position, Quaternion.identity);
-        //_effectObject.transform.parent = _player.transform;
-
-        _layer = layer;
-
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
 
         return _effectObject;

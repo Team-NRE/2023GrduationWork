@@ -18,7 +18,6 @@ public class Card_WingsOfTheBattlefield : UI_Card
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
-        _effectTime = 1.1f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)

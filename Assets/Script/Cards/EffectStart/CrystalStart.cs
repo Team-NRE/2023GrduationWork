@@ -18,18 +18,6 @@ public class CrystalStart : BaseEffect
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
 
-        _stats.nowMana += 1 * _stats.manaRegen;
-    }
-
-    void Update()
-    {
-        
-    }
-
-    // �� ī��� update ������ ����
-    [PunRPC]
-    public void RpcUpdate()
-    {
-
+        _stats.nowMana += 1;
     }
 }

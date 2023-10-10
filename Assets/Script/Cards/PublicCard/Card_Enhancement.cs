@@ -20,16 +20,11 @@ public class Card_Enhancement : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //GameObject _player = GameObject.Find(player);
         GameObject _player = Managers.game.myCharacter;
-        PlayerStats _pStat = _player.GetComponent<PlayerStats>();
 
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Enhancement");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Enhancement", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.parent = _player.transform;
         _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
-        //_effectObject.AddComponent<EnhancementStart>().StartEnhancement(playerId, _damage);
-        // _effectObject.GetComponent<EnhancementStart>().CardEffectInit(playerId);
 
         _effectObject.GetComponent<PhotonView>().RPC(
             "CardEffectInit",

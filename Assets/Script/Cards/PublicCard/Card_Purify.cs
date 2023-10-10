@@ -21,8 +21,8 @@ public class Card_Purify : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Purify", ground, Quaternion.identity);
-
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+
         return _effectObject;
     }
 

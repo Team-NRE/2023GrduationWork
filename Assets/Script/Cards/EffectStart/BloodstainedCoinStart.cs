@@ -24,12 +24,13 @@ public class BloodstainedCoinStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
 
-        damage = 10.0f;
         _playerId = userId;
         _targetId = targetId;
+        
+        damage = 10.0f;
 
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 0.8f, 0);
     }
 
     private void Update()
@@ -62,7 +63,7 @@ public class BloodstainedCoinStart : BaseEffect
 
 
                 //object
-                if (target.tag != "PLAYER")
+                if (!target.CompareTag("PLAYER"))
                 {
                     ObjStats oStats = target.GetComponent<ObjStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();
@@ -73,7 +74,7 @@ public class BloodstainedCoinStart : BaseEffect
                 }
 
                 //player
-                else if (target.tag == "PLAYER")
+                if (target.CompareTag("PLAYER"))
                 {
                     enemyStats = target.GetComponent<PlayerStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();
@@ -82,7 +83,7 @@ public class BloodstainedCoinStart : BaseEffect
 
                     if (enemyStats.nowHealth <= 0)
                     {
-                        pStats.gold += 100;
+                        pStats.gold += 300;
                     }
 
                     target = null;

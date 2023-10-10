@@ -164,9 +164,10 @@ public class UI_CardPanel : UI_Card
                 Managers.Input.UIKeyboardAction -= UIKeyDownAction;
                 Managers.Input.UIKeyboardAction += UIKeyDownAction;
 
-                if (BaseCard._lockTarget == null) { targetDis = 0; }
-                if (BaseCard._lockTarget != null)
+                //range 카드일 때 타겟이 정해지고 Range가 On일 시 
+                if (BaseCard._lockTarget != null && p._IsRange == true)
                 {
+                    //타겟와의 거리 Update
                     targetDis = Vector3.Distance(BaseCard._lockTarget.transform.position, Managers.game.myCharacter.transform.position);
 
                     NowKey();
@@ -176,17 +177,22 @@ public class UI_CardPanel : UI_Card
     }
 
 
-    //Range 이후 사용하는 카드
+    //Range On 이후 사용하는 카드
     public void MouseDownAction(Define.MouseEvent _evt)
     {
         if (_evt == Define.MouseEvent.LeftButton)
         {
+            //Range 카드 제외 논타겟팅 카드
+            if (BaseCard._lockTarget == null) { targetDis = 0; }
+
+            //현재 키에 맞는 카드 사용
             NowKey();
         }
     }
 
     public void NowKey()
     {
+        //range off 일 때 return 
         if (p._IsRange == false) return;
         switch (BaseCard._NowKey)
         {

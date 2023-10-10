@@ -6,16 +6,14 @@ using Photon.Pun;
 
 public class HackingGrenadeStart : BaseEffect
 {
-    int playerId;
     PlayerStats enemyStats;
-    protected PhotonView _pv;
+    PhotonView _pv;
 
-    //float damage = default;
+    int playerId;
     int enemylayer = default;
-    //float debuff = default;
 
-    float saveMana = 0;
     bool isDebuff = false;
+    float saveMana = 0;
 
     float time = 0.0f;
 
@@ -25,9 +23,56 @@ public class HackingGrenadeStart : BaseEffect
         playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
+
         _damage = 25.0f;
-        _debuff = 1.02f;
+        _debuff = 2.5f;
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        int otherId = Managers.game.RemoteColliderId(other);
+        if (otherId == default)
+            return;
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+    }
+
+    [PunRPC]
+    public void RpcTrigger(int otherId)
+    {
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        if (other.layer == enemylayer)
+        {
+            //Ÿ���� �̴Ͼ�, Ÿ���� �� 
+            if (!other.CompareTag("PLAYER"))
+            {
+                ObjStats oStats = other.GetComponent<ObjStats>();
+                PlayerStats pStats = player.GetComponent<PlayerStats>();
+
+                oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.5f);
+            }
+
+            //Ÿ���� �� Player�� ��
+            if (other.CompareTag("PLAYER"))
+            {
+                enemyStats = other.GetComponent<PlayerStats>();
+                PlayerStats pStats = player.GetComponent<PlayerStats>();
+
+                enemyStats.receviedDamage = (playerId, _damage + (pStats.basicAttackPower * 0.5f));
+
+                //HackingGrenade ī��
+                if (enemyStats.nowHealth > 0)
+                {
+                    enemyStats.nowState = "Debuff";
+
+                    enemyStats.nowMana = 0;
+                    enemyStats.manaRegen = 0;
+
+                    isDebuff = true;
+                }
+            }
+        }
+    }
+
 
     public void Update()
     {
@@ -38,60 +83,16 @@ public class HackingGrenadeStart : BaseEffect
         }
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        int otherId = Managers.game.RemoteColliderId(other);
-        _pv.RPC("RpcUpdate", RpcTarget.All, otherId);
-    }
-
-    [PunRPC]
-    public void RpcUpdate(int otherId)
-    {
-        GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        if (other.gameObject.layer == enemylayer)
-        {
-            Debug.Log(other.gameObject.name);
-
-            //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-            if (other.gameObject.tag != "PLAYER")
-            {
-                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
-                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
-
-                oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.5f);
-            }
-
-            //Ÿ���� �� Player�� ��
-            if (other.gameObject.tag == "PLAYER")
-            {
-                enemyStats = other.gameObject.GetComponent<PlayerStats>();
-                PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
-
-                enemyStats.receviedDamage = (playerId, _damage + (pStats.basicAttackPower * 0.5f));
-                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
-
-                //HackingGrenade ī��
-                if (_debuff != default)
-                {
-                    enemyStats.nowState = "Debuff";
-
-                    saveMana = enemyStats.manaRegen;
-                    enemyStats.manaRegen = 0;
-
-                    isDebuff = true;
-                }
-            }
-        }
-    }
-
     private void ManaRegenBack()
     {
-        if (time >= _debuff - 0.02f || enemyStats.nowState == "Health")
+        if (time >= _debuff - 0.01f || enemyStats.nowState == "Health")
         {
-            enemyStats.manaRegen = saveMana;
             enemyStats.nowState = "Health";
-            time = 0;
+            enemyStats.manaRegen = 0.25f;
+            
             isDebuff = false;
+            time = 0;
+            Destroy(gameObject);
         }
     }
 }

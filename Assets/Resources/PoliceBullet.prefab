@@ -9838,8 +9838,6 @@ GameObject:
   - component: {fileID: 6095783458460075165}
   - component: {fileID: 6220708689391421179}
   - component: {fileID: 6221061669436206557}
-  - component: {fileID: 6128904704280020121}
-  - component: {fileID: 7622988565972447348}
   m_Layer: 0
   m_Name: BulletExplosionYellow
   m_TagString: Untagged
@@ -14714,36 +14712,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &6128904704280020121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094233448849850427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa5c1e37409a9344a344c0468db383d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabSound: {fileID: 1297775994297274, guid: bb96dd857d6141649bf512d8512f38ea, type: 3}
-  destroyWhenDone: 1
-  soundPrefabIsChild: 0
-  pitchRandomMultiplier: 1.2
---- !u!136 &7622988565972447348
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094233448849850427}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.006
-  m_Height: 0.012
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.0040000016}
 --- !u!1 &6094365949184715369
 GameObject:
   m_ObjectHideFlags: 0

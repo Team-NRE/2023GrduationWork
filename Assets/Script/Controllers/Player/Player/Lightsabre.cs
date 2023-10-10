@@ -46,6 +46,9 @@ public class Lightsabre : Players
         {
             if (_pv.IsMine)
             {
+                //평타 소리
+                attackSound.GetComponent<AudioSource>().enabled = true;
+
                 int userId = GetComponent<PhotonView>().ViewID;
                 int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
                 _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);

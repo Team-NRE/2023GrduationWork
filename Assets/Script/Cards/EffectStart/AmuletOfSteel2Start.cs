@@ -41,9 +41,9 @@ public class AmuletOfSteel2Start : BaseEffect
     public void RpcTrigger(int otherId)
     {
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        if (other.tag != "PLAYER") return;
+        if (!other.CompareTag("PLAYER")) return;
         if (other.layer != teamLayer) return;
-        if (other.layer == teamLayer && other.tag == "PLAYER")
+        if (other.layer == teamLayer && other.CompareTag("PLAYER"))
         {
             ///같은 팀원에게 새로운 effect 인스턴스 화
             GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_AmuletofSteel", other.transform);

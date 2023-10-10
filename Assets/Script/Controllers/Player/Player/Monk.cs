@@ -58,6 +58,9 @@ public class Monk : Players
         {
             if (_pv.IsMine)
             {
+                //평타 소리
+                attackSound.GetComponent<AudioSource>().enabled = true;
+
                 //Shoot
                 string tempName = "MonkBullet";
                 _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);

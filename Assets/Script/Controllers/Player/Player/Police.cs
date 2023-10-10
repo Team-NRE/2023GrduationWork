@@ -59,8 +59,11 @@ public class Police : Players
         {
             if (_pv.IsMine)
             {
+                //평타 소리
+                attackSound.GetComponent<AudioSource>().enabled = true;
+
                 //Shoot
-                string tempName = "MonkBullet";
+                string tempName = "PoliceBullet";
                 _netBullet = PhotonNetwork.Instantiate(tempName, _Proj_Parent.position, _Proj_Parent.rotation);
                 PhotonView localPv = _netBullet.GetComponent<PhotonView>();
                 localPv.RPC("Init", RpcTarget.All, _pv.ViewID, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);

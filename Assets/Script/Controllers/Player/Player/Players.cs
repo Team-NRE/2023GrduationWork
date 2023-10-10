@@ -35,6 +35,9 @@ public class Players : BaseController
     //한발만 쏘기 체크
     protected bool oneShot = false;
 
+    protected GameObject attackSound;
+    GameObject resen;
+
     public override void Init()
     {
         base.Init();
@@ -46,6 +49,10 @@ public class Players : BaseController
         _pv = GetComponent<PhotonView>();
         _grid = FindObjectOfType<GridLayout>();
         _tilemap = FindObjectOfType<Tilemap>();
+
+        resen = transform.Find("SpawnSimplePink").gameObject;
+        attackSound = transform.Find("AttackSound").gameObject;
+
 
         //Range List Setting
         GetComponentInChildren<SplatManager>().enabled = false;
@@ -71,7 +78,7 @@ public class Players : BaseController
         ignore = LayerMask.GetMask("Default", "Ignore Raycast");
 
         //부활 effect setting
-        transform.Find("SpawnSimplePink").gameObject.SetActive(false);
+        resen.SetActive(false);
     }
 
     public override void InitOnEnable()
@@ -106,7 +113,8 @@ public class Players : BaseController
 
         yield return new WaitForSeconds(2.5f);
         //부활 effect On
-        transform.Find("SpawnSimplePink").gameObject.SetActive(true);
+        resen.SetActive(true);
+        resen.GetComponent<AudioSource>().enabled = true;
 
         //collider On
         _pv.RPC("RemoteRespawnEnable", RpcTarget.All, _pv.ViewID, true, 2);
@@ -125,9 +133,10 @@ public class Players : BaseController
         //액션 대리자 재설정 후 UpdatePlayerStat
         _startDie = false;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2.5f);
         //부활 effect 재설정
-        transform.Find("SpawnSimplePink").gameObject.SetActive(false);
+        resen.SetActive(false);
+        resen.GetComponent<AudioSource>().enabled = false;
     }
 
 
@@ -722,6 +731,9 @@ public class Players : BaseController
 
         //애니메이션 Idle로 변환
         _state = Define.State.Idle;
+
+        //평타 소리
+        attackSound.GetComponent<AudioSource>().enabled = false;
 
         ///bool 초기화
         oneShot = false;

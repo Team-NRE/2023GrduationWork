@@ -19,7 +19,7 @@ public class WingsOfTheBattlefieldStart : BaseEffect
         _stats = Managers.game.RemoteTargetFinder(userId).GetComponent<PlayerStats>();
         _playerId = userId;
         speed = 2.0f;
-        effectTime = 1.1f;
+        effectTime = 3.0f;
 
         _stats.speed += speed;
         yield return new WaitForSeconds(effectTime);

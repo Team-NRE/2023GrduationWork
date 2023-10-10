@@ -24,9 +24,11 @@ public class BloodTransfusionStart : BaseEffect
         base.CardEffectInit(userId, targetId);
         _playerId = userId;
         _targetId = targetId;
+        
         Obj = target;
-        this.gameObject.transform.parent = target.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
+
+        transform.parent = target.transform;
+        transform.localPosition = new Vector3(0, 0.8f, 0);
 
         damage = 30.0f;
     }
@@ -43,7 +45,7 @@ public class BloodTransfusionStart : BaseEffect
         GameObject user = Managers.game.RemoteTargetFinder(playerId);
 
         //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-        if (Obj.tag != "PLAYER")
+        if (!Obj.CompareTag("PLAYER"))
         {
             ObjStats oStats = Obj.GetComponent<ObjStats>();
             PlayerStats pStats = user.GetComponent<PlayerStats>();
@@ -56,7 +58,7 @@ public class BloodTransfusionStart : BaseEffect
         }
 
         //Ÿ���� �� Player�� ��
-        if (Obj.tag == "PLAYER")
+        if (Obj.CompareTag("PLAYER"))
         {
             PlayerStats enemyStats = Obj.GetComponent<PlayerStats>();
             PlayerStats pStats = user.GetComponent<PlayerStats>();
