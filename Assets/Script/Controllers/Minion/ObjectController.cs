@@ -227,7 +227,7 @@ public abstract class ObjectController : MonoBehaviour
             this.transform.position, 
             minRangePlayer, 
             inRangeObject,
-            gameObject.layer == (int)Layer.Human ? 1 << (int)Layer.Cyborg : 1 << (int)Layer.Human
+            LayerMask.GetMask("Human", "Cyborg", "Neutral") ^ (1 << gameObject.layer)
         );
 
         for (int i=0; i<inRangeObject.Length; i++)
