@@ -24,13 +24,13 @@ public class BloodstainedCoinStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
 
+        damage = 10.0f;
         _playerId = userId;
         _targetId = targetId;
-        
-        damage = 10.0f;
 
-        transform.parent = player.transform;
-        transform.localPosition = new Vector3(0, 0.8f, 0);
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
+        this.gameObject.transform.parent = null;
     }
 
     private void Update()
@@ -41,10 +41,10 @@ public class BloodstainedCoinStart : BaseEffect
     [PunRPC]
     public void RpcUpdate(int playerId, int targetId)
 	{
-        if (target == null)
+        if (target == null && _pv.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
-            PhotonNetwork.Destroy(_effectObject);
+            //PhotonNetwork.Destroy(_effectObject);
         }
 
         if (target != null)
@@ -63,7 +63,7 @@ public class BloodstainedCoinStart : BaseEffect
 
 
                 //object
-                if (!target.CompareTag("PLAYER"))
+                if (target.tag != "PLAYER")
                 {
                     ObjStats oStats = target.GetComponent<ObjStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();
@@ -74,7 +74,7 @@ public class BloodstainedCoinStart : BaseEffect
                 }
 
                 //player
-                if (target.CompareTag("PLAYER"))
+                else if (target.tag == "PLAYER")
                 {
                     enemyStats = target.GetComponent<PlayerStats>();
                     PlayerStats pStats = player.GetComponent<PlayerStats>();
@@ -83,11 +83,12 @@ public class BloodstainedCoinStart : BaseEffect
 
                     if (enemyStats.nowHealth <= 0)
                     {
-                        pStats.gold += 300;
+                        pStats.gold += 100;
                     }
 
                     target = null;
                 }
+                if(_pv.IsMine) PhotonNetwork.Destroy(gameObject);
             }
         }
     }

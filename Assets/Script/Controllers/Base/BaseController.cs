@@ -245,6 +245,9 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected IEnumerator DelayDestroy(GameObject target, float time)
     {
         yield return new WaitForSeconds(time);
+        Debug.Log(time);
+        if (target == null)
+            yield return null;
         PhotonNetwork.Destroy(target);
         Debug.Log("Destroy");
     }
