@@ -30,6 +30,7 @@ public class BloodstainedCoinStart : BaseEffect
 
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
+        this.gameObject.transform.parent = null;
     }
 
     private void Update()
@@ -40,10 +41,10 @@ public class BloodstainedCoinStart : BaseEffect
     [PunRPC]
     public void RpcUpdate(int playerId, int targetId)
 	{
-        if (target == null)
+        if (target == null && _pv.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
-            PhotonNetwork.Destroy(_effectObject);
+            //PhotonNetwork.Destroy(_effectObject);
         }
 
         if (target != null)
@@ -87,6 +88,7 @@ public class BloodstainedCoinStart : BaseEffect
 
                     target = null;
                 }
+                if(_pv.IsMine) PhotonNetwork.Destroy(gameObject);
             }
         }
     }
