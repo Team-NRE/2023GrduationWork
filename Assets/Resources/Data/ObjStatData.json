@@ -1,25 +1,25 @@
 {
     "stats": [
       {
-        "type": "MeleeMinion",
-        
+        "type": "MeleeMinion",    
+
         "basicAttackPower": "12",
         "attackSpeed" : "10",
         "attackRange" : "1.1",
         "recognitionRange" : "10",
-
+    
         "maxHealth" : "455",
         "defensePower" : "0",
         "nowBattery" : "59",
-
+    
         "speed" : "4",
-
-        "gold" : "500",
-        "experience" : "10"
+    
+        "gold" : "100",
+        "experience" : "100"
       },
       {
-        "type": "RangeMinion",
-        
+        "type": "RangeMinion",    
+
         "basicAttackPower": "22.5",
         "attackSpeed" : "5",
         "attackRange" : "5.5",
@@ -31,8 +31,8 @@
 
         "speed" : "4",
 
-        "gold" : "500",
-        "experience" : "10"
+        "gold" : "100",
+        "experience" : "100"
       },
       {
         "type": "SuperMinion",
@@ -52,8 +52,8 @@
         "experience" : "10"
       },
       {
-        "type": "Tower",
-        
+        "type": "Tower",    
+
         "basicAttackPower": "187",
         "attackSpeed" : "7.5",
         "attackRange" : "7.5",
@@ -65,8 +65,8 @@
 
         "speed" : "0",
 
-        "gold" : "500",
-        "experience" : "10"
+        "gold" : "1500",
+        "experience" : "6000"
       },
       {
         "type": "Nexus",
@@ -99,8 +99,8 @@
 
         "speed" : "0",
 
-        "gold" : "500",
-        "experience" : "10"
+        "gold" : "2000",
+        "experience" : "6000"
       }
     ]
   } 
