@@ -14,7 +14,7 @@
 
         "level": "1",
         "experience": "0",
-        "levelUpEX": "50",
+        "levelUpEX": "540",
         "levelUpAP": "3.5",
         "levelUpAS": "0.05",
         "levelUpHP": "75",
@@ -45,7 +45,7 @@
 
         "level": "1",
         "experience": "0",
-        "levelUpEx": "0",
+        "levelUpEx": "540",
         "levelUpAP": "3",
         "levelUpAS": "0.05",
         "levelUpHP": "80",
@@ -76,7 +76,7 @@
 
         "level": "1",
         "experience": "0",
-        "levelUpEx": "0",
+        "levelUpEx": "540",
         "levelUpAP": "2",
         "levelUpAS": "0.05",
         "levelUpHP": "75",
@@ -107,7 +107,7 @@
 
         "level": "1",
         "experience": "0",
-        "levelUpEx": "0",
+        "levelUpEx": "540",
         "levelUpAP": "1.5",
         "levelUpAS": "0.05",
         "levelUpHP": "80",

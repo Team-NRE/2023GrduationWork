@@ -4497,7 +4497,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _action: 0
   _targetEnemyTransform: {fileID: 0}
-  particleCoinDrop: {fileID: 0}
   mainCamera: {fileID: 0}
   camPos: {x: 0, y: 0, z: 0}
 --- !u!114 &6566784834773782942
@@ -4512,7 +4511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8d5a45290b3274d89b8de5358450a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _summonCycle: 30
+  _summonCycle: 60
   _nowSummonTime: 5
 --- !u!114 &4800630679759280602
 MonoBehaviour:

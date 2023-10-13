@@ -15,8 +15,8 @@ public class CrystalStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         _stats = player.GetComponent<PlayerStats>();
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 0, 0);
 
         _stats.nowMana += 1;
     }
