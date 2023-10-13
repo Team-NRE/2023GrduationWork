@@ -8,30 +8,30 @@
         "attackRange" : "1.1",
         "recognitionRange" : "10",
     
-        "maxHealth" : "455",
+        "maxHealth" : "546",
         "defensePower" : "0",
-        "nowBattery" : "59",
+        "nowBattery" : "-100",
     
         "speed" : "4",
     
-        "gold" : "100",
+        "gold" : "150",
         "experience" : "100"
       },
       {
         "type": "RangeMinion",    
 
-        "basicAttackPower": "22.5",
+        "basicAttackPower": "28",
         "attackSpeed": "5",
         "attackRange": "5.5",
         "recognitionRange": "10",
 
-        "maxHealth": "290",
+        "maxHealth": "348",
         "defensePower": "0",
-        "nowBattery": "59",
+        "nowBattery": "-100",
 
         "speed": "4",
 
-        "gold" : "100",
+        "gold" : "150",
         "experience" : "100"
       },
       {
@@ -42,13 +42,13 @@
         "attackRange" : "1.1",
         "recognitionRange" : "10",
 
-        "maxHealth" : "850",
+        "maxHealth" : "1020",
         "defensePower" : "0",
-        "nowBattery" : "59",
+        "nowBattery" : "-100",
 
         "speed" : "4",
 
-        "gold" : "500",
+        "gold" : "150",
         "experience" : "100"
       },
       {
@@ -61,7 +61,7 @@
 
         "maxHealth" : "3600",
         "defensePower" : "55",
-        "nowBattery" : "-1",
+        "nowBattery" : "-100",
 
         "speed" : "0",
 
@@ -78,7 +78,7 @@
 
         "maxHealth" : "5500",
         "defensePower" : "0",
-        "nowBattery" : "-1",
+        "nowBattery" : "-100",
 
         "speed" : "0",
 
@@ -95,7 +95,7 @@
 
         "maxHealth" : "3600",
         "defensePower" : "20",
-        "nowBattery" : "-1",
+        "nowBattery" : "-100",
 
         "speed" : "0",
 

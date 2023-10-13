@@ -95,7 +95,7 @@ public class Minion : ObjectController
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (_oStats.nowHealth <= 0 || _oStats.nowBattery <= 0)
+        if (_oStats.nowHealth <= 0 || (_oStats.nowBattery <= 0 && _oStats.nowBattery != -100))
         {
             _action = ObjectAction.Death;
         }

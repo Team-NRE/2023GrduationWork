@@ -78,14 +78,14 @@ public class ObjectBullet : MonoBehaviourPun
         else if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
         {
             //타겟이 미니언, 타워일 시 
-            if (_Target.tag != "PLAYER")
+            if (!_Target.CompareTag("PLAYER"))
             {
                 ObjStats _Stats = _Target.GetComponent<ObjStats>();
                 _Stats.nowHealth -= _damage;
             }
 
             //타겟이 적 Player일 시
-            if (_Target.tag == "PLAYER")
+            if (_Target.CompareTag("PLAYER"))
             {
                 PlayerStats _Stats = _Target.GetComponent<PlayerStats>();
                 _Stats.receviedDamage = (_Shooter.ViewID, _damage);

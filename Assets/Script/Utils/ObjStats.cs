@@ -76,7 +76,7 @@ namespace Stat
                 else if (value < 0)
                 {
                     value *= 100 / (100 + defensePower);
-                    _nowHealth = value;
+                    _nowHealth += value;
                 }
 
                 if (_nowHealth >= _maxHealth) _nowHealth = _maxHealth;
