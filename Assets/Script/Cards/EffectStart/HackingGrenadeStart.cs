@@ -23,7 +23,8 @@ public class HackingGrenadeStart : BaseEffect
         playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-
+        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+        
         _damage = 25.0f;
         _debuff = 2.5f;
     }
