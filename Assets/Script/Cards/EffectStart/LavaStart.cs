@@ -39,10 +39,8 @@ public class LavaStart : BaseEffect
 
         if (other.gameObject.layer == enemylayer)
         {
-            Debug.Log(other.gameObject.name);
-
             //타겟이 미니언, 타워일 시 
-            if (other.gameObject.tag != "PLAYER")
+            if (!other.gameObject.CompareTag("PLAYER"))
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();
@@ -51,7 +49,7 @@ public class LavaStart : BaseEffect
             }
 
             //타겟이 적 Player일 시
-            if (other.gameObject.tag == "PLAYER")
+            if (other.gameObject.CompareTag("PLAYER"))
             {
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();

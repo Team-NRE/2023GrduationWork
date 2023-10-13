@@ -377,6 +377,7 @@ namespace Stat
             if (statName == "_nowlevel")            _nowlevel           += value;
             if (statName == "experience")           experience          += value;
             if (statName == "speed")                speed               += value;
+            if (statName == "nowMana")              nowMana             += value;
             if (statName == "manaRegen")            manaRegen           += value;
             if (statName == "maxMana")              maxMana             += value;
         }
@@ -385,6 +386,12 @@ namespace Stat
         public void photonStatSet(int attackID, string statName, float value)
         {
             if (statName == "receviedDamage")       receviedDamage      = (attackID, value);
+        }
+
+        [PunRPC]
+        public void photonStatSet(string statName, string _nowState)
+        {
+            if (statName == "nowState")     nowState = _nowState;
         }
     }
 }

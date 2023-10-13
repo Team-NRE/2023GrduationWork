@@ -7,8 +7,6 @@ using Photon.Pun;
 // ��ŷ ����ź
 public class Card_HackingGrenade : UI_Card
 {
-    int _layer = default;
-
     public override void Init()
     {
         _cardBuyCost = 1200;
@@ -18,7 +16,7 @@ public class Card_HackingGrenade : UI_Card
         _rangeScale = 3.0f;
         _rangeRange = 4.0f;
 
-        _CastingTime = 1.0f;
+        _effectTime = 0.7f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)

@@ -6,53 +6,53 @@ using UnityEngine;
 
 public class GrenadeStart : BaseEffect
 {
+    float damage = default;
+    int enemylayer = default;
+    int playerId;
     protected PhotonView _pv;
-    protected int _layer;
-    int _playerId;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         _pv = GetComponent<PhotonView>();
+        playerId = userId;
         base.CardEffectInit(userId);
-        PlayerStats stats = player.GetComponent<PlayerStats>();
-        _layer = stats.playerArea;
-        _playerId = userId;
 
-        _damage = 25;
+        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+        damage = 25.0f;
     }
 
+    // 여긴 백퍼 버그가 발생할 예정
     public void OnTriggerEnter(Collider other)
     {
         int otherId = Managers.game.RemoteColliderId(other);
         if (otherId == default)
             return;
-        _pv.RPC("RpcUpdate", RpcTarget.All, otherId, _playerId);
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
-    public void RpcUpdate(int otherId, int playerId)
+    public void RpcUpdate(int otherId)
     {
-        GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        GameObject user = Managers.game.RemoteTargetFinder(playerId);
-        if (other.gameObject.tag == "OBJECT")
+         GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        if (other.layer == enemylayer)
         {
-            if (other.gameObject.layer != _layer)
+            //타겟이 미니언, 타워일 시 
+            if (!other.CompareTag("PLAYER"))
             {
-                ObjStats o_stats = other.GetComponent<ObjStats>();
-                PlayerStats p_stats = user.gameObject.GetComponent<PlayerStats>();
+                ObjStats oStats = other.GetComponent<ObjStats>();
+                PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                o_stats.nowHealth -= _damage + (p_stats.basicAttackPower * 0.5f);
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
-        }
-        else if (other.gameObject.tag == "PLAYER")
-        {
-            if (other.gameObject.layer != _layer)
-            {
-                PlayerStats e_stats = other.GetComponent<PlayerStats>();
-                PlayerStats p_stats = user.GetComponent<PlayerStats>();
 
-                e_stats.receviedDamage = (playerId, _damage + (p_stats.basicAttackPower * 0.5f));
+            //타겟이 적 Player일 시
+            if (other.CompareTag("PLAYER"))
+            {
+                PlayerStats enemyStats = other.GetComponent<PlayerStats>();
+                PlayerStats pStats = player.GetComponent<PlayerStats>();
+
+                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.5f));
             }
         }
     }
