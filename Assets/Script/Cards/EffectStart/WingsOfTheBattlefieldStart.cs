@@ -21,6 +21,9 @@ public class WingsOfTheBattlefieldStart : BaseEffect
         speed = 2.0f;
         effectTime = 3.0f;
 
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+
         _stats.speed += speed;
         yield return new WaitForSeconds(effectTime);
         _stats.speed -= speed;

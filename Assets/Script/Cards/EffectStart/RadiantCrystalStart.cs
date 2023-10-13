@@ -18,7 +18,7 @@ public class RadiantCrystalStart : BaseEffect
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
 
-        _stats.nowMana += 3 * _stats.manaRegen;
+        _stats.nowMana += 3;
     }
 
     // Update is called once per frame
