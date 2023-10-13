@@ -19,7 +19,7 @@ public class WingsOfTheBattlefieldStart : BaseEffect
         _stats = Managers.game.RemoteTargetFinder(userId).GetComponent<PlayerStats>();
         _playerId = userId;
         speed = 2.0f;
-        effectTime = 3.0f;
+        effectTime = time;
 
         this.gameObject.transform.parent = player.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
