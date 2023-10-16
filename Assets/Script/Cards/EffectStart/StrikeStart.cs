@@ -20,16 +20,29 @@ public class StrikeStart : BaseEffect
     PlayerStats enemyStats;
     ObjStats oStats;
 
+    float _originalpStat;
+    float _originaloStat;
+
     bool IsEffect = false;
 
     [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
-        _playerId = userId;
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId, targetId);
+        _playerId = userId;
         _targetId = targetId;
+        
         _enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
+
+        if (target.gameObject.CompareTag("OBJECT"))
+        {
+            _originaloStat = target.GetComponent<ObjStats>().speed;
+        }
+        else 
+        {
+            _originalpStat = target.GetComponent<PlayerStats>().speed;
+        }
 
         this.gameObject.transform.parent = target.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 1.8f, 0);
@@ -40,81 +53,43 @@ public class StrikeStart : BaseEffect
 
     public void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId, _targetId);
+        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId, _targetId, 5.0f);
     }
 
     [PunRPC]
-    public void RpcUpdate(int playerId, int targetId)
+    public IEnumerator RpcUpdate(int playerId, int targetId, float time)
 	{
-        GameObject targetObj = Managers.game.RemoteTargetFinder(targetId);
-        if (player == null) { PhotonNetwork.Destroy(gameObject); }
-        if (player != null)
+        GameObject playerObject = Managers.game.RemoteTargetFinder(playerId);
+        GameObject targetObject = Managers.game.RemoteTargetFinder(targetId);
+
+
+        if (targetObject.gameObject.CompareTag("OBJECT"))
         {
-            switch (IsEffect)
-            {
-                case false:
-                    //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-                    if (targetObj.tag != "PLAYER")
-                    {
-                        oStats = targetObj.GetComponent<ObjStats>();
-                        PlayerStats pStats = player.GetComponent<PlayerStats>();
-
-                        oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
-
-                        saveSpeed = oStats.speed;
-
-                        oStats.speed = 0;
-
-                        IsEffect = true;
-
-                        break;
-                    }
-
-                    //Ÿ���� �� Player�� ��
-                    if (targetObj.tag == "PLAYER")
-                    {
-                        enemyStats = targetObj.GetComponent<PlayerStats>();
-                        PlayerStats pStats = player.GetComponent<PlayerStats>();
-
-                        enemyStats.receviedDamage = (_playerId, (damage + (pStats.basicAttackPower * 0.5f)));
-                        if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
-
-                        saveSpeed = enemyStats.speed;
-                        enemyStats.speed = 0;
-
-                        IsEffect = true;
-
-                        break;
-                    }
-
-                    break;
-
-                case true:
-                    StartEffect += Time.deltaTime;
-
-                    if (StartEffect > effectTime - 0.01f)
-                    {
-                        //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-                        if (targetObj.tag != "PLAYER")
-                        {
-                            oStats.speed = saveSpeed;
-
-                            PhotonNetwork.Destroy(gameObject);
-                        }
-
-                        //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-                        if (targetObj.tag == "PLAYER")
-                        {
-                            enemyStats.speed = saveSpeed;
-
-                            PhotonNetwork.Destroy(gameObject);
-                        }
-                    }
-
-
-                    break;
-            }
-
+            ObjStats oStats = target.GetComponent<ObjStats>();
+            _originaloStat = oStats.speed;
+            oStats.speed = 0;
         }
+        else
+        {
+            PlayerStats pStats = target.GetComponent<PlayerStats>();
+            _originalpStat = pStats.speed;
+            pStats.speed = 0;
+        }
+
+        yield return new WaitForSeconds(time);
+
+        if (targetObject.gameObject.CompareTag("OBJECT"))
+        {
+            ObjStats oStats = target.GetComponent<ObjStats>();
+            oStats.speed = 5;
+        }
+
+        else
+        {
+            PlayerStats pStats = target.GetComponent<PlayerStats>();
+            pStats.speed = _originalpStat;
+        }
+
+        //PhotonNetwork.Destroy(this.gameObject);
     }
 }
