@@ -7,24 +7,22 @@ using Photon.Pun;
 // ��ŷ ����ź
 public class Card_HackingGrenade : UI_Card
 {
-    int _layer = default;
-
     public override void Init()
     {
         _cardBuyCost = 1200;
         _cost = 1;
 
         _rangeType = Define.CardType.Point;
-        _rangeScale = 3.0f;
+        _rangeScale = 3.15f;
         _rangeRange = 4.0f;
 
-        _CastingTime = 1.0f;
+        _effectTime = 0.7f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HackingGrenade", ground, Quaternion.identity);
-        _effectObject.transform.position = ground;
+        _effectObject.transform.position = new Vector3(ground.x, 0.2f, ground.z);
 
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         

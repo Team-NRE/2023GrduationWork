@@ -34,7 +34,7 @@ public class AmuletOfSteel2Start : BaseEffect
         int otherId = Managers.game.RemoteColliderId(other);
         if (otherId == default)
             return;
-        _pv.GetComponent<PhotonView>().RPC("RpcTrigger", RpcTarget.All, otherId);
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
