@@ -13,7 +13,7 @@ public class Card_HackingGrenade : UI_Card
         _cost = 1;
 
         _rangeType = Define.CardType.Point;
-        _rangeScale = 3.0f;
+        _rangeScale = 3.15f;
         _rangeRange = 4.0f;
 
         _effectTime = 0.7f;
@@ -22,7 +22,7 @@ public class Card_HackingGrenade : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HackingGrenade", ground, Quaternion.identity);
-        _effectObject.transform.position = ground;
+        _effectObject.transform.position = new Vector3(ground.x, 0.2f, ground.z);
 
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
         

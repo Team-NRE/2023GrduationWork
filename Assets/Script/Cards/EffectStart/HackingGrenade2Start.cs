@@ -15,19 +15,22 @@ public class HackingGrenade2Start : BaseEffect
 
     PlayerStats pStat;
 
+    Transform ManaUI;
+
     void Start()
     {
         ///초기화
         player = transform.parent.gameObject;
         pStat = player.GetComponent<PlayerStats>();
         _targetPV = player.GetComponent<PhotonView>();
+        ManaUI = transform.Find("Canvas");
 
         ///스텟 적용 시간
         effectTime = 2.5f;
 
         _targetPV.RPC("photonStatSet", RpcTarget.All, "nowState", "Debuff");
         _targetPV.RPC("photonStatSet", RpcTarget.All, "nowMana", -pStat.nowMana);
-        _targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", 0);
+        _targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", -pStat.manaRegen);
     }
 
     // Update is called once per frame
@@ -39,7 +42,14 @@ public class HackingGrenade2Start : BaseEffect
         if (startEffect > effectTime - 0.01f)
         {
             _targetPV.RPC("photonStatSet", RpcTarget.All, "nowState", "Health");
-            _targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", 0.25);
+            _targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", 0.25f);
+
+            Destroy(gameObject);
         }
+    }
+
+    private void FixedUpdate()
+    {
+        ManaUI.LookAt(ManaUI.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
     }
 }

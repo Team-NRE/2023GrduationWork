@@ -21,8 +21,6 @@ public class Card_AmuletOfSteel : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
-
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_AmuletofSteel2", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 

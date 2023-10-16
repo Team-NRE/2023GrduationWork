@@ -32,7 +32,7 @@ public class GrenadeStart : BaseEffect
     }
 
     [PunRPC]
-    public void RpcUpdate(int otherId)
+    public void RpcTrigger(int otherId)
     {
          GameObject other = Managers.game.RemoteTargetFinder(otherId);
         if (other.layer == enemylayer)
