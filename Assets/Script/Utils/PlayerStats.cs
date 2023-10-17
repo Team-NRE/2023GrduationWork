@@ -196,10 +196,10 @@ namespace Stat
                 if (_level != _nowlevel)
                 {
                     PhotonView _pv = GetComponent<PhotonView>();
-                    _pv.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", _levelUpAP);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", _levelUpAP * (1 + _level/10));
                     _pv.RPC("photonStatSet", RpcTarget.All, "attackSpeed", _levelUpAS);
-                    _pv.RPC("photonStatSet", RpcTarget.All, "maxHealth", _levelUpHP);
-                    _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _levelUpHP);
+                    _pv.RPC("photonStatSet", RpcTarget.All, "maxHealth", _levelUpHP * (1 + _level/10));
+                    _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", _levelUpHP * (1 + _level/10));
                     _pv.RPC("photonStatSet", RpcTarget.All, "healthRegeneration ", _levelUpHR);
                     _pv.RPC("photonStatSet", RpcTarget.All, "defensePower", _levelUpDP);
                     _pv.RPC("photonStatSet", RpcTarget.All, "_nowlevel", _level);
@@ -215,7 +215,7 @@ namespace Stat
                 if (level == 10) return;
 
                 _experience += value;
-                if (_experience > levelUpEx)
+                if (_experience >= levelUpEx)
                 {
                     level += 1;
                     _experience -= levelUpEx;

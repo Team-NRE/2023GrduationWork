@@ -3,23 +3,23 @@
       {
         "type": "Police",
 
-        "basicAttackPower": "65",
-        "attackSpeed": "0.625",
+        "basicAttackPower": "60",
+        "attackSpeed": "1",
         "attackRange": "5",
         "attackType": "LongRange",
 
-        "maxHealth": "680",
-        "healthRegeneration": "0.6",
-        "defensePower": "40",
+        "maxHealth": "600",
+        "healthRegeneration": "0.1",
+        "defensePower": "5",
 
         "level": "1",
         "experience": "0",
         "levelUpEX": "540",
-        "levelUpAP": "3.5",
-        "levelUpAS": "0.05",
-        "levelUpHP": "75",
-        "levelUpHR": "0.3",
-        "levelUpDP": "3",
+        "levelUpAP": "1",
+        "levelUpAS": "0.02",
+        "levelUpHP": "10",
+        "levelUpHR": "0.1",
+        "levelUpDP": "5",
 
         "speed": "4",
 
@@ -34,22 +34,22 @@
       {
         "type": "Firefighter",
 
-        "basicAttackPower": "67",
-        "attackSpeed": "0.625",
+        "basicAttackPower": "60",
+        "attackSpeed": "1",
         "attackRange": "1.8",
         "attackType": "ShortRange",
 
-        "maxHealth": "700",
-        "healthRegeneration": "1",
-        "defensePower": "28",
+        "maxHealth": "600",
+        "healthRegeneration": "0.1",
+        "defensePower": "5",
 
         "level": "1",
         "experience": "0",
-        "levelUpEx": "540",
-        "levelUpAP": "3",
-        "levelUpAS": "0.05",
-        "levelUpHP": "80",
-        "levelUpHR": "0.2",
+        "levelUpEX": "540",
+        "levelUpAP": "1",
+        "levelUpAS": "0.02",
+        "levelUpHP": "10",
+        "levelUpHR": "0.1",
         "levelUpDP": "5",
 
         "speed": "4",
@@ -65,23 +65,23 @@
       {
         "type": "Lightsabre",
 
-        "basicAttackPower": "75",
-        "attackSpeed": "0.625",
+        "basicAttackPower": "60",
+        "attackSpeed": "1",
         "attackRange": "2",
         "attackType": "ShortRange",
 
-        "maxHealth": "670",
-        "healthRegeneration": "1",
-        "defensePower": "30",
+        "maxHealth": "600",
+        "healthRegeneration": "0.1",
+        "defensePower": "5",
 
         "level": "1",
         "experience": "0",
-        "levelUpEx": "540",
-        "levelUpAP": "2",
-        "levelUpAS": "0.05",
-        "levelUpHP": "75",
-        "levelUpHR": "0.5",
-        "levelUpDP": "3",
+        "levelUpEX": "540",
+        "levelUpAP": "1",
+        "levelUpAS": "0.02",
+        "levelUpHP": "10",
+        "levelUpHR": "0.1",
+        "levelUpDP": "5",
 
         "speed": "4",
 
@@ -96,23 +96,23 @@
       {
         "type": "Monk",
 
-        "basicAttackPower": "55",
-        "attackSpeed": "0.625",
+        "basicAttackPower": "60",
+        "attackSpeed": "1",
         "attackRange": "4",
         "attackType": "LongRange",
 
-        "maxHealth": "680",
-        "healthRegeneration": "0.6",
-        "defensePower": "40",
+        "maxHealth": "600",
+        "healthRegeneration": "0.1",
+        "defensePower": "5",
 
         "level": "1",
         "experience": "0",
-        "levelUpEx": "540",
-        "levelUpAP": "1.5",
-        "levelUpAS": "0.05",
-        "levelUpHP": "80",
-        "levelUpHR": "0.3",
-        "levelUpDP": "4",
+        "levelUpEX": "540",
+        "levelUpAP": "1",
+        "levelUpAS": "0.02",
+        "levelUpHP": "10",
+        "levelUpHR": "0.1",
+        "levelUpDP": "5",
 
         "speed": "4",
 
