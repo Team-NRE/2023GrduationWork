@@ -66,13 +66,11 @@ public class StrikeStart : BaseEffect
         if (targetObject.gameObject.CompareTag("OBJECT"))
         {
             ObjStats oStats = target.GetComponent<ObjStats>();
-            _originaloStat = oStats.speed;
             oStats.speed = 0;
         }
         else
         {
             PlayerStats pStats = target.GetComponent<PlayerStats>();
-            _originalpStat = pStats.speed;
             pStats.speed = 0;
         }
 
@@ -81,7 +79,7 @@ public class StrikeStart : BaseEffect
         if (targetObject.gameObject.CompareTag("OBJECT"))
         {
             ObjStats oStats = target.GetComponent<ObjStats>();
-            oStats.speed = 5;
+            oStats.speed = _originaloStat;
         }
 
         else
