@@ -22,8 +22,11 @@ public class IcePrisonStart : BaseEffect
 
         pStat.defensePower += 9999f;
         pStat.speed = 0.0f;
+        
         yield return new WaitForSeconds(time);
+
         pStat.defensePower -= 9999f;
         pStat.speed = originalSpeed;
+        PhotonNetwork.Destroy(gameObject);
     }
 }
