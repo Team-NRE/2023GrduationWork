@@ -39,7 +39,7 @@ public class HackingGrenade2Start : BaseEffect
         startEffect += Time.deltaTime;
 
         ///스텟 적용 종료
-        if (startEffect > effectTime - 0.01f)
+        if (startEffect > effectTime - 0.01f || pStat.nowState == "Health")
         {
             _targetPV.RPC("photonStatSet", RpcTarget.All, "nowState", "Health");
             _targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", 0.25f);

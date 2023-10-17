@@ -48,15 +48,12 @@ public class WindBladeStart : BaseEffect
 
         if (other.gameObject.layer == _enemyLayer)
         {
-            Debug.Log(other.gameObject.name);
-
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
 
                 oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.7f);
-                Debug.Log(oStats.nowHealth);
             }
 
             //타겟이 적 Player일 시
@@ -65,11 +62,7 @@ public class WindBladeStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
 
                 enemyStats.receviedDamage = (_playerId, _damage + (pStats.basicAttackPower * 0.7f));
-                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
-                Debug.Log(enemyStats.nowHealth);
             }
-
-            //PhotonNetwork.Destroy(this.gameObject);
         }
     }
 

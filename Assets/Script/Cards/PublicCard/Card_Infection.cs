@@ -24,14 +24,9 @@ public class Card_Infection : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_Infection");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Infection", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.transform.position = new Vector3(ground.x, 0.5f, ground.z);
 
-        _layer = layer;
-
-        //_effectObject.AddComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
-        //_effectObject.GetComponent<InfectionStart>().StartInfection(playerId, _damage, _enemylayer);
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit",RpcTarget.All, playerId);
 
         return _effectObject;

@@ -17,7 +17,7 @@ public class Card_Lava : UI_Card
         _rangeRange = 4.0f;
 
         _CastingTime = 0.3f;
-        _effectTime = 3.5f;
+        _effectTime = 2.5f;
     }
 
 

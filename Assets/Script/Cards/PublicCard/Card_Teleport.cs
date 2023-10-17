@@ -14,7 +14,7 @@ public class Card_Teleport : UI_Card
 
         _rangeType = Define.CardType.Point;
         _rangeScale = 0.95f;
-        _rangeRange = 2.0f;
+        _rangeRange = 30.0f;
 
         _CastingTime = 1.0f;
         _effectTime = 1.02f;

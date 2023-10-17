@@ -6,10 +6,7 @@ using Photon.Pun;
 
 public class IcePrisonStart : BaseEffect
 {
-    float effectTime;
-    float startEffect = 0.01f;
-    protected PhotonView _pv;
-
+    PhotonView _pv;
     PlayerStats pStat;
 
     [PunRPC]
@@ -17,7 +14,6 @@ public class IcePrisonStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         player = Managers.game.RemoteTargetFinder(userId);
-        effectTime = 3.0f;
         pStat = player.GetComponent<PlayerStats>();
         float originalSpeed = pStat.GetComponent<PlayerStats>().speed;
 
@@ -29,24 +25,5 @@ public class IcePrisonStart : BaseEffect
         yield return new WaitForSeconds(time);
         pStat.defensePower -= 9999f;
         pStat.speed = originalSpeed;
-    }
-
-    private void Update()
-    {
-        //_pv.RPC("RpcUpdate", RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void RpcUpdate()
-	{
-        startEffect += Time.deltaTime;
-
-        if (startEffect > effectTime - 0.01f)
-        {
-            //_playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", -9999f);
-            //_playerPV.RPC("photonStatSet", RpcTarget.All, "speed", _speed);
-
-            //PhotonNetwork.Destroy(gameObject);
-        }
     }
 }

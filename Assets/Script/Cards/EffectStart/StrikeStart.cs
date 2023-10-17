@@ -18,6 +18,7 @@ public class StrikeStart : BaseEffect
     int _enemyLayer;
 
     PlayerStats enemyStats;
+    PlayerStats pStats;
     ObjStats oStats;
 
     float _originalpStat;
@@ -32,8 +33,9 @@ public class StrikeStart : BaseEffect
         base.CardEffectInit(userId, targetId);
         _playerId = userId;
         _targetId = targetId;
-        
-        _enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
+
+        pStats = player.GetComponent<PlayerStats>();
+        _enemyLayer = pStats.enemyArea;
 
         if (target.gameObject.CompareTag("OBJECT"))
         {
@@ -66,14 +68,20 @@ public class StrikeStart : BaseEffect
         if (targetObject.gameObject.CompareTag("OBJECT"))
         {
             ObjStats oStats = target.GetComponent<ObjStats>();
+            
             _originaloStat = oStats.speed;
+
+            oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
             oStats.speed = 0;
         }
         else
         {
-            PlayerStats pStats = target.GetComponent<PlayerStats>();
-            _originalpStat = pStats.speed;
-            pStats.speed = 0;
+            PlayerStats enemyStats = target.GetComponent<PlayerStats>();
+
+            _originalpStat = enemyStats.speed;
+
+            enemyStats.receviedDamage = (_playerId, damage + (pStats.basicAttackPower * 0.7f));
+            enemyStats.speed = 0;
         }
 
         yield return new WaitForSeconds(time);
@@ -81,12 +89,14 @@ public class StrikeStart : BaseEffect
         if (targetObject.gameObject.CompareTag("OBJECT"))
         {
             ObjStats oStats = target.GetComponent<ObjStats>();
+            
             oStats.speed = 5;
         }
 
         else
         {
             PlayerStats pStats = target.GetComponent<PlayerStats>();
+            
             pStats.speed = _originalpStat;
         }
 

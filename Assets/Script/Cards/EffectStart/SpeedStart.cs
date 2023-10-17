@@ -6,47 +6,41 @@ using Photon.Pun;
 
 public class SpeedStart : BaseEffect
 {
-    PlayerStats _pStats;
-    protected PhotonView _pv;
+    PhotonView _playerPV;
 
-    float speed = default;
-    float speed_Time = 0.01f;
-
-    bool start = false;
-
-    private void Start()
-    {
-        _pv = GetComponent<PhotonView>();
-    }
+    float effectTime;
+    float startEffect = 0.01f;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        ///초기화
         base.CardEffectInit(userId);
-        _pStats = player.GetComponent<PlayerStats>();
-        this.gameObject.transform.parent = player.transform;
-        speed = 1.5f;
+        _playerPV = player.GetComponent<PhotonView>();
 
-        start = true;
+        ///effect 위치
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0.2f, 0);
+
+        ///스텟 적용 시간
+        effectTime = 3.5f;
+
+        ///스텟 적용
+        _speed = 0.5f;
+        _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", _speed);
     }
 
     public void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
-    }
+        startEffect += Time.deltaTime;
 
-    [PunRPC]
-    public void RpcUpdate()
-	{
-        if (start == true)
+        if (startEffect >= effectTime - 0.01f)
         {
-            speed_Time += Time.deltaTime;
+            _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -_speed);
 
-            if (speed_Time >= 4.99f)
-            {
-                _pStats.speed -= speed;
-                start = false;
-            }
+            Destroy(gameObject);
+
+            return;
         }
     }
 }

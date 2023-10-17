@@ -41,9 +41,6 @@ public class InfectionStart : BaseEffect
 
         if (other.gameObject.layer == enemylayer)
         {
-            Debug.Log(other.gameObject.name);
-
-            //Ÿ���� �̴Ͼ�, Ÿ���� �� 
             if (other.gameObject.tag != "PLAYER")
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
@@ -59,7 +56,6 @@ public class InfectionStart : BaseEffect
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
                 enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.05f));
-                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }
     }

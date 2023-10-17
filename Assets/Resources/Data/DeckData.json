@@ -9,7 +9,8 @@
         "Card_Crystal",
         "Card_HealthPotion",
         "Card_Spear",
-        "Card_Cannon"
+        "Card_Cannon",
+        "SpecialCard_MissileBomb"
       ]
     },
     {
@@ -45,7 +46,8 @@
         "Card_Crystal",
         "Card_HealthPotion",
         "Card_Spear",
-        "Card_Cannon"
+        "Card_Cannon",
+        "SpecialCard_EnergyAmp"
       ]
     }
   ]
