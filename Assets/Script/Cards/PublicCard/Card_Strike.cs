@@ -17,7 +17,7 @@ public class Card_Strike : UI_Card
         _rangeScale = 5.0f;
 
         _CastingTime = 0.3f;
-        _effectTime = 2.0f;
+        _effectTime = 5.0f;
     }
 
 

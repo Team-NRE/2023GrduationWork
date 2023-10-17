@@ -6,29 +6,24 @@ using Photon.Pun;
 
 public class HackingGrenadeStart : BaseEffect
 {
-    PlayerStats enemyStats;
     PhotonView _pv;
 
     int playerId;
     int enemylayer = default;
 
-    bool isDebuff = false;
-    float saveMana = 0;
-
-    float time = 0.0f;
+    float damage = default;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        playerId = userId;
-        _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
+        _pv = GetComponent<PhotonView>();
         enemylayer = player.GetComponent<PlayerStats>().enemyArea;
-        
-        _damage = 25.0f;
-        _debuff = 2.5f;
+
+        damage = 25.0f;
     }
 
+    // 여긴 백퍼 버그가 발생할 예정
     public void OnTriggerEnter(Collider other)
     {
         int otherId = Managers.game.RemoteColliderId(other);
@@ -41,59 +36,30 @@ public class HackingGrenadeStart : BaseEffect
     public void RpcTrigger(int otherId)
     {
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        if (other.layer != enemylayer) return;
         if (other.layer == enemylayer)
         {
-            //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-            if (!other.CompareTag("PLAYER"))
+            if(!other.CompareTag("PLAYER"))
             {
                 ObjStats oStats = other.GetComponent<ObjStats>();
                 PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.5f);
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
-
-            //Ÿ���� �� Player�� ��
             if (other.CompareTag("PLAYER"))
             {
-                enemyStats = other.GetComponent<PlayerStats>();
+                PlayerStats enemyStats = other.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (playerId, _damage + (pStats.basicAttackPower * 0.5f));
+                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.5f));
 
-                //HackingGrenade ī��
+                //체력 남으면 Mana Stop
                 if (enemyStats.nowHealth > 0)
                 {
-                    enemyStats.nowState = "Debuff";
-
-                    enemyStats.nowMana = 0;
-                    enemyStats.manaRegen = 0;
-
-                    isDebuff = true;
+                    GameObject HackingEffect = Managers.Resource.Instantiate($"Particle/Effect_HackingGrenade2", other.transform);
+                    HackingEffect.transform.localPosition = new Vector3(0, 0, 0);
                 }
             }
-        }
-    }
-
-
-    public void Update()
-    {
-        if (isDebuff == true)
-        {
-            time += Time.deltaTime;
-            ManaRegenBack();
-        }
-    }
-
-    private void ManaRegenBack()
-    {
-        if (time >= _debuff - 0.01f || enemyStats.nowState == "Health")
-        {
-            enemyStats.nowState = "Health";
-            enemyStats.manaRegen = 0.25f;
-            
-            isDebuff = false;
-            time = 0;
-            Destroy(gameObject);
         }
     }
 }

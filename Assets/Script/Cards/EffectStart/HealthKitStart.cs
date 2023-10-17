@@ -12,11 +12,6 @@ public class HealthKitStart : BaseEffect
     int teamLayer = default;
     int _playerId;
 
-    void Start()
-    {
-        //_pv = GetComponent<PhotonView>();
-    }
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
@@ -27,12 +22,6 @@ public class HealthKitStart : BaseEffect
         _playerId = userId;
 
         this.gameObject.transform.parent = player.transform;
-    }
-
-    private void Update()
-    {
-        //pStats.nowHealth += healthRegen;
-        //_pv.RPC("RpcUpdate", RpcTarget.All, _playerId);
     }
 
     public void OnTriggerStay(Collider other)
