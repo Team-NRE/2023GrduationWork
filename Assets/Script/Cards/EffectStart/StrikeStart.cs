@@ -39,11 +39,18 @@ public class StrikeStart : BaseEffect
 
         if (target.gameObject.CompareTag("OBJECT"))
         {
+            ObjStats oStats = target.GetComponent<ObjStats>();
+            PlayerStats pStats = target.GetComponent<PlayerStats>();
             _originaloStat = target.GetComponent<ObjStats>().speed;
+            oStats.nowHealth -= 15.0f + pStats.basicAttackPower * 0.7f;
         }
         else 
         {
+            PlayerStats myStats = Managers.game.RemoteTargetFinder(_playerId).GetComponent<PlayerStats>();
+            PlayerStats pStats = target.GetComponent<PlayerStats>();
             _originalpStat = target.GetComponent<PlayerStats>().speed;
+            pStats.receviedDamage = (_playerId, 15.0f + (myStats.basicAttackPower * 0.7f));
+
         }
 
         this.gameObject.transform.parent = target.transform;
