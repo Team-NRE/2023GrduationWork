@@ -20,9 +20,6 @@ public class InvincibleShieldStart : BaseEffect
         effectTime = 3.0f;
 
         _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", 9999f);
-
-        //Debug.Log($"초기 방어막 생성 : {shieldValue} , {pStat.firstShield}");
-        //Debug.Log($"중첩 방어막 생성 : {pStat.shield}");
     }
 
     private void Update()

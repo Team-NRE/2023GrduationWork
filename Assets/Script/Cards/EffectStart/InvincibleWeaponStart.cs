@@ -60,7 +60,6 @@ public class InvincibleWeaponStart : BaseEffect
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
                 enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.02f));
-                if (enemyStats.nowHealth <= 0) { pStats.kill += 1; }
             }
         }
     }

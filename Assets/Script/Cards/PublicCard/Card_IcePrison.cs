@@ -15,17 +15,10 @@ public class Card_IcePrison : UI_Card
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
-        _effectTime = 3.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
-
-        PlayerStats _pStat = _player.GetComponent<PlayerStats>();
-
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_IcePrison");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_IcePrison", ground, Quaternion.Euler(-90, 0, 0));
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, 3.0f);
 

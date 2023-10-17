@@ -33,9 +33,6 @@ public class ShieldStart : BaseEffect
 
         _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", shieldValue);
         _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", shieldValue);
-
-        //Debug.Log($"초기 방어막 생성 : {shieldValue} , {pStat.firstShield}");
-        //Debug.Log($"중첩 방어막 생성 : {pStat.shield}");
     }
 
     private void Update()
@@ -51,9 +48,6 @@ public class ShieldStart : BaseEffect
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", pStat.firstShield);
 
-                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
-                //Debug.Log($"지금 방어막 : {pStat.shield}");
-
                 Destroy(gameObject);
 
                 return;
@@ -64,9 +58,6 @@ public class ShieldStart : BaseEffect
             {
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", -shieldValue);
                 _playerPV.RPC("photonStatSet", RpcTarget.All, "shield", -shieldValue);
-
-                //Debug.Log($"초기 방어막 : {pStat.firstShield}");
-                //Debug.Log($"지금 방어막 : {pStat.shield}");
 
                 Destroy(gameObject);
 

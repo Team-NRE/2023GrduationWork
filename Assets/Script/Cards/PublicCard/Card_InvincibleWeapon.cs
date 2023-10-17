@@ -11,11 +11,10 @@ public class Card_InvincibleWeapon : UI_Card
     {
         _cardBuyCost = 3000;
         _cost = 3;
-        //_damage = 1;
         _rangeType = Define.CardType.Arrow;
 
         _CastingTime = 2.0f;
-        _effectTime = 2.0f;
+        _effectTime = 3.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
