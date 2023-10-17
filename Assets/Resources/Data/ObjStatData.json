@@ -31,7 +31,7 @@
 
         "speed": "4",
 
-        "gold" : "150",
+        "gold" : "200",
         "experience" : "100"
       },
       {
@@ -48,7 +48,7 @@
 
         "speed" : "4",
 
-        "gold" : "150",
+        "gold" : "200",
         "experience" : "100"
       },
       {
@@ -65,7 +65,7 @@
 
         "speed" : "0",
 
-        "gold" : "1500",
+        "gold" : "3000",
         "experience" : "6000"
       },
       {
@@ -99,7 +99,7 @@
 
         "speed" : "0",
 
-        "gold" : "2000",
+        "gold" : "4000",
         "experience" : "6000"
       }
     ]

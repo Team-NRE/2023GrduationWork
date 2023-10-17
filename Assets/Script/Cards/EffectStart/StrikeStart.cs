@@ -68,20 +68,12 @@ public class StrikeStart : BaseEffect
         if (targetObject.gameObject.CompareTag("OBJECT"))
         {
             ObjStats oStats = target.GetComponent<ObjStats>();
-            
-            _originaloStat = oStats.speed;
-
-            oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
             oStats.speed = 0;
         }
         else
         {
-            PlayerStats enemyStats = target.GetComponent<PlayerStats>();
-
-            _originalpStat = enemyStats.speed;
-
-            enemyStats.receviedDamage = (_playerId, damage + (pStats.basicAttackPower * 0.7f));
-            enemyStats.speed = 0;
+            PlayerStats pStats = target.GetComponent<PlayerStats>();
+            pStats.speed = 0;
         }
 
         yield return new WaitForSeconds(time);
@@ -89,8 +81,7 @@ public class StrikeStart : BaseEffect
         if (targetObject.gameObject.CompareTag("OBJECT"))
         {
             ObjStats oStats = target.GetComponent<ObjStats>();
-            
-            oStats.speed = 5;
+            oStats.speed = _originaloStat;
         }
 
         else
