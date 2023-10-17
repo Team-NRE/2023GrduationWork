@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Define;
-
+using UnityEngine.AI;
 public class InputManager
 {
     public Action<KeyboardEvent> KeyAction = null;
@@ -33,17 +33,20 @@ public class InputManager
     //Ray로 마우스 좌표 받기
     public (Vector3, GameObject) Get3DMousePosition(LayerMask layerMask = default)
     {
-        RaycastHit hit;
+        NavMeshHit Navhit;
+        RaycastHit Rayhit;
 
         //마우스 좌표에 위치하고 있는 오브젝트 레이어 구별.
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ~layerMask))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out Rayhit, Mathf.Infinity, ~layerMask))
         {
-            return (hit.point, hit.collider.gameObject);
+            if (!NavMesh.SamplePosition(Rayhit.point, out Navhit, 2.0f, NavMesh.AllAreas)) return (Vector3.zero, null);
+
+            return (Navhit.position, Rayhit.collider.gameObject);
         }
 
         else { return (Vector3.zero, null); }
-    }
 
+    }
 
     public void InputUpdate()
     {

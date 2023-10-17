@@ -11,7 +11,6 @@
         "Card_Armor",
         "Card_RadiantCrystal",
         "Card_Purify",
-        "Card_Teleport",
 
         "Card_Spear",
         "Card_BloodTransfusion",
@@ -27,6 +26,7 @@
         "Card_WingsOfTheBattlefield",
         "Card_AmuletOfSteel",
 
+        "Card_Teleport",
         "Card_Resurrection",
         "Card_CrisisAversion",
         "Card_InvincibleShield",

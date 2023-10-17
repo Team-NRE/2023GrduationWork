@@ -55,6 +55,8 @@ public class UI_CardPanel : UI_Card
     float targetDis;
     float CountSet;
 
+    LayerMask ignore;
+
     public enum CardObjects
     {
         Panel,
@@ -73,6 +75,9 @@ public class UI_CardPanel : UI_Card
         pStat = Managers.game.myCharacter?.GetComponent<PlayerStats>();
         p = Managers.game.myCharacter?.GetComponent<Players>();
         bc = Managers.game.myCharacter?.GetComponent<BaseController>();
+
+        //마우스 이벤트 시 무시할 레이어
+        ignore = LayerMask.GetMask("Default", "Ignore Raycast");
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportMyDeck((int)Managers.game.myCharacterType);
@@ -182,6 +187,9 @@ public class UI_CardPanel : UI_Card
     {
         if (_evt == Define.MouseEvent.LeftButton)
         {
+            (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition(ignore);
+            //클릭될 때 잡히는 오브젝트가 없다면
+            if (_mousePos.Item2 == null) return;
             //Range 카드 제외 논타겟팅 카드
             if (BaseCard._lockTarget == null) { targetDis = 0; }
 
