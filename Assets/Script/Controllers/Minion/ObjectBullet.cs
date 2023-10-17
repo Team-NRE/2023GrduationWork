@@ -81,7 +81,7 @@ public class ObjectBullet : MonoBehaviourPun
             if (!_Target.CompareTag("PLAYER"))
             {
                 ObjStats _Stats = _Target.GetComponent<ObjStats>();
-                _Stats.nowHealth -= _damage;
+                _Stats.nowHealth += -_damage;
             }
 
             //타겟이 적 Player일 시

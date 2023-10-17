@@ -322,15 +322,15 @@ namespace Stat
             death = 0;
 
             //레벨
-            level = stat.level;
             _nowlevel = level;
-            experience = stat.experience;
+            level = stat.level;
             _levelUpEX = stat.levelUpEX;
             _levelUpAP = stat.levelUpAP;
             _levelUpAS = stat.levelUpAS;
             _levelUpHP = stat.levelUpHP;
             _levelUpHR = stat.levelUpHR;
             _levelUpDP = stat.levelUpDP;
+            experience = stat.experience;
 
             //이동
             speed = stat.speed;
