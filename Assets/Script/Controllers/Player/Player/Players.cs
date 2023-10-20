@@ -86,6 +86,9 @@ public class Players : BaseController
         //enemyName
         enemyName = (_pStats.playerArea == 6) ? "Cyborg" : "Human";
 
+        //0으로 초기화
+        _pStats.nowHealth = 0;
+
         //부활권 유무
         if (_pStats.isResurrection == true)
         {
