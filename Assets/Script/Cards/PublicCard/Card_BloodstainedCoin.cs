@@ -11,7 +11,7 @@ public class Card_BloodstainedCoin : UI_Card
 
     public override void Init()
     {
-        _cardBuyCost = 500;
+        _cardBuyCost = 800;
         _cost = 1;
         //_damage = 10f;
         _rangeType = Define.CardType.Range;

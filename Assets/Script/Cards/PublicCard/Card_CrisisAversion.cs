@@ -10,7 +10,7 @@ public class Card_CrisisAversion : UI_Card
 
     public override void Init()
     {
-        _cardBuyCost = 2800;
+        _cardBuyCost = 2200;
         _cost = 3;
 
         _rangeType = Define.CardType.None;

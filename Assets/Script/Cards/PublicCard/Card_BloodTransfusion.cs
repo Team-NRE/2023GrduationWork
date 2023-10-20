@@ -10,7 +10,7 @@ public class Card_BloodTransfusion : UI_Card
 
     public override void Init()
     {
-        _cardBuyCost = 300;
+        _cardBuyCost = 500;
         _cost = 1;
         //_damage = 30f;
         _rangeType = Define.CardType.Range;

@@ -7,8 +7,8 @@ using Photon.Pun;
 public class InfectionStart : BaseEffect
 {
     int _playerId;
-    float damage = default;
     int enemylayer = default;
+
     protected PhotonView _pv;
 
     [PunRPC]
@@ -18,7 +18,6 @@ public class InfectionStart : BaseEffect
         base.CardEffectInit(userId);
         _playerId = userId;
         PlayerStats stat = player.GetComponent<PlayerStats>();
-        damage = 0.1f;
         enemylayer = stat.enemyArea;
     }
 
@@ -49,7 +48,7 @@ public class InfectionStart : BaseEffect
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.05f);
+                oStats.nowHealth -= pStats.basicAttackPower * 0.01f;
             }
 
             //Ÿ���� �� Player�� ��
@@ -58,7 +57,7 @@ public class InfectionStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.05f));
+                enemyStats.receviedDamage = (playerId, pStats.basicAttackPower * 0.01f);
             }
         }
     }

@@ -9,7 +9,7 @@ public class Card_Teleport : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 2200;
+        _cardBuyCost = 3800;
         _cost = 3;
 
         _rangeType = Define.CardType.Point;

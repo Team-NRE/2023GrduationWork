@@ -5,12 +5,10 @@
       "cards": [
         "JobCard_Grenade",
 
-        "Card_Shield",
-        "Card_Crystal",
         "Card_HealthPotion",
-        "Card_Spear",
-        "Card_Cannon",
-        "SpecialCard_MissileBomb"
+        "Card_Enhancement",
+        "Card_Speed",
+        "Card_Armor"
       ]
     },
     {
@@ -18,11 +16,10 @@
       "cards": [
         "JobCard_Charge",
 
-        "Card_Shield",
-        "Card_Crystal",
         "Card_HealthPotion",
-        "Card_Spear",
-        "Card_Cannon"
+        "Card_Enhancement",
+        "Card_Speed",
+        "Card_Armor"
       ]
     },
     {
@@ -30,11 +27,10 @@
       "cards": [
         "JobCard_WindBlade",
 
-        "Card_Shield",
-        "Card_Crystal",
         "Card_HealthPotion",
-        "Card_Spear",
-        "Card_Cannon"
+        "Card_Enhancement",
+        "Card_Speed",
+        "Card_Armor"
       ]
     },
     {
@@ -42,12 +38,10 @@
       "cards": [
         "JobCard_DeadlySpeed",
 
-        "Card_Shield",
-        "Card_Crystal",
         "Card_HealthPotion",
-        "Card_Spear",
-        "Card_Cannon",
-        "SpecialCard_EnergyAmp"
+        "Card_Enhancement",
+        "Card_Speed",
+        "Card_Armor"
       ]
     }
   ]

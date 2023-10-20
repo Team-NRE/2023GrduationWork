@@ -9,7 +9,7 @@ public class Card_Resurrection : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 2300;
+        _cardBuyCost = 3800;
         _cost = 3;
 
         _rangeType = Define.CardType.None;

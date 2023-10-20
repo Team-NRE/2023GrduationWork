@@ -43,8 +43,8 @@ public class UI_StatBox : UI_Base
     void UpdateStat()
     {
         if (myStat == null) return;
-        Get<TextMeshProUGUI>((int)StatText.Attack_Text)      .text  = myStat.basicAttackPower   .ToString();
-        Get<TextMeshProUGUI>((int)StatText.Shield_Text)      .text  = myStat.defensePower       .ToString();
+        Get<TextMeshProUGUI>((int)StatText.Attack_Text)      .text  = myStat.basicAttackPower   .ToString("F1");
+        Get<TextMeshProUGUI>((int)StatText.Shield_Text)      .text  = myStat.defensePower       .ToString("F1");
         Get<TextMeshProUGUI>((int)StatText.AttackSpeed_Text) .text  = myStat.attackSpeed        .ToString("F3");
         Get<TextMeshProUGUI>((int)StatText.Speed_Text)       .text  = myStat.speed              .ToString("F1");
         Get<TextMeshProUGUI>((int)StatText.Strength_Text)    .text  = myStat.healthRegeneration .ToString("F1");

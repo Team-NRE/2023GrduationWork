@@ -20,7 +20,6 @@ public class LavaStart : BaseEffect
         base.CardEffectInit(userId);
         _playerId = userId;
         enemylayer = player.GetComponent<PlayerStats>().enemyArea;
-        damage = 0.1f;
     }
 
     public void OnTriggerStay(Collider other)
@@ -48,7 +47,7 @@ public class LavaStart : BaseEffect
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.01f);
+                oStats.nowHealth -= pStats.basicAttackPower * 0.02f;
             }
 
             //타겟이 적 Player일 시
@@ -57,7 +56,7 @@ public class LavaStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.01f));
+                enemyStats.receviedDamage = (playerId, pStats.basicAttackPower * 0.02f);
             }
         }
     }

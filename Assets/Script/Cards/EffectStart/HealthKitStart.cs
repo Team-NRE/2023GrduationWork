@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class HealthKitStart : BaseEffect
 {
+    PlayerStats playerStats;
+
     protected PhotonView _pv;
 
-    float healthRegen = default;
     int teamLayer = default;
     int _playerId;
 
@@ -17,11 +18,26 @@ public class HealthKitStart : BaseEffect
     {
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
-        healthRegen = 0.5f;
-        teamLayer = player.GetComponent<PlayerStats>().playerArea;
+
+        playerStats = player.GetComponent<PlayerStats>();
+        teamLayer = playerStats.playerArea;
+        
         _playerId = userId;
 
+        _buff = 1f;
+
         this.gameObject.transform.parent = player.transform;
+    }
+
+    public void Update()
+    {
+        _pv.RPC("RpcUpdate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcUpdate()
+    {
+        playerStats.nowHealth += _buff;
     }
 
     public void OnTriggerStay(Collider other)
@@ -36,35 +52,26 @@ public class HealthKitStart : BaseEffect
     public void RpcTrigger(int playerId, int otherId)
 	{
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        GameObject playerObject = Managers.game.RemoteTargetFinder(playerId);
 
         if (other == null)
             return;
-
+        
         if (other.gameObject.layer == teamLayer)
         {
             switch (other.gameObject.tag)
             {
                 case "PLAYER":
                     PlayerStats pStats = other.gameObject.GetComponent<PlayerStats>();
-                    pStats.nowHealth += healthRegen;
+                    pStats.nowHealth += _buff;
 
                     break;
 
                 case "OBJECT":
                     ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
-                    oStats.nowHealth += healthRegen;
+                    oStats.nowHealth += _buff;
 
                     break;
             }
         }
-    }
-
-    [PunRPC]
-    public void RpcUpdate(int id)
-    {
-        GameObject target = GetRemotePlayer(id);
-        PlayerStats stats = target.GetComponent<PlayerStats>();
-        stats.nowHealth += healthRegen;
     }
 }

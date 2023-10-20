@@ -27,7 +27,6 @@ public class BloodStainedCoinDamage : BaseEffect
         this.gameObject.transform.parent = target.transform;
         this.gameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
 
-        Debug.Log("damage effect");
         if (target.gameObject.CompareTag("PLAYER"))
         {
             pStat = target.GetComponent<PlayerStats>();

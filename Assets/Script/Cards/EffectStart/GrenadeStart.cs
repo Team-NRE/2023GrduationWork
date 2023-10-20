@@ -43,7 +43,7 @@ public class GrenadeStart : BaseEffect
                 ObjStats oStats = other.GetComponent<ObjStats>();
                 PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
             }
 
             //타겟이 적 Player일 시
@@ -52,7 +52,7 @@ public class GrenadeStart : BaseEffect
                 PlayerStats enemyStats = other.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.5f));
+                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.7f));
             }
         }
     }

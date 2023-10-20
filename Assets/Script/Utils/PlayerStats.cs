@@ -220,8 +220,6 @@ namespace Stat
                     level += 1;
                     _experience -= levelUpEx;
                     levelUpEx += 40;
-         
-
                 }
             }
         }

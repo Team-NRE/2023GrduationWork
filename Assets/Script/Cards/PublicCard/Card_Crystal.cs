@@ -9,7 +9,7 @@ public class Card_Crystal : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 400;
+        _cardBuyCost = 300;
         _cost = 0;
         _rangeType = Define.CardType.None;
 
