@@ -153,6 +153,7 @@ namespace Stat
 
                 if (_nowHealth <= 0 && !GetComponent<BaseController>()._startDie) 
                 {
+                    _nowHealth = 0;
                     Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
                 }
             }
@@ -212,7 +213,7 @@ namespace Stat
             set
             {
                 if (nowHealth <= 0) return;
-                if (level == 10) return;
+                //if (level == 10) return;
 
                 _experience += value;
                 if (_experience >= levelUpEx)
