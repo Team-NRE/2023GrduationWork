@@ -18,6 +18,11 @@ public class InvincibleWeaponStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
 
+        this.gameObject.transform.parent = player.transform;
+        this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        this.gameObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
+        this.gameObject.transform.parent = null;
+
         enemylayer = player.GetComponent<PlayerStats>().enemyArea;
     }
 
@@ -33,6 +38,9 @@ public class InvincibleWeaponStart : BaseEffect
     public void RpcTrigger(int targetId)
 	{
         GameObject other = GetRemotePlayer(targetId);
+        if (other == null)
+            return;
+
         if (other.gameObject.layer == enemylayer)
         {
             //타겟이 미니언, 타워일 시 

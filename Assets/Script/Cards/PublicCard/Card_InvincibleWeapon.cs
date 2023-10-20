@@ -22,11 +22,6 @@ public class Card_InvincibleWeapon : UI_Card
         GameObject player = RemoteTargetFinder(playerId);
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", ground, Quaternion.identity);
 
-        _effectObject.transform.parent = player.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 0, 0);
-        _effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
-        _effectObject.transform.parent = null;
-
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
 
         return _effectObject;
