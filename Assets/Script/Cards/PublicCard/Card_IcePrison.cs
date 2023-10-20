@@ -9,7 +9,7 @@ public class Card_IcePrison : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 750;
+        _cardBuyCost = 1400;
         _cost = 1;
 
         _rangeType = Define.CardType.None;

@@ -10,7 +10,7 @@ public class Card_InvincibleShield : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 3333;
+        _cardBuyCost = 2222;
         _cost = 3;
 
         _rangeType = Define.CardType.None;

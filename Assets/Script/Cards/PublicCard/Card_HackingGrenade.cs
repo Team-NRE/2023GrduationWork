@@ -9,8 +9,8 @@ public class Card_HackingGrenade : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 1200;
-        _cost = 1;
+        _cardBuyCost = 1800;
+        _cost = 2;
 
         _rangeType = Define.CardType.Point;
         _rangeScale = 3.15f;

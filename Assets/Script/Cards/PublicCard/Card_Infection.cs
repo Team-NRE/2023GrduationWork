@@ -10,7 +10,7 @@ public class Card_Infection : UI_Card
 
     public override void Init()
     {
-        _cardBuyCost = 300;
+        _cardBuyCost = 1400;
         _cost = 1;
         //_damage = 0.1f;
         _rangeType = Define.CardType.Point;

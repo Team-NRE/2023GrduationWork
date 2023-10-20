@@ -9,9 +9,8 @@ public class Card_Shield : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 300;
+        _cardBuyCost = 500;
         _cost = 0;
-        //_defence = 50;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;

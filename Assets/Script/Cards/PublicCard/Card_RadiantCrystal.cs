@@ -10,7 +10,7 @@ public class Card_RadiantCrystal : UI_Card
     
     public override void Init()
     {
-        _cardBuyCost = 1200;
+        _cardBuyCost = 900;
         _cost = 0;
         _rangeType = Define.CardType.None;
 

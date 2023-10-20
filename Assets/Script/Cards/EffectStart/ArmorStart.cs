@@ -18,6 +18,6 @@ public class ArmorStart : BaseEffect
         transform.localPosition = new Vector3(0, 0.8f, 0);
 
         ///스텟 적용
-        _pStat.defensePower += 0.2f;
+        _pStat.defensePower += 0.1f;
     }
 }

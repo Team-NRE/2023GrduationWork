@@ -12,7 +12,7 @@ public class Card_Spear : UI_Card
 
     public override void Init()
     {
-        _cardBuyCost = 100;
+        _cardBuyCost = 500;
         _cost = 1;
         //_damage = 15;
 

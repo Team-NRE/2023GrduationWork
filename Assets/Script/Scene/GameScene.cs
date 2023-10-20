@@ -168,6 +168,8 @@ public class GameScene : BaseScene
             }
 
             attacker.GetComponent<PlayerStats>().kill++;
+            attacker.GetComponent<PlayerStats>().gold += 500;
+            attacker.GetComponent<PlayerStats>().experience += 100;
         }
 
         // 피해자 처리

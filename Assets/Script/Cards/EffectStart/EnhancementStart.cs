@@ -8,7 +8,7 @@ public class EnhancementStart : BaseEffect
 {
     PlayerStats _pStats;
 
-    float powerValue = 5;
+    float powerValue = 10;
 
     [PunRPC]
     public override IEnumerator CardEffectInit(int userId, float time)
@@ -19,6 +19,6 @@ public class EnhancementStart : BaseEffect
 
         _pStats.basicAttackPower += powerValue;
         yield return new WaitForSeconds(time);
-        _pStats.basicAttackPower -= powerValue;
+        _pStats.basicAttackPower -= (powerValue - 1);
     }
 }

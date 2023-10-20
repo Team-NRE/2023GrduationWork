@@ -17,7 +17,8 @@ public class WindBladeStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         _bulletSpeed =10.0f;
-        _damage = 100.0f;
+        _damage = 25.0f;
+
         _playerId = userId;
         _enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
 

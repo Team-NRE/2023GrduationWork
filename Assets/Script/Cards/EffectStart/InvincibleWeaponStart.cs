@@ -7,7 +7,6 @@ using Photon.Pun;
 public class InvincibleWeaponStart : BaseEffect
 {
     int playerId;
-    float damage = default;
     int enemylayer = default;
 
     protected PhotonView _pv;
@@ -20,12 +19,6 @@ public class InvincibleWeaponStart : BaseEffect
         base.CardEffectInit(userId);
 
         enemylayer = player.GetComponent<PlayerStats>().enemyArea;
-
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-        this.gameObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
-        this.gameObject.transform.parent = null;
-        damage = 1;
     }
 
     public void OnTriggerStay(Collider other)
@@ -42,15 +35,13 @@ public class InvincibleWeaponStart : BaseEffect
         GameObject other = GetRemotePlayer(targetId);
         if (other.gameObject.layer == enemylayer)
         {
-            Debug.Log(other.gameObject.name);
-
             //타겟이 미니언, 타워일 시 
             if (other.gameObject.tag != "PLAYER")
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.02f);
+                oStats.nowHealth -= pStats.basicAttackPower * 0.03f;
             }
 
             //타겟이 적 Player일 시
@@ -59,7 +50,7 @@ public class InvincibleWeaponStart : BaseEffect
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
                 PlayerStats pStats = player.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.02f));
+                enemyStats.receviedDamage = (playerId, pStats.basicAttackPower * 0.03f);
             }
         }
     }

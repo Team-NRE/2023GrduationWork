@@ -10,9 +10,8 @@ public class Card_HealthPotion : UI_Card
     
     public override void Init()
     {
-        _cardBuyCost = 100;
+        _cardBuyCost = 150;
         _cost = 0;
-        //_defence = 50;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
@@ -21,18 +20,9 @@ public class Card_HealthPotion : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
-        //GameObject _player = GameObject.Find(player);
-        GameObject _player = Managers.game.RemoteTargetFinder(playerId);
-
-        PlayerStats _pStat = _player.GetComponent<PlayerStats>();
-
-        //_effectObject = Managers.Resource.Instantiate($"Particle/Effect_HealthPotion");
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HealthPotion", ground, Quaternion.Euler(-90, 0, 0));
-        //_effectObject.transform.parent = _player.transform;
-        //_effectObject.transform.localPosition = new Vector3(0, 0, 0);
-
-        //_pStat.nowHealth += 130;
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+
         return _effectObject;
     }
 

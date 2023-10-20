@@ -9,13 +9,13 @@ public class Card_Enhancement : UI_Card
 {
     public override void Init()
     {
-        _cardBuyCost = 300;
+        _cardBuyCost = 500;
         _cost = 0;
         //_damage = 15;
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
-        _effectTime = 5.0f;
+        _effectTime = 3.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
