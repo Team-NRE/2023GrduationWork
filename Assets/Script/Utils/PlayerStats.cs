@@ -155,6 +155,7 @@ namespace Stat
                 {
                     _nowHealth = 0;
                     Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
+                    GetComponent<BaseController>()._startDie = true;
                 }
             }
         }
