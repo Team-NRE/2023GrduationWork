@@ -39,6 +39,9 @@ public class InvincibleShield2Start : BaseEffect
     public void RpcTrigger(int otherId)
     {
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        if (other == null)
+            return;
+
         if (other.tag != "PLAYER") return;
         if (other.layer != teamLayer) return;
         if (other.layer == teamLayer && other.tag == "PLAYER")

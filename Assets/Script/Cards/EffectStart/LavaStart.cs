@@ -37,6 +37,9 @@ public class LavaStart : BaseEffect
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
         GameObject user = Managers.game.RemoteTargetFinder(_playerId);
 
+        if (other == null || user == null)
+            return;
+
         if (other.gameObject.layer == enemylayer)
         {
             //타겟이 미니언, 타워일 시 

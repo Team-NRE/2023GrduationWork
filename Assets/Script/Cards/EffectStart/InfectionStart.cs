@@ -39,6 +39,9 @@ public class InfectionStart : BaseEffect
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
         GameObject player = Managers.game.RemoteTargetFinder(playerId);
 
+        if (other == null || player == null)
+            return;
+
         if (other.gameObject.layer == enemylayer)
         {
             if (other.gameObject.tag != "PLAYER")
