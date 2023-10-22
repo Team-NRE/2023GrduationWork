@@ -8,7 +8,7 @@ using Photon.Pun;
 public class InvincibleShieldStart : BaseEffect
 {
     float effectTime;
-    float startEffect = 0.01f;
+    float startEffect;
 
     protected PhotonView _playerPV;
 
@@ -18,6 +18,7 @@ public class InvincibleShieldStart : BaseEffect
         _playerPV = player.GetComponent<PhotonView>();
 
         effectTime = 3.0f;
+        startEffect = 0.01f;
 
         _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", 9999f);
     }

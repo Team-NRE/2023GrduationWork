@@ -20,9 +20,13 @@ public class Card_InvincibleWeapon : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         GameObject player = RemoteTargetFinder(playerId);
-        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", ground, Quaternion.identity);
 
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", player.transform.position, Quaternion.identity);
+        _effectObject.transform.parent = player.transform;
+        _effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
+        _effectObject.transform.parent = null;
+
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, _effectObject.transform.rotation);
 
         return _effectObject;
     }

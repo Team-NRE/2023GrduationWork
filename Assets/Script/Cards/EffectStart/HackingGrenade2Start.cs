@@ -8,41 +8,44 @@ using Stat;
 public class HackingGrenade2Start : BaseEffect
 {
     float effectTime;
-    float startEffect = 0.01f;
+    float startEffect;
 
-    protected PhotonView _pv;
-    protected PhotonView _targetPV;
+    protected PhotonView targetPV;
 
-    PlayerStats pStat;
+    PlayerStats targetStats;
 
     Transform ManaUI;
 
-    void Start()
+    [PunRPC]
+    public override void CardEffectInit(int userId, int targetId)
     {
-        ///초기화
-        player = transform.parent.gameObject;
-        pStat = player.GetComponent<PlayerStats>();
-        _targetPV = player.GetComponent<PhotonView>();
+        base.CardEffectInit(userId, targetId);
+        
+        targetStats = target.GetComponent<PlayerStats>();
+        targetPV = target.GetComponent<PhotonView>();
         ManaUI = transform.Find("Canvas");
+
+        transform.parent = target.transform;
+        transform.localPosition = new Vector3(0, 2.3f, 0);
 
         ///스텟 적용 시간
         effectTime = 2.5f;
+        startEffect = 0.01f;
 
-        _targetPV.RPC("photonStatSet", RpcTarget.All, "nowState", "Debuff");
-        _targetPV.RPC("photonStatSet", RpcTarget.All, "nowMana", -pStat.nowMana);
-        _targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", -pStat.manaRegen);
+        targetStats.nowState = "Debuff";
+        targetStats.nowMana -= targetStats.nowMana;
+        targetStats.manaRegen -= targetStats.manaRegen;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         startEffect += Time.deltaTime;
 
         ///스텟 적용 종료
-        if (startEffect > effectTime - 0.01f || pStat.nowState == "Health")
+        if (startEffect > effectTime - 0.01f || targetStats.nowState == "Health")
         {
-            _targetPV.RPC("photonStatSet", RpcTarget.All, "nowState", "Health");
-            _targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", 0.25f);
+            targetPV.RPC("photonStatSet", RpcTarget.All, "nowState", "Health");
+            targetPV.RPC("photonStatSet", RpcTarget.All, "manaRegen", 0.25f);
 
             Destroy(gameObject);
         }

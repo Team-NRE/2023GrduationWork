@@ -187,9 +187,6 @@ public class UI_CardPanel : UI_Card
     {
         if (_evt == Define.MouseEvent.LeftButton)
         {
-            (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition(ignore);
-            //클릭될 때 잡히는 오브젝트가 없다면
-            if (_mousePos.Item2 == null) return;
             //Range 카드 제외 논타겟팅 카드
             if (BaseCard._lockTarget == null) { targetDis = 0; }
 
@@ -202,6 +199,12 @@ public class UI_CardPanel : UI_Card
     {
         //range off 일 때 return 
         if (p._IsRange == false) return;
+        
+        //클릭될 때 잡히는 오브젝트가 없다면
+        (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition(ignore);
+        if (_mousePos.Item1 == null) return;
+        if (_mousePos.Item2 == null) return;
+
         switch (BaseCard._NowKey)
         {
             case "Q":

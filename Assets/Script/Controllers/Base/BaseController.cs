@@ -190,6 +190,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
 
             return;
         }
+        
+        if (_startDie == false) { UpdatePlayerStat(); }
 
         //자동 공격
         if (BaseCard._lockTarget != null && _proj == Define.Projectile.Attack_Proj && _state == Define.State.Idle)
@@ -199,7 +201,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             return;
         }
 
-        if (_startDie == false) { UpdatePlayerStat(); }
     }
 
     //퍼센트 계산
@@ -245,11 +246,9 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
     protected IEnumerator DelayDestroy(GameObject target, float time)
     {
         yield return new WaitForSeconds(time);
-        Debug.Log(time);
         if (target == null)
             yield return null;
         PhotonNetwork.Destroy(target);
-        Debug.Log("Destroy");
     }
     
     [PunRPC]

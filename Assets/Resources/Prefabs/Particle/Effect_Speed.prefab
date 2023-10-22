@@ -9827,6 +9827,7 @@ MonoBehaviour:
   _IsResurrection: 0
   player: {fileID: 0}
   target: {fileID: 0}
+  _effectRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!199 &199822437108533444
 ParticleSystemRenderer:
   serializedVersion: 6

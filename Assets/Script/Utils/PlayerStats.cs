@@ -110,7 +110,7 @@ namespace Stat
                     _nowHealth = value;
                 }
 
-                if (_nowHealth >= maxHealth) _nowHealth = maxHealth;
+                if (_nowHealth >= maxHealth) { _nowHealth = maxHealth; }
             }
         }
         public float maxHealth
@@ -130,7 +130,7 @@ namespace Stat
             set
             {
                 value.Item2 *= 100 / (100 + defensePower);
-                if (shield == 0) { _nowHealth -= value.Item2; }
+                if (shield == 0) { nowHealth -= value.Item2; }
                 if (shield > 0)
                 {
                     //Debug.Log($"방어막 : {shield}");
@@ -151,9 +151,9 @@ namespace Stat
                     }
                 }
 
-                if (_nowHealth <= 0 && !GetComponent<BaseController>()._startDie) 
+                if (nowHealth <= 0 && !GetComponent<BaseController>()._startDie) 
                 {
-                    _nowHealth = 0;
+                    nowHealth = 0;
                     Managers.game.killEvent(value.Item1, GetComponent<PhotonView>().ViewID);
                     GetComponent<BaseController>()._startDie = true;
                 }

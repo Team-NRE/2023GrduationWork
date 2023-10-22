@@ -45,29 +45,32 @@ public class HealthKitStart : BaseEffect
         int otherId = Managers.game.RemoteColliderId(other);
         if (otherId == default)
             return;
-        _pv.RPC("RpcTrigger", RpcTarget.All, _playerId, otherId);
+        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
-    public void RpcTrigger(int playerId, int otherId)
+    public void RpcTrigger(int otherId)
 	{
+        if (otherId == default) 
+            return;
+
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
 
         if (other == null)
             return;
         
-        if (other.gameObject.layer == teamLayer)
+        if (other.layer == teamLayer)
         {
-            switch (other.gameObject.tag)
+            switch (other.tag)
             {
                 case "PLAYER":
-                    PlayerStats pStats = other.gameObject.GetComponent<PlayerStats>();
+                    PlayerStats pStats = other.GetComponent<PlayerStats>();
                     pStats.nowHealth += _buff;
 
                     break;
 
                 case "OBJECT":
-                    ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
+                    ObjStats oStats = other.GetComponent<ObjStats>();
                     oStats.nowHealth += _buff;
 
                     break;

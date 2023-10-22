@@ -22,6 +22,8 @@ public class BaseEffect : MonoBehaviour
 	public GameObject player = null;
 	public GameObject target = null;
 
+	public Quaternion _effectRot;
+
 	public virtual void CardEffectInit(int userId)
 	{
 		player = GetRemotePlayer(userId);
@@ -33,6 +35,11 @@ public class BaseEffect : MonoBehaviour
 		player = GetRemotePlayer(userId);
 		target = GetRemotePlayer(targetId);
 		//Debug.Log("2 param");
+	}
+	public virtual void CardEffectInit(int userId, Quaternion effectRot)
+	{
+		player = GetRemotePlayer(userId);
+		_effectRot = effectRot;
 	}
 
 	public virtual IEnumerator CardEffectInit(int userId, float time)

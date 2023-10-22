@@ -46,6 +46,7 @@ public class HackingGrenadeStart : BaseEffect
 
                 oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.5f);
             }
+
             if (other.CompareTag("PLAYER"))
             {
                 PlayerStats enemyStats = other.GetComponent<PlayerStats>();
@@ -53,12 +54,8 @@ public class HackingGrenadeStart : BaseEffect
 
                 enemyStats.receviedDamage = (playerId, damage + (pStats.basicAttackPower * 0.5f));
 
-                //체력 남으면 Mana Stop
-                if (enemyStats.nowHealth > 0)
-                {
-                    GameObject HackingEffect = Managers.Resource.Instantiate($"Particle/Effect_HackingGrenade2", other.transform);
-                    HackingEffect.transform.localPosition = new Vector3(0, 0, 0);
-                }
+                GameObject HackingEffect = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HackingGrenade2", other.transform.position, Quaternion.identity);
+                HackingEffect.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, otherId);
             }
         }
     }

@@ -6,14 +6,18 @@ using Define;
 public class EnergyAmpStart : BaseEffect
 {
     int attackID;
-    float distance = 5.0f;
+    float distance;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         base.CardEffectInit(userId);
+        
         attackID = userId;
+        distance = 5.0f;
+        
         PlayerStats stats = player.GetComponent<PlayerStats>();
+        
         _damage = stats.basicAttackPower * 3.5f;
     }
 

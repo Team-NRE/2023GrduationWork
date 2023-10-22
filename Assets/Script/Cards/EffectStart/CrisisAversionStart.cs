@@ -11,7 +11,7 @@ public class CrisisAversionStart : BaseEffect
     PhotonView _playerPV;
 
     float effectTime;
-    float startEffect = 0.01f;
+    float startEffect;
 
     bool invincibleTime;
 
@@ -27,6 +27,7 @@ public class CrisisAversionStart : BaseEffect
         transform.localPosition = new Vector3(0, 0.3f, 0);
 
         //처음 무적 시간 1.5초
+        startEffect = 0.01f;
         effectTime = 1.5f;
         invincibleTime = true;
         _playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", 9999f);

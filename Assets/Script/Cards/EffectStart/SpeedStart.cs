@@ -9,7 +9,7 @@ public class SpeedStart : BaseEffect
     PhotonView _playerPV;
 
     float effectTime;
-    float startEffect = 0.01f;
+    float startEffect;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
@@ -24,6 +24,7 @@ public class SpeedStart : BaseEffect
 
         ///스텟 적용 시간
         effectTime = 3.5f;
+        startEffect = 0.01f;
 
         ///스텟 적용
         _speed = 0.5f;

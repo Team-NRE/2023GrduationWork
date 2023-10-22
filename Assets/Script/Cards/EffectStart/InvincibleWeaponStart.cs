@@ -12,18 +12,14 @@ public class InvincibleWeaponStart : BaseEffect
     protected PhotonView _pv;
 
     [PunRPC]
-    public override void CardEffectInit(int userId)
+    public override void CardEffectInit(int userId, Quaternion effectRot)
     {
         playerId = userId;
         _pv = GetComponent<PhotonView>();
-        base.CardEffectInit(userId);
-
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-        this.gameObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
-        this.gameObject.transform.parent = null;
+        base.CardEffectInit(userId, effectRot);
 
         enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+        transform.rotation = _effectRot;
     }
 
     public void OnTriggerStay(Collider other)

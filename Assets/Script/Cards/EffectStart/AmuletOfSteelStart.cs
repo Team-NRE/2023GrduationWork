@@ -6,7 +6,7 @@ using Stat;
 public class AmuletOfSteelStart : BaseEffect
 {
     float effectTime;
-    float startEffect = 0.01f;
+    float startEffect;
 
     protected PhotonView _pv;
     protected PhotonView _playerPV;
@@ -14,7 +14,7 @@ public class AmuletOfSteelStart : BaseEffect
     PlayerStats pStat;
 
     float shieldValue = default;
-    float shieldRatioPerHealth = 0.4f;
+    float shieldRatioPerHealth;
 
 
     void Start()
@@ -26,6 +26,8 @@ public class AmuletOfSteelStart : BaseEffect
 
         ///스텟 적용 시간
         effectTime = 5.0f;
+        startEffect = 0.01f;
+        shieldRatioPerHealth = 0.4f;
 
         ///스텟 적용 (방어막)
         shieldValue = pStat.maxHealth * shieldRatioPerHealth;

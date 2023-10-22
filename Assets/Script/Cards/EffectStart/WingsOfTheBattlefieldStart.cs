@@ -6,7 +6,7 @@ using UnityEngine;
 public class WingsOfTheBattlefieldStart : BaseEffect
 {
     float effectTime;
-    float startEffect = 0.01f;
+    float startEffect;
 
     protected PhotonView _pv;
     protected PhotonView _playerPV;
@@ -14,21 +14,23 @@ public class WingsOfTheBattlefieldStart : BaseEffect
     PlayerStats pStat;
 
     float shieldValue = default;
-    float shieldRatioPerHealth = 0.4f;
+    float shieldRatioPerHealth;
 
 
     void Start()
     {
-        ///ÃÊ±âÈ­
+        ///ï¿½Ê±ï¿½È­
         player = transform.parent.gameObject;
         pStat = player.GetComponent<PlayerStats>();
         _playerPV = player.GetComponent<PhotonView>();
 
-        ///½ºÅÝ Àû¿ë ½Ã°£
+        ///ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
         effectTime = 4.0f;
+        startEffect = 0.01f;
+        shieldRatioPerHealth = 0.4f;
         _speed = 2.0f;
 
-        ///¹æ¾î¸· Ä«µåÀÇ ÃÑ Max ¹æ¾î¸· - ÇöÀç Ä«µåÀÇ Max ¹æ¾î¸·
+        ///ï¿½ï¿½î¸· Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Max ï¿½ï¿½î¸· - ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ï¿½ Max ï¿½ï¿½î¸·
         _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", _speed);
     }
 
@@ -36,13 +38,13 @@ public class WingsOfTheBattlefieldStart : BaseEffect
     {
         startEffect += Time.deltaTime;
 
-        ///½ºÅÝ Àû¿ë Á¾·á
+        ///ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (startEffect > effectTime - 0.01f)
         {
-            ///¹æ¾î¸· Ä«µåÀÇ ÃÑ Max ¹æ¾î¸· - ÇöÀç Ä«µåÀÇ Max ¹æ¾î¸·
+            ///ï¿½ï¿½î¸· Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Max ï¿½ï¿½î¸· - ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ï¿½ Max ï¿½ï¿½î¸·
             _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -_speed);
 
-            //ÇöÀç Ä«µå »èÁ¦
+            //ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             Destroy(gameObject);
 
             return;

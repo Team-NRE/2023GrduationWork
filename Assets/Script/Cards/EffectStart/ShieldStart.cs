@@ -7,7 +7,7 @@ using Photon.Pun;
 public class ShieldStart : BaseEffect
 {
     float effectTime;
-    float startEffect = 0.01f;
+    float startEffect;
 
     protected PhotonView _pv;
     protected PhotonView _playerPV;
@@ -15,7 +15,7 @@ public class ShieldStart : BaseEffect
     PlayerStats pStat;
 
     float shieldValue = default;
-    float shieldRatioPerHealth = 0.2f;
+    float shieldRatioPerHealth;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
@@ -29,6 +29,9 @@ public class ShieldStart : BaseEffect
         transform.localPosition = new Vector3(0, 1.12f, 0);
 
         effectTime = 3.0f;
+        startEffect = 0.01f;
+        shieldRatioPerHealth = 0.2f;
+
         shieldValue = pStat.maxHealth * shieldRatioPerHealth;
 
         _playerPV.RPC("photonStatSet", RpcTarget.All, "firstShield", shieldValue);

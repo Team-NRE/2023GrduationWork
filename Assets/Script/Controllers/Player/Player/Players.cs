@@ -310,7 +310,7 @@ public class Players : BaseController
         int layerMask = 1 << _pStats.enemyArea; //적
         layerMask |= 1 << (int)Define.ObjectType.Neutral; //중앙 오브젝트  
 
-        //탐지 거리 2배로 늘림
+        //탐지 거리 늘림
         Collider[] cols = Physics.OverlapSphere(transform.position, (_pStats.attackRange + 1.5f), layerMask);
         foreach (Collider col in cols)
         {

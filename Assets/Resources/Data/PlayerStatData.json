@@ -28,7 +28,7 @@
         "manaRegen": "0.25",
         "maxMana": "3",
 
-        "gold": "500"
+        "gold": "1400"
       },
 
       {
@@ -59,7 +59,7 @@
         "manaRegen": "0.25",
         "maxMana": "3",
 
-        "gold": "500"
+        "gold": "1400"
       },
 
       {
@@ -90,7 +90,7 @@
         "manaRegen": "0.25",
         "maxMana": "3",
 
-        "gold": "500"
+        "gold": "1400"
       },
 
       {
@@ -121,7 +121,7 @@
         "manaRegen": "0.25",
         "maxMana": "3",
 
-        "gold": "500"
+        "gold": "1400"
       }
     ]
   } 

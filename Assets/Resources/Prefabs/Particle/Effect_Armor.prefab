@@ -4800,6 +4800,7 @@ MonoBehaviour:
   _IsResurrection: 0
   player: {fileID: 0}
   target: {fileID: 0}
+  _effectRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!82 &3286237503403735555
 AudioSource:
   m_ObjectHideFlags: 0
