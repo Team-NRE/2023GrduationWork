@@ -6,27 +6,45 @@ using Photon.Pun;
 
 public class IcePrisonStart : BaseEffect
 {
-    PhotonView _pv;
-    PlayerStats pStat;
+    float originalSpeed;
+
+    float effectTime;
+    float startEffect;
 
     [PunRPC]
-    public override IEnumerator CardEffectInit(int userId, float time)
+    public override void CardEffectInit(int userId)
     {
-        _pv = GetComponent<PhotonView>();
-        player = Managers.game.RemoteTargetFinder(userId);
-        pStat = player.GetComponent<PlayerStats>();
-        float originalSpeed = pStat.GetComponent<PlayerStats>().speed;
+        ///초기화
+        base.CardEffectInit(userId);
 
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0.3f, 0);
+        ///effect 위치
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 0.3f, 0);
 
-        pStat.defensePower += 9999f;
-        pStat.speed = 0.0f;
-        
-        yield return new WaitForSeconds(time);
+        ///스텟 적용 시간
+        effectTime = 3.0f;
+        startEffect = 0.01f;
 
-        pStat.defensePower -= 9999f;
-        pStat.speed = originalSpeed;
-        PhotonNetwork.Destroy(gameObject);
+        ///스텟 적용
+        originalSpeed = pStat.speed;
+        playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", 9999f);
+        playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -pStat.speed);
     }
+
+    private void Update()
+    {
+        startEffect += Time.deltaTime;
+
+        ///스텟 적용 종료
+        if (startEffect > effectTime - 0.01f)
+        {
+            playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", -9999f);
+            playerPV.RPC("photonStatSet", RpcTarget.All, "speed", originalSpeed);
+
+            Destroy(gameObject);
+
+            return;
+        }
+    }
+
 }

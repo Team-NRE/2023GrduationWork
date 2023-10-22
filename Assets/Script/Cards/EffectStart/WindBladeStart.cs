@@ -17,7 +17,7 @@ public class WindBladeStart : BaseEffect
         _pv = GetComponent<PhotonView>();
         base.CardEffectInit(userId);
         _bulletSpeed =10.0f;
-        _damage = 25.0f;
+        damage = 25.0f;
 
         _playerId = userId;
         _enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
@@ -54,7 +54,7 @@ public class WindBladeStart : BaseEffect
             {
                 ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
 
-                oStats.nowHealth -= _damage + (pStats.basicAttackPower * 0.7f);
+                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
             }
 
             //타겟이 적 Player일 시
@@ -62,7 +62,7 @@ public class WindBladeStart : BaseEffect
             {
                 PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_playerId, _damage + (pStats.basicAttackPower * 0.7f));
+                enemyStats.receviedDamage = (_playerId, damage + (pStats.basicAttackPower * 0.7f));
             }
         }
     }

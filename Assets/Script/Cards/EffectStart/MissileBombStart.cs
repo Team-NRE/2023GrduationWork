@@ -21,7 +21,7 @@ public class MissileBombStart : BaseEffect
 
         distance = 2.5f;
 
-        _damage = stats.basicAttackPower * 3.5f;
+        damage = stats.basicAttackPower * 3.5f;
     }
 
     public void TakeDamage()
@@ -42,14 +42,14 @@ public class MissileBombStart : BaseEffect
             if (nowTarget.tag != "PLAYER")
             {
                 ObjStats _Stats = nowTarget.GetComponent<ObjStats>();
-                _Stats.nowHealth -= _damage;
+                _Stats.nowHealth -= damage;
             }
 
             //타겟이 적 Player일 시
             if (nowTarget.tag == "PLAYER")
             {
                 PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
-                _Stats.receviedDamage = (attackID, _damage);
+                _Stats.receviedDamage = (attackID, damage);
             }
         }
     }

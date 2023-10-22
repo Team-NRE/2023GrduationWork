@@ -75,7 +75,7 @@ public class Players : BaseController
 
 
         //마우스 이벤트 시 무시할 레이어
-        ignore = LayerMask.GetMask("Default", "Ignore Raycast");
+        ignore = LayerMask.GetMask("Default", "Ignore Raycast", "Neutral");
 
         //부활 effect setting
         resen.SetActive(false);
@@ -730,6 +730,13 @@ public class Players : BaseController
         if (BaseCard._lockTarget != null)
         {
             _proj = Define.Projectile.Attack_Proj;
+
+            if (_pv.IsMine)
+            {
+                ////Range Off
+                _IsRange = true;
+                _attackRange[4].SetActive(_IsRange);
+            }
         }
 
         //애니메이션 Idle로 변환

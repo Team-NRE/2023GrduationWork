@@ -39,9 +39,11 @@ public class Lightsabre : Players
             );
     }
 
+
     //Attack
     protected override void UpdateAttack()
     {
+        //평타 공격
         if (BaseCard._lockTarget != null && oneShot == false)
         {
             if (_pv.IsMine)
@@ -49,34 +51,46 @@ public class Lightsabre : Players
                 //평타 소리
                 attackSound.GetComponent<AudioSource>().enabled = true;
 
-                int userId = GetComponent<PhotonView>().ViewID;
-                int targetId = BaseCard._lockTarget.GetComponent<PhotonView>().ViewID;
-                _pv.RPC("ApplyDamage", RpcTarget.All, userId, targetId);
+                //데미지 피해
+                _pv.RPC("ApplyDamage", RpcTarget.All, BaseCard._lockTarget.GetComponent<PhotonView>().ViewID);
 
+                //한발만 쏘기
                 oneShot = true;
             }
         }
     }
 
     [PunRPC]
-    protected void ApplyDamage(int myView, int targetId)
+    protected void ApplyDamage(int targetId)
     {
         GameObject target = Managers.game.RemoteTargetFinder(targetId);
 
-        if (target.gameObject.CompareTag("PLAYER"))
+        //플레이어 
+        if (target.CompareTag("PLAYER"))
         {
-            PlayerStats pt = target.GetComponent<PlayerStats>();
-            pt.receviedDamage = (_pv.ViewID, _pStats.basicAttackPower);
-            if(pt.nowHealth <= 0 )
+            //초기화
+            PlayerStats target_pStats = target.GetComponent<PlayerStats>();
+
+            //데미지 피해
+            target_pStats.receviedDamage = (_pv.ViewID, _pStats.basicAttackPower);
+
+            //타겟 사망 시
+            if (target_pStats.nowHealth <= 0)
             {
                 BaseCard._lockTarget = null;
             }
         }
-        else
+        //오브젝트
+        if (!target.CompareTag("PLAYER"))
         {
-            ObjStats pt = target.GetComponent<ObjStats>();
-            pt.nowHealth -= _pStats.basicAttackPower;
-            if (pt.nowHealth <= 0)
+            //초기화
+            ObjStats target_oStats = target.GetComponent<ObjStats>();
+
+            //데미지 피해
+            target_oStats.nowHealth -= _pStats.basicAttackPower;
+
+            //타겟 사망 시
+            if (target_oStats.nowHealth <= 0)
             {
                 BaseCard._lockTarget = null;
             }

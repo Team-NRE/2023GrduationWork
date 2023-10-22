@@ -6,18 +6,20 @@ using UnityEngine;
 
 public class CrystalStart : BaseEffect
 {
-    protected PhotonView _pv;
-    protected PlayerStats _stats;
+    PhotonView _pv;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        _pv = GetComponent<PhotonView>();
+        //초기화
         base.CardEffectInit(userId);
-        _stats = player.GetComponent<PlayerStats>();
+        _pv = GetComponent<PhotonView>();
+        
+        //effect 위치
         transform.parent = player.transform;
         transform.localPosition = new Vector3(0, 0, 0);
 
-        _stats.nowMana += 1;
+        //스텟 적용
+        pStat.nowMana += 1;
     }
 }

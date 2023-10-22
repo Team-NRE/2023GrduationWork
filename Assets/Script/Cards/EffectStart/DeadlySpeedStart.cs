@@ -6,8 +6,7 @@ using Photon.Pun;
 
 public class DeadlySpeedStart : BaseEffect
 {
-    PlayerStats _pStats;
-    protected PhotonView _pv;
+    PhotonView _pv;
 
     float _powerValue;
     float _speedValue;
@@ -15,26 +14,31 @@ public class DeadlySpeedStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        //초기화
         base.CardEffectInit(userId);
-        _effectTime = 3.0f;
-        _pStats = player.GetComponent<PlayerStats>();
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0.2f, 0);
+
+        //effect 위치
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 0.2f, 0);
+        
+        //스텟 적용
+        _effectTime = 4.0f;
         _speed = 1.0f;
         _powerValue = 20f;
         _speedValue = 0.5f;
-
-        _pStats.StartCoroutine(DelayBuff());
+        pStat.StartCoroutine(DelayBuff());
     }
 
     IEnumerator DelayBuff()
     {
-        _pStats.speed += _speed;
-        _pStats.basicAttackPower += _powerValue;
-        _pStats.attackSpeed += _speedValue;
+        pStat.speed += _speed;
+        pStat.basicAttackPower += _powerValue;
+        pStat.attackSpeed += _speedValue;
+
         yield return new WaitForSeconds(_effectTime);
-        _pStats.speed -= _speed;
-        _pStats.basicAttackPower -= _powerValue;
-        _pStats.attackSpeed -= _speedValue;
+
+        pStat.speed -= _speed;
+        pStat.basicAttackPower -= _powerValue;
+        pStat.attackSpeed -= _speedValue;
     }
 }

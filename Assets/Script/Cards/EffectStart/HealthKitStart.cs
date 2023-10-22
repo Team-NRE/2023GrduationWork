@@ -6,27 +6,26 @@ using UnityEngine;
 
 public class HealthKitStart : BaseEffect
 {
-    PlayerStats playerStats;
-
-    protected PhotonView _pv;
+    PhotonView _pv;
 
     int teamLayer = default;
-    int _playerId;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        _pv = GetComponent<PhotonView>();
+        //초기화
         base.CardEffectInit(userId);
+        _pv = GetComponent<PhotonView>();
 
-        playerStats = player.GetComponent<PlayerStats>();
-        teamLayer = playerStats.playerArea;
+        //effect 위치
+        transform.parent = player.transform;
         
-        _playerId = userId;
-
+        //Layer 초기화
+        teamLayer = pStat.playerArea;
+        
+        //스텟 적용
         _buff = 1f;
 
-        this.gameObject.transform.parent = player.transform;
     }
 
     public void Update()
@@ -37,43 +36,52 @@ public class HealthKitStart : BaseEffect
     [PunRPC]
     public void RpcUpdate()
     {
-        playerStats.nowHealth += _buff;
+        pStat.nowHealth += _buff;
     }
 
     public void OnTriggerStay(Collider other)
     {
+        //Human & Cyborg & Neutral 매개체 외 return
+        if (other.gameObject.layer != (int)Define.Layer.Human && other.gameObject.layer != (int)Define.Layer.Cyborg
+                && other.gameObject.layer != (int)Define.Layer.Neutral)
+            return;
+
+        //접근한 Collider의 ViewId 찾기 
         int otherId = Managers.game.RemoteColliderId(other);
+        
+        //해당 ViewId가 default면 return
         if (otherId == default)
             return;
+
+        //RPC 적용
         _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
     public void RpcTrigger(int otherId)
-	{
-        if (otherId == default) 
-            return;
-
+    {
+        //Trigger로 선별된 ViewId의 게임오브젝트 초기화
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
 
+        //오브젝트가 없다면 return
         if (other == null)
             return;
-        
+
+        //해당 오브젝트가 같은 팀이라면
         if (other.layer == teamLayer)
         {
-            switch (other.tag)
+            //타겟이 미니언, 타워일 시 
+            if (!other.CompareTag("PLAYER"))
             {
-                case "PLAYER":
-                    PlayerStats pStats = other.GetComponent<PlayerStats>();
-                    pStats.nowHealth += _buff;
+                ObjStats target_oStats = other.GetComponent<ObjStats>();
+                target_oStats.nowHealth += _buff;
+            }
 
-                    break;
-
-                case "OBJECT":
-                    ObjStats oStats = other.GetComponent<ObjStats>();
-                    oStats.nowHealth += _buff;
-
-                    break;
+            //타겟이 Player일 시
+            if (other.CompareTag("PLAYER"))
+            {
+                PlayerStats target_pStats = other.GetComponent<PlayerStats>();
+                target_pStats.nowHealth += _buff;
             }
         }
     }

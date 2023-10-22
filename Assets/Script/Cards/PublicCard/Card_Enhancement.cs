@@ -15,7 +15,6 @@ public class Card_Enhancement : UI_Card
         _rangeType = Define.CardType.None;
 
         _CastingTime = 0.3f;
-        _effectTime = 3.0f;
     }
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
@@ -23,14 +22,10 @@ public class Card_Enhancement : UI_Card
         GameObject _player = Managers.game.myCharacter;
 
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Enhancement", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.parent = _player.transform;
-        _effectObject.transform.localPosition = new Vector3(0, 0.2f, 0);
-
         _effectObject.GetComponent<PhotonView>().RPC(
             "CardEffectInit",
             RpcTarget.All,
-            playerId,
-            5.0f
+            playerId
         );
 
         return _effectObject;

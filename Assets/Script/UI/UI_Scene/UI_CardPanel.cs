@@ -208,7 +208,7 @@ public class UI_CardPanel : UI_Card
         switch (BaseCard._NowKey)
         {
             case "Q":
-                //거리 짧으면
+                //타겟과의 거리가 카드 사거리 보다 멀면
                 if (Q_UI._rangeScale < targetDis) return;
                 //Range 카드가 땅을 클릭 했다면
                 if (Q_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;
@@ -221,7 +221,7 @@ public class UI_CardPanel : UI_Card
 
 
             case "W":
-                //거리 짧으면
+                //타겟과의 거리가 카드 사거리 보다 멀면
                 if (W_UI._rangeScale < targetDis) return;
                 //Range 카드가 땅을 클릭 했다면
                 if (W_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;
@@ -234,7 +234,7 @@ public class UI_CardPanel : UI_Card
 
 
             case "E":
-                //거리 짧으면
+                //타겟과의 거리가 카드 사거리 보다 멀면
                 if (E_UI._rangeScale < targetDis) return;
                 //Range 카드가 땅을 클릭 했다면
                 if (E_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;
@@ -247,7 +247,7 @@ public class UI_CardPanel : UI_Card
 
 
             case "R":
-                //거리 짧으면
+                //타겟과의 거리가 카드 사거리 보다 멀면
                 if (R_UI._rangeScale < targetDis) return;
                 //Range 카드가 땅을 클릭 했다면
                 if (R_UI._rangeType == Define.CardType.Range && BaseCard._lockTarget == null) return;

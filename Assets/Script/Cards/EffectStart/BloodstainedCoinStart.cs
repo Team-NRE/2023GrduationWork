@@ -7,50 +7,36 @@ using Photon.Pun;
 
 public class BloodstainedCoinStart : BaseEffect
 {
-    GameObject _effectObject;
-    protected PhotonView _pv;
-    protected int _playerId;
-    protected int _targetId;
-
-    //Transform target = null;
-
-    float damage = default;
-
-    PlayerStats enemyStats;
+    PhotonView _pv;
 
     [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
-        _pv = GetComponent<PhotonView>();
+        //ì´ˆê¸°í™”
         base.CardEffectInit(userId, targetId);
-
-        damage = 10.0f;
-        _playerId = userId;
-        _targetId = targetId;
+        _pv = GetComponent<PhotonView>();
     }
 
     private void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId, _targetId);
+        _pv.RPC("RpcUpdate", RpcTarget.All);
     }
 
     [PunRPC]
-    public void RpcUpdate(int playerId, int targetId)
+    public void RpcUpdate()
     {
-        // µ¿Àü ÃßÀû½ÃÅ°±â
-        GameObject player = Managers.game.RemoteTargetFinder(playerId);
-        GameObject target = Managers.game.RemoteTargetFinder(targetId);
-
-        Vector3 thisPos = this.gameObject.transform.position;
+        Vector3 thisPos = transform.position;
         Vector3 targetPos = target.transform.position;
 
         transform.position = Vector3.Slerp(transform.position, targetPos + Vector3.up, Time.deltaTime * 2.0f);
 
         if (Vector3.Distance(thisPos, targetPos) <= 1.5f)
         {
-            _effectObject = PhotonNetwork.Instantiate("Prefabs/Particle/Effect_BloodstainedCoin", targetPos, Quaternion.identity);
-            _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, _playerId, _targetId);
-            PhotonNetwork.Destroy(this.gameObject);
+            GameObject _effectObject = PhotonNetwork.Instantiate("Prefabs/Particle/Effect_BloodstainedCoin", targetPos, Quaternion.identity);
+            _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, targetId);
+            Destroy(this.gameObject);
+
+            return;
         }
     }
 }

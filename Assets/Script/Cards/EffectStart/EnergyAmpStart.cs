@@ -5,20 +5,17 @@ using Define;
 
 public class EnergyAmpStart : BaseEffect
 {
-    int attackID;
     float distance;
 
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        //초기화
         base.CardEffectInit(userId);
         
-        attackID = userId;
+        //스텟 적용
         distance = 5.0f;
-        
-        PlayerStats stats = player.GetComponent<PlayerStats>();
-        
-        _damage = stats.basicAttackPower * 3.5f;
+        damage = pStat.basicAttackPower * 3.5f;
     }
 
     public void TakeDamage()
@@ -36,15 +33,15 @@ public class EnergyAmpStart : BaseEffect
             //타겟이 미니언, 타워일 시 
             if (nowTarget.tag != "PLAYER")
             {
-                ObjStats _Stats = nowTarget.GetComponent<ObjStats>();
-                _Stats.nowHealth -= _damage;
+                ObjStats target_oStats = nowTarget.GetComponent<ObjStats>();
+                target_oStats.nowHealth -= damage;
             }
 
             //타겟이 적 Player일 시
             if (nowTarget.tag == "PLAYER")
             {
-                PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
-                _Stats.receviedDamage = (attackID, _damage);
+                PlayerStats target_pStats = nowTarget.GetComponent<PlayerStats>();
+                target_pStats.receviedDamage = (playerId, damage);
             }
         }
     }

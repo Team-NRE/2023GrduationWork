@@ -11,7 +11,7 @@ public class BaseEffect : MonoBehaviour
     public float _effectTime;
 
 	//Stat 
-    public float _damage;
+    public float damage;
     public float _defence;
     public float _speed;
     public float _buff;
@@ -19,22 +19,36 @@ public class BaseEffect : MonoBehaviour
     //부활
     public bool _IsResurrection;
 
-	public GameObject player = null;
-	public GameObject target = null;
-
+	//이펙트 회전
 	public Quaternion _effectRot;
+
+	//player 관련 초기화
+	public GameObject player = null;
+	public PlayerStats pStat;
+	public PhotonView playerPV;
+	public int playerId;
+
+	//target 관련 초기화
+	public GameObject target = null;
+	public int targetId;
 
 	public virtual void CardEffectInit(int userId)
 	{
 		player = GetRemotePlayer(userId);
-		//Debug.Log("1 param");
+		pStat = player.GetComponent<PlayerStats>();
+		playerPV = player.GetComponent<PhotonView>();
+		playerId = userId;
 	}
 
-	public virtual void CardEffectInit(int userId, int targetId)
+	public virtual void CardEffectInit(int userId, int remoteTargetId)
 	{
 		player = GetRemotePlayer(userId);
-		target = GetRemotePlayer(targetId);
-		//Debug.Log("2 param");
+		pStat = player.GetComponent<PlayerStats>();
+		playerPV = player.GetComponent<PhotonView>();
+		playerId = userId;
+
+		target = GetRemotePlayer(remoteTargetId);
+		targetId = remoteTargetId;
 	}
 	public virtual void CardEffectInit(int userId, Quaternion effectRot)
 	{

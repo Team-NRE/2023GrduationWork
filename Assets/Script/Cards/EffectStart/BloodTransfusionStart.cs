@@ -6,65 +6,48 @@ using Photon.Pun;
 
 public class BloodTransfusionStart : BaseEffect
 {
-    GameObject Obj = null;
-    protected PhotonView _pv;
-    protected int _playerId;
-    protected int _targetId;
-
-    float damage = default;
-
-    private void Start()
-    {
-        _pv = GetComponent<PhotonView>();
-    }
+    PhotonView _pv;
 
     [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
+        //초기화
         base.CardEffectInit(userId, targetId);
-        _playerId = userId;
-        _targetId = targetId;
-        
-        Obj = target;
+        _pv = GetComponent<PhotonView>();
 
+        //effect 위치
         transform.parent = target.transform;
         transform.localPosition = new Vector3(0, 0.8f, 0);
 
+        //스텟 적용
         damage = 30.0f;
     }
 
     private void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All, _playerId, _targetId);
+        _pv.RPC("RpcUpdate", RpcTarget.All);
     }
 
     [PunRPC]
-    public void RpcUpdate(int playerId, int targetId)
+    public void RpcUpdate()
 	{
-        Obj = Managers.game.RemoteTargetFinder(targetId);
-        GameObject user = Managers.game.RemoteTargetFinder(playerId);
-
-        //Ÿ���� �̴Ͼ�, Ÿ���� �� 
-        if (!Obj.CompareTag("PLAYER"))
+        if (!target.CompareTag("PLAYER"))
         {
-            ObjStats oStats = Obj.GetComponent<ObjStats>();
-            PlayerStats pStats = user.GetComponent<PlayerStats>();
+            ObjStats target_oStats = target.GetComponent<ObjStats>();
 
-            oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
-            pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);
+            target_oStats.nowHealth -= damage + (pStat.basicAttackPower * 0.7f);
+            target_oStats.nowHealth += damage + (pStat.basicAttackPower * 0.7f);
 
             BaseCard._lockTarget = null;
             GetComponent<BloodTransfusionStart>().enabled = false;
         }
 
-        //Ÿ���� �� Player�� ��
-        if (Obj.CompareTag("PLAYER"))
+        if (target.CompareTag("PLAYER"))
         {
-            PlayerStats enemyStats = Obj.GetComponent<PlayerStats>();
-            PlayerStats pStats = user.GetComponent<PlayerStats>();
+            PlayerStats target_pStats = target.GetComponent<PlayerStats>();
 
-            enemyStats.receviedDamage = (playerId, (damage + (pStats.basicAttackPower * 0.7f)));
-            pStats.nowHealth += damage + (pStats.basicAttackPower * 0.7f);
+            target_pStats.receviedDamage = (playerId, (damage + (pStat.basicAttackPower * 0.7f)));
+            pStat.nowHealth += damage + (pStat.basicAttackPower * 0.7f);
 
             BaseCard._lockTarget = null;
             GetComponent<BloodTransfusionStart>().enabled = false;

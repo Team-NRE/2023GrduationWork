@@ -10,14 +10,15 @@ public class AmuletOfSteel2Start : BaseEffect
 
     int teamLayer = default;
 
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         ///초기화
         base.CardEffectInit(userId);
         _pv = GetComponent<PhotonView>();
-        teamLayer = player.GetComponent<PlayerStats>().playerArea;
+        
+        //Layer 초기화
+        teamLayer = pStat.playerArea;
 
         ///effect 위치
         transform.parent = player.transform;

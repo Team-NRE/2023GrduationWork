@@ -5,21 +5,44 @@ using Stat;
 using Photon.Pun;
 
 public class EnhancementStart : BaseEffect
-{
-    PlayerStats _pStats;
-
+{ 
     float powerValue;
 
-    [PunRPC]
-    public override IEnumerator CardEffectInit(int userId, float time)
-    {
-        player = GetRemotePlayer(userId);
-        _pStats = player.GetComponent<PlayerStats>();
-        transform.parent = player.transform;
-        powerValue = 10;
+    float effectTime;
+    float startEffect;
 
-        _pStats.basicAttackPower += powerValue;
-        yield return new WaitForSeconds(time);
-        _pStats.basicAttackPower -= (powerValue - 1);
+    [PunRPC]
+    public override void CardEffectInit(int userId)
+    {
+        ///초기화
+        base.CardEffectInit(userId);
+
+        ///effect 위치
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 0.2f, 0);
+
+        ///스텟 적용 시간
+        effectTime = 3.0f;
+        startEffect = 0.01f;
+
+        ///스텟 적용
+        powerValue = 10.0f;
+        playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", powerValue);
     }
+
+    private void Update()
+    {
+        startEffect += Time.deltaTime;
+
+        ///스텟 적용 종료
+        if (startEffect > effectTime - 0.01f)
+        {
+            playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", -(powerValue - 1));
+
+            Destroy(gameObject);
+
+            return;
+        }
+    }
+
 }

@@ -102,7 +102,7 @@ public class GameManager
         respawnMin = ((int)playTime / 60);
         if(respawnMin == 1 * respawnTurn)
         {
-            if (respawnTime >= 20) { respawnTime = 20; }
+            if (respawnTime >= 20) { respawnTime = 20; return; }
 
             respawnTime += 2;
             respawnTurn += 1;
@@ -234,6 +234,9 @@ public class GameManager
     public GameObject RemoteTargetFinder(int id)
 	{
         GameObject remoteTarget = PhotonView.Find(id).gameObject;
+
+        if (remoteTarget == null) { return null; }
+
         return remoteTarget;
 	}
 

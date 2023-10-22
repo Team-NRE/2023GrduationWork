@@ -9,108 +9,117 @@ public class RangedBullet : MonoBehaviour
 {
     GameObject _player;
     GameObject _target;
-    [SerializeField]
+    
     Vector3 _TargetPos;
 
-    [SerializeField]
     float _bulletSpeed;
-    [SerializeField]
     float _damage;
+
+    int _playerId;
+    int _targetId;
+
     PhotonView _pv;
+
+    PlayerStats _pStats;
+
+
+    [PunRPC]
+    public void Init(int playerId, int targetId)
+    {
+        //ViewId로 오브젝트 찾기
+        _player = Managers.game.RemoteTargetFinder(playerId);
+        _target = Managers.game.RemoteTargetFinder(targetId);
+
+        //초기화
+        _pv = GetComponent<PhotonView>();
+        _pStats = _player.GetComponent<PlayerStats>();
+
+        //ViewId 저장
+        _playerId = playerId;
+        _targetId = targetId;
+
+        //bullet 정보 저장
+        _bulletSpeed = 5f;
+        _damage = _pStats.basicAttackPower;
+    }
+
 
     public void Update()
     {
+        //target null일 때 종료 
         if (_target == null)
         {
-            Debug.Log("Ranged Bullet Target Null");
             Destroy(this.gameObject);
+
+            return;
         }
-
-        //_pv.RPC("FollowTarget", RpcTarget.All);
-        //_pv.RPC("HitDetection", RpcTarget.All);
-        FollowTarget();
-        HitDetection();
-    }
-
-    [PunRPC]
-    public void Init(int playerId,int targetId)
-    {
-        _pv = GetComponent<PhotonView>();
-        _player = GetRemotePlayer(playerId);
-        _target = GetRemotePlayer(targetId);
-        _bulletSpeed = 5;
-        _damage = _player.GetComponent<PlayerStats>().basicAttackPower;
+        //target null이 아닐때 추적
+        if (_target != null)
+        {
+            FollowTarget();
+        }
     }
 
     public void FollowTarget()
     {
-        if (_target == null)
-            Destroy(this.gameObject);
+        _TargetPos = _target.transform.position;
 
-        if (_target != null)
-        {
-            _TargetPos = _target.gameObject.transform.position;
+        transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
+        transform.LookAt(_TargetPos);
 
-            transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
-            transform.LookAt(_TargetPos);
-        }
-    }
-
-    public void HitDetection()
-    {
         Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
 
-        if (Vector3.Distance(thisPos, targetPos) <= 0.5f)
+        if (Vector3.Distance(thisPos, targetPos) <= 0.6f)
         {
-            _pv.RPC("ApplyDamage", RpcTarget.All, _player.GetComponent<PhotonView>().ViewID, _target.GetComponent<PhotonView>().ViewID);
+            _pv.RPC("ApplyDamage", RpcTarget.All);
+        }
+    }
 
-            Destroy(this.gameObject, 0.5f);
+    [PunRPC]
+    protected void ApplyDamage()
+    {
+        //Player
+        if (_target.CompareTag("PLAYER"))
+        {
+            //초기화
+            PlayerStats target_pStats = _target.GetComponent<PlayerStats>();
+            
+            //데미지 피해
+            target_pStats.receviedDamage = (_playerId, _pStats.basicAttackPower);
+
+            //target 사망 시
+            if (target_pStats.nowHealth <= 0)
+            {
+                BaseCard._lockTarget = null;
+            }
+
+            // 해당 gameobject 파괴
+            Destroy(gameObject);
             this.enabled = false;
+
+            return;
         }
-    }
-
-    protected int GetRemotePlayerId(GameObject target)
-    {
-        int remoteId = target.GetComponent<PhotonView>().ViewID;
-        return remoteId;
-    }
-
-    protected GameObject GetRemotePlayer(int remoteId)
-    {
-        GameObject target = PhotonView.Find(remoteId)?.gameObject;
-        return target;
-    }
-
-    [PunRPC]
-    protected void ApplyDamage(int myView, int targetId)
-    {
-        GameObject target = Managers.game.RemoteTargetFinder(targetId);
-        PlayerStats pStats = Managers.game.RemoteTargetFinder(myView).GetComponent<PlayerStats>();
-
-        if (target.gameObject.CompareTag("PLAYER"))
+        //object
+        if(!_target.CompareTag("PLAYER"))
         {
-            PlayerStats pt = target.GetComponent<PlayerStats>();
-            pt.receviedDamage = (_player.GetComponent<PhotonView>().ViewID, pStats.basicAttackPower);
-            if (pt.nowHealth <= 0)
+            //초기화
+            ObjStats target_oStats = _target.GetComponent<ObjStats>();
+
+            //데미지 피해
+            target_oStats.nowHealth -= _pStats.basicAttackPower;
+
+            //target 사망 시
+            if (target_oStats.nowHealth <= 0)
             {
                 BaseCard._lockTarget = null;
             }
-        }
-        else
-        {
-            ObjStats pt = target.GetComponent<ObjStats>();  
-            pt.nowHealth -= pStats.basicAttackPower;
-            if (pt.nowHealth <= 0)
-            {
-                BaseCard._lockTarget = null;
-            }
-        }
-    }
 
-    [PunRPC]
-    private void RemoteLog(string log)
-    {
-        Debug.Log(log);
+            // 해당 gameobject 파괴
+            Destroy(gameObject);
+            this.enabled = false;
+
+            return;
+        }
     }
 }

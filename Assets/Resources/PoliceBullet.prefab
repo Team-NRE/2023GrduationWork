@@ -19603,9 +19603,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8189593966856435038}
-  - component: {fileID: 9185894979385121958}
   - component: {fileID: 8881559705570436048}
   - component: {fileID: -3623768496009405229}
+  - component: {fileID: 2415825712464655971}
+  - component: {fileID: 1157398025969535595}
+  - component: {fileID: 7116431623091709017}
   m_Layer: 0
   m_Name: PoliceBullet
   m_TagString: Untagged
@@ -19630,22 +19632,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &9185894979385121958
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190688187498554100}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 4
-  m_CollisionDetection: 0
 --- !u!114 &8881559705570436048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19658,9 +19644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621ad14eaa45fd84ebaa3a0a0bedd084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _TargetPos: {x: 0, y: 0, z: 0}
-  _bulletSpeed: 0
-  _damage: 0
 --- !u!114 &-3623768496009405229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19683,6 +19666,69 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!23 &2415825712464655971
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190688187498554100}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b514b53b6339dd642846eea2f5441eb7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1157398025969535595
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190688187498554100}
+  m_Mesh: {fileID: 4300000, guid: 6385e85ec369bac4c8b20fdb297d102b, type: 3}
+--- !u!135 &7116431623091709017
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190688187498554100}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9190836976599177243
 GameObject:
   m_ObjectHideFlags: 0

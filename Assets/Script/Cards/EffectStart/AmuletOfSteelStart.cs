@@ -11,7 +11,7 @@ public class AmuletOfSteelStart : BaseEffect
     protected PhotonView _pv;
     protected PhotonView _playerPV;
 
-    PlayerStats pStat;
+    new PlayerStats pStat;
 
     float shieldValue = default;
     float shieldRatioPerHealth;
