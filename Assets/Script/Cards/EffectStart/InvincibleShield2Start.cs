@@ -9,47 +9,47 @@ public class InvincibleShield2Start : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        //ÃÊ±âÈ­
+        //ï¿½Ê±ï¿½È­
         base.CardEffectInit(userId);
         effectPV = GetComponent<PhotonView>();
 
-        //Layer ÃÊ±âÈ­
+        //Layer ï¿½Ê±ï¿½È­
         teamLayer = pStat.playerArea;
 
-        //effect À§Ä¡
+        //effect ï¿½ï¿½Ä¡
         transform.parent = player.transform;
         transform.localPosition = new Vector3(0, 1.12f, 0);
 
-        //effect ÀÎ½ºÅÏ½º
+        //effect ï¿½Î½ï¿½ï¿½Ï½ï¿½
         GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield", player.transform);
         ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        //Human & Cyborg & Neutral ¸Å°³Ã¼ ¿Ü return
+        //Human & Cyborg & Neutral ï¿½Å°ï¿½Ã¼ ï¿½ï¿½ return
         if (other.gameObject.layer != (int)Define.Layer.Human && other.gameObject.layer != (int)Define.Layer.Cyborg
                 && other.gameObject.layer != (int)Define.Layer.Neutral)
             return;
 
-        //Á¢±ÙÇÑ ColliderÀÇ ViewId Ã£±â 
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Colliderï¿½ï¿½ ViewId Ã£ï¿½ï¿½ 
         int otherId = Managers.game.RemoteColliderId(other);
 
-        //ÇØ´ç ViewId°¡ default¸é return
+        //ï¿½Ø´ï¿½ ViewIdï¿½ï¿½ defaultï¿½ï¿½ return
         if (otherId == default)
             return;
 
-        //RPC Àû¿ë
+        //RPC ï¿½ï¿½ï¿½ï¿½
         effectPV.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
     public void RpcTrigger(int otherId)
     {
-        //Trigger·Î ¼±º°µÈ ViewIdÀÇ °ÔÀÓ¿ÀºêÁ§Æ® ÃÊ±âÈ­
+        //Triggerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ViewIdï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
 
-        //¿ÀºêÁ§Æ®°¡ ¾ø´Ù¸é return
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ return
         if (other == null)
             return;
 
@@ -57,7 +57,7 @@ public class InvincibleShield2Start : BaseEffect
         if (other.layer != teamLayer) return;
         if (other.layer == teamLayer && other.tag == "PLAYER")
         {
-            //effect ÀÎ½ºÅÏ½º
+            //effect ï¿½Î½ï¿½ï¿½Ï½ï¿½
             GameObject ShieldEffect = Managers.Resource.Instantiate($"Particle/Effect_InvincibleShield", other.transform);
             ShieldEffect.transform.localPosition = new Vector3(0, 1.12f, 0);
         }
