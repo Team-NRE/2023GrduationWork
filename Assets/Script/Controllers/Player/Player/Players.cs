@@ -9,6 +9,8 @@ using Photon.Pun;
 
 public class Players : BaseController
 {
+    public Vector3 _MovingPos;
+
     /// <summary> 사거리 표시 List </summary>
     public List<GameObject> _attackRange = new List<GameObject>();
     public bool _IsRange = false;

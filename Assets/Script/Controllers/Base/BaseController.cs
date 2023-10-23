@@ -12,9 +12,6 @@ using Photon.Realtime;
 [System.Serializable]
 public abstract class BaseController : MonoBehaviourPun, IPunObservable
 {
-    
-    protected Vector3 _MovingPos;
-
     /// <summary>
     /// IPunObservable
     /// </summary>

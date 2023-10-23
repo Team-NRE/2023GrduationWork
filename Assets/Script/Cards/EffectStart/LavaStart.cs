@@ -44,7 +44,7 @@ public class LavaStart : BaseEffect
     {
         //Trigger로 선별된 ViewId의 게임오브젝트 초기화
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-
+        Debug.Log(other.name);
         //오브젝트가 없다면 return
         if (other == null)
             return;
