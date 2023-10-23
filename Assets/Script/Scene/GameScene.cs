@@ -39,6 +39,8 @@ public class GameScene : BaseScene
             BaseCard._MyDeck  .Remove(test_CardName);
             test_CardDelete = false;
         }
+
+        CheatKey();
     }
 
     protected override void Init()
@@ -199,5 +201,35 @@ public class GameScene : BaseScene
     {
         GameObject coinDrop = Instantiate(Managers.Resource.Load<GameObject>("Prefabs/Particle/Effect_CoinDrop"), pos, transform.rotation);
         coinDrop.GetComponent<Particle_CoinDrop>().setInit(gold.ToString());
+    }
+
+    private void CheatKey()
+    {
+        if (Input.GetKeyDown(KeyCode.F12)) 
+        {
+            GameObject.Find("CyborgNexus")
+            .GetComponent<PhotonView>().RPC(
+                "photonStatSet", 
+                RpcTarget.All, 
+                "nowHealth", 
+                -1000.0f
+            );
+        }
+        if (Input.GetKeyDown(KeyCode.F11)) 
+        {
+            GameObject.Find("HumanNexus")
+            .GetComponent<PhotonView>().RPC(
+                "photonStatSet", 
+                RpcTarget.All, 
+                "nowHealth", 
+                -1000.0f
+            );
+        }
+
+        if (Input.GetKeyDown(KeyCode.F10)) 
+        {
+            Managers.game.myCharacter.GetComponent<PlayerStats>()
+            .gold += 5000;
+        }
     }
 }
