@@ -6,57 +6,66 @@ using Photon.Pun;
 
 public class LavaStart : BaseEffect
 {
-    int playerId;
-    float damage = default;
-    int enemylayer = default;
-    int _playerId;
-    protected PhotonView _pv;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        playerId = userId;
-        _pv = GetComponent<PhotonView>();
+        //초기화
         base.CardEffectInit(userId);
-        _playerId = userId;
-        enemylayer = player.GetComponent<PlayerStats>().enemyArea;
+        effectPV = GetComponent<PhotonView>();
+
+        //Layer 초기화
+        enemyLayer = pStat.enemyArea;
+
+        //스텟 적용
+        powerValue = (0f, 0.02f);
+        damageValue = powerValue.Item1 + (pStat.basicAttackPower * powerValue.Item2);
     }
 
     public void OnTriggerStay(Collider other)
     {
+        //Human & Cyborg & Neutral 매개체 외 return
+        if (other.gameObject.layer != (int)Define.Layer.Human && other.gameObject.layer != (int)Define.Layer.Cyborg
+                && other.gameObject.layer != (int)Define.Layer.Neutral)
+            return;
+
+        //접근한 Collider의 ViewId 찾기 
         int otherId = Managers.game.RemoteColliderId(other);
+
+        //해당 ViewId가 default면 return
         if (otherId == default)
             return;
-        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+
+        //RPC 적용
+        effectPV.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
     public void RpcTrigger(int otherId)
-	{
+    {
+        //Trigger로 선별된 ViewId의 게임오브젝트 초기화
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
-        GameObject user = Managers.game.RemoteTargetFinder(_playerId);
 
-        if (other == null || user == null)
+        //오브젝트가 없다면 return
+        if (other == null)
             return;
 
-        if (other.gameObject.layer == enemylayer)
+        //해당 오브젝트가 다른 팀이라면
+        if (other.layer == enemyLayer || other.layer == (int)Define.Layer.Neutral)
         {
             //타겟이 미니언, 타워일 시 
-            if (!other.gameObject.CompareTag("PLAYER"))
+            if (!other.CompareTag("PLAYER"))
             {
-                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
-                PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();
+                ObjStats target_oStats = other.GetComponent<ObjStats>();
 
-                oStats.nowHealth -= pStats.basicAttackPower * 0.02f;
+                target_oStats.nowHealth -= damageValue;
             }
 
-            //타겟이 적 Player일 시
-            if (other.gameObject.CompareTag("PLAYER"))
+            //타겟이 Player일 시
+            if (other.CompareTag("PLAYER"))
             {
-                PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
-                PlayerStats pStats = user.gameObject.GetComponent<PlayerStats>();
+                PlayerStats target_pStats = other.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (playerId, pStats.basicAttackPower * 0.02f);
+                target_pStats.receviedDamage = (playerId, damageValue);
             }
         }
     }

@@ -15,7 +15,8 @@ public class EnergyAmpStart : BaseEffect
         
         //스텟 적용
         distance = 5.0f;
-        damage = pStat.basicAttackPower * 3.5f;
+        powerValue = (0, 3.5f);
+        damageValue = powerValue.Item1 + (pStat.basicAttackPower * powerValue.Item2);
     }
 
     public void TakeDamage()
@@ -34,14 +35,14 @@ public class EnergyAmpStart : BaseEffect
             if (nowTarget.tag != "PLAYER")
             {
                 ObjStats target_oStats = nowTarget.GetComponent<ObjStats>();
-                target_oStats.nowHealth -= damage;
+                target_oStats.nowHealth -= damageValue;
             }
 
             //타겟이 적 Player일 시
             if (nowTarget.tag == "PLAYER")
             {
                 PlayerStats target_pStats = nowTarget.GetComponent<PlayerStats>();
-                target_pStats.receviedDamage = (playerId, damage);
+                target_pStats.receviedDamage = (playerId, damageValue);
             }
         }
     }

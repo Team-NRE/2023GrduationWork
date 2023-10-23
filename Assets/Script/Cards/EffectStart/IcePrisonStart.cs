@@ -6,27 +6,24 @@ using Photon.Pun;
 
 public class IcePrisonStart : BaseEffect
 {
-    float originalSpeed;
-
-    float effectTime;
-    float startEffect;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        ///초기화
+        //초기화
         base.CardEffectInit(userId);
 
-        ///effect 위치
+        //effect 위치
         transform.parent = player.transform;
         transform.localPosition = new Vector3(0, 0.3f, 0);
 
-        ///스텟 적용 시간
+        //스텟 적용 시간
         effectTime = 3.0f;
         startEffect = 0.01f;
 
-        ///스텟 적용
-        originalSpeed = pStat.speed;
+        //스텟 적용 
+        speedValue = pStat.speed;
+
+        //RPC 적용
         playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", 9999f);
         playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -pStat.speed);
     }
@@ -35,11 +32,11 @@ public class IcePrisonStart : BaseEffect
     {
         startEffect += Time.deltaTime;
 
-        ///스텟 적용 종료
+        //스텟 적용 종료
         if (startEffect > effectTime - 0.01f)
         {
             playerPV.RPC("photonStatSet", RpcTarget.All, "defensePower", -9999f);
-            playerPV.RPC("photonStatSet", RpcTarget.All, "speed", originalSpeed);
+            playerPV.RPC("photonStatSet", RpcTarget.All, "speed", speedValue);
 
             Destroy(gameObject);
 

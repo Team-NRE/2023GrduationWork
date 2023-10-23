@@ -6,11 +6,6 @@ using Photon.Pun;
 
 public class DeadlySpeedStart : BaseEffect
 {
-    PhotonView _pv;
-
-    float _powerValue;
-    float _speedValue;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
@@ -20,25 +15,40 @@ public class DeadlySpeedStart : BaseEffect
         //effect 위치
         transform.parent = player.transform;
         transform.localPosition = new Vector3(0, 0.2f, 0);
-        
+
+        //스텟 적용 시간
+        startEffect = 0.01f;
+        effectTime = 4.0f;
+
         //스텟 적용
-        _effectTime = 4.0f;
-        _speed = 1.0f;
-        _powerValue = 20f;
-        _speedValue = 0.5f;
-        pStat.StartCoroutine(DelayBuff());
+        speedValue = 1.0f;
+        powerValue = (20f, 0);
+        attackSpeedValue = 0.5f;
+        healthRegenValue = 20f;
+
+        //RPC 적용
+        playerPV.RPC("photonStatSet", RpcTarget.All, "speed", speedValue);
+        playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", powerValue.Item1);
+        playerPV.RPC("photonStatSet", RpcTarget.All, "attackSpeed", attackSpeedValue);
+        playerPV.RPC("photonStatSet", RpcTarget.All, "healthRegeneration", healthRegenValue);
     }
 
-    IEnumerator DelayBuff()
+
+    private void Update()
     {
-        pStat.speed += _speed;
-        pStat.basicAttackPower += _powerValue;
-        pStat.attackSpeed += _speedValue;
+        startEffect += Time.deltaTime;
 
-        yield return new WaitForSeconds(_effectTime);
+        ///스텟 적용 종료
+        if (startEffect > effectTime - 0.01f)
+        {
+            playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -speedValue);
+            playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", -powerValue.Item1);
+            playerPV.RPC("photonStatSet", RpcTarget.All, "attackSpeed", -attackSpeedValue);
+            playerPV.RPC("photonStatSet", RpcTarget.All, "healthRegeneration", -healthRegenValue);
 
-        pStat.speed -= _speed;
-        pStat.basicAttackPower -= _powerValue;
-        pStat.attackSpeed -= _speedValue;
+            Destroy(gameObject);
+
+            return;
+        }
     }
 }

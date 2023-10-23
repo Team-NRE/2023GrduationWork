@@ -5,7 +5,6 @@ using Define;
 
 public class MissileBombStart : BaseEffect
 {
-    int attackID;
     float distance;
 
     [SerializeField]
@@ -14,14 +13,13 @@ public class MissileBombStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        //초기화
         base.CardEffectInit(userId);
-        attackID = userId;
-
-        PlayerStats stats = player.GetComponent<PlayerStats>();
-
+        
+        //스텟 적용
         distance = 2.5f;
-
-        damage = stats.basicAttackPower * 3.5f;
+        powerValue = (0f, 3.5f);
+        damageValue = powerValue.Item1 + (pStat.basicAttackPower * powerValue.Item2);
     }
 
     public void TakeDamage()
@@ -42,14 +40,14 @@ public class MissileBombStart : BaseEffect
             if (nowTarget.tag != "PLAYER")
             {
                 ObjStats _Stats = nowTarget.GetComponent<ObjStats>();
-                _Stats.nowHealth -= damage;
+                _Stats.nowHealth -= damageValue;
             }
 
-            //타겟이 적 Player일 시
+            //타겟이 Player일 시
             if (nowTarget.tag == "PLAYER")
             {
                 PlayerStats _Stats = nowTarget.GetComponent<PlayerStats>();
-                _Stats.receviedDamage = (attackID, damage);
+                _Stats.receviedDamage = (playerId, damageValue);
             }
         }
     }

@@ -6,16 +6,12 @@ using UnityEngine;
 
 public class HealthKitStart : BaseEffect
 {
-    PhotonView _pv;
-
-    int teamLayer = default;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         //초기화
         base.CardEffectInit(userId);
-        _pv = GetComponent<PhotonView>();
+        effectPV = GetComponent<PhotonView>();
 
         //effect 위치
         transform.parent = player.transform;
@@ -24,19 +20,18 @@ public class HealthKitStart : BaseEffect
         teamLayer = pStat.playerArea;
         
         //스텟 적용
-        _buff = 1f;
-
+        healthRegenValue = 1f;
     }
 
     public void Update()
     {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
+        effectPV.RPC("RpcUpdate", RpcTarget.All);
     }
 
     [PunRPC]
     public void RpcUpdate()
     {
-        pStat.nowHealth += _buff;
+        pStat.nowHealth += healthRegenValue;
     }
 
     public void OnTriggerStay(Collider other)
@@ -54,7 +49,7 @@ public class HealthKitStart : BaseEffect
             return;
 
         //RPC 적용
-        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+        effectPV.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
@@ -74,14 +69,14 @@ public class HealthKitStart : BaseEffect
             if (!other.CompareTag("PLAYER"))
             {
                 ObjStats target_oStats = other.GetComponent<ObjStats>();
-                target_oStats.nowHealth += _buff;
+                target_oStats.nowHealth += healthRegenValue;
             }
 
             //타겟이 Player일 시
             if (other.CompareTag("PLAYER"))
             {
                 PlayerStats target_pStats = other.GetComponent<PlayerStats>();
-                target_pStats.nowHealth += _buff;
+                target_pStats.nowHealth += healthRegenValue;
             }
         }
     }

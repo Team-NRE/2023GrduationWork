@@ -6,22 +6,19 @@ using Photon.Pun;
 
 public class HackingGrenadeStart : BaseEffect
 {
-    int enemylayer = default;
-
-    PhotonView _pv;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         //초기화
         base.CardEffectInit(userId);
-        _pv = GetComponent<PhotonView>();
+        effectPV = GetComponent<PhotonView>();
 
         //Layer 초기화
-        enemylayer = pStat.enemyArea;
+        enemyLayer = pStat.enemyArea;
 
         //스텟 적용
-        damage = 75.0f;
+        powerValue = (60.0f, 1.0f);
+        damageValue = powerValue.Item1 + (pStat.basicAttackPower * powerValue.Item2);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -39,7 +36,7 @@ public class HackingGrenadeStart : BaseEffect
             return;
 
         //RPC 적용
-        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+        effectPV.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
@@ -53,23 +50,23 @@ public class HackingGrenadeStart : BaseEffect
             return;
 
         //해당 오브젝트가 다른 팀이라면
-        if (other.layer == enemylayer || other.layer == (int)Define.Layer.Neutral)
+        if (other.layer == enemyLayer || other.layer == (int)Define.Layer.Neutral)
         {
             //타겟이 미니언, 타워일 시 
             if (!other.CompareTag("PLAYER"))
             {
                 ObjStats target_oStats = other.GetComponent<ObjStats>();
 
-                target_oStats.nowHealth -= damage + (pStat.basicAttackPower * 1.0f);
+                target_oStats.nowHealth -= damageValue;
             }
 
             //타겟이 Player일 시
             if (other.CompareTag("PLAYER"))
             {
                 PlayerStats target_pStats = other.GetComponent<PlayerStats>();
+                target_pStats.receviedDamage = (playerId, damageValue);
 
-                target_pStats.receviedDamage = (playerId, damage + (pStat.basicAttackPower * 1.0f));
-
+                //맞은 적 effect 생성
                 GameObject HackingEffect = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_HackingGrenade2", other.transform.position, Quaternion.identity);
                 HackingEffect.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, otherId);
             }

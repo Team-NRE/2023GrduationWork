@@ -84,9 +84,8 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
         {
             UpdatePlayer_StateChange();
             UpdatePlayer_AnimationChange();
+            GetTransformArea();
         }
-
-        GetTransformArea();
     }
 
 
@@ -201,13 +200,6 @@ public abstract class BaseController : MonoBehaviourPun, IPunObservable
             return;
         }
 
-    }
-
-    //퍼센트 계산
-    protected float PercentageCount(double percent, double value, int decimalplaces)
-    {
-
-        return (float)System.Math.Round(percent / 100 * value, decimalplaces);
     }
 
 

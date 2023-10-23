@@ -7,32 +7,47 @@ using UnityEngine;
 // AddComponent �Ϲ�ȭ�� ���� Ŭ����
 public class BaseEffect : MonoBehaviour
 {
-	//이펙트 발동 시간
-    public float _effectTime;
+	//Stat
+    ///Stat Value
+    public float damageValue { get; set; }
+	public (float,float) powerValue { get; set; }
+	
+	public float speedValue { get; set; }
+	public float attackSpeedValue { get; set; }
+	public float projectileSpeedValue { get; set; }
+    
+	public float shieldValue { get; set; }
+	public float healthRegenValue { get; set; }
+	public float manaRegenValue { get; set; }
 
-	//Stat 
-    public float damage;
-    public float _defence;
-    public float _speed;
-    public float _buff;
-    public float _debuff;
-    //부활
-    public bool _IsResurrection;
+    ///Stat bool
+	public bool invincibleTime { get; set; }
 
-	//이펙트 회전
-	public Quaternion _effectRot;
 
-	//player 관련 초기화
-	public GameObject player = null;
-	public PlayerStats pStat;
-	public PhotonView playerPV;
-	public int playerId;
+	//초기화
+    ///이펙트 관련 초기화
+    public PhotonView effectPV {  get; set; }
+    public Quaternion effectRot { get; set; }
+    public float effectTime { get; set; }
+    public float startEffect { get; set; }
 
-	//target 관련 초기화
-	public GameObject target = null;
-	public int targetId;
+    ///player & playerTeam 관련 초기화
+    public GameObject player { get; set; }
+    public PlayerStats pStat { get; set; }
+    public PhotonView playerPV { get; set; }
+    public int playerId { get; set; }
+    public int teamLayer { get; set; }
 
-	public virtual void CardEffectInit(int userId)
+    ///target & targetTeam 관련 초기화
+    public GameObject target { get; set; }
+    public PlayerStats target_pStat { get; set; }
+    public ObjStats target_oStat { get; set; }
+    public PhotonView targetPV { get; set; }
+    public int targetId { get; set; }
+    public int enemyLayer { get; set; }
+
+
+    public virtual void CardEffectInit(int userId)
 	{
 		player = GetRemotePlayer(userId);
 		pStat = player.GetComponent<PlayerStats>();
@@ -48,12 +63,17 @@ public class BaseEffect : MonoBehaviour
 		playerId = userId;
 
 		target = GetRemotePlayer(remoteTargetId);
-		targetId = remoteTargetId;
+        targetPV = target.GetComponent<PhotonView>();
+        targetId = remoteTargetId;
 	}
-	public virtual void CardEffectInit(int userId, Quaternion effectRot)
+	public virtual void CardEffectInit(int userId, Quaternion effectRotation)
 	{
-		player = GetRemotePlayer(userId);
-		_effectRot = effectRot;
+        player = GetRemotePlayer(userId);
+        pStat = player.GetComponent<PlayerStats>();
+        playerPV = player.GetComponent<PhotonView>();
+        playerId = userId;
+
+        effectRot = effectRotation;
 	}
 
 	public virtual IEnumerator CardEffectInit(int userId, float time)

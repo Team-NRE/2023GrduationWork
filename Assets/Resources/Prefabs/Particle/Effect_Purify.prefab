@@ -4983,15 +4983,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3726a7f977bc58439ae116769b7ef1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectTime: 0
-  _damage: 0
-  _defence: 0
-  _speed: 0
-  _buff: 0
-  _debuff: 0
-  _IsResurrection: 0
-  player: {fileID: 0}
-  target: {fileID: 0}
 --- !u!82 &8688264267680305371
 AudioSource:
   m_ObjectHideFlags: 0

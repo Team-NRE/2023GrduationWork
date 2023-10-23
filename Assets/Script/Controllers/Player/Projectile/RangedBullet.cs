@@ -70,7 +70,7 @@ public class RangedBullet : MonoBehaviour
         Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPos = new Vector3(_TargetPos.x, 0, _TargetPos.z);
 
-        if (Vector3.Distance(thisPos, targetPos) <= 0.6f)
+        if (Vector3.Distance(thisPos, targetPos) <= 1.0f)
         {
             _pv.RPC("ApplyDamage", RpcTarget.All);
         }

@@ -6,51 +6,35 @@ using Photon.Pun;
 
 public class BloodTransfusionStart : BaseEffect
 {
-    PhotonView _pv;
-
     [PunRPC]
     public override void CardEffectInit(int userId, int targetId)
     {
         //초기화
         base.CardEffectInit(userId, targetId);
-        _pv = GetComponent<PhotonView>();
 
         //effect 위치
         transform.parent = target.transform;
         transform.localPosition = new Vector3(0, 0.8f, 0);
 
         //스텟 적용
-        damage = 30.0f;
-    }
+        powerValue = (50.0f, 0.7f);
+        damageValue = powerValue.Item1 + (pStat.basicAttackPower * powerValue.Item2);
 
-    private void Update()
-    {
-        _pv.RPC("RpcUpdate", RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void RpcUpdate()
-	{
-        if (!target.CompareTag("PLAYER"))
+        //데미지 피해
+        if (!target.gameObject.CompareTag("PLAYER"))
         {
-            ObjStats target_oStats = target.GetComponent<ObjStats>();
+            ObjStats target_oStat = target.GetComponent<ObjStats>();
+            target_oStat.nowHealth -= damageValue;
 
-            target_oStats.nowHealth -= damage + (pStat.basicAttackPower * 0.7f);
-            target_oStats.nowHealth += damage + (pStat.basicAttackPower * 0.7f);
-
-            BaseCard._lockTarget = null;
-            GetComponent<BloodTransfusionStart>().enabled = false;
+            pStat.nowHealth += damageValue;
         }
 
-        if (target.CompareTag("PLAYER"))
+        if (target.gameObject.CompareTag("PLAYER"))
         {
-            PlayerStats target_pStats = target.GetComponent<PlayerStats>();
+            target_pStat = target.GetComponent<PlayerStats>();
+            target_pStat.receviedDamage = (playerId, damageValue);
 
-            target_pStats.receviedDamage = (playerId, (damage + (pStat.basicAttackPower * 0.7f)));
-            pStat.nowHealth += damage + (pStat.basicAttackPower * 0.7f);
-
-            BaseCard._lockTarget = null;
-            GetComponent<BloodTransfusionStart>().enabled = false;
+            pStat.nowHealth += target_pStat.receviedDamage.Item2;
         }
     }
 }

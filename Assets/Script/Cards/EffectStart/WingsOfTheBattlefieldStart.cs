@@ -5,46 +5,33 @@ using UnityEngine;
 
 public class WingsOfTheBattlefieldStart : BaseEffect
 {
-    float effectTime;
-    float startEffect;
-
-    protected PhotonView _pv;
-    protected PhotonView _playerPV;
-
-    PlayerStats pStat;
-
-    float shieldValue = default;
-    float shieldRatioPerHealth;
-
-
     void Start()
     {
-        ///�ʱ�ȭ
+        //초기화
         player = transform.parent.gameObject;
         pStat = player.GetComponent<PlayerStats>();
-        _playerPV = player.GetComponent<PhotonView>();
+        playerPV = player.GetComponent<PhotonView>();
 
-        ///���� ���� �ð�
+        //스텟 적용 시간 
         effectTime = 4.0f;
         startEffect = 0.01f;
-        shieldRatioPerHealth = 0.4f;
-        _speed = 2.0f;
 
-        ///�� ī���� �� Max �� - ���� ī���� Max ��
-        _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", _speed);
+        //스텟 적용
+        speedValue = 2.0f;
+
+        //RPC 적용
+        playerPV.RPC("photonStatSet", RpcTarget.All, "speed", speedValue);
     }
 
     private void Update()
     {
         startEffect += Time.deltaTime;
 
-        ///���� ���� ����
+        //스텟 적용 종료
         if (startEffect > effectTime - 0.01f)
         {
-            ///�� ī���� �� Max �� - ���� ī���� Max ��
-            _playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -_speed);
+            playerPV.RPC("photonStatSet", RpcTarget.All, "speed", -speedValue);
 
-            //���� ī�� ����
             Destroy(gameObject);
 
             return;

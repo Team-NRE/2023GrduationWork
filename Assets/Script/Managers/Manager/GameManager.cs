@@ -102,12 +102,11 @@ public class GameManager
         respawnMin = ((int)playTime / 60);
         if(respawnMin == 1 * respawnTurn)
         {
-            if (respawnTime >= 20) { respawnTime = 20; return; }
-
             respawnTime += 2;
             respawnTurn += 1;
+            
+            if (respawnTime >= 20) { respawnTime = 20;}
             Debug.Log($"전체 캐릭터 부활 시간 : {respawnTime}초");
-
         }
 
         //플레이어 사망 시
@@ -251,6 +250,12 @@ public class GameManager
             return default;
         int colliderId = collider.gameObject.GetComponent<PhotonView>().ViewID;
         return colliderId;
+    }
+
+    //퍼센트 계산
+    public float PercentageCount(double percent, double value, int decimalplaces)
+    {
+        return (float)System.Math.Round(percent / 100 * value, decimalplaces);
     }
 
     public ObjectPosArea GetPosAreaInMap(Vector3 pos)

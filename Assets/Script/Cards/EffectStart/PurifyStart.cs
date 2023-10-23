@@ -9,12 +9,14 @@ public class PurifyStart : BaseEffect
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
+        //초기화
         base.CardEffectInit(userId);
-        PlayerStats _stats = player.GetComponent<PlayerStats>();
         
+        //effect 위치
         transform.parent = player.transform;
         transform.localPosition = new Vector3(0, 0.1f, 0);
 
-        _stats.nowState = "Health";
+        //스텟 적용
+        pStat.nowState = "Health";
     }
 }

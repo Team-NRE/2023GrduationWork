@@ -96,7 +96,7 @@ public class Players : BaseController
             GameObject Resurrection = transform.Find("Effect_Resurrection(Clone)").gameObject;
             PhotonNetwork.Destroy(Resurrection);
             //체력 회복
-            _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", PercentageCount(70, _pStats.maxHealth, 1));
+            _pv.RPC("photonStatSet", RpcTarget.All, "nowHealth", Managers.game.PercentageCount(70, _pStats.maxHealth, 1));
         }
         else if (_pStats.isResurrection == false)
         {
@@ -804,22 +804,27 @@ public class Players : BaseController
     }
     protected override void StartSkill()
     {
-        _IsRange = false;
-        _attackRange[_SaveRangeNum].SetActive(_IsRange);
+        if (_pv.IsMine)
+        {
+            _IsRange = false;
+            _attackRange[_SaveRangeNum].SetActive(_IsRange);
 
-        //애니메이션 Idle로 변환
-        _state = Define.State.Idle;
+            //애니메이션 Idle로 변환
+            _state = Define.State.Idle;
 
-        //마우스 좌표, 타겟 초기화
-        _MovingPos = default;
-        BaseCard._lockTarget = null;
 
-        //Attack 재설정
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.KeyAction += KeyDownAction;
-        //마우스 재설정
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.MouseAction += MouseDownAction;
+            //마우스 좌표, 타겟 초기화
+            _MovingPos = default;
+            BaseCard._lockTarget = null;
+
+
+            //Attack 재설정
+            Managers.Input.KeyAction -= KeyDownAction;
+            Managers.Input.KeyAction += KeyDownAction;
+            //마우스 재설정
+            Managers.Input.MouseAction -= MouseDownAction;
+            Managers.Input.MouseAction += MouseDownAction;
+        }
     }
 
 
@@ -827,29 +832,32 @@ public class Players : BaseController
     //Die
     protected override void UpdateDie()
     {
-        //Manager
-        Managers.Input.MouseAction -= MouseDownAction;
-        Managers.Input.KeyAction -= KeyDownAction;
-        Managers.Input.UIKeyboardAction -= UIKeyDownAction;
-        Managers.game.DieEvent(_pv.ViewID);
+        if (_pv.IsMine)
+        {
+            //Manager
+            Managers.Input.MouseAction -= MouseDownAction;
+            Managers.Input.KeyAction -= KeyDownAction;
+            Managers.Input.UIKeyboardAction -= UIKeyDownAction;
+            Managers.game.DieEvent(_pv.ViewID);
 
-        //죽었을 때 재설정
-        BaseCard._lockTarget = null;
-        _MovingPos = default;
+            //죽었을 때 재설정
+            BaseCard._lockTarget = null;
+            _MovingPos = default;
 
-        //attack
-        _stopAttack = false;
-        oneShot = false;
+            //attack
+            _stopAttack = false;
+            oneShot = false;
 
-        //skill
-        _stopSkill = false;
+            //skill
+            _stopSkill = false;
 
-        //Range
-        _IsRange = false;
-        _attackRange[_SaveRangeNum].SetActive(_IsRange);
-        _SaveRangeNum = (int)Define.CardType.None;
+            //Range
+            _IsRange = false;
+            _attackRange[_SaveRangeNum].SetActive(_IsRange);
+            _SaveRangeNum = (int)Define.CardType.None;
 
-        //die
-        _startDie = true;
+            //die
+            _startDie = true;
+        }
     }
 }

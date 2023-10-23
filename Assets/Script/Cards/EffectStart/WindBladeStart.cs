@@ -6,74 +6,87 @@ using UnityEngine;
 
 public class WindBladeStart : BaseEffect
 {
-    PhotonView _pv;
-    float _bulletSpeed;
-    int _playerId;
-    int _enemyLayer;
-
     [PunRPC]
-    public override void CardEffectInit(int userId)
+    public override void CardEffectInit(int userId, Quaternion effectRotation)
     {
-        _pv = GetComponent<PhotonView>();
-        base.CardEffectInit(userId);
-        _bulletSpeed =10.0f;
-        damage = 25.0f;
+        //초기화
+        base.CardEffectInit(userId, effectRotation);
+        effectPV = GetComponent<PhotonView>();
+        
+        //Layer 초기화
+        enemyLayer = pStat.enemyArea;
 
-        _playerId = userId;
-        _enemyLayer = player.GetComponent<PlayerStats>().enemyArea;
+        //effect 위치
+        transform.rotation = effectRot;
 
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
-        this.gameObject.transform.parent = null;
+        //스텟 적용
+        projectileSpeedValue = 10.0f;
+        powerValue = (75f, 1.2f);
+        damageValue = powerValue.Item1 + (pStat.basicAttackPower * powerValue.Item2);
     }
 
-    void OnTriggerEnter(Collider coll)
+    public void OnTriggerEnter(Collider other)
     {
-        int targetId = Managers.game.RemoteColliderId(coll);
-        if (targetId == default)
+        //Human & Cyborg & Neutral 매개체 외 return
+        if (other.gameObject.layer != (int)Define.Layer.Human && other.gameObject.layer != (int)Define.Layer.Cyborg
+                && other.gameObject.layer != (int)Define.Layer.Neutral)
             return;
-        _pv.RPC("RpcTrigger", RpcTarget.All, _playerId, targetId);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        MoveParticle(_playerId);
+        //접근한 Collider의 ViewId 찾기 
+        int otherId = Managers.game.RemoteColliderId(other);
+
+        //해당 ViewId가 default면 return
+        if (otherId == default)
+            return;
+
+        //RPC 적용
+        effectPV.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
-    public void RpcTrigger(int playerId, int targetId)
+    public void RpcTrigger(int otherId)
     {
-        GameObject other = Managers.game.RemoteTargetFinder(targetId);
-        PlayerStats pStats = Managers.game.RemoteTargetFinder(playerId).GetComponent<PlayerStats>();
+        //Trigger로 선별된 ViewId의 게임오브젝트 초기화
+        GameObject other = Managers.game.RemoteTargetFinder(otherId);
 
-        if (other.gameObject.layer == _enemyLayer)
+        //오브젝트가 없다면 return
+        if (other == null)
+            return;
+
+        //해당 오브젝트가 다른 팀이라면
+        if (other.layer == enemyLayer || other.layer == (int)Define.Layer.Neutral)
         {
             //타겟이 미니언, 타워일 시 
-            if (other.gameObject.tag != "PLAYER")
+            if (!other.CompareTag("PLAYER"))
             {
-                ObjStats oStats = other.gameObject.GetComponent<ObjStats>();
+                ObjStats target_oStats = other.GetComponent<ObjStats>();
 
-                oStats.nowHealth -= damage + (pStats.basicAttackPower * 0.7f);
+                target_oStats.nowHealth -= damageValue;
             }
 
-            //타겟이 적 Player일 시
-            if (other.gameObject.tag == "PLAYER")
+            //타겟이 Player일 시
+            if (other.CompareTag("PLAYER"))
             {
-                PlayerStats enemyStats = other.gameObject.GetComponent<PlayerStats>();
+                PlayerStats target_pStats = other.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (_playerId, damage + (pStats.basicAttackPower * 0.7f));
+                target_pStats.receviedDamage = (playerId, damageValue);
             }
         }
     }
 
-    [PunRPC]
-    public void MoveParticle(int userId)
+    void Update()
     {
-        GameObject user = Managers.game.RemoteTargetFinder(userId);
-        //Vector3 SpearDirection = playerTr.forward;
-        Vector3 SpearDirection = user.transform.forward;
-        GetComponent<Rigidbody>().AddForce(SpearDirection * _bulletSpeed);
+        Vector3 SpearDirection = player.transform.forward;
+        GetComponent<Rigidbody>().AddForce(SpearDirection * projectileSpeedValue);
         transform.Rotate(new Vector3(-90, 0, Time.deltaTime));
     }
+
+    //[PunRPC]
+    //public void MoveParticle(int userId)
+    //{
+    //    GameObject user = Managers.game.RemoteTargetFinder(userId);
+    //    Vector3 SpearDirection = user.transform.forward;
+    //    GetComponent<Rigidbody>().AddForce(SpearDirection * _bulletSpeed);
+    //    transform.Rotate(new Vector3(-90, 0, Time.deltaTime));
+    //}
 }

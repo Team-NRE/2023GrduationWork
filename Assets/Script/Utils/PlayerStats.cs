@@ -126,18 +126,20 @@ namespace Stat
         public float defensePower { get { return _defensePower; } set { _defensePower = value; } }
         public (int, float) receviedDamage
         {
-            get { return default; }
+            get { return (default, _receviedDamage); }
             set
             {
                 value.Item2 *= 100 / (100 + defensePower);
-                if (shield == 0) { nowHealth -= value.Item2; }
+                _receviedDamage = value.Item2;
+                
+                if (shield == 0) { nowHealth -= _receviedDamage; }
                 if (shield > 0)
                 {
                     //Debug.Log($"방어막 : {shield}");
                     //Debug.Log($"들어온 데미지 : {value.Item2}");
-                    float nowshield = shield - value.Item2;
+                    float nowshield = shield - _receviedDamage;
                     //Debug.Log($"남은 방어막 : {nowshield}");
-                    if(nowshield <= 0)
+                    if (nowshield <= 0)
                     {
                         //Debug.Log($"남은 방어막이 없다면 현재 체력 : {nowHealth}{nowshield}");
                         nowHealth += nowshield;

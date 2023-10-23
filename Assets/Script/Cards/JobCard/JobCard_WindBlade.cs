@@ -23,8 +23,15 @@ public class JobCard_WindBlade : UI_Card
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         GameObject player = RemoteTargetFinder(playerId);
+
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/EffectJob_WindBlade", player.transform.position, GetDirectionalVector(ground, player.transform));
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+
+        //effect À§Ä¡
+        _effectObject.transform.parent = player.transform;
+        _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
+        _effectObject.transform.parent = null;
+
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, _effectObject.transform.rotation);
 
         return _effectObject;
     }

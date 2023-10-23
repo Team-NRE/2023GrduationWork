@@ -19,13 +19,13 @@ public class Card_Infection : UI_Card
 
         _CastingTime = 0.3f;
         _effectTime = 3.0f;
-    }
+    }  
 
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Infection", ground, Quaternion.Euler(-90, 0, 0));
-        _effectObject.transform.position = new Vector3(ground.x, 0.5f, ground.z);
+        _effectObject.transform.position = ground;
 
         _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit",RpcTarget.All, playerId);
 

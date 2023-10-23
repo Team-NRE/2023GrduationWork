@@ -7,14 +7,10 @@ using Photon.Pun;
 // ǥâ
 public class Card_Spear : UI_Card
 {
-    LayerMask _layer = default;
-    LayerMask _enemylayer = default;
-
     public override void Init()
     {
         _cardBuyCost = 500;
         _cost = 1;
-        //_damage = 15;
 
         _rangeType = Define.CardType.Line;
         _rangeScale = 5.0f;
@@ -25,14 +21,16 @@ public class Card_Spear : UI_Card
 
     public override GameObject cardEffect(Vector3 ground, int playerId, int layer = default)
     {
+        GameObject player = RemoteTargetFinder(playerId);
 
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_Spear", ground, Quaternion.Euler(-90, 0, 0));
-        _layer = layer;
 
-        if (_layer == 6) { _enemylayer = 7; }
-        if (_layer == 7) { _enemylayer = 6; }
+        //effect 위치
+        _effectObject.transform.parent = player.transform;
+        _effectObject.transform.localPosition = new Vector3(-0.1f, 1.12f, 0.9f);
+        _effectObject.transform.parent = null;
 
-        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId);
+        _effectObject.GetComponent<PhotonView>().RPC("CardEffectInit", RpcTarget.All, playerId, _effectObject.transform.rotation);
 
         return _effectObject;
     }

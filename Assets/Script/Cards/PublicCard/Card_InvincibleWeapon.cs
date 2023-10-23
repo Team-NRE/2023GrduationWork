@@ -22,6 +22,8 @@ public class Card_InvincibleWeapon : UI_Card
         GameObject player = RemoteTargetFinder(playerId);
 
         _effectObject = PhotonNetwork.Instantiate($"Prefabs/Particle/Effect_InvincibleWeapon", player.transform.position, Quaternion.identity);
+        
+        //effect 위치
         _effectObject.transform.parent = player.transform;
         _effectObject.transform.localRotation = Quaternion.Euler(-90, 180, 76);
         _effectObject.transform.parent = null;

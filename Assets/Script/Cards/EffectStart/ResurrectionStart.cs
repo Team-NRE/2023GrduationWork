@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class ResurrectionStart : BaseEffect
 {
-    PhotonView _pv;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
-        _pv = GetComponent<PhotonView>();
+        //초기화
         base.CardEffectInit(userId);
+        
+        //effect 위치
+        transform.parent = player.transform;
+        transform.localPosition = new Vector3(0, 0.2f, 0);
 
-        this.gameObject.transform.parent = player.transform;
-        this.gameObject.transform.localPosition = new Vector3(0, 0.2f, 0);
-
-        player.GetComponent<PlayerStats>().isResurrection = true;
+        //스텟 적용
+        pStat.isResurrection = true;
     }
 }

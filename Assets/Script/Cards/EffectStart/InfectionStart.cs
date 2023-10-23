@@ -6,27 +6,22 @@ using Photon.Pun;
 
 public class InfectionStart : BaseEffect
 {
-    int playerId;
-    
-    int enemylayer = default;
-
-    PhotonView _pv;
-
-    PlayerStats pStats;
-
     [PunRPC]
     public override void CardEffectInit(int userId)
     {
         //초기화
         base.CardEffectInit(userId);
-        _pv = GetComponent<PhotonView>();
-        pStat = player.GetComponent<PlayerStats>();
-        
-        //ViewId 초기화
-        playerId = userId;
+        effectPV = GetComponent<PhotonView>();
+
+        //effect 위치
+        transform.position = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
 
         //Layer 초기화
-        enemylayer = pStats.enemyArea;
+        enemyLayer = pStat.enemyArea;
+
+        //스텟 적용
+        powerValue = (0f, 0.015f);
+        damageValue = powerValue.Item1 + (pStat.basicAttackPower * powerValue.Item2);
     }
 
     public void OnTriggerStay(Collider other)
@@ -44,7 +39,7 @@ public class InfectionStart : BaseEffect
             return;
 
         //RPC 적용
-        _pv.RPC("RpcTrigger", RpcTarget.All, otherId);
+        effectPV.RPC("RpcTrigger", RpcTarget.All, otherId);
     }
 
     [PunRPC]
@@ -52,30 +47,29 @@ public class InfectionStart : BaseEffect
     {
         //Trigger로 선별된 ViewId의 게임오브젝트 초기화
         GameObject other = Managers.game.RemoteTargetFinder(otherId);
+        Debug.Log(other.name);
 
         //오브젝트가 없다면 return
         if (other == null)
             return;
 
-        //해당 오브젝트가 같은 팀이라면
-        if (other.layer == enemylayer)
+        //해당 오브젝트가 다른 팀이라면
+        if (other.layer == enemyLayer || other.layer == (int)Define.Layer.Neutral)
         {
             //타겟이 미니언, 타워일 시 
             if (!other.CompareTag("PLAYER"))
             {
-                ObjStats oStats = other.GetComponent<ObjStats>();
-                PlayerStats pStats = player.GetComponent<PlayerStats>();
+                ObjStats target_oStats = other.GetComponent<ObjStats>();
 
-                oStats.nowHealth -= pStats.basicAttackPower * 0.01f;
+                target_oStats.nowHealth -= damageValue;
             }
 
             //타겟이 Player일 시
             if (other.CompareTag("PLAYER"))
             {
-                PlayerStats enemyStats = other.GetComponent<PlayerStats>();
-                PlayerStats pStats = player.GetComponent<PlayerStats>();
+                PlayerStats target_pStats = other.GetComponent<PlayerStats>();
 
-                enemyStats.receviedDamage = (playerId, pStats.basicAttackPower * 0.01f);
+                target_pStats.receviedDamage = (playerId, damageValue);
             }
         }
     }
