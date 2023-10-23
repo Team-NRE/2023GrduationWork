@@ -95,7 +95,7 @@ public class RangedBullet : MonoBehaviour
             }
 
             // 해당 gameobject 파괴
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
             this.enabled = false;
 
             return;
@@ -116,7 +116,7 @@ public class RangedBullet : MonoBehaviour
             }
 
             // 해당 gameobject 파괴
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
             this.enabled = false;
 
             return;

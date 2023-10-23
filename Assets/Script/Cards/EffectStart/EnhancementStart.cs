@@ -36,7 +36,7 @@ public class EnhancementStart : BaseEffect
         {
             playerPV.RPC("photonStatSet", RpcTarget.All, "basicAttackPower", -(powerValue.Item1 - 1));
 
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
 
             return;
         }
