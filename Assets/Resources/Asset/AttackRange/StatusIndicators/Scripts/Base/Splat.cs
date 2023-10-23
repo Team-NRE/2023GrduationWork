@@ -16,6 +16,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 using Werewolf.StatusIndicators.Services;
+using UnityEngine.SocialPlatforms;
 
 namespace Werewolf.StatusIndicators.Components {
 	public abstract class Splat : MonoBehaviour {
@@ -135,7 +136,9 @@ namespace Werewolf.StatusIndicators.Components {
 		public static Vector3 Get3DMousePosition() 
 		{
 			RaycastHit hit;
-			if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 300.0f))
+            //마우스 이벤트 시 무시할 레이어
+            LayerMask ignore = LayerMask.GetMask("Default", "Ignore Raycast", "Neutral");
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 300.0f, ~ignore))
 				return hit.point;
 			else
 				return Vector3.zero;

@@ -8,6 +8,7 @@ using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 
 using Photon.Pun;
+using Data;
 
 public class GameManager
 {
@@ -41,26 +42,30 @@ public class GameManager
     public Vector3 endingCamPos;
     
     /// 플레이 시간 관련
-    public double startTime = 0;
-	public double playTime = 0;
+    public double startTime;
+	public double playTime; 
 
     /// 플레이어 리스폰 시간 관련
     public double respawnTime; //기본 Default = 3초
-    public double FinishRespawn;
+    public double respawnTimeValue;
+    public double maxRespawnTime;
 
-    public int respawnMin = 0;
-    public int respawnTurn = 1;
+    public int respawnTurn;
+    public int respawnMin;
 
-    public float startRespawn = 0.01f;
+    public float startRespawn;
+    
 
-    public bool isDie { get; set; }
+    ///죽음 관련
     public bool isResur { get; set; }
+    public bool isDie { get; set; }
 
     public PhotonView diedPlayerPV;
-
+    public Stat.PlayerStats diedPlayerStat;
+    
     /// 팀 킬 수 관련
-    public int humanTeamKill = 0;
-    public int cyborgTeamKill = 0;
+    public int humanTeamKill;
+    public int cyborgTeamKill;
 
     /// 플레이어 관련
     public GameObject myCharacter;
@@ -75,8 +80,37 @@ public class GameManager
     public Tilemap tilemap;
     public TileBase tileRoad, tileBuilding, tileMidWay, tileCenterArea;
 
+    /// 중앙 오브젝트 관련
+    public Stat.ObjStats neutralMobStat;
+    public float healthValue; 
     #endregion
 
+    public void Init()
+    {
+        /// 플레이 시간 관련
+        startTime = 0;
+        playTime = 0;
+
+        /// 플레이어 리스폰 시간 관련
+        respawnTime = 3; //기본 Default = 3초
+        respawnTimeValue = 2;
+        maxRespawnTime = 20;
+
+        respawnTurn = 1;
+        
+        respawnMin = 0;
+
+        startRespawn = 0.01f;
+
+        /// 팀 킬 수 관련
+        humanTeamKill = 0;
+        cyborgTeamKill = 0;
+
+        ///중앙 오브젝트 관련
+        healthValue = 300f;
+    }
+
+   
 
     public void OnUpdate()
     {
@@ -102,35 +136,42 @@ public class GameManager
         respawnMin = ((int)playTime / 60);
         if(respawnMin == 1 * respawnTurn)
         {
-            respawnTime += 2;
-            respawnTurn += 1;
+            respawnTime += respawnTimeValue;
+            respawnTurn++;
             
-            if (respawnTime >= 20) { respawnTime = 20;}
+            if (respawnTime >= maxRespawnTime) { respawnTime = maxRespawnTime; }
+            neutralMobStat.maxHealth += healthValue;
+            neutralMobStat.nowHealth += healthValue;
+
             Debug.Log($"전체 캐릭터 부활 시간 : {respawnTime}초");
+            Debug.Log($"중앙 오브젝트 최대 체력 : {neutralMobStat.maxHealth}, 현재 체력 : {neutralMobStat.nowHealth} ");
         }
 
-        //플레이어 사망 시
-        switch (isDie)
+        if (diedPlayerPV == null) return;
+        if (diedPlayerPV.IsMine)
         {
-            case true:
-                //부활 = 3초
-                FinishRespawn = (isResur == true) ? 3.0f : respawnTime;
-                startRespawn += Time.deltaTime;
-                if (startRespawn >= FinishRespawn) 
-                {
-                    respawnEvent();
-                    isDie = false;
-                    Debug.Log($" {FinishRespawn}초 지나서 부활 완료");
-                }
+            //플레이어 사망 시
+            switch (isDie)
+            {
+                case true:
+                    startRespawn += Time.deltaTime;
 
-                break;
+                    if (startRespawn >= diedPlayerStat.respawnTime)
+                    {
+                        respawnEvent();
+                        isDie = false;
+                        Debug.Log($"{diedPlayerPV.gameObject} 는 {diedPlayerStat.respawnTime}초 지나서 부활 완료");
+                    }
+
+                    break;
 
 
-            case false:
-                startRespawn = 0.01f;
-                diedPlayerPV = null;
+                case false:
+                    startRespawn = 0.01f;
+                    diedPlayerPV = null;
 
-                break;
+                    break;
+            }
         }
 
     }
@@ -171,7 +212,9 @@ public class GameManager
         diedPlayerPV.RPC("RemoteRespawnEnable", RpcTarget.All, diedID, false, 2);
 
         //부활 유무
-        isResur = diedPlayerPV.gameObject.GetComponent<Stat.PlayerStats>().isResurrection;
+        diedPlayerStat = diedPlayerPV.gameObject.GetComponent<Stat.PlayerStats>();
+        isResur = diedPlayerStat.isResurrection;
+        diedPlayerStat.respawnTime = (isResur == true) ? 3.0f : (float)respawnTime;
 
         isDie = true;
     }

@@ -74,6 +74,8 @@ public class GameScene : BaseScene
             Quaternion.identity
         );
 
+        Managers.game.neutralMobStat = GameObject.Find("NeutralMob").GetComponent<Stat.ObjStats>();
+
         yield return new WaitForSeconds(2.0f);
 
         Managers.UI.ShowSceneUI<UI_Setting>();
@@ -85,9 +87,6 @@ public class GameScene : BaseScene
 
         // 로딩 페이지 끄기
         FindObjectOfType<UI_LoadingPage>().gameObject.SetActive(false);
-
-        //부활시간 재설정
-        Managers.game.respawnTime = 3.0f;
 
         Debug.Log("Setting Finish");
     }

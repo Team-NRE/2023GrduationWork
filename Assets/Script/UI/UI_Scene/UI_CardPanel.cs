@@ -77,7 +77,7 @@ public class UI_CardPanel : UI_Card
         bc = Managers.game.myCharacter?.GetComponent<BaseController>();
 
         //마우스 이벤트 시 무시할 레이어
-        ignore = LayerMask.GetMask("Default", "Ignore Raycast");
+        ignore = LayerMask.GetMask("Default", "Ignore Raycast", "Neutral");
 
         //나중에 덱이 늘어나면 여기에 파라미터로 덱 아이디를 전달
         BaseCard.ExportMyDeck((int)Managers.game.myCharacterType);
@@ -197,9 +197,10 @@ public class UI_CardPanel : UI_Card
 
     public void NowKey()
     {
-        //range off 일 때 return 
+        //range off, 스킬 좌표 없을 때 return 
         if (p._IsRange == false) return;
-        
+        if (p._MovingPos == default) return;
+
         //클릭될 때 잡히는 오브젝트가 없다면
         (Vector3, GameObject) _mousePos = Managers.Input.Get3DMousePosition(ignore);
         if (_mousePos.Item1 == null) return;

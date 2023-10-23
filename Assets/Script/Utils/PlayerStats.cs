@@ -52,6 +52,7 @@ namespace Stat
         [Header("-- 현재 상태 --")]
         [SerializeField] private string _nowState;
         [SerializeField] private bool _isResurrection;
+        [SerializeField] private float _respawnTime;
 
         [Header("-- 진영 --")]
         [SerializeField] private int _playerArea; //내 진영
@@ -252,7 +253,7 @@ namespace Stat
         //현재 상태
         public string nowState { get { return _nowState; } set { _nowState = value; } }
         public bool isResurrection { get { return _isResurrection; } set { _isResurrection = value; } }
-
+        public float respawnTime { get { return _respawnTime; } set { _respawnTime = value; } }
 
         //진영
         public int playerArea
