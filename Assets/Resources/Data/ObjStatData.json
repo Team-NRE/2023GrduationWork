@@ -88,7 +88,7 @@
       {
         "type": "Neutral",
         
-        "basicAttackPower": "100",
+        "basicAttackPower": "50",
         "attackSpeed" : "10",
         "attackRange" : "8.5",
         "recognitionRange" : "8.5",
