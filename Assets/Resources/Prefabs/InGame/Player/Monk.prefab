@@ -365,6 +365,7 @@ MonoBehaviour:
   _speed: 0
   _nowState: 
   _isResurrection: 0
+  _respawnTime: 0
   _playerArea: 0
   _enemyArea: 0
   _nowMana: 0
@@ -387,6 +388,7 @@ MonoBehaviour:
   _stopSkill: 0
   _startDie: 0
   _area: 0
+  _MovingPos: {x: 0, y: 0, z: 0}
   _attackRange: []
   _IsRange: 0
   ignore:
