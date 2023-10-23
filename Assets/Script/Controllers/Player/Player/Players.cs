@@ -859,7 +859,7 @@ public class Players : BaseController
             _SaveRangeNum = (int)Define.CardType.None;
 
             //die
-            _startDie = true;
+            // _startDie = true; // PlayerStats kill event에서 실행
         }
     }
 }
