@@ -59,7 +59,7 @@
         "attackRange" : "7.5",
         "recognitionRange" : "7.5",
 
-        "maxHealth" : "3600",
+        "maxHealth" : "1500",
         "defensePower" : "55",
         "nowBattery" : "-100",
 

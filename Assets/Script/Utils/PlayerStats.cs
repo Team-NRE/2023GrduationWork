@@ -220,7 +220,7 @@ namespace Stat
                 //if (level == 10) return;
 
                 _experience += value;
-                if (_experience >= levelUpEx)
+                while (_experience >= levelUpEx)
                 {
                     level += 1;
                     _experience -= levelUpEx;

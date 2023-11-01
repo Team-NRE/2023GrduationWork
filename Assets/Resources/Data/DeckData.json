@@ -7,9 +7,12 @@
 
         "Card_HealthPotion",
         "Card_Enhancement",
-        "Card_Speed",
-        "Card_Armor",
-        "Card_Purify"
+        "Card_Shield",
+        "Card_Purify",
+        "Card_HackingGrenade",
+        "Card_InvincibleWeapon",
+        "Card_Cannon"
+
       ]
     },
     {
@@ -19,9 +22,11 @@
 
         "Card_HealthPotion",
         "Card_Enhancement",
-        "Card_Speed",
-        "Card_Armor",
-        "Card_Purify"
+        "Card_Shield",
+        "Card_Purify",
+        "Card_HackingGrenade",
+        "Card_InvincibleWeapon",
+        "Card_Cannon"
       ]
     },
     {
@@ -31,9 +36,11 @@
 
         "Card_HealthPotion",
         "Card_Enhancement",
-        "Card_Speed",
-        "Card_Armor",
-        "Card_Purify"
+        "Card_Shield",
+        "Card_Purify",
+        "Card_HackingGrenade",
+        "Card_InvincibleWeapon",
+        "Card_Cannon"
       ]
     },
     {
@@ -43,9 +50,11 @@
 
         "Card_HealthPotion",
         "Card_Enhancement",
-        "Card_Speed",
-        "Card_Armor",
-        "Card_Purify"
+        "Card_Shield",
+        "Card_Purify",
+        "Card_HackingGrenade",
+        "Card_InvincibleWeapon",
+        "Card_Cannon"
       ]
     }
   ]
