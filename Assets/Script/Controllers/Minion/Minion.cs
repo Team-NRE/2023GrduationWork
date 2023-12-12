@@ -4,7 +4,6 @@
 
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Tilemaps;
 using Define;
 using Photon.Pun;
 
@@ -42,6 +41,7 @@ public class Minion : ObjectController
 
         transform.Find("UI").gameObject.SetActive(true);
 
+        // 경로 초기화
         if (gameObject.layer == LayerMask.NameToLayer("Human"))
             lineIdx = 1;
         else if (gameObject.layer == LayerMask.NameToLayer("Cyborg"))
@@ -58,6 +58,9 @@ public class Minion : ObjectController
         GetTransformArea();
     }
 
+    /// <summary>
+    /// 공격 함수
+    /// </summary>
     public override void Attack()
     {
         base.Attack();
@@ -68,11 +71,18 @@ public class Minion : ObjectController
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2.0f * Time.deltaTime);
     }
 
+    /// <summary>
+    /// 죽음 함수
+    /// </summary>
     public override void Death()
     {
         base.Death();
         Destroy(this.gameObject);
     }
+
+    /// <summary>
+    /// 이동 함수
+    /// </summary>
     public override void Move()
     {
         base.Move();
@@ -91,10 +101,14 @@ public class Minion : ObjectController
         nav.SetDestination(moveTarget);
     }
 
+    /// <summary>
+    /// 상태 변경 함수
+    /// </summary>
     protected override void UpdateObjectAction()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
+        // 상태 변경
         if (_oStats.nowHealth <= 0 || (_oStats.nowBattery <= 0 && _oStats.nowBattery != -100))
         {
             _action = ObjectAction.Death;
@@ -123,6 +137,7 @@ public class Minion : ObjectController
             _action = ObjectAction.Idle;
         }
 
+        // 각 상태별 처리
         switch (_action)
         {
             case ObjectAction.Attack:
@@ -142,6 +157,10 @@ public class Minion : ObjectController
         }
     }
 
+    /// <summary>
+    /// 이동하는 타겟 리턴 함수
+    /// </summary>
+    /// <returns>이동 시 타겟</returns>
     private Vector3 GetMoveTarget()
     {
         Vector3 result = Vector3.zero;
@@ -185,6 +204,9 @@ public class Minion : ObjectController
         milestoneUpper[milestoneUpper.Length - 1] = milestoneLower[milestoneLower.Length - 1] = GameObject.Find("CyborgNexus")?.transform;
     }
 
+    /// <summary>
+    /// 내 위치의 지역 리턴 함수
+    /// </summary>
     private void GetTransformArea()
     {
         if (!PhotonNetwork.IsMasterClient) return;

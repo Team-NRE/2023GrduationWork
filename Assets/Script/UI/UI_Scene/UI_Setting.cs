@@ -74,6 +74,10 @@ public class UI_Setting : UI_Scene
         Get<Slider>((int)Progress.BgmSlider)   .value = Managers.Sound.BgmVolume;
     }
 
+    /// <summary>
+    /// 이펙트 사운드 설정
+    /// </summary>
+    /// <param name="value">설정치</param>
     void SetEffectSound(float value)
     {
         Managers.Sound.EffectVolume = value;
@@ -82,6 +86,10 @@ public class UI_Setting : UI_Scene
             .SetActive(Managers.Sound.EffectVolume == minVolume);
     }
 
+    /// <summary>
+    /// 배경음악 사운드 설정
+    /// </summary>
+    /// <param name="value">설정치</param>
     void SetBgmSound(float value)
     {
         Managers.Sound.BgmVolume = value;
@@ -90,6 +98,10 @@ public class UI_Setting : UI_Scene
             .SetActive(Managers.Sound.BgmVolume == minVolume);
     }
 
+    /// <summary>
+    /// 이펙트 사운드 뮤트
+    /// </summary>
+    /// <param name="data">클릭 이벤트</param>
     void MuteEffectSound(PointerEventData data)
     {
         if (Managers.Sound.EffectVolume != minVolume)
@@ -102,6 +114,10 @@ public class UI_Setting : UI_Scene
         Managers.Sound.Play($"UI_ButtonBeep/UI_ButtonBeep_{Random.Range(1, 6)}", Define.Sound.Effect, 1, .5f);
     }
 
+    /// <summary>
+    /// 배경음악 사운드 뮤트
+    /// </summary>
+    /// <param name="data">클릭 이벤트</param>
     void MuteBgmSound(PointerEventData data)
     {
         if (Managers.Sound.BgmVolume != minVolume)

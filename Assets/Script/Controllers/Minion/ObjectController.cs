@@ -14,15 +14,15 @@ using Photon.Pun;
 
 public abstract class ObjectController : MonoBehaviour
 {
-	//위치 동기화 코드
-	protected Vector3 receivePos;
-	protected Quaternion receiveRot;
+    //위치 동기화 코드
+    protected Vector3 receivePos;
+    protected Quaternion receiveRot;
 
-	//외부 namespace Stat 참조
-	public ObjStats _oStats { get; set; }
+    //외부 namespace Stat 참조
+    public ObjStats _oStats { get; set; }
 
     //외부 namespace Define 참조
-    public ObjectAction _action; //{ get; set; }
+    public ObjectAction _action { get; set; }
     public ObjectType _type { get; set; }
 
     //모든 오브젝트의 Transform이 담긴 배열
@@ -221,22 +221,23 @@ public abstract class ObjectController : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient) return;
 
         Transform newTargetPlayer = null, newTargetObject = null;
-        float minRangePlayer = _oStats.recognitionRange, minRangeObject = _oStats.recognitionRange;
+        float minRangePlayer = _oStats.recognitionRange;
+        float minRangeObject = _oStats.recognitionRange;
 
         Physics.OverlapSphereNonAlloc(
-            this.transform.position, 
-            minRangePlayer, 
+            this.transform.position,
+            minRangePlayer,
             inRangeObject,
             LayerMask.GetMask("Human", "Cyborg", "Neutral") ^ (1 << gameObject.layer)
         );
 
-        for (int i=0; i<inRangeObject.Length; i++)
+        for (int i = 0; i < inRangeObject.Length; i++)
         {
             if (inRangeObject[i] == default) break;
 
             float nowRange = Vector3.Distance(transform.position, inRangeObject[i].transform.position);
 
-            if (inRangeObject[i].CompareTag("PLAYER"))
+            if (inRangeObject[i].CompareTag("PLAYER"))  // 플레이어 처리
             {
                 BaseController nowBaseController;
                 inRangeObject[i].TryGetComponent<BaseController>(out nowBaseController);
@@ -247,7 +248,7 @@ public abstract class ObjectController : MonoBehaviour
                     newTargetPlayer = inRangeObject[i].transform;
                 }
             }
-            else if (inRangeObject[i].CompareTag("OBJECT"))
+            else if (inRangeObject[i].CompareTag("OBJECT"))  // 오브젝트 처리
             {
                 ObjectController nowObjectController;
                 inRangeObject[i].TryGetComponent<ObjectController>(out nowObjectController);
@@ -260,9 +261,13 @@ public abstract class ObjectController : MonoBehaviour
             }
         }
 
+        // 범위 내 오브젝트 먼저 공격 처리
         _targetEnemyTransform = (newTargetObject != null) ? newTargetObject : newTargetPlayer;
     }
 
+    /// <summary>
+    /// 초기 아이콘 색깔 지정 함수
+    /// </summary>
     private void resetMinimapIconColor()
     {
         SpriteRenderer icon = gameObject.GetComponentInChildren<SpriteRenderer>();
@@ -275,6 +280,11 @@ public abstract class ObjectController : MonoBehaviour
             icon.color = Color.blue;
     }
 
+    /// <summary>
+    /// 죽음 시 사거리 내 플레이어 감지
+    /// 골드 및 경험치 RPC 처리
+    /// </summary>
+    /// <param name="playerPv">플레이어의 PhotonView</param>
     private void checkGoldAndExperienceRange(PhotonView playerPv)
     {
         if (playerPv == null) return;

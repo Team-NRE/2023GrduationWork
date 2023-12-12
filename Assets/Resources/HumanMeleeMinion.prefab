@@ -12642,7 +12642,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c35e68cdf88654091b930fd00eaed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _action: 0
   _targetEnemyTransform: {fileID: 0}
   line: 0
   area: 0

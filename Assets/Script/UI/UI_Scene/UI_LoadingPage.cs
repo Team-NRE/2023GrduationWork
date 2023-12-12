@@ -196,6 +196,4 @@ public class UI_LoadingPage : UI_Scene
             Managers.Sound.Play("Ingame", Sound.Bgm, 1, .15f);
         }
     }
-
-
 }

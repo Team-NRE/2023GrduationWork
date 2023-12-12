@@ -14,36 +14,35 @@ public class MeleeMinion : Minion
         _type = ObjectType.MeleeMinion;
     }
 
+    /// 공격 함수
     public override void Attack()
     {
         base.Attack();
-        if (!PhotonNetwork.IsMasterClient) return;
+        // 예외 처리
+        if (!PhotonNetwork.IsMasterClient) return; // 방장의 컴퓨터에서만 실행되도록 처리
+        if (_targetEnemyTransform == null) return; // 타겟이 없을 경우 return
 
-        if (_targetEnemyTransform == null) return;
+        // 타겟 PhotonView 가져오기
+        PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
 
         //타겟이 적 Player일 시
         if (_targetEnemyTransform.tag == "PLAYER")
         {
-            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
             targetPV.RPC(
                 "photonStatSet",
                 RpcTarget.All,
-                GetComponent<PhotonView>().ViewID,
-                "receviedDamage",
-                _oStats.basicAttackPower
+                GetComponent<PhotonView>().ViewID, // 공격한 오브젝트
+                "receviedDamage", // 체력 스텟에 처리
+                _oStats.basicAttackPower  // 공격 데미지
             );
-
-            //if (targetPV.GetComponent<PlayerStats>().nowHealth <= 0)
-            //    Managers.game.killEvent(pv.ViewID, targetPV.ViewID);
         }
-        else
+        else // 타겟이 오브젝트 일 시
         {
-            PhotonView targetPV = _targetEnemyTransform.GetComponent<PhotonView>();
             targetPV.RPC(
                 "photonStatSet",
                 RpcTarget.All,
-                "nowHealth",
-                -_oStats.basicAttackPower
+                "nowHealth", // 체력 스텟에 처리
+                -_oStats.basicAttackPower // 공격 데미지
             );
         }
     }

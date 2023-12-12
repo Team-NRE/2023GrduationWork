@@ -1,6 +1,5 @@
 using TMPro;
 using Stat;
-using Define;
 
 public class UI_KD : UI_Popup
 {
@@ -8,7 +7,6 @@ public class UI_KD : UI_Popup
     TextMeshProUGUI DeathText;
 
     PlayerStats pStat;
-    PlayerType pType;
 
     public override void Init()
     {
@@ -26,7 +24,7 @@ public class UI_KD : UI_Popup
             return;
         }
 
-        killText.text = $"{pStat.kill.ToString()}";
+        killText.text  = $"{pStat.kill.ToString()}";
         DeathText.text = $"{pStat.death.ToString()}";
     }
 }

@@ -22,16 +22,24 @@ public class Nexus : ObjectController
         animator.SetBool("isVictory", Managers.game.myCharacterTeam.ToString() != LayerMask.LayerToName(gameObject.layer));
     }
 
+    /// <summary>
+    /// 죽음 함수
+    /// </summary>
     public override void Death()
     {
         gameFinish();
     }
 
+    /// <summary>
+    /// 상태 변경 함수
+    /// </summary>
     protected override void UpdateObjectAction()
     {
+        // 상태 변경
         if (_oStats.nowHealth <= 0) _action = ObjectAction.Death;
         else _action = ObjectAction.Idle;
 
+        // 각 상태별 처리
         switch (_action)
         {
             case ObjectAction.Death:
@@ -42,6 +50,9 @@ public class Nexus : ObjectController
         }
     }
 
+    /// <summary>
+    /// 게임 종료 캠 이동
+    /// </summary>
     public void disablePlay()
     {
         Vector3 endingCamPos = this.transform.position;
@@ -51,6 +62,9 @@ public class Nexus : ObjectController
         Managers.game.setGameEnd(endingCamPos);
     }
 
+    /// <summary>
+    /// 게임 종료
+    /// </summary>
     public void gameFinish()
     {
         Debug.Log("Return to Lobby");

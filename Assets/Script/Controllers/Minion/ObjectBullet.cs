@@ -49,11 +49,19 @@ public class ObjectBullet : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// 타겟 Transform 가져오기 함수
+    /// </summary>
+    /// <param name="viewId">타겟의 ViewId</param>
+    /// <returns></returns>
     private Transform getTargetV2(int viewId)
     {
         return PhotonView.Find(viewId).transform;
     }
 
+    /// <summary>
+    /// 타겟으로 이동 함수
+    /// </summary>
     public void FollowTarget()
     {
         if (_Target == null)                                    Destroy(this.gameObject);
@@ -62,10 +70,16 @@ public class ObjectBullet : MonoBehaviourPun
     
         _TargetPos = _Target.position;
 
-        transform.position = Vector3.Slerp(transform.position, _TargetPos + Vector3.up, Time.deltaTime * _bulletSpeed);
+        transform.position = Vector3.Slerp(
+            transform.position, _TargetPos + Vector3.up, 
+            Time.deltaTime * _bulletSpeed
+        );
         transform.LookAt(_TargetPos);
     }
 
+    /// <summary>
+    /// 타겟 충돌 여부 처리
+    /// </summary>
     public void HitDetection()
     {
         Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);

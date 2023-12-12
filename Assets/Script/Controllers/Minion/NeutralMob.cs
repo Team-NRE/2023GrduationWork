@@ -68,6 +68,9 @@ public class NeutralMob : ObjectController
             _specialAttackCoolingTimeNow -= Time.deltaTime;
     }
 
+    /// <summary>
+    /// 공격 함수
+    /// </summary>
     public override void Attack()
     {
         if (!PhotonNetwork.IsMasterClient) return;
@@ -78,6 +81,9 @@ public class NeutralMob : ObjectController
         else SpecialAttack();
     }
 
+    /// <summary>
+    /// 죽음 함수
+    /// </summary>
     public override void Death()
     {
         base.Death();
@@ -105,6 +111,7 @@ public class NeutralMob : ObjectController
             team = Layer.Cyborg;
         }
 
+        // 처치 팀에게 특수 카드 지급
         if ((int)team == Managers.game.myCharacter.layer)
         {
             string cardName = (Random.Range(0, 2) == 0 ? "SpecialCard_EnergyAmp" : "SpecialCard_MissileBomb");
@@ -115,8 +122,12 @@ public class NeutralMob : ObjectController
         Destroy(this.gameObject);
     }
 
+    /// <summary>
+    /// 상태 변경 함수
+    /// </summary>
     protected override void UpdateObjectAction()
     {
+        // 상태 변경
         if (PhotonNetwork.IsMasterClient)
         {
             if (_oStats.nowHealth <= 0) {
@@ -137,6 +148,7 @@ public class NeutralMob : ObjectController
             }   
         }
 
+        // 각 상태별 처리
         switch (_action)
         {
             case ObjectAction.Attack:
@@ -151,6 +163,9 @@ public class NeutralMob : ObjectController
         }
     }
 
+    /// <summary>
+    /// 기본 공격
+    /// </summary>
     private void BasicAttack()
     {
         if (!PhotonNetwork.IsMasterClient) return;
@@ -166,6 +181,9 @@ public class NeutralMob : ObjectController
             );
     }
 
+    /// <summary>
+    /// 특수 공격
+    /// </summary>
     private void SpecialAttack()
     {
         if (!PhotonNetwork.IsMasterClient) return;
